@@ -56,7 +56,7 @@ public abstract class StarWarsMediaContent
         return percentageRating;
     }
 
-    public boolean isWasWatched() 
+    public boolean getWasWatched() 
     {
         return wasWatched;
     }
@@ -71,7 +71,10 @@ public abstract class StarWarsMediaContent
         return shortContentSummary;
     }
     
-    protected abstract String getSubclassInstanceTypeName();
+    protected String getSubclassInstanceTypeName() 
+    {
+        return this.getClass().getSimpleName();
+    }
     
     protected abstract String getSubclassInstanceDataAttributesValues();
     
