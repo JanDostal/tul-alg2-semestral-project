@@ -7,13 +7,13 @@ import java.time.Duration;
  *
  * @author jan.dostal
  */
-public class Episode extends MediaContent
+public class TVEpisode extends MediaContent
 {
     private int orderInTvShowSeason;
     
     private int seasonId;
     
-    public Episode(int id, Duration runtime, String name,
+    public TVEpisode(int id, Duration runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary, int orderInTvShowSeason, int seasonId) 
     {

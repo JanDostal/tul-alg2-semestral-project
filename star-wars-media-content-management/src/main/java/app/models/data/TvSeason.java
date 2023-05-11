@@ -1,19 +1,17 @@
 
 package app.models.data;
 
-import java.util.List;
-
 /**
  *
  * @author jan.dostal
  */
-public class Season 
+public class TVSeason 
 {
     private int id;
     
     private int orderInTvShow;
         
-    public Season(int id, int orderInTvShow) 
+    public TVSeason(int id, int orderInTvShow) 
     {
         this.id = id;
         this.orderInTvShow = orderInTvShow;
