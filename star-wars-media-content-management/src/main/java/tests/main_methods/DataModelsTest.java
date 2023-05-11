@@ -43,6 +43,13 @@ public class DataModelsTest {
         System.out.println("defaultName: " + Era.FALL_OF_THE_JEDI);
         System.out.println("displayName: " + Era.FALL_OF_THE_JEDI.getDisplayName());
         
+        //tvShow test
+        System.out.println();
+        System.out.println("tvShow test");
+        System.out.println();
+        
+        TVShow show = new TVShow(1, "show", LocalDate.parse("2023-05-20"), Era.AGE_OF_THE_REBELLION);
+        System.out.println(show);
     }
     
     
