@@ -9,33 +9,33 @@ import java.time.Duration;
  */
 public class TVEpisode extends MediaContent
 {
-    private int orderInTvShowSeason;
+    private int orderInTVShowSeason;
     
-    private int seasonId;
+    private int tvSeasonId;
     
     public TVEpisode(int id, Duration runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
-            String shortContentSummary, int orderInTvShowSeason, int seasonId) 
+            String shortContentSummary, int orderInTVShowSeason, int tvSeasonId) 
     {
         super(id, runtime, name, percentageRating, wasWatched, hyperlinkForContentWatch,
                 shortContentSummary);
-        this.orderInTvShowSeason = orderInTvShowSeason;
-        this.seasonId = seasonId;
+        this.orderInTVShowSeason = orderInTVShowSeason;
+        this.tvSeasonId = tvSeasonId;
     }
 
-    public int getOrderInTvShowSeason() 
+    public int getOrderInTVShowSeason() 
     {
-        return orderInTvShowSeason;
+        return orderInTVShowSeason;
     }
     
-    public int getSeasonId() 
+    public int getTVSeasonId() 
     {
-        return seasonId;
+        return tvSeasonId;
     }
 
     protected @Override String getSubclassInstanceDataAttributesValues() 
     {
-        return ", orderInTvShowSeason=" + orderInTvShowSeason + ", seasonId=" +
-                seasonId;
+        return ", orderInTVShowSeason=" + orderInTVShowSeason + ", tvSeasonId=" +
+                tvSeasonId;
     }
 }

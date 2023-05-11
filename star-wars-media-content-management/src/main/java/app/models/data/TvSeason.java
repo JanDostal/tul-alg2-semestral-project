@@ -9,12 +9,15 @@ public class TVSeason
 {
     private int id;
     
-    private int orderInTvShow;
+    private int orderInTVShow;
+    
+    private int tvShowId;
         
-    public TVSeason(int id, int orderInTvShow) 
+    public TVSeason(int id, int orderInTVShow, int tvShowId) 
     {
         this.id = id;
-        this.orderInTvShow = orderInTvShow;
+        this.orderInTVShow = orderInTVShow;
+        this.tvShowId = tvShowId;
     }
     
     public int getId() 
@@ -22,13 +25,19 @@ public class TVSeason
         return id;
     }
     
-    public int getOrderInTvShow() 
+    public int getOrderInTVShow() 
     {
-        return orderInTvShow;
+        return orderInTVShow;
+    }
+    
+    public int getTVShowId() 
+    {
+        return tvShowId;
     }
     
     public @Override String toString() 
     {
-        return "Season{id=" + id + ", orderInTvShow=" + orderInTvShow + "}";
+        return "TVSeason{id=" + id + ", orderInTVShow=" + orderInTVShow + 
+                ", tvShowId=" + tvShowId + "}";
     }
 }
