@@ -35,7 +35,13 @@ public class DataModelsTest {
         System.out.println("filmB.era: " + filmB.getEra());
         System.out.println(filmB);
         
+        //era test
+        System.out.println();
+        System.out.println("era test");
+        System.out.println();
         
+        System.out.println("defaultName: " + Era.FALL_OF_THE_JEDI);
+        System.out.println("displayName: " + Era.FALL_OF_THE_JEDI.getDisplayName());
         
     }
     
