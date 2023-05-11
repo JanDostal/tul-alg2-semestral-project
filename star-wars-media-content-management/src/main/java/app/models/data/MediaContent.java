@@ -7,7 +7,7 @@ import java.time.Duration;
  *
  * @author jan.dostal
  */
-public abstract class StarWarsMediaContent 
+public abstract class MediaContent 
 {
     private int id;
     
@@ -23,7 +23,7 @@ public abstract class StarWarsMediaContent
     
     private String shortContentSummary;
     
-    protected StarWarsMediaContent(int id, Duration runtime, String name,
+    protected MediaContent(int id, Duration runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary) 
     {

@@ -7,7 +7,7 @@ import java.time.Duration;
  *
  * @author jan.dostal
  */
-public class Episode extends StarWarsMediaContent
+public class Episode extends MediaContent
 {
     private int orderInTvShowSeason;
     
