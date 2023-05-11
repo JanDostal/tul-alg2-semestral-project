@@ -80,11 +80,13 @@ public abstract class MediaContent
     
     public @Override String toString() 
     {
+        String runtimeText = String.format("%02d:%02d:%02d", runtime.toHours(), 
+                runtime.toMinutesPart(), runtime.toSecondsPart());
+        
         return getSubclassInstanceTypeName() + "{id=" + id + ", runtime=" + 
-                runtime.toMinutes() + ", name=" + name + ", percentageRating=" +
-                percentageRating + " %, wasWatched=" + wasWatched +
-                ", hyperlinkForContentWatch=" + hyperlinkForContentWatch +
-                ", shortContentSummary=" + shortContentSummary + 
+                runtimeText + ", name=" + name + ", percentageRating=" +
+                percentageRating + ", wasWatched=" + wasWatched +
+                ", hyperlinkForContentWatch=" + hyperlinkForContentWatch + 
                 getSubclassInstanceDataAttributesValues() + "}";
     }
 }

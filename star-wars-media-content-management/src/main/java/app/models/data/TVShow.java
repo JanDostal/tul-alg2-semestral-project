@@ -48,6 +48,6 @@ public class TVShow
     public @Override String toString() 
     {
         return "TVShow{id=" + id + ", name=" + name + ", releaseDate=" + 
-                releaseDate + ", era=" + era + "}";
+                releaseDate.toString() + ", era=" + era.toString() + "}";
     }
 }
