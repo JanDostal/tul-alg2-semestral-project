@@ -57,5 +57,22 @@ public class DataModelsTest {
         
         TVSeason season = new TVSeason(1, 2, show.getId());
         System.out.println(season);
+        
+        //tvEpisode test
+        System.out.println();
+        System.out.println("tvEpisode test");
+        System.out.println();
+        
+        MediaContent episodeA = new TVEpisode(2, Duration.ofMinutes(45), "episodeA", 
+                50, false, "https://www.example01.com", "Velmi krásná epizoda", 
+                4, season.getId());
+        
+        TVEpisode episodeB = new TVEpisode(3, Duration.ofMinutes(50), "episodeB", 
+                60, true, "https://www.example02.com", "Velmi špatná epizoda", 3, season.getId());
+                
+        System.out.println(episodeA);
+        System.out.println("episodeB.orderIntTVShowSeason: " + episodeB.getOrderInTVShowSeason());
+        System.out.println("episodeB.tvSeasonId: " + episodeB.getTVSeasonId());
+        System.out.println(episodeB);
     }
 }
