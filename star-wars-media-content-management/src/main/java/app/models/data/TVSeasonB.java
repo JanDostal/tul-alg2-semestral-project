@@ -5,7 +5,7 @@ package app.models.data;
  *
  * @author jan.dostal
  */
-public class TVSeason 
+public class TVSeasonB 
 {
     private int id;
     
@@ -13,7 +13,7 @@ public class TVSeason
     
     private int tvShowId;
         
-    public TVSeason(int id, int orderInTVShow, int tvShowId) 
+    public TVSeasonB(int id, int orderInTVShow, int tvShowId) 
     {
         this.id = id;
         this.orderInTVShow = orderInTVShow;
