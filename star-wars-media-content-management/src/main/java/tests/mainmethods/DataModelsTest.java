@@ -1,5 +1,5 @@
 
-package tests.main_methods;
+package tests.mainmethods;
 
 import app.models.data.*;
 import java.time.Duration;
@@ -16,10 +16,9 @@ public class DataModelsTest {
      */
     public static void main(String[] args) 
     {
-        
         //movie test
         System.out.println();
-        System.out.println("Movie test");
+        System.out.println("movie test");
         System.out.println();
         
         MediaContent filmA = new Movie(2, Duration.ofMinutes(45), "filmA", 
@@ -50,8 +49,13 @@ public class DataModelsTest {
         
         TVShow show = new TVShow(1, "show", LocalDate.parse("2023-05-20"), Era.AGE_OF_THE_REBELLION);
         System.out.println(show);
+        
+        //tvSeason test
+        System.out.println();
+        System.out.println("tvSeason test");
+        System.out.println();
+        
+        TVSeason season = new TVSeason(1, 2, show.getId());
+        System.out.println(season);
     }
-    
-    
-    
 }
