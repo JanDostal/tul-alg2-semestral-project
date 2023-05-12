@@ -55,7 +55,7 @@ public class DataModelsTest {
         System.out.println("tvSeason test");
         System.out.println();
         
-        TVSeasonB season = new TVSeasonB(1, 2, show.getId());
+        TVSeason season = new TVSeason(1, 2, show.getId());
         System.out.println(season);
         
         //tvEpisode test
@@ -63,11 +63,11 @@ public class DataModelsTest {
         System.out.println("tvEpisode test");
         System.out.println();
         
-        MediaContent episodeA = new TVEpisodeA(2, Duration.ofMinutes(45), "episodeA", 
+        MediaContent episodeA = new TVEpisode(2, Duration.ofMinutes(45), "episodeA", 
                 50, false, "https://www.example01.com", "Velmi krásná epizoda", 
                 4, season.getId());
         
-        TVEpisodeA episodeB = new TVEpisodeA(3, Duration.ofMinutes(50), "episodeB", 
+        TVEpisode episodeB = new TVEpisode(3, Duration.ofMinutes(50), "episodeB", 
                 60, true, "https://www.example02.com", "Velmi špatná epizoda", 3, season.getId());
                 
         System.out.println(episodeA);
