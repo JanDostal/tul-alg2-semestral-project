@@ -29,7 +29,7 @@ public class TVSeasonJSONFormat
     
     public @Override String toString() 
     {
-        return "InputFileTVSeason{orderInTVShow=" + orderInTVShow + 
+        return "TVSeasonJSONFormat{orderInTVShow=" + orderInTVShow + 
                 ", tvShowId=" + tvShowId + "}";
     }
 }

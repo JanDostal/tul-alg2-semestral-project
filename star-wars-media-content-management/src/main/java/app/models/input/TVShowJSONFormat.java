@@ -37,7 +37,7 @@ public class TVShowJSONFormat
     
     public @Override String toString() 
     {
-        return "InputFileTVShow{name=" + name + ", releaseDate=" + 
+        return "TVShowJSONFormat{name=" + name + ", releaseDate=" + 
                 releaseDate + ", era=" + era + "}";
     }
 }
