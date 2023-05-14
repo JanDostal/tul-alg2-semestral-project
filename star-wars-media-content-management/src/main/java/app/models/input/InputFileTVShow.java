@@ -13,7 +13,7 @@ public class InputFileTVShow
     
     private String era;
         
-    public InputFileTVShow(int id, String name, String releaseDate, String era) 
+    public InputFileTVShow(String name, String releaseDate, String era) 
     {
         this.name = name;
         this.releaseDate = releaseDate;
