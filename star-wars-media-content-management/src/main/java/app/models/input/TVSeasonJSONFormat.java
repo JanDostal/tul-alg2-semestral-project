@@ -5,13 +5,13 @@ package app.models.input;
  *
  * @author jan.dostal
  */
-public class InputFileTVSeason 
+public class TVSeasonJSONFormat 
 {    
     private int orderInTVShow;
     
     private int tvShowId;
         
-    public InputFileTVSeason(int orderInTVShow, int tvShowId) 
+    public TVSeasonJSONFormat(int orderInTVShow, int tvShowId) 
     {
         this.orderInTVShow = orderInTVShow;
         this.tvShowId = tvShowId;

@@ -6,13 +6,13 @@ package app.models.input;
  *
  * @author jan.dostal
  */
-public class InputFileTVEpisode extends InputFileMediaContent
+public class TVEpisodeJSONFormat extends MediaContentJSONFormat
 {
     private int orderInTVShowSeason;
     
     private int tvSeasonId;
     
-    public InputFileTVEpisode(String runtime, String name,
+    public TVEpisodeJSONFormat(String runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary, int orderInTVShowSeason, int tvSeasonId) 
     {

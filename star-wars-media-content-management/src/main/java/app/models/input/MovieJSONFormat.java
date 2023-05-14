@@ -5,13 +5,13 @@ package app.models.input;
  *
  * @author jan.dostal
  */
-public class InputFileMovie extends InputFileMediaContent
+public class MovieJSONFormat extends MediaContentJSONFormat
 {
     private String releaseDate;
     
     private String era;
     
-    public InputFileMovie(String runtime, String name,
+    public MovieJSONFormat(String runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary, String releaseDate, String era) 
     {

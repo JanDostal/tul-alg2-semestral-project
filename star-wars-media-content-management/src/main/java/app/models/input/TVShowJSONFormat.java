@@ -5,7 +5,7 @@ package app.models.input;
  *
  * @author jan.dostal
  */
-public class InputFileTVShow 
+public class TVShowJSONFormat 
 {   
     private String name;
     
@@ -13,7 +13,7 @@ public class InputFileTVShow
     
     private String era;
         
-    public InputFileTVShow(String name, String releaseDate, String era) 
+    public TVShowJSONFormat(String name, String releaseDate, String era) 
     {
         this.name = name;
         this.releaseDate = releaseDate;
