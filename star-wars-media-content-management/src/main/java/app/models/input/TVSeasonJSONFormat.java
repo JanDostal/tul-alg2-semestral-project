@@ -8,13 +8,10 @@ package app.models.input;
 public class TVSeasonJSONFormat 
 {    
     private int orderInTVShow;
-    
-    private int tvShowId;
         
-    public TVSeasonJSONFormat(int orderInTVShow, int tvShowId) 
+    public TVSeasonJSONFormat(int orderInTVShow) 
     {
         this.orderInTVShow = orderInTVShow;
-        this.tvShowId = tvShowId;
     }
     
     public int getOrderInTVShow() 
@@ -22,14 +19,8 @@ public class TVSeasonJSONFormat
         return orderInTVShow;
     }
     
-    public int getTVShowId() 
-    {
-        return tvShowId;
-    }
-    
     public @Override String toString() 
     {
-        return "TVSeasonJSONFormat{orderInTVShow=" + orderInTVShow + 
-                ", tvShowId=" + tvShowId + "}";
+        return "TVSeasonJSONFormat{orderInTVShow=" + orderInTVShow + "}";
     }
 }
