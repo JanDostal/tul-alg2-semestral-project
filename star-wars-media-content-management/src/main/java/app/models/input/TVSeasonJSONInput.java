@@ -5,11 +5,11 @@ package app.models.input;
  *
  * @author jan.dostal
  */
-public class TVSeasonJSONFormat 
+public class TVSeasonJSONInput 
 {    
     private int orderInTVShow;
         
-    public TVSeasonJSONFormat(int orderInTVShow) 
+    public TVSeasonJSONInput(int orderInTVShow) 
     {
         this.orderInTVShow = orderInTVShow;
     }
@@ -21,6 +21,6 @@ public class TVSeasonJSONFormat
     
     public @Override String toString() 
     {
-        return "TVSeasonJSONFormat{orderInTVShow=" + orderInTVShow + "}";
+        return "TVSeasonJSONInput{orderInTVShow=" + orderInTVShow + "}";
     }
 }

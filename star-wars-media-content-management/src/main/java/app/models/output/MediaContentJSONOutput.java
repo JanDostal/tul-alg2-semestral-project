@@ -7,7 +7,7 @@ import java.time.Duration;
  *
  * @author jan.dostal
  */
-public abstract class MediaContentJSONOutputFormat 
+public abstract class MediaContentJSONOutput 
 {
     private int id;
     
@@ -23,7 +23,7 @@ public abstract class MediaContentJSONOutputFormat
     
     private String shortContentSummary;
     
-    protected MediaContentJSONOutputFormat(int id, String runtime, String name,
+    protected MediaContentJSONOutput(int id, String runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary) 
     {

@@ -6,11 +6,11 @@ package app.models.input;
  *
  * @author jan.dostal
  */
-public class TVEpisodeJSONFormat extends MediaContentJSONFormat
+public class TVEpisodeJSONInput extends MediaContentJSONInput
 {
     private int orderInTVShowSeason;
         
-    public TVEpisodeJSONFormat(String runtime, String name,
+    public TVEpisodeJSONInput(String runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary, int orderInTVShowSeason) 
     {

@@ -1,23 +1,31 @@
 
-package app.models.input;
+package app.models.output;
 
 /**
  *
- * @author jan.dostal
+ * @author Admin
  */
-public class TVShowJSONFormat 
-{   
+public class TVShowJSONOutput 
+{
+    private int id;
+    
     private String name;
     
     private String releaseDate;
     
     private String era;
         
-    public TVShowJSONFormat(String name, String releaseDate, String era) 
+    public TVShowJSONOutput(int id, String name, String releaseDate, String era) 
     {
+        this.id = id;
         this.name = name;
         this.releaseDate = releaseDate;
         this.era = era;
+    }
+
+    public int getId() 
+    {
+        return id;
     }
 
     public String getName() 
@@ -37,7 +45,7 @@ public class TVShowJSONFormat
     
     public @Override String toString() 
     {
-        return "TVShowJSONFormat{name=" + name + ", releaseDate=" + 
+        return "TVShowJSONOutput{id=" + id + ", name=" + name + ", releaseDate=" + 
                 releaseDate + ", era=" + era + "}";
     }
 }

@@ -5,13 +5,13 @@ package app.models.output;
  *
  * @author jan.dostal
  */
-public class TVEpisodeJSONOutputFormat extends MediaContentJSONOutputFormat
+public class TVEpisodeJSONOutput extends MediaContentJSONOutput
 {
     private int orderInTVShowSeason;
     
     private int tvSeasonId;
     
-    public TVEpisodeJSONOutputFormat(int id, String runtime, String name,
+    public TVEpisodeJSONOutput(int id, String runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary, int orderInTVShowSeason, int tvSeasonId) 
     {

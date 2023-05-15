@@ -5,7 +5,7 @@ package app.models.output;
  *
  * @author Admin
  */
-public class TVSeasonJSONOutputFormat 
+public class TVSeasonJSONOutput 
 {
     private int id;
     
@@ -13,7 +13,7 @@ public class TVSeasonJSONOutputFormat
     
     private int tvShowId;
         
-    public TVSeasonJSONOutputFormat(int id, int orderInTVShow, int tvShowId) 
+    public TVSeasonJSONOutput(int id, int orderInTVShow, int tvShowId) 
     {
         this.id = id;
         this.orderInTVShow = orderInTVShow;
@@ -37,7 +37,7 @@ public class TVSeasonJSONOutputFormat
     
     public @Override String toString() 
     {
-        return "TVSeasonJSONOutputFormat{id=" + id + ", orderInTVShow=" + orderInTVShow + 
+        return "TVSeasonJSONOutput{id=" + id + ", orderInTVShow=" + orderInTVShow + 
                 ", tvShowId=" + tvShowId + "}";
     }
 }

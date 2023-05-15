@@ -1,24 +1,21 @@
 
-package app.models.output;
-
-import java.time.Duration;
-import java.time.LocalDate;
+package app.models.input;
 
 /**
  *
  * @author jan.dostal
  */
-public class MovieJSONOutputFormat extends MediaContentJSONOutputFormat
+public class MovieJSONInput extends MediaContentJSONInput
 {
     private String releaseDate;
     
     private String era;
     
-    public MovieJSONOutputFormat(int id, String runtime, String name,
+    public MovieJSONInput(String runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary, String releaseDate, String era) 
     {
-        super(id, runtime, name, percentageRating, wasWatched, hyperlinkForContentWatch,
+        super(runtime, name, percentageRating, wasWatched, hyperlinkForContentWatch,
                 shortContentSummary);
         this.releaseDate = releaseDate;
         this.era = era;
