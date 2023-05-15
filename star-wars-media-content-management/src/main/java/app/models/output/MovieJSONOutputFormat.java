@@ -24,18 +24,18 @@ public class MovieJSONOutputFormat extends MediaContentJSONOutputFormat
         this.era = era;
     }
     
-    public LocalDate getReleaseDate() 
+    public String getReleaseDate() 
     {
         return releaseDate;
     }
     
-    public Era getEra() 
+    public String getEra() 
     {
         return era;
     }
 
     protected @Override String getSubclassInstanceDataAttributesValues() 
     {
-        return ", releaseDate=" + releaseDate.toString() + ", era=" + era.toString();
+        return ", releaseDate=" + releaseDate + ", era=" + era;
     }
 }
