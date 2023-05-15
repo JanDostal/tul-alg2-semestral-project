@@ -1,5 +1,5 @@
 
-package app.models.output;
+package app.models.outputfiles;
 
 /**
  *
@@ -15,14 +15,6 @@ public class TVShowJSONOutput
     
     private String era;
         
-    public TVShowJSONOutput(int id, String name, String releaseDate, String era) 
-    {
-        this.id = id;
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.era = era;
-    }
-
     public int getId() 
     {
         return id;
@@ -41,6 +33,26 @@ public class TVShowJSONOutput
     public String getEra() 
     {
         return era;
+    }
+
+    public void setId(int id) 
+    {
+        this.id = id;
+    }
+
+    public void setName(String name) 
+    {
+        this.name = name;
+    }
+
+    public void setReleaseDate(String releaseDate) 
+    {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setEra(String era) 
+    {
+        this.era = era;
     }
     
     public @Override String toString() 

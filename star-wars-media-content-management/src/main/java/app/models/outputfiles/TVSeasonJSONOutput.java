@@ -1,5 +1,5 @@
 
-package app.models.output;
+package app.models.outputfiles;
 
 /**
  *
@@ -12,14 +12,7 @@ public class TVSeasonJSONOutput
     private int orderInTVShow;
     
     private int tvShowId;
-        
-    public TVSeasonJSONOutput(int id, int orderInTVShow, int tvShowId) 
-    {
-        this.id = id;
-        this.orderInTVShow = orderInTVShow;
-        this.tvShowId = tvShowId;
-    }
-    
+            
     public int getId() 
     {
         return id;
@@ -33,6 +26,21 @@ public class TVSeasonJSONOutput
     public int getTVShowId() 
     {
         return tvShowId;
+    }
+
+    public void setId(int id) 
+    {
+        this.id = id;
+    }
+
+    public void setOrderInTVShow(int orderInTVShow) 
+    {
+        this.orderInTVShow = orderInTVShow;
+    }
+
+    public void setTvShowId(int tvShowId) 
+    {
+        this.tvShowId = tvShowId;
     }
     
     public @Override String toString() 

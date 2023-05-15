@@ -1,5 +1,5 @@
 
-package app.models.input;
+package app.models.inputfiles;
 
 /**
  *
@@ -13,13 +13,6 @@ public class TVShowJSONInput
     
     private String era;
         
-    public TVShowJSONInput(String name, String releaseDate, String era) 
-    {
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.era = era;
-    }
-
     public String getName() 
     {
         return name;
@@ -33,6 +26,21 @@ public class TVShowJSONInput
     public String getEra() 
     {
         return era;
+    }
+
+    public void setName(String name) 
+    {
+        this.name = name;
+    }
+
+    public void setReleaseDate(String releaseDate) 
+    {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setEra(String era) 
+    {
+        this.era = era;
     }
     
     public @Override String toString() 

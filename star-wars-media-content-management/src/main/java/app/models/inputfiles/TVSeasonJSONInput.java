@@ -1,5 +1,5 @@
 
-package app.models.input;
+package app.models.inputfiles;
 
 /**
  *
@@ -8,15 +8,15 @@ package app.models.input;
 public class TVSeasonJSONInput 
 {    
     private int orderInTVShow;
-        
-    public TVSeasonJSONInput(int orderInTVShow) 
-    {
-        this.orderInTVShow = orderInTVShow;
-    }
-    
+            
     public int getOrderInTVShow() 
     {
         return orderInTVShow;
+    }
+
+    public void setOrderInTVShow(int orderInTVShow) 
+    {
+        this.orderInTVShow = orderInTVShow;
     }
     
     public @Override String toString() 

@@ -1,13 +1,14 @@
 
-package app.models.output;
+package app.models.outputfiles;
 
 import java.time.Duration;
+import java.time.LocalDate;
 
 /**
  *
  * @author jan.dostal
  */
-public abstract class MediaContentJSONOutput 
+public class MovieJSONOutput
 {
     private int id;
     
@@ -23,19 +24,10 @@ public abstract class MediaContentJSONOutput
     
     private String shortContentSummary;
     
-    protected MediaContentJSONOutput(int id, String runtime, String name,
-            int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
-            String shortContentSummary) 
-    {
-        this.id = id;
-        this.runtime = runtime;
-        this.name = name;
-        this.percentageRating = percentageRating;
-        this.wasWatched = wasWatched;
-        this.hyperlinkForContentWatch = hyperlinkForContentWatch;
-        this.shortContentSummary = shortContentSummary;
-    }
-
+    private String releaseDate;
+    
+    private String era;
+    
     public int getId() 
     {
         return id;
@@ -70,20 +62,23 @@ public abstract class MediaContentJSONOutput
     {
         return shortContentSummary;
     }
-    
-    protected String getSubclassInstanceTypeName() 
+        
+    public String getReleaseDate() 
     {
-        return this.getClass().getSimpleName();
+        return releaseDate;
     }
     
-    protected abstract String getSubclassInstanceDataAttributesValues();
+    public String getEra() 
+    {
+        return era;
+    }
     
     public @Override String toString() 
     {   
-        return getSubclassInstanceTypeName() + "{id=" + id + ", runtime=" + 
+        return "MovieJSONOutput{id=" + id + ", runtime=" + 
                 runtime + ", name=" + name + ", percentageRating=" +
                 percentageRating + ", wasWatched=" + wasWatched +
                 ", hyperlinkForContentWatch=" + hyperlinkForContentWatch + 
-                getSubclassInstanceDataAttributesValues() + "}";
+                ", releaseDate=" + releaseDate + ", era=" + era + "}";
     }
 }
