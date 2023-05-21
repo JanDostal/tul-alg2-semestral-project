@@ -2,6 +2,7 @@
 package app.models.data;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -48,6 +49,6 @@ public class TVShow
     public @Override String toString() 
     {
         return "TVShow{id=" + id + ", name=" + name + ", releaseDate=" + 
-                releaseDate.toString() + ", era=" + era.toString() + "}";
+                releaseDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + ", era=" + era.toString() + "}";
     }
 }

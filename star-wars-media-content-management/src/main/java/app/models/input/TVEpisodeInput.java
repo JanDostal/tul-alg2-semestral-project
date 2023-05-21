@@ -1,14 +1,13 @@
 
-package app.models.inputfiles;
-
+package app.models.input;
 
 /**
  *
  * @author jan.dostal
  */
-public class TVEpisodeJSONInput
+public class TVEpisodeInput
 {
-    private String runtime;
+    private long runtimeInSeconds;
     
     private String name;
     
@@ -21,10 +20,23 @@ public class TVEpisodeJSONInput
     private String shortContentSummary;
     
     private int orderInTVShowSeason;
-            
-    public String getRuntime() 
+    
+    public TVEpisodeInput(Long runtimeInSeconds, String name, 
+            int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
+            String shortContentSummary, int orderInTVShowSeason) 
     {
-        return runtime;
+        this.runtimeInSeconds = runtimeInSeconds;
+        this.name = name;
+        this.percentageRating = percentageRating;
+        this.wasWatched = wasWatched;
+        this.hyperlinkForContentWatch = hyperlinkForContentWatch;
+        this.shortContentSummary = shortContentSummary;
+        this.orderInTVShowSeason = orderInTVShowSeason;
+    }
+            
+    public Long getRuntimeInSeconds() 
+    {
+        return runtimeInSeconds;
     }
 
     public String getName() 
@@ -56,45 +68,10 @@ public class TVEpisodeJSONInput
     {
         return orderInTVShowSeason;
     }
-
-    public void setRuntime(String runtime) 
-    {
-        this.runtime = runtime;
-    }
-
-    public void setName(String name) 
-    {
-        this.name = name;
-    }
-
-    public void setPercentageRating(int percentageRating) 
-    {
-        this.percentageRating = percentageRating;
-    }
-
-    public void setWasWatched(boolean wasWatched) 
-    {
-        this.wasWatched = wasWatched;
-    }
-
-    public void setHyperlinkForContentWatch(String hyperlinkForContentWatch) 
-    {
-        this.hyperlinkForContentWatch = hyperlinkForContentWatch;
-    }
-
-    public void setShortContentSummary(String shortContentSummary) 
-    {
-        this.shortContentSummary = shortContentSummary;
-    }
-
-    public void setOrderInTVShowSeason(int orderInTVShowSeason) 
-    {
-        this.orderInTVShowSeason = orderInTVShowSeason;
-    }
     
     public @Override String toString() 
     {       
-        return "TVEpisodeJSONInput{runtime=" + runtime + ", name=" + name + 
+        return "TVEpisodeInput{runtimeInSeconds=" + runtimeInSeconds + ", name=" + name + 
                 ", percentageRating=" + percentageRating + ", wasWatched=" + wasWatched +
                 ", hyperlinkForContentWatch=" + hyperlinkForContentWatch + 
                 ", orderInTVShowSeason=" + orderInTVShowSeason + "}";

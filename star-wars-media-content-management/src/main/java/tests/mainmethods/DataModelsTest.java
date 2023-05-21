@@ -4,6 +4,7 @@ package tests.mainmethods;
 import app.models.data.*;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -23,11 +24,11 @@ public class DataModelsTest {
         
         MediaContent filmA = new Movie(2, Duration.ofMinutes(45), "filmA", 
                 50, false, "https://www.example01.com", "Velmi krásný film", 
-                LocalDate.parse("2023-05-11"), Era.FALL_OF_THE_JEDI);
+                LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
         Movie filmB = new Movie(3, Duration.ofMinutes(50), "filmB", 
                 60, true, "https://www.example02.com", "Velmi špatný film", 
-                LocalDate.parse("2023-05-13"), Era.THE_NEW_REPUBLIC);
+                LocalDate.parse("2023-05-13", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
                 
         System.out.println(filmA);
         System.out.println("filmB.releaseDate: " + filmB.getReleaseDate());
@@ -47,7 +48,8 @@ public class DataModelsTest {
         System.out.println("tvShow test");
         System.out.println();
         
-        TVShow show = new TVShow(1, "show", LocalDate.parse("2023-05-20"), Era.AGE_OF_THE_REBELLION);
+        TVShow show = new TVShow(1, "show", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
         System.out.println(show);
         
         //tvSeason test

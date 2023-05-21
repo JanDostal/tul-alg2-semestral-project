@@ -3,6 +3,7 @@ package app.models.data;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -36,6 +37,7 @@ public class Movie extends MediaContent
 
     protected @Override String getSubclassInstanceDataAttributesValues() 
     {
-        return ", releaseDate=" + releaseDate.toString() + ", era=" + era.toString();
+        return ", releaseDate=" + releaseDate.format(DateTimeFormatter.ISO_LOCAL_DATE) 
+                + ", era=" + era.toString();
     }
 }
