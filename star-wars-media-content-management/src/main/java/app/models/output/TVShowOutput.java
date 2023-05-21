@@ -12,8 +12,8 @@ public class TVShowOutput
     public static final int ATTRIBUTE_NAME_LENGTH = 40;
     public static final int ATTRIBUTE_ERA_LENGTH = 30;
     
-    public static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
-    public static final int ATTRIBUTE_RELEASEDATE_BYTES = Long.BYTES;
+    private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
+    private static final int ATTRIBUTE_RELEASEDATE_BYTES = Long.BYTES;
         
     public static final int TV_SHOW_RECORD_SIZE = 2 * ATTRIBUTE_NAME_LENGTH * Character.BYTES
             + 2 * ATTRIBUTE_ERA_LENGTH * Character.BYTES

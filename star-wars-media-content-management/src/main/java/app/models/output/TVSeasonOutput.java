@@ -7,9 +7,9 @@ package app.models.output;
  */
 public class TVSeasonOutput 
 {
-    public static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
-    public static final int ATTRIBUTE_ORDERTVSHOW_BYTES = Integer.BYTES;
-    public static final int ATTRIBUTE_TVSHOWID_BYTES = Integer.BYTES;
+    private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
+    private static final int ATTRIBUTE_ORDERTVSHOW_BYTES = Integer.BYTES;
+    private static final int ATTRIBUTE_TVSHOWID_BYTES = Integer.BYTES;
     
     public static final int TV_SEASON_RECORD_SIZE = ATTRIBUTE_ID_BYTES 
             + ATTRIBUTE_ORDERTVSHOW_BYTES + ATTRIBUTE_TVSHOWID_BYTES;

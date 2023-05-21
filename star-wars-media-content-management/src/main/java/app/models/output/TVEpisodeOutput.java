@@ -13,12 +13,12 @@ public class TVEpisodeOutput
     public static final int ATTRIBUTE_HYPERLINK_LENGTH = 180;
     public static final int ATTRIBUTE_CONTENT_LENGTH = 1000;
     
-    public static final int ATTRIBUTE_WATCHED_BYTES = 1;
-    public static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
-    public static final int ATTRIBUTE_RUNTIME_BYTES = Long.BYTES;
-    public static final int ATTRIBUTE_RATING_BYTES = Integer.BYTES;
-    public static final int ATTRIBUTE_ORDERTVSEASON_BYTES = Integer.BYTES;
-    public static final int ATTRIBUTE_TVSEASONID_BYTES = Integer.BYTES;
+    private static final int ATTRIBUTE_WATCHED_BYTES = 1;
+    private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
+    private static final int ATTRIBUTE_RUNTIME_BYTES = Long.BYTES;
+    private static final int ATTRIBUTE_RATING_BYTES = Integer.BYTES;
+    private static final int ATTRIBUTE_ORDERTVSEASON_BYTES = Integer.BYTES;
+    private static final int ATTRIBUTE_TVSEASONID_BYTES = Integer.BYTES;
     
     public static final int TV_EPISODE_RECORD_SIZE = 2 * ATTRIBUTE_NAME_LENGTH * Character.BYTES
             + 2 * ATTRIBUTE_HYPERLINK_LENGTH * Character.BYTES
