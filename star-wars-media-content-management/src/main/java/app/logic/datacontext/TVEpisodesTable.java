@@ -5,7 +5,7 @@ package app.logic.datacontext;
  *
  * @author jan.dostal
  */
-public class TVShowDataTable 
+public class TVEpisodesTable 
 {
     
 }
