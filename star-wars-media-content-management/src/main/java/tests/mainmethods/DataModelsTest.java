@@ -78,7 +78,6 @@ public class DataModelsTest {
         System.out.println(episodeB);
         
         //null data attributes test
-        // null data attributes test
         System.out.println();
         System.out.println("null data attributes test");
         System.out.println();
