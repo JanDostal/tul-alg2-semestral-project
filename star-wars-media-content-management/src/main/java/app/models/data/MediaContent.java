@@ -7,10 +7,8 @@ import java.time.Duration;
  *
  * @author jan.dostal
  */
-public abstract class MediaContent 
-{
-    private int id;
-    
+public abstract class MediaContent extends DatabaseRecord
+{    
     private Duration runtime;
     
     private String name;
@@ -27,7 +25,7 @@ public abstract class MediaContent
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary) 
     {
-        this.id = id;
+        super(id);
         this.runtime = runtime;
         this.name = name;
         this.percentageRating = percentageRating;
@@ -35,12 +33,7 @@ public abstract class MediaContent
         this.hyperlinkForContentWatch = hyperlinkForContentWatch;
         this.shortContentSummary = shortContentSummary;
     }
-
-    public int getId() 
-    {
-        return id;
-    }
-
+    
     public Duration getRuntime() 
     {
         return runtime;
@@ -83,7 +76,7 @@ public abstract class MediaContent
         String runtimeText = String.format("%02d:%02d:%02d", runtime.toHours(), 
                 runtime.toMinutesPart(), runtime.toSecondsPart());
         
-        return getSubclassInstanceTypeName() + "{id=" + id + ", runtime=" + 
+        return getSubclassInstanceTypeName() + "{id=" + getId() + ", runtime=" + 
                 runtimeText + ", name=" + name + ", percentageRating=" +
                 percentageRating + ", wasWatched=" + wasWatched +
                 ", hyperlinkForContentWatch=" + hyperlinkForContentWatch + 

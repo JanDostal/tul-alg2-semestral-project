@@ -5,26 +5,19 @@ package app.models.data;
  *
  * @author jan.dostal
  */
-public class TVSeason 
-{
-    private int id;
-    
+public class TVSeason extends DatabaseRecord
+{    
     private int orderInTVShow;
     
     private int tvShowId;
         
     public TVSeason(int id, int orderInTVShow, int tvShowId) 
     {
-        this.id = id;
+        super(id);
         this.orderInTVShow = orderInTVShow;
         this.tvShowId = tvShowId;
     }
-    
-    public int getId() 
-    {
-        return id;
-    }
-    
+        
     public int getOrderInTVShow() 
     {
         return orderInTVShow;
@@ -37,7 +30,7 @@ public class TVSeason
     
     public @Override String toString() 
     {
-        return "TVSeason{id=" + id + ", orderInTVShow=" + orderInTVShow + 
+        return "TVSeason{id=" + getId() + ", orderInTVShow=" + orderInTVShow + 
                 ", tvShowId=" + tvShowId + "}";
     }
 }

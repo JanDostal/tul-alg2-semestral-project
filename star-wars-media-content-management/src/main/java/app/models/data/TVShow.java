@@ -8,10 +8,8 @@ import java.time.format.DateTimeFormatter;
  *
  * @author jan.dostal
  */
-public class TVShow 
-{
-    private int id;
-    
+public class TVShow extends DatabaseRecord
+{    
     private String name;
     
     private LocalDate releaseDate;
@@ -20,15 +18,10 @@ public class TVShow
         
     public TVShow(int id, String name, LocalDate releaseDate, Era era) 
     {
-        this.id = id;
+        super(id);
         this.name = name;
         this.releaseDate = releaseDate;
         this.era = era;
-    }
-
-    public int getId() 
-    {
-        return id;
     }
 
     public String getName() 
@@ -48,7 +41,7 @@ public class TVShow
     
     public @Override String toString() 
     {
-        return "TVShow{id=" + id + ", name=" + name + ", releaseDate=" + 
+        return "TVShow{id=" + getId() + ", name=" + name + ", releaseDate=" + 
                 releaseDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + ", era=" + era.toString() + "}";
     }
 }
