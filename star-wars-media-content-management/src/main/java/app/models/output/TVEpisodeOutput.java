@@ -44,18 +44,23 @@ public class TVEpisodeOutput
     
     private int tvSeasonId;
     
-    public TVEpisodeOutput(int id, Long runtimeInSeconds, String name, 
+    public TVEpisodeOutput(int id, long runtimeInSeconds, String name, 
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary, int orderInTVShowSeason, int tvSeasonId) 
     {
         this.id = id;
         this.runtimeInSeconds = runtimeInSeconds;
-        this.name = Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
+        this.name = name == null || name.trim().isEmpty() ? null : 
+                Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
         this.percentageRating = percentageRating;
         this.wasWatched = wasWatched;
-        this.hyperlinkForContentWatch = Arrays.copyOf(hyperlinkForContentWatch.toCharArray(), 
+        this.hyperlinkForContentWatch = hyperlinkForContentWatch == null || 
+                hyperlinkForContentWatch.trim().isEmpty() ? 
+                null : Arrays.copyOf(hyperlinkForContentWatch.toCharArray(), 
                 ATTRIBUTE_HYPERLINK_LENGTH);
-        this.shortContentSummary = Arrays.copyOf(shortContentSummary.toCharArray(), 
+        this.shortContentSummary = shortContentSummary == null || 
+                shortContentSummary.trim().isEmpty() ? 
+                null : Arrays.copyOf(shortContentSummary.toCharArray(), 
                 ATTRIBUTE_CONTENT_LENGTH);
         this.orderInTVShowSeason = orderInTVShowSeason;
         this.tvSeasonId = tvSeasonId;
@@ -66,14 +71,14 @@ public class TVEpisodeOutput
         return id;
     }
     
-    public Long getRuntimeInSeconds() 
+    public long getRuntimeInSeconds() 
     {
         return runtimeInSeconds;
     }
 
     public String getName() 
     {
-        return new String(name);
+        return name == null ? null : new String(name);
     }
 
     public int getPercentageRating() 
@@ -88,12 +93,12 @@ public class TVEpisodeOutput
 
     public String getHyperlinkForContentWatch() 
     {
-        return new String(hyperlinkForContentWatch);
+        return hyperlinkForContentWatch == null ? null : new String(hyperlinkForContentWatch);
     }
 
     public String getShortContentSummary() 
     {
-        return new String(shortContentSummary);
+        return shortContentSummary == null ? null : new String(shortContentSummary);
     }
 
     public int getOrderInTVShowSeason() 
@@ -107,10 +112,13 @@ public class TVEpisodeOutput
     }
     
     public @Override String toString() 
-    {       
-        return "TVEpisodeOutput{id=" + id + ", runtimeInSeconds=" + runtimeInSeconds + ", name=" + new String(name) + 
+    {
+        String nameText = name == null ? null : new String(name);
+        String hyperlinkText = hyperlinkForContentWatch == null ? null : new String(hyperlinkForContentWatch);
+        
+        return "TVEpisodeOutput{id=" + id + ", runtimeInSeconds=" + runtimeInSeconds + ", name=" + nameText + 
                 ", percentageRating=" + percentageRating + ", wasWatched=" + wasWatched +
-                ", hyperlinkForContentWatch=" + new String(hyperlinkForContentWatch) + 
+                ", hyperlinkForContentWatch=" + hyperlinkText + 
                 ", orderInTVShowSeason=" + orderInTVShowSeason + ", tvSeasonId=" +
                 tvSeasonId + "}";
     }

@@ -47,22 +47,27 @@ public class MovieOutput
     
     private char[] era;
         
-    public MovieOutput(int id, Long runtimeInSeconds, String name, 
+    public MovieOutput(int id, long runtimeInSeconds, String name, 
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
-            String shortContentSummary, Long releaseDateInEpochSeconds, String era) 
+            String shortContentSummary, long releaseDateInEpochSeconds, String era) 
     {
         this.id = id;
         this.runtimeInSeconds = runtimeInSeconds;
-        this.name = Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
+        this.name = name == null || name.trim().isEmpty() ? null : 
+                Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
         this.percentageRating = percentageRating;
         this.wasWatched = wasWatched;
-        this.hyperlinkForContentWatch = Arrays.copyOf(hyperlinkForContentWatch.toCharArray(), 
+        this.hyperlinkForContentWatch = hyperlinkForContentWatch == null || 
+                hyperlinkForContentWatch.trim().isEmpty() ? null : 
+                Arrays.copyOf(hyperlinkForContentWatch.toCharArray(), 
                 ATTRIBUTE_HYPERLINK_LENGTH);
-        this.shortContentSummary = Arrays.copyOf(shortContentSummary.toCharArray(), 
+        this.shortContentSummary = shortContentSummary == null || 
+                shortContentSummary.trim().isEmpty() ? null: 
+                Arrays.copyOf(shortContentSummary.toCharArray(), 
                 ATTRIBUTE_CONTENT_LENGTH);
         this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
-        this.era = Arrays.copyOf(era.toCharArray(), 
-                ATTRIBUTE_ERA_LENGTH);
+        this.era = era == null || era.trim().isEmpty() ? 
+                null : Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
     }
     
     public int getId() 
@@ -77,7 +82,7 @@ public class MovieOutput
 
     public String getName() 
     {
-        return new String(name);
+        return name == null ? null : new String(name);
     }
 
     public int getPercentageRating() 
@@ -92,12 +97,13 @@ public class MovieOutput
 
     public String getHyperlinkForContentWatch() 
     {
-        return new String(hyperlinkForContentWatch);
+        return hyperlinkForContentWatch == null ? null : 
+                new String(hyperlinkForContentWatch);
     }
 
     public String getShortContentSummary() 
     {
-        return new String(shortContentSummary);
+        return shortContentSummary == null ? null : new String(shortContentSummary);
     }
     
     public long getReleaseDateInEpochSeconds() 
@@ -107,15 +113,19 @@ public class MovieOutput
     
     public String getEra() 
     {
-        return new String(era);
+        return era == null ? null : new String(era);
     }
     
     public @Override String toString() 
-    {       
+    {
+        String nameText = name == null ? null : new String(name);
+        String hyperlinkText = hyperlinkForContentWatch == null ? null : new String(hyperlinkForContentWatch);
+        String eraText = era == null ? null : new String(era);
+        
         return "MovieOutput{id=" + id + ", runtimeInSeconds=" + runtimeInSeconds + 
-                ", name=" + new String(name) + ", percentageRating=" + percentageRating + 
+                ", name=" + nameText + ", percentageRating=" + percentageRating + 
                 ", wasWatched=" + wasWatched + ", hyperlinkForContentWatch=" + 
-                new String(hyperlinkForContentWatch) + ", releaseDateInEpochSeconds=" + 
-                releaseDateInEpochSeconds + ", era=" + new String(era) + "}";
+                hyperlinkText + ", releaseDateInEpochSeconds=" + 
+                releaseDateInEpochSeconds + ", era=" + eraText + "}";
     }
 }

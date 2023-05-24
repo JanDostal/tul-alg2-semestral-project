@@ -73,7 +73,7 @@ public abstract class MediaContent extends DatabaseRecord
     
     public @Override String toString() 
     {
-        String runtimeText = String.format("%02d:%02d:%02d", runtime.toHours(), 
+        String runtimeText = runtime == null ? null : String.format("%02d:%02d:%02d", runtime.toHours(), 
                 runtime.toMinutesPart(), runtime.toSecondsPart());
         
         return getSubclassInstanceTypeName() + "{primaryKey=" + getPrimaryKey() + ", runtime=" + 

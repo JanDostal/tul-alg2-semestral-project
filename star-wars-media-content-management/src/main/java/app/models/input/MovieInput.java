@@ -23,9 +23,9 @@ public class MovieInput
     
     private String era;
         
-    public MovieInput(Long runtimeInSeconds, String name, 
+    public MovieInput(long runtimeInSeconds, String name, 
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
-            String shortContentSummary, Long releaseDateInEpochSeconds, String era) 
+            String shortContentSummary, long releaseDateInEpochSeconds, String era) 
     {
         this.runtimeInSeconds = runtimeInSeconds;
         this.name = name;

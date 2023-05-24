@@ -21,7 +21,7 @@ public class TVEpisodeInput
     
     private int orderInTVShowSeason;
     
-    public TVEpisodeInput(Long runtimeInSeconds, String name, 
+    public TVEpisodeInput(long runtimeInSeconds, String name, 
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary, int orderInTVShowSeason) 
     {
@@ -34,7 +34,7 @@ public class TVEpisodeInput
         this.orderInTVShowSeason = orderInTVShowSeason;
     }
             
-    public Long getRuntimeInSeconds() 
+    public long getRuntimeInSeconds() 
     {
         return runtimeInSeconds;
     }

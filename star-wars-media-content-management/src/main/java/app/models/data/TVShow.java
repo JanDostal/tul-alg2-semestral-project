@@ -41,7 +41,11 @@ public class TVShow extends DatabaseRecord
     
     public @Override String toString() 
     {
-        return "TVShow{primaryKey=" + getPrimaryKey() + ", name=" + name + ", releaseDate=" + 
-                releaseDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + ", era=" + era.toString() + "}";
+        String releaseDateText = releaseDate == null ? null : 
+                releaseDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        String eraText = era == null ? null : era.toString();
+        
+        return "TVShow{primaryKey=" + getPrimaryKey() + ", name=" + 
+                name + ", releaseDate=" + releaseDateText + ", era=" + eraText + "}";
     }
 }

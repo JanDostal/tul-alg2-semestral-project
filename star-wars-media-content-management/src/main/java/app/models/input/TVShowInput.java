@@ -9,11 +9,11 @@ public class TVShowInput
 {
     private String name;
     
-    private Long releaseDateInEpochSeconds;
+    private long releaseDateInEpochSeconds;
     
     private String era;
     
-    public TVShowInput(String name, Long releaseDateInEpochSeconds, String era) 
+    public TVShowInput(String name, long releaseDateInEpochSeconds, String era) 
     {
         this.name = name;
         this.era = era;
@@ -25,7 +25,7 @@ public class TVShowInput
         return name;
     }
 
-    public Long getReleaseDateInEpochSeconds() 
+    public long getReleaseDateInEpochSeconds() 
     {
         return releaseDateInEpochSeconds;
     }

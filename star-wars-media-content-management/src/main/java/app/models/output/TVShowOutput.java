@@ -23,15 +23,15 @@ public class TVShowOutput
     
     private char[] name;
     
-    private Long releaseDateInEpochSeconds;
+    private long releaseDateInEpochSeconds;
     
     private char[] era;
     
-    public TVShowOutput(int id, String name, Long releaseDateInEpochSeconds, String era) 
+    public TVShowOutput(int id, String name, long releaseDateInEpochSeconds, String era) 
     {
         this.id = id;
-        this.name = Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
-        this.era = Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
+        this.name = name == null || name.trim().isEmpty() ? null : Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
+        this.era = era == null || era.trim().isEmpty() ? null : Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
         this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
     }
     
@@ -42,22 +42,25 @@ public class TVShowOutput
     
     public String getName() 
     {
-        return new String(name);
+        return name == null ? null : new String(name);
     }
 
-    public Long getReleaseDateInEpochSeconds() 
+    public long getReleaseDateInEpochSeconds() 
     {
         return releaseDateInEpochSeconds;
     }
 
     public String getEra() 
     {
-        return new String(era);
+        return era == null ? null : new String(era);
     }
     
     public @Override String toString() 
     {
-        return "TVShowOutput{id=" + id + ", name=" + new String(name) + ", releaseDateInEpochSeconds=" + 
-                releaseDateInEpochSeconds + ", era=" + new String(era) + "}";
+        String nameText = name == null ? null : new String(name);
+        String eraText = era == null ? null : new String(era);
+        
+        return "TVShowOutput{id=" + id + ", name=" + nameText + ", releaseDateInEpochSeconds=" + 
+                releaseDateInEpochSeconds + ", era=" + eraText + "}";
     }
 }

@@ -76,5 +76,20 @@ public class DataModelsTest {
         System.out.println("episodeB.orderIntTVShowSeason: " + episodeB.getOrderInTVShowSeason());
         System.out.println("episodeB.tvSeasonForeignKey: " + episodeB.getTVSeasonForeignKey());
         System.out.println(episodeB);
+        
+        //null data attributes test
+        // null data attributes test
+        System.out.println();
+        System.out.println("null data attributes test");
+        System.out.println();
+        
+        TVShow showNull = new TVShow(null, null, null, null);
+        System.out.println(showNull);
+        
+        MediaContent episodeNull = new TVEpisode(null, null, null, 2, true, null, null, 2, null);
+        System.out.println(episodeNull);
+        
+        Movie movieNull = new Movie(null, null, null, 2, true, null, null, null, null);
+        System.out.println(movieNull);
     }
 }

@@ -37,7 +37,10 @@ public class Movie extends MediaContent
 
     protected @Override String getSubclassInstanceDataAttributesValues() 
     {
-        return ", releaseDate=" + releaseDate.format(DateTimeFormatter.ISO_LOCAL_DATE) 
-                + ", era=" + era.toString();
+        String releaseDateText = releaseDate == null ? null : 
+                releaseDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        String eraText = era == null ? null : era.toString();
+        
+        return ", releaseDate=" + releaseDateText + ", era=" + eraText;
     }
 }
