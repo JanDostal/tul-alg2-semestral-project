@@ -14,7 +14,6 @@ import utils.interfaces.IDataTable;
  */
 public class MoviesTable implements IDataTable<Movie>
 {
-
     @Override
     public Movie addFrom(Movie inputData) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
