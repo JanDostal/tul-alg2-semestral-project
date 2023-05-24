@@ -3,6 +3,7 @@ package app.models.data;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  *
@@ -23,6 +24,11 @@ public class TVShow extends DatabaseRecord
         this.releaseDate = releaseDate;
         this.era = era;
     }
+    
+    public TVShow(PrimaryKey primaryKey, TVShow data) 
+    {
+        this(primaryKey, data.name, data.releaseDate, data.era);
+    }
 
     public String getName() 
     {
@@ -37,6 +43,37 @@ public class TVShow extends DatabaseRecord
     public Era getEra() 
     {
         return era;
+    }
+
+    public @Override int hashCode() 
+    {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(name);
+        hash = 23 * hash + Objects.hashCode(releaseDate);
+        hash = 23 * hash + Objects.hashCode(era);
+        return hash;
+    }
+
+    public @Override boolean equals(Object obj) 
+    {
+        if (this == obj) 
+        {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) 
+        {
+            return false;
+        }
+
+        final TVShow other = (TVShow) obj;
+        
+        if (Objects.equals(name, other.name) == false ||
+                Objects.equals(releaseDate, other.releaseDate) == false) 
+        {
+            return false;
+        }
+        
+        return Objects.equals(era, other.era);
     }
     
     public @Override String toString() 
