@@ -1,6 +1,7 @@
 
 package app.logic.datacontext;
 
+import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import java.util.Comparator;
 import java.util.List;
@@ -25,17 +26,17 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
     }
 
     @Override
-    public void deleteBy(int id) {
+    public void deleteBy(PrimaryKey primaryKey) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public boolean editBy(int id, TVEpisode inputData) {
+    public boolean editBy(PrimaryKey primaryKey, TVEpisode inputData) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public TVEpisode getBy(int id) {
+    public TVEpisode getBy(PrimaryKey primaryKey) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

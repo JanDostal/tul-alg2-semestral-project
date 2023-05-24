@@ -15,11 +15,11 @@ public class Movie extends MediaContent
     
     private Era era;
     
-    public Movie(int id, Duration runtime, String name,
+    public Movie(PrimaryKey primaryKey, Duration runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary, LocalDate releaseDate, Era era) 
     {
-        super(id, runtime, name, percentageRating, wasWatched, hyperlinkForContentWatch,
+        super(primaryKey, runtime, name, percentageRating, wasWatched, hyperlinkForContentWatch,
                 shortContentSummary);
         this.releaseDate = releaseDate;
         this.era = era;

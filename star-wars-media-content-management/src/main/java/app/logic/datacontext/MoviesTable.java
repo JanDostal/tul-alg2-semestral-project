@@ -2,6 +2,7 @@
 package app.logic.datacontext;
 
 import app.models.data.Movie;
+import app.models.data.PrimaryKey;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -25,17 +26,17 @@ public class MoviesTable implements IDataTable<Movie>
     }
 
     @Override
-    public void deleteBy(int id) {
+    public void deleteBy(PrimaryKey primaryKey) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public boolean editBy(int id, Movie inputData) {
+    public boolean editBy(PrimaryKey primaryKey, Movie inputData) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Movie getBy(int id) {
+    public Movie getBy(PrimaryKey primaryKey) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

@@ -16,9 +16,9 @@ public class TVShow extends DatabaseRecord
     
     private Era era;
         
-    public TVShow(int id, String name, LocalDate releaseDate, Era era) 
+    public TVShow(PrimaryKey primaryKey, String name, LocalDate releaseDate, Era era) 
     {
-        super(id);
+        super(primaryKey);
         this.name = name;
         this.releaseDate = releaseDate;
         this.era = era;
@@ -41,7 +41,7 @@ public class TVShow extends DatabaseRecord
     
     public @Override String toString() 
     {
-        return "TVShow{id=" + getId() + ", name=" + name + ", releaseDate=" + 
+        return "TVShow{primaryKey=" + getPrimaryKey() + ", name=" + name + ", releaseDate=" + 
                 releaseDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + ", era=" + era.toString() + "}";
     }
 }

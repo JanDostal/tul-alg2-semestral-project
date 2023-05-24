@@ -21,11 +21,11 @@ public abstract class MediaContent extends DatabaseRecord
     
     private String shortContentSummary;
     
-    protected MediaContent(int id, Duration runtime, String name,
+    protected MediaContent(PrimaryKey primaryKey, Duration runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
             String shortContentSummary) 
     {
-        super(id);
+        super(primaryKey);
         this.runtime = runtime;
         this.name = name;
         this.percentageRating = percentageRating;
@@ -76,7 +76,7 @@ public abstract class MediaContent extends DatabaseRecord
         String runtimeText = String.format("%02d:%02d:%02d", runtime.toHours(), 
                 runtime.toMinutesPart(), runtime.toSecondsPart());
         
-        return getSubclassInstanceTypeName() + "{id=" + getId() + ", runtime=" + 
+        return getSubclassInstanceTypeName() + "{primaryKey=" + getPrimaryKey() + ", runtime=" + 
                 runtimeText + ", name=" + name + ", percentageRating=" +
                 percentageRating + ", wasWatched=" + wasWatched +
                 ", hyperlinkForContentWatch=" + hyperlinkForContentWatch + 

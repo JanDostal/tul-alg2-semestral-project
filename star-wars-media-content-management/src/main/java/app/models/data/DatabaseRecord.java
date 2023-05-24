@@ -7,15 +7,15 @@ package app.models.data;
  */
 public abstract class DatabaseRecord 
 {
-    private int id;
+    private PrimaryKey primaryKey;
     
-    protected DatabaseRecord(int id) 
+    protected DatabaseRecord(PrimaryKey primaryKey) 
     {
-        this.id = id;
+        this.primaryKey = primaryKey;
     }
     
-    public int getId() 
+    public PrimaryKey getPrimaryKey() 
     {
-        return id;
+        return primaryKey;
     }
 }

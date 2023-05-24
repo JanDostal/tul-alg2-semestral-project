@@ -11,16 +11,16 @@ public class TVEpisode extends MediaContent
 {
     private int orderInTVShowSeason;
     
-    private int tvSeasonId;
+    private PrimaryKey tvSeasonForeignKey;
     
-    public TVEpisode(int id, Duration runtime, String name,
+    public TVEpisode(PrimaryKey primaryKey, Duration runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
-            String shortContentSummary, int orderInTVShowSeason, int tvSeasonId) 
+            String shortContentSummary, int orderInTVShowSeason, PrimaryKey tvSeasonForeignKey) 
     {
-        super(id, runtime, name, percentageRating, wasWatched, hyperlinkForContentWatch,
+        super(primaryKey, runtime, name, percentageRating, wasWatched, hyperlinkForContentWatch,
                 shortContentSummary);
         this.orderInTVShowSeason = orderInTVShowSeason;
-        this.tvSeasonId = tvSeasonId;
+        this.tvSeasonForeignKey = tvSeasonForeignKey;
     }
 
     public int getOrderInTVShowSeason() 
@@ -28,14 +28,14 @@ public class TVEpisode extends MediaContent
         return orderInTVShowSeason;
     }
     
-    public int getTVSeasonId() 
+    public PrimaryKey getTVSeasonForeignKey() 
     {
-        return tvSeasonId;
+        return tvSeasonForeignKey;
     }
 
     protected @Override String getSubclassInstanceDataAttributesValues() 
     {
-        return ", orderInTVShowSeason=" + orderInTVShowSeason + ", tvSeasonId=" +
-                tvSeasonId;
+        return ", orderInTVShowSeason=" + orderInTVShowSeason + ", tvSeasonForeignKey=" +
+                tvSeasonForeignKey;
     }
 }
