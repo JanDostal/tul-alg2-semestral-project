@@ -21,13 +21,13 @@ public class TVShowsTable implements IDataTable<TVShow>
 {
     private static TVShowsTable tvShowsTable;
     
-    private List<TVShow> tvShows;
+    private List<TVShow> tvShowsData;
     
     private Random primaryKeysGenerator;
     
     private TVShowsTable() 
     {
-        tvShows = new ArrayList<>();
+        tvShowsData = new ArrayList<>();
         primaryKeysGenerator = new Random();
     }
     
@@ -49,13 +49,13 @@ public class TVShowsTable implements IDataTable<TVShow>
         
         List<TVShow> tvShowWithDuplicateData = filterBy(show -> inputData.equals(show));
         
-        if (tvShowWithDuplicateData != null) 
+        if (tvShowWithDuplicateData.isEmpty() == false) 
         {
             //exception
         }
         
         TVShow newData = new TVShow(newPrimaryKey, inputData);
-        tvShows.add(newData);
+        tvShowsData.add(newData);
         
         return newData;
     }
@@ -73,12 +73,12 @@ public class TVShowsTable implements IDataTable<TVShow>
         
         List<TVShow> tvShowWithDuplicateData = filterBy(show -> outputData.equals(show));
         
-        if (tvShowWithDuplicateData != null) 
+        if (tvShowWithDuplicateData.isEmpty() == false) 
         {
             //exception
         }
         
-        tvShows.add(outputData);
+        tvShowsData.add(outputData);
     }
 
     public @Override void deleteBy(PrimaryKey primaryKey) 
@@ -90,7 +90,7 @@ public class TVShowsTable implements IDataTable<TVShow>
             //exception
         }
         
-        tvShows.remove(foundTVShow);
+        tvShowsData.remove(foundTVShow);
     }
 
     public @Override boolean editBy(PrimaryKey primaryKey, TVShow inputData) 
@@ -105,8 +105,8 @@ public class TVShowsTable implements IDataTable<TVShow>
         {
             TVShow newData = new TVShow(primaryKey, inputData);
             
-            tvShows.remove(foundTVShow);
-            tvShows.add(newData);
+            tvShowsData.remove(foundTVShow);
+            tvShowsData.add(newData);
         }
         
         return areDataSame;
@@ -114,7 +114,7 @@ public class TVShowsTable implements IDataTable<TVShow>
 
     public @Override TVShow getBy(PrimaryKey primaryKey) 
     {
-        Optional<TVShow> tvShow = tvShows.stream().filter(show -> show.getPrimaryKey().getId() 
+        Optional<TVShow> tvShow = tvShowsData.stream().filter(show -> show.getPrimaryKey().getId() 
                 == primaryKey.getId()).findFirst();
         
         if (tvShow.isEmpty()) 
@@ -127,13 +127,13 @@ public class TVShowsTable implements IDataTable<TVShow>
 
     public @Override List<TVShow> getAll() 
     {
-        List<TVShow> tvShowsCopy = new ArrayList<>(tvShows);
+        List<TVShow> tvShowsCopy = new ArrayList<>(tvShowsData);
         return tvShowsCopy;
     }
 
     public @Override List<TVShow> filterBy(Predicate<TVShow> condition) 
     {
-        return tvShows.stream().filter(condition).collect(Collectors.toList());
+        return tvShowsData.stream().filter(condition).collect(Collectors.toList());
     }
 
     public @Override void sortBy(Comparator<TVShow> comparator, List<TVShow> sourceList) 
