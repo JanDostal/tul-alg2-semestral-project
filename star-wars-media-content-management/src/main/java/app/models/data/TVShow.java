@@ -46,25 +46,17 @@ public class TVShow extends DatabaseRecord
     }
 
     public @Override int hashCode() 
-    {
-        int hash = 7;
-        hash = 23 * hash + Objects.hashCode(name);
-        hash = 23 * hash + Objects.hashCode(releaseDate);
-        hash = 23 * hash + Objects.hashCode(era);
-        return hash;
+    {                
+        return Objects.hash(super.hashCode(), name, releaseDate, era);
     }
 
     public @Override boolean equals(Object obj) 
     {
-        if (this == obj) 
-        {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) 
+        if (super.equals(obj) == false) 
         {
             return false;
         }
-
+                
         final TVShow other = (TVShow) obj;
         
         if (Objects.equals(name, other.name) == false ||
