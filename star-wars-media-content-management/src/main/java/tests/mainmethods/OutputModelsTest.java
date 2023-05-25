@@ -47,13 +47,13 @@ public class OutputModelsTest {
         System.out.println("null data attributes test");
         System.out.println();
         
-        TVShowOutput show = new TVShowOutput(2, null, 2, null);
+        TVShowOutput show = new TVShowOutput(2, null, 2, "    ");
         System.out.println(show);
         
-        TVEpisodeOutput episode = new TVEpisodeOutput(2, 3, null, 2, true, null, null, 2, 2);
+        TVEpisodeOutput episode = new TVEpisodeOutput(2, 3, "", 2, true, "   ", null, 2, 2);
         System.out.println(episode);
         
-        MovieOutput movie = new MovieOutput(2, 3, null, 3, true, null, null, 2, null);
+        MovieOutput movie = new MovieOutput(2, 3, null, 3, true, "    ", "", 2, null);
         System.out.println(movie);
     }
     
