@@ -97,6 +97,11 @@ public final class TVShowsTable implements IDataTable<TVShow>
     {
         TVShow foundTVShow = getBy(primaryKey);
         
+        if (foundTVShow == null) 
+        {
+            //exception
+        }
+        
         boolean areDataSame = foundTVShow.equals(editedExistingData);
         
         if (areDataSame == false) 

@@ -45,46 +45,107 @@ public final class TVSeasonsTable implements IDataTable<TVSeason>
         return tvSeasonsTable;
     }    
 
-    @Override
-    public TVSeason addFrom(TVSeason inputData) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    public @Override TVSeason addFrom(TVSeason inputData) 
+    {
+        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+        
+        TVShow existingTVShow = tvShowsTable.getBy(inputData.getTVShowForeignKey());
+            
+        if (existingTVShow == null) 
+        {
+            //exception
+        }
+                
+        PrimaryKey newPrimaryKey = generatePrimaryKey();
+        
+        List<TVSeason> tvSeasonWithDuplicateData = filterBy(season -> season.equals(inputData));
+        
+        if (tvSeasonWithDuplicateData.isEmpty() == false) 
+        {
+            //exception
+        }
+        
+        TVSeason newData = new TVSeason(newPrimaryKey, inputData);
+        tvSeasonsData.add(newData);
+        
+        return newData;
     }
 
-    @Override
-    public void loadFrom(TVSeason outputData) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public @Override void loadFrom(TVSeason outputData) 
+    {
+        //porovnavani spravnosti vystupnich dat (pozdeji exceptions)
+        
+        TVSeason tvSeasonWithDuplicateKey = getBy(outputData.getPrimaryKey());
+        
+        if (tvSeasonWithDuplicateKey != null) 
+        {
+            //exception
+        }
+        
+        TVShow existingTVShow = tvShowsTable.getBy(outputData.getTVShowForeignKey());
+            
+        if (existingTVShow == null) 
+        {
+            //exception
+        }
+        
+        List<TVSeason> tvSeasonWithDuplicateData = filterBy(season -> season.equals(outputData));
+        
+        if (tvSeasonWithDuplicateData.isEmpty() == false) 
+        {
+            //exception
+        }
+        
+        tvSeasonsData.add(outputData);
     }
 
-    @Override
-    public void deleteBy(PrimaryKey primaryKey) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean editBy(PrimaryKey primaryKey, TVSeason editedExistingData) 
+    public @Override void deleteBy(PrimaryKey primaryKey) 
     {
         TVSeason foundTVSeason = getBy(primaryKey);
+        
+        if (foundTVSeason == null) 
+        {
+            //exception
+        }
+        
+        tvSeasonsData.remove(foundTVSeason);
+    }
+
+    public @Override boolean editBy(PrimaryKey primaryKey, TVSeason editedExistingData) 
+    {
+        TVSeason foundTVSeason = getBy(primaryKey);
+        
+        if (foundTVSeason == null) 
+        {
+            //exception
+        }
                 
         boolean areDataSame = foundTVSeason.equals(editedExistingData);
         
         if (areDataSame == false) 
         {
             //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
-
-            TVShow newData = new TVShow(primaryKey, inputData);
+            TVShow existingTVShow = tvShowsTable.getBy(editedExistingData.getTVShowForeignKey());
             
-            tvShowsData.remove(foundTVShow);
-            tvShowsData.add(newData);
+            if (existingTVShow == null) 
+            {
+                //exception
+            }
+
+            TVSeason newData = new TVSeason(primaryKey, editedExistingData);
+            
+            tvSeasonsData.remove(foundTVSeason);
+            tvSeasonsData.add(newData);
         }
         
         return areDataSame;
     }
 
-    @Override
-    public TVSeason getBy(PrimaryKey primaryKey) 
+    public @Override TVSeason getBy(PrimaryKey primaryKey) 
     {
         Optional<TVSeason> tvSeason = tvSeasonsData.stream().filter(season -> 
-                primaryKey.equals(season.getPrimaryKey())).findFirst();
+                season.getPrimaryKey().equals(primaryKey)).findFirst();
         
         if (tvSeason.isEmpty()) 
         {
@@ -94,21 +155,18 @@ public final class TVSeasonsTable implements IDataTable<TVSeason>
         return tvSeason.get();
     }
 
-    @Override
-    public List<TVSeason> getAll() 
+    public @Override List<TVSeason> getAll() 
     {
         List<TVSeason> tvSeasonsCopy = new ArrayList<>(tvSeasonsData);
         return tvSeasonsCopy;
     }
 
-    @Override
-    public List<TVSeason> filterBy(Predicate<TVSeason> condition) 
+    public @Override List<TVSeason> filterBy(Predicate<TVSeason> condition) 
     {
         return tvSeasonsData.stream().filter(condition).collect(Collectors.toList());
     }
 
-    @Override
-    public void sortBy(Comparator<TVSeason> comparator, List<TVSeason> sourceList) 
+    public @Override void sortBy(Comparator<TVSeason> comparator, List<TVSeason> sourceList) 
     {
         Collections.sort(sourceList, comparator);
     }

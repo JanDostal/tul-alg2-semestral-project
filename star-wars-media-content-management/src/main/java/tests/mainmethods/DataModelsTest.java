@@ -91,6 +91,10 @@ public class DataModelsTest {
         Movie movieNull = new Movie(null, null, null, 2, true, "", "  ", null, null);
         System.out.println(movieNull);
         
+        TVSeason tvSeasonNull = new TVSeason(null, 5, null);
+        System.out.println(tvSeasonNull);
+
+        
         //tvShow equality test
         System.out.println();
         System.out.println("tvShow equality test");
