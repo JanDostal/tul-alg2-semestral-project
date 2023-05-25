@@ -32,7 +32,7 @@ public class TVSeason extends DatabaseRecord
     
     public @Override int hashCode() 
     {                
-        return Objects.hash(super.hashCode(), name, releaseDate, era);
+        return Objects.hash(super.hashCode(), orderInTVShow, tvShowForeignKey);
     }
 
     public @Override boolean equals(Object obj) 
@@ -44,13 +44,13 @@ public class TVSeason extends DatabaseRecord
                 
         final TVSeason other = (TVSeason) obj;
         
-        if (orderInTVShow != other.orderInTVShow ||
-                Objects.equals(releaseDate, other.releaseDate) == false) 
+        if (orderInTVShow != other.orderInTVShow || 
+                Objects.equals(tvShowForeignKey, other.tvShowForeignKey) == false) 
         {
             return false;
         }
         
-        return Objects.equals(era, other.era);
+        return true;
     }
     
     public @Override String toString() 

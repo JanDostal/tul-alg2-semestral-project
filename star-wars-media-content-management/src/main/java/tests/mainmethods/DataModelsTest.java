@@ -31,8 +31,8 @@ public class DataModelsTest {
                 LocalDate.parse("2023-05-13", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
                 
         System.out.println(filmA);
-        System.out.println("filmB.releaseDate: " + filmB.getReleaseDate());
-        System.out.println("filmB.era: " + filmB.getEra());
+        System.out.println("filmB.releaseDate (should be 2023-05-13): " + filmB.getReleaseDate());
+        System.out.println("filmB.era (should be THE_NEW_REPUBLIC): " + filmB.getEra());
         System.out.println(filmB);
         
         //era test
@@ -40,8 +40,8 @@ public class DataModelsTest {
         System.out.println("era test");
         System.out.println();
         
-        System.out.println("defaultName: " + Era.FALL_OF_THE_JEDI);
-        System.out.println("displayName: " + Era.FALL_OF_THE_JEDI.getDisplayName());
+        System.out.println("defaultName (should be FALL_OF_THE_JEDI): " + Era.FALL_OF_THE_JEDI);
+        System.out.println("displayName (should be Pád Jediů): " + Era.FALL_OF_THE_JEDI.getDisplayName());
         
         //tvShow test
         System.out.println();
@@ -73,8 +73,8 @@ public class DataModelsTest {
                 60, true, "https://www.example02.com", "Velmi špatná epizoda", 3, season.getTVShowForeignKey());
                 
         System.out.println(episodeA);
-        System.out.println("episodeB.orderIntTVShowSeason: " + episodeB.getOrderInTVShowSeason());
-        System.out.println("episodeB.tvSeasonForeignKey: " + episodeB.getTVSeasonForeignKey());
+        System.out.println("episodeB.orderIntTVShowSeason (should be 3): " + episodeB.getOrderInTVShowSeason());
+        System.out.println("episodeB.tvSeasonForeignKey (should be PrimaryKey{id=1}): " + episodeB.getTVSeasonForeignKey());
         System.out.println(episodeB);
         
         //null data attributes test
@@ -102,35 +102,28 @@ public class DataModelsTest {
         
         TVShow show02 = show01;
         
-        System.out.println("is same reference: show01 == show02: " + show01.equals(show02));
+        System.out.println("is same reference (should be true): show01 == show02: " + show01.equals(show02));
         
         //instances originating from same class
         Movie movie01 = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "filmA", 
                 50, false, "https://www.example01.com", "Velmi krásný film", 
                 LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
-        System.out.println("are instances from same class: show01 == movie01: " + show01.equals(movie01));
+        System.out.println("are instances from same class (should be false): show01 == movie01: " + show01.equals(movie01));
         
         
         //same data
-        TVShow show03 = new TVShow(new PrimaryKey(10), "show2", LocalDate.parse("2023-05-20", 
-                DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
+        TVShow show03 = new TVShow(new PrimaryKey(10), "show1", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
         
-        System.out.println("are same data: show01 == show03: " + show01.equals(show03));
+        System.out.println("are same data (should be true): show01 == show03: " + show01.equals(show03));
         
         //comparison if method decides origin of instances from data type or instances themselves
         TVShow show04 = new TVShow(new PrimaryKey(10), "show1", LocalDate.parse("2023-05-20", 
                 DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
         DatabaseRecord show05 = show04;
         
-        if (show01.equals(show05) == true) 
-        {
-            System.out.println("Instances show01 and show05 are compared by instances");
-        }
-        else 
-        {
-            System.out.println("Instances show01 and show05 are compared by data types");
-        }
+        System.out.println("Instances show01 and show05 are compared by instances (should be true): " + show01.equals(show05));
 
         //PrimaryKey equality test
         
@@ -143,19 +136,43 @@ public class DataModelsTest {
         
         PrimaryKey k2 = k1;
         
-        System.out.println("is same reference: k1 == k2: " + k1.equals(k2));
+        System.out.println("is same reference (should be true): k1 == k2: " + k1.equals(k2));
         
         //instances originating from same class
         Movie m1 = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "filmA", 
                 50, false, "https://www.example01.com", "Velmi krásný film", 
                 LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
-        System.out.println("are instances from same class: k1 == m1: " + k1.equals(m1));
+        System.out.println("are instances from same class (should be false): k1 == m1: " + k1.equals(m1));
         
         
         //same data
         PrimaryKey k3 = new PrimaryKey(1);
         
-        System.out.println("are same data: k1 == k3: " + k1.equals(k3));
+        System.out.println("are same data (should be true): k1 == k3: " + k1.equals(k3));
+        
+        //tvSeason equality test
+        System.out.println();
+        System.out.println("tvSeason equality test");
+        System.out.println();
+        
+        //same reference
+        TVShow referenceTVShow = new TVShow(new PrimaryKey(10), "show1", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
+        TVSeason season01 = new TVSeason(new PrimaryKey(222), 2, referenceTVShow.getPrimaryKey());
+        
+        TVSeason season02 = season01;
+        
+        System.out.println("is same reference (should be true): season01 == season02: " + season01.equals(season02));
+        
+        //instances originating from same class
+       
+        System.out.println("are instances from same class (should be false): season01 == referenceTVShow: " 
+                + season01.equals(referenceTVShow));
+        
+        //same data
+        TVSeason season03 = new TVSeason(new PrimaryKey(222), 2, referenceTVShow.getPrimaryKey());
+        
+        System.out.println("are same data (should be true): season01 == season03: " + season01.equals(season03));
     }
 }
