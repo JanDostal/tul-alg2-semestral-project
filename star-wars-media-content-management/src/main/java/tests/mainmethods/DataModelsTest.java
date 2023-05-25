@@ -82,13 +82,13 @@ public class DataModelsTest {
         System.out.println("null data attributes test");
         System.out.println();
         
-        TVShow showNull = new TVShow(null, null, null, null);
+        TVShow showNull = new TVShow(null, "   ", null, null);
         System.out.println(showNull);
         
-        MediaContent episodeNull = new TVEpisode(null, null, null, 2, true, null, null, 2, null);
+        MediaContent episodeNull = new TVEpisode(null, null, "   ", 2, true, "", null, 2, null);
         System.out.println(episodeNull);
         
-        Movie movieNull = new Movie(null, null, null, 2, true, null, null, null, null);
+        Movie movieNull = new Movie(null, null, null, 2, true, "", "  ", null, null);
         System.out.println(movieNull);
         
         //tvShow equality test
@@ -130,6 +130,32 @@ public class DataModelsTest {
         else 
         {
             System.out.println("Instances show01 and show05 are compared by data types");
-        }        
+        }
+
+        //PrimaryKey equality test
+        
+        System.out.println();
+        System.out.println("PrimaryKey equality test");
+        System.out.println();
+        
+        //same reference
+        PrimaryKey k1 = new PrimaryKey(1);
+        
+        PrimaryKey k2 = k1;
+        
+        System.out.println("is same reference: k1 == k2: " + k1.equals(k2));
+        
+        //instances originating from same class
+        Movie m1 = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "filmA", 
+                50, false, "https://www.example01.com", "Velmi krásný film", 
+                LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
+        
+        System.out.println("are instances from same class: k1 == m1: " + k1.equals(m1));
+        
+        
+        //same data
+        PrimaryKey k3 = new PrimaryKey(1);
+        
+        System.out.println("are same data: k1 == k3: " + k1.equals(k3));
     }
 }
