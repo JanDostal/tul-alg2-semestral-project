@@ -17,7 +17,7 @@ import utils.interfaces.IDataTable;
  *
  * @author jan.dostal
  */
-public class TVShowsTable implements IDataTable<TVShow>
+public final class TVShowsTable implements IDataTable<TVShow>
 {
     private static TVShowsTable tvShowsTable;
     
@@ -31,7 +31,7 @@ public class TVShowsTable implements IDataTable<TVShow>
         primaryKeysGenerator = new Random();
     }
     
-    public static TVShowsTable getInstance() 
+    protected static TVShowsTable getInstance() 
     {
         if (tvShowsTable == null) 
         {
@@ -93,17 +93,17 @@ public class TVShowsTable implements IDataTable<TVShow>
         tvShowsData.remove(foundTVShow);
     }
 
-    public @Override boolean editBy(PrimaryKey primaryKey, TVShow inputData) 
+    public @Override boolean editBy(PrimaryKey primaryKey, TVShow editedExistingData) 
     {
         TVShow foundTVShow = getBy(primaryKey);
         
-        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
-        
-        boolean areDataSame = foundTVShow.equals(inputData);
+        boolean areDataSame = foundTVShow.equals(editedExistingData);
         
         if (areDataSame == false) 
         {
-            TVShow newData = new TVShow(primaryKey, inputData);
+            //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+            
+            TVShow newData = new TVShow(primaryKey, editedExistingData);
             
             tvShowsData.remove(foundTVShow);
             tvShowsData.add(newData);
@@ -114,8 +114,8 @@ public class TVShowsTable implements IDataTable<TVShow>
 
     public @Override TVShow getBy(PrimaryKey primaryKey) 
     {
-        Optional<TVShow> tvShow = tvShowsData.stream().filter(show -> show.getPrimaryKey().getId() 
-                == primaryKey.getId()).findFirst();
+        Optional<TVShow> tvShow = tvShowsData.stream().filter(show -> 
+                primaryKey.equals(show.getPrimaryKey())).findFirst();
         
         if (tvShow.isEmpty()) 
         {

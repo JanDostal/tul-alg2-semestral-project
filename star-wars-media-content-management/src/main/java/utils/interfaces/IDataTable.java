@@ -16,7 +16,7 @@ public interface IDataTable<T extends DatabaseRecord>
     T addFrom(T inputData);
     void loadFrom(T outputData);
     void deleteBy(PrimaryKey primaryKey);
-    boolean editBy(PrimaryKey primaryKey, T inputData);
+    boolean editBy(PrimaryKey primaryKey, T editedExistingData);
     T getBy(PrimaryKey primaryKey);
     List<T> getAll();
     List<T> filterBy(Predicate<T> condition);

@@ -12,7 +12,7 @@ import utils.interfaces.IDataTable;
  *
  * @author jan.dostal
  */
-public class MoviesTable implements IDataTable<Movie>
+public final class MoviesTable implements IDataTable<Movie>
 {
     @Override
     public Movie addFrom(Movie inputData) {
@@ -30,7 +30,7 @@ public class MoviesTable implements IDataTable<Movie>
     }
 
     @Override
-    public boolean editBy(PrimaryKey primaryKey, Movie inputData) {
+    public boolean editBy(PrimaryKey primaryKey, Movie editedExistingData) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

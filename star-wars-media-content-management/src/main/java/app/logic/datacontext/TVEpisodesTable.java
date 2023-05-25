@@ -12,7 +12,7 @@ import utils.interfaces.IDataTable;
  *
  * @author jan.dostal
  */
-public class TVEpisodesTable implements IDataTable<TVEpisode>
+public final class TVEpisodesTable implements IDataTable<TVEpisode>
 {
 
     @Override
@@ -31,7 +31,7 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
     }
 
     @Override
-    public boolean editBy(PrimaryKey primaryKey, TVEpisode inputData) {
+    public boolean editBy(PrimaryKey primaryKey, TVEpisode editedExistingData) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
