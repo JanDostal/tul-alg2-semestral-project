@@ -7,7 +7,7 @@ import java.util.Objects;
  *
  * @author Admin
  */
-public abstract class DatabaseRecord 
+public abstract class DatabaseRecord implements Comparable<DatabaseRecord>
 {
     private PrimaryKey primaryKey;
     
@@ -41,5 +41,16 @@ public abstract class DatabaseRecord
     public @Override int hashCode() 
     {
         return super.hashCode();
+    }
+
+    public @Override int compareTo(DatabaseRecord o) 
+    {
+        return this.primaryKey.getId() - o.primaryKey.getId();
+    }
+    
+    public @Override String toString() 
+    {
+        return String.format("%s{primaryKey=%s", this.getClass().getSimpleName(), 
+                primaryKey);
     }
 }

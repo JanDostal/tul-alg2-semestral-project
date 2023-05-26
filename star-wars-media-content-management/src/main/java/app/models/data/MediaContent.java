@@ -64,14 +64,7 @@ public abstract class MediaContent extends DatabaseRecord
     {
         return shortContentSummary;
     }
-    
-    protected String getSubclassInstanceTypeName() 
-    {
-        return this.getClass().getSimpleName();
-    }
-    
-    protected abstract String getSubclassInstanceDataAttributesValues();
-    
+            
     public @Override int hashCode() 
     {                
         return Objects.hash(super.hashCode());
@@ -87,10 +80,8 @@ public abstract class MediaContent extends DatabaseRecord
         String runtimeText = runtime == null ? null : String.format("%02d:%02d:%02d", runtime.toHours(), 
                 runtime.toMinutesPart(), runtime.toSecondsPart());
         
-        return getSubclassInstanceTypeName() + "{primaryKey=" + getPrimaryKey() + ", runtime=" + 
-                runtimeText + ", name=" + name + ", percentageRating=" +
-                percentageRating + ", wasWatched=" + wasWatched +
-                ", hyperlinkForContentWatch=" + hyperlinkForContentWatch + 
-                getSubclassInstanceDataAttributesValues() + "}";
+        return super.toString() + 
+                String.format(", runtime=%s, name=%s, percentageRating=%d, wasWatched=%s, hyperlinkForContentWatch=%s", 
+                        runtimeText, name, percentageRating, wasWatched, hyperlinkForContentWatch);
     }
 }

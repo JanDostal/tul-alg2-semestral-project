@@ -44,7 +44,7 @@ public class TVSeasonOutput
     
     public @Override String toString() 
     {
-        return "TVSeasonOutput{id=" + id + ", orderInTVShow=" + orderInTVShow + 
-                ", tvShowId=" + tvShowId + "}";    
+        return String.format("TVSeasonOutput{id=%d, orderInTVShow=%d, tvShowId=%d}", 
+                id, orderInTVShow, tvShowId);
     }
 }

@@ -17,7 +17,7 @@ import utils.interfaces.IDataTable;
  *
  * @author jan.dostal
  */
-public final class MoviesTable implements IDataTable<Movie>
+public class MoviesTable implements IDataTable<Movie>
 {
     private static IDataTable<Movie> moviesTable;
     
@@ -161,6 +161,11 @@ public final class MoviesTable implements IDataTable<Movie>
     public @Override void sortBy(Comparator<Movie> comparator, List<Movie> sourceList) 
     {
         Collections.sort(sourceList, comparator);
+    }
+    
+    public @Override void sortByPrimaryKey(List<Movie> sourceList) 
+    {
+        Collections.sort(sourceList);
     }
     
     private PrimaryKey generatePrimaryKey() 

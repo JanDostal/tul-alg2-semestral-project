@@ -54,8 +54,8 @@ public class TVSeason extends DatabaseRecord
     }
     
     public @Override String toString() 
-    {
-        return "TVSeason{primaryKey=" + getPrimaryKey() + ", orderInTVShow=" + orderInTVShow + 
-                ", tvShowForeignKey=" + tvShowForeignKey + "}";
+    {        
+        return super.toString() + String.format(", orderInTVShow=%d, tvShowForeignKey=%s}", 
+                orderInTVShow, tvShowForeignKey);
     }
 }

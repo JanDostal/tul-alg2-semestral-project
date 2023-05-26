@@ -21,6 +21,6 @@ public class TVSeasonInput
     
     public @Override String toString() 
     {
-        return "TVSeasonInput{orderInTVShow=" + orderInTVShow + "}";
+        return String.format("TVSeasonInput{orderInTVShow=%d}", orderInTVShow);
     }
 }

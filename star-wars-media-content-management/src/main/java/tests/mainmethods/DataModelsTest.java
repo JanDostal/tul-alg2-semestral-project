@@ -42,6 +42,15 @@ public class DataModelsTest {
         
         System.out.println("defaultName (should be FALL_OF_THE_JEDI): " + Era.FALL_OF_THE_JEDI);
         System.out.println("displayName (should be Pád Jediů): " + Era.FALL_OF_THE_JEDI.getDisplayName());
+        System.out.println("description (mělo by se umět vypsat víceřádkově): \n" +
+                Era.FALL_OF_THE_JEDI.getDescription());
+        
+        System.out.println("era list (nejstarší DAWN_OF_THE_JEDI, nejnovější NEW_JEDI_ORDER)");
+        
+        for (Era era : Era.values()) 
+        {
+            System.out.println(era);
+        }
         
         //tvShow test
         System.out.println();

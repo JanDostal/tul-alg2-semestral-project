@@ -70,10 +70,11 @@ public class TVEpisodeInput
     }
     
     public @Override String toString() 
-    {       
-        return "TVEpisodeInput{runtimeInSeconds=" + runtimeInSeconds + ", name=" + name + 
-                ", percentageRating=" + percentageRating + ", wasWatched=" + wasWatched +
-                ", hyperlinkForContentWatch=" + hyperlinkForContentWatch + 
-                ", orderInTVShowSeason=" + orderInTVShowSeason + "}";
+    {
+        return String.format("TVEpisodeInput{runtimeInSeconds=%d, name=%s, "
+                + "percentageRating=%d, wasWatched=%s, hyperlinkForContentWatch=%s, "
+                + "orderInTVShowSeason=%d}", runtimeInSeconds, name,
+                percentageRating, wasWatched, hyperlinkForContentWatch, 
+                orderInTVShowSeason);
     }
 }

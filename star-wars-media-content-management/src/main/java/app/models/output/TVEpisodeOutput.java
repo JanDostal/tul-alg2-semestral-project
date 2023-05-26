@@ -116,10 +116,10 @@ public class TVEpisodeOutput
         String nameText = name == null ? null : new String(name);
         String hyperlinkText = hyperlinkForContentWatch == null ? null : new String(hyperlinkForContentWatch);
         
-        return "TVEpisodeOutput{id=" + id + ", runtimeInSeconds=" + runtimeInSeconds + ", name=" + nameText + 
-                ", percentageRating=" + percentageRating + ", wasWatched=" + wasWatched +
-                ", hyperlinkForContentWatch=" + hyperlinkText + 
-                ", orderInTVShowSeason=" + orderInTVShowSeason + ", tvSeasonId=" +
-                tvSeasonId + "}";
+        return String.format("TVEpisodeOutput{id=%d, runtimeInSeconds=%d, name=%s, "
+                + "percentageRating=%d, wasWatched=%s, hyperlinkForContentWatch=%s, "
+                + "orderInTVShowSeason=%d, tvSeasonId=%d}", id, runtimeInSeconds,
+                nameText, percentageRating, wasWatched, hyperlinkText, 
+                orderInTVShowSeason, tvSeasonId);
     }
 }

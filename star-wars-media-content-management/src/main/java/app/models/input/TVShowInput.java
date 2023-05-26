@@ -37,7 +37,7 @@ public class TVShowInput
     
     public @Override String toString() 
     {
-        return "TVShowInput{name=" + name + ", releaseDateInEpochSeconds=" + 
-                releaseDateInEpochSeconds + ", era=" + era + "}";
+        return String.format("TVShowInput{name=%s, releaseDateInEpochSeconds=%d, "
+                + "era=%s}", name, releaseDateInEpochSeconds, era);
     }
 }

@@ -45,6 +45,6 @@ public class PrimaryKey
 
     public @Override String toString() 
     {
-        return "PrimaryKey{" + "id=" + id + '}';
+        return String.format("PrimaryKey{id=%d}", id);
     }
 }

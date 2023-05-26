@@ -1,6 +1,8 @@
 
 package app.models.data;
 
+import app.logic.datastore.DataStore;
+
 /**
  *
  * @author jan.dostal
@@ -19,13 +21,21 @@ public enum Era
     
     private String displayName;
     
+    private String description;
+    
     private Era(String displayName) 
     {
         this.displayName = displayName;
+        this.description = DataStore.loadEraDescription(this.toString());
     }
     
     public String getDisplayName() 
     {
         return displayName;
+    }
+    
+    public String getDescription() 
+    {
+        return description;
     }
 }

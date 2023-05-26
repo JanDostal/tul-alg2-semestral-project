@@ -71,13 +71,14 @@ public class Movie extends MediaContent
         
         return true;
     }
-
-    protected @Override String getSubclassInstanceDataAttributesValues() 
+    
+    public @Override String toString() 
     {
         String releaseDateText = releaseDate == null ? null : 
                 releaseDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
         String eraText = era == null ? null : era.toString();
         
-        return ", releaseDate=" + releaseDateText + ", era=" + eraText;
+        return super.toString() + 
+                String.format(", releaseDate=%s, era=%s}", releaseDateText, eraText);
     }
 }

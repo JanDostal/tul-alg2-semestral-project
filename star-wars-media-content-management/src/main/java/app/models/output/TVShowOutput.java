@@ -60,7 +60,7 @@ public class TVShowOutput
         String nameText = name == null ? null : new String(name);
         String eraText = era == null ? null : new String(era);
         
-        return "TVShowOutput{id=" + id + ", name=" + nameText + ", releaseDateInEpochSeconds=" + 
-                releaseDateInEpochSeconds + ", era=" + eraText + "}";
+        return String.format("TVShowOutput{id=%d, name=%s, releaseDateInEpochSeconds=%d, era=%s}", 
+                id, nameText, releaseDateInEpochSeconds, eraText);
     }
 }

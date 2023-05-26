@@ -78,10 +78,11 @@ public class MovieInput
     }
     
     public @Override String toString() 
-    {       
-        return "MovieInput{runtimeInSeconds=" + runtimeInSeconds + ", name=" + name + 
-                ", percentageRating=" + percentageRating + ", wasWatched=" +
-                wasWatched + ", hyperlinkForContentWatch=" + hyperlinkForContentWatch + 
-                ", releaseDateInEpochSeconds=" + releaseDateInEpochSeconds + ", era=" + era + "}";
+    {
+        return String.format("MovieInput{runtimeInSeconds=%d, name=%s, "
+                + "percentageRating=%d, wasWatched=%s, hyperlinkForContentWatch=%s, "
+                + "releaseDateInEpochSeconds=%d, era=%s}", runtimeInSeconds, name,
+                percentageRating, wasWatched, hyperlinkForContentWatch,
+                releaseDateInEpochSeconds, era);
     }
 }

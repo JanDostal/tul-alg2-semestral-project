@@ -69,10 +69,11 @@ public class TVEpisode extends MediaContent
         
         return true;
     }
-
-    protected @Override String getSubclassInstanceDataAttributesValues() 
+    
+    public @Override String toString() 
     {
-        return ", orderInTVShowSeason=" + orderInTVShowSeason + ", tvSeasonForeignKey=" +
-                tvSeasonForeignKey;
+        return super.toString() + 
+                String.format(", orderInTVShowSeason=%d, tvSeasonForeignKey=%s}", 
+                        orderInTVShowSeason, tvSeasonForeignKey);
     }
 }

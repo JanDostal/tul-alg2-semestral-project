@@ -122,10 +122,10 @@ public class MovieOutput
         String hyperlinkText = hyperlinkForContentWatch == null ? null : new String(hyperlinkForContentWatch);
         String eraText = era == null ? null : new String(era);
         
-        return "MovieOutput{id=" + id + ", runtimeInSeconds=" + runtimeInSeconds + 
-                ", name=" + nameText + ", percentageRating=" + percentageRating + 
-                ", wasWatched=" + wasWatched + ", hyperlinkForContentWatch=" + 
-                hyperlinkText + ", releaseDateInEpochSeconds=" + 
-                releaseDateInEpochSeconds + ", era=" + eraText + "}";
+        return String.format("MovieOutput{id=%d, runtimeInSeconds=%d, name=%s, "
+                + "percentageRating=%d, wasWatched=%s, hyperlinkForContentWatch=%s, "
+                + "releaseDateInEpochSeconds=%d, era=%s}", id, runtimeInSeconds,
+                nameText, percentageRating, wasWatched, hyperlinkText,
+                releaseDateInEpochSeconds, eraText);
     }
 }

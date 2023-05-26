@@ -17,7 +17,7 @@ import utils.interfaces.IDataTable;
  *
  * @author jan.dostal
  */
-public final class TVShowsTable implements IDataTable<TVShow>
+public class TVShowsTable implements IDataTable<TVShow>
 {
     private static IDataTable<TVShow> tvShowsTable;
     
@@ -146,6 +146,11 @@ public final class TVShowsTable implements IDataTable<TVShow>
     public @Override void sortBy(Comparator<TVShow> comparator, List<TVShow> sourceList) 
     {
         Collections.sort(sourceList, comparator);
+    }
+    
+    public @Override void sortByPrimaryKey(List<TVShow> sourceList) 
+    {
+        Collections.sort(sourceList);
     }
     
     private PrimaryKey generatePrimaryKey() 

@@ -69,7 +69,7 @@ public class TVShow extends DatabaseRecord
                 releaseDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
         String eraText = era == null ? null : era.toString();
         
-        return "TVShow{primaryKey=" + getPrimaryKey() + ", name=" + 
-                name + ", releaseDate=" + releaseDateText + ", era=" + eraText + "}";
+        return super.toString() + String.format(", name=%s, releaseDate=%s, era=%s}", 
+                name, releaseDateText, eraText);
     }
 }
