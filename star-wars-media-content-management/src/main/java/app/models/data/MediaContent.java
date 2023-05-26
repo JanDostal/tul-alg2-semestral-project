@@ -2,6 +2,7 @@
 package app.models.data;
 
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  *
@@ -70,6 +71,16 @@ public abstract class MediaContent extends DatabaseRecord
     }
     
     protected abstract String getSubclassInstanceDataAttributesValues();
+    
+    public @Override int hashCode() 
+    {                
+        return Objects.hash(super.hashCode());
+    }
+
+    public @Override boolean equals(Object obj) 
+    {
+        return super.equals(obj);
+    }
     
     public @Override String toString() 
     {

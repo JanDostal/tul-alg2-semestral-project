@@ -20,7 +20,7 @@ import utils.interfaces.IDataTable;
  */
 public final class TVSeasonsTable implements IDataTable<TVSeason>
 {
-    private static TVSeasonsTable tvSeasonsTable;
+    private static IDataTable<TVSeason> tvSeasonsTable;
     
     private List<TVSeason> tvSeasonsData;
     
@@ -35,7 +35,7 @@ public final class TVSeasonsTable implements IDataTable<TVSeason>
         primaryKeysGenerator = new Random();
     }
     
-    protected static TVSeasonsTable getInstance() 
+    protected static IDataTable<TVSeason> getInstance() 
     {
         if (tvSeasonsTable == null) 
         {
@@ -66,7 +66,8 @@ public final class TVSeasonsTable implements IDataTable<TVSeason>
             //exception
         }
         
-        TVSeason newData = new TVSeason(newPrimaryKey, inputData);
+        TVSeason newData = new TVSeason(newPrimaryKey, inputData.getOrderInTVShow(), 
+                inputData.getTVShowForeignKey());
         tvSeasonsData.add(newData);
         
         return newData;
@@ -133,7 +134,8 @@ public final class TVSeasonsTable implements IDataTable<TVSeason>
                 //exception
             }
 
-            TVSeason newData = new TVSeason(primaryKey, editedExistingData);
+            TVSeason newData = new TVSeason(primaryKey, editedExistingData.getOrderInTVShow(), 
+                    editedExistingData.getTVShowForeignKey());
             
             tvSeasonsData.remove(foundTVSeason);
             tvSeasonsData.add(newData);

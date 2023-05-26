@@ -19,7 +19,7 @@ import utils.interfaces.IDataTable;
  */
 public final class TVShowsTable implements IDataTable<TVShow>
 {
-    private static TVShowsTable tvShowsTable;
+    private static IDataTable<TVShow> tvShowsTable;
     
     private List<TVShow> tvShowsData;
     
@@ -31,7 +31,7 @@ public final class TVShowsTable implements IDataTable<TVShow>
         primaryKeysGenerator = new Random();
     }
     
-    protected static TVShowsTable getInstance() 
+    protected static IDataTable<TVShow> getInstance() 
     {
         if (tvShowsTable == null) 
         {
@@ -47,14 +47,15 @@ public final class TVShowsTable implements IDataTable<TVShow>
                 
         PrimaryKey newPrimaryKey = generatePrimaryKey();
         
-        List<TVShow> tvShowWithDuplicateData = filterBy(show -> inputData.equals(show));
+        List<TVShow> tvShowWithDuplicateData = filterBy(show -> show.equals(inputData));
         
         if (tvShowWithDuplicateData.isEmpty() == false) 
         {
             //exception
         }
         
-        TVShow newData = new TVShow(newPrimaryKey, inputData);
+        TVShow newData = new TVShow(newPrimaryKey, inputData.getName(), 
+                inputData.getReleaseDate(), inputData.getEra());
         tvShowsData.add(newData);
         
         return newData;
@@ -71,7 +72,7 @@ public final class TVShowsTable implements IDataTable<TVShow>
             //exception
         }
         
-        List<TVShow> tvShowWithDuplicateData = filterBy(show -> outputData.equals(show));
+        List<TVShow> tvShowWithDuplicateData = filterBy(show -> show.equals(outputData));
         
         if (tvShowWithDuplicateData.isEmpty() == false) 
         {
@@ -108,7 +109,8 @@ public final class TVShowsTable implements IDataTable<TVShow>
         {
             //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
             
-            TVShow newData = new TVShow(primaryKey, editedExistingData);
+            TVShow newData = new TVShow(primaryKey, editedExistingData.getName(), 
+                    editedExistingData.getReleaseDate(), editedExistingData.getEra());
             
             tvShowsData.remove(foundTVShow);
             tvShowsData.add(newData);
@@ -120,7 +122,7 @@ public final class TVShowsTable implements IDataTable<TVShow>
     public @Override TVShow getBy(PrimaryKey primaryKey) 
     {
         Optional<TVShow> tvShow = tvShowsData.stream().filter(show -> 
-                primaryKey.equals(show.getPrimaryKey())).findFirst();
+                show.getPrimaryKey().equals(primaryKey)).findFirst();
         
         if (tvShow.isEmpty()) 
         {

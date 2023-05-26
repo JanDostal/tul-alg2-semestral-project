@@ -19,12 +19,7 @@ public class TVSeason extends DatabaseRecord
         this.orderInTVShow = orderInTVShow;
         this.tvShowForeignKey = tvShowForeignKey;
     }
-    
-    public TVSeason(PrimaryKey primaryKey, TVSeason data) 
-    {
-        this(primaryKey, data.orderInTVShow, data.tvShowForeignKey);
-    }
-        
+            
     public int getOrderInTVShow() 
     {
         return orderInTVShow;

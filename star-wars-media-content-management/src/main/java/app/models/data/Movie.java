@@ -4,6 +4,7 @@ package app.models.data;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  *
@@ -33,6 +34,42 @@ public class Movie extends MediaContent
     public Era getEra() 
     {
         return era;
+    }
+    
+    public @Override int hashCode() 
+    {                
+        return Objects.hash(super.hashCode(), getHyperlinkForContentWatch(), 
+                getShortContentSummary(), getName(), releaseDate);
+    }
+
+    public @Override boolean equals(Object obj) 
+    {
+        if (super.equals(obj) == false) 
+        {
+            return false;
+        }
+        
+        final Movie other = (Movie) obj;
+        
+        if (getHyperlinkForContentWatch() != null && 
+                Objects.equals(getHyperlinkForContentWatch(), other.getHyperlinkForContentWatch()) == true) 
+        {
+            return true;
+        }
+        
+        if (getShortContentSummary() != null && Objects.equals(getShortContentSummary(), 
+                other.getShortContentSummary()) == true) 
+        {
+            return true;
+        }
+        
+        if (Objects.equals(getName(), other.getName()) == false ||
+                Objects.equals(releaseDate, other.releaseDate) == false) 
+        {
+            return false;
+        }
+        
+        return true;
     }
 
     protected @Override String getSubclassInstanceDataAttributesValues() 

@@ -2,6 +2,7 @@
 package app.models.data;
 
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  *
@@ -31,6 +32,42 @@ public class TVEpisode extends MediaContent
     public PrimaryKey getTVSeasonForeignKey() 
     {
         return tvSeasonForeignKey;
+    }
+    
+    public @Override int hashCode() 
+    {                
+        return Objects.hash(super.hashCode(), getHyperlinkForContentWatch(), 
+                getShortContentSummary(), orderInTVShowSeason, tvSeasonForeignKey);
+    }
+
+    public @Override boolean equals(Object obj) 
+    {
+        if (super.equals(obj) == false) 
+        {
+            return false;
+        }
+        
+        final TVEpisode other = (TVEpisode) obj;
+        
+        if (getHyperlinkForContentWatch() != null && 
+                Objects.equals(getHyperlinkForContentWatch(), other.getHyperlinkForContentWatch()) == true) 
+        {
+            return true;
+        }
+        
+        if (getShortContentSummary() != null && Objects.equals(getShortContentSummary(), 
+                other.getShortContentSummary()) == true) 
+        {
+            return true;
+        }
+        
+        if (orderInTVShowSeason != other.orderInTVShowSeason || 
+                Objects.equals(tvSeasonForeignKey, other.tvSeasonForeignKey) == false) 
+        {
+            return false;
+        }
+        
+        return true;
     }
 
     protected @Override String getSubclassInstanceDataAttributesValues() 

@@ -25,11 +25,6 @@ public class TVShow extends DatabaseRecord
         this.era = era;
     }
     
-    public TVShow(PrimaryKey primaryKey, TVShow data) 
-    {
-        this(primaryKey, data.name, data.releaseDate, data.era);
-    }
-
     public String getName() 
     {
         return name;
@@ -47,7 +42,7 @@ public class TVShow extends DatabaseRecord
 
     public @Override int hashCode() 
     {                
-        return Objects.hash(super.hashCode(), name, releaseDate, era);
+        return Objects.hash(super.hashCode(), name, releaseDate);
     }
 
     public @Override boolean equals(Object obj) 
@@ -65,7 +60,7 @@ public class TVShow extends DatabaseRecord
             return false;
         }
         
-        return Objects.equals(era, other.era);
+        return true;
     }
     
     public @Override String toString() 

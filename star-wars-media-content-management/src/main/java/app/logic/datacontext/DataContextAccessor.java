@@ -1,6 +1,7 @@
 
 package app.logic.datacontext;
 
+import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
 import utils.interfaces.IDataTable;
@@ -17,10 +18,13 @@ public class DataContextAccessor
     
     private IDataTable<TVShow> tvShowsTable;
     
+    private IDataTable<TVEpisode> tvEpisodesTable;
+    
     private DataContextAccessor() 
     {
         this.tvSeasonsTable = TVSeasonsTable.getInstance();
         this.tvShowsTable = TVShowsTable.getInstance();
+        this.tvEpisodesTable = TVEpisodesTable.getInstance();   
     }
 
     public IDataTable<TVSeason> getTvSeasonsTable() 
@@ -31,6 +35,11 @@ public class DataContextAccessor
     public IDataTable<TVShow> getTvShowsTable() 
     {
         return tvShowsTable;
+    }
+    
+    public IDataTable<TVEpisode> getTvEpisodesTable() 
+    {
+        return tvEpisodesTable;
     }
     
     public static DataContextAccessor getInstance() 
