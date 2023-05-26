@@ -4,6 +4,7 @@ package app.logic.datacontext;
 import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
+import app.models.data.TVShow;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,24 +46,113 @@ public final class TVEpisodesTable implements IDataTable<TVEpisode>
         return tvEpisodesTable;
     }
     
-    @Override
-    public TVEpisode addFrom(TVEpisode inputData) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public @Override TVEpisode addFrom(TVEpisode inputData) 
+    {
+        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+        
+        TVSeason existingTVSeason = tvSeasonsTable.getBy(inputData.getTVSeasonForeignKey());
+            
+        if (existingTVSeason == null) 
+        {
+            //exception
+        }
+                
+        PrimaryKey newPrimaryKey = generatePrimaryKey();
+        
+        List<TVEpisode> tvEpisodeWithDuplicateData = filterBy(episode -> episode.equals(inputData));
+        
+        if (tvEpisodeWithDuplicateData.isEmpty() == false) 
+        {
+            //exception
+        }
+        
+        TVEpisode newData = new TVEpisode(newPrimaryKey, inputData.getRuntime(), 
+                inputData.getName(), inputData.getPercentageRating(), 
+                inputData.getWasWatched(), 
+                inputData.getHyperlinkForContentWatch(),
+                inputData.getShortContentSummary(),
+                inputData.getOrderInTVShowSeason(),
+                inputData.getTVSeasonForeignKey());
+        
+        tvEpisodesData.add(newData);
+        
+        return newData;
     }
 
-    @Override
-    public void loadFrom(TVEpisode outputData) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public @Override void loadFrom(TVEpisode outputData) 
+    {
+        //porovnavani spravnosti vystupnich dat (pozdeji exceptions)
+        
+        TVEpisode tvEpisodeWithDuplicateKey = getBy(outputData.getPrimaryKey());
+        
+        if (tvEpisodeWithDuplicateKey != null) 
+        {
+            //exception
+        }
+        
+        TVSeason existingTVSeason = tvSeasonsTable.getBy(outputData.getTVSeasonForeignKey());
+            
+        if (existingTVSeason == null) 
+        {
+            //exception
+        }
+        
+        List<TVEpisode> tvEpisodeWithDuplicateData = filterBy(episode -> episode.equals(outputData));
+        
+        if (tvEpisodeWithDuplicateData.isEmpty() == false) 
+        {
+            //exception
+        }
+        
+        tvEpisodesData.add(outputData);
     }
 
-    @Override
-    public void deleteBy(PrimaryKey primaryKey) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public @Override void deleteBy(PrimaryKey primaryKey) 
+    {
+        TVEpisode foundTVEpisode = getBy(primaryKey);
+        
+        if (foundTVEpisode == null) 
+        {
+            //exception
+        }
+        
+        tvEpisodesData.remove(foundTVEpisode);
     }
 
-    @Override
-    public boolean editBy(PrimaryKey primaryKey, TVEpisode editedExistingData) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public @Override boolean editBy(PrimaryKey primaryKey, TVEpisode editedExistingData) 
+    {
+        TVEpisode foundTVEpisode = getBy(primaryKey);
+        
+        if (foundTVEpisode == null) 
+        {
+            //exception
+        }
+                
+        boolean areDataSame = foundTVEpisode.equals(editedExistingData);
+        
+        if (areDataSame == false) 
+        {
+            //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+            TVSeason existingTVSeason = tvSeasonsTable.getBy(editedExistingData.getTVSeasonForeignKey());
+            
+            if (existingTVSeason == null) 
+            {
+                //exception
+            }
+   
+            TVEpisode newData = new TVEpisode(primaryKey, editedExistingData.getRuntime(), 
+                    editedExistingData.getName(), editedExistingData.getPercentageRating(), 
+                    editedExistingData.getWasWatched(), 
+                    editedExistingData.getHyperlinkForContentWatch(),
+                    editedExistingData.getShortContentSummary(),
+                    editedExistingData.getOrderInTVShowSeason(),
+                    editedExistingData.getTVSeasonForeignKey());
+            
+            tvEpisodesData.remove(foundTVEpisode);
+            tvEpisodesData.add(newData);
+        }
+        
+        return areDataSame;
     }
 
     public @Override TVEpisode getBy(PrimaryKey primaryKey) 
