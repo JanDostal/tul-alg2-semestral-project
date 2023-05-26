@@ -1,16 +1,13 @@
 
-package app.models.data;
-
-import java.time.Duration;
-import java.util.Objects;
+package app.models.input;
 
 /**
  *
  * @author jan.dostal
  */
-public abstract class MediaContent extends DatabaseRecord
-{    
-    private Duration runtime;
+public class TVEpisodeInput
+{
+    private long runtimeInSeconds;
     
     private String name;
     
@@ -22,22 +19,24 @@ public abstract class MediaContent extends DatabaseRecord
     
     private String shortContentSummary;
     
-    protected MediaContent(PrimaryKey primaryKey, Duration runtime, String name,
+    private int orderInTVShowSeason;
+    
+    public TVEpisodeInput(long runtimeInSeconds, String name, 
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
-            String shortContentSummary) 
+            String shortContentSummary, int orderInTVShowSeason) 
     {
-        super(primaryKey);
-        this.runtime = runtime;
+        this.runtimeInSeconds = runtimeInSeconds;
         this.name = name;
         this.percentageRating = percentageRating;
         this.wasWatched = wasWatched;
         this.hyperlinkForContentWatch = hyperlinkForContentWatch;
         this.shortContentSummary = shortContentSummary;
+        this.orderInTVShowSeason = orderInTVShowSeason;
     }
-    
-    public Duration getRuntime() 
+            
+    public long getRuntimeInSeconds() 
     {
-        return runtime;
+        return runtimeInSeconds;
     }
 
     public String getName() 
@@ -64,24 +63,18 @@ public abstract class MediaContent extends DatabaseRecord
     {
         return shortContentSummary;
     }
-            
-    public @Override int hashCode() 
-    {                
-        return Objects.hash(super.hashCode());
-    }
 
-    public @Override boolean equals(Object obj) 
+    public int getOrderInTVShowSeason() 
     {
-        return super.equals(obj);
+        return orderInTVShowSeason;
     }
     
     public @Override String toString() 
     {
-        String runtimeText = runtime == null ? null : String.format("%02d:%02d:%02d", runtime.toHours(), 
-                runtime.toMinutesPart(), runtime.toSecondsPart());
-        
-        return super.toString() + 
-                String.format(", runtime=%s, name=%s, percentageRating=%d, wasWatched=%s, hyperlinkForContentWatch=%s", 
-                        runtimeText, name, percentageRating, wasWatched, hyperlinkForContentWatch);
+        return String.format("TVEpisodeInput{runtimeInSeconds=%d, name=%s, "
+                + "percentageRating=%d, wasWatched=%s, hyperlinkForContentWatch=%s, "
+                + "orderInTVShowSeason=%d}", runtimeInSeconds, name,
+                percentageRating, wasWatched, hyperlinkForContentWatch, 
+                orderInTVShowSeason);
     }
 }

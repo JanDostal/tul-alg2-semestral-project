@@ -1,43 +1,61 @@
 
 package app.models.data;
 
+import java.util.Objects;
+
 /**
  *
  * @author jan.dostal
  */
-public class TVSeason 
-{
-    private int id;
-    
+public class TVSeason extends DatabaseRecord
+{    
     private int orderInTVShow;
     
-    private int tvShowId;
+    private PrimaryKey tvShowForeignKey;
         
-    public TVSeason(int id, int orderInTVShow, int tvShowId) 
+    public TVSeason(PrimaryKey primaryKey, int orderInTVShow, PrimaryKey tvShowForeignKey) 
     {
-        this.id = id;
+        super(primaryKey);
         this.orderInTVShow = orderInTVShow;
-        this.tvShowId = tvShowId;
+        this.tvShowForeignKey = tvShowForeignKey;
     }
-    
-    public int getId() 
-    {
-        return id;
-    }
-    
+            
     public int getOrderInTVShow() 
     {
         return orderInTVShow;
     }
     
-    public int getTVShowId() 
+    public PrimaryKey getTVShowForeignKey() 
     {
-        return tvShowId;
+        return tvShowForeignKey;
+    }
+    
+    public @Override int hashCode() 
+    {                
+        return Objects.hash(super.hashCode(), orderInTVShow, tvShowForeignKey);
+    }
+
+    public @Override boolean equals(Object obj) 
+    {
+        if (super.equals(obj) == false) 
+        {
+            return false;
+        }
+                
+        final TVSeason other = (TVSeason) obj;
+        
+        if (orderInTVShow != other.orderInTVShow || 
+                Objects.equals(tvShowForeignKey, other.tvShowForeignKey) == false) 
+        {
+            return false;
+        }
+        
+        return true;
     }
     
     public @Override String toString() 
-    {
-        return "TVSeason{id=" + id + ", orderInTVShow=" + orderInTVShow + 
-                ", tvShowId=" + tvShowId + "}";
+    {        
+        return super.toString() + String.format(", orderInTVShow=%d, tvShowForeignKey=%s}", 
+                orderInTVShow, tvShowForeignKey);
     }
 }

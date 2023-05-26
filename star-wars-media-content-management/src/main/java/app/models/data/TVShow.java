@@ -2,34 +2,29 @@
 package app.models.data;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  *
  * @author jan.dostal
  */
-public class TVShow 
-{
-    private int id;
-    
+public class TVShow extends DatabaseRecord
+{    
     private String name;
     
     private LocalDate releaseDate;
     
     private Era era;
         
-    public TVShow(int id, String name, LocalDate releaseDate, Era era) 
+    public TVShow(PrimaryKey primaryKey, String name, LocalDate releaseDate, Era era) 
     {
-        this.id = id;
+        super(primaryKey);
         this.name = name;
         this.releaseDate = releaseDate;
         this.era = era;
     }
-
-    public int getId() 
-    {
-        return id;
-    }
-
+    
     public String getName() 
     {
         return name;
@@ -44,10 +39,37 @@ public class TVShow
     {
         return era;
     }
+
+    public @Override int hashCode() 
+    {                
+        return Objects.hash(super.hashCode(), name, releaseDate);
+    }
+
+    public @Override boolean equals(Object obj) 
+    {
+        if (super.equals(obj) == false) 
+        {
+            return false;
+        }
+                
+        final TVShow other = (TVShow) obj;
+        
+        if (Objects.equals(name, other.name) == false ||
+                Objects.equals(releaseDate, other.releaseDate) == false) 
+        {
+            return false;
+        }
+        
+        return true;
+    }
     
     public @Override String toString() 
     {
-        return "TVShow{id=" + id + ", name=" + name + ", releaseDate=" + 
-                releaseDate.toString() + ", era=" + era.toString() + "}";
+        String releaseDateText = releaseDate == null ? null : 
+                releaseDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        String eraText = era == null ? null : era.toString();
+        
+        return super.toString() + String.format(", name=%s, releaseDate=%s, era=%s}", 
+                name, releaseDateText, eraText);
     }
 }

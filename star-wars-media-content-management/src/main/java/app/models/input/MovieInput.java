@@ -1,16 +1,13 @@
 
-package app.models.data;
-
-import java.time.Duration;
-import java.util.Objects;
+package app.models.input;
 
 /**
  *
  * @author jan.dostal
  */
-public abstract class MediaContent extends DatabaseRecord
+public class MovieInput
 {    
-    private Duration runtime;
+    private long runtimeInSeconds;
     
     private String name;
     
@@ -22,22 +19,27 @@ public abstract class MediaContent extends DatabaseRecord
     
     private String shortContentSummary;
     
-    protected MediaContent(PrimaryKey primaryKey, Duration runtime, String name,
+    private long releaseDateInEpochSeconds;
+    
+    private String era;
+        
+    public MovieInput(long runtimeInSeconds, String name, 
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
-            String shortContentSummary) 
+            String shortContentSummary, long releaseDateInEpochSeconds, String era) 
     {
-        super(primaryKey);
-        this.runtime = runtime;
+        this.runtimeInSeconds = runtimeInSeconds;
         this.name = name;
         this.percentageRating = percentageRating;
         this.wasWatched = wasWatched;
         this.hyperlinkForContentWatch = hyperlinkForContentWatch;
         this.shortContentSummary = shortContentSummary;
+        this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
+        this.era = era;
     }
-    
-    public Duration getRuntime() 
+        
+    public long getRuntimeInSeconds() 
     {
-        return runtime;
+        return runtimeInSeconds;
     }
 
     public String getName() 
@@ -64,24 +66,23 @@ public abstract class MediaContent extends DatabaseRecord
     {
         return shortContentSummary;
     }
-            
-    public @Override int hashCode() 
-    {                
-        return Objects.hash(super.hashCode());
-    }
-
-    public @Override boolean equals(Object obj) 
+    
+    public long getReleaseDateInEpochSeconds() 
     {
-        return super.equals(obj);
+        return releaseDateInEpochSeconds;
+    }
+    
+    public String getEra() 
+    {
+        return era;
     }
     
     public @Override String toString() 
     {
-        String runtimeText = runtime == null ? null : String.format("%02d:%02d:%02d", runtime.toHours(), 
-                runtime.toMinutesPart(), runtime.toSecondsPart());
-        
-        return super.toString() + 
-                String.format(", runtime=%s, name=%s, percentageRating=%d, wasWatched=%s, hyperlinkForContentWatch=%s", 
-                        runtimeText, name, percentageRating, wasWatched, hyperlinkForContentWatch);
+        return String.format("MovieInput{runtimeInSeconds=%d, name=%s, "
+                + "percentageRating=%d, wasWatched=%s, hyperlinkForContentWatch=%s, "
+                + "releaseDateInEpochSeconds=%d, era=%s}", runtimeInSeconds, name,
+                percentageRating, wasWatched, hyperlinkForContentWatch,
+                releaseDateInEpochSeconds, era);
     }
 }
