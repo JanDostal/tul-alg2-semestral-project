@@ -62,6 +62,11 @@ public class MoviesController
         return m2.getReleaseDate().compareTo(m1.getReleaseDate());
     };
     
+    private final Comparator<Movie> BY_PERCENTAGE_RATING_HIGHEST_MOVIE = (Movie m1, Movie m2) -> 
+    {        
+        return m2.getPercentageRating() - m1.getPercentageRating();
+    };
+    
     private MoviesController(DataContextAccessor dbContext) 
     {
         this.dbContext = dbContext;
@@ -77,42 +82,95 @@ public class MoviesController
         return movieController;
     }
     
-    public List<Movie> getLongestMoviesByEra(Era era) 
+    public List<Movie> getLongestMoviesByEra(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
         
         List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
                 m.getEra() == era && m.getReleaseDate() != null && 
-                        m.getReleaseDate().compareTo(currentDate) <= 0);
+                        m.getReleaseDate().compareTo(currentDate) <= 0 
+                        && m.getWasWatched() == onlyWatched);
         
         dbContext.getMoviesTable().sortBy(BY_LONGEST_DURATION_MOVIE, filteredMovies);
         return filteredMovies;
     }
     
-    public List<Movie> getMoviesByEraInAlphabeticalOrder(Era era) 
+    public List<Movie> getMoviesByEraInAlphabeticalOrder(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
         
         List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
                 m.getEra() == era && m.getReleaseDate() != null && 
-                        m.getReleaseDate().compareTo(currentDate) <= 0);
+                        m.getReleaseDate().compareTo(currentDate) <= 0 
+                        && m.getWasWatched() == onlyWatched);
         
         dbContext.getMoviesTable().sortBy(BY_NAME_ALPHABETICALLY_MOVIE, filteredMovies);
         
         return filteredMovies;
     }
     
-    public List<Movie> getNewestMoviesByEra(Era era) 
+    public List<Movie> getNewestMoviesByEra(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
         
         List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
                 m.getEra() == era && m.getReleaseDate() != null && 
-                        m.getReleaseDate().compareTo(currentDate) <= 0);
+                        m.getReleaseDate().compareTo(currentDate) <= 0 
+                        && m.getWasWatched() == onlyWatched);
         
         dbContext.getMoviesTable().sortBy(BY_DATE_NEWEST_MOVIE, filteredMovies);
         
         return filteredMovies;
+    }
+    
+    public List<Movie> getFavoriteMoviesByEra(Era era) 
+    {
+        LocalDate currentDate = getCurrentDate();
+        
+        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getEra() == era && m.getReleaseDate() != null && 
+                        m.getReleaseDate().compareTo(currentDate) <= 0 
+                        && m.getWasWatched() == true);
+        
+        dbContext.getMoviesTable().sortBy(BY_PERCENTAGE_RATING_HIGHEST_MOVIE, filteredMovies);
+        
+        return filteredMovies;
+    }
+    
+    public List<Movie> getAnnouncedMovies(Era era) 
+    {
+        LocalDate currentDate = getCurrentDate();
+        
+        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getEra() == era && (m.getReleaseDate() == null || 
+                        m.getReleaseDate().compareTo(currentDate) > 0));
+        
+        dbContext.getMoviesTable().sortBy(BY_NAME_ALPHABETICALLY_MOVIE, filteredMovies);
+        
+        return filteredMovies;
+    }
+    
+    public int getAnnouncedMoviesCountByEra(Era era) 
+    {
+        LocalDate currentDate = getCurrentDate();
+        
+        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getEra() == era && (m.getReleaseDate() == null || 
+                        m.getReleaseDate().compareTo(currentDate) > 0));
+                
+        return filteredMovies.size();
+    }
+    
+    public int getMoviesCountByEra(Era era, boolean onlyWatched) 
+    {
+        LocalDate currentDate = getCurrentDate();
+        
+        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getEra() == era && m.getReleaseDate() != null && 
+                        m.getReleaseDate().compareTo(currentDate) <= 0 
+                        && m.getWasWatched() == onlyWatched);
+                
+        return filteredMovies.size();
     }
     
     private static LocalDate getCurrentDate() 

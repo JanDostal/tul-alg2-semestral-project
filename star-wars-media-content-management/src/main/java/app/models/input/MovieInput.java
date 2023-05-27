@@ -13,8 +13,6 @@ public class MovieInput
     
     private int percentageRating;
     
-    private boolean wasWatched;
-    
     private String hyperlinkForContentWatch;
     
     private String shortContentSummary;
@@ -24,13 +22,12 @@ public class MovieInput
     private String era;
         
     public MovieInput(long runtimeInSeconds, String name, 
-            int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
+            int percentageRating, String hyperlinkForContentWatch,
             String shortContentSummary, long releaseDateInEpochSeconds, String era) 
     {
         this.runtimeInSeconds = runtimeInSeconds;
         this.name = name;
         this.percentageRating = percentageRating;
-        this.wasWatched = wasWatched;
         this.hyperlinkForContentWatch = hyperlinkForContentWatch;
         this.shortContentSummary = shortContentSummary;
         this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
@@ -50,11 +47,6 @@ public class MovieInput
     public int getPercentageRating() 
     {
         return percentageRating;
-    }
-
-    public boolean getWasWatched() 
-    {
-        return wasWatched;
     }
 
     public String getHyperlinkForContentWatch() 
@@ -80,9 +72,9 @@ public class MovieInput
     public @Override String toString() 
     {
         return String.format("MovieInput{runtimeInSeconds=%d, name=%s, "
-                + "percentageRating=%d, wasWatched=%s, hyperlinkForContentWatch=%s, "
+                + "percentageRating=%d, hyperlinkForContentWatch=%s, "
                 + "releaseDateInEpochSeconds=%d, era=%s}", runtimeInSeconds, name,
-                percentageRating, wasWatched, hyperlinkForContentWatch,
+                percentageRating, hyperlinkForContentWatch,
                 releaseDateInEpochSeconds, era);
     }
 }

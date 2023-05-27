@@ -36,14 +36,14 @@ public class MoviesControllerTest
                 LocalDate.parse("2023-05-16", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
         
         Movie movieB = new Movie(new PrimaryKey(4), Duration.ofMinutes(200), "Hvězdička", 
-                60, true, "https://www.example02.com", "B", 
+                40, true, "https://www.example02.com", "B", 
                 LocalDate.parse("2023-05-15", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
         Movie movieC = new Movie(new PrimaryKey(5), null, "movieC", 
-                60, true, "https://www.example03.com", "C", null, Era.FALL_OF_THE_JEDI);
+                60, false, null, null, null, Era.FALL_OF_THE_JEDI);
         
         Movie movieD = new Movie(new PrimaryKey(8), Duration.ofMinutes(300), "movieD", 
-                60, true, "https://www.example04.com", "D", 
+                60, false, null, null, 
                 LocalDate.parse("2025-05-14", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
         
@@ -51,11 +51,21 @@ public class MoviesControllerTest
                 60, true, null, null, 
                 LocalDate.parse("2023-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
+        Movie movieF = new Movie(new PrimaryKey(11), null, "movieF", 
+                2, false, null, null, 
+                LocalDate.parse("2025-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
+        
+        Movie movieG = new Movie(new PrimaryKey(12), null, "movieG", 
+                2, false, null, null, 
+                null, Era.FALL_OF_THE_JEDI);
+        
         moviesTable.loadFrom(movieA);
         moviesTable.loadFrom(movieB);
         moviesTable.loadFrom(movieC);
         moviesTable.loadFrom(movieD);
         moviesTable.loadFrom(movieE);
+        moviesTable.loadFrom(movieF);
+        moviesTable.loadFrom(movieG);
         
         System.out.println();
         System.out.println("Kontrolni vypis:");
@@ -69,7 +79,7 @@ public class MoviesControllerTest
         }
 
         //getLongestMoviesByEra method
-        List<Movie> getLongestMoviesByEra_result = controller.getLongestMoviesByEra(Era.FALL_OF_THE_JEDI);
+        List<Movie> getLongestMoviesByEra_result = controller.getLongestMoviesByEra(Era.FALL_OF_THE_JEDI, true);
         
         System.out.println();
         System.out.println("getLongestMoviesByEra method:");
@@ -85,7 +95,7 @@ public class MoviesControllerTest
         System.out.println("getMoviesByEraInAlphabeticalOrder method:");
         System.out.println();
         List<Movie> getMoviesByEraInAlphabeticalOrder_result = 
-                controller.getMoviesByEraInAlphabeticalOrder(Era.FALL_OF_THE_JEDI);
+                controller.getMoviesByEraInAlphabeticalOrder(Era.FALL_OF_THE_JEDI, true);
                 
         for (Movie m : getMoviesByEraInAlphabeticalOrder_result) 
         {
@@ -97,12 +107,56 @@ public class MoviesControllerTest
         System.out.println("getNewestMoviesByEra method:");
         System.out.println();
         List<Movie> getNewestMoviesByEra_result = 
-                controller.getNewestMoviesByEra(Era.FALL_OF_THE_JEDI);
+                controller.getNewestMoviesByEra(Era.FALL_OF_THE_JEDI, true);
         
         
         for (Movie m : getNewestMoviesByEra_result) 
         {
             System.out.println(m);
         }
+        
+        //getFavoriteMoviesByEra method
+        System.out.println();
+        System.out.println("getFavoriteMoviesByEra method:");
+        System.out.println();
+        List<Movie> getFavoriteMoviesByEra_result = 
+                controller.getFavoriteMoviesByEra(Era.FALL_OF_THE_JEDI);
+        
+        
+        for (Movie m : getFavoriteMoviesByEra_result) 
+        {
+            System.out.println(m);
+        }
+        
+        //getAnnouncedMovies method
+        System.out.println();
+        System.out.println("getAnnouncedMovies method:");
+        System.out.println();
+        List<Movie> getAnnouncedMovies_result = 
+                controller.getAnnouncedMovies(Era.FALL_OF_THE_JEDI);
+        
+        
+        for (Movie m : getAnnouncedMovies_result) 
+        {
+            System.out.println(m);
+        }
+        
+        //getAnnouncedMoviesCountByEra method
+        System.out.println();
+        System.out.println("getAnnouncedMoviesCountByEra method:");
+        System.out.println();
+        int getAnnouncedMoviesCountByEra_result = 
+                controller.getAnnouncedMoviesCountByEra(Era.FALL_OF_THE_JEDI);
+        
+        System.out.println("počet: " + getAnnouncedMoviesCountByEra_result);
+        
+        //getMoviesCountByEra method
+        System.out.println();
+        System.out.println("getMoviesCountByEra method:");
+        System.out.println();
+        int getMoviesCountByEra_result = 
+                controller.getMoviesCountByEra(Era.FALL_OF_THE_JEDI, true);
+        
+        System.out.println("počet: " + getMoviesCountByEra_result);
     }
 }
