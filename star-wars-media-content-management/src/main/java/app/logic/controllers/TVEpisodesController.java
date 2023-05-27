@@ -5,6 +5,7 @@ import app.logic.datacontext.DataContextAccessor;
 import app.logic.datastore.DataStore;
 import app.models.data.Era;
 import app.models.data.Movie;
+import app.models.data.TVShow;
 import java.text.Collator;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -41,7 +42,7 @@ public class TVEpisodesController
         return m2.getRuntime().compareTo(m1.getRuntime());
     };
 
-    private final Comparator<Movie> BY_NAME_ALPHABETICALLY_MOVIE = (Movie m1, Movie m2) -> 
+    private final Comparator<TVShow> BY_NAME_ALPHABETICALLY_SHOW = (TVShow m1, TVShow m2) -> 
             czechCollator.compare(m1.getName(), m2.getName());
     
     private final Comparator<Movie> BY_DATE_NEWEST_MOVIE = (Movie m1, Movie m2) -> 
@@ -137,17 +138,17 @@ public class TVEpisodesController
         return filteredMovies;
     }
     
-    public List<Movie> getAnnouncedMovies(Era era) 
+    public List<TVShow> getAnnouncedTVShows(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
         
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getEra() == era && (m.getReleaseDate() == null || 
-                        m.getReleaseDate().compareTo(currentDate) > 0));
+        List<TVShow> filteredTVShows = dbContext.getTVShowsTable().filterBy(s -> 
+                s.getEra() == era && (s.getReleaseDate() == null || 
+                        s.getReleaseDate().compareTo(currentDate) > 0));
         
-        dbContext.getMoviesTable().sortBy(BY_NAME_ALPHABETICALLY_MOVIE, filteredMovies);
+        dbContext.getTVShowsTable().sortBy(BY_NAME_ALPHABETICALLY_SHOW, filteredTVShows);
         
-        return filteredMovies;
+        return filteredTVShows;
     }
     
     public int getAnnouncedMoviesCountByEra(Era era) 

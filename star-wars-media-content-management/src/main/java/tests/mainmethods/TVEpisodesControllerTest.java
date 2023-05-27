@@ -1,29 +1,12 @@
 
 package tests.mainmethods;
 
-import app.logic.controllers.MoviesController;
-import app.logic.datacontext.DataContextAccessor;
-import app.models.data.Era;
-import app.models.data.Movie;
-import app.models.data.PrimaryKey;
-import app.models.data.TVEpisode;
-import app.models.data.TVSeason;
-import app.models.data.TVShow;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import utils.interfaces.IDataTable;
-
 /**
  *
  * @author Admin
  */
-public class MoviesControllerTest 
+public class TVEpisodesControllerTest 
 {
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) 
     {
         DataContextAccessor dbContext = DataContextAccessor.getInstance();
