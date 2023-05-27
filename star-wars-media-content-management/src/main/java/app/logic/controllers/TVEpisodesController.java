@@ -10,12 +10,15 @@ import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
 import java.text.Collator;
+import java.text.Normalizer;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -49,6 +52,24 @@ public class TVEpisodesController
 
     private final Comparator<TVShow> BY_NAME_ALPHABETICALLY_SHOW = (TVShow m1, TVShow m2) -> 
             czechCollator.compare(m1.getName(), m2.getName());
+    
+    private final Comparator<TVEpisode> 
+            BY_PERCENTAGE_RATING_HIGHEST_EPISODE = (TVEpisode m1, TVEpisode m2) -> 
+    {        
+        return m2.getPercentageRating() - m1.getPercentageRating();
+    };
+    
+    private final Comparator<TVEpisode> 
+            BY_ORDER_ASCENDING_EPISODE = (TVEpisode m1, TVEpisode m2) -> 
+    {        
+        return m1.getOrderInTVShowSeason() - m2.getOrderInTVShowSeason();
+    };
+    
+    private final Comparator<TVSeason> 
+            BY_ORDER_ASCENDING_SEASON = (TVSeason m1, TVSeason m2) -> 
+    {        
+        return m1.getOrderInTVShow()- m2.getOrderInTVShow();
+    };
     
     private TVEpisodesController(DataContextAccessor dbContext) 
     {
@@ -168,6 +189,91 @@ public class TVEpisodesController
         return filteredTVShows.size();
     }
     
+    public List<TVShow> searchForTVShow(String name) 
+    {
+        String normalizedName = Normalizer.normalize(name, Normalizer.Form.NFD)
+                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                    .toLowerCase();
+        
+        String regex = normalizedName;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher("");
+        
+        List<TVShow> foundShows = dbContext.getTVShowsTable().filterBy(show -> 
+        {
+            String normalizedShowName = Normalizer.normalize(show.getName(), Normalizer.Form.NFD)
+                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                    .toLowerCase();
+            matcher.reset(normalizedShowName);
+            return matcher.find();
+        });
+        
+        return foundShows;
+    }
+    
+    public List<TVEpisode> getFavoriteEpisodesFromEntireTVShow(PrimaryKey tvShowPrimaryKey) 
+    {
+        List<TVEpisode> filteredEpisodes = new ArrayList<>();
+        List<TVEpisode> seasonEpisodes;
+        
+        List<TVSeason> showSeasons = dbContext.
+                getTVSeasonsTable().filterBy(s -> s.getTVShowForeignKey().equals(tvShowPrimaryKey));
+        
+        for (TVSeason season : showSeasons) 
+        {
+            seasonEpisodes = dbContext.
+                getTVEpisodesTable().filterBy(e -> 
+                        e.getTVSeasonForeignKey().equals(season.getPrimaryKey()) &&
+                                e.getWasWatched() == true);
+            filteredEpisodes.addAll(seasonEpisodes);
+        }
+                
+        dbContext.getTVEpisodesTable().sortBy(BY_PERCENTAGE_RATING_HIGHEST_EPISODE, filteredEpisodes);
+        
+        return filteredEpisodes;
+    }
+    
+    public List<TVEpisode> getTVShowSeasonEpisodesByOrder(PrimaryKey tvShowSeasonPrimaryKey) 
+    {
+        List<TVEpisode> seasonEpisodes;
+        
+        seasonEpisodes = dbContext.
+                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(tvShowSeasonPrimaryKey));
+        
+        dbContext.getTVEpisodesTable().sortBy(BY_ORDER_ASCENDING_EPISODE, seasonEpisodes);
+        
+        return seasonEpisodes;
+    }
+    
+    public List<TVSeason> getTVShowSeasonsByOrder(PrimaryKey tvShowPrimaryKey) 
+    {
+        List<TVSeason> showSeasons;
+        
+        showSeasons = dbContext.
+                getTVSeasonsTable().filterBy(e -> e.getTVShowForeignKey().equals(tvShowPrimaryKey));
+        
+        dbContext.getTVSeasonsTable().sortBy(BY_ORDER_ASCENDING_SEASON, showSeasons);
+        
+        return showSeasons;
+    }
+    
+    public boolean rateEpisode(TVEpisode existingEpisode, int percentageRating)
+    {
+        TVEpisode newData = new TVEpisode(existingEpisode.getPrimaryKey(), 
+                    existingEpisode.getRuntime(), 
+                    existingEpisode.getName(), 
+                    percentageRating, 
+                    true, 
+                    existingEpisode.getHyperlinkForContentWatch(),
+                    existingEpisode.getShortContentSummary(),
+                    existingEpisode.getOrderInTVShowSeason(),
+                    existingEpisode.getTVSeasonForeignKey());
+        
+        boolean wasDataChanged = dbContext.getTVEpisodesTable().editBy(existingEpisode.getPrimaryKey(), 
+                newData);
+                
+        return wasDataChanged;
+    }
         
     private static LocalDate getCurrentDate() 
     {
