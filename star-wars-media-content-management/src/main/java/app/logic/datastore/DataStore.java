@@ -2,7 +2,9 @@
 package app.logic.datastore;
 
 import app.models.data.Era;
+import java.text.Collator;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -14,6 +16,8 @@ public final class DataStore
     private DataStore()
     {
     }
+    
+    private static Collator czechCollator = Collator.getInstance(new Locale("cs", "CZ"));
     
     private static Map<String, String> erasDescriptions;
     static 
@@ -132,5 +136,10 @@ public final class DataStore
     public static String loadEraDescription(String era) 
     {
         return erasDescriptions.get(era);
+    }
+    
+    public static Collator loadCzechCollator() 
+    {
+        return czechCollator;
     }
 }

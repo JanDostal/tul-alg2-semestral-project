@@ -4,12 +4,15 @@ package tests.mainmethods;
 import app.logic.datacontext.DataContextAccessor;
 import app.models.data.Era;
 import app.models.data.Movie;
+import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import utils.interfaces.IDataTable;
 
@@ -306,5 +309,29 @@ public class DataContextAccessorTest
         {
             System.out.println(s);
         }
+        
+        //s řazením podle primary key s null hodnotami
+        System.out.println();
+        System.out.println("s řazením podle primary key s null hodnotami");
+        System.out.println();
+        
+        List<TVShow> test = new ArrayList<>();
+        
+        test.add(new TVShow(null, "Clone Wars", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.REIGN_OF_THE_EMPIRE));
+        test.add(new TVShow(new PrimaryKey(5),"Clone Wars", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.REIGN_OF_THE_EMPIRE));
+        
+        test.add(new TVShow(null, "Clone Wars", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.REIGN_OF_THE_EMPIRE));
+        test.add(new TVShow(new PrimaryKey(3),"Clone Wars", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.REIGN_OF_THE_EMPIRE));
+        
+        Collections.sort(test);
+        for (TVShow s : test) 
+        {
+            System.out.println(s);
+        }
+        
     }
 }
