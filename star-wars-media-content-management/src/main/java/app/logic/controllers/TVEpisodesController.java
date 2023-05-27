@@ -5,10 +5,15 @@ import app.logic.datacontext.DataContextAccessor;
 import app.logic.datastore.DataStore;
 import app.models.data.Era;
 import app.models.data.Movie;
+import app.models.data.PrimaryKey;
+import app.models.data.TVEpisode;
+import app.models.data.TVSeason;
 import app.models.data.TVShow;
 import java.text.Collator;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -24,7 +29,7 @@ public class TVEpisodesController
     
     private final Collator czechCollator = DataStore.loadCzechCollator();
     
-    private final Comparator<Movie> BY_LONGEST_DURATION_MOVIE = (Movie m1, Movie m2) -> 
+    private final Comparator<TVEpisode> BY_LONGEST_DURATION_EPISODE = (TVEpisode m1, TVEpisode m2) -> 
     {
         if (m1.getRuntime() == null && m2.getRuntime() == null) 
         {
@@ -45,29 +50,6 @@ public class TVEpisodesController
     private final Comparator<TVShow> BY_NAME_ALPHABETICALLY_SHOW = (TVShow m1, TVShow m2) -> 
             czechCollator.compare(m1.getName(), m2.getName());
     
-    private final Comparator<Movie> BY_DATE_NEWEST_MOVIE = (Movie m1, Movie m2) -> 
-    {
-        if (m1.getReleaseDate() == null && m2.getReleaseDate() == null) 
-        {
-            return 0;
-        } 
-        else if (m1.getReleaseDate() == null) 
-        {
-            return 1;
-        } 
-        else if (m2.getReleaseDate() == null) 
-        {
-            return -1;
-        }
-        
-        return m2.getReleaseDate().compareTo(m1.getReleaseDate());
-    };
-    
-    private final Comparator<Movie> BY_PERCENTAGE_RATING_HIGHEST_MOVIE = (Movie m1, Movie m2) -> 
-    {        
-        return m2.getPercentageRating() - m1.getPercentageRating();
-    };
-    
     private TVEpisodesController(DataContextAccessor dbContext) 
     {
         this.dbContext = dbContext;
@@ -83,59 +65,87 @@ public class TVEpisodesController
         return tvEpisodesController;
     }
     
-    public List<Movie> getLongestMoviesByEra(Era era, boolean onlyWatched) 
+    public List<TVShow> getLongestTVShowsByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
+        List<TVSeason> showSeasons;
+        List<TVEpisode> seasonEpisodes;
         
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getEra() == era && m.getReleaseDate() != null && 
-                        m.getReleaseDate().compareTo(currentDate) <= 0 
-                        && m.getWasWatched() == onlyWatched);
+        List<TVShow> filteredShows = dbContext.getTVShowsTable().filterBy(s -> 
+                s.getEra() == era && s.getReleaseDate() != null && 
+                        s.getReleaseDate().compareTo(currentDate) <= 0);
         
-        dbContext.getMoviesTable().sortBy(BY_LONGEST_DURATION_MOVIE, filteredMovies);
-        return filteredMovies;
+        List<Duration> tvShowsDurations = new ArrayList<>();
+        Duration showDuration;
+        
+        for (TVShow show : filteredShows) 
+        {
+            showDuration = Duration.ZERO;
+            
+            showSeasons = dbContext.
+                getTVSeasonsTable().filterBy(s -> s.getTVShowForeignKey().equals(show.getPrimaryKey()));
+            
+            for (TVSeason season : showSeasons) 
+            {
+                seasonEpisodes = dbContext.
+                getTVEpisodesTable().filterBy(s -> s.getTVSeasonForeignKey().equals(season.getPrimaryKey()));
+                
+                for (TVEpisode episode : seasonEpisodes) 
+                {
+                    if (episode.getRuntime() != null) 
+                    {
+                        showDuration = showDuration.plus(episode.getRuntime());
+                    }
+                }                
+            }
+            
+            tvShowsDurations.add(showDuration);
+        }
+        
+        Comparator s = Comparator.comparingLong(tvShow -> {
+            int index = filteredShows.indexOf(tvShow);
+            if (index >= 0 && index < tvShowsDurations.size()) {
+                Duration duration = tvShowsDurations.get(index);
+                return duration.toSeconds();
+            }
+            return 0;
+        }).reversed();
+        
+        dbContext.getTVShowsTable().sortBy(s, filteredShows);
+        
+            return filteredShows;
     }
     
-    public List<Movie> getMoviesByEraInAlphabeticalOrder(Era era, boolean onlyWatched) 
+    public List<TVEpisode> getTVShowLongestEpisodes(PrimaryKey tvShowPrimaryKey) 
     {
-        LocalDate currentDate = getCurrentDate();
+        List<TVEpisode> foundEpisodes = new ArrayList<>();
+        List<TVEpisode> seasonEpisodes;
         
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getEra() == era && m.getReleaseDate() != null && 
-                        m.getReleaseDate().compareTo(currentDate) <= 0 
-                        && m.getWasWatched() == onlyWatched);
+        List<TVSeason> showSeasons = dbContext.
+                getTVSeasonsTable().filterBy(s -> s.getTVShowForeignKey().equals(tvShowPrimaryKey));
         
-        dbContext.getMoviesTable().sortBy(BY_NAME_ALPHABETICALLY_MOVIE, filteredMovies);
+        for (TVSeason season : showSeasons) 
+        {
+            seasonEpisodes = dbContext.
+                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(season.getPrimaryKey()));
+            foundEpisodes.addAll(seasonEpisodes);
+        }
         
-        return filteredMovies;
+        dbContext.getTVEpisodesTable().sortBy(BY_LONGEST_DURATION_EPISODE, foundEpisodes);
+
+        return foundEpisodes;
     }
     
-    public List<Movie> getNewestMoviesByEra(Era era, boolean onlyWatched) 
+    public List<TVEpisode> getTVShowSeasonLongestEpisodes(PrimaryKey tvShowSeasonPrimaryKey) 
     {
-        LocalDate currentDate = getCurrentDate();
+        List<TVEpisode> seasonEpisodes;
         
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getEra() == era && m.getReleaseDate() != null && 
-                        m.getReleaseDate().compareTo(currentDate) <= 0 
-                        && m.getWasWatched() == onlyWatched);
+        seasonEpisodes = dbContext.
+                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(tvShowSeasonPrimaryKey));
         
-        dbContext.getMoviesTable().sortBy(BY_DATE_NEWEST_MOVIE, filteredMovies);
-        
-        return filteredMovies;
-    }
-    
-    public List<Movie> getFavoriteMoviesByEra(Era era) 
-    {
-        LocalDate currentDate = getCurrentDate();
-        
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getEra() == era && m.getReleaseDate() != null && 
-                        m.getReleaseDate().compareTo(currentDate) <= 0 
-                        && m.getWasWatched() == true);
-        
-        dbContext.getMoviesTable().sortBy(BY_PERCENTAGE_RATING_HIGHEST_MOVIE, filteredMovies);
-        
-        return filteredMovies;
+        dbContext.getTVEpisodesTable().sortBy(BY_LONGEST_DURATION_EPISODE, seasonEpisodes);
+
+        return seasonEpisodes;
     }
     
     public List<TVShow> getAnnouncedTVShows(Era era) 
@@ -151,72 +161,13 @@ public class TVEpisodesController
         return filteredTVShows;
     }
     
-    public int getAnnouncedMoviesCountByEra(Era era) 
-    {
-        LocalDate currentDate = getCurrentDate();
-        
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getEra() == era && (m.getReleaseDate() == null || 
-                        m.getReleaseDate().compareTo(currentDate) > 0));
+    public int getAnnouncedTVShowsCountByEra(Era era) 
+    {        
+        List<TVShow> filteredTVShows = getAnnouncedTVShows(era);
                 
-        return filteredMovies.size();
+        return filteredTVShows.size();
     }
     
-    public int getMoviesCountByEra(Era era, boolean onlyWatched) 
-    {
-        LocalDate currentDate = getCurrentDate();
-        
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getEra() == era && m.getReleaseDate() != null && 
-                        m.getReleaseDate().compareTo(currentDate) <= 0 
-                        && m.getWasWatched() == onlyWatched);
-                
-        return filteredMovies.size();
-    }
-    
-    public List<Movie> getFavoriteMoviesOfAllTime() 
-    {
-        LocalDate currentDate = getCurrentDate();
-        
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getReleaseDate() != null && 
-                m.getReleaseDate().compareTo(currentDate) <= 0 && 
-                        m.getWasWatched() == true);
-        
-        dbContext.getMoviesTable().sortBy(BY_PERCENTAGE_RATING_HIGHEST_MOVIE, filteredMovies);
-                
-        return filteredMovies;
-    }
-    
-    public List<Movie> getNewestMovies()
-    {
-        LocalDate currentDate = getCurrentDate();
-        
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getReleaseDate() != null && 
-                m.getReleaseDate().compareTo(currentDate) <= 0);
-        
-        dbContext.getMoviesTable().sortBy(BY_DATE_NEWEST_MOVIE, filteredMovies);
-                
-        return filteredMovies;
-    }
-    
-    public boolean rateMovie(Movie existingMovie, int percentageRating)
-    {
-        Movie newData = new Movie(existingMovie.getPrimaryKey(), 
-                    existingMovie.getRuntime(), 
-                    existingMovie.getName(), 
-                    percentageRating, 
-                    true, 
-                    existingMovie.getHyperlinkForContentWatch(),
-                    existingMovie.getShortContentSummary(), 
-                    existingMovie.getReleaseDate(), 
-                    existingMovie.getEra());
-        
-        boolean wasDataChanged = dbContext.getMoviesTable().editBy(existingMovie.getPrimaryKey(), newData);
-                
-        return wasDataChanged;
-    }
         
     private static LocalDate getCurrentDate() 
     {

@@ -1,6 +1,20 @@
 
 package tests.mainmethods;
 
+import app.logic.controllers.TVEpisodesController;
+import app.logic.datacontext.DataContextAccessor;
+import app.models.data.Era;
+import app.models.data.Movie;
+import app.models.data.PrimaryKey;
+import app.models.data.TVEpisode;
+import app.models.data.TVSeason;
+import app.models.data.TVShow;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import utils.interfaces.IDataTable;
+
 /**
  *
  * @author Admin
@@ -10,202 +24,110 @@ public class TVEpisodesControllerTest
     public static void main(String[] args) 
     {
         DataContextAccessor dbContext = DataContextAccessor.getInstance();
-        IDataTable<Movie> moviesTable = dbContext.getMoviesTable();
+        IDataTable<TVShow> showsTable = dbContext.getTVShowsTable();
+        IDataTable<TVSeason> seasonsTable = dbContext.getTVSeasonsTable();
+        IDataTable<TVEpisode> episodesTable = dbContext.getTVEpisodesTable();
         
-        MoviesController controller = MoviesController.getInstance(dbContext);
+        TVEpisodesController controller = TVEpisodesController.getInstance(dbContext);
         
-        Movie movieA = new Movie(new PrimaryKey(3), null, "movieA", 
-                60, true, "https://www.example01.com", "A", 
-                LocalDate.parse("2023-05-16", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
+        TVShow show = new TVShow(new PrimaryKey(1), "show", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
         
-        Movie movieB = new Movie(new PrimaryKey(4), Duration.ofMinutes(200), "Hvězdička", 
-                40, true, "https://www.example02.com", "B", 
-                LocalDate.parse("2023-05-15", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
+        TVShow show2 = new TVShow(new PrimaryKey(2), "show2", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
         
-        Movie movieC = new Movie(new PrimaryKey(5), null, "movieC", 
-                60, false, null, null, null, Era.FALL_OF_THE_JEDI);
-        
-        Movie movieD = new Movie(new PrimaryKey(8), Duration.ofMinutes(300), "movieD", 
-                60, false, null, null, 
-                LocalDate.parse("2025-05-14", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
+        TVSeason season = new TVSeason(new PrimaryKey(1), 2, show.getPrimaryKey());
+        TVSeason season2 = new TVSeason(new PrimaryKey(2), 3, show.getPrimaryKey());
+        TVSeason season3 = new TVSeason(new PrimaryKey(3), 3, show2.getPrimaryKey());
         
         
-        Movie movieE = new Movie(new PrimaryKey(10), Duration.ofMinutes(500), "Bitva", 
-                80, true, null, null, 
-                LocalDate.parse("2023-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
+        TVEpisode episodeA = new TVEpisode(new PrimaryKey(3), Duration.ofMinutes(50), "episodeA", 
+                60, true, "https://www.example02.com", "Velmi špatná epizoda", 1, season.getPrimaryKey());
         
-        Movie movieF = new Movie(new PrimaryKey(11), null, "movieF", 
-                2, false, null, null, 
-                LocalDate.parse("2025-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
+        TVEpisode episodeB = new TVEpisode(new PrimaryKey(4), Duration.ofMinutes(80), "episodeB", 
+                60, true, "https://www.example03.com", "adas", 2, season.getPrimaryKey());
         
-        Movie movieG = new Movie(new PrimaryKey(12), null, "movieG", 
-                2, false, null, null, 
-                null, Era.FALL_OF_THE_JEDI);
+        TVEpisode episodeC = new TVEpisode(new PrimaryKey(5), Duration.ofMinutes(100), "episodeC", 
+                60, true, "https://www.example04.com", "adasasd", 1, season2.getPrimaryKey());
         
-        moviesTable.loadFrom(movieA);
-        moviesTable.loadFrom(movieB);
-        moviesTable.loadFrom(movieC);
-        moviesTable.loadFrom(movieD);
-        moviesTable.loadFrom(movieE);
-        moviesTable.loadFrom(movieF);
-        moviesTable.loadFrom(movieG);
+        TVEpisode episodeD = new TVEpisode(new PrimaryKey(6), Duration.ofMinutes(900), "episodeD", 
+                60, true, "https://www.example05.com", "sada", 1, season3.getPrimaryKey());
+        
+        showsTable.loadFrom(show);
+        showsTable.loadFrom(show2);
+        seasonsTable.loadFrom(season);
+        seasonsTable.loadFrom(season2);
+        seasonsTable.loadFrom(season3);
+        episodesTable.loadFrom(episodeA);
+        episodesTable.loadFrom(episodeB);
+        episodesTable.loadFrom(episodeC);
+        episodesTable.loadFrom(episodeD);
         
         System.out.println();
         System.out.println("Kontrolni vypis:");
         System.out.println();
         
-        List<Movie> movies = moviesTable.getAll();
+        List<TVShow> shows = showsTable.getAll();
+        List<TVSeason> seasons = seasonsTable.getAll();
+        List<TVEpisode> episodes = episodesTable.getAll();
         
-        for (Movie s : movies) 
+        for (TVShow s : shows) 
         {
             System.out.println(s);
         }
-
-        //getLongestMoviesByEra method
-        List<Movie> getLongestMoviesByEra_result = controller.getLongestMoviesByEra(Era.FALL_OF_THE_JEDI, true);
+        
+        for (TVSeason s : seasons) 
+        {
+            System.out.println(s);
+        }
+        
+        for (TVEpisode s : episodes) 
+        {
+            System.out.println(s);
+        }
+        
+        //getTVShowSeasonLongestEpisodes method
+        
+        List<TVEpisode> getTVShowSeasonLongestEpisodes_result = 
+                controller.getTVShowSeasonLongestEpisodes(season.getPrimaryKey());
         
         System.out.println();
-        System.out.println("getLongestMoviesByEra method:");
+        System.out.println("getTVShowSeasonLongestEpisodes method:");
         System.out.println();
         
-        for (Movie m : getLongestMoviesByEra_result) 
+        for (TVEpisode m : getTVShowSeasonLongestEpisodes_result) 
+        {
+            System.out.println(m);
+        }
+       
+                        
+        //getTVShowLongestEpisodes method
+        
+        List<TVEpisode> getTVShowLongestEpisodes_result = 
+                controller.getTVShowLongestEpisodes(show.getPrimaryKey());
+        
+        System.out.println();
+        System.out.println("getTVShowLongestEpisodes method:");
+        System.out.println();
+        
+        for (TVEpisode m : getTVShowLongestEpisodes_result) 
         {
             System.out.println(m);
         }
         
-        //getMoviesByEraInAlphabeticalOrder method
+        //getLongestTVShowsByEra method
+        
+        List<TVShow> getLongestTVShowsByEra_result = 
+                controller.getLongestTVShowsByEra(Era.AGE_OF_THE_REBELLION);
+        
         System.out.println();
-        System.out.println("getMoviesByEraInAlphabeticalOrder method:");
+        System.out.println("getLongestTVShowsByEra method:");
         System.out.println();
-        List<Movie> getMoviesByEraInAlphabeticalOrder_result = 
-                controller.getMoviesByEraInAlphabeticalOrder(Era.FALL_OF_THE_JEDI, true);
+        
+        for (TVShow m : getLongestTVShowsByEra_result) 
+        {
+            System.out.println(m);
+        }
                 
-        for (Movie m : getMoviesByEraInAlphabeticalOrder_result) 
-        {
-            System.out.println(m);
-        }
-        
-        //getNewestMoviesByEra method
-        System.out.println();
-        System.out.println("getNewestMoviesByEra method:");
-        System.out.println();
-        List<Movie> getNewestMoviesByEra_result = 
-                controller.getNewestMoviesByEra(Era.FALL_OF_THE_JEDI, true);
-        
-        
-        for (Movie m : getNewestMoviesByEra_result) 
-        {
-            System.out.println(m);
-        }
-        
-        //getFavoriteMoviesByEra method
-        System.out.println();
-        System.out.println("getFavoriteMoviesByEra method:");
-        System.out.println();
-        List<Movie> getFavoriteMoviesByEra_result = 
-                controller.getFavoriteMoviesByEra(Era.FALL_OF_THE_JEDI);
-        
-        
-        for (Movie m : getFavoriteMoviesByEra_result) 
-        {
-            System.out.println(m);
-        }
-        
-        //getAnnouncedMovies method
-        System.out.println();
-        System.out.println("getAnnouncedMovies method:");
-        System.out.println();
-        List<Movie> getAnnouncedMovies_result = 
-                controller.getAnnouncedMovies(Era.FALL_OF_THE_JEDI);
-        
-        
-        for (Movie m : getAnnouncedMovies_result) 
-        {
-            System.out.println(m);
-        }
-        
-        //getAnnouncedMoviesCountByEra method
-        System.out.println();
-        System.out.println("getAnnouncedMoviesCountByEra method:");
-        System.out.println();
-        int getAnnouncedMoviesCountByEra_result = 
-                controller.getAnnouncedMoviesCountByEra(Era.FALL_OF_THE_JEDI);
-        
-        System.out.println("počet: " + getAnnouncedMoviesCountByEra_result);
-        
-        //getMoviesCountByEra method
-        System.out.println();
-        System.out.println("getMoviesCountByEra method:");
-        System.out.println();
-        int getMoviesCountByEra_result = 
-                controller.getMoviesCountByEra(Era.FALL_OF_THE_JEDI, true);
-        
-        System.out.println("počet: " + getMoviesCountByEra_result);
-        
-        //getFavoriteMoviesOfAllTime method
-        System.out.println();
-        System.out.println("getFavoriteMoviesOfAllTime method:");
-        System.out.println();
-        List<Movie> getFavoriteMoviesOfAllTime_result = 
-                controller.getFavoriteMoviesOfAllTime();
-        
-        for (Movie m : getFavoriteMoviesOfAllTime_result) 
-        {
-            System.out.println(m);
-        }
-        
-        //getNewestMovies method
-        System.out.println();
-        System.out.println("getNewestMovies method:");
-        System.out.println();
-        List<Movie> getNewestMovies_result = 
-                controller.getNewestMovies();
-        
-        for (Movie m : getNewestMovies_result) 
-        {
-            System.out.println(m);
-        }
-        
-        //rateMovie method
-        System.out.println();
-        System.out.println("rateMovie method:");
-        System.out.println();
-        
-        Movie movieEdit = new Movie(new PrimaryKey(5), Duration.ofMinutes(50), "movieEdit", 
-                60, false, null, null, 
-                LocalDate.parse("2021-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
-        
-        boolean wasDataChanged = 
-                controller.rateMovie(movieEdit, 95);
-        
-        System.out.println("Po rateMovie pouziti:");
-        System.out.println("zmena dat:" + wasDataChanged);
-        movieEdit = dbContext.getMoviesTable().getBy(movieEdit.getPrimaryKey());
-        System.out.println(movieEdit);
-        
-        wasDataChanged = 
-                controller.rateMovie(movieEdit, 95);
-        System.out.println("zmena dat po druhe se stejnym ohodnocenim: " + wasDataChanged);
-        
-        
-        //searchForMovie method
-        System.out.println();
-        System.out.println("searchForMovie method:");
-        System.out.println();
-        
-        Movie movieSearch_01 = new Movie(new PrimaryKey(5), Duration.ofMinutes(50), "Ola ÁHójé Jé", 
-                60, false, null, null, 
-                LocalDate.parse("2021-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
-        
-        movieSearch_01 = dbContext.getMoviesTable().addFrom(movieSearch_01);
-        
-        List<Movie> searchForMovie_result = 
-                controller.searchForMovie("ahóje jě");
-        
-        for (Movie m : searchForMovie_result)
-        {
-            System.out.println(m);
-        }
-
     }
 }

@@ -155,23 +155,14 @@ public class MoviesController
     
     public int getAnnouncedMoviesCountByEra(Era era) 
     {
-        LocalDate currentDate = getCurrentDate();
-        
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getEra() == era && (m.getReleaseDate() == null || 
-                        m.getReleaseDate().compareTo(currentDate) > 0));
+        List<Movie> filteredMovies = getAnnouncedMovies(era);
                 
         return filteredMovies.size();
     }
     
     public int getMoviesCountByEra(Era era, boolean onlyWatched) 
-    {
-        LocalDate currentDate = getCurrentDate();
-        
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getEra() == era && m.getReleaseDate() != null && 
-                        m.getReleaseDate().compareTo(currentDate) <= 0 
-                        && m.getWasWatched() == onlyWatched);
+    {        
+        List<Movie> filteredMovies = getNewestMoviesByEra(era, onlyWatched);
                 
         return filteredMovies.size();
     }
