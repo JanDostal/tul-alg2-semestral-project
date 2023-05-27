@@ -6,21 +6,18 @@ import app.logic.datastore.DataStore;
 import app.models.data.Era;
 import app.models.data.Movie;
 import java.text.Collator;
-import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
  * @author Admin
  */
-public class MoviesController 
+public class TVEpisodesController 
 {
-    private static MoviesController movieController;
+    private static TVEpisodesController tvEpisodesController;
     
     private final DataContextAccessor dbContext;
     
@@ -70,19 +67,19 @@ public class MoviesController
         return m2.getPercentageRating() - m1.getPercentageRating();
     };
     
-    private MoviesController(DataContextAccessor dbContext) 
+    private TVEpisodesController(DataContextAccessor dbContext) 
     {
         this.dbContext = dbContext;
     }
     
-    public static MoviesController getInstance(DataContextAccessor dbContext) 
+    public static TVEpisodesController getInstance(DataContextAccessor dbContext) 
     {
-        if (movieController == null) 
+        if (tvEpisodesController == null) 
         {
-            movieController = new MoviesController(dbContext);
+            tvEpisodesController = new TVEpisodesController(dbContext);
         }
         
-        return movieController;
+        return tvEpisodesController;
     }
     
     public List<Movie> getLongestMoviesByEra(Era era, boolean onlyWatched) 
@@ -218,28 +215,6 @@ public class MoviesController
         boolean wasDataChanged = dbContext.getMoviesTable().editBy(existingMovie.getPrimaryKey(), newData);
                 
         return wasDataChanged;
-    }
-    
-    public List<Movie> searchForMovie(String name) 
-    {
-        String normalizedName = Normalizer.normalize(name, Normalizer.Form.NFD)
-                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
-                    .toLowerCase();
-        
-        String regex = normalizedName;
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher("");
-        
-        List<Movie> foundMovies = dbContext.getMoviesTable().filterBy(movie -> 
-        {
-            String normalizedMovieName = Normalizer.normalize(movie.getName(), Normalizer.Form.NFD)
-                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
-                    .toLowerCase();
-            matcher.reset(normalizedMovieName);
-            return matcher.find();
-        });
-        
-        return foundMovies;
     }
         
     private static LocalDate getCurrentDate() 

@@ -203,6 +203,26 @@ public class MoviesControllerTest
         wasDataChanged = 
                 controller.rateMovie(movieEdit, 95);
         System.out.println("zmena dat po druhe se stejnym ohodnocenim: " + wasDataChanged);
-       
+        
+        
+        //searchForMovie method
+        System.out.println();
+        System.out.println("searchForMovie method:");
+        System.out.println();
+        
+        Movie movieSearch_01 = new Movie(new PrimaryKey(5), Duration.ofMinutes(50), "Ola ÁHójé Jé", 
+                60, false, null, null, 
+                LocalDate.parse("2021-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
+        
+        movieSearch_01 = dbContext.getMoviesTable().addFrom(movieSearch_01);
+        
+        List<Movie> searchForMovie_result = 
+                controller.searchForMovie("ahoje Ola");
+        
+        for (Movie m : searchForMovie_result) 
+        {
+            System.out.println(m);
+        }
+
     }
 }
