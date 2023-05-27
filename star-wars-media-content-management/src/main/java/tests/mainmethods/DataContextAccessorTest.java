@@ -220,11 +220,11 @@ public class DataContextAccessorTest
         System.out.println("editBy method");
         System.out.println();
         
-        showsTable.editBy(showAdd.getPrimaryKey(), new TVShow(null, "Rebels", LocalDate.parse("2023-05-20", 
+        boolean wasDataChanged = showsTable.editBy(showAdd.getPrimaryKey(), new TVShow(null, "Rebels", LocalDate.parse("2023-05-20", 
                 DateTimeFormatter.ISO_LOCAL_DATE), Era.REIGN_OF_THE_EMPIRE));
         
         showAdd = showsTable.getBy(showAdd.getPrimaryKey());
-        
+        System.out.println("Došlo ke změně dat:" + wasDataChanged);
         System.out.println(showAdd);
         
         //filterBy method
@@ -332,6 +332,5 @@ public class DataContextAccessorTest
         {
             System.out.println(s);
         }
-        
     }
 }

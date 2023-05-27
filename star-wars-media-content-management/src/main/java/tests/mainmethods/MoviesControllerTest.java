@@ -48,7 +48,7 @@ public class MoviesControllerTest
         
         
         Movie movieE = new Movie(new PrimaryKey(10), Duration.ofMinutes(500), "Bitva", 
-                60, true, null, null, 
+                80, true, null, null, 
                 LocalDate.parse("2023-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
         Movie movieF = new Movie(new PrimaryKey(11), null, "movieF", 
@@ -158,5 +158,29 @@ public class MoviesControllerTest
                 controller.getMoviesCountByEra(Era.FALL_OF_THE_JEDI, true);
         
         System.out.println("počet: " + getMoviesCountByEra_result);
+        
+        //getFavoriteMoviesOfAllTime method
+        System.out.println();
+        System.out.println("getFavoriteMoviesOfAllTime method:");
+        System.out.println();
+        List<Movie> getFavoriteMoviesOfAllTime_result = 
+                controller.getFavoriteMoviesOfAllTime();
+        
+        for (Movie m : getFavoriteMoviesOfAllTime_result) 
+        {
+            System.out.println(m);
+        }
+        
+        //getNewestMovies method
+        System.out.println();
+        System.out.println("getNewestMovies method:");
+        System.out.println();
+        List<Movie> getNewestMovies_result = 
+                controller.getNewestMovies();
+        
+        for (Movie m : getNewestMovies_result) 
+        {
+            System.out.println(m);
+        }
     }
 }

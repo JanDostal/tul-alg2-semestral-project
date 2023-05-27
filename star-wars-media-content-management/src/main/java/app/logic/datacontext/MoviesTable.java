@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -111,12 +112,36 @@ public class MoviesTable implements IDataTable<Movie>
             //exception
         }
         
-        boolean areDataSame = foundMovie.equals(editedExistingData);
+        List<Movie> movieWithDuplicateData = filterBy(movie -> 
+                movie.getPrimaryKey().equals(foundMovie.getPrimaryKey()) == false
+                && movie.equals(editedExistingData));
         
-        if (areDataSame == false) 
+        if (movieWithDuplicateData.isEmpty() == false) 
         {
-            //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
-
+            //exception
+        }
+        
+        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+        
+        
+        boolean wasDataChanged = false;
+        
+        if (Objects.equals(foundMovie.getShortContentSummary(), editedExistingData.getShortContentSummary()) == false || 
+            foundMovie.getWasWatched() != editedExistingData.getWasWatched() ||
+            Objects.equals(foundMovie.getRuntime(), editedExistingData.getRuntime()) == false ||
+            Objects.equals(foundMovie.getReleaseDate(), editedExistingData.getReleaseDate()) == false ||
+            foundMovie.getPercentageRating() != editedExistingData.getPercentageRating() ||
+            Objects.equals(foundMovie.getName(), editedExistingData.getName()) == false ||
+            Objects.equals(foundMovie.getHyperlinkForContentWatch(), 
+                    editedExistingData.getHyperlinkForContentWatch()) == false ||
+            foundMovie.getEra() != editedExistingData.getEra())
+        {
+            wasDataChanged = true;
+        }
+        
+        
+        if (wasDataChanged == true) 
+        {
             Movie newData = new Movie(primaryKey, 
                     editedExistingData.getRuntime(), 
                     editedExistingData.getName(), 
@@ -131,7 +156,7 @@ public class MoviesTable implements IDataTable<Movie>
             moviesData.add(newData);
         }
         
-        return areDataSame;
+        return wasDataChanged;
     }
 
     public @Override Movie getBy(PrimaryKey primaryKey) 

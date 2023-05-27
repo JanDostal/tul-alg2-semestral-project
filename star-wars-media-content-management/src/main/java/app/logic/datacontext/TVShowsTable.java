@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -103,12 +104,28 @@ public class TVShowsTable implements IDataTable<TVShow>
             //exception
         }
         
-        boolean areDataSame = foundTVShow.equals(editedExistingData);
+        List<TVShow> showWithDuplicateData = filterBy(show -> 
+                show.getPrimaryKey().equals(foundTVShow.getPrimaryKey()) == false
+                && show.equals(editedExistingData));
         
-        if (areDataSame == false) 
+        if (showWithDuplicateData.isEmpty() == false) 
         {
-            //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
-            
+            //exception
+        }
+        
+        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+        
+        boolean wasDataChanged = false;
+        
+        if (Objects.equals(foundTVShow.getReleaseDate(), editedExistingData.getReleaseDate()) == false || 
+            Objects.equals(foundTVShow.getName(), editedExistingData.getName()) == false ||
+            foundTVShow.getEra() != editedExistingData.getEra())
+        {
+            wasDataChanged = true;
+        }
+        
+        if (wasDataChanged == true) 
+        {            
             TVShow newData = new TVShow(primaryKey, editedExistingData.getName(), 
                     editedExistingData.getReleaseDate(), editedExistingData.getEra());
             
@@ -116,7 +133,7 @@ public class TVShowsTable implements IDataTable<TVShow>
             tvShowsData.add(newData);
         }
         
-        return areDataSame;
+        return wasDataChanged;
     }
 
     public @Override TVShow getBy(PrimaryKey primaryKey) 

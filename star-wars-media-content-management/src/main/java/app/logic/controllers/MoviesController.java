@@ -5,6 +5,7 @@ import app.logic.datacontext.DataContextAccessor;
 import app.logic.datastore.DataStore;
 import app.models.data.Era;
 import app.models.data.Movie;
+import app.models.data.PrimaryKey;
 import java.text.Collator;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -171,6 +172,40 @@ public class MoviesController
                         && m.getWasWatched() == onlyWatched);
                 
         return filteredMovies.size();
+    }
+    
+    public List<Movie> getFavoriteMoviesOfAllTime() 
+    {
+        LocalDate currentDate = getCurrentDate();
+        
+        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getReleaseDate() != null && 
+                m.getReleaseDate().compareTo(currentDate) <= 0 && 
+                        m.getWasWatched() == true);
+        
+        dbContext.getMoviesTable().sortBy(BY_PERCENTAGE_RATING_HIGHEST_MOVIE, filteredMovies);
+                
+        return filteredMovies;
+    }
+    
+    public List<Movie> getNewestMovies()
+    {
+        LocalDate currentDate = getCurrentDate();
+        
+        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getReleaseDate() != null && 
+                m.getReleaseDate().compareTo(currentDate) <= 0);
+        
+        dbContext.getMoviesTable().sortBy(BY_DATE_NEWEST_MOVIE, filteredMovies);
+                
+        return filteredMovies;
+    }
+    
+    public boolean rateMovie(PrimaryKey moviePrimaryKey, int percentageRating)
+    {
+        dbContext.getMoviesTable().editBy(primaryKey, editedExistingData)
+                
+        return filteredMovies;
     }
     
     private static LocalDate getCurrentDate() 

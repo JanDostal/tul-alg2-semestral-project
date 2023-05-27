@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -126,19 +127,43 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
         {
             //exception
         }
-                
-        boolean areDataSame = foundTVEpisode.equals(editedExistingData);
         
-        if (areDataSame == false) 
+        List<TVEpisode> episodeWithDuplicateData = filterBy(episode -> 
+                episode.getPrimaryKey().equals(foundTVEpisode.getPrimaryKey()) == false
+                && episode.equals(editedExistingData));
+        
+        if (episodeWithDuplicateData.isEmpty() == false) 
         {
-            //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
-            TVSeason existingTVSeason = tvSeasonsTable.getBy(editedExistingData.getTVSeasonForeignKey());
+            //exception
+        }
+        
+        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+        TVSeason existingTVSeason = tvSeasonsTable.getBy(editedExistingData.getTVSeasonForeignKey());
             
-            if (existingTVSeason == null) 
-            {
-                //exception
-            }
-   
+        if (existingTVSeason == null) 
+        {
+            //exception
+        }
+        
+        boolean wasDataChanged = false;
+        
+        if (Objects.equals(foundTVEpisode.getShortContentSummary(), 
+                editedExistingData.getShortContentSummary()) == false || 
+            foundTVEpisode.getWasWatched() != editedExistingData.getWasWatched() ||
+            Objects.equals(foundTVEpisode.getRuntime(), editedExistingData.getRuntime()) == false ||
+            foundTVEpisode.getOrderInTVShowSeason() != editedExistingData.getOrderInTVShowSeason() ||
+            foundTVEpisode.getPercentageRating() != editedExistingData.getPercentageRating() ||
+            Objects.equals(foundTVEpisode.getName(), editedExistingData.getName()) == false ||
+            Objects.equals(foundTVEpisode.getHyperlinkForContentWatch(), 
+                    editedExistingData.getHyperlinkForContentWatch()) == false ||
+            Objects.equals(foundTVEpisode.getTVSeasonForeignKey(), 
+                    editedExistingData.getTVSeasonForeignKey()) == false)
+        {
+            wasDataChanged = true;
+        }
+        
+        if (wasDataChanged == true) 
+        {
             TVEpisode newData = new TVEpisode(primaryKey, editedExistingData.getRuntime(), 
                     editedExistingData.getName(), editedExistingData.getPercentageRating(), 
                     editedExistingData.getWasWatched(), 
@@ -151,7 +176,7 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
             tvEpisodesData.add(newData);
         }
         
-        return areDataSame;
+        return wasDataChanged;
     }
 
     public @Override TVEpisode getBy(PrimaryKey primaryKey) 
