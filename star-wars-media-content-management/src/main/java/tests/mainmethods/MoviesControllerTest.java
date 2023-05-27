@@ -188,12 +188,12 @@ public class MoviesControllerTest
         System.out.println("rateMovie method:");
         System.out.println();
         
-        Movie movieEdit = new Movie(new PrimaryKey(5), Duration.ofMinutes(50), "movieEdit", 
+        Movie movieEdit = new Movie(new PrimaryKey(5), null, "movieEdit", 
                 60, false, null, null, 
                 LocalDate.parse("2021-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
         boolean wasDataChanged = 
-                controller.rateMovie(movieEdit, 95);
+                controller.rateMovie(movieEdit, 60);
         
         System.out.println("Po rateMovie pouziti:");
         System.out.println("zmena dat:" + wasDataChanged);
@@ -201,7 +201,7 @@ public class MoviesControllerTest
         System.out.println(movieEdit);
         
         wasDataChanged = 
-                controller.rateMovie(movieEdit, 95);
+                controller.rateMovie(movieEdit, 60);
         System.out.println("zmena dat po druhe se stejnym ohodnocenim: " + wasDataChanged);
         
         
@@ -223,6 +223,32 @@ public class MoviesControllerTest
         {
             System.out.println(m);
         }
-
+        
+        //getTotalRuntimeOfAllMoviesByEra method
+        System.out.println();
+        System.out.println("getTotalRuntimeOfAllMoviesByEra method:");
+        System.out.println();
+        Duration getTotalRuntimeOfAllMoviesByEra_result = 
+                controller.getTotalRuntimeOfAllMoviesByEra(Era.FALL_OF_THE_JEDI, true);
+        
+        System.out.println("Doba v minutach: " + getTotalRuntimeOfAllMoviesByEra_result.toMinutes());
+        
+        //getAverageRuntimeOfAllMoviesByEra method
+        System.out.println();
+        System.out.println("getAverageRuntimeOfAllMoviesByEra method:");
+        System.out.println();
+        Duration getAverageRuntimeOfAllMoviesByEra_result = 
+                controller.getAverageRuntimeOfAllMoviesByEra(Era.FALL_OF_THE_JEDI, true);
+        
+        System.out.println("Doba v minutach: " + getAverageRuntimeOfAllMoviesByEra_result.toMinutes());
+        
+        //getAverageRatingOfAllMoviesByEra method
+        System.out.println();
+        System.out.println("getAverageRatingOfAllMoviesByEra method:");
+        System.out.println();
+        float getAverageRatingOfAllMoviesByEra_result = 
+                controller.getAverageRatingOfAllMoviesByEra(Era.FALL_OF_THE_JEDI);
+        
+        System.out.println("Prumerne hodnoceni v procentech: " + getAverageRatingOfAllMoviesByEra_result);
     }
 }

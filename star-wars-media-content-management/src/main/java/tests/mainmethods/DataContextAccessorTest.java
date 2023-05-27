@@ -332,6 +332,5 @@ public class DataContextAccessorTest
         {
             System.out.println(s);
         }
-        
     }
 }

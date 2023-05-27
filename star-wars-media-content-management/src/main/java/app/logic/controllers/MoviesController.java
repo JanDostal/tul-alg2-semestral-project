@@ -7,6 +7,7 @@ import app.models.data.Era;
 import app.models.data.Movie;
 import java.text.Collator;
 import java.text.Normalizer;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Comparator;
@@ -83,6 +84,77 @@ public class MoviesController
         }
         
         return movieController;
+    }
+    
+    //statistic method
+    public Duration getTotalRuntimeOfAllMoviesByEra(Era era, boolean onlyWatched)
+    {
+        Duration duration = Duration.ZERO;
+        LocalDate currentDate = getCurrentDate();
+        
+        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getEra() == era && m.getReleaseDate() != null && 
+                        m.getReleaseDate().compareTo(currentDate) <= 0 
+                        && m.getWasWatched() == onlyWatched);
+        
+        for (Movie m : filteredMovies) 
+        {
+            if (m.getRuntime() != null) 
+            {
+                duration = duration.plus(m.getRuntime());
+            }
+        }
+                
+        return duration;
+    }
+    
+    //statistic method
+    public Duration getAverageRuntimeOfAllMoviesByEra(Era era, boolean onlyWatched)
+    {
+        Duration duration = Duration.ZERO;
+        long averageSeconds;
+        int durationsCount = 0;
+        LocalDate currentDate = getCurrentDate();
+        
+        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getEra() == era && m.getReleaseDate() != null && 
+                        m.getReleaseDate().compareTo(currentDate) <= 0 
+                        && m.getWasWatched() == onlyWatched);
+        
+        for (Movie m : filteredMovies) 
+        {
+            if (m.getRuntime() != null) 
+            {
+                durationsCount++;
+                duration = duration.plus(m.getRuntime());
+            }
+        }
+        
+        averageSeconds = duration.toSeconds() / durationsCount;
+              
+        return Duration.ofSeconds(averageSeconds);
+    }
+    
+    //statistic method
+    public float getAverageRatingOfAllMoviesByEra(Era era)
+    {
+        float averageRating;
+        long totalRating = 0;
+        LocalDate currentDate = getCurrentDate();
+        
+        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getEra() == era && m.getReleaseDate() != null && 
+                        m.getReleaseDate().compareTo(currentDate) <= 0 
+                        && m.getWasWatched() == true);
+        
+        for (Movie m : filteredMovies) 
+        {
+            totalRating += m.getPercentageRating();
+        }
+        
+        averageRating = totalRating / (float) filteredMovies.size();
+              
+        return averageRating;
     }
     
     public List<Movie> getLongestMoviesByEra(Era era, boolean onlyWatched) 

@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import utils.interfaces.IDataTable;
 
 /**
@@ -36,9 +37,13 @@ public class TVEpisodesControllerTest
         TVShow show2 = new TVShow(new PrimaryKey(2), "show2", LocalDate.parse("2023-05-20", 
                 DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
         
+        TVShow show3 = new TVShow(new PrimaryKey(3), "show3", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
+        
         TVSeason season = new TVSeason(new PrimaryKey(1), 2, show.getPrimaryKey());
         TVSeason season2 = new TVSeason(new PrimaryKey(2), 3, show.getPrimaryKey());
         TVSeason season3 = new TVSeason(new PrimaryKey(3), 3, show2.getPrimaryKey());
+        TVSeason season4 = new TVSeason(new PrimaryKey(4), 3, show3.getPrimaryKey());
         
         
         TVEpisode episodeA = new TVEpisode(new PrimaryKey(3), Duration.ofMinutes(50), "episodeA", 
@@ -53,14 +58,20 @@ public class TVEpisodesControllerTest
         TVEpisode episodeD = new TVEpisode(new PrimaryKey(6), Duration.ofMinutes(900), "episodeD", 
                 60, true, "https://www.example05.com", "sada", 1, season3.getPrimaryKey());
         
-        showsTable.loadFrom(show);
+        TVEpisode episodeE = new TVEpisode(new PrimaryKey(7), Duration.ofMinutes(500), "episodeE", 
+                60, true, "https://www.example06.com", "sadasdssadssadaadsasd", 1, season4.getPrimaryKey());
+        
         showsTable.loadFrom(show2);
+        showsTable.loadFrom(show);
+        showsTable.loadFrom(show3);
         seasonsTable.loadFrom(season);
-        seasonsTable.loadFrom(season2);
         seasonsTable.loadFrom(season3);
-        episodesTable.loadFrom(episodeA);
+        seasonsTable.loadFrom(season4);
+        seasonsTable.loadFrom(season2);
         episodesTable.loadFrom(episodeB);
         episodesTable.loadFrom(episodeC);
+        episodesTable.loadFrom(episodeE);
+        episodesTable.loadFrom(episodeA);
         episodesTable.loadFrom(episodeD);
         
         System.out.println();
@@ -117,17 +128,89 @@ public class TVEpisodesControllerTest
         
         //getLongestTVShowsByEra method
         
-        List<TVShow> getLongestTVShowsByEra_result = 
+        Map<TVShow, Duration> getLongestTVShowsByEra_result = 
                 controller.getLongestTVShowsByEra(Era.AGE_OF_THE_REBELLION);
         
         System.out.println();
         System.out.println("getLongestTVShowsByEra method:");
         System.out.println();
         
-        for (TVShow m : getLongestTVShowsByEra_result) 
+        for (Map.Entry<TVShow, Duration> entry : getLongestTVShowsByEra_result.entrySet()) 
         {
-            System.out.println(m);
+            System.out.println(entry.getKey() + " doba: " + String.format("%02d:%02d:%02d", entry.getValue().toHours(), 
+                entry.getValue().toMinutesPart(), entry.getValue().toSecondsPart()));
         }
+        
+        //getTotalRuntimeOfAllEpisodesInTVShow method
+        
+        Duration getTotalRuntimeOfAllEpisodesInTVShow_result = 
+                controller.getTotalRuntimeOfAllEpisodesInTVShow(show.getPrimaryKey());
+        
+        System.out.println();
+        System.out.println("getTotalRuntimeOfAllEpisodesInTVShow method:");
+        System.out.println();
+        
+        System.out.println("Celkova doba v minutach: " + getTotalRuntimeOfAllEpisodesInTVShow_result.toMinutes());
+        
+        //getTotalRuntimeOfAllEpisodesInTVShowSeason method
+        
+        Duration getTotalRuntimeOfAllEpisodesInTVShowSeason_result = 
+                controller.getTotalRuntimeOfAllEpisodesInTVShowSeason(season.getPrimaryKey());
+        
+        System.out.println();
+        System.out.println("getTotalRuntimeOfAllEpisodesInTVShowSeason method:");
+        System.out.println();
+        
+        System.out.println("Celkova doba v minutach: " + getTotalRuntimeOfAllEpisodesInTVShowSeason_result.toMinutes());
+        
+        //getAverageRuntimeOfAllEpisodesInTVShowSeason method
+        
+        Duration getAverageRuntimeOfAllEpisodesInTVShowSeason_result = 
+                controller.getAverageRuntimeOfAllEpisodesInTVShowSeason(season.getPrimaryKey());
+        
+        System.out.println();
+        System.out.println("getAverageRuntimeOfAllEpisodesInTVShowSeason method:");
+        System.out.println();
+        
+        System.out.println("Prumerna doba v minutach: " + 
+                getAverageRuntimeOfAllEpisodesInTVShowSeason_result.toMinutes());
+        
+        //getAverageRuntimeOfAllEpisodesInTVShow method
+        
+        Duration getAverageRuntimeOfAllEpisodesInTVShow_result = 
+                controller.getAverageRuntimeOfAllEpisodesInTVShow(show.getPrimaryKey());
+        
+        System.out.println();
+        System.out.println("getAverageRuntimeOfAllEpisodesInTVShow method:");
+        System.out.println();
+        
+        System.out.println("Prumerna doba v minutach: " + 
+                getAverageRuntimeOfAllEpisodesInTVShow_result.toMinutes());
+        
+        //getAverageRatingOfAllEpisodesInTVShow method
+        
+        float getAverageRatingOfAllEpisodesInTVShow_result = 
+                controller.getAverageRatingOfAllEpisodesInTVShow(show.getPrimaryKey());
+        
+        System.out.println();
+        System.out.println("getAverageRatingOfAllEpisodesInTVShow method:");
+        System.out.println();
+        
+        System.out.println("Prumerne hodnoceni v procentech: " + 
+                getAverageRatingOfAllEpisodesInTVShow_result);
+        
+        //getAverageRatingOfAllEpisodesInTVShowSeason method
+        
+        float getAverageRatingOfAllEpisodesInTVShowSeason_result = 
+                controller.getAverageRatingOfAllEpisodesInTVShowSeason(season.getPrimaryKey());
+        
+        System.out.println();
+        System.out.println("getAverageRatingOfAllEpisodesInTVShowSeason method:");
+        System.out.println();
+        
+        System.out.println("Prumerne hodnoceni v procentech: " + 
+                getAverageRatingOfAllEpisodesInTVShowSeason_result);
+        
                 
     }
 }
