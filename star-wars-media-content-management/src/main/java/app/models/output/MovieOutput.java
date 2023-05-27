@@ -16,7 +16,6 @@ public class MovieOutput
     public static final int ATTRIBUTE_ERA_LENGTH = 30;
     public static final int ATTRIBUTE_CONTENT_LENGTH = 1000;
     
-    private static final int ATTRIBUTE_WATCHED_BYTES = 1;
     private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
     private static final int ATTRIBUTE_RUNTIME_BYTES = Long.BYTES;
     private static final int ATTRIBUTE_RATING_BYTES = Integer.BYTES;
@@ -27,7 +26,7 @@ public class MovieOutput
             + 2 * ATTRIBUTE_ERA_LENGTH * Character.BYTES
             + 2 * ATTRIBUTE_CONTENT_LENGTH * Character.BYTES
             + ATTRIBUTE_ID_BYTES + ATTRIBUTE_RUNTIME_BYTES + ATTRIBUTE_RATING_BYTES
-            + ATTRIBUTE_WATCHED_BYTES + ATTRIBUTE_RELEASEDATE_BYTES;
+            + ATTRIBUTE_RELEASEDATE_BYTES;
     
     private int id;
     
@@ -36,9 +35,7 @@ public class MovieOutput
     private char[] name;
     
     private int percentageRating;
-    
-    private boolean wasWatched;
-    
+        
     private char[] hyperlinkForContentWatch;
     
     private char[] shortContentSummary;
@@ -48,7 +45,7 @@ public class MovieOutput
     private char[] era;
         
     public MovieOutput(int id, long runtimeInSeconds, String name, 
-            int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,
+            int percentageRating, String hyperlinkForContentWatch,
             String shortContentSummary, long releaseDateInEpochSeconds, String era) 
     {
         this.id = id;
@@ -56,7 +53,6 @@ public class MovieOutput
         this.name = name == null || name.trim().isEmpty() ? null : 
                 Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
         this.percentageRating = percentageRating;
-        this.wasWatched = wasWatched;
         this.hyperlinkForContentWatch = hyperlinkForContentWatch == null || 
                 hyperlinkForContentWatch.trim().isEmpty() ? null : 
                 Arrays.copyOf(hyperlinkForContentWatch.toCharArray(), 
@@ -90,11 +86,6 @@ public class MovieOutput
         return percentageRating;
     }
 
-    public boolean getWasWatched() 
-    {
-        return wasWatched;
-    }
-
     public String getHyperlinkForContentWatch() 
     {
         return hyperlinkForContentWatch == null ? null : 
@@ -123,9 +114,9 @@ public class MovieOutput
         String eraText = era == null ? null : new String(era);
         
         return String.format("MovieOutput{id=%d, runtimeInSeconds=%d, name=%s, "
-                + "percentageRating=%d, wasWatched=%s, hyperlinkForContentWatch=%s, "
+                + "percentageRating=%d, hyperlinkForContentWatch=%s, "
                 + "releaseDateInEpochSeconds=%d, era=%s}", id, runtimeInSeconds,
-                nameText, percentageRating, wasWatched, hyperlinkText,
+                nameText, percentageRating, hyperlinkText,
                 releaseDateInEpochSeconds, eraText);
     }
 }

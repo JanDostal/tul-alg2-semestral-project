@@ -45,6 +45,23 @@ public abstract class DatabaseRecord implements Comparable<DatabaseRecord>
 
     public @Override int compareTo(DatabaseRecord o) 
     {
+        if (this.primaryKey == null) 
+        {
+            if (o == null || o.primaryKey == null) 
+            {
+                return 0;
+            }
+            else 
+            {
+                return 1;
+            }
+        }
+        
+        if (o == null || o.primaryKey == null) 
+        {
+            return -1;
+        }
+        
         return this.primaryKey.getId() - o.primaryKey.getId();
     }
     

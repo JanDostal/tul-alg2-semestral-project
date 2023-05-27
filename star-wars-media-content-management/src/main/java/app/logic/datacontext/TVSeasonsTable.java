@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -121,19 +122,35 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
         {
             //exception
         }
-                
-        boolean areDataSame = foundTVSeason.equals(editedExistingData);
         
-        if (areDataSame == false) 
+        List<TVSeason> seasonWithDuplicateData = filterBy(season -> 
+                season.getPrimaryKey().equals(foundTVSeason.getPrimaryKey()) == false
+                && season.equals(editedExistingData));
+        
+        if (seasonWithDuplicateData.isEmpty() == false) 
         {
-            //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
-            TVShow existingTVShow = tvShowsTable.getBy(editedExistingData.getTVShowForeignKey());
+            //exception
+        }
+        
+        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+        TVShow existingTVShow = tvShowsTable.getBy(editedExistingData.getTVShowForeignKey());
             
-            if (existingTVShow == null) 
-            {
-                //exception
-            }
-
+        if (existingTVShow == null) 
+        {
+            //exception
+        }
+                
+        boolean wasDataChanged = false;
+        
+        if (Objects.equals(foundTVSeason.getTVShowForeignKey(), 
+                editedExistingData.getTVShowForeignKey()) == false || 
+            foundTVSeason.getOrderInTVShow() != editedExistingData.getOrderInTVShow())
+        {
+            wasDataChanged = true;
+        }
+        
+        if (wasDataChanged == true) 
+        {
             TVSeason newData = new TVSeason(primaryKey, editedExistingData.getOrderInTVShow(), 
                     editedExistingData.getTVShowForeignKey());
             
@@ -141,7 +158,7 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
             tvSeasonsData.add(newData);
         }
         
-        return areDataSame;
+        return wasDataChanged;
     }
 
     public @Override TVSeason getBy(PrimaryKey primaryKey) 
