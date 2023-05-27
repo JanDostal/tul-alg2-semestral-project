@@ -182,5 +182,27 @@ public class MoviesControllerTest
         {
             System.out.println(m);
         }
+        
+        //rateMovie method
+        System.out.println();
+        System.out.println("rateMovie method:");
+        System.out.println();
+        
+        Movie movieEdit = new Movie(new PrimaryKey(5), Duration.ofMinutes(50), "movieEdit", 
+                60, false, null, null, 
+                LocalDate.parse("2021-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
+        
+        boolean wasDataChanged = 
+                controller.rateMovie(movieEdit, 95);
+        
+        System.out.println("Po rateMovie pouziti:");
+        System.out.println("zmena dat:" + wasDataChanged);
+        movieEdit = dbContext.getMoviesTable().getBy(movieEdit.getPrimaryKey());
+        System.out.println(movieEdit);
+        
+        wasDataChanged = 
+                controller.rateMovie(movieEdit, 95);
+        System.out.println("zmena dat po druhe se stejnym ohodnocenim: " + wasDataChanged);
+       
     }
 }

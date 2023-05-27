@@ -201,11 +201,21 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public boolean rateMovie(PrimaryKey moviePrimaryKey, int percentageRating)
+    public boolean rateMovie(Movie existingMovie, int percentageRating)
     {
-        dbContext.getMoviesTable().editBy(primaryKey, editedExistingData)
+        Movie newData = new Movie(existingMovie.getPrimaryKey(), 
+                    existingMovie.getRuntime(), 
+                    existingMovie.getName(), 
+                    percentageRating, 
+                    true, 
+                    existingMovie.getHyperlinkForContentWatch(),
+                    existingMovie.getShortContentSummary(), 
+                    existingMovie.getReleaseDate(), 
+                    existingMovie.getEra());
+        
+        boolean wasDataChanged = dbContext.getMoviesTable().editBy(existingMovie.getPrimaryKey(), newData);
                 
-        return filteredMovies;
+        return wasDataChanged;
     }
     
     private static LocalDate getCurrentDate() 
