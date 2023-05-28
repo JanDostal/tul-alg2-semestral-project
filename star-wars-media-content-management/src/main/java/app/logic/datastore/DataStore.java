@@ -24,7 +24,7 @@ public final class DataStore
     
     private static String tvSeasonsTextFileAddFilename = "tvSeasons_add.txt";
     
-    private static String tvEpisodesTextFileAddFilename = "movies_add.txt";
+    private static String tvEpisodesTextFileAddFilename = "tvEpisodes_add.txt";
     
     private static String moviesBinaryFileAddFilename = "movies_add.bin";
     
@@ -32,7 +32,7 @@ public final class DataStore
     
     private static String tvSeasonsBinaryFileAddFilename = "tvSeasons_add.bin";
     
-    private static String tvEpisodesBinaryFileAddFilename = "movies_add.bin";
+    private static String tvEpisodesBinaryFileAddFilename = "tvEpisodes_add.bin";
     
     
     private static String moviesTextFileLoadFilename = "movies_load.txt";
@@ -41,7 +41,7 @@ public final class DataStore
     
     private static String tvSeasonsTextFileLoadFilename = "tvSeasons_load.txt";
     
-    private static String tvEpisodesTextFileLoadFilename = "movies_load.txt";
+    private static String tvEpisodesTextFileLoadFilename = "tvEpisodes_load.txt";
     
     
     private static String moviesBinaryFileLoadFilename = "movies_load.bin";
@@ -50,7 +50,7 @@ public final class DataStore
     
     private static String tvSeasonsBinaryFileLoadFilename = "tvSeasons_load.bin";
     
-    private static String tvEpisodesBinaryFileLoadFilename = "movies_load.bin";
+    private static String tvEpisodesBinaryFileLoadFilename = "tvEpisodes_load.bin";
     
     private static Collator czechCollator = Collator.getInstance(new Locale("cs", "CZ"));
     
@@ -255,7 +255,5 @@ public final class DataStore
     public static String getTvEpisodesBinaryFileLoadFilename() 
     {
         return tvEpisodesBinaryFileLoadFilename;
-    }
-    
-    
+    } 
 }
