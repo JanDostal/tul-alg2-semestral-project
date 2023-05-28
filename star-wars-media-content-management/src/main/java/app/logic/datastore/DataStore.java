@@ -16,6 +16,8 @@ public final class DataStore
     {
     }
     
+    
+    
     private static String appName = "Star Wars Media Content Management";
     
     private static String moviesTextFileAddFilename = "movies_add.txt";
@@ -25,6 +27,7 @@ public final class DataStore
     private static String tvSeasonsTextFileAddFilename = "tvSeasons_add.txt";
     
     private static String tvEpisodesTextFileAddFilename = "tvEpisodes_add.txt";
+    
     
     private static String moviesBinaryFileAddFilename = "movies_add.bin";
     
@@ -51,6 +54,7 @@ public final class DataStore
     private static String tvSeasonsBinaryFileLoadFilename = "tvSeasons_load.bin";
     
     private static String tvEpisodesBinaryFileLoadFilename = "tvEpisodes_load.bin";
+    
     
     private static Collator czechCollator = Collator.getInstance(new Locale("cs", "CZ"));
     
@@ -255,5 +259,10 @@ public final class DataStore
     public static String getTvEpisodesBinaryFileLoadFilename() 
     {
         return tvEpisodesBinaryFileLoadFilename;
-    } 
+    }
+    
+    public static String getTvShowsTextFileLoadFilename() 
+    {
+        return tvShowsTextFileLoadFilename;
+    }
 }

@@ -3,6 +3,7 @@ package app.logic.controllers;
 
 import app.logic.datacontext.DataContextAccessor;
 import app.logic.datastore.DataStore;
+import app.logic.filemanager.FileManager;
 import app.models.data.Era;
 import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
@@ -38,6 +39,8 @@ public class TVEpisodesController
     private final DataContextAccessor dbContext;
     
     private final EmailSender emailSender;
+    
+    private final FileManager fileManager;
     
     private final Collator czechCollator = DataStore.loadCzechCollator();
     
@@ -80,17 +83,19 @@ public class TVEpisodesController
         return m1.getOrderInTVShow()- m2.getOrderInTVShow();
     };
     
-    private TVEpisodesController(DataContextAccessor dbContext, EmailSender emailSender) 
+    private TVEpisodesController(DataContextAccessor dbContext, EmailSender emailSender, FileManager fileManager) 
     {
         this.dbContext = dbContext;
         this.emailSender = emailSender;
+        this.fileManager = fileManager;
     }
     
-    public static TVEpisodesController getInstance(DataContextAccessor dbContext, EmailSender emailSender) 
+    public static TVEpisodesController getInstance(DataContextAccessor dbContext, EmailSender emailSender, FileManager
+            fileManager) 
     {
         if (tvEpisodesController == null) 
         {
-            tvEpisodesController = new TVEpisodesController(dbContext, emailSender);
+            tvEpisodesController = new TVEpisodesController(dbContext, emailSender, fileManager);
         }
         
         return tvEpisodesController;

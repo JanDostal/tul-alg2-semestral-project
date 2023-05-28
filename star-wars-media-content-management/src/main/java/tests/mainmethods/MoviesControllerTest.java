@@ -3,6 +3,7 @@ package tests.mainmethods;
 
 import app.logic.controllers.MoviesController;
 import app.logic.datacontext.DataContextAccessor;
+import app.logic.filemanager.FileManager;
 import app.models.data.Era;
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
@@ -30,8 +31,9 @@ public class MoviesControllerTest
         DataContextAccessor dbContext = DataContextAccessor.getInstance();
         EmailSender emailSender = EmailSender.getInstance();
         IDataTable<Movie> moviesTable = dbContext.getMoviesTable();
+        FileManager fileManager = FileManager.getInstance();
         
-        MoviesController controller = MoviesController.getInstance(dbContext, emailSender);
+        MoviesController controller = MoviesController.getInstance(dbContext, emailSender, fileManager);
         
         Movie movieA = new Movie(new PrimaryKey(3), null, "movieA", 
                 60, true, "https://www.example01.com", "A", 

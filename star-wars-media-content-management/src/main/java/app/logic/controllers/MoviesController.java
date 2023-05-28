@@ -3,6 +3,7 @@ package app.logic.controllers;
 
 import app.logic.datacontext.DataContextAccessor;
 import app.logic.datastore.DataStore;
+import app.logic.filemanager.FileManager;
 import app.models.data.Era;
 import app.models.data.Movie;
 import java.text.Collator;
@@ -31,6 +32,8 @@ public class MoviesController
     private final DataContextAccessor dbContext;
     
     private final EmailSender emailSender;
+    
+    private final FileManager fileManager;
     
     private final Collator czechCollator = DataStore.loadCzechCollator();
     
@@ -96,20 +99,28 @@ public class MoviesController
         return m2.getPercentageRating() - m1.getPercentageRating();
     };
     
-    private MoviesController(DataContextAccessor dbContext, EmailSender emailSender) 
+    private MoviesController(DataContextAccessor dbContext, EmailSender emailSender, FileManager fileManager) 
     {
         this.dbContext = dbContext;
         this.emailSender = emailSender;
+        this.fileManager = fileManager;
     }
     
-    public static MoviesController getInstance(DataContextAccessor dbContext, EmailSender emailSender) 
+    public static MoviesController getInstance(DataContextAccessor dbContext, EmailSender emailSender, 
+            FileManager fileManager) 
     {
         if (movieController == null) 
         {
-            movieController = new MoviesController(dbContext, emailSender);
+            movieController = new MoviesController(dbContext, emailSender, fileManager);
         }
         
         return movieController;
+    }
+    
+    //file method
+    public void configureDataDirectory(String dataDirectoryPath) 
+    {
+        fileManager.setDataDirectory(dataDirectoryPath);
     }
     
     //email method
