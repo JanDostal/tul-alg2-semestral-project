@@ -4,7 +4,6 @@ package tests.mainmethods;
 import app.logic.controllers.TVEpisodesController;
 import app.logic.datacontext.DataContextAccessor;
 import app.models.data.Era;
-import app.models.data.Movie;
 import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
@@ -213,7 +212,5 @@ public class TVEpisodesControllerTest
         
         System.out.println("Prumerne hodnoceni v procentech: " + 
                 getAverageRatingOfAllEpisodesInTVShowSeason_result);
-        
-                
     }
 }
