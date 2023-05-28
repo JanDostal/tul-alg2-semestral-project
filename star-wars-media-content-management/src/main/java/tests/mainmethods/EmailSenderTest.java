@@ -31,12 +31,16 @@ public class EmailSenderTest
             email.setFrom(enteredEmailAddress);
             email.setSubject("Star Wars Media Content Management - Test Email");
             email.addTo(enteredEmailAddress);
-            email.setHtmlMsg("<html><a href=\"ahoj\">ahoj</a></html>");
+            email.setHtmlMsg("sad");
             email.send();  
        }
        catch (EmailException ex) 
        {
-            System.out.println("Chyba sítě nebo neexistující zadaná emailová adresa");
+            System.out.println("Chyba sítě nebo neexistující zadaná emailová adresa nebo prazdne telo emailu");
        }
+       catch (NullPointerException ex) 
+       {
+            System.out.println("Zadana emailova adresa je prazdna");
+       } 
     }
 }
