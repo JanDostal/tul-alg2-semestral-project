@@ -1,7 +1,6 @@
 
 package app.logic.datastore;
 
-import app.models.data.Era;
 import java.text.Collator;
 import java.util.HashMap;
 import java.util.Locale;
@@ -16,6 +15,8 @@ public final class DataStore
     private DataStore()
     {
     }
+    
+    private static String appName = "Star Wars Media Content Management";
     
     private static Collator czechCollator = Collator.getInstance(new Locale("cs", "CZ"));
     
@@ -141,5 +142,10 @@ public final class DataStore
     public static Collator loadCzechCollator() 
     {
         return czechCollator;
+    }
+    
+    public static String loadAppName() 
+    {
+        return appName;
     }
 }

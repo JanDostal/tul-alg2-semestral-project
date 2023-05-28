@@ -35,16 +35,17 @@ public class EmailSender
         return emailSender;
     }
     
-    public void sendEmail(String recipientEmailAddress, StringBuilder subject, StringBuilder message) 
+    public void sendEmail(String recipientEmailAddress, String subject, StringBuilder message) 
             throws EmailException, NullPointerException
     {
         HtmlEmail email = new HtmlEmail();
         email.setHostName(hostName);
+        email.setCharset(org.apache.commons.mail.EmailConstants.UTF_8);
         email.setSmtpPort(smtpPort);
         email.setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken));
         email.setSSLOnConnect(true);
         email.setFrom(recipientEmailAddress);
-        email.setSubject(subject.toString());
+        email.setSubject(subject);
         email.addTo(recipientEmailAddress);
         email.setHtmlMsg(message.toString());
         email.send();  
