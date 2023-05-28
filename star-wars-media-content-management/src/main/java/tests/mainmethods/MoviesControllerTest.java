@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import utils.emailsender.EmailSender;
 import utils.interfaces.IDataTable;
 
 /**
@@ -27,9 +28,10 @@ public class MoviesControllerTest
     public static void main(String[] args) 
     {
         DataContextAccessor dbContext = DataContextAccessor.getInstance();
+        EmailSender emailSender = EmailSender.getInstance();
         IDataTable<Movie> moviesTable = dbContext.getMoviesTable();
         
-        MoviesController controller = MoviesController.getInstance(dbContext);
+        MoviesController controller = MoviesController.getInstance(dbContext, emailSender);
         
         Movie movieA = new Movie(new PrimaryKey(3), null, "movieA", 
                 60, true, "https://www.example01.com", "A", 

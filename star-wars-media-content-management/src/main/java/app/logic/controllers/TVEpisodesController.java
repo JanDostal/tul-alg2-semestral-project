@@ -13,15 +13,19 @@ import java.text.Normalizer;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.mail.EmailException;
+import utils.emailsender.EmailSender;
 
 /**
  *
@@ -32,6 +36,8 @@ public class TVEpisodesController
     private static TVEpisodesController tvEpisodesController;
     
     private final DataContextAccessor dbContext;
+    
+    private final EmailSender emailSender;
     
     private final Collator czechCollator = DataStore.loadCzechCollator();
     
@@ -74,19 +80,100 @@ public class TVEpisodesController
         return m1.getOrderInTVShow()- m2.getOrderInTVShow();
     };
     
-    private TVEpisodesController(DataContextAccessor dbContext) 
+    private TVEpisodesController(DataContextAccessor dbContext, EmailSender emailSender) 
     {
         this.dbContext = dbContext;
+        this.emailSender = emailSender;
     }
     
-    public static TVEpisodesController getInstance(DataContextAccessor dbContext) 
+    public static TVEpisodesController getInstance(DataContextAccessor dbContext, EmailSender emailSender) 
     {
         if (tvEpisodesController == null) 
         {
-            tvEpisodesController = new TVEpisodesController(dbContext);
+            tvEpisodesController = new TVEpisodesController(dbContext, emailSender);
         }
         
         return tvEpisodesController;
+    }
+    
+    //email method
+    public void sendUnwatchedEpisodesWithHyperlinksInTVShow(String recipientEmailAddress, PrimaryKey tvShowPrimaryKey) 
+            throws EmailException
+    {
+        TVShow queriedTVShow = dbContext.getTVShowsTable().getBy(tvShowPrimaryKey);
+        List<TVEpisode> seasonEpisodes;
+       
+        List<TVSeason> showSeasons = dbContext.
+                getTVSeasonsTable().filterBy(s -> s.getTVShowForeignKey().equals(tvShowPrimaryKey));
+        
+        dbContext.getTVSeasonsTable().sortBy(BY_ORDER_ASCENDING_SEASON, showSeasons);
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
+        
+        String subject = String.format("%s - Neshlédnuté epizody seriálu %s, nacházejícího se v období %s"
+                + " s datumem vydání %s", 
+                DataStore.loadAppName(), queriedTVShow.getName(), queriedTVShow.getEra().getDisplayName(), 
+                queriedTVShow.getReleaseDate().format(formatter));
+        
+        StringBuilder message = new StringBuilder();
+        String durationText;
+        
+        message.append("<html>");
+        message.append("<h1>");
+        message.append(String.format("Neshlédnuté epizody seriálu %s", queriedTVShow.getName()));
+        message.append("</h1>");
+        
+        for (TVSeason season : showSeasons) 
+        {
+            message.append("<h2>");
+            message.append(String.format("Sezóna %d", season.getOrderInTVShow()));
+            message.append("</h2>");
+            
+            seasonEpisodes = dbContext.
+                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(season.getPrimaryKey())
+                && e.getWasWatched() == false);
+            
+            dbContext.getTVEpisodesTable().sortBy(BY_ORDER_ASCENDING_EPISODE, seasonEpisodes);
+            
+            if (seasonEpisodes.isEmpty()) 
+            {
+                message.append("<br>");
+                message.append("<br>");
+                message.append("<br>");
+            }
+            else 
+            {
+                message.append("<ul>");
+                
+                for (TVEpisode e : seasonEpisodes) 
+                {
+                    durationText = e.getRuntime() == null ? null : String.format("%02d:%02d:%02d", 
+                            e.getRuntime().toHours(), e.getRuntime().toMinutesPart(), 
+                            e.getRuntime().toSecondsPart());
+                  
+                    message.append("<li>");
+                    message.append("<h3>");
+                    message.append(String.format("Epizoda %d", e.getOrderInTVShowSeason()));
+                    message.append("</h3>");
+                    message.append("<p>");
+                    message.append(String.format("Název: %s", e.getName()));
+                    message.append("</p>");
+                    message.append("<p>");
+                    message.append(String.format("Délka epizody: %s", durationText));
+                    message.append("</p>");
+                    message.append(String.format("<a href=\"%s\">", e.getHyperlinkForContentWatch()));
+                    message.append("Shlédnout");
+                    message.append("</a>");
+                    message.append("</li>");
+                }
+                
+                message.append("</ul>");
+            }
+        }
+        
+        message.append("</html>");
+
+        emailSender.sendEmail(recipientEmailAddress, subject, message);
     }
     
     //statistic method
@@ -277,7 +364,7 @@ public class TVEpisodesController
             tvShowsDurations.add(showDuration);
         }
         
-        Comparator s = Comparator.comparingLong(tvShow -> {
+        Comparator<Object> s = Comparator.comparingLong(tvShow -> {
             int index = filteredShows.indexOf(tvShow);
             if (index >= 0 && index < tvShowsDurations.size()) {
                 Duration duration = tvShowsDurations.get(index);
@@ -286,7 +373,7 @@ public class TVEpisodesController
             return 0;
         }).reversed();
         
-        dbContext.getTVShowsTable().sortBy(s, filteredShows);
+        Collections.sort(filteredShows, s);
         Collections.sort(tvShowsDurations, Comparator.comparingLong(Duration::toSeconds).reversed());
         
         for (int i = 0; i < filteredShows.size(); i++) 

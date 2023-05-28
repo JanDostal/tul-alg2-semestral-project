@@ -10,10 +10,15 @@ import java.text.Normalizer;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.mail.EmailException;
+import utils.emailsender.EmailSender;
 
 /**
  *
@@ -24,6 +29,8 @@ public class MoviesController
     private static MoviesController movieController;
     
     private final DataContextAccessor dbContext;
+    
+    private final EmailSender emailSender;
     
     private final Collator czechCollator = DataStore.loadCzechCollator();
     
@@ -66,24 +73,158 @@ public class MoviesController
         return m2.getReleaseDate().compareTo(m1.getReleaseDate());
     };
     
+    private final Comparator<Movie> BY_DATE_OLDEST_MOVIE = (Movie m1, Movie m2) -> 
+    {
+        if (m1.getReleaseDate() == null && m2.getReleaseDate() == null) 
+        {
+            return 0;
+        } 
+        else if (m1.getReleaseDate() == null) 
+        {
+            return 1;
+        } 
+        else if (m2.getReleaseDate() == null) 
+        {
+            return -1;
+        }
+        
+        return m1.getReleaseDate().compareTo(m2.getReleaseDate());
+    };
+    
     private final Comparator<Movie> BY_PERCENTAGE_RATING_HIGHEST_MOVIE = (Movie m1, Movie m2) -> 
     {        
         return m2.getPercentageRating() - m1.getPercentageRating();
     };
     
-    private MoviesController(DataContextAccessor dbContext) 
+    private MoviesController(DataContextAccessor dbContext, EmailSender emailSender) 
     {
         this.dbContext = dbContext;
+        this.emailSender = emailSender;
     }
     
-    public static MoviesController getInstance(DataContextAccessor dbContext) 
+    public static MoviesController getInstance(DataContextAccessor dbContext, EmailSender emailSender) 
     {
         if (movieController == null) 
         {
-            movieController = new MoviesController(dbContext);
+            movieController = new MoviesController(dbContext, emailSender);
         }
         
         return movieController;
+    }
+    
+    //email method
+    public void sendUnwatchedOldestMoviesWithHyperlinks(String recipientEmailAddress) throws EmailException 
+    {
+        LocalDate currentDate = getCurrentDate();
+        
+        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getReleaseDate() != null && m.getReleaseDate().compareTo(currentDate) <= 0 
+                        && m.getWasWatched() == false);
+        
+        dbContext.getMoviesTable().sortBy(BY_DATE_OLDEST_MOVIE, filteredMovies);
+        
+        String subject = String.format("%s - Neshlédnuté filmy - Podle datumu uvedení", DataStore.loadAppName());
+        
+        StringBuilder message = new StringBuilder();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
+        
+        message.append("<html>");
+        message.append("<h1>Neshlédnuté filmy od nejstaršího datumu uvedení</h1>");
+        message.append("<ul>");
+        
+        for (Movie m : filteredMovies) 
+        {
+            String durationText = m.getRuntime() == null ? null : String.format("%02d:%02d:%02d", 
+                    m.getRuntime().toHours(), m.getRuntime().toMinutesPart(), 
+                    m.getRuntime().toSecondsPart());
+            
+            message.append("<li>");
+            message.append("<h2>");
+            message.append(m.getName());
+            message.append("</h2>");
+            message.append("<p>");
+            message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(formatter)));
+            message.append("</p>");
+            message.append("<p>");
+            message.append(String.format("Délka filmu: %s", durationText));
+            message.append("</p>");
+            message.append(String.format("<a href=\"%s\">", m.getHyperlinkForContentWatch()));
+            message.append("Shlédnout");
+            message.append("</a>");
+            message.append("</li>");
+        }
+        message.append("</ul>");
+        message.append("</html>");
+        
+        emailSender.sendEmail(recipientEmailAddress, subject, message);
+    }
+    
+    //email method
+    public void sendUnwatchedMoviesWithHyperlinksInChronologicalEras(String recipientEmailAddress) 
+            throws EmailException 
+    {
+        LocalDate currentDate = getCurrentDate();
+        List<Movie> filteredMovies;
+        
+        String subject = String.format("%s - Neshlédnuté filmy - Podle chronologických období", 
+                DataStore.loadAppName());
+        StringBuilder message = new StringBuilder();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
+        
+        message.append("<html>");
+        message.append("<h1>Neshlédnuté filmy od nejstaršího chronologického období</h1>");
+        
+        for (Era era : Era.values()) 
+        {
+            filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getReleaseDate() != null && m.getReleaseDate().compareTo(currentDate) <= 0 
+                        && m.getWasWatched() == false && m.getEra() == era);
+            
+            dbContext.getMoviesTable().sortBy(BY_NAME_ALPHABETICALLY_MOVIE, filteredMovies);
+            
+            message.append("<h2>");
+            message.append(String.format("%s", era.getDisplayName()));
+            message.append("</h2>");
+            
+            if (filteredMovies.isEmpty()) 
+            {
+                message.append("<br>");
+                message.append("<br>");
+                message.append("<br>");
+            }
+            else 
+            {
+                message.append("<ul>");
+            
+                for (Movie m : filteredMovies) 
+                {
+                    String durationText = m.getRuntime() == null ? null : String.format("%02d:%02d:%02d", 
+                            m.getRuntime().toHours(), m.getRuntime().toMinutesPart(), 
+                            m.getRuntime().toSecondsPart());
+            
+                    message.append("<li>");
+                    message.append("<h3>");
+                    message.append(m.getName());
+                    message.append("</h3>");
+                    message.append("<p>");
+                    message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(formatter)));
+                    message.append("</p>");
+                    message.append("<p>");
+                    message.append(String.format("Délka filmu: %s", durationText));
+                    message.append("</p>");
+                    message.append(String.format("<a href=\"%s\">", m.getHyperlinkForContentWatch()));
+                    message.append("Shlédnout");
+                    message.append("</a>");
+                    message.append("</li>");
+                }
+            
+                message.append("</ul>");
+            }
+        }
+        
+        message.append("</html>");
+        
+        emailSender.sendEmail(recipientEmailAddress, subject, message);
     }
     
     //statistic method
