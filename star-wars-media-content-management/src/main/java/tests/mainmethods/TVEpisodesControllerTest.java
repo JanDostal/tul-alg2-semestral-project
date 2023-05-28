@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import utils.emailsender.EmailSender;
 import utils.interfaces.IDataTable;
 
 /**
@@ -29,7 +30,9 @@ public class TVEpisodesControllerTest
         IDataTable<TVSeason> seasonsTable = dbContext.getTVSeasonsTable();
         IDataTable<TVEpisode> episodesTable = dbContext.getTVEpisodesTable();
         
-        TVEpisodesController controller = TVEpisodesController.getInstance(dbContext);
+        EmailSender emailSender = EmailSender.getInstance();
+        
+        TVEpisodesController controller = TVEpisodesController.getInstance(dbContext, emailSender);
         
         TVShow show = new TVShow(new PrimaryKey(1), "show", LocalDate.parse("2023-05-20", 
                 DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
