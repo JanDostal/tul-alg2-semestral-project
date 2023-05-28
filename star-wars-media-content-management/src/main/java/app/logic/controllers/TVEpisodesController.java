@@ -277,7 +277,7 @@ public class TVEpisodesController
             tvShowsDurations.add(showDuration);
         }
         
-        Comparator s = Comparator.comparingLong(tvShow -> {
+        Comparator<Object> s = Comparator.comparingLong(tvShow -> {
             int index = filteredShows.indexOf(tvShow);
             if (index >= 0 && index < tvShowsDurations.size()) {
                 Duration duration = tvShowsDurations.get(index);
@@ -286,7 +286,7 @@ public class TVEpisodesController
             return 0;
         }).reversed();
         
-        dbContext.getTVShowsTable().sortBy(s, filteredShows);
+        Collections.sort(filteredShows, s);
         Collections.sort(tvShowsDurations, Comparator.comparingLong(Duration::toSeconds).reversed());
         
         for (int i = 0; i < filteredShows.size(); i++) 
