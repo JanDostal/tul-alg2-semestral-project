@@ -3,6 +3,8 @@ package tests.mainmethods;
 
 import app.logic.filemanager.FileManager;
 import app.models.input.MovieInput;
+import app.models.input.TVEpisodeInput;
+import app.models.input.TVSeasonInput;
 import app.models.input.TVShowInput;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,7 +46,29 @@ public class FileManagerTest
             for (TVShowInput m : b) 
             {
                 System.out.println(m);
-            }   
+            }
+            
+            //addTVSeasonsFromText method
+            System.out.println();
+            System.out.println("addTVSeasonsFromText method:");
+            System.out.println();
+            List<TVSeasonInput> c = fileManager.addTVSeasonsFromText();
+        
+            for (TVSeasonInput m : c) 
+            {
+                System.out.println(m);
+            }
+            
+            //addTVEpisodesFromText method
+            System.out.println();
+            System.out.println("addTVEpisodesFromText method:");
+            System.out.println();
+            List<TVEpisodeInput> d = fileManager.addTVEpisodesFromText();
+        
+            for (TVEpisodeInput m : d) 
+            {
+                System.out.println(m);
+            }
         }
         catch (Exception e) 
         {

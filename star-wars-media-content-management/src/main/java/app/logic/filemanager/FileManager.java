@@ -3,6 +3,8 @@ package app.logic.filemanager;
 
 import app.logic.datastore.DataStore;
 import app.models.input.MovieInput;
+import app.models.input.TVEpisodeInput;
+import app.models.input.TVSeasonInput;
 import app.models.input.TVShowInput;
 import java.io.BufferedReader;
 import java.io.File;
@@ -267,6 +269,205 @@ public class FileManager
         }
         
         return parsedTVShows;
+    }
+    
+    public List<TVSeasonInput> addTVSeasonsFromText() throws IOException, FileNotFoundException
+    {   
+        StringBuilder[] values = new StringBuilder[1];
+        for (int i = 0; i < values.length; i++) 
+        {
+            values[i] = new StringBuilder();
+        }
+        boolean enteredSectionAttributes = false;
+        boolean enteredSectionValues = false;
+        
+        List<TVSeasonInput> parsedTVSeasons = new ArrayList<>();
+        
+        try (BufferedReader r = new BufferedReader(new InputStreamReader(
+                new FileInputStream(dataDirectory.getAbsolutePath() + filenameSeparator +
+                        DataStore.getTvSeasonsTextFileAddFilename()), StandardCharsets.UTF_8))) 
+        {
+            String text;
+            
+            while ((text = r.readLine()) != null) 
+            {
+                try 
+                {
+                    if (text.matches("^$") || text.matches("^\\s+$")) 
+                    {
+                        continue;
+                    }
+                    else if (text.matches(textFileEndMarking) && enteredSectionValues == true) 
+                    {                        
+                        int orderInTVShow = Integer.parseInt(values[0].toString());
+                        
+                        parsedTVSeasons.add(new TVSeasonInput(orderInTVShow));
+                        
+                        enteredSectionAttributes = true;
+                        enteredSectionValues = false;
+                        continue;
+                    }
+                    else if (text.matches(textFileValuesSectionMarking) && enteredSectionAttributes == true) 
+                    {                        
+                        enteredSectionValues = true;
+                        continue;
+                    }
+                    else if ((text.matches(textFileAttributesSectionMarking) && enteredSectionValues == true)) 
+                    {
+                        int orderInTVShow = Integer.parseInt(values[0].toString());
+                        
+                        parsedTVSeasons.add(new TVSeasonInput(orderInTVShow));
+                        
+                        enteredSectionAttributes = true;
+                        enteredSectionValues = false;
+                        
+                        int valuesLength = values.length;
+                        values = new StringBuilder[valuesLength];
+                        for (int i = 0; i < values.length; i++) 
+                        {
+                            values[i] = new StringBuilder();
+                        }
+                        continue;
+                    }
+                    else if (text.matches(textFileAttributesSectionMarking) && enteredSectionAttributes == false) 
+                    {
+                        enteredSectionAttributes = true;
+                        continue;
+                    }
+                    
+                    
+                    if (enteredSectionValues == true) 
+                    {
+                        String[] parts = text.split(" (?=[^ ]+$)");
+                        
+                        int linkedId = Integer.parseInt(parts[parts.length - 1]);
+                        switch (linkedId) 
+                        {
+                            case 1:
+                                values[0].append(parts[0]);
+                                break;
+                        }
+                    }
+                }
+                catch (NumberFormatException ex) 
+                {
+                } 
+            }
+
+        }
+        
+        return parsedTVSeasons;
+    }
+    
+    public List<TVEpisodeInput> addTVEpisodesFromText() throws IOException, FileNotFoundException
+    {   
+        StringBuilder[] values = new StringBuilder[6];
+        for (int i = 0; i < values.length; i++) 
+        {
+            values[i] = new StringBuilder();
+        }
+        boolean enteredSectionAttributes = false;
+        boolean enteredSectionValues = false;
+        
+        List<TVEpisodeInput> parsedEpisodes = new ArrayList<>();
+        
+        try (BufferedReader r = new BufferedReader(new InputStreamReader(
+                new FileInputStream(dataDirectory.getAbsolutePath() + filenameSeparator +
+                        DataStore.getTvEpisodesTextFileAddFilename()), StandardCharsets.UTF_8))) 
+        {
+            String text;
+            
+            while ((text = r.readLine()) != null) 
+            {
+                try 
+                {
+                    if (text.matches("^$") || text.matches("^\\s+$")) 
+                    {
+                        continue;
+                    }
+                    else if (text.matches(textFileEndMarking) && enteredSectionValues == true) 
+                    {                        
+                        long runtime = Long.parseLong(values[0].toString());
+                        int percentage = Integer.parseInt(values[2].toString());
+                        int orderInTVShowSeason = Integer.parseInt(values[5].toString());
+                        
+                        parsedEpisodes.add(new TVEpisodeInput(runtime, values[1].toString(),
+                                percentage, values[3].toString(), values[4].toString(),
+                                orderInTVShowSeason));
+                        
+                        enteredSectionAttributes = true;
+                        enteredSectionValues = false;
+                        continue;
+                    }
+                    else if (text.matches(textFileValuesSectionMarking) && enteredSectionAttributes == true) 
+                    {                        
+                        enteredSectionValues = true;
+                        continue;
+                    }
+                    else if ((text.matches(textFileAttributesSectionMarking) && enteredSectionValues == true)) 
+                    {
+                        long runtime = Long.parseLong(values[0].toString());
+                        int percentage = Integer.parseInt(values[2].toString());
+                        int orderInTVShowSeason = Integer.parseInt(values[5].toString());
+                        
+                        parsedEpisodes.add(new TVEpisodeInput(runtime, values[1].toString(),
+                                percentage, values[3].toString(), values[4].toString(),
+                                orderInTVShowSeason));
+                        
+                        enteredSectionAttributes = true;
+                        enteredSectionValues = false;
+                        
+                        int valuesLength = values.length;
+                        values = new StringBuilder[valuesLength];
+                        for (int i = 0; i < values.length; i++) 
+                        {
+                            values[i] = new StringBuilder();
+                        }
+                        continue;
+                    }
+                    else if (text.matches(textFileAttributesSectionMarking) && enteredSectionAttributes == false) 
+                    {
+                        enteredSectionAttributes = true;
+                        continue;
+                    }
+                    
+                    
+                    if (enteredSectionValues == true) 
+                    {
+                        String[] parts = text.split(" (?=[^ ]+$)");
+                        
+                        int linkedId = Integer.parseInt(parts[parts.length - 1]);
+                        switch (linkedId) 
+                        {
+                            case 1:
+                                values[0].append(parts[0]);
+                                break;
+                            case 2:
+                                values[1].append(parts[0]);
+                                break;
+                            case 3:
+                                values[2].append(parts[0]);
+                                break;
+                            case 4:
+                                values[3].append(parts[0]);
+                                break;
+                            case 5:
+                                values[4].append(parts[0]).append("\n");
+                                break;
+                            case 6:
+                                values[5].append(parts[0]);
+                                break;
+                        }
+                    }
+                }
+                catch (NumberFormatException ex) 
+                {
+                } 
+            }
+
+        }
+        
+        return parsedEpisodes;
     }
     
     public static FileManager getInstance() 
