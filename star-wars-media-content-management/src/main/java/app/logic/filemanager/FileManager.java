@@ -31,9 +31,9 @@ public class FileManager
 {
     private static FileManager fileManager;
     
-    private final String filenameSeparator;
+    private static File dataDirectory;
     
-    private File dataDirectory;
+    private final String filenameSeparator;
     
     private final String inputFileEndMarking = "\\[End\\]";
     
@@ -56,7 +56,17 @@ public class FileManager
         return fileManager;
     }
     
-    public void setDataDirectory(String directoryFullPath) 
+    public static String getDataDirectoryPath() 
+    {
+        if (dataDirectory == null) 
+        {
+            throw new IllegalStateException("Cesta k data adresari jeste nebyla nastavena");
+        }
+        
+        return dataDirectory.getAbsolutePath();
+    }
+    
+    public static void setDataDirectory(String directoryFullPath) 
     {
         if (dataDirectory == null) 
         {
@@ -72,6 +82,27 @@ public class FileManager
         {
             throw new IllegalStateException("Cesta k adresari data byla jiz zadana.");
         }
+    }
+        
+    public StringBuilder getBinaryFileContent(String fileName) throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+        
+        try ( BufferedInputStream r = new BufferedInputStream(new FileInputStream(dataDirectory.getAbsolutePath() + filenameSeparator
+                + fileName))) 
+        {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            String textPart;
+
+            while ((bytesRead = r.read(buffer)) != -1) 
+            {
+                textPart = new String(buffer, StandardCharsets.UTF_8);
+                text.append(textPart);
+            }
+        }
+        
+        return text;
     }
     
     public List<MovieInput> loadInputMoviesFromBinary() throws IOException, FileNotFoundException

@@ -1,6 +1,7 @@
 
 package tests.mainmethods;
 
+import app.logic.datastore.DataStore;
 import app.logic.filemanager.FileManager;
 import app.models.input.MovieInput;
 import app.models.input.TVEpisodeInput;
@@ -23,7 +24,12 @@ public class FileManagerTest
 
         try 
         {
-            fileManager.setDataDirectory("data");
+            FileManager.setDataDirectory("data");
+            String path = FileManager.getDataDirectoryPath();
+            
+            StringBuilder moviesBinaryFile = fileManager.getBinaryFileContent(DataStore.getBinaryInputMoviesFilename());
+            
+            System.out.println(moviesBinaryFile);
             
             //loadInputMoviesFromText method
             System.out.println();
