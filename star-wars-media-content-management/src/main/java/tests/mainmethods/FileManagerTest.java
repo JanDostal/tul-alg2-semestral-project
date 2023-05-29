@@ -25,47 +25,91 @@ public class FileManagerTest
         {
             fileManager.setDataDirectory("data");
             
-            //addMoviesFromText method
+            //loadInputMoviesFromText method
             System.out.println();
-            System.out.println("addMoviesFromText method:");
+            System.out.println("loadInputMoviesFromText method:");
             System.out.println();
-            List<MovieInput> a = fileManager.addMoviesFromText();
+            List<MovieInput> a = fileManager.loadInputMoviesFromText();
         
             for (MovieInput m : a) 
             {
                 System.out.println(m);
             }
-        
-        
-            //addTVShowsFromText method
+                        
+            //loadInputMoviesFromBinary method
             System.out.println();
-            System.out.println("addTVShowsFromText method:");
+            System.out.println("loadInputMoviesFromBinary method:");
             System.out.println();
-            List<TVShowInput> b = fileManager.addTVShowsFromText();
+            List<MovieInput> b = fileManager.loadInputMoviesFromBinary();
         
-            for (TVShowInput m : b) 
+            for (MovieInput m : b) 
+            {
+                System.out.println(m);
+            }
+        
+        
+            //loadInputTVShowsFromText method
+            System.out.println();
+            System.out.println("loadInputTVShowsFromText method:");
+            System.out.println();
+            List<TVShowInput> c = fileManager.loadInputTVShowsFromText();
+        
+            for (TVShowInput m : c) 
             {
                 System.out.println(m);
             }
             
-            //addTVSeasonsFromText method
+            //loadInputTVShowsFromBinary method
             System.out.println();
-            System.out.println("addTVSeasonsFromText method:");
+            System.out.println("loadInputTVShowsFromBinary method:");
             System.out.println();
-            List<TVSeasonInput> c = fileManager.addTVSeasonsFromText();
+            List<TVShowInput> d = fileManager.loadInputTVShowsFromBinary();
         
-            for (TVSeasonInput m : c) 
+            for (TVShowInput m : d) 
             {
                 System.out.println(m);
             }
             
-            //addTVEpisodesFromText method
+            //loadInputTVSeasonsFromText method
             System.out.println();
-            System.out.println("addTVEpisodesFromText method:");
+            System.out.println("loadInputTVSeasonsFromText method:");
             System.out.println();
-            List<TVEpisodeInput> d = fileManager.addTVEpisodesFromText();
+            List<TVSeasonInput> e = fileManager.loadInputTVSeasonsFromText();
         
-            for (TVEpisodeInput m : d) 
+            for (TVSeasonInput m : e) 
+            {
+                System.out.println(m);
+            }
+            
+            //loadInputTVSeasonsFromBinary method
+            System.out.println();
+            System.out.println("loadInputTVSeasonsFromBinary method:");
+            System.out.println();
+            List<TVSeasonInput> f = fileManager.loadInputTVSeasonsFromBinary();
+        
+            for (TVSeasonInput m : f) 
+            {
+                System.out.println(m);
+            }
+            
+            //loadInputTVEpisodesFromText method
+            System.out.println();
+            System.out.println("loadInputTVEpisodesFromText method:");
+            System.out.println();
+            List<TVEpisodeInput> g = fileManager.loadInputTVEpisodesFromText();
+        
+            for (TVEpisodeInput m : g) 
+            {
+                System.out.println(m);
+            }
+            
+            //loadInputTVEpisodesFromBinary method
+            System.out.println();
+            System.out.println("loadInputTVEpisodesFromBinary method:");
+            System.out.println();
+            List<TVEpisodeInput> h = fileManager.loadInputTVEpisodesFromBinary();
+        
+            for (TVEpisodeInput m : h) 
             {
                 System.out.println(m);
             }

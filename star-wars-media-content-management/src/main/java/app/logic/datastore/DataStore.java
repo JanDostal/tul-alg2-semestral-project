@@ -16,44 +16,42 @@ public final class DataStore
     {
     }
     
-    
-    
     private static String appName = "Star Wars Media Content Management";
     
-    private static String moviesTextFileAddFilename = "movies_add.txt";
+    private static String textInputMoviesFilename = "input_movies.txt";
     
-    private static String tvShowsTextFileAddFilename = "tvShows_add.txt";
+    private static String textInputTVShowsFilename = "input_tvShows.txt";
     
-    private static String tvSeasonsTextFileAddFilename = "tvSeasons_add.txt";
+    private static String textInputTVSeasonsFilename = "input_tvSeasons.txt";
     
-    private static String tvEpisodesTextFileAddFilename = "tvEpisodes_add.txt";
-    
-    
-    private static String moviesBinaryFileAddFilename = "movies_add.bin";
-    
-    private static String tvShowsBinaryFileAddFilename = "tvShows_add.bin";
-    
-    private static String tvSeasonsBinaryFileAddFilename = "tvSeasons_add.bin";
-    
-    private static String tvEpisodesBinaryFileAddFilename = "tvEpisodes_add.bin";
+    private static String textInputTVEpisodesFilename = "input_tvEpisodes.txt";
     
     
-    private static String moviesTextFileLoadFilename = "movies_load.txt";
+    private static String binaryInputMoviesFilename = "input_movies.bin";
     
-    private static String tvShowsTextFileLoadFilename = "tvShows_load.txt";
+    private static String binaryInputTVShowsFilename = "input_tvShows.bin";
     
-    private static String tvSeasonsTextFileLoadFilename = "tvSeasons_load.txt";
+    private static String binaryInputTVSeasonsFilename = "input_tvSeasons.bin";
     
-    private static String tvEpisodesTextFileLoadFilename = "tvEpisodes_load.txt";
+    private static String binaryInputTVEpisodesFilename = "input_tvEpisodes.bin";
     
     
-    private static String moviesBinaryFileLoadFilename = "movies_load.bin";
+    private static String textOutputMoviesFilename = "output_movies.txt";
     
-    private static String tvShowsBinaryFileLoadFilename = "tvShows_load.bin";
+    private static String textOutputTVShowsFilename = "output_tvShows.txt";
     
-    private static String tvSeasonsBinaryFileLoadFilename = "tvSeasons_load.bin";
+    private static String textOutputTVSeasonsFilename = "output_tvSeasons.txt";
     
-    private static String tvEpisodesBinaryFileLoadFilename = "tvEpisodes_load.bin";
+    private static String textOutputTVEpisodesFilename = "output_tvEpisodes.txt";
+    
+    
+    private static String binaryOutputMoviesFilename = "output_movies.bin";
+    
+    private static String binaryOutputTVShowsFilename = "output_tvShows.bin";
+    
+    private static String binaryOutputTVSeasonsFilename = "output_tvSeasons.bin";
+    
+    private static String binaryOutputTVEpisodesFilename = "output_tvEpisodes.bin";
     
     
     private static Collator czechCollator = Collator.getInstance(new Locale("cs", "CZ"));
@@ -187,82 +185,82 @@ public final class DataStore
         return appName;
     }
 
-    public static String getMoviesTextFileAddFilename() 
+    public static String getTextInputMoviesFilename() 
     {
-        return moviesTextFileAddFilename;
+        return textInputMoviesFilename;
     }
 
-    public static String getTvShowsTextFileAddFilename() 
+    public static String getTextInputTVShowsFilename() 
     {
-        return tvShowsTextFileAddFilename;
+        return textInputTVShowsFilename;
     }
 
-    public static String getTvSeasonsTextFileAddFilename() 
+    public static String getTextInputTVSeasonsFilename() 
     {
-        return tvSeasonsTextFileAddFilename;
+        return textInputTVSeasonsFilename;
     }
 
-    public static String getTvEpisodesTextFileAddFilename() 
+    public static String getTextInputTVEpisodesFilename() 
     {
-        return tvEpisodesTextFileAddFilename;
+        return textInputTVEpisodesFilename;
     }
 
-    public static String getMoviesBinaryFileAddFilename() 
+    public static String getBinaryInputMoviesFilename() 
     {
-        return moviesBinaryFileAddFilename;
+        return binaryInputMoviesFilename;
     }
 
-    public static String getTvShowsBinaryFileAddFilename() {
-        return tvShowsBinaryFileAddFilename;
+    public static String getBinaryInputTVShowsFilename() {
+        return binaryInputTVShowsFilename;
     }
 
-    public static String getTvSeasonsBinaryFileAddFilename() 
+    public static String getBinaryInputTVSeasonsFilename() 
     {
-        return tvSeasonsBinaryFileAddFilename;
+        return binaryInputTVSeasonsFilename;
     }
 
-    public static String getTvEpisodesBinaryFileAddFilename() 
+    public static String getBinaryInputTVEpisodesFilename() 
     {
-        return tvEpisodesBinaryFileAddFilename;
+        return binaryInputTVEpisodesFilename;
     }
 
-    public static String getMoviesTextFileLoadFilename() 
+    public static String getTextOutputMoviesFilename() 
     {
-        return moviesTextFileLoadFilename;
+        return textOutputMoviesFilename;
     }
 
-    public static String getTvSeasonsTextFileLoadFilename() 
+    public static String getTextOutputTVSeasonsFilename() 
     {
-        return tvSeasonsTextFileLoadFilename;
+        return textOutputTVSeasonsFilename;
     }
 
-    public static String getTvEpisodesTextFileLoadFilename() 
+    public static String getTextOutputTVEpisodesFilename() 
     {
-        return tvEpisodesTextFileLoadFilename;
+        return textOutputTVEpisodesFilename;
     }
 
-    public static String getMoviesBinaryFileLoadFilename() 
+    public static String getBinaryOutputMoviesFilename() 
     {
-        return moviesBinaryFileLoadFilename;
+        return binaryOutputMoviesFilename;
     }
 
-    public static String getTvShowsBinaryFileLoadFilename() 
+    public static String getBinaryOutputTVShowsFilename() 
     {
-        return tvShowsBinaryFileLoadFilename;
+        return binaryOutputTVShowsFilename;
     }
 
-    public static String getTvSeasonsBinaryFileLoadFilename() 
+    public static String getBinaryOutputTVSeasonsFilename() 
     {
-        return tvSeasonsBinaryFileLoadFilename;
+        return binaryOutputTVSeasonsFilename;
     }
 
-    public static String getTvEpisodesBinaryFileLoadFilename() 
+    public static String getBinaryOutputTVEpisodesFilename() 
     {
-        return tvEpisodesBinaryFileLoadFilename;
+        return binaryOutputTVEpisodesFilename;
     }
     
-    public static String getTvShowsTextFileLoadFilename() 
+    public static String getTextOutputTVShowsFilename() 
     {
-        return tvShowsTextFileLoadFilename;
+        return textOutputTVShowsFilename;
     }
 }
