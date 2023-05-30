@@ -27,9 +27,30 @@ public class FileManagerTest
             FileManager.setDataDirectory("data");
             String path = FileManager.getDataDirectoryPath();
             
+            //getDataDirectoryPath method
+            System.out.println();
+            System.out.println("getDataDirectoryPath method (celá úplná cesta):");
+            System.out.println();
+                        
+            System.out.println(path);
+            
+            //getBinaryFileContent method
+            System.out.println();
+            System.out.println("getBinaryFileContent method (obsah input_movies.bin):");
+            System.out.println();
+            
             StringBuilder moviesBinaryFile = fileManager.getBinaryFileContent(DataStore.getBinaryInputMoviesFilename());
             
             System.out.println(moviesBinaryFile);
+            
+            //getTextFileContent method
+            System.out.println();
+            System.out.println("getTextFileContent method (obsah input_movies.txt):");
+            System.out.println();
+            
+            StringBuilder moviesTextFile = fileManager.getTextFileContent(DataStore.getTextInputMoviesFilename());
+            
+            System.out.println(moviesTextFile);
             
             //loadInputMoviesFromText method
             System.out.println();
