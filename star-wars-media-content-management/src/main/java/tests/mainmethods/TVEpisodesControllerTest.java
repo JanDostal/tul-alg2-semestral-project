@@ -148,24 +148,26 @@ public class TVEpisodesControllerTest
         //getTotalRuntimeOfAllEpisodesInTVShow method
         
         Duration getTotalRuntimeOfAllEpisodesInTVShow_result = 
-                controller.getTotalRuntimeOfAllEpisodesInTVShow(show.getPrimaryKey());
+                controller.getTotalRuntimeOfAllEpisodesInTVShow(show.getPrimaryKey(), true);
         
         System.out.println();
         System.out.println("getTotalRuntimeOfAllEpisodesInTVShow method:");
         System.out.println();
         
-        System.out.println("Celkova doba v minutach: " + getTotalRuntimeOfAllEpisodesInTVShow_result.toMinutes());
+        System.out.println("Celkova doba pouze shlednuteho obsahu v minutach: " 
+                + getTotalRuntimeOfAllEpisodesInTVShow_result.toMinutes());
         
         //getTotalRuntimeOfAllEpisodesInTVShowSeason method
         
         Duration getTotalRuntimeOfAllEpisodesInTVShowSeason_result = 
-                controller.getTotalRuntimeOfAllEpisodesInTVShowSeason(season.getPrimaryKey());
+                controller.getTotalRuntimeOfAllEpisodesInTVShowSeason(season.getPrimaryKey(), true);
         
         System.out.println();
         System.out.println("getTotalRuntimeOfAllEpisodesInTVShowSeason method:");
         System.out.println();
         
-        System.out.println("Celkova doba v minutach: " + getTotalRuntimeOfAllEpisodesInTVShowSeason_result.toMinutes());
+        System.out.println("Celkova doba pouze shlednuteho obsahu v minutach: " + 
+                getTotalRuntimeOfAllEpisodesInTVShowSeason_result.toMinutes());
         
         //getAverageRuntimeOfAllEpisodesInTVShowSeason method
         

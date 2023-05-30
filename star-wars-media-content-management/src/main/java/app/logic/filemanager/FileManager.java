@@ -6,13 +6,19 @@ import app.models.input.MovieInput;
 import app.models.input.TVEpisodeInput;
 import app.models.input.TVSeasonInput;
 import app.models.input.TVShowInput;
+import app.models.output.MovieOutput;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -84,6 +90,57 @@ public class FileManager
         }
     }
     
+    public void saveMoviesIntoTextAndBinary(List<MovieOutput> newOutputMovies) throws IOException, 
+            FileNotFoundException
+    {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(dataDirectory.getAbsolutePath() + filenameSeparator + 
+                DataStore.getTextOutputMoviesFilename(), false), StandardCharsets.UTF_8));
+             RandomAccessFile randomAccess = new RandomAccessFile(dataDirectory.getAbsolutePath() + 
+                filenameSeparator + DataStore.getBinaryOutputMoviesFilename(), "rw");
+             DataOutputStream dataOutputWriter = new DataOutputStream(
+                new FileOutputStream(randomAccess.getFD())))
+        {
+            StringBuilder generatedMoviesTextRepresentations = 
+                    createMoviesTextRepresentation(newOutputMovies);
+            
+            randomAccess.setLength(0);
+            randomAccess.seek(randomAccess.length());
+            
+            for (MovieOutput m : newOutputMovies) 
+            {
+                dataOutputWriter.writeInt(m.getId());
+                dataOutputWriter.writeLong(m.getRuntimeInSeconds());
+                
+                for (char c : m.getName().toCharArray()) 
+                {
+                    dataOutputWriter.writeChar(c);
+                }
+                
+                dataOutputWriter.writeInt(m.getPercentageRating());
+                
+                for (char c : m.getHyperlinkForContentWatch().toCharArray()) 
+                {
+                    dataOutputWriter.writeChar(c);
+                }
+                
+                for (char c : m.getShortContentSummary().toCharArray()) 
+                {
+                    dataOutputWriter.writeChar(c);
+                }
+                
+                dataOutputWriter.writeLong(m.getReleaseDateInEpochSeconds());
+                
+                for (char c : m.getEra().toCharArray()) 
+                {
+                    dataOutputWriter.writeChar(c);
+                }
+            }
+                        
+            bufferedWriter.write(generatedMoviesTextRepresentations.toString());
+        }
+    }
+    
     public StringBuilder getTextFileContent(String fileName) throws FileNotFoundException, IOException 
     {
         StringBuilder text = new StringBuilder();
@@ -103,13 +160,15 @@ public class FileManager
             }
         }
         
-        Scanner sc = new Scanner(text.toString());
-        
-        if (sc.hasNextLine() == false) 
+        try (Scanner sc = new Scanner(text.toString())) 
         {
-            //exception
+            if (sc.hasNextLine() == false)
+            {
+                sc.close();
+                //exception
+            }
         }
-                
+        
         return text;
     }
         
@@ -167,10 +226,7 @@ public class FileManager
         {
             //exception
         }
-                
-        Scanner sc = new Scanner(text.toString());
-        String textLine;
-        
+                        
         Class<?> movieInputClass = MovieInput.class;
         Field[] movieInputFields = movieInputClass.getDeclaredFields();
         Map<String, StringBuilder> movieInputFieldsValues = new LinkedHashMap<>();
@@ -188,82 +244,87 @@ public class FileManager
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
         
-        while (sc.hasNextLine() == true) 
+        try (Scanner sc = new Scanner(text.toString())) 
         {
-            textLine = sc.nextLine();
+            String textLine;
             
-            if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
+            while (sc.hasNextLine() == true) 
             {
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking + 
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseMovieInputData(movieInputFieldsValues, parsedMovies, movieInputFields);
-
-                break;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking + 
-                    "[\\s\t]*$") && enteredSectionAttributes == true) 
-            {
-                enteredSectionValues = true;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseMovieInputData(movieInputFieldsValues, parsedMovies,
-                        movieInputFields);
-
-                enteredSectionAttributes = true;
-                enteredSectionValues = false;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == false) 
-            {
-                enteredSectionAttributes = true;
-                continue;
-            }
-
-            if (enteredSectionValues == true) 
-            {
-                String[] parts = textLine.split(" (?=[^ ]+$)");
-
-                if (parts.length != 2) 
+                textLine = sc.nextLine();
+                
+                if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
                 {
                     continue;
                 }
-
-                int fieldId;
-
-                try 
+                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    fieldId = Integer.parseInt(parts[1]);
-                } 
-                catch (NumberFormatException ex) 
+                    parseMovieInputData(movieInputFieldsValues, parsedMovies, movieInputFields);
+                    
+                    break; 
+                }
+                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == true)
                 {
+                    enteredSectionValues = true;
+                    
                     continue;
                 }
-
-                String fieldName = movieInputFieldsIds.get(fieldId);
-
-                if (fieldName == null) 
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
+                    parseMovieInputData(movieInputFieldsValues, parsedMovies,
+                            movieInputFields);
+                    
+                    enteredSectionAttributes = true;
+                    enteredSectionValues = false;
+                    
                     continue;
                 }
-
-                StringBuilder fieldValue = movieInputFieldsValues.get(fieldName);
-                StringBuilder newFieldValue = fieldValue.append(parts[0]);
-
-                if (fieldName.equals("shortContentSummary")) 
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == false) 
                 {
-                    newFieldValue.append("\n");
+                    enteredSectionAttributes = true;
+                    continue;
                 }
-
-                movieInputFieldsValues.put(fieldName, newFieldValue);
+                
+                if (enteredSectionValues == true)
+                {
+                    String[] parts = textLine.split(" (?=[^ ]+$)");
+                    
+                    if (parts.length != 2)
+                    {
+                        continue;
+                    }
+                    
+                    int fieldId;
+                    
+                    try
+                    {
+                        fieldId = Integer.parseInt(parts[1]);
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        continue;
+                    }
+                    
+                    String fieldName = movieInputFieldsIds.get(fieldId);
+                    
+                    if (fieldName == null)
+                    {
+                        continue;
+                    }
+                    
+                    StringBuilder fieldValue = movieInputFieldsValues.get(fieldName);
+                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                    
+                    if (fieldName.equals("shortContentSummary"))
+                    {
+                        newFieldValue.append("\n");
+                    }
+                    
+                    movieInputFieldsValues.put(fieldName, newFieldValue);
+                }
             }
         }
         
@@ -307,92 +368,94 @@ public class FileManager
         boolean enteredSectionValues = false;
         boolean isFileEmpty = true;
                             
-        Scanner sc = new Scanner(text.toString());
-        String textLine;
-        
-        if (sc.hasNextLine() == true) 
+        try (Scanner sc = new Scanner(text.toString())) 
         {
-            isFileEmpty = false;
-        }
-
-        while (sc.hasNextLine() == true) 
-        {
-            textLine = sc.nextLine();
-
-            if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
+            String textLine;
+            
+            if (sc.hasNextLine() == true) 
             {
-                continue;
-                
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking + 
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseMovieInputData(movieInputFieldsValues, parsedMovies, movieInputFields);
-
-                break;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking + 
-                    "[\\s\t]*$") && enteredSectionAttributes == true) 
-            {
-                enteredSectionValues = true;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking + 
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseMovieInputData(movieInputFieldsValues, parsedMovies,
-                        movieInputFields);
-
-                enteredSectionAttributes = true;
-                enteredSectionValues = false;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking + 
-                    "[\\s\t]*$") && enteredSectionAttributes == false) 
-            {
-                
-                enteredSectionAttributes = true;
-                continue;
+                isFileEmpty = false;
             }
-
-            if (enteredSectionValues == true) 
+            
+            while (sc.hasNextLine() == true) 
             {
-                String[] parts = textLine.split(" (?=[^ ]+$)");
-
-                if (parts.length != 2) 
+                textLine = sc.nextLine();
+                
+                if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
                 {
                     continue;
+                    
                 }
-
-                int fieldId;
-
-                try 
+                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    fieldId = Integer.parseInt(parts[1]);
-                } 
-                catch (NumberFormatException ex) 
+                    parseMovieInputData(movieInputFieldsValues, parsedMovies, movieInputFields);
+                    
+                    break; 
+                }
+                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == true)
                 {
+                    enteredSectionValues = true;
+                    
                     continue;
                 }
-
-                String fieldName = movieInputFieldsIds.get(fieldId);
-
-                if (fieldName == null) 
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
+                    parseMovieInputData(movieInputFieldsValues, parsedMovies,
+                            movieInputFields);
+                    
+                    enteredSectionAttributes = true;
+                    enteredSectionValues = false;
+                    
                     continue;
                 }
-
-                StringBuilder fieldValue = movieInputFieldsValues.get(fieldName);
-                StringBuilder newFieldValue = fieldValue.append(parts[0]);
-
-                if (fieldName.equals("shortContentSummary")) 
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == false) 
                 {
-                    newFieldValue.append("\n");
-                }
 
-                movieInputFieldsValues.put(fieldName, newFieldValue);
+                    enteredSectionAttributes = true;
+                    continue;
+                }
+                
+                if (enteredSectionValues == true)
+                {
+                    String[] parts = textLine.split(" (?=[^ ]+$)");
+                    
+                    if (parts.length != 2)
+                    {
+                        continue;
+                    }
+                    
+                    int fieldId;
+                    
+                    try
+                    {
+                        fieldId = Integer.parseInt(parts[1]);
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        continue;
+                    }
+                    
+                    String fieldName = movieInputFieldsIds.get(fieldId);
+                    
+                    if (fieldName == null)
+                    {
+                        continue;
+                    }
+                    
+                    StringBuilder fieldValue = movieInputFieldsValues.get(fieldName);
+                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                    
+                    if (fieldName.equals("shortContentSummary"))
+                    {
+                        newFieldValue.append("\n");
+                    }
+                    
+                    movieInputFieldsValues.put(fieldName, newFieldValue);
+                }
             }
         }
         
@@ -447,80 +510,82 @@ public class FileManager
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
         
-        Scanner sc = new Scanner(text.toString());
-        String textLine;
-        
-        while (sc.hasNextLine() == true) 
+        try (Scanner sc = new Scanner(text.toString())) 
         {
-            textLine = sc.nextLine();
+            String textLine;
             
-            if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
+            while (sc.hasNextLine() == true) 
             {
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseTVShowInputData(tvShowInputFieldsValues, parsedShows, tvShowInputFields);
-
-                break;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == true) 
-            {
-                enteredSectionValues = true;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseTVShowInputData(tvShowInputFieldsValues, parsedShows,
-                        tvShowInputFields);
-
-                enteredSectionAttributes = true;
-                enteredSectionValues = false;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == false) 
-            {
-                enteredSectionAttributes = true;
-                continue;
-            }
-
-            if (enteredSectionValues == true) 
-            {
-                String[] parts = textLine.split(" (?=[^ ]+$)");
-
-                if (parts.length != 2) 
+                textLine = sc.nextLine();
+                
+                if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
                 {
                     continue;
                 }
-
-                int fieldId;
-
-                try 
+                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    fieldId = Integer.parseInt(parts[1]);
-                } 
-                catch (NumberFormatException ex) 
+                    parseTVShowInputData(tvShowInputFieldsValues, parsedShows, tvShowInputFields);
+                    
+                    break; 
+                }
+                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == true)
                 {
+                    enteredSectionValues = true;
+                    
                     continue;
                 }
-
-                String fieldName = tvShowInputFieldsIds.get(fieldId);
-
-                if (fieldName == null) 
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
+                    parseTVShowInputData(tvShowInputFieldsValues, parsedShows,
+                            tvShowInputFields);
+                    
+                    enteredSectionAttributes = true;
+                    enteredSectionValues = false;
+                    
                     continue;
                 }
-
-                StringBuilder fieldValue = tvShowInputFieldsValues.get(fieldName);
-                StringBuilder newFieldValue = fieldValue.append(parts[0]);
-
-                tvShowInputFieldsValues.put(fieldName, newFieldValue);
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == false)
+                {
+                    enteredSectionAttributes = true;
+                    continue;
+                }
+                
+                if (enteredSectionValues == true)
+                {
+                    String[] parts = textLine.split(" (?=[^ ]+$)");
+                    
+                    if (parts.length != 2)
+                    {
+                        continue;
+                    }
+                    
+                    int fieldId;
+                    
+                    try
+                    {
+                        fieldId = Integer.parseInt(parts[1]);
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        continue;
+                    }
+                    
+                    String fieldName = tvShowInputFieldsIds.get(fieldId);
+                    
+                    if (fieldName == null)
+                    {
+                        continue;
+                    }
+                    
+                    StringBuilder fieldValue = tvShowInputFieldsValues.get(fieldName);
+                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                    
+                    tvShowInputFieldsValues.put(fieldName, newFieldValue);
+                }
             }
         }
         
@@ -564,86 +629,88 @@ public class FileManager
         boolean enteredSectionValues = false;
         boolean isFileEmpty = true;
                     
-        Scanner sc = new Scanner(text.toString());
-        String textLine;
-        
-        if (sc.hasNextLine() == true) 
+        try (Scanner sc = new Scanner(text.toString())) 
         {
-            isFileEmpty = false;
-        }
-
-        while (sc.hasNextLine() == true) 
-        {
-            textLine = sc.nextLine();
-
-            if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
+            String textLine;
+            
+            if (sc.hasNextLine() == true) 
             {
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking + 
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-
-                parseTVShowInputData(tvShowInputFieldsValues, parsedShows, tvShowInputFields);
-
-                break;
+                isFileEmpty = false;
             }
-            else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == true) 
+            
+            while (sc.hasNextLine() == true) 
             {
-                enteredSectionValues = true;
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseTVShowInputData(tvShowInputFieldsValues, parsedShows,
-                        tvShowInputFields);
-
-                enteredSectionAttributes = true;
-                enteredSectionValues = false;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$")
-                    && enteredSectionAttributes == false) 
-            {
-                enteredSectionAttributes = true;
-                continue;
-            }
-
-            if (enteredSectionValues == true) 
-            {
-                String[] parts = textLine.split(" (?=[^ ]+$)");
-
-                if (parts.length != 2) 
+                textLine = sc.nextLine();
+                
+                if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
                 {
                     continue;
                 }
-
-                int fieldId;
-
-                try 
+                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    fieldId = Integer.parseInt(parts[1]);
-                } 
-                catch (NumberFormatException ex) 
+                    
+                    parseTVShowInputData(tvShowInputFieldsValues, parsedShows, tvShowInputFields);
+                     
+                    break;
+                }
+                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == true)
                 {
+                    enteredSectionValues = true;
                     continue;
                 }
-
-                String fieldName = tvShowInputFieldsIds.get(fieldId);
-
-                if (fieldName == null) 
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
+                    parseTVShowInputData(tvShowInputFieldsValues, parsedShows,
+                            tvShowInputFields);
+                    
+                    enteredSectionAttributes = true;
+                    enteredSectionValues = false;
+                    
                     continue;
                 }
-
-                StringBuilder fieldValue = tvShowInputFieldsValues.get(fieldName);
-                StringBuilder newFieldValue = fieldValue.append(parts[0]);
-
-                tvShowInputFieldsValues.put(fieldName, newFieldValue);
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$")
+                        && enteredSectionAttributes == false)
+                {
+                    enteredSectionAttributes = true;
+                    continue;
+                }
+                
+                if (enteredSectionValues == true)
+                {
+                    String[] parts = textLine.split(" (?=[^ ]+$)");
+                    
+                    if (parts.length != 2)
+                    {
+                        continue;
+                    }
+                    
+                    int fieldId;
+                    
+                    try
+                    {
+                        fieldId = Integer.parseInt(parts[1]);
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        continue;
+                    }
+                    
+                    String fieldName = tvShowInputFieldsIds.get(fieldId);
+                    
+                    if (fieldName == null)
+                    {
+                        continue;
+                    }
+                    
+                    StringBuilder fieldValue = tvShowInputFieldsValues.get(fieldName);
+                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                    
+                    tvShowInputFieldsValues.put(fieldName, newFieldValue);
+                }
             }
         }
         
@@ -698,80 +765,82 @@ public class FileManager
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
         
-        Scanner sc = new Scanner(text.toString());
-        String textLine;
-        
-        while (sc.hasNextLine() == true) 
+        try (Scanner sc = new Scanner(text.toString())) 
         {
-            textLine = sc.nextLine();
+            String textLine;
             
-            if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
+            while (sc.hasNextLine() == true) 
             {
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseTVSeasonInputData(tvSeasonInputFieldsValues, parsedSeasons, tvSeasonInputFields);
-
-                break;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == true) 
-            {
-                enteredSectionValues = true;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseTVSeasonInputData(tvSeasonInputFieldsValues, parsedSeasons,
-                        tvSeasonInputFields);
-
-                enteredSectionAttributes = true;
-                enteredSectionValues = false;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == false) 
-            {
-                enteredSectionAttributes = true;
-                continue;
-            }
-
-            if (enteredSectionValues == true) 
-            {
-                String[] parts = textLine.split(" (?=[^ ]+$)");
-
-                if (parts.length != 2) 
+                textLine = sc.nextLine();
+                
+                if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
                 {
                     continue;
                 }
-
-                int fieldId;
-
-                try 
+                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    fieldId = Integer.parseInt(parts[1]);
-                } 
-                catch (NumberFormatException ex) 
+                    parseTVSeasonInputData(tvSeasonInputFieldsValues, parsedSeasons, tvSeasonInputFields);
+                    
+                    break; 
+                }
+                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == true)
                 {
+                    enteredSectionValues = true;
+                    
                     continue;
                 }
-
-                String fieldName = tvSeasonInputFieldsIds.get(fieldId);
-
-                if (fieldName == null) 
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
+                    parseTVSeasonInputData(tvSeasonInputFieldsValues, parsedSeasons,
+                            tvSeasonInputFields);
+                    
+                    enteredSectionAttributes = true;
+                    enteredSectionValues = false;
+                    
                     continue;
                 }
-
-                StringBuilder fieldValue = tvSeasonInputFieldsValues.get(fieldName);
-                StringBuilder newFieldValue = fieldValue.append(parts[0]);
-
-                tvSeasonInputFieldsValues.put(fieldName, newFieldValue);
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == false)
+                {
+                    enteredSectionAttributes = true;
+                    continue;
+                }
+                
+                if (enteredSectionValues == true)
+                {
+                    String[] parts = textLine.split(" (?=[^ ]+$)");
+                    
+                    if (parts.length != 2)
+                    {
+                        continue;
+                    }
+                    
+                    int fieldId;
+                    
+                    try
+                    {
+                        fieldId = Integer.parseInt(parts[1]);
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        continue;
+                    }
+                    
+                    String fieldName = tvSeasonInputFieldsIds.get(fieldId);
+                    
+                    if (fieldName == null)
+                    {
+                        continue;
+                    }
+                    
+                    StringBuilder fieldValue = tvSeasonInputFieldsValues.get(fieldName);
+                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                    
+                    tvSeasonInputFieldsValues.put(fieldName, newFieldValue);
+                }
             }
         }
         
@@ -817,84 +886,86 @@ public class FileManager
         
         List<TVSeasonInput> parsedTVSeasons = new ArrayList<>();
         
-        Scanner sc = new Scanner(text.toString());
-        String textLine;
-        
-        if (sc.hasNextLine() == true) 
+        try (Scanner sc = new Scanner(text.toString())) 
         {
-            isFileEmpty = false;
-        }
-
-        while (sc.hasNextLine() == true) 
-        {
-            textLine = sc.nextLine();
-
-            if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
+            String textLine;
+            
+            if (sc.hasNextLine() == true) 
             {
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseTVSeasonInputData(tvSeasonInputFieldsValues, parsedTVSeasons,
-                        tvSeasonInputFields);
-
-                break;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == true) 
-            {
-                enteredSectionValues = true;
-                continue;
-            } 
-            else if ((textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true)) 
-            {
-                parseTVSeasonInputData(tvSeasonInputFieldsValues, parsedTVSeasons, tvSeasonInputFields);
-
-                enteredSectionAttributes = true;
-                enteredSectionValues = false;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == false) 
-            {
-                enteredSectionAttributes = true;
-                continue;
+                isFileEmpty = false;
             }
-
-            if (enteredSectionValues == true) 
+            
+            while (sc.hasNextLine() == true) 
             {
-                String[] parts = textLine.split(" (?=[^ ]+$)");
-
-                if (parts.length != 2) 
+                textLine = sc.nextLine();
+                
+                if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
                 {
                     continue;
                 }
-
-                int fieldId;
-
-                try 
+                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    fieldId = Integer.parseInt(parts[1]);
-                } 
-                catch (NumberFormatException ex) 
+                    parseTVSeasonInputData(tvSeasonInputFieldsValues, parsedTVSeasons,
+                            tvSeasonInputFields);
+                     
+                    break;
+                }
+                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == true)
                 {
+                    enteredSectionValues = true;
                     continue;
                 }
-
-                String fieldName = tvSeasonInputFieldsIds.get(fieldId);
-
-                if (fieldName == null) 
+                else if ((textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true)) 
                 {
+                    parseTVSeasonInputData(tvSeasonInputFieldsValues, parsedTVSeasons, tvSeasonInputFields);
+                    
+                    enteredSectionAttributes = true;
+                    enteredSectionValues = false;
+                    
                     continue;
                 }
-
-                StringBuilder fieldValue = tvSeasonInputFieldsValues.get(fieldName);
-                StringBuilder newFieldValue = fieldValue.append(parts[0]);
-
-                tvSeasonInputFieldsValues.put(fieldName, newFieldValue);
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == false)
+                {
+                    enteredSectionAttributes = true;
+                    continue;
+                }
+                
+                if (enteredSectionValues == true)
+                {
+                    String[] parts = textLine.split(" (?=[^ ]+$)");
+                    
+                    if (parts.length != 2)
+                    {
+                        continue;
+                    }
+                    
+                    int fieldId;
+                    
+                    try
+                    {
+                        fieldId = Integer.parseInt(parts[1]);
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        continue;
+                    }
+                    
+                    String fieldName = tvSeasonInputFieldsIds.get(fieldId);
+                    
+                    if (fieldName == null)
+                    {
+                        continue;
+                    }
+                    
+                    StringBuilder fieldValue = tvSeasonInputFieldsValues.get(fieldName);
+                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                    
+                    tvSeasonInputFieldsValues.put(fieldName, newFieldValue);
+                }
             }
         }
         
@@ -949,85 +1020,87 @@ public class FileManager
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
         
-        Scanner sc = new Scanner(text.toString());
-        String textLine;
-        
-        while (sc.hasNextLine() == true) 
+        try (Scanner sc = new Scanner(text.toString())) 
         {
-            textLine = sc.nextLine();
+            String textLine;
             
-            if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
+            while (sc.hasNextLine() == true) 
             {
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes, tvEpisodeInputFields);
-
-                break;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == true) 
-            {
-                enteredSectionValues = true;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes,
-                        tvEpisodeInputFields);
-
-                enteredSectionAttributes = true;
-                enteredSectionValues = false;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == false) 
-            {
-                enteredSectionAttributes = true;
-                continue;
-            }
-
-            if (enteredSectionValues == true) 
-            {
-                String[] parts = textLine.split(" (?=[^ ]+$)");
-
-                if (parts.length != 2) 
+                textLine = sc.nextLine();
+                
+                if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
                 {
                     continue;
                 }
-
-                int fieldId;
-
-                try 
+                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    fieldId = Integer.parseInt(parts[1]);
-                } 
-                catch (NumberFormatException ex) 
+                    parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes, tvEpisodeInputFields);
+                    
+                    break; 
+                }
+                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == true)
                 {
+                    enteredSectionValues = true;
+                    
                     continue;
                 }
-
-                String fieldName = tvEpisodeInputFieldsIds.get(fieldId);
-
-                if (fieldName == null) 
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
+                    parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes,
+                            tvEpisodeInputFields);
+                    
+                    enteredSectionAttributes = true;
+                    enteredSectionValues = false;
+                    
                     continue;
                 }
-
-                StringBuilder fieldValue = tvEpisodeInputFieldsValues.get(fieldName);
-                StringBuilder newFieldValue = fieldValue.append(parts[0]);
-
-                if (fieldName.equals("shortContentSummary")) 
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == false) 
                 {
-                    newFieldValue.append("\n");
+                    enteredSectionAttributes = true;
+                    continue;
                 }
-
-                tvEpisodeInputFieldsValues.put(fieldName, newFieldValue);
+                
+                if (enteredSectionValues == true)
+                {
+                    String[] parts = textLine.split(" (?=[^ ]+$)");
+                    
+                    if (parts.length != 2)
+                    {
+                        continue;
+                    }
+                    
+                    int fieldId;
+                    
+                    try
+                    {
+                        fieldId = Integer.parseInt(parts[1]);
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        continue;
+                    }
+                    
+                    String fieldName = tvEpisodeInputFieldsIds.get(fieldId);
+                    
+                    if (fieldName == null)
+                    {
+                        continue;
+                    }
+                    
+                    StringBuilder fieldValue = tvEpisodeInputFieldsValues.get(fieldName);
+                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                    
+                    if (fieldName.equals("shortContentSummary"))
+                    {
+                        newFieldValue.append("\n");
+                    }
+                    
+                    tvEpisodeInputFieldsValues.put(fieldName, newFieldValue);
+                }
             }
         }
         
@@ -1072,90 +1145,92 @@ public class FileManager
         
         List<TVEpisodeInput> parsedEpisodes = new ArrayList<>();
         
-        Scanner sc = new Scanner(text.toString()); 
-        String textLine;
-        
-        if (sc.hasNextLine() == true) 
+        try (Scanner sc = new Scanner(text.toString())) 
         {
-            isFileEmpty = false;
-        }
-
-        while (sc.hasNextLine() == true) 
-        {
-            textLine = sc.nextLine();
-
-            if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
+            String textLine;
+            
+            if (sc.hasNextLine() == true) 
             {
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true) 
-            {
-                parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes,
-                        tvEpisodeInputFields);
-
-                break;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == true) 
-            {
-                enteredSectionValues = true;
-                continue;
-            } 
-            else if ((textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionValues == true)) 
-            {
-                parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes,
-                        tvEpisodeInputFields);
-
-                enteredSectionAttributes = true;
-                enteredSectionValues = false;
-
-                continue;
-            } 
-            else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                    "[\\s\t]*$") && enteredSectionAttributes == false) 
-            {
-                enteredSectionAttributes = true;
-                continue;
+                isFileEmpty = false;
             }
-
-            if (enteredSectionValues == true) 
+            
+            while (sc.hasNextLine() == true) 
             {
-                String[] parts = textLine.split(" (?=[^ ]+$)");
-
-                if (parts.length != 2) 
+                textLine = sc.nextLine();
+                
+                if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
                 {
                     continue;
                 }
-
-                int fieldId;
-
-                try 
+                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    fieldId = Integer.parseInt(parts[1]);
-                } 
-                catch (NumberFormatException ex) 
+                    parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes,
+                            tvEpisodeInputFields);
+                     
+                    break;
+                }
+                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == true)
                 {
+                    enteredSectionValues = true;
                     continue;
                 }
-
-                String fieldName = tvEpisodeInputFieldsIds.get(fieldId);
-
-                if (fieldName == null) 
+                else if ((textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionValues == true)) 
                 {
+                    parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes,
+                            tvEpisodeInputFields);
+                    
+                    enteredSectionAttributes = true;
+                    enteredSectionValues = false;
+                    
                     continue;
                 }
-
-                StringBuilder fieldValue = tvEpisodeInputFieldsValues.get(fieldName);
-                StringBuilder newFieldValue = fieldValue.append(parts[0]);
-
-                if (fieldName.equals("shortContentSummary")) 
+                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                        "[\\s\t]*$") && enteredSectionAttributes == false) 
                 {
-                    newFieldValue.append("\n");
+                    enteredSectionAttributes = true;
+                    continue;
                 }
-
-                tvEpisodeInputFieldsValues.put(fieldName, newFieldValue);
+                
+                if (enteredSectionValues == true)
+                {
+                    String[] parts = textLine.split(" (?=[^ ]+$)");
+                    
+                    if (parts.length != 2)
+                    {
+                        continue;
+                    }
+                    
+                    int fieldId;
+                    
+                    try
+                    {
+                        fieldId = Integer.parseInt(parts[1]);
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        continue;
+                    }
+                    
+                    String fieldName = tvEpisodeInputFieldsIds.get(fieldId);
+                    
+                    if (fieldName == null)
+                    {
+                        continue;
+                    }
+                    
+                    StringBuilder fieldValue = tvEpisodeInputFieldsValues.get(fieldName);
+                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                    
+                    if (fieldName.equals("shortContentSummary"))
+                    {
+                        newFieldValue.append("\n");
+                    }
+                    
+                    tvEpisodeInputFieldsValues.put(fieldName, newFieldValue);
+                }
             }
         }
 
@@ -1279,5 +1354,75 @@ public class FileManager
                 tvSeasonInputFieldsValues.put(field.getName(), new StringBuilder());
             }
         }
+    }
+    
+    private StringBuilder createMoviesTextRepresentation(List<MovieOutput> newOutputMovies) 
+    {
+        Class<?> movieOutputClass = MovieOutput.class;
+        Field[] movieOutputFields = movieOutputClass.getDeclaredFields();
+        Map<String, Integer> movieOutputFieldsIds = new LinkedHashMap<>();
+        Field field;
+
+        for (int i = 0; i < movieOutputFields.length; i++) 
+        {
+            field = movieOutputFields[i];
+            movieOutputFieldsIds.put(field.getName(), i + 1);
+        }
+
+        StringBuilder outputTextData = new StringBuilder();
+        String attributesMarking;
+        String valuesMarking;
+
+        for (MovieOutput m : newOutputMovies) 
+        {
+            attributesMarking = inputFileAttributesSectionMarking.replaceAll("\\\\", "");
+            outputTextData.append(attributesMarking).append("\n");
+            outputTextData.append("\n");
+
+            for (Map.Entry<String, Integer> entry : movieOutputFieldsIds.entrySet()) 
+            {
+                outputTextData.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
+            }
+
+            valuesMarking = inputFileValuesSectionMarking.replaceAll("\\\\", "");
+            outputTextData.append("\n");
+            outputTextData.append(valuesMarking).append("\n");
+            outputTextData.append("\n");
+
+            outputTextData.append(m.getId()).append(" ").
+                    append(movieOutputFieldsIds.get("id")).
+                    append("\n");
+            outputTextData.append(m.getRuntimeInSeconds()).
+                    append(" ").append(movieOutputFieldsIds.get("runtimeInSeconds")).
+                    append("\n");
+            outputTextData.append(m.getName()).append(" ").
+                    append(movieOutputFieldsIds.get("name")).append("\n");
+            outputTextData.append(m.getPercentageRating()).
+                    append(" ").append(movieOutputFieldsIds.get("percentageRating")).
+                    append("\n");
+            outputTextData.append(m.getHyperlinkForContentWatch()).
+                    append(" ").append(movieOutputFieldsIds.get("hyperlinkForContentWatch")).
+                    append("\n");
+
+            String[] shortContentSummaryLines = m.getShortContentSummary().split("\n");
+
+            for (int i = 0; i < shortContentSummaryLines.length; i++) 
+            {
+                outputTextData.append(shortContentSummaryLines[i]).append(" ").
+                        append(movieOutputFieldsIds.get("shortContentSummary")).append("\n");
+            }
+
+            outputTextData.append(m.getReleaseDateInEpochSeconds()).
+                    append(" ").append(movieOutputFieldsIds.get("releaseDateInEpochSeconds")).
+                    append("\n");
+            outputTextData.append(m.getEra()).
+                    append(" ").append(movieOutputFieldsIds.get("era")).
+                    append("\n").append("\n");
+        }
+
+        String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
+        outputTextData.append(endMarking).append("\n");
+        
+        return outputTextData;
     }
 }

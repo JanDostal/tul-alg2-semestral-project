@@ -191,7 +191,7 @@ public class TVEpisodesController
     }
     
     //statistic method
-    public Duration getTotalRuntimeOfAllEpisodesInTVShow(PrimaryKey tvShowPrimaryKey) 
+    public Duration getTotalRuntimeOfAllEpisodesInTVShow(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) 
     {
         Duration duration = Duration.ZERO;
         
@@ -203,7 +203,8 @@ public class TVEpisodesController
         for (TVSeason season : showSeasons) 
         {
             seasonEpisodes = dbContext.
-                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(season.getPrimaryKey()));
+                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(season.getPrimaryKey()) &&
+                        e.getWasWatched() == onlyWatched);
             
             for (TVEpisode e : seasonEpisodes) 
             {
@@ -218,12 +219,13 @@ public class TVEpisodesController
     }
     
     //statistic method
-    public Duration getTotalRuntimeOfAllEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey) 
+    public Duration getTotalRuntimeOfAllEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
     {
         Duration duration = Duration.ZERO;
         
         List<TVEpisode> seasonEpisodes = dbContext.
-                getTVEpisodesTable().filterBy(s -> s.getTVSeasonForeignKey().equals(tvShowSeasonPrimaryKey));
+                getTVEpisodesTable().filterBy(s -> s.getTVSeasonForeignKey().equals(tvShowSeasonPrimaryKey) &&
+                        s.getWasWatched() == onlyWatched);
         
         for (TVEpisode e : seasonEpisodes) 
         {
