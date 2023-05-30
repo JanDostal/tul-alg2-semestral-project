@@ -87,21 +87,29 @@ public class FileManager
     public StringBuilder getTextFileContent(String fileName) throws FileNotFoundException, IOException 
     {
         StringBuilder text = new StringBuilder();
-        
-        boolean isFileEmpty = true;
                 
         try (BufferedReader r = new BufferedReader(new InputStreamReader(
                 new FileInputStream(dataDirectory.getAbsolutePath() + filenameSeparator +
                         DataStore.getTextInputMoviesFilename()), StandardCharsets.UTF_8))) 
         {
-
+            char[] buffer = new char[1024];
+            int bytesRead;
+            String textPart;
+            
+            while((bytesRead = r.read(buffer)) != -1) 
+            {
+               textPart = new String(buffer, 0, bytesRead);
+               text.append(textPart);
+            }
         }
         
-        if (isFileEmpty == true) 
+        Scanner sc = new Scanner(text.toString());
+        
+        if (sc.hasNextLine() == false) 
         {
             //exception
         }
-        
+                
         return text;
     }
         
@@ -138,7 +146,7 @@ public class FileManager
     {
         StringBuilder text = new StringBuilder();
         
-        try ( BufferedInputStream r = new BufferedInputStream(new FileInputStream(dataDirectory.getAbsolutePath() + filenameSeparator
+        try (BufferedInputStream r = new BufferedInputStream(new FileInputStream(dataDirectory.getAbsolutePath() + filenameSeparator
                 + DataStore.getBinaryInputMoviesFilename()))) 
         {
             byte[] buffer = new byte[1024];
@@ -301,11 +309,14 @@ public class FileManager
                             
         Scanner sc = new Scanner(text.toString());
         String textLine;
+        
+        if (sc.hasNextLine() == true) 
+        {
+            isFileEmpty = false;
+        }
 
         while (sc.hasNextLine() == true) 
         {
-            isFileEmpty = false;
-
             textLine = sc.nextLine();
 
             if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
@@ -555,10 +566,14 @@ public class FileManager
                     
         Scanner sc = new Scanner(text.toString());
         String textLine;
+        
+        if (sc.hasNextLine() == true) 
+        {
+            isFileEmpty = false;
+        }
 
         while (sc.hasNextLine() == true) 
         {
-            isFileEmpty = false;
             textLine = sc.nextLine();
 
             if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
@@ -803,11 +818,15 @@ public class FileManager
         List<TVSeasonInput> parsedTVSeasons = new ArrayList<>();
         
         Scanner sc = new Scanner(text.toString());
-        String textLine;       
+        String textLine;
+        
+        if (sc.hasNextLine() == true) 
+        {
+            isFileEmpty = false;
+        }
 
         while (sc.hasNextLine() == true) 
         {
-            isFileEmpty = false;
             textLine = sc.nextLine();
 
             if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
@@ -1055,10 +1074,14 @@ public class FileManager
         
         Scanner sc = new Scanner(text.toString()); 
         String textLine;
+        
+        if (sc.hasNextLine() == true) 
+        {
+            isFileEmpty = false;
+        }
 
         while (sc.hasNextLine() == true) 
         {
-            isFileEmpty = false;
             textLine = sc.nextLine();
 
             if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
