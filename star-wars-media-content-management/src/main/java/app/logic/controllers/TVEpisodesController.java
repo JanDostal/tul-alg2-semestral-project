@@ -128,51 +128,60 @@ public class TVEpisodesController
         message.append(String.format("Neshlédnuté epizody seriálu %s", queriedTVShow.getName()));
         message.append("</h1>");
         
-        for (TVSeason season : showSeasons) 
+        if(showSeasons.isEmpty()) 
         {
-            message.append("<h2>");
-            message.append(String.format("Sezóna %d", season.getOrderInTVShow()));
-            message.append("</h2>");
-            
-            seasonEpisodes = dbContext.
-                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(season.getPrimaryKey())
-                && e.getWasWatched() == false);
-            
-            dbContext.getTVEpisodesTable().sortBy(BY_ORDER_ASCENDING_EPISODE, seasonEpisodes);
-            
-            if (seasonEpisodes.isEmpty()) 
+            message.append("<br>");
+            message.append("<p style=\"color:red\">Žádné sezóny</p>");
+            message.append("<br>");
+        }
+        else 
+        {
+            for (TVSeason season : showSeasons) 
             {
-                message.append("<br>");
-                message.append("<br>");
-                message.append("<br>");
-            }
-            else 
-            {
-                message.append("<ul>");
-                
-                for (TVEpisode e : seasonEpisodes) 
+                message.append("<h2>");
+                message.append(String.format("Sezóna %d", season.getOrderInTVShow()));
+                message.append("</h2>");
+
+                seasonEpisodes = dbContext.
+                        getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(season.getPrimaryKey())
+                        && e.getWasWatched() == false);
+
+                dbContext.getTVEpisodesTable().sortBy(BY_ORDER_ASCENDING_EPISODE, seasonEpisodes);
+
+                if (seasonEpisodes.isEmpty()) 
                 {
-                    durationText = e.getRuntime() == null ? null : String.format("%02d:%02d:%02d", 
-                            e.getRuntime().toHours(), e.getRuntime().toMinutesPart(), 
-                            e.getRuntime().toSecondsPart());
-                  
-                    message.append("<li>");
-                    message.append("<h3>");
-                    message.append(String.format("Epizoda %d", e.getOrderInTVShowSeason()));
-                    message.append("</h3>");
-                    message.append("<p>");
-                    message.append(String.format("Název: %s", e.getName()));
-                    message.append("</p>");
-                    message.append("<p>");
-                    message.append(String.format("Délka epizody: %s", durationText));
-                    message.append("</p>");
-                    message.append(String.format("<a href=\"%s\">", e.getHyperlinkForContentWatch()));
-                    message.append("Shlédnout");
-                    message.append("</a>");
-                    message.append("</li>");
+                    message.append("<br>");
+                    message.append("<p style=\"color:red\">Žádné epizody</p>");
+                    message.append("<br>");
+                } 
+                else 
+                {
+                    message.append("<ul>");
+
+                    for (TVEpisode e : seasonEpisodes) 
+                    {
+                        durationText = e.getRuntime() == null ? null : String.format("%dh %dm %ds",
+                                e.getRuntime().toHoursPart(), e.getRuntime().toMinutesPart(),
+                                e.getRuntime().toSecondsPart());
+
+                        message.append("<li>");
+                        message.append("<h3>");
+                        message.append(String.format("Epizoda %d", e.getOrderInTVShowSeason()));
+                        message.append("</h3>");
+                        message.append("<p>");
+                        message.append(String.format("Název: %s", e.getName()));
+                        message.append("</p>");
+                        message.append("<p>");
+                        message.append(String.format("Délka epizody: %s", durationText));
+                        message.append("</p>");
+                        message.append(String.format("<a href=\"%s\">", e.getHyperlinkForContentWatch()));
+                        message.append("Shlédnout");
+                        message.append("</a>");
+                        message.append("</li>");
+                    }
+
+                    message.append("</ul>");
                 }
-                
-                message.append("</ul>");
             }
         }
         

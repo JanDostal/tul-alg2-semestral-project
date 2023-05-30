@@ -1,5 +1,6 @@
-[Attributes]
 
+[Attributes]
+    			   
 runtimeInSeconds 1
 name 2
 percentageRating 3
@@ -9,7 +10,7 @@ releaseDateInEpochSeconds 6
 era 7
 
 [Values]
-    
+
 213212 1
 Mařenka 2
 50 3

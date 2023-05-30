@@ -218,7 +218,7 @@ public class MoviesControllerTest
                 60, false, null, null, 
                 LocalDate.parse("2021-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
-        movieSearch_01 = dbContext.getMoviesTable().addFrom(movieSearch_01);
+        dbContext.getMoviesTable().addFrom(movieSearch_01);
         
         List<Movie> searchForMovie_result = 
                 controller.searchForMovie("ahóje jě");

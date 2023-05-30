@@ -117,12 +117,6 @@ public class MoviesController
         return movieController;
     }
     
-    //file method
-    public void configureDataDirectory(String dataDirectoryPath) 
-    {
-        fileManager.setDataDirectory(dataDirectoryPath);
-    }
-    
     //email method
     public void sendUnwatchedOldestMoviesWithHyperlinks(String recipientEmailAddress) throws EmailException 
     {
@@ -141,30 +135,42 @@ public class MoviesController
         
         message.append("<html>");
         message.append("<h1>Neshlédnuté filmy od nejstaršího datumu uvedení</h1>");
-        message.append("<ul>");
         
-        for (Movie m : filteredMovies) 
+        if(filteredMovies.isEmpty()) 
         {
-            String durationText = m.getRuntime() == null ? null : String.format("%02d:%02d:%02d", 
-                    m.getRuntime().toHours(), m.getRuntime().toMinutesPart(), 
-                    m.getRuntime().toSecondsPart());
-            
-            message.append("<li>");
-            message.append("<h2>");
-            message.append(m.getName());
-            message.append("</h2>");
-            message.append("<p>");
-            message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(formatter)));
-            message.append("</p>");
-            message.append("<p>");
-            message.append(String.format("Délka filmu: %s", durationText));
-            message.append("</p>");
-            message.append(String.format("<a href=\"%s\">", m.getHyperlinkForContentWatch()));
-            message.append("Shlédnout");
-            message.append("</a>");
-            message.append("</li>");
+            message.append("<br>");
+            message.append("<p style=\"color:red\">Žádné filmy</p>");
+            message.append("<br>");
         }
-        message.append("</ul>");
+        else 
+        {
+            message.append("<ul>");
+
+            for (Movie m : filteredMovies) 
+            {
+                String durationText = m.getRuntime() == null ? null : String.format("%dh %dm %ds",
+                        m.getRuntime().toHours(), m.getRuntime().toMinutesPart(),
+                        m.getRuntime().toSecondsPart());
+
+                message.append("<li>");
+                message.append("<h2>");
+                message.append(m.getName());
+                message.append("</h2>");
+                message.append("<p>");
+                message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(formatter)));
+                message.append("</p>");
+                message.append("<p>");
+                message.append(String.format("Délka filmu: %s", durationText));
+                message.append("</p>");
+                message.append(String.format("<a href=\"%s\">", m.getHyperlinkForContentWatch()));
+                message.append("Shlédnout");
+                message.append("</a>");
+                message.append("</li>");
+            }
+
+            message.append("</ul>");
+        }
+        
         message.append("</html>");
         
         emailSender.sendEmail(recipientEmailAddress, subject, message);
@@ -200,7 +206,7 @@ public class MoviesController
             if (filteredMovies.isEmpty()) 
             {
                 message.append("<br>");
-                message.append("<br>");
+                message.append("<p style=\"color:red\">Žádné filmy</p>");
                 message.append("<br>");
             }
             else 
@@ -209,8 +215,8 @@ public class MoviesController
             
                 for (Movie m : filteredMovies) 
                 {
-                    String durationText = m.getRuntime() == null ? null : String.format("%02d:%02d:%02d", 
-                            m.getRuntime().toHours(), m.getRuntime().toMinutesPart(), 
+                    String durationText = m.getRuntime() == null ? null : String.format("%dh %dm %ds", 
+                            m.getRuntime().toHoursPart(), m.getRuntime().toMinutesPart(), 
                             m.getRuntime().toSecondsPart());
             
                     message.append("<li>");
