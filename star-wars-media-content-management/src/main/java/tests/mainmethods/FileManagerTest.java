@@ -59,7 +59,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputMoviesFromText method:");
             System.out.println();
-            List<MovieInput> a = fileManager.getMoviesFileManager().loadInputMoviesFromText();
+            List<MovieInput> a = fileManager.getMoviesFileManager().loadInputMoviesFrom(false);
         
             for (MovieInput m : a) 
             {
@@ -70,7 +70,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputMoviesFromBinary method:");
             System.out.println();
-            List<MovieInput> b = fileManager.getMoviesFileManager().loadInputMoviesFromBinary();
+            List<MovieInput> b = fileManager.getMoviesFileManager().loadInputMoviesFrom(true);
         
             for (MovieInput m : b) 
             {
@@ -82,7 +82,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVShowsFromText method:");
             System.out.println();
-            List<TVShowInput> c = fileManager.getTVShowsFileManager().loadInputTVShowsFromText();
+            List<TVShowInput> c = fileManager.getTVShowsFileManager().loadInputTVShowsFrom(false);
         
             for (TVShowInput m : c) 
             {
@@ -93,7 +93,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVShowsFromBinary method:");
             System.out.println();
-            List<TVShowInput> d = fileManager.getTVShowsFileManager().loadInputTVShowsFromBinary();
+            List<TVShowInput> d = fileManager.getTVShowsFileManager().loadInputTVShowsFrom(true);
         
             for (TVShowInput m : d) 
             {
@@ -104,7 +104,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVSeasonsFromText method:");
             System.out.println();
-            List<TVSeasonInput> e = fileManager.getTVSeasonsFileManager().loadInputTVSeasonsFromText();
+            List<TVSeasonInput> e = fileManager.getTVSeasonsFileManager().loadInputTVSeasonsFrom(false);
         
             for (TVSeasonInput m : e) 
             {
@@ -115,7 +115,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVSeasonsFromBinary method:");
             System.out.println();
-            List<TVSeasonInput> f = fileManager.getTVSeasonsFileManager().loadInputTVSeasonsFromBinary();
+            List<TVSeasonInput> f = fileManager.getTVSeasonsFileManager().loadInputTVSeasonsFrom(true);
         
             for (TVSeasonInput m : f) 
             {
@@ -126,7 +126,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVEpisodesFromText method:");
             System.out.println();
-            List<TVEpisodeInput> g = fileManager.getTVEpisodesFileManager().loadInputTVEpisodesFromText();
+            List<TVEpisodeInput> g = fileManager.getTVEpisodesFileManager().loadInputTVEpisodesFrom(false);
         
             for (TVEpisodeInput m : g) 
             {
@@ -137,7 +137,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVEpisodesFromBinary method:");
             System.out.println();
-            List<TVEpisodeInput> h = fileManager.getTVEpisodesFileManager().loadInputTVEpisodesFromBinary();
+            List<TVEpisodeInput> h = fileManager.getTVEpisodesFileManager().loadInputTVEpisodesFrom(true);
         
             for (TVEpisodeInput m : h) 
             {
@@ -180,14 +180,14 @@ public class FileManagerTest
             System.out.println("makeCopyOfMoviesInTextAndBinary method:");
             System.out.println();
             
-            fileManager.getMoviesFileManager().makeCopyOfMoviesInTextAndBinary();
+            fileManager.getMoviesFileManager().transferBetweenOutpuDataAndCopyFiles(false);
                         
             //loadCopiesOfMoviesIntoOutputFiles method
             System.out.println();
             System.out.println("loadCopiesOfMoviesIntoOutputFiles method:");
             System.out.println();
             
-            fileManager.getMoviesFileManager().loadCopiesOfMoviesIntoOutputFiles();
+            fileManager.getMoviesFileManager().transferBetweenOutpuDataAndCopyFiles(true);
             
             //tryDeleteMoviesCopyOutputFiles method
             System.out.println();
