@@ -193,6 +193,11 @@ public class MoviesTable implements IDataTable<Movie>
         Collections.sort(sourceList);
     }
     
+    public @Override void clearData() 
+    {
+        moviesData.clear();
+    }
+    
     private PrimaryKey generatePrimaryKey() 
     {
         boolean isSame = true;

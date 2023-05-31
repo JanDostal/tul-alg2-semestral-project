@@ -2,13 +2,16 @@
 package tests.mainmethods;
 
 import app.logic.datastore.DataStore;
-import app.logic.filemanager.FileManager;
+import app.logic.filemanager.FileManagerAccessor;
 import app.models.input.MovieInput;
 import app.models.input.TVEpisodeInput;
 import app.models.input.TVSeasonInput;
 import app.models.input.TVShowInput;
+import app.models.output.MovieOutput;
+import static app.models.output.MovieOutput.ATTRIBUTE_NAME_LENGTH;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,12 +23,12 @@ public class FileManagerTest
 {
     public static void main(String[] args)
     {
-        FileManager fileManager = FileManager.getInstance();
+        FileManagerAccessor fileManager = FileManagerAccessor.getInstance();
 
         try 
         {
-            FileManager.setDataDirectory("data");
-            String path = FileManager.getDataDirectoryPath();
+            FileManagerAccessor.setDataDirectory("data");
+            String path = FileManagerAccessor.getDataDirectoryPath();
             
             //getDataDirectoryPath method
             System.out.println();
@@ -56,7 +59,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputMoviesFromText method:");
             System.out.println();
-            List<MovieInput> a = fileManager.loadInputMoviesFromText();
+            List<MovieInput> a = fileManager.getMoviesFileManager().loadInputMoviesFromText();
         
             for (MovieInput m : a) 
             {
@@ -67,7 +70,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputMoviesFromBinary method:");
             System.out.println();
-            List<MovieInput> b = fileManager.loadInputMoviesFromBinary();
+            List<MovieInput> b = fileManager.getMoviesFileManager().loadInputMoviesFromBinary();
         
             for (MovieInput m : b) 
             {
@@ -79,7 +82,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVShowsFromText method:");
             System.out.println();
-            List<TVShowInput> c = fileManager.loadInputTVShowsFromText();
+            List<TVShowInput> c = fileManager.getTVShowsFileManager().loadInputTVShowsFromText();
         
             for (TVShowInput m : c) 
             {
@@ -90,7 +93,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVShowsFromBinary method:");
             System.out.println();
-            List<TVShowInput> d = fileManager.loadInputTVShowsFromBinary();
+            List<TVShowInput> d = fileManager.getTVShowsFileManager().loadInputTVShowsFromBinary();
         
             for (TVShowInput m : d) 
             {
@@ -101,7 +104,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVSeasonsFromText method:");
             System.out.println();
-            List<TVSeasonInput> e = fileManager.loadInputTVSeasonsFromText();
+            List<TVSeasonInput> e = fileManager.getTVSeasonsFileManager().loadInputTVSeasonsFromText();
         
             for (TVSeasonInput m : e) 
             {
@@ -112,7 +115,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVSeasonsFromBinary method:");
             System.out.println();
-            List<TVSeasonInput> f = fileManager.loadInputTVSeasonsFromBinary();
+            List<TVSeasonInput> f = fileManager.getTVSeasonsFileManager().loadInputTVSeasonsFromBinary();
         
             for (TVSeasonInput m : f) 
             {
@@ -123,7 +126,7 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVEpisodesFromText method:");
             System.out.println();
-            List<TVEpisodeInput> g = fileManager.loadInputTVEpisodesFromText();
+            List<TVEpisodeInput> g = fileManager.getTVEpisodesFileManager().loadInputTVEpisodesFromText();
         
             for (TVEpisodeInput m : g) 
             {
@@ -134,12 +137,50 @@ public class FileManagerTest
             System.out.println();
             System.out.println("loadInputTVEpisodesFromBinary method:");
             System.out.println();
-            List<TVEpisodeInput> h = fileManager.loadInputTVEpisodesFromBinary();
+            List<TVEpisodeInput> h = fileManager.getTVEpisodesFileManager().loadInputTVEpisodesFromBinary();
         
             for (TVEpisodeInput m : h) 
             {
                 System.out.println(m);
             }
+            
+            //saveMoviesIntoTextAndBinary method
+            System.out.println();
+            System.out.println("saveMoviesIntoTextAndBinary method:");
+            System.out.println();
+            
+            MovieOutput movie1 = new MovieOutput(2, 222, "Jeníček", 40, 
+                    "https://example2.com", "ahíj\náahoj", 2222, "DAWN_OF_THE_JEDI");
+            MovieOutput movie2 = new MovieOutput(1, 222, "Mařenka", 100, 
+                    "https://example.com", "ahoj\nahoj", 2222222, "DAWN_OF_THE_JEDI");
+            
+            List<MovieOutput> list = new ArrayList<>();
+            list.add(movie2);
+            list.add(movie1);
+            
+            fileManager.getMoviesFileManager().saveMoviesIntoTextAndBinary(list);
+            
+            StringBuilder binaryTest = fileManager.getBinaryFileContent(DataStore.getBinaryOutputMoviesFilename());
+            StringBuilder textTest = fileManager.getTextFileContent(DataStore.getTextOutputMoviesFilename());
+            
+            System.out.println();
+            System.out.println("Vypis output_movies.txt");
+            System.out.println();
+            
+            System.out.println(textTest);
+            
+            System.out.println();
+            System.out.println("Vypis output_movies.bin");
+            System.out.println();
+            
+            System.out.println(binaryTest);
+            
+            //makeCopyOfMoviesInTextAndBinary method
+            System.out.println();
+            System.out.println("makeCopyOfMoviesInTextAndBinary method:");
+            System.out.println();
+            
+            fileManager.getMoviesFileManager().makeCopyOfMoviesInTextAndBinary();
         }
         catch (Exception e) 
         {

@@ -22,4 +22,5 @@ public interface IDataTable<T extends DatabaseRecord>
     List<T> filterBy(Predicate<T> condition);
     void sortBy(Comparator<T> comparator, List<T> sourceList);
     void sortByPrimaryKey(List<T> sourceList);
+    void clearData();
 }

@@ -170,6 +170,11 @@ public class TVShowsTable implements IDataTable<TVShow>
         Collections.sort(sourceList);
     }
     
+    public @Override void clearData() 
+    {
+        tvShowsData.clear();
+    }
+    
     private PrimaryKey generatePrimaryKey() 
     {
         boolean isSame = true;

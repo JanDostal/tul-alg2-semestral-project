@@ -195,6 +195,11 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
         Collections.sort(sourceList);
     }
     
+    public @Override void clearData() 
+    {
+        tvSeasonsData.clear();
+    }
+    
     private PrimaryKey generatePrimaryKey() 
     {
         boolean isSame = true;

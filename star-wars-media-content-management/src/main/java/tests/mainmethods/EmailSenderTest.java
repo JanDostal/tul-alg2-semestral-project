@@ -7,7 +7,7 @@ package tests.mainmethods;
 import app.logic.controllers.MoviesController;
 import app.logic.controllers.TVEpisodesController;
 import app.logic.datacontext.DataContextAccessor;
-import app.logic.filemanager.FileManager;
+import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
@@ -61,7 +61,7 @@ public class EmailSenderTest
         DataContextAccessor dbContext = DataContextAccessor.getInstance();
         EmailSender emailSender = EmailSender.getInstance();
         IDataTable<Movie> moviesTable = dbContext.getMoviesTable();
-        FileManager fileManager = FileManager.getInstance();
+        FileManagerAccessor fileManager = FileManagerAccessor.getInstance();
         
         MoviesController controller = MoviesController.getInstance(dbContext, emailSender, fileManager);
         TVEpisodesController controller2 = TVEpisodesController.getInstance(dbContext, emailSender, fileManager);

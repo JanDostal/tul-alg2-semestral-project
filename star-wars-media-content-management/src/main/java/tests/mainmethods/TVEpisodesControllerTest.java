@@ -3,7 +3,7 @@ package tests.mainmethods;
 
 import app.logic.controllers.TVEpisodesController;
 import app.logic.datacontext.DataContextAccessor;
-import app.logic.filemanager.FileManager;
+import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
 import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
@@ -31,7 +31,7 @@ public class TVEpisodesControllerTest
         IDataTable<TVEpisode> episodesTable = dbContext.getTVEpisodesTable();
         
         EmailSender emailSender = EmailSender.getInstance();
-        FileManager fileManager = FileManager.getInstance();
+        FileManagerAccessor fileManager = FileManagerAccessor.getInstance();
         
         TVEpisodesController controller = TVEpisodesController.getInstance(dbContext, emailSender, fileManager);
         

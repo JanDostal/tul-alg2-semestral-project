@@ -213,6 +213,11 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
         Collections.sort(sourceList);
     }
     
+    public @Override void clearData() 
+    {
+        tvEpisodesData.clear();
+    }
+    
     private PrimaryKey generatePrimaryKey() 
     {
         boolean isSame = true;
