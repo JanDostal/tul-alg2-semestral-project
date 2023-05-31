@@ -78,26 +78,46 @@ public class MoviesFileManager
         binaryMoviesCopy.delete();
     }
     
-    public void loadCopiesOfMoviesIntoOutputFiles() throws IOException, FileNotFoundException
+    public void transferBetweenOutpuDataAndCopyFiles(boolean fromCopyFiles) throws IOException, FileNotFoundException
     {
         File textMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 "copy_" + DataStore.getTextOutputMoviesFilename());
         
         File binaryMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 "copy_" + DataStore.getBinaryOutputMoviesFilename());
+        
+        String sourceTextFile;
+        String sourceBinaryFile;
+        String destinationBinaryFile;
+        String destinationTextFile;
+        
+        if (fromCopyFiles == true) 
+        {
+            sourceTextFile = textMoviesCopy.getName();
+            sourceBinaryFile = binaryMoviesCopy.getName();
+            destinationBinaryFile = DataStore.getBinaryOutputMoviesFilename();
+            destinationTextFile = DataStore.getTextOutputMoviesFilename();
+        }
+        else 
+        {
+            sourceTextFile = DataStore.getTextOutputMoviesFilename();
+            sourceBinaryFile = DataStore.getBinaryOutputMoviesFilename();
+            destinationBinaryFile = binaryMoviesCopy.getName();
+            destinationTextFile = textMoviesCopy.getName();
+        }
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                 new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                textMoviesCopy.getName()), StandardCharsets.UTF_8));
+                sourceTextFile), StandardCharsets.UTF_8));
              DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new 
                 FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                binaryMoviesCopy.getName())));
+                sourceBinaryFile)));
              BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                DataStore.getTextOutputMoviesFilename(), false), StandardCharsets.UTF_8));
+                destinationTextFile, false), StandardCharsets.UTF_8));
              DataOutputStream dataOutputStream = new DataOutputStream(
                 new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryOutputMoviesFilename(), false)))
+                filenameSeparator + destinationBinaryFile, false)))
              )
         {
             char[] buffer = new char[1024];
@@ -116,46 +136,7 @@ public class MoviesFileManager
             }
         }
     }
-    
-    public void makeCopyOfMoviesInTextAndBinary() throws IOException, FileNotFoundException
-    {
-        File textMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getTextOutputMoviesFilename());
         
-        File binaryMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getBinaryOutputMoviesFilename());
-        
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getTextOutputMoviesFilename()), StandardCharsets.UTF_8));
-             DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new 
-                FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                DataStore.getBinaryOutputMoviesFilename())));
-             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                textMoviesCopy.getName(), false), StandardCharsets.UTF_8));
-             DataOutputStream dataOutputStream = new DataOutputStream(
-                new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + binaryMoviesCopy.getName(), false)))
-             )
-        {
-            char[] buffer = new char[1024];
-            byte[] byteBuffer = new byte[1024];
-            int textBytesRead;
-            int binaryBytesRead;
-            
-            while ((textBytesRead = bufferedReader.read(buffer)) != -1) {
-                
-                bufferedWriter.write(buffer, 0, textBytesRead);
-            }
-            
-            while ((binaryBytesRead = dataInputStream.read(byteBuffer)) != -1) 
-            {
-                dataOutputStream.write(byteBuffer, 0, binaryBytesRead);
-            }
-        }
-    }
-    
     public void saveMoviesIntoTextAndBinary(List<MovieOutput> newOutputMovies) throws IOException, 
             FileNotFoundException
     {
@@ -203,160 +184,52 @@ public class MoviesFileManager
         }
     }
     
-    public List<MovieInput> loadInputMoviesFromBinary() throws IOException, FileNotFoundException
+    public List<MovieInput> loadInputMoviesFrom(boolean isBinary) throws IOException, FileNotFoundException
     {
         StringBuilder text = new StringBuilder();
         
-        try (BufferedInputStream r = new BufferedInputStream(new FileInputStream(FileManagerAccessor.
-                getDataDirectoryPath() + filenameSeparator + DataStore.getBinaryInputMoviesFilename()))) 
+        if (isBinary == true) 
         {
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            String textPart;
-
-            while ((bytesRead = r.read(buffer)) != -1) 
+            try (BufferedInputStream r = new BufferedInputStream(new FileInputStream(FileManagerAccessor.
+                    getDataDirectoryPath() + filenameSeparator + DataStore.getBinaryInputMoviesFilename()))) 
             {
-                textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
-                text.append(textPart);
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                String textPart;
+
+                while ((bytesRead = r.read(buffer)) != -1) 
+                {
+                    textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
+                    text.append(textPart);
+                }
             }
-        }
-        
-        File f = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+            
+            File f = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
                 + DataStore.getBinaryInputMoviesFilename());
         
-        if (f.length() == 0) 
-        {
-            //exception
-        }
-                        
-        Class<?> movieInputClass = MovieInput.class;
-        Field[] movieInputFields = movieInputClass.getDeclaredFields();
-        Map<String, StringBuilder> movieInputFieldsValues = new LinkedHashMap<>();
-        Map<Integer, String> movieInputFieldsIds = new LinkedHashMap<>();
-        
-        int k = 0;
-        
-        for (Field field : movieInputFields) 
-        {
-            if (!Modifier.isStatic(field.getModifiers())) 
-            {                
-                movieInputFieldsIds.put(k + 1, field.getName());
-                movieInputFieldsValues.put(field.getName(), new StringBuilder());
-                k++;
-            }
-        }
-                
-        List<MovieInput> parsedMovies = new ArrayList<>();
-        boolean enteredSectionAttributes = false;
-        boolean enteredSectionValues = false;
-        
-        try (Scanner sc = new Scanner(text.toString())) 
-        {
-            String textLine;
-            
-            while (sc.hasNextLine() == true) 
+            if (f.length() == 0) 
             {
-                textLine = sc.nextLine();
-                
-                if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
-                {
-                    continue;
-                }
-                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
-                        "[\\s\t]*$") && enteredSectionValues == true) 
-                {
-                    parseMovieInputData(movieInputFieldsValues, parsedMovies, movieInputFields);
-                    
-                    break; 
-                }
-                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
-                        "[\\s\t]*$") && enteredSectionAttributes == true)
-                {
-                    enteredSectionValues = true;
-                    
-                    continue;
-                }
-                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                        "[\\s\t]*$") && enteredSectionValues == true) 
-                {
-                    parseMovieInputData(movieInputFieldsValues, parsedMovies,
-                            movieInputFields);
-                    
-                    enteredSectionAttributes = true;
-                    enteredSectionValues = false;
-                    
-                    continue;
-                }
-                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                        "[\\s\t]*$") && enteredSectionAttributes == false) 
-                {
-                    enteredSectionAttributes = true;
-                    continue;
-                }
-                
-                if (enteredSectionValues == true)
-                {
-                    String[] parts = textLine.split(" (?=[^ ]+$)");
-                    
-                    if (parts.length != 2)
-                    {
-                        continue;
-                    }
-                    
-                    int fieldId;
-                    
-                    try
-                    {
-                        fieldId = Integer.parseInt(parts[1]);
-                    }
-                    catch (NumberFormatException ex)
-                    {
-                        continue;
-                    }
-                    
-                    String fieldName = movieInputFieldsIds.get(fieldId);
-                    
-                    if (fieldName == null)
-                    {
-                        continue;
-                    }
-                    
-                    StringBuilder fieldValue = movieInputFieldsValues.get(fieldName);
-                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
-                    
-                    if (fieldName.equals("shortContentSummary"))
-                    {
-                        newFieldValue.append("\n");
-                    }
-                    
-                    movieInputFieldsValues.put(fieldName, newFieldValue);
-                }
+                //exception
             }
         }
-        
-        return parsedMovies;
-    }
-    
-    
-    public List<MovieInput> loadInputMoviesFromText() throws IOException, FileNotFoundException
-    {
-        StringBuilder text = new StringBuilder();
-        
-        try (BufferedReader r = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                        DataStore.getTextInputMoviesFilename()), StandardCharsets.UTF_8))) 
+        else 
         {
-            char[] buffer = new char[1024];
-            int bytesRead;
-            String textPart;
-            
-            while((bytesRead = r.read(buffer)) != -1) 
+            try (BufferedReader r = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                    DataStore.getTextInputMoviesFilename()), StandardCharsets.UTF_8))) 
             {
-               textPart = new String(buffer, 0, bytesRead);
-               text.append(textPart);
+                char[] buffer = new char[1024];
+                int bytesRead;
+                String textPart;
+            
+                while((bytesRead = r.read(buffer)) != -1) 
+                {
+                    textPart = new String(buffer, 0, bytesRead);
+                    text.append(textPart);
+                }
             }
         }
-        
+                                
         Class<?> movieInputClass = MovieInput.class;
         Field[] movieInputFields = movieInputClass.getDeclaredFields();
         Map<String, StringBuilder> movieInputFieldsValues = new LinkedHashMap<>();
@@ -378,12 +251,12 @@ public class MoviesFileManager
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
         boolean isFileEmpty = true;
-                            
+        
         try (Scanner sc = new Scanner(text.toString())) 
         {
             String textLine;
             
-            if (sc.hasNextLine() == true) 
+            if (sc.hasNextLine() == true && isBinary == false) 
             {
                 isFileEmpty = false;
             }
@@ -395,7 +268,6 @@ public class MoviesFileManager
                 if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
                 {
                     continue;
-                    
                 }
                 else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
                         "[\\s\t]*$") && enteredSectionValues == true) 
@@ -425,7 +297,6 @@ public class MoviesFileManager
                 else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
                         "[\\s\t]*$") && enteredSectionAttributes == false) 
                 {
-
                     enteredSectionAttributes = true;
                     continue;
                 }
@@ -470,14 +341,14 @@ public class MoviesFileManager
             }
         }
         
-        if (isFileEmpty == true) 
+        if (isFileEmpty == true && isBinary == false) 
         {
             //exception
         }
-        
+
         return parsedMovies;
     }
-    
+     
     private void parseMovieInputData(Map<String, StringBuilder> movieInputFieldsValues,
             List<MovieInput> parsedMovies, Field[] movieInputFields) 
     {        

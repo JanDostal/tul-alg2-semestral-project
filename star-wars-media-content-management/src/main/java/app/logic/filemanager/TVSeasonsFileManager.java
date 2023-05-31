@@ -62,30 +62,50 @@ public class TVSeasonsFileManager
         return tvSeasonsFileManager;
     }
     
-    public List<TVSeasonInput> loadInputTVSeasonsFromBinary() throws IOException, FileNotFoundException
+    public List<TVSeasonInput> loadInputTVSeasonsFrom(boolean isBinary) throws IOException, FileNotFoundException
     {
         StringBuilder text = new StringBuilder();
-
-        try (BufferedInputStream r = new BufferedInputStream(new FileInputStream(FileManagerAccessor.
-                getDataDirectoryPath() + filenameSeparator + DataStore.getBinaryInputTVSeasonsFilename()))) 
-        {
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            String textPart;
-
-            while ((bytesRead = r.read(buffer)) != -1) 
-            {
-                textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
-                text.append(textPart);
-            }
-        }
         
-        File f = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+        if (isBinary == true) 
+        {
+            try (BufferedInputStream r = new BufferedInputStream(new FileInputStream(FileManagerAccessor.
+                    getDataDirectoryPath() + filenameSeparator + DataStore.getBinaryInputTVSeasonsFilename()))) 
+            {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                String textPart;
+
+                while ((bytesRead = r.read(buffer)) != -1) 
+                {
+                    textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
+                    text.append(textPart);
+                }
+            }
+        
+            File f = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
                 + DataStore.getBinaryInputTVSeasonsFilename());
         
-        if (f.length() == 0) 
+            if (f.length() == 0) 
+            {
+                //exception
+            }
+        }
+        else 
         {
-            //exception
+            try (BufferedReader r = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                    DataStore.getTextInputTVSeasonsFilename()), StandardCharsets.UTF_8))) 
+            {
+                char[] buffer = new char[1024];
+                int bytesRead;
+                String textPart;
+            
+                while((bytesRead = r.read(buffer)) != -1) 
+                {
+                    textPart = new String(buffer, 0, bytesRead);
+                    text.append(textPart);
+                }
+            }
         }
                 
         Class<?> tvSeasonInputClass = TVSeasonInput.class;
@@ -108,10 +128,16 @@ public class TVSeasonsFileManager
         List<TVSeasonInput> parsedSeasons = new ArrayList<>();
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
+        boolean isFileEmpty = true;
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
             String textLine;
+            
+            if (sc.hasNextLine() == true && isBinary == false) 
+            {
+                isFileEmpty = false;
+            }
             
             while (sc.hasNextLine() == true) 
             {
@@ -188,141 +214,12 @@ public class TVSeasonsFileManager
             }
         }
         
-        return parsedSeasons;
-    }
-    
-     public List<TVSeasonInput> loadInputTVSeasonsFromText() throws IOException, 
-            FileNotFoundException
-    {
-        StringBuilder text = new StringBuilder();
-                
-        try (BufferedReader r = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                        DataStore.getTextInputTVSeasonsFilename()), StandardCharsets.UTF_8))) 
-        {
-            char[] buffer = new char[1024];
-            int bytesRead;
-            String textPart;
-            
-            while((bytesRead = r.read(buffer)) != -1) 
-            {
-               textPart = new String(buffer, 0, bytesRead);
-               text.append(textPart);
-            }
-        }
-            
-        Class<?> tvSeasonInputClass = TVSeasonInput.class;
-        Field[] tvSeasonInputFields = tvSeasonInputClass.getDeclaredFields();
-        Map<String, StringBuilder> tvSeasonInputFieldsValues = new LinkedHashMap<>();
-        Map<Integer, String> tvSeasonInputFieldsIds = new LinkedHashMap<>();
-        
-        int k = 0;
-        
-        for (Field field : tvSeasonInputFields) 
-        {
-            if (!Modifier.isStatic(field.getModifiers())) 
-            {                
-                tvSeasonInputFieldsIds.put(k + 1, field.getName());
-                tvSeasonInputFieldsValues.put(field.getName(), new StringBuilder());
-                k++;
-            }
-        }
-                
-        boolean enteredSectionAttributes = false;
-        boolean enteredSectionValues = false;
-        boolean isFileEmpty = true;
-        
-        List<TVSeasonInput> parsedTVSeasons = new ArrayList<>();
-        
-        try (Scanner sc = new Scanner(text.toString())) 
-        {
-            String textLine;
-            
-            if (sc.hasNextLine() == true) 
-            {
-                isFileEmpty = false;
-            }
-            
-            while (sc.hasNextLine() == true) 
-            {
-                textLine = sc.nextLine();
-                
-                if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
-                {
-                    continue;
-                }
-                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
-                        "[\\s\t]*$") && enteredSectionValues == true) 
-                {
-                    parseTVSeasonInputData(tvSeasonInputFieldsValues, parsedTVSeasons,
-                            tvSeasonInputFields);
-                     
-                    break;
-                }
-                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
-                        "[\\s\t]*$") && enteredSectionAttributes == true)
-                {
-                    enteredSectionValues = true;
-                    continue;
-                }
-                else if ((textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                        "[\\s\t]*$") && enteredSectionValues == true)) 
-                {
-                    parseTVSeasonInputData(tvSeasonInputFieldsValues, parsedTVSeasons, tvSeasonInputFields);
-                    
-                    enteredSectionAttributes = true;
-                    enteredSectionValues = false;
-                    
-                    continue;
-                }
-                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                        "[\\s\t]*$") && enteredSectionAttributes == false)
-                {
-                    enteredSectionAttributes = true;
-                    continue;
-                }
-                
-                if (enteredSectionValues == true)
-                {
-                    String[] parts = textLine.split(" (?=[^ ]+$)");
-                    
-                    if (parts.length != 2)
-                    {
-                        continue;
-                    }
-                    
-                    int fieldId;
-                    
-                    try
-                    {
-                        fieldId = Integer.parseInt(parts[1]);
-                    }
-                    catch (NumberFormatException ex)
-                    {
-                        continue;
-                    }
-                    
-                    String fieldName = tvSeasonInputFieldsIds.get(fieldId);
-                    
-                    if (fieldName == null)
-                    {
-                        continue;
-                    }
-                    
-                    StringBuilder fieldValue = tvSeasonInputFieldsValues.get(fieldName);
-                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
-                    
-                    tvSeasonInputFieldsValues.put(fieldName, newFieldValue);
-                }
-            }
-        }
-        
-        if (isFileEmpty == true) 
+        if (isFileEmpty == true && isBinary == false) 
         {
             //exception
         }
         
-        return parsedTVSeasons;
+        return parsedSeasons;
     }
     
     private void parseTVSeasonInputData(Map<String, StringBuilder> tvSeasonInputFieldsValues,

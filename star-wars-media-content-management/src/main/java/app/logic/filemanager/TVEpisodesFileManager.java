@@ -61,32 +61,52 @@ public class TVEpisodesFileManager
         return tvEpisodesFileManager;
     }
     
-    public List<TVEpisodeInput> loadInputTVEpisodesFromBinary() throws IOException, FileNotFoundException
+    public List<TVEpisodeInput> loadInputTVEpisodesFrom(boolean isBinary) throws IOException, FileNotFoundException
     {
         StringBuilder text = new StringBuilder();
         
-        try ( BufferedInputStream r = new BufferedInputStream(new FileInputStream(FileManagerAccessor.
-                getDataDirectoryPath() + filenameSeparator + DataStore.getBinaryInputTVEpisodesFilename()))) 
+        if (isBinary == true) 
         {
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            String textPart;
-
-            while ((bytesRead = r.read(buffer)) != -1) 
+            try ( BufferedInputStream r = new BufferedInputStream(new FileInputStream(FileManagerAccessor.
+                    getDataDirectoryPath() + filenameSeparator + DataStore.getBinaryInputTVEpisodesFilename()))) 
             {
-                textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
-                text.append(textPart);
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                String textPart;
+
+                while ((bytesRead = r.read(buffer)) != -1) 
+                {
+                    textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
+                    text.append(textPart);
+                }
+            }
+        
+            File f = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
+                    + DataStore.getBinaryInputTVEpisodesFilename());
+        
+            if (f.length() == 0) 
+            {
+                //exception
             }
         }
-        
-        File f = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
-                + DataStore.getBinaryInputTVEpisodesFilename());
-        
-        if (f.length() == 0) 
+        else 
         {
-            //exception
+            try (BufferedReader r = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                            DataStore.getTextInputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
+            {
+                char[] buffer = new char[1024];
+                int bytesRead;
+                String textPart;
+            
+                while((bytesRead = r.read(buffer)) != -1) 
+                {
+                    textPart = new String(buffer, 0, bytesRead);
+                    text.append(textPart);
+                }
+            }
         }
-                
+          
         Class<?> tvEpisodeInputClass = TVEpisodeInput.class;
         Field[] tvEpisodeInputFields = tvEpisodeInputClass.getDeclaredFields();
         Map<String, StringBuilder> tvEpisodeInputFieldsValues = new LinkedHashMap<>();
@@ -107,10 +127,16 @@ public class TVEpisodesFileManager
         List<TVEpisodeInput> parsedEpisodes = new ArrayList<>();
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
+        boolean isFileEmpty = true;
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
             String textLine;
+            
+            if (sc.hasNextLine() == true && isBinary == false) 
+            {
+                isFileEmpty = false;
+            }
             
             while (sc.hasNextLine() == true) 
             {
@@ -192,141 +218,7 @@ public class TVEpisodesFileManager
             }
         }
         
-        return parsedEpisodes;
-    }
-    
-    public List<TVEpisodeInput> loadInputTVEpisodesFromText() throws IOException, FileNotFoundException
-    {
-        StringBuilder text = new StringBuilder();
-                
-        try (BufferedReader r = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                        DataStore.getTextInputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
-        {
-            char[] buffer = new char[1024];
-            int bytesRead;
-            String textPart;
-            
-            while((bytesRead = r.read(buffer)) != -1) 
-            {
-               textPart = new String(buffer, 0, bytesRead);
-               text.append(textPart);
-            }
-        }
-        
-        Class<?> tvEpisodeInputClass = TVEpisodeInput.class;
-        Field[] tvEpisodeInputFields = tvEpisodeInputClass.getDeclaredFields();
-        Map<String, StringBuilder> tvEpisodeInputFieldsValues = new LinkedHashMap<>();
-        Map<Integer, String> tvEpisodeInputFieldsIds = new LinkedHashMap<>();
-        
-        int k = 0;
-        
-        for (Field field : tvEpisodeInputFields) 
-        {
-            if (!Modifier.isStatic(field.getModifiers())) 
-            {
-                tvEpisodeInputFieldsIds.put(k + 1, field.getName());
-                tvEpisodeInputFieldsValues.put(field.getName(), new StringBuilder());
-                k++;
-            }
-        }
-        
-        boolean enteredSectionAttributes = false;
-        boolean enteredSectionValues = false;
-        boolean isFileEmpty = true;
-        
-        List<TVEpisodeInput> parsedEpisodes = new ArrayList<>();
-        
-        try (Scanner sc = new Scanner(text.toString())) 
-        {
-            String textLine;
-            
-            if (sc.hasNextLine() == true) 
-            {
-                isFileEmpty = false;
-            }
-            
-            while (sc.hasNextLine() == true) 
-            {
-                textLine = sc.nextLine();
-                
-                if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
-                {
-                    continue;
-                }
-                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
-                        "[\\s\t]*$") && enteredSectionValues == true) 
-                {
-                    parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes,
-                            tvEpisodeInputFields);
-                     
-                    break;
-                }
-                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
-                        "[\\s\t]*$") && enteredSectionAttributes == true)
-                {
-                    enteredSectionValues = true;
-                    continue;
-                }
-                else if ((textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                        "[\\s\t]*$") && enteredSectionValues == true)) 
-                {
-                    parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes,
-                            tvEpisodeInputFields);
-                    
-                    enteredSectionAttributes = true;
-                    enteredSectionValues = false;
-                    
-                    continue;
-                }
-                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
-                        "[\\s\t]*$") && enteredSectionAttributes == false) 
-                {
-                    enteredSectionAttributes = true;
-                    continue;
-                }
-                
-                if (enteredSectionValues == true)
-                {
-                    String[] parts = textLine.split(" (?=[^ ]+$)");
-                    
-                    if (parts.length != 2)
-                    {
-                        continue;
-                    }
-                    
-                    int fieldId;
-                    
-                    try
-                    {
-                        fieldId = Integer.parseInt(parts[1]);
-                    }
-                    catch (NumberFormatException ex)
-                    {
-                        continue;
-                    }
-                    
-                    String fieldName = tvEpisodeInputFieldsIds.get(fieldId);
-                    
-                    if (fieldName == null)
-                    {
-                        continue;
-                    }
-                    
-                    StringBuilder fieldValue = tvEpisodeInputFieldsValues.get(fieldName);
-                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
-                    
-                    if (fieldName.equals("shortContentSummary"))
-                    {
-                        newFieldValue.append("\n");
-                    }
-                    
-                    tvEpisodeInputFieldsValues.put(fieldName, newFieldValue);
-                }
-            }
-        }
-
-        if (isFileEmpty == true) 
+        if (isFileEmpty == true && isBinary == false) 
         {
             //exception
         }
