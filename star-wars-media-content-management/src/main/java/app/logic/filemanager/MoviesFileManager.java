@@ -65,17 +65,17 @@ public class MoviesFileManager
         
         return moviesFileManager;
     }
-    
-    public void createMoviesOutputFiles() throws IOException 
+        
+    public void tryDeleteMoviesCopyOutputFiles() 
     {
-        File textMovies = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getTextOutputMoviesFilename());
+        File textMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getTextOutputMoviesFilename());
         
-        File binaryMovies = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getBinaryOutputMoviesFilename());
+        File binaryMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getBinaryOutputMoviesFilename());
         
-        textMovies.createNewFile();
-        binaryMovies.createNewFile();
+        textMoviesCopy.delete();
+        binaryMoviesCopy.delete();
     }
     
     public void makeCopyOfMoviesInTextAndBinary() throws IOException, FileNotFoundException
@@ -85,9 +85,6 @@ public class MoviesFileManager
         
         File binaryMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 "copy_" + DataStore.getBinaryOutputMoviesFilename());
-        
-        textMoviesCopy.createNewFile();
-        binaryMoviesCopy.createNewFile();
         
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                 new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
