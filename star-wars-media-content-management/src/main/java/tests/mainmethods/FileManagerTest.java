@@ -180,14 +180,21 @@ public class FileManagerTest
             System.out.println("makeCopyOfMoviesInTextAndBinary method:");
             System.out.println();
             
-            fileManager.getMoviesFileManager().makeCopyOfMoviesInTextAndBinary();
+            //fileManager.getMoviesFileManager().makeCopyOfMoviesInTextAndBinary();
             
             //makeCopyOfMoviesInTextAndBinary method
             System.out.println();
             System.out.println("makeCopyOfMoviesInTextAndBinary method:");
             System.out.println();
             
-            fileManager.getMoviesFileManager().tryDeleteMoviesCopyOutputFiles();
+            //fileManager.getMoviesFileManager().tryDeleteMoviesCopyOutputFiles();
+            
+            //loadCopiesOfMoviesIntoOutputFiles method
+            System.out.println();
+            System.out.println("loadCopiesOfMoviesIntoOutputFiles method:");
+            System.out.println();
+            
+            fileManager.getMoviesFileManager().loadCopiesOfMoviesIntoOutputFiles();
         }
         catch (Exception e) 
         {

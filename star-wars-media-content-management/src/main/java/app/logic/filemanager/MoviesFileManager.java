@@ -78,6 +78,45 @@ public class MoviesFileManager
         binaryMoviesCopy.delete();
     }
     
+    public void loadCopiesOfMoviesIntoOutputFiles() throws IOException, FileNotFoundException
+    {
+        File textMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getTextOutputMoviesFilename());
+        
+        File binaryMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getBinaryOutputMoviesFilename());
+                
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                textMoviesCopy.getName()), StandardCharsets.UTF_8));
+             DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new 
+                FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                binaryMoviesCopy.getName())));
+             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                DataStore.getTextOutputMoviesFilename(), false), StandardCharsets.UTF_8));
+             DataOutputStream dataOutputStream = new DataOutputStream(
+                new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
+                filenameSeparator + DataStore.getBinaryOutputMoviesFilename(), false)))
+             )
+        {
+            char[] buffer = new char[1024];
+            byte[] byteBuffer = new byte[1024];
+            int textBytesRead;
+            int binaryBytesRead;
+            
+            while ((textBytesRead = bufferedReader.read(buffer)) != -1) {
+                
+                bufferedWriter.write(buffer, 0, textBytesRead);
+            }
+            
+            while ((binaryBytesRead = dataInputStream.read(byteBuffer)) != -1) 
+            {
+                dataOutputStream.write(byteBuffer, 0, binaryBytesRead);
+            }
+        }
+    }
+    
     public void makeCopyOfMoviesInTextAndBinary() throws IOException, FileNotFoundException
     {
         File textMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
