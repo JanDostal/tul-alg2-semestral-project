@@ -8,12 +8,19 @@ import app.logic.datastore.DataStore;
 import app.models.input.TVEpisodeInput;
 import app.models.output.TVEpisodeOutput;
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
@@ -63,30 +70,341 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         return tvEpisodesFileManager;
     }
     
-    public @Override List<TVEpisodeOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, 
-            FileNotFoundException 
+    public @Override List<TVEpisodeOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException 
     {
+        List<TVEpisodeOutput> parsedTVEpisodes = new ArrayList<>();
         
+        if (fromBinary == true) 
+        {
+            try (DataInputStream dataInputStream = new DataInputStream(
+                new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
+                filenameSeparator + DataStore.getBinaryOutputTVEpisodesFilename())))) 
+            {
+                boolean fileEndReached = false;
+                int tvEpisodeId;
+                long tvEpisodeRuntime;
+                char[] tvEpisodeName;
+                int tvEpisodePercentageRating;
+                char[] tvEpisodeHyperlink;
+                char[] tvEpisodeContent;
+                int tvEpisodeOrderInTVShowSeason;
+                int tvEpisodeTVSeasonId;
+                
+                while (fileEndReached == false) 
+                {
+                    try 
+                    {
+                        tvEpisodeId = dataInputStream.readInt();
+                        tvEpisodeRuntime = dataInputStream.readLong();
+
+                        tvEpisodeName = new char[TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH];
+
+                        for (int i = 0; i < tvEpisodeName.length; i++) 
+                        {
+                            tvEpisodeName[i] = dataInputStream.readChar();
+                        }
+
+                        tvEpisodePercentageRating = dataInputStream.readInt();
+
+                        tvEpisodeHyperlink = new char[TVEpisodeOutput.ATTRIBUTE_HYPERLINK_LENGTH];
+
+                        for (int i = 0; i < tvEpisodeHyperlink.length; i++) 
+                        {
+                            tvEpisodeHyperlink[i] = dataInputStream.readChar();
+                        }
+
+                        tvEpisodeContent = new char[TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH];
+
+                        for (int i = 0; i < tvEpisodeContent.length; i++) 
+                        {
+                            tvEpisodeContent[i] = dataInputStream.readChar();
+                        }
+
+                        tvEpisodeOrderInTVShowSeason = dataInputStream.readInt();
+
+                        tvEpisodeTVSeasonId = dataInputStream.readInt();
+
+                        parsedTVEpisodes.add(new TVEpisodeOutput(tvEpisodeId, tvEpisodeRuntime, new String(tvEpisodeName), 
+                                tvEpisodePercentageRating, new String(tvEpisodeHyperlink), new String(tvEpisodeContent), 
+                                tvEpisodeOrderInTVShowSeason, tvEpisodeTVSeasonId));
+                    }
+                    catch (EOFException e) 
+                    {
+                        fileEndReached = true;
+                    }
+                }
+            }
+            
+            File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+                + DataStore.getBinaryOutputTVEpisodesFilename());
+        
+            if (binaryFile.length() == 0) 
+            {
+                //exception
+            }
+        }
+        else 
+        {
+            StringBuilder text = new StringBuilder();
+            
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                    DataStore.getTextOutputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
+            {
+                char[] buffer = new char[1024];
+                int charsRead;
+                String textPart;
+            
+                while((charsRead = bufferedReader.read(buffer)) != -1) 
+                {
+                    textPart = new String(buffer, 0, charsRead);
+                    text.append(textPart);
+                }
+            }
+
+            Class<?> tvEpisodeOutputClass = TVEpisodeOutput.class;
+            Field[] tvEpisodeOutputFields = tvEpisodeOutputClass.getDeclaredFields();
+            Map<String, StringBuilder> tvEpisodeOutputFieldsValues = new LinkedHashMap<>();
+            Map<Integer, String> tvEpisodeOutputFieldsIds = new LinkedHashMap<>();
+
+            int k = 0;
+
+            for (Field field : tvEpisodeOutputFields) 
+            {
+                if (!Modifier.isStatic(field.getModifiers())) 
+                {
+                    tvEpisodeOutputFieldsIds.put(k + 1, field.getName());
+                    tvEpisodeOutputFieldsValues.put(field.getName(), new StringBuilder());
+                    k++;
+                }
+            }
+
+            boolean enteredSectionAttributes = false;
+            boolean enteredSectionValues = false;
+            boolean isFileEmpty = true;
+
+            try (Scanner sc = new Scanner(text.toString())) 
+            {
+                String textLine;
+
+                if (sc.hasNextLine() == true) 
+                {
+                    isFileEmpty = false;
+                }
+
+                while (sc.hasNextLine() == true) 
+                {
+                    textLine = sc.nextLine();
+
+                    if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
+                    {
+                        continue;
+                    } 
+                    else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking 
+                            + "[\\s\t]*$") && enteredSectionValues == true) 
+                    {
+                        parseOutputData(tvEpisodeOutputFieldsValues, parsedTVEpisodes, tvEpisodeOutputFields);
+
+                        break;
+                    } 
+                    else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking
+                            + "[\\s\t]*$") && enteredSectionAttributes == true) 
+                    {
+                        enteredSectionValues = true;
+
+                        continue;
+                    } 
+                    else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
+                            + "[\\s\t]*$") && enteredSectionValues == true) 
+                    {
+                        parseOutputData(tvEpisodeOutputFieldsValues, parsedTVEpisodes, tvEpisodeOutputFields);
+
+                        enteredSectionAttributes = true;
+                        enteredSectionValues = false;
+
+                        continue;
+                    } 
+                    else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
+                            + "[\\s\t]*$") && enteredSectionAttributes == false) 
+                    {
+                        enteredSectionAttributes = true;
+                        continue;
+                    }
+
+                    if (enteredSectionValues == true)
+                    {
+                        String[] parts = textLine.split(" (?=[^ ]+$)");
+
+                        if (parts.length != 2) 
+                        {
+                            throw new IOException();
+                        }
+
+                        int fieldId;
+
+                        try 
+                        {
+                            fieldId = Integer.parseInt(parts[1]);
+                        } 
+                        catch (NumberFormatException ex) 
+                        {
+                            throw new IOException();
+                        }
+
+                        String fieldName = tvEpisodeOutputFieldsIds.get(fieldId);
+
+                        if (fieldName == null) 
+                        {
+                            throw new IOException();
+                        }
+
+                        StringBuilder fieldValue = tvEpisodeOutputFieldsValues.get(fieldName);
+                        StringBuilder newFieldValue = fieldValue.append(parts[0]);
+
+                        if (fieldName.equals("shortContentSummary")) 
+                        {
+                            newFieldValue.append("\n");
+                        }
+
+                        tvEpisodeOutputFieldsValues.put(fieldName, newFieldValue);
+                    }
+                }
+            }
+
+            if (isFileEmpty == true) {
+                //exception
+            }
+        }
+                                
+        return parsedTVEpisodes;
     }
     
-    @Override
-    public void tryDeleteDataOutputFilesCopies() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public @Override void tryDeleteDataOutputFilesCopies() 
+    {
+        File outputTVEpisodesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getTextOutputTVEpisodesFilename());
+        
+        File outputTVEpisodesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getBinaryOutputTVEpisodesFilename());
+        
+        outputTVEpisodesTextCopy.delete();
+        outputTVEpisodesBinaryCopy.delete();
     }
 
-    @Override
-    public void tryCreateDataOutputFiles() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public @Override void tryCreateDataOutputFiles() throws IOException 
+    {
+        File outputTVEpisodesText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getTextOutputTVEpisodesFilename());
+        
+        File outputTVEpisodesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getBinaryOutputTVEpisodesFilename());
+        
+        outputTVEpisodesText.createNewFile();
+        outputTVEpisodesBinary.createNewFile();
     }
 
-    @Override
-    public void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException, FileNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws 
+            IOException, FileNotFoundException 
+    {
+        File outputTVEpisodesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getTextOutputTVEpisodesFilename());
+        
+        File outputTVEpisodesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getBinaryOutputTVEpisodesFilename());
+        
+        String sourceTextFile;
+        String sourceBinaryFile;
+        String destinationBinaryFile;
+        String destinationTextFile;
+        
+        if (fromCopyFiles == true) 
+        {
+            sourceTextFile = outputTVEpisodesTextCopy.getName();
+            sourceBinaryFile = outputTVEpisodesBinaryCopy.getName();
+            destinationBinaryFile = DataStore.getBinaryOutputTVEpisodesFilename();
+            destinationTextFile = DataStore.getTextOutputTVEpisodesFilename();
+        }
+        else 
+        {
+            sourceTextFile = DataStore.getTextOutputTVEpisodesFilename();
+            sourceBinaryFile = DataStore.getBinaryOutputTVEpisodesFilename();
+            destinationBinaryFile = outputTVEpisodesBinaryCopy.getName();
+            destinationTextFile = outputTVEpisodesTextCopy.getName();
+        }
+                
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                sourceTextFile), StandardCharsets.UTF_8));
+             DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new 
+                FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                sourceBinaryFile)));
+             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                destinationTextFile, false), StandardCharsets.UTF_8));
+             DataOutputStream dataOutputStream = new DataOutputStream(
+                new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
+                filenameSeparator + destinationBinaryFile, false)))
+             )
+        {
+            char[] buffer = new char[1024];
+            byte[] byteBuffer = new byte[1024];
+            int charsRead;
+            int bytesRead;
+            
+            while ((charsRead = bufferedReader.read(buffer)) != -1) {
+                
+                bufferedWriter.write(buffer, 0, charsRead);
+            }
+            
+            while ((bytesRead = dataInputStream.read(byteBuffer)) != -1) 
+            {
+                dataOutputStream.write(byteBuffer, 0, bytesRead);
+            }
+        }
     }
 
-    @Override
-    public void saveOutputDataIntoFiles(List<TVEpisodeOutput> newOutputData) throws IOException, FileNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public @Override void saveOutputDataIntoFiles(List<TVEpisodeOutput> newOutputData) throws IOException, 
+            FileNotFoundException 
+    {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                DataStore.getTextOutputTVEpisodesFilename(), false), StandardCharsets.UTF_8));
+             DataOutputStream dataOutputStream = new DataOutputStream(
+                new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
+                filenameSeparator + DataStore.getBinaryOutputTVEpisodesFilename(), false)))) 
+        {
+            StringBuilder generatedTVEpisodesTextRepresentations = 
+                    createOutputDataTextRepresentation(newOutputData);
+            
+            for (TVEpisodeOutput m : newOutputData) 
+            {
+                dataOutputStream.writeInt(m.getId());
+                dataOutputStream.writeLong(m.getRuntimeInSeconds());
+                
+                for (char c : m.getName().toCharArray()) 
+                {
+                    dataOutputStream.writeChar(c);
+                }
+                
+                dataOutputStream.writeInt(m.getPercentageRating());
+                
+                for (char c : m.getHyperlinkForContentWatch().toCharArray()) 
+                {
+                    dataOutputStream.writeChar(c);
+                }
+                
+                for (char c : m.getShortContentSummary().toCharArray()) 
+                {
+                    dataOutputStream.writeChar(c);
+                }
+                
+                dataOutputStream.writeInt(m.getOrderInTVShowSeason());
+                
+                dataOutputStream.writeInt(m.getTVSeasonId());
+            }
+
+            bufferedWriter.write(generatedTVEpisodesTextRepresentations.toString());
+        }
     }
 
     public @Override List<TVEpisodeInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
