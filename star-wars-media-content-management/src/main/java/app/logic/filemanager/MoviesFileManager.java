@@ -577,7 +577,7 @@ public class MoviesFileManager
         return parsedMovies;
     }
      
-    private void parseMovieInputData(Map<String, StringBuilder> movieInputFieldsValues,
+    private void parseInputData(Map<String, StringBuilder> movieInputFieldsValues,
             List<MovieInput> parsedMovies, Field[] movieInputFields) 
     {        
         try 
@@ -609,7 +609,7 @@ public class MoviesFileManager
         }
     }
     
-    private void parseMovieOutputData(Map<String, StringBuilder> movieOutputFieldsValues,
+    private void parseOutputData(Map<String, StringBuilder> movieOutputFieldsValues,
             List<MovieOutput> parsedMovies, Field[] movieOutputFields) throws IOException 
     {        
         try 
@@ -640,7 +640,7 @@ public class MoviesFileManager
         }
     }
     
-    private StringBuilder createMoviesTextRepresentation(List<MovieOutput> newOutputMovies) 
+    private StringBuilder createOutputDataTextRepresentation(List<MovieOutput> newOutputMovies) 
     {
         Class<?> movieOutputClass = MovieOutput.class;
         Field[] movieOutputFields = movieOutputClass.getDeclaredFields();
