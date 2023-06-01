@@ -118,7 +118,7 @@ public class TVEpisodesController
         
         String subject = String.format("%s - Neshlédnuté epizody seriálu %s, nacházejícího se v období %s"
                 + " s datumem vydání %s", 
-                DataStore.loadAppName(), queriedTVShow.getName(), queriedTVShow.getEra().getDisplayName(), 
+                DataStore.getAppName(), queriedTVShow.getName(), queriedTVShow.getEra().getDisplayName(), 
                 queriedTVShow.getReleaseDate().format(formatter));
         
         StringBuilder message = new StringBuilder();

@@ -6,6 +6,7 @@ package app.logic.filemanager;
 
 import app.logic.datastore.DataStore;
 import app.models.input.TVEpisodeInput;
+import app.models.output.TVEpisodeOutput;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,12 +22,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import utils.interfaces.IDataFileManager;
 
 /**
  *
  * @author Admin
  */
-public class TVEpisodesFileManager 
+public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, TVEpisodeOutput>
 {
     private static TVEpisodesFileManager tvEpisodesFileManager;
     
@@ -61,14 +63,42 @@ public class TVEpisodesFileManager
         return tvEpisodesFileManager;
     }
     
-    public List<TVEpisodeInput> loadInputTVEpisodesFrom(boolean isBinary) throws IOException, FileNotFoundException
+    public @Override List<TVEpisodeOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, 
+            FileNotFoundException 
+    {
+        
+    }
+    
+    @Override
+    public void tryDeleteDataOutputFilesCopies() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void tryCreateDataOutputFiles() throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException, FileNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void saveOutputDataIntoFiles(List<TVEpisodeOutput> newOutputData) throws IOException, FileNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public @Override List<TVEpisodeInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
+            FileNotFoundException 
     {
         StringBuilder text = new StringBuilder();
         
-        if (isBinary == true) 
+        if (fromBinary == true) 
         {
-            try ( BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(FileManagerAccessor.
-                    getDataDirectoryPath() + filenameSeparator + DataStore.getBinaryInputTVEpisodesFilename()))) 
+            try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
+                    FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                            DataStore.getBinaryInputTVEpisodesFilename()))) 
             {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
@@ -80,9 +110,9 @@ public class TVEpisodesFileManager
                     text.append(textPart);
                 }
             }
-        
-            File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
-                    + DataStore.getBinaryInputTVEpisodesFilename());
+            
+            File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+                + DataStore.getBinaryInputTVEpisodesFilename());
         
             if (binaryFile.length() == 0) 
             {
@@ -93,7 +123,7 @@ public class TVEpisodesFileManager
         {
             try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                     new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                            DataStore.getTextInputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
+                    DataStore.getTextInputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
             {
                 char[] buffer = new char[1024];
                 int charsRead;
@@ -106,7 +136,7 @@ public class TVEpisodesFileManager
                 }
             }
         }
-          
+                                
         Class<?> tvEpisodeInputClass = TVEpisodeInput.class;
         Field[] tvEpisodeInputFields = tvEpisodeInputClass.getDeclaredFields();
         Map<String, StringBuilder> tvEpisodeInputFieldsValues = new LinkedHashMap<>();
@@ -123,8 +153,8 @@ public class TVEpisodesFileManager
                 k++;
             }
         }
-               
-        List<TVEpisodeInput> parsedEpisodes = new ArrayList<>();
+                
+        List<TVEpisodeInput> parsedTVEpisodes = new ArrayList<>();
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
         boolean isFileEmpty = true;
@@ -133,7 +163,7 @@ public class TVEpisodesFileManager
         {
             String textLine;
             
-            if (sc.hasNextLine() == true && isBinary == false) 
+            if (sc.hasNextLine() == true && fromBinary == false) 
             {
                 isFileEmpty = false;
             }
@@ -149,7 +179,7 @@ public class TVEpisodesFileManager
                 else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes, tvEpisodeInputFields);
+                    parseInputData(tvEpisodeInputFieldsValues, parsedTVEpisodes, tvEpisodeInputFields);
                     
                     break; 
                 }
@@ -163,7 +193,7 @@ public class TVEpisodesFileManager
                 else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    parseTVEpisodeInputData(tvEpisodeInputFieldsValues, parsedEpisodes,
+                    parseInputData(tvEpisodeInputFieldsValues, parsedTVEpisodes,
                             tvEpisodeInputFields);
                     
                     enteredSectionAttributes = true;
@@ -218,16 +248,16 @@ public class TVEpisodesFileManager
             }
         }
         
-        if (isFileEmpty == true && isBinary == false) 
+        if (isFileEmpty == true && fromBinary == false) 
         {
             //exception
         }
-        
-        return parsedEpisodes;
+
+        return parsedTVEpisodes;
     }
     
-    private void parseTVEpisodeInputData(Map<String, StringBuilder> tvEpisodeInputFieldsValues,
-            List<TVEpisodeInput> parsedEpisodes, Field[] tvEpisodeInputFields) 
+    private void parseInputData(Map<String, StringBuilder> tvEpisodeInputFieldsValues,
+            List<TVEpisodeInput> parsedTVEpisodes, Field[] tvEpisodeInputFields) 
     {
         try 
         {
@@ -236,7 +266,7 @@ public class TVEpisodesFileManager
             int orderInTVShowSeason = Integer.parseInt(tvEpisodeInputFieldsValues.get("orderInTVShowSeason").
                     toString());
                         
-            parsedEpisodes.add(new TVEpisodeInput(runtime, tvEpisodeInputFieldsValues.get("name").toString(), 
+            parsedTVEpisodes.add(new TVEpisodeInput(runtime, tvEpisodeInputFieldsValues.get("name").toString(), 
                     percentage, tvEpisodeInputFieldsValues.get("hyperlinkForContentWatch").toString(), 
                     tvEpisodeInputFieldsValues.get("shortContentSummary").toString(), orderInTVShowSeason));
         }
@@ -255,5 +285,144 @@ public class TVEpisodesFileManager
                 }
             }
         }
+    }
+    
+    private void parseOutputData(Map<String, StringBuilder> tvEpisodeOutputFieldsValues,
+            List<TVEpisodeOutput> parsedTVEpisodes, Field[] tvEpisodeOutputFields) throws IOException 
+    {        
+        try 
+        {
+            int id = Integer.parseInt(tvEpisodeOutputFieldsValues.get("id").toString());
+            long runtime = Long.parseLong(tvEpisodeOutputFieldsValues.get("runtimeInSeconds").toString());
+            int percentage = Integer.parseInt(tvEpisodeOutputFieldsValues.get("percentageRating").toString());
+            int orderInTVShowSeason = Integer.parseInt(tvEpisodeOutputFieldsValues.get("orderInTVShowSeason").toString());
+            int tvSeasonId = Integer.parseInt(tvEpisodeOutputFieldsValues.get("tvSeasonId").toString());
+          
+            parsedTVEpisodes.add(new TVEpisodeOutput(id, runtime, tvEpisodeOutputFieldsValues.get("name").toString(), 
+                    percentage, tvEpisodeOutputFieldsValues.get("hyperlinkForContentWatch").toString(), 
+                    tvEpisodeOutputFieldsValues.get("shortContentSummary").toString(), orderInTVShowSeason, tvSeasonId));
+            
+            tvEpisodeOutputFieldsValues.clear();
+            
+            for (Field field : tvEpisodeOutputFields) 
+            {
+                if (!Modifier.isStatic(field.getModifiers())) 
+                {
+                    tvEpisodeOutputFieldsValues.put(field.getName(), new StringBuilder());
+                }
+            }
+        }
+        catch (NumberFormatException ex) 
+        {
+            throw new IOException();
+        }
+    }
+    
+    private StringBuilder createOutputDataTextRepresentation(List<TVEpisodeOutput> newOutputTVEpisodes) 
+    {
+        Class<?> tvEpisodeOutputClass = TVEpisodeOutput.class;
+        Field[] tvEpisodeOutputFields = tvEpisodeOutputClass.getDeclaredFields();
+        Map<String, Integer> tvEpisodeOutputFieldsIds = new LinkedHashMap<>();
+        
+        int k = 0;
+        
+        for (Field field : tvEpisodeOutputFields) 
+        {
+            if (!Modifier.isStatic(field.getModifiers())) 
+            {
+                tvEpisodeOutputFieldsIds.put(field.getName(), k + 1);
+                k++;
+            }
+        }
+
+        StringBuilder outputTextData = new StringBuilder();
+        String attributesMarking;
+        String valuesMarking;
+        StringBuilder changedStringField;
+
+        for (TVEpisodeOutput m : newOutputTVEpisodes) 
+        {
+            attributesMarking = inputFileAttributesSectionMarking.replaceAll("\\\\", "");
+            outputTextData.append(attributesMarking).append("\n");
+            outputTextData.append("\n");
+
+            for (Map.Entry<String, Integer> entry : tvEpisodeOutputFieldsIds.entrySet()) 
+            {
+                outputTextData.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
+            }
+
+            valuesMarking = inputFileValuesSectionMarking.replaceAll("\\\\", "");
+            outputTextData.append("\n");
+            outputTextData.append(valuesMarking).append("\n");
+            outputTextData.append("\n");
+
+            outputTextData.append(m.getId()).append(" ").
+                    append(tvEpisodeOutputFieldsIds.get("id")).
+                    append("\n");
+            outputTextData.append(m.getRuntimeInSeconds()).
+                    append(" ").append(tvEpisodeOutputFieldsIds.get("runtimeInSeconds")).
+                    append("\n");
+            
+            changedStringField = new StringBuilder();
+            
+            for (char c : m.getName().toCharArray()) 
+            {
+                if (c != Character.MIN_VALUE) 
+                {
+                    changedStringField.append(c);
+                }
+            }
+            
+            outputTextData.append(changedStringField.toString()).append(" ").
+                    append(tvEpisodeOutputFieldsIds.get("name")).append("\n");
+            outputTextData.append(m.getPercentageRating()).
+                    append(" ").append(tvEpisodeOutputFieldsIds.get("percentageRating")).
+                    append("\n");
+            
+            changedStringField = new StringBuilder();
+            
+            for (char c : m.getHyperlinkForContentWatch().toCharArray()) 
+            {
+                if (c != Character.MIN_VALUE) 
+                {
+                    changedStringField.append(c);
+                }
+            }
+            
+            outputTextData.append(changedStringField.toString()).
+                    append(" ").append(tvEpisodeOutputFieldsIds.get("hyperlinkForContentWatch")).
+                    append("\n");
+            
+            changedStringField = new StringBuilder();
+            
+            for (char c : m.getShortContentSummary().toCharArray()) 
+            {
+                if (c != Character.MIN_VALUE) 
+                {
+                    changedStringField.append(c);
+                }
+            }
+
+            String[] shortContentSummaryLines = changedStringField.toString().split("\n");
+
+            for (int i = 0; i < shortContentSummaryLines.length; i++) 
+            {
+                outputTextData.append(shortContentSummaryLines[i]).append(" ").
+                        append(tvEpisodeOutputFieldsIds.get("shortContentSummary")).append("\n");
+            }
+
+            outputTextData.append(m.getOrderInTVShowSeason()).
+                    append(" ").append(tvEpisodeOutputFieldsIds.get("orderInTVShowSeason")).
+                    append("\n");
+            
+            outputTextData.append(m.getTVSeasonId()).
+                    append(" ").append(tvEpisodeOutputFieldsIds.get("tvSeasonId")).
+                    append("\n").append("\n");
+        }
+
+        String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
+        outputTextData.append(endMarking).append("\n");
+        
+        return outputTextData;
     }
 }

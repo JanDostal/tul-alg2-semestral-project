@@ -58,22 +58,22 @@ public class FileManagerTest
             
             System.out.println(moviesTextFile);
             
-            //loadInputMoviesFromText method
+            //loadInputDataFrom method
             System.out.println();
-            System.out.println("loadInputMoviesFromText method:");
+            System.out.println("loadInputDataFrom method from text:");
             System.out.println();
-            List<MovieInput> a = fileManager.getMoviesFileManager().loadInputMoviesFrom(false);
+            List<MovieInput> a = fileManager.getMoviesFileManager().loadInputDataFrom(false);
         
             for (MovieInput m : a) 
             {
                 System.out.println(m);
             }
                         
-            //loadInputMoviesFromBinary method
+            //loadInputDataFrom method
             System.out.println();
-            System.out.println("loadInputMoviesFromBinary method:");
+            System.out.println("loadInputDataFrom method from binary:");
             System.out.println();
-            List<MovieInput> b = fileManager.getMoviesFileManager().loadInputMoviesFrom(true);
+            List<MovieInput> b = fileManager.getMoviesFileManager().loadInputDataFrom(true);
         
             for (MovieInput m : b) 
             {
@@ -147,9 +147,9 @@ public class FileManagerTest
                 System.out.println(m);
             }
             
-            //saveMoviesIntoTextAndBinary method
+            //saveOutputDataIntoFiles method
             System.out.println();
-            System.out.println("saveMoviesIntoTextAndBinary method:");
+            System.out.println("saveOutputDataIntoFiles method:");
             System.out.println();
             
             MovieOutput movie1 = new MovieOutput(2, 222, "Jeníček", 40, 
@@ -161,7 +161,7 @@ public class FileManagerTest
             list.add(movie2);
             list.add(movie1);
             
-            fileManager.getMoviesFileManager().saveMoviesIntoTextAndBinary(list);
+            fileManager.getMoviesFileManager().saveOutputDataIntoFiles(list);
             
             StringBuilder binaryTest = fileManager.getBinaryFileContent(DataStore.getBinaryOutputMoviesFilename());
             StringBuilder textTest = fileManager.getTextFileContent(DataStore.getTextOutputMoviesFilename());
@@ -187,44 +187,44 @@ public class FileManagerTest
                         
             //transferBetweenOutputDataAndCopyFiles method
             System.out.println();
-            System.out.println("transferBetweenOutputDataAndCopyFiles method from copyFiles:");
+            System.out.println("transferBetweenOutputDataAndCopyFiles method (from copyFiles):");
             System.out.println();
             
             fileManager.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(true);
             
-            //tryDeleteMoviesCopyOutputFiles method
+            //tryDeleteDataOutputFilesCopies method
             System.out.println();
-            System.out.println("tryDeleteMoviesCopyOutputFiles method:");
-            System.out.println();
-            
-            fileManager.getMoviesFileManager().tryDeleteMoviesCopyOutputFiles();
-            
-            //tryCreateMoviesOutputFiles method
-            System.out.println();
-            System.out.println("tryCreateMoviesOutputFiles method from text:");
+            System.out.println("tryDeleteDataOutputFilesCopies method:");
             System.out.println();
             
-            fileManager.getMoviesFileManager().tryCreateMoviesOutputFiles();
+            fileManager.getMoviesFileManager().tryDeleteDataOutputFilesCopies();
             
-            
-            //loadOutputMoviesFrom method
+            //tryCreateDataOutputFiles method
             System.out.println();
-            System.out.println("loadOutputMoviesFrom method from text:");
+            System.out.println("tryCreateDataOutputFiles method:");
             System.out.println();
             
-            List<MovieOutput> outputTextMovies = fileManager.getMoviesFileManager().loadOutputMoviesFrom(false);
+            fileManager.getMoviesFileManager().tryCreateDataOutputFiles();
+            
+            
+            //loadOutputDataFrom method
+            System.out.println();
+            System.out.println("loadOutputDataFrom method from text:");
+            System.out.println();
+            
+            List<MovieOutput> outputTextMovies = fileManager.getMoviesFileManager().loadOutputDataFrom(false);
             
             for (MovieOutput m : outputTextMovies) 
             {
                 System.out.println(m);
             }
             
-            //loadOutputMoviesFrom method
+            //loadOutputDataFrom method
             System.out.println();
-            System.out.println("loadOutputMoviesFrom method from binary:");
+            System.out.println("loadOutputDataFrom method from binary:");
             System.out.println();
             
-            List<MovieOutput> outputBinaryMovies = fileManager.getMoviesFileManager().loadOutputMoviesFrom(true);
+            List<MovieOutput> outputBinaryMovies = fileManager.getMoviesFileManager().loadOutputDataFrom(true);
             
             for (MovieOutput m : outputBinaryMovies) 
             {

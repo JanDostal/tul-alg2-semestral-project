@@ -18,7 +18,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.RandomAccessFile;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
@@ -27,12 +26,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import utils.interfaces.IDataFileManager;
 
 /**
  *
  * @author Admin
  */
-public class MoviesFileManager 
+public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutput>
 {
     private static MoviesFileManager moviesFileManager;
         
@@ -67,11 +67,11 @@ public class MoviesFileManager
         return moviesFileManager;
     }
     
-    public List<MovieOutput> loadOutputMoviesFrom(boolean isBinary) throws FileNotFoundException, IOException
+    public @Override List<MovieOutput> loadOutputDataFrom(boolean fromBinary) throws FileNotFoundException, IOException
     {
         List<MovieOutput> parsedMovies = new ArrayList<>();
         
-        if (isBinary == true) 
+        if (fromBinary == true) 
         {
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
@@ -205,7 +205,7 @@ public class MoviesFileManager
                     else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking 
                             + "[\\s\t]*$") && enteredSectionValues == true) 
                     {
-                        parseMovieOutputData(movieOutputFieldsValues, parsedMovies, movieOutputFields);
+                        parseOutputData(movieOutputFieldsValues, parsedMovies, movieOutputFields);
 
                         break;
                     } 
@@ -219,7 +219,7 @@ public class MoviesFileManager
                     else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
                             + "[\\s\t]*$") && enteredSectionValues == true) 
                     {
-                        parseMovieOutputData(movieOutputFieldsValues, parsedMovies, movieOutputFields);
+                        parseOutputData(movieOutputFieldsValues, parsedMovies, movieOutputFields);
 
                         enteredSectionAttributes = true;
                         enteredSectionValues = false;
@@ -281,7 +281,7 @@ public class MoviesFileManager
         return parsedMovies;
     }
         
-    public void tryDeleteMoviesCopyOutputFiles() 
+    public @Override void tryDeleteDataOutputFilesCopies() 
     {
         File outputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 "copy_" + DataStore.getTextOutputMoviesFilename());
@@ -293,7 +293,7 @@ public class MoviesFileManager
         outputMoviesBinaryCopy.delete();
     }
     
-    public void tryCreateMoviesOutputFiles() throws IOException 
+    public @Override void tryCreateDataOutputFiles() throws IOException 
     {
         File outputMoviesText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 DataStore.getTextOutputMoviesFilename());
@@ -305,7 +305,8 @@ public class MoviesFileManager
         outputMoviesBinary.createNewFile();
     }
     
-    public void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException, FileNotFoundException
+    public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException, 
+            FileNotFoundException
     {
         File outputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 "copy_" + DataStore.getTextOutputMoviesFilename());
@@ -364,7 +365,7 @@ public class MoviesFileManager
         }
     }
         
-    public void saveMoviesIntoTextAndBinary(List<MovieOutput> newOutputMovies) throws IOException, 
+    public @Override void saveOutputDataIntoFiles(List<MovieOutput> newOutputData) throws IOException, 
             FileNotFoundException
     {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
@@ -375,9 +376,9 @@ public class MoviesFileManager
                 filenameSeparator + DataStore.getBinaryOutputMoviesFilename(), false)))) 
         {
             StringBuilder generatedMoviesTextRepresentations = 
-                    createMoviesTextRepresentation(newOutputMovies);
+                    createOutputDataTextRepresentation(newOutputData);
             
-            for (MovieOutput m : newOutputMovies) 
+            for (MovieOutput m : newOutputData) 
             {
                 dataOutputStream.writeInt(m.getId());
                 dataOutputStream.writeLong(m.getRuntimeInSeconds());
@@ -411,11 +412,11 @@ public class MoviesFileManager
         }
     }
     
-    public List<MovieInput> loadInputMoviesFrom(boolean isBinary) throws IOException, FileNotFoundException
+    public @Override List<MovieInput> loadInputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException
     {
         StringBuilder text = new StringBuilder();
         
-        if (isBinary == true) 
+        if (fromBinary == true) 
         {
             try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
                     FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
@@ -484,7 +485,7 @@ public class MoviesFileManager
         {
             String textLine;
             
-            if (sc.hasNextLine() == true && isBinary == false) 
+            if (sc.hasNextLine() == true && fromBinary == false) 
             {
                 isFileEmpty = false;
             }
@@ -500,7 +501,7 @@ public class MoviesFileManager
                 else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    parseMovieInputData(movieInputFieldsValues, parsedMovies, movieInputFields);
+                    parseInputData(movieInputFieldsValues, parsedMovies, movieInputFields);
                     
                     break; 
                 }
@@ -514,7 +515,7 @@ public class MoviesFileManager
                 else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    parseMovieInputData(movieInputFieldsValues, parsedMovies,
+                    parseInputData(movieInputFieldsValues, parsedMovies,
                             movieInputFields);
                     
                     enteredSectionAttributes = true;
@@ -569,7 +570,7 @@ public class MoviesFileManager
             }
         }
         
-        if (isFileEmpty == true && isBinary == false) 
+        if (isFileEmpty == true && fromBinary == false) 
         {
             //exception
         }

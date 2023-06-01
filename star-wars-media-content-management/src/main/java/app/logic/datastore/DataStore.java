@@ -182,7 +182,7 @@ public final class DataStore
         return czechCollator;
     }
     
-    public static String loadAppName() 
+    public static String getAppName() 
     {
         return appName;
     }

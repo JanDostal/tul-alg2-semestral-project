@@ -129,7 +129,7 @@ public class MoviesController
         
         dbContext.getMoviesTable().sortBy(BY_DATE_OLDEST_MOVIE, filteredMovies);
         
-        String subject = String.format("%s - Neshlédnuté filmy - Podle datumu uvedení", DataStore.loadAppName());
+        String subject = String.format("%s - Neshlédnuté filmy - Podle datumu uvedení", DataStore.getAppName());
         
         StringBuilder message = new StringBuilder();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
@@ -185,7 +185,7 @@ public class MoviesController
         List<Movie> filteredMovies;
         
         String subject = String.format("%s - Neshlédnuté filmy - Podle chronologických období", 
-                DataStore.loadAppName());
+                DataStore.getAppName());
         StringBuilder message = new StringBuilder();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
