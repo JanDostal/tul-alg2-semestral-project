@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -39,7 +40,8 @@ public class FileManagerTest
             
             //getBinaryFileContent method
             System.out.println();
-            System.out.println("getBinaryFileContent method (obsah input_movies.bin):");
+            System.out.println("getBinaryFileContent method (obsah " + 
+                    DataStore.getBinaryInputMoviesFilename() + "):");
             System.out.println();
             
             StringBuilder moviesBinaryFile = fileManager.getBinaryFileContent(DataStore.getBinaryInputMoviesFilename());
@@ -48,7 +50,8 @@ public class FileManagerTest
             
             //getTextFileContent method
             System.out.println();
-            System.out.println("getTextFileContent method (obsah input_movies.txt):");
+            System.out.println("getTextFileContent method (obsah " + 
+                    DataStore.getTextInputMoviesFilename() + "):");
             System.out.println();
             
             StringBuilder moviesTextFile = fileManager.getTextFileContent(DataStore.getTextInputMoviesFilename());
@@ -164,30 +167,30 @@ public class FileManagerTest
             StringBuilder textTest = fileManager.getTextFileContent(DataStore.getTextOutputMoviesFilename());
             
             System.out.println();
-            System.out.println("Vypis output_movies.txt");
+            System.out.println("Vypis " + DataStore.getTextOutputMoviesFilename());
             System.out.println();
             
             System.out.println(textTest);
             
             System.out.println();
-            System.out.println("Vypis output_movies.bin");
+            System.out.println("Vypis " + DataStore.getBinaryOutputMoviesFilename());
             System.out.println();
             
             System.out.println(binaryTest);
             
-            //makeCopyOfMoviesInTextAndBinary method
+            //transferBetweenOutputDataAndCopyFiles method
             System.out.println();
-            System.out.println("makeCopyOfMoviesInTextAndBinary method:");
+            System.out.println("transferBetweenOutputDataAndCopyFiles method (from outputFiles):");
             System.out.println();
             
-            fileManager.getMoviesFileManager().transferBetweenOutpuDataAndCopyFiles(false);
+            fileManager.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
                         
-            //loadCopiesOfMoviesIntoOutputFiles method
+            //transferBetweenOutputDataAndCopyFiles method
             System.out.println();
-            System.out.println("loadCopiesOfMoviesIntoOutputFiles method:");
+            System.out.println("transferBetweenOutputDataAndCopyFiles method from copyFiles:");
             System.out.println();
             
-            fileManager.getMoviesFileManager().transferBetweenOutpuDataAndCopyFiles(true);
+            fileManager.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(true);
             
             //tryDeleteMoviesCopyOutputFiles method
             System.out.println();
@@ -195,10 +198,42 @@ public class FileManagerTest
             System.out.println();
             
             fileManager.getMoviesFileManager().tryDeleteMoviesCopyOutputFiles();
+            
+            //tryCreateMoviesOutputFiles method
+            System.out.println();
+            System.out.println("tryCreateMoviesOutputFiles method from text:");
+            System.out.println();
+            
+            fileManager.getMoviesFileManager().tryCreateMoviesOutputFiles();
+            
+            
+            //loadOutputMoviesFrom method
+            System.out.println();
+            System.out.println("loadOutputMoviesFrom method from text:");
+            System.out.println();
+            
+            List<MovieOutput> outputTextMovies = fileManager.getMoviesFileManager().loadOutputMoviesFrom(false);
+            
+            for (MovieOutput m : outputTextMovies) 
+            {
+                System.out.println(m);
+            }
+            
+            //loadOutputMoviesFrom method
+            System.out.println();
+            System.out.println("loadOutputMoviesFrom method from binary:");
+            System.out.println();
+            
+            List<MovieOutput> outputBinaryMovies = fileManager.getMoviesFileManager().loadOutputMoviesFrom(true);
+            
+            for (MovieOutput m : outputBinaryMovies) 
+            {
+                System.out.println(m);
+            }
         }
         catch (Exception e) 
         {
-            System.out.println("chyba");
+            System.out.println(e.getMessage());
         }
     }
 }

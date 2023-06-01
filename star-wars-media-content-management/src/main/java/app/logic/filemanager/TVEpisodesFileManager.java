@@ -67,41 +67,41 @@ public class TVEpisodesFileManager
         
         if (isBinary == true) 
         {
-            try ( BufferedInputStream r = new BufferedInputStream(new FileInputStream(FileManagerAccessor.
+            try ( BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(FileManagerAccessor.
                     getDataDirectoryPath() + filenameSeparator + DataStore.getBinaryInputTVEpisodesFilename()))) 
             {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
                 String textPart;
 
-                while ((bytesRead = r.read(buffer)) != -1) 
+                while ((bytesRead = bufferedInputStream.read(buffer)) != -1) 
                 {
                     textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
                     text.append(textPart);
                 }
             }
         
-            File f = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
+            File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
                     + DataStore.getBinaryInputTVEpisodesFilename());
         
-            if (f.length() == 0) 
+            if (binaryFile.length() == 0) 
             {
                 //exception
             }
         }
         else 
         {
-            try (BufferedReader r = new BufferedReader(new InputStreamReader(
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                     new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
                             DataStore.getTextInputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
             {
                 char[] buffer = new char[1024];
-                int bytesRead;
+                int charsRead;
                 String textPart;
             
-                while((bytesRead = r.read(buffer)) != -1) 
+                while((charsRead = bufferedReader.read(buffer)) != -1) 
                 {
-                    textPart = new String(buffer, 0, bytesRead);
+                    textPart = new String(buffer, 0, charsRead);
                     text.append(textPart);
                 }
             }

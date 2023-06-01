@@ -1,4 +1,4 @@
-
+    
 package app.logic.filemanager;
 
 import app.logic.datastore.DataStore;
@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -65,25 +66,251 @@ public class MoviesFileManager
         
         return moviesFileManager;
     }
+    
+    public List<MovieOutput> loadOutputMoviesFrom(boolean isBinary) throws FileNotFoundException, IOException
+    {
+        List<MovieOutput> parsedMovies = new ArrayList<>();
+        
+        if (isBinary == true) 
+        {
+            try (DataInputStream dataInputStream = new DataInputStream(
+                new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
+                filenameSeparator + DataStore.getBinaryOutputMoviesFilename())))) 
+            {
+                boolean fileEndReached = false;
+                int movieId;
+                long movieRuntime;
+                char[] movieName;
+                int moviePercentageRating;
+                char[] movieHyperlink;
+                char[] movieContent;
+                long movieReleaseDate;
+                char[] movieEra;
+                
+                while (fileEndReached == false) 
+                {
+                    try 
+                    {
+                        movieId = dataInputStream.readInt();
+                        movieRuntime = dataInputStream.readLong();
+
+                        movieName = new char[MovieOutput.ATTRIBUTE_NAME_LENGTH];
+
+                        for (int i = 0; i < movieName.length; i++) 
+                        {
+                            movieName[i] = dataInputStream.readChar();
+                        }
+
+                        moviePercentageRating = dataInputStream.readInt();
+
+                        movieHyperlink = new char[MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH];
+
+                        for (int i = 0; i < movieHyperlink.length; i++) 
+                        {
+                            movieHyperlink[i] = dataInputStream.readChar();
+                        }
+
+                        movieContent = new char[MovieOutput.ATTRIBUTE_CONTENT_LENGTH];
+
+                        for (int i = 0; i < movieContent.length; i++) 
+                        {
+                            movieContent[i] = dataInputStream.readChar();
+                        }
+
+                        movieReleaseDate = dataInputStream.readLong();
+
+                        movieEra = new char[MovieOutput.ATTRIBUTE_ERA_LENGTH];
+
+                        for (int i = 0; i < movieEra.length; i++) 
+                        {
+                            movieEra[i] = dataInputStream.readChar();
+                        }
+                        
+                        parsedMovies.add(new MovieOutput(movieId, movieRuntime, new String(movieName), 
+                                moviePercentageRating, new String(movieHyperlink), new String(movieContent), 
+                                movieReleaseDate, new String(movieEra)));
+                    }
+                    catch (EOFException e) 
+                    {
+                        fileEndReached = true;
+                    }
+                }
+            }
+            
+            File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+                + DataStore.getBinaryOutputMoviesFilename());
+        
+            if (binaryFile.length() == 0) 
+            {
+                //exception
+            }
+        }
+        else 
+        {
+            StringBuilder text = new StringBuilder();
+            
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                    DataStore.getTextOutputMoviesFilename()), StandardCharsets.UTF_8))) 
+            {
+                char[] buffer = new char[1024];
+                int charsRead;
+                String textPart;
+            
+                while((charsRead = bufferedReader.read(buffer)) != -1) 
+                {
+                    textPart = new String(buffer, 0, charsRead);
+                    text.append(textPart);
+                }
+            }
+
+            Class<?> movieOutputClass = MovieOutput.class;
+            Field[] movieOutputFields = movieOutputClass.getDeclaredFields();
+            Map<String, StringBuilder> movieOutputFieldsValues = new LinkedHashMap<>();
+            Map<Integer, String> movieOutputFieldsIds = new LinkedHashMap<>();
+
+            int k = 0;
+
+            for (Field field : movieOutputFields) 
+            {
+                if (!Modifier.isStatic(field.getModifiers())) 
+                {
+                    movieOutputFieldsIds.put(k + 1, field.getName());
+                    movieOutputFieldsValues.put(field.getName(), new StringBuilder());
+                    k++;
+                }
+            }
+
+            boolean enteredSectionAttributes = false;
+            boolean enteredSectionValues = false;
+            boolean isFileEmpty = true;
+
+            try (Scanner sc = new Scanner(text.toString())) 
+            {
+                String textLine;
+
+                if (sc.hasNextLine() == true) 
+                {
+                    isFileEmpty = false;
+                }
+
+                while (sc.hasNextLine() == true) 
+                {
+                    textLine = sc.nextLine();
+
+                    if (textLine.matches("^$") || textLine.matches("^[\\s\t]+$")) 
+                    {
+                        continue;
+                    } 
+                    else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking 
+                            + "[\\s\t]*$") && enteredSectionValues == true) 
+                    {
+                        parseMovieOutputData(movieOutputFieldsValues, parsedMovies, movieOutputFields);
+
+                        break;
+                    } 
+                    else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking
+                            + "[\\s\t]*$") && enteredSectionAttributes == true) 
+                    {
+                        enteredSectionValues = true;
+
+                        continue;
+                    } 
+                    else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
+                            + "[\\s\t]*$") && enteredSectionValues == true) 
+                    {
+                        parseMovieOutputData(movieOutputFieldsValues, parsedMovies, movieOutputFields);
+
+                        enteredSectionAttributes = true;
+                        enteredSectionValues = false;
+
+                        continue;
+                    } 
+                    else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
+                            + "[\\s\t]*$") && enteredSectionAttributes == false) 
+                    {
+                        enteredSectionAttributes = true;
+                        continue;
+                    }
+
+                    if (enteredSectionValues == true)
+                    {
+                        String[] parts = textLine.split(" (?=[^ ]+$)");
+
+                        if (parts.length != 2) 
+                        {
+                            throw new IOException();
+                        }
+
+                        int fieldId;
+
+                        try 
+                        {
+                            fieldId = Integer.parseInt(parts[1]);
+                        } 
+                        catch (NumberFormatException ex) 
+                        {
+                            throw new IOException();
+                        }
+
+                        String fieldName = movieOutputFieldsIds.get(fieldId);
+
+                        if (fieldName == null) 
+                        {
+                            throw new IOException();
+                        }
+
+                        StringBuilder fieldValue = movieOutputFieldsValues.get(fieldName);
+                        StringBuilder newFieldValue = fieldValue.append(parts[0]);
+
+                        if (fieldName.equals("shortContentSummary")) 
+                        {
+                            newFieldValue.append("\n");
+                        }
+
+                        movieOutputFieldsValues.put(fieldName, newFieldValue);
+                    }
+                }
+            }
+
+            if (isFileEmpty == true) {
+                //exception
+            }
+        }
+                                
+        return parsedMovies;
+    }
         
     public void tryDeleteMoviesCopyOutputFiles() 
     {
-        File textMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File outputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 "copy_" + DataStore.getTextOutputMoviesFilename());
         
-        File binaryMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File outputMoviesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 "copy_" + DataStore.getBinaryOutputMoviesFilename());
         
-        textMoviesCopy.delete();
-        binaryMoviesCopy.delete();
+        outputMoviesTextCopy.delete();
+        outputMoviesBinaryCopy.delete();
     }
     
-    public void transferBetweenOutpuDataAndCopyFiles(boolean fromCopyFiles) throws IOException, FileNotFoundException
+    public void tryCreateMoviesOutputFiles() throws IOException 
     {
-        File textMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File outputMoviesText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getTextOutputMoviesFilename());
+        
+        File outputMoviesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getBinaryOutputMoviesFilename());
+        
+        outputMoviesText.createNewFile();
+        outputMoviesBinary.createNewFile();
+    }
+    
+    public void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException, FileNotFoundException
+    {
+        File outputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 "copy_" + DataStore.getTextOutputMoviesFilename());
         
-        File binaryMoviesCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File outputMoviesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 "copy_" + DataStore.getBinaryOutputMoviesFilename());
         
         String sourceTextFile;
@@ -93,8 +320,8 @@ public class MoviesFileManager
         
         if (fromCopyFiles == true) 
         {
-            sourceTextFile = textMoviesCopy.getName();
-            sourceBinaryFile = binaryMoviesCopy.getName();
+            sourceTextFile = outputMoviesTextCopy.getName();
+            sourceBinaryFile = outputMoviesBinaryCopy.getName();
             destinationBinaryFile = DataStore.getBinaryOutputMoviesFilename();
             destinationTextFile = DataStore.getTextOutputMoviesFilename();
         }
@@ -102,8 +329,8 @@ public class MoviesFileManager
         {
             sourceTextFile = DataStore.getTextOutputMoviesFilename();
             sourceBinaryFile = DataStore.getBinaryOutputMoviesFilename();
-            destinationBinaryFile = binaryMoviesCopy.getName();
-            destinationTextFile = textMoviesCopy.getName();
+            destinationBinaryFile = outputMoviesBinaryCopy.getName();
+            destinationTextFile = outputMoviesTextCopy.getName();
         }
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
@@ -122,17 +349,17 @@ public class MoviesFileManager
         {
             char[] buffer = new char[1024];
             byte[] byteBuffer = new byte[1024];
-            int textBytesRead;
-            int binaryBytesRead;
+            int charsRead;
+            int bytesRead;
             
-            while ((textBytesRead = bufferedReader.read(buffer)) != -1) {
+            while ((charsRead = bufferedReader.read(buffer)) != -1) {
                 
-                bufferedWriter.write(buffer, 0, textBytesRead);
+                bufferedWriter.write(buffer, 0, charsRead);
             }
             
-            while ((binaryBytesRead = dataInputStream.read(byteBuffer)) != -1) 
+            while ((bytesRead = dataInputStream.read(byteBuffer)) != -1) 
             {
-                dataOutputStream.write(byteBuffer, 0, binaryBytesRead);
+                dataOutputStream.write(byteBuffer, 0, bytesRead);
             }
         }
     }
@@ -143,7 +370,7 @@ public class MoviesFileManager
         try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
                 DataStore.getTextOutputMoviesFilename(), false), StandardCharsets.UTF_8));
-             DataOutputStream bufferedStream = new DataOutputStream(
+             DataOutputStream dataOutputStream = new DataOutputStream(
                 new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputMoviesFilename(), false)))) 
         {
@@ -152,31 +379,31 @@ public class MoviesFileManager
             
             for (MovieOutput m : newOutputMovies) 
             {
-                bufferedStream.writeInt(m.getId());
-                bufferedStream.writeLong(m.getRuntimeInSeconds());
+                dataOutputStream.writeInt(m.getId());
+                dataOutputStream.writeLong(m.getRuntimeInSeconds());
                 
                 for (char c : m.getName().toCharArray()) 
                 {
-                    bufferedStream.writeChar(c);
+                    dataOutputStream.writeChar(c);
                 }
                 
-                bufferedStream.writeInt(m.getPercentageRating());
+                dataOutputStream.writeInt(m.getPercentageRating());
                 
                 for (char c : m.getHyperlinkForContentWatch().toCharArray()) 
                 {
-                    bufferedStream.writeChar(c);
+                    dataOutputStream.writeChar(c);
                 }
                 
                 for (char c : m.getShortContentSummary().toCharArray()) 
                 {
-                    bufferedStream.writeChar(c);
+                    dataOutputStream.writeChar(c);
                 }
                 
-                bufferedStream.writeLong(m.getReleaseDateInEpochSeconds());
+                dataOutputStream.writeLong(m.getReleaseDateInEpochSeconds());
                 
                 for (char c : m.getEra().toCharArray())     
                 {
-                    bufferedStream.writeChar(c);
+                    dataOutputStream.writeChar(c);
                 }
             }
 
@@ -190,41 +417,42 @@ public class MoviesFileManager
         
         if (isBinary == true) 
         {
-            try (BufferedInputStream r = new BufferedInputStream(new FileInputStream(FileManagerAccessor.
-                    getDataDirectoryPath() + filenameSeparator + DataStore.getBinaryInputMoviesFilename()))) 
+            try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
+                    FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                            DataStore.getBinaryInputMoviesFilename()))) 
             {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
                 String textPart;
 
-                while ((bytesRead = r.read(buffer)) != -1) 
+                while ((bytesRead = bufferedInputStream.read(buffer)) != -1) 
                 {
                     textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
                     text.append(textPart);
                 }
             }
             
-            File f = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+            File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
                 + DataStore.getBinaryInputMoviesFilename());
         
-            if (f.length() == 0) 
+            if (binaryFile.length() == 0) 
             {
                 //exception
             }
         }
         else 
         {
-            try (BufferedReader r = new BufferedReader(new InputStreamReader(
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                     new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
                     DataStore.getTextInputMoviesFilename()), StandardCharsets.UTF_8))) 
             {
                 char[] buffer = new char[1024];
-                int bytesRead;
+                int charsRead;
                 String textPart;
             
-                while((bytesRead = r.read(buffer)) != -1) 
+                while((charsRead = bufferedReader.read(buffer)) != -1) 
                 {
-                    textPart = new String(buffer, 0, bytesRead);
+                    textPart = new String(buffer, 0, charsRead);
                     text.append(textPart);
                 }
             }
@@ -381,6 +609,37 @@ public class MoviesFileManager
         }
     }
     
+    private void parseMovieOutputData(Map<String, StringBuilder> movieOutputFieldsValues,
+            List<MovieOutput> parsedMovies, Field[] movieOutputFields) throws IOException 
+    {        
+        try 
+        {
+            int id = Integer.parseInt(movieOutputFieldsValues.get("id").toString());
+            long runtime = Long.parseLong(movieOutputFieldsValues.get("runtimeInSeconds").toString());
+            int percentage = Integer.parseInt(movieOutputFieldsValues.get("percentageRating").toString());
+            long epochSeconds = Long.parseLong(movieOutputFieldsValues.get("releaseDateInEpochSeconds").toString());
+          
+            parsedMovies.add(new MovieOutput(id, runtime, movieOutputFieldsValues.get("name").toString(), 
+                    percentage, movieOutputFieldsValues.get("hyperlinkForContentWatch").toString(), 
+                    movieOutputFieldsValues.get("shortContentSummary").toString(), 
+                    epochSeconds, movieOutputFieldsValues.get("era").toString()));
+            
+            movieOutputFieldsValues.clear();
+            
+            for (Field field : movieOutputFields) 
+            {
+                if (!Modifier.isStatic(field.getModifiers())) 
+                {
+                    movieOutputFieldsValues.put(field.getName(), new StringBuilder());
+                }
+            }
+        }
+        catch (NumberFormatException ex) 
+        {
+            throw new IOException();
+        }
+    }
+    
     private StringBuilder createMoviesTextRepresentation(List<MovieOutput> newOutputMovies) 
     {
         Class<?> movieOutputClass = MovieOutput.class;
@@ -391,7 +650,6 @@ public class MoviesFileManager
         
         for (Field field : movieOutputFields) 
         {
-            
             if (!Modifier.isStatic(field.getModifiers())) 
             {
                 movieOutputFieldsIds.put(field.getName(), k + 1);
@@ -402,7 +660,7 @@ public class MoviesFileManager
         StringBuilder outputTextData = new StringBuilder();
         String attributesMarking;
         String valuesMarking;
-        StringBuilder changedString;
+        StringBuilder changedStringField;
 
         for (MovieOutput m : newOutputMovies) 
         {
@@ -427,47 +685,47 @@ public class MoviesFileManager
                     append(" ").append(movieOutputFieldsIds.get("runtimeInSeconds")).
                     append("\n");
             
-            changedString = new StringBuilder();
+            changedStringField = new StringBuilder();
             
             for (char c : m.getName().toCharArray()) 
             {
                 if (c != Character.MIN_VALUE) 
                 {
-                    changedString.append(c);
+                    changedStringField.append(c);
                 }
             }
             
-            outputTextData.append(changedString.toString()).append(" ").
+            outputTextData.append(changedStringField.toString()).append(" ").
                     append(movieOutputFieldsIds.get("name")).append("\n");
             outputTextData.append(m.getPercentageRating()).
                     append(" ").append(movieOutputFieldsIds.get("percentageRating")).
                     append("\n");
             
-            changedString = new StringBuilder();
+            changedStringField = new StringBuilder();
             
             for (char c : m.getHyperlinkForContentWatch().toCharArray()) 
             {
                 if (c != Character.MIN_VALUE) 
                 {
-                    changedString.append(c);
+                    changedStringField.append(c);
                 }
             }
             
-            outputTextData.append(changedString.toString()).
+            outputTextData.append(changedStringField.toString()).
                     append(" ").append(movieOutputFieldsIds.get("hyperlinkForContentWatch")).
                     append("\n");
             
-            changedString = new StringBuilder();
+            changedStringField = new StringBuilder();
             
             for (char c : m.getShortContentSummary().toCharArray()) 
             {
                 if (c != Character.MIN_VALUE) 
                 {
-                    changedString.append(c);
+                    changedStringField.append(c);
                 }
             }
 
-            String[] shortContentSummaryLines = changedString.toString().split("\n");
+            String[] shortContentSummaryLines = changedStringField.toString().split("\n");
 
             for (int i = 0; i < shortContentSummaryLines.length; i++) 
             {
@@ -479,17 +737,17 @@ public class MoviesFileManager
                     append(" ").append(movieOutputFieldsIds.get("releaseDateInEpochSeconds")).
                     append("\n");
             
-            changedString = new StringBuilder();
+            changedStringField = new StringBuilder();
             
             for (char c : m.getEra().toCharArray()) 
             {
                 if (c != Character.MIN_VALUE) 
                 {
-                    changedString.append(c);
+                    changedStringField.append(c);
                 }
             }
             
-            outputTextData.append(changedString.toString()).
+            outputTextData.append(changedStringField.toString()).
                     append(" ").append(movieOutputFieldsIds.get("era")).
                     append("\n").append("\n");
         }

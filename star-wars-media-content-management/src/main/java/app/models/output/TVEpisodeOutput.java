@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class TVEpisodeOutput
 { 
-    public static final int ATTRIBUTE_NAME_LENGTH = 40;
+    public static final int ATTRIBUTE_NAME_LENGTH = 100;
     public static final int ATTRIBUTE_HYPERLINK_LENGTH = 180;
     public static final int ATTRIBUTE_CONTENT_LENGTH = 1000;
     
@@ -47,16 +47,13 @@ public class TVEpisodeOutput
     {
         this.id = id;
         this.runtimeInSeconds = runtimeInSeconds;
-        this.name = name == null || name.trim().isEmpty() ? null : 
-                Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
+        this.name = name == null ? null : Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
         this.percentageRating = percentageRating;
-        this.hyperlinkForContentWatch = hyperlinkForContentWatch == null || 
-                hyperlinkForContentWatch.trim().isEmpty() ? 
-                null : Arrays.copyOf(hyperlinkForContentWatch.toCharArray(), 
+        this.hyperlinkForContentWatch = hyperlinkForContentWatch == null ? null : 
+                Arrays.copyOf(hyperlinkForContentWatch.toCharArray(), 
                 ATTRIBUTE_HYPERLINK_LENGTH);
-        this.shortContentSummary = shortContentSummary == null || 
-                shortContentSummary.trim().isEmpty() ? 
-                null : Arrays.copyOf(shortContentSummary.toCharArray(), 
+        this.shortContentSummary = shortContentSummary == null ? null : 
+                Arrays.copyOf(shortContentSummary.toCharArray(), 
                 ATTRIBUTE_CONTENT_LENGTH);
         this.orderInTVShowSeason = orderInTVShowSeason;
         this.tvSeasonId = tvSeasonId;

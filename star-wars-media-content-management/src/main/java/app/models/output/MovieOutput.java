@@ -11,9 +11,9 @@ import java.util.Arrays;
  */
 public class MovieOutput
 {
-    public static final int ATTRIBUTE_NAME_LENGTH = 40;
+    public static final int ATTRIBUTE_NAME_LENGTH = 100;
     public static final int ATTRIBUTE_HYPERLINK_LENGTH = 180;
-    public static final int ATTRIBUTE_ERA_LENGTH = 30;
+    public static final int ATTRIBUTE_ERA_LENGTH = 60;
     public static final int ATTRIBUTE_CONTENT_LENGTH = 1000;
     
     private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
@@ -50,20 +50,16 @@ public class MovieOutput
     {
         this.id = id;
         this.runtimeInSeconds = runtimeInSeconds;
-        this.name = name == null || name.trim().isEmpty() ? null : 
-                Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
+        this.name = name == null ? null : Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
         this.percentageRating = percentageRating;
-        this.hyperlinkForContentWatch = hyperlinkForContentWatch == null || 
-                hyperlinkForContentWatch.trim().isEmpty() ? null : 
+        this.hyperlinkForContentWatch = hyperlinkForContentWatch == null ? null : 
                 Arrays.copyOf(hyperlinkForContentWatch.toCharArray(), 
                 ATTRIBUTE_HYPERLINK_LENGTH);
-        this.shortContentSummary = shortContentSummary == null || 
-                shortContentSummary.trim().isEmpty() ? null: 
+        this.shortContentSummary = shortContentSummary == null ? null : 
                 Arrays.copyOf(shortContentSummary.toCharArray(), 
                 ATTRIBUTE_CONTENT_LENGTH);
         this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
-        this.era = era == null || era.trim().isEmpty() ? 
-                null : Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
+        this.era = era == null ? null : Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
     }
     
     public int getId() 

@@ -18,6 +18,8 @@ public final class DataStore
     
     private static String appName = "Star Wars Media Content Management";
     
+    private static String dataDirectoryName = "data";
+    
     private static String textInputMoviesFilename = "input_movies.txt";
     
     private static String textInputTVShowsFilename = "input_tvShows.txt";
@@ -262,5 +264,10 @@ public final class DataStore
     public static String getTextOutputTVShowsFilename() 
     {
         return textOutputTVShowsFilename;
+    }
+    
+    public static String getDataDirectoryName() 
+    {
+        return dataDirectoryName;
     }
 }

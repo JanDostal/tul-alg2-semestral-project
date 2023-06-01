@@ -9,8 +9,8 @@ import java.util.Arrays;
  */
 public class TVShowOutput 
 {   
-    public static final int ATTRIBUTE_NAME_LENGTH = 40;
-    public static final int ATTRIBUTE_ERA_LENGTH = 30;
+    public static final int ATTRIBUTE_NAME_LENGTH = 100;
+    public static final int ATTRIBUTE_ERA_LENGTH = 60;
     
     private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
     private static final int ATTRIBUTE_RELEASEDATE_BYTES = Long.BYTES;
@@ -30,8 +30,8 @@ public class TVShowOutput
     public TVShowOutput(int id, String name, long releaseDateInEpochSeconds, String era) 
     {
         this.id = id;
-        this.name = name == null || name.trim().isEmpty() ? null : Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
-        this.era = era == null || era.trim().isEmpty() ? null : Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
+        this.name = name == null ? null : Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
+        this.era = era == null ? null : Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
         this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
     }
     
