@@ -463,6 +463,14 @@ public class MoviesController
         
         return foundMovies;
     }
+    
+    public StringBuilder addMovies() 
+    {
+        List<Movie> currentMovies = dbContext.getMoviesTable().getAll();
+        dbContext.getMoviesTable().sortByPrimaryKey(currentMovies);
+        
+        
+    }
         
     private static LocalDate getCurrentDate() 
     {
