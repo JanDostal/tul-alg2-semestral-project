@@ -10,7 +10,8 @@ import app.models.output.*;
  *
  * @author Admin
  */
-public class OutputModelsTest {
+public class OutputModelsTest 
+{
 
     /**
      * @param args the command line arguments

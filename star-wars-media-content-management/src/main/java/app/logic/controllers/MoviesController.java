@@ -6,6 +6,10 @@ import app.logic.datastore.DataStore;
 import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
 import app.models.data.Movie;
+import app.models.input.MovieInput;
+import app.models.output.MovieOutput;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.Collator;
 import java.text.Normalizer;
 import java.time.Duration;
@@ -13,6 +17,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.mail.EmailException;
 import utils.emailsender.EmailSender;
+import utils.helpers.MovieDataConverter;
 
 /**
  *
@@ -464,12 +470,103 @@ public class MoviesController
         return foundMovies;
     }
     
-    public StringBuilder addMovies() 
+    public int addMoviesFrom(boolean fromBinary) throws IOException, FileNotFoundException 
+    {
+        updateMoviesOutputFilesWithExistingData();
+        
+        List<MovieInput> inputMovies = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
+        List<Movie> convertedInputMovies = new ArrayList<>();
+        
+        if (inputMovies.isEmpty()) 
+        {
+            return 0;
+        }
+        else 
+        {
+            Movie convertedInputMovie;
+            
+            for (MovieInput inputMovie : inputMovies) 
+            {
+                convertedInputMovie = MovieDataConverter.convertToDataFrom(inputMovie);
+                convertedInputMovies.add(convertedInputMovie);
+            }
+
+            fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+                    
+            for (Movie movieForAddition : convertedInputMovies) 
+            {
+                dbContext.getMoviesTable().addFrom(movieForAddition);
+            }
+            
+            updateMoviesOutputFilesWithNewChanges();
+        }
+        
+        //pocet nahranych filmu
+        return 5;
+    }
+        
+    private void updateMoviesOutputFilesWithExistingData() throws IOException 
     {
         List<Movie> currentMovies = dbContext.getMoviesTable().getAll();
         dbContext.getMoviesTable().sortByPrimaryKey(currentMovies);
         
+        List<MovieOutput> outputMovies = new ArrayList<>();
+        MovieOutput outputMovie;
         
+        for (Movie m : currentMovies) 
+        {
+            outputMovie = MovieDataConverter.convertToOutputDataFrom(m);
+            outputMovies.add(outputMovie);
+        }
+        
+        fileManagerAccessor.getMoviesFileManager().saveOutputDataIntoFiles(outputMovies);
+    }
+    
+    private void updateMoviesOutputFilesWithNewChanges() throws IOException 
+    {
+        List<Movie> currentMovies = dbContext.getMoviesTable().getAll();
+        dbContext.getMoviesTable().sortByPrimaryKey(currentMovies);
+        
+        List<MovieOutput> outputMovies = new ArrayList<>();
+        MovieOutput outputMovie;
+
+        for (Movie m : currentMovies) 
+        {
+            outputMovie = MovieDataConverter.convertToOutputDataFrom(m);
+            outputMovies.add(outputMovie);
+        }
+
+        try 
+        {
+            fileManagerAccessor.getMoviesFileManager().saveOutputDataIntoFiles(outputMovies);
+        } 
+        catch (IOException e) 
+        {
+            fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(true);
+            
+            outputMovies = fileManagerAccessor.getMoviesFileManager().loadOutputDataFrom(true);
+                       
+            Movie convertedOutputMovie;
+            List<Movie> convertedOutputMovies = new ArrayList<>();
+            
+            for (MovieOutput m : outputMovies) 
+            {
+                convertedOutputMovie = MovieDataConverter.convertToDataFrom(m);
+                convertedOutputMovies.add(convertedOutputMovie);
+            }
+            
+            dbContext.getMoviesTable().clearData();
+            
+            for (Movie m : convertedOutputMovies) 
+            {
+                dbContext.getMoviesTable().addFrom(m);
+            }
+            
+        } 
+        finally 
+        {
+            fileManagerAccessor.getMoviesFileManager().tryDeleteDataOutputFilesCopies();
+        }
     }
         
     private static LocalDate getCurrentDate() 

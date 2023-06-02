@@ -478,7 +478,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         outputMoviesBinary.createNewFile();
     }
     
-    public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException, 
+    public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws 
             FileNotFoundException
     {
         File outputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
@@ -535,6 +535,10 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             {
                 dataOutputStream.write(byteBuffer, 0, bytesRead);
             }
+        }
+        catch (IOException e) 
+        {
+            tryDeleteDataOutputFilesCopies();
         }
     }
         
