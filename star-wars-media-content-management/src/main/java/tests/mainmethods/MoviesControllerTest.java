@@ -298,5 +298,28 @@ public class MoviesControllerTest
         {
             System.out.println("chyba");
         }
+        
+        //deleteMovies
+        System.out.println();
+        System.out.println("deleteMovies method:");
+        System.out.println();
+        
+        try 
+        {
+            List<Movie> moviesList = moviesTable.getAll();
+            
+            controller.deleteMovies(moviesList);
+            
+            moviesList = moviesTable.getAll();
+            
+            for (Movie m : moviesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
     }
 }

@@ -516,6 +516,20 @@ public class MoviesController
 
         updateMoviesOutputFilesWithNewChanges();
     }
+    
+    public void deleteMovies(List<Movie> chosenMovies) throws IOException
+    {
+        updateMoviesOutputFilesWithExistingData();
+
+        fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        
+        for (Movie m : chosenMovies) 
+        {
+            dbContext.getMoviesTable().deleteBy(m.getPrimaryKey());
+        }
+
+        updateMoviesOutputFilesWithNewChanges();
+    }
         
     private void updateMoviesOutputFilesWithExistingData() throws IOException 
     {
