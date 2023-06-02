@@ -70,6 +70,52 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         return tvEpisodesFileManager;
     }
     
+    public @Override StringBuilder getTextOutputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+                
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getTextOutputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
+        {
+            char[] buffer = new char[1024];
+            int charsRead;
+            String textPart;
+            
+            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            {
+               textPart = new String(buffer, 0, charsRead);
+               text.append(textPart);
+            }
+        }
+        
+        try (Scanner sc = new Scanner(text.toString())) 
+        {
+            if (sc.hasNextLine() == false)
+            {
+                sc.close();
+                //exception
+            }
+        }
+        
+        return text;
+    }
+
+    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException 
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public @Override StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException 
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public @Override StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException 
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
     public @Override List<TVEpisodeOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException 
     {
         List<TVEpisodeOutput> parsedTVEpisodes = new ArrayList<>();

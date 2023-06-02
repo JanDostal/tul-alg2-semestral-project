@@ -11,6 +11,10 @@ import java.util.List;
  */
 public interface IDataFileManager<T, S> 
 {
+    StringBuilder getTextOutputFileContent() throws FileNotFoundException, IOException;
+    StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException;
+    StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException;
+    StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException;
     List<S> loadOutputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException;
     void tryDeleteDataOutputFilesCopies();
     void tryCreateDataOutputFiles() throws IOException;
