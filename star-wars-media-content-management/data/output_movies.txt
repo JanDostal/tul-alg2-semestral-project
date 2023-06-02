@@ -1,0 +1,231 @@
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+3 1
+-1 2
+movieA 3
+60 4
+https://www.example01.com 5
+A 6
+1684188000 7
+THE_NEW_REPUBLIC 8
+
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+4 1
+12000 2
+Hvězdička 3
+40 4
+https://www.example02.com 5
+B 6
+1684101600 7
+FALL_OF_THE_JEDI 8
+
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+5 1
+-1 2
+movieEdit 3
+60 4
+ 5
+ 6
+1621461600 7
+FALL_OF_THE_JEDI 8
+
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+8 1
+18000 2
+movieD 3
+60 4
+ 5
+ 6
+1747173600 7
+FALL_OF_THE_JEDI 8
+
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+10 1
+30000 2
+Bitva 3
+80 4
+ 5
+ 6
+1684533600 7
+FALL_OF_THE_JEDI 8
+
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+11 1
+-1 2
+movieF 3
+2 4
+ 5
+ 6
+1747692000 7
+FALL_OF_THE_JEDI 8
+
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+12 1
+-1 2
+movieG 3
+2 4
+ 5
+ 6
+-1 7
+FALL_OF_THE_JEDI 8
+
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+310150119 1
+3000 2
+Ola ÁHójé Jé 3
+60 4
+ 5
+ 6
+1621461600 7
+FALL_OF_THE_JEDI 8
+
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+658903405 1
+213212 2
+Mařenka 3
+50 4
+asdsaa ads  aasasddasasd asdadas d ads asd a 5
+asdasda asdaas asdasdas as asdas das dasas  6
+asdasdsa 6
+sadas 6
+asdasddas 6
+sadasddsasa 6
+sasadadsdas 6
+-3600 7
+FALL_OF_THE_JEDI 8
+
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+2030375013 1
+213212 2
+Jeníček 3
+50 4
+asdsaa ads  aasasddasasd asdadas d ads asd a 5
+asdasda asdaas asdasdas as asdas das dasas  6
+asdasdsa 6
+sadas 6
+asdasddas 6
+sadasddsasa 6
+sasadadsdas 6
+-3600 7
+FALL_OF_THE_JEDI 8
+
+[End]

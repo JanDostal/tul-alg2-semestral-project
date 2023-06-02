@@ -10,6 +10,7 @@ import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -32,6 +33,7 @@ public class MoviesControllerTest
         EmailSender emailSender = EmailSender.getInstance();
         IDataTable<Movie> moviesTable = dbContext.getMoviesTable();
         FileManagerAccessor fileManager = FileManagerAccessor.getInstance();
+        FileManagerAccessor.setDataDirectory("data");
         
         MoviesController controller = MoviesController.getInstance(dbContext, emailSender, fileManager);
         
@@ -254,5 +256,26 @@ public class MoviesControllerTest
                 controller.getAverageRatingOfAllMoviesByEra(Era.FALL_OF_THE_JEDI);
         
         System.out.println("Prumerne hodnoceni v procentech: " + getAverageRatingOfAllMoviesByEra_result);
+        
+        //addMoviesFrom
+        System.out.println();
+        System.out.println("addMoviesFrom method (binary):");
+        System.out.println();
+        
+        try 
+        {
+            controller.addMoviesFrom(false);
+            
+            List<Movie> moviesList = moviesTable.getAll();
+            
+            for (Movie m : moviesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
     }
 }

@@ -30,8 +30,12 @@ public class TVShowOutput
     public TVShowOutput(int id, String name, long releaseDateInEpochSeconds, String era) 
     {
         this.id = id;
-        this.name = name == null ? null : Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
-        this.era = era == null ? null : Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
+        this.name = name == null ? 
+                Arrays.copyOf("".toCharArray(), ATTRIBUTE_NAME_LENGTH) : 
+                Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
+        this.era = era == null ? 
+                Arrays.copyOf("".toCharArray(), ATTRIBUTE_ERA_LENGTH) : 
+                Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
         this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
     }
     
@@ -42,7 +46,7 @@ public class TVShowOutput
     
     public String getName() 
     {
-        return name == null ? null : new String(name);
+        return new String(name);
     }
 
     public long getReleaseDateInEpochSeconds() 
@@ -52,13 +56,13 @@ public class TVShowOutput
 
     public String getEra() 
     {
-        return era == null ? null : new String(era);
+        return new String(era);
     }
     
     public @Override String toString() 
     {
-        String nameText = name == null ? null : new String(name);
-        String eraText = era == null ? null : new String(era);
+        String nameText = new String(name);
+        String eraText = new String(era);
         
         return String.format("TVShowOutput{id=%d, name=%s, releaseDateInEpochSeconds=%d, era=%s}", 
                 id, nameText, releaseDateInEpochSeconds, eraText);
