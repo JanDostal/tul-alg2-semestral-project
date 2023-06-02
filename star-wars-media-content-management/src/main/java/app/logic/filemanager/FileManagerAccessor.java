@@ -128,8 +128,7 @@ public class FileManagerAccessor
         StringBuilder text = new StringBuilder();
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(dataDirectory.getAbsolutePath() + filenameSeparator +
-                        DataStore.getTextInputMoviesFilename()), StandardCharsets.UTF_8))) 
+                new FileInputStream(dataDirectory.getAbsolutePath() + filenameSeparator + fileName), StandardCharsets.UTF_8))) 
         {
             char[] buffer = new char[1024];
             int charsRead;
