@@ -2,6 +2,14 @@
 package app.logic.filemanager;
 
 import app.logic.datastore.DataStore;
+import app.models.input.MovieInput;
+import app.models.input.TVEpisodeInput;
+import app.models.input.TVSeasonInput;
+import app.models.input.TVShowInput;
+import app.models.output.MovieOutput;
+import app.models.output.TVEpisodeOutput;
+import app.models.output.TVSeasonOutput;
+import app.models.output.TVShowOutput;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+import utils.interfaces.IDataFileManager;
 
 /**
  *
@@ -22,13 +31,13 @@ public class FileManagerAccessor
     
     private static File dataDirectory;
     
-    private MoviesFileManager moviesFileManager;
+    private IDataFileManager<MovieInput, MovieOutput> moviesFileManager;
     
-    private TVShowsFileManager tvShowsFileManager;
+    private IDataFileManager<TVShowInput, TVShowOutput> tvShowsFileManager;
     
-    private TVSeasonsFileManager tvSeasonsFileManager;
+    private IDataFileManager<TVSeasonInput, TVSeasonOutput> tvSeasonsFileManager;
     
-    private TVEpisodesFileManager tvEpisodesFileManager;
+    private IDataFileManager<TVEpisodeInput, TVEpisodeOutput> tvEpisodesFileManager;
     
     private final String filenameSeparator = System.getProperty("file.separator");;
     
@@ -61,22 +70,22 @@ public class FileManagerAccessor
         return fileManagerAccessor;
     }
 
-    public TVSeasonsFileManager getTVSeasonsFileManager() 
+    public IDataFileManager<TVSeasonInput, TVSeasonOutput> getTVSeasonsFileManager() 
     {
         return tvSeasonsFileManager;
     }
 
-    public TVShowsFileManager getTVShowsFileManager() 
+    public IDataFileManager<TVShowInput, TVShowOutput> getTVShowsFileManager() 
     {
         return tvShowsFileManager;
     }
     
-    public TVEpisodesFileManager getTVEpisodesFileManager() 
+    public IDataFileManager<TVEpisodeInput, TVEpisodeOutput> getTVEpisodesFileManager() 
     {
         return tvEpisodesFileManager;
     }
     
-    public MoviesFileManager getMoviesFileManager() 
+    public IDataFileManager<MovieInput, MovieOutput> getMoviesFileManager() 
     {
         return moviesFileManager;
     }

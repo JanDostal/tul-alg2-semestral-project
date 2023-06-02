@@ -34,7 +34,7 @@ import utils.interfaces.IDataFileManager;
  */
 public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutput>
 {
-    private static MoviesFileManager moviesFileManager;
+    private static IDataFileManager<MovieInput, MovieOutput> moviesFileManager;
         
     private final String filenameSeparator;
     
@@ -54,7 +54,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         this.inputFileAttributesSectionMarking = inputFileAttributesSectionMarking;
     }
     
-    protected static MoviesFileManager getInstance(String filenameSeparator, 
+    protected static IDataFileManager<MovieInput, MovieOutput> getInstance(String filenameSeparator, 
             String inputFileEndMarking, String inputFileValuesSectionMarking,
             String inputFileAttributesSectionMarking) 
     {

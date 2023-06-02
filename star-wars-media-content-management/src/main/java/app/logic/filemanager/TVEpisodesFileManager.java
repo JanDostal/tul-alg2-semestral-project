@@ -37,7 +37,7 @@ import utils.interfaces.IDataFileManager;
  */
 public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, TVEpisodeOutput>
 {
-    private static TVEpisodesFileManager tvEpisodesFileManager;
+    private static IDataFileManager<TVEpisodeInput, TVEpisodeOutput> tvEpisodesFileManager;
     
     private final String filenameSeparator;
     
@@ -57,7 +57,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         this.inputFileAttributesSectionMarking = inputFileAttributesSectionMarking;
     }
     
-    protected static TVEpisodesFileManager getInstance(String filenameSeparator, 
+    protected static IDataFileManager<TVEpisodeInput, TVEpisodeOutput> getInstance(String filenameSeparator, 
             String inputFileEndMarking, String inputFileValuesSectionMarking,
             String inputFileAttributesSectionMarking) 
     {
