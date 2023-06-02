@@ -78,8 +78,17 @@ public final class MovieDataConverter
             IllegalArgumentException
     {
         PrimaryKey primaryKey = new PrimaryKey(outputData.getId());
-        Duration runtime = Duration.ofSeconds(outputData.getRuntimeInSeconds());
-        String name = outputData.getName();
+        Duration runtime = Duration.ofSeconds(outputData.getRuntimeInSeconds());        
+        StringBuilder name = new StringBuilder();
+        
+        for (char c : outputData.getName().toCharArray()) 
+        {
+            if (c != Character.MIN_VALUE) 
+            {
+                name.append(c);
+            }
+        }
+        
         int percentage = outputData.getPercentageRating();
         boolean wasWatched;
         
@@ -91,18 +100,45 @@ public final class MovieDataConverter
         {
             wasWatched = true;
         }
+                
+        StringBuilder hyperlink = new StringBuilder();
         
-        String hyperlink = outputData.getHyperlinkForContentWatch();
-        String content = outputData.getShortContentSummary();
+        for (char c : outputData.getHyperlinkForContentWatch().toCharArray()) 
+        {
+            if (c != Character.MIN_VALUE) 
+            {
+                hyperlink.append(c);
+            }
+        }
+        
+        StringBuilder content = new StringBuilder();
+        
+        for (char c : outputData.getShortContentSummary().toCharArray()) 
+        {
+            if (c != Character.MIN_VALUE) 
+            {
+                content.append(c);
+            }
+        }
         
         //exception
         LocalDate releaseDate = Instant.ofEpochSecond(outputData.getReleaseDateInEpochSeconds()).
                 atZone(ZoneId.systemDefault()).toLocalDate();
         
-        //exception
-        Era era = Era.valueOf(outputData.getEra());
+        StringBuilder stringEra = new StringBuilder();
         
-        return new Movie(primaryKey, runtime, name, percentage, wasWatched,
-                hyperlink, content, releaseDate, era);
+        for (char c : outputData.getEra().toCharArray()) 
+        {
+            if (c != Character.MIN_VALUE) 
+            {
+                stringEra.append(c);
+            }
+        }
+        
+        //exception
+        Era era = Era.valueOf(stringEra.toString());
+        
+        return new Movie(primaryKey, runtime, name.toString(), percentage, wasWatched,
+                hyperlink.toString(), content.toString(), releaseDate, era);
     }
 }
