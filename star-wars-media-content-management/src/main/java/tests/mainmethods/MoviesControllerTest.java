@@ -259,12 +259,33 @@ public class MoviesControllerTest
         
         //addMoviesFrom
         System.out.println();
-        System.out.println("addMoviesFrom method (binary):");
+        System.out.println("addMoviesFrom method (text):");
         System.out.println();
         
         try 
         {
             controller.addMoviesFrom(false);
+            
+            List<Movie> moviesList = moviesTable.getAll();
+            
+            for (Movie m : moviesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //deleteMovieBy
+        System.out.println();
+        System.out.println("deleteMovieBy method:");
+        System.out.println();
+        
+        try 
+        {
+            controller.deleteMovieBy(movieSearch_01.getPrimaryKey());
             
             List<Movie> moviesList = moviesTable.getAll();
             

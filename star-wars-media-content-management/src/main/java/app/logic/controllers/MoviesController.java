@@ -6,6 +6,7 @@ import app.logic.datastore.DataStore;
 import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
 import app.models.data.Movie;
+import app.models.data.PrimaryKey;
 import app.models.input.MovieInput;
 import app.models.output.MovieOutput;
 import java.io.FileNotFoundException;
@@ -503,6 +504,17 @@ public class MoviesController
         
         //pocet nahranych filmu
         return 5;
+    }
+    
+    public void deleteMovieBy(PrimaryKey moviePrimaryKey) throws IOException
+    {
+        updateMoviesOutputFilesWithExistingData();
+
+        fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+
+        dbContext.getMoviesTable().deleteBy(moviePrimaryKey);
+
+        updateMoviesOutputFilesWithNewChanges();
     }
         
     private void updateMoviesOutputFilesWithExistingData() throws IOException 

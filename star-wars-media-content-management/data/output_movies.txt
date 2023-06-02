@@ -55,28 +55,6 @@ era 8
 
 [Values]
 
-5 1
--1 2
-movieEdit 3
-60 4
- 5
- 6
-1621461600 7
-FALL_OF_THE_JEDI 8
-
-[Attributes]
-
-id 1
-runtimeInSeconds 2
-name 3
-percentageRating 4
-hyperlinkForContentWatch 5
-shortContentSummary 6
-releaseDateInEpochSeconds 7
-era 8
-
-[Values]
-
 8 1
 18000 2
 movieD 3
@@ -165,29 +143,7 @@ era 8
 
 [Values]
 
-310150119 1
-3000 2
-Ola ÁHójé Jé 3
-60 4
- 5
- 6
-1621461600 7
-FALL_OF_THE_JEDI 8
-
-[Attributes]
-
-id 1
-runtimeInSeconds 2
-name 3
-percentageRating 4
-hyperlinkForContentWatch 5
-shortContentSummary 6
-releaseDateInEpochSeconds 7
-era 8
-
-[Values]
-
-658903405 1
+263281834 1
 213212 2
 Mařenka 3
 50 4
@@ -214,7 +170,29 @@ era 8
 
 [Values]
 
-2030375013 1
+457312447 1
+3000 2
+Ola ÁHójé Jé 3
+60 4
+ 5
+ 6
+1621461600 7
+FALL_OF_THE_JEDI 8
+
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+861838986 1
 213212 2
 Jeníček 3
 50 4
