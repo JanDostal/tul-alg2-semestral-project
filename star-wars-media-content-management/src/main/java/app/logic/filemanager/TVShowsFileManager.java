@@ -66,6 +66,157 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         return tvShowsFileManager;
     }
     
+    public @Override StringBuilder getTextOutputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+                
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getTextOutputTVShowsFilename()), StandardCharsets.UTF_8))) 
+        {
+            char[] buffer = new char[1024];
+            int charsRead;
+            String textPart;
+            
+            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            {
+               textPart = new String(buffer, 0, charsRead);
+               text.append(textPart);
+            }
+        }
+        
+        try (Scanner sc = new Scanner(text.toString())) 
+        {
+            if (sc.hasNextLine() == false)
+            {
+                sc.close();
+                //exception
+            }
+        }
+        
+        return text;
+    }
+
+    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+        
+        try (DataInputStream dataInputStream = new DataInputStream(
+                new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
+                filenameSeparator + DataStore.getBinaryOutputTVShowsFilename())))) 
+        {
+            boolean fileEndReached = false;
+            int tvShowId;
+            char[] tvShowName;
+            long tvShowReleaseDate;
+            char[] tvShowEra;
+
+            while (fileEndReached == false) 
+            {
+                try 
+                {
+                    tvShowId = dataInputStream.readInt();
+
+                    tvShowName = new char[TVShowOutput.ATTRIBUTE_NAME_LENGTH];
+
+                    for (int i = 0; i < tvShowName.length; i++) 
+                    {
+                        tvShowName[i] = dataInputStream.readChar();
+                    }
+
+                    tvShowReleaseDate = dataInputStream.readLong();
+
+                    tvShowEra = new char[TVShowOutput.ATTRIBUTE_ERA_LENGTH];
+
+                    for (int i = 0; i < tvShowEra.length; i++) 
+                    {
+                        tvShowEra[i] = dataInputStream.readChar();
+                    }
+                    
+                    text.append(tvShowId).append(" ").append(new String(tvShowName))
+                            .append(" ").append(tvShowReleaseDate).append(" ").append(new String(tvShowEra)).
+                            append("\n\n");
+                } 
+                catch (EOFException e) 
+                {
+                    fileEndReached = true;
+                }
+            }
+        }
+        
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
+                + DataStore.getBinaryOutputTVShowsFilename());
+        
+        if (binaryFile.length() == 0) 
+        {
+            //exception
+        }
+        
+        return text;
+    }
+
+
+    public @Override StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+                
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getTextInputTVShowsFilename()), StandardCharsets.UTF_8))) 
+        {
+            char[] buffer = new char[1024];
+            int charsRead;
+            String textPart;
+            
+            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            {
+               textPart = new String(buffer, 0, charsRead);
+               text.append(textPart);
+            }
+        }
+        
+        try (Scanner sc = new Scanner(text.toString())) 
+        {
+            if (sc.hasNextLine() == false)
+            {
+                sc.close();
+                //exception
+            }
+        }
+        
+        return text;
+    }
+    
+    public @Override StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+        
+        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
+                FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getBinaryInputTVShowsFilename()))) 
+        {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            String textPart;
+
+            while ((bytesRead = bufferedInputStream.read(buffer)) != -1) 
+            {
+                textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
+                text.append(textPart);
+            }
+        }
+        
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+                + DataStore.getBinaryInputTVShowsFilename());
+        
+        if (binaryFile.length() == 0) 
+        {
+            //exception
+        }
+        
+        return text;
+    }
+    
     public @Override List<TVShowOutput> loadOutputDataFrom(boolean fromBinary) throws FileNotFoundException, IOException
     {
         List<TVShowOutput> parsedTVShows = new ArrayList<>();

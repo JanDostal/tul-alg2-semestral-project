@@ -71,6 +71,140 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         return tvSeasonsFileManager;
     }
     
+    public @Override StringBuilder getTextOutputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+                
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getTextOutputTVSeasonsFilename()), StandardCharsets.UTF_8))) 
+        {
+            char[] buffer = new char[1024];
+            int charsRead;
+            String textPart;
+            
+            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            {
+               textPart = new String(buffer, 0, charsRead);
+               text.append(textPart);
+            }
+        }
+        
+        try (Scanner sc = new Scanner(text.toString())) 
+        {
+            if (sc.hasNextLine() == false)
+            {
+                sc.close();
+                //exception
+            }
+        }
+        
+        return text;
+    }
+
+    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+        
+        try (DataInputStream dataInputStream = new DataInputStream(
+                new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
+                filenameSeparator + DataStore.getBinaryOutputTVSeasonsFilename())))) 
+        {
+            boolean fileEndReached = false;
+            int tvSeasonId;
+            int tvSeasonOrderInTVShow;
+            int tvSeasonTVShowId;
+
+            while (fileEndReached == false) 
+            {
+                try 
+                {
+                    tvSeasonId = dataInputStream.readInt();
+                    tvSeasonOrderInTVShow = dataInputStream.readInt();
+                    tvSeasonTVShowId = dataInputStream.readInt();
+                    
+                    text.append(tvSeasonId).append(" ").append(tvSeasonOrderInTVShow).append(" ").
+                            append(tvSeasonTVShowId).append("\n\n");
+                } 
+                catch (EOFException e) 
+                {
+                    fileEndReached = true;
+                }
+            }
+        }
+        
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
+                + DataStore.getBinaryOutputTVSeasonsFilename());
+        
+        if (binaryFile.length() == 0) 
+        {
+            //exception
+        }
+        
+        return text;
+    }
+
+    public @Override StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+                
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getTextInputTVSeasonsFilename()), StandardCharsets.UTF_8))) 
+        {
+            char[] buffer = new char[1024];
+            int charsRead;
+            String textPart;
+            
+            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            {
+               textPart = new String(buffer, 0, charsRead);
+               text.append(textPart);
+            }
+        }
+        
+        try (Scanner sc = new Scanner(text.toString())) 
+        {
+            if (sc.hasNextLine() == false)
+            {
+                sc.close();
+                //exception
+            }
+        }
+        
+        return text;
+    }
+
+    public @Override StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+        
+        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
+                FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getBinaryInputTVSeasonsFilename()))) 
+        {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            String textPart;
+
+            while ((bytesRead = bufferedInputStream.read(buffer)) != -1) 
+            {
+                textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
+                text.append(textPart);
+            }
+        }
+        
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+                + DataStore.getBinaryInputTVSeasonsFilename());
+        
+        if (binaryFile.length() == 0) 
+        {
+            //exception
+        }
+        
+        return text;
+    }
+    
     public @Override List<TVSeasonOutput> loadOutputDataFrom(boolean fromBinary) throws FileNotFoundException, IOException
     {
         List<TVSeasonOutput> parsedTVSeasons = new ArrayList<>();

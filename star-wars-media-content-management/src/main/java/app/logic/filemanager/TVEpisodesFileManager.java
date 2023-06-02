@@ -103,17 +103,140 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
 
     public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException 
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        StringBuilder text = new StringBuilder();
+        
+        try (DataInputStream dataInputStream = new DataInputStream(
+                new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
+                filenameSeparator + DataStore.getBinaryOutputTVEpisodesFilename())))) 
+        {
+            boolean fileEndReached = false;
+            int tvEpisodeId;
+            long tvEpisodeRuntime;
+            char[] tvEpisodeName;
+            int tvEpisodePercentageRating;
+            char[] tvEpisodeHyperlink;
+            char[] tvEpisodeContent;
+            int tvEpisodeOrderInTVShowSeason;
+            int tvEpisodeTVSeasonId;
+
+            while (fileEndReached == false) 
+            {
+                try 
+                {
+                    tvEpisodeId = dataInputStream.readInt();
+                    tvEpisodeRuntime = dataInputStream.readLong();
+
+                    tvEpisodeName = new char[TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH];
+
+                    for (int i = 0; i < tvEpisodeName.length; i++) 
+                    {
+                        tvEpisodeName[i] = dataInputStream.readChar();
+                    }
+
+                    tvEpisodePercentageRating = dataInputStream.readInt();
+
+                    tvEpisodeHyperlink = new char[TVEpisodeOutput.ATTRIBUTE_HYPERLINK_LENGTH];
+
+                    for (int i = 0; i < tvEpisodeHyperlink.length; i++) 
+                    {
+                        tvEpisodeHyperlink[i] = dataInputStream.readChar();
+                    }
+
+                    tvEpisodeContent = new char[TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH];
+
+                    for (int i = 0; i < tvEpisodeContent.length; i++) 
+                    {
+                        tvEpisodeContent[i] = dataInputStream.readChar();
+                    }
+
+                    tvEpisodeOrderInTVShowSeason = dataInputStream.readInt();
+
+                    tvEpisodeTVSeasonId = dataInputStream.readInt();
+                    
+                    text.append(tvEpisodeId).append(" ").append(tvEpisodeRuntime).append(" ")
+                            .append(new String(tvEpisodeName)).append(" ")
+                            .append(tvEpisodePercentageRating).append(" ").append(new String(tvEpisodeHyperlink))
+                            .append(" ").append(new String(tvEpisodeContent)).append(" ")
+                            .append(tvEpisodeOrderInTVShowSeason).append(" ")
+                            .append(tvEpisodeTVSeasonId).append("\n\n");
+                } 
+                catch (EOFException e) 
+                {
+                    fileEndReached = true;
+                }
+            }
+        }
+        
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
+                + DataStore.getBinaryOutputTVEpisodesFilename());
+        
+        if (binaryFile.length() == 0) 
+        {
+            //exception
+        }
+        
+        return text;
     }
 
     public @Override StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException 
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        StringBuilder text = new StringBuilder();
+                
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getTextInputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
+        {
+            char[] buffer = new char[1024];
+            int charsRead;
+            String textPart;
+            
+            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            {
+               textPart = new String(buffer, 0, charsRead);
+               text.append(textPart);
+            }
+        }
+        
+        try (Scanner sc = new Scanner(text.toString())) 
+        {
+            if (sc.hasNextLine() == false)
+            {
+                sc.close();
+                //exception
+            }
+        }
+        
+        return text;
     }
 
     public @Override StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException 
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        StringBuilder text = new StringBuilder();
+        
+        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
+                FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getBinaryInputTVEpisodesFilename()))) 
+        {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            String textPart;
+
+            while ((bytesRead = bufferedInputStream.read(buffer)) != -1) 
+            {
+                textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
+                text.append(textPart);
+            }
+        }
+        
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+                + DataStore.getBinaryInputTVEpisodesFilename());
+        
+        if (binaryFile.length() == 0) 
+        {
+            //exception
+        }
+        
+        return text;
     }
     
     public @Override List<TVEpisodeOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException 

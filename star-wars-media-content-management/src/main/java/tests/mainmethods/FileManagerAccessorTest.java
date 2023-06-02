@@ -47,7 +47,7 @@ public class FileManagerAccessorTest
                     DataStore.getBinaryInputMoviesFilename() + "):");
             System.out.println();
             
-            StringBuilder moviesBinaryFile = fileManager.getBinaryFileContent(DataStore.getBinaryInputMoviesFilename());
+            StringBuilder moviesBinaryFile = fileManager.getMoviesFileManager().getBinaryInputFileContent();
             
             System.out.println(moviesBinaryFile);
             
@@ -57,7 +57,7 @@ public class FileManagerAccessorTest
                     DataStore.getTextInputMoviesFilename() + "):");
             System.out.println();
             
-            StringBuilder moviesTextFile = fileManager.getTextFileContent(DataStore.getTextInputMoviesFilename());
+            StringBuilder moviesTextFile = fileManager.getMoviesFileManager().getTextInputFileContent();
             
             System.out.println(moviesTextFile);
             
@@ -104,8 +104,8 @@ public class FileManagerAccessorTest
             
             fileManager.getMoviesFileManager().saveOutputDataIntoFiles(list);
             
-            StringBuilder binaryTest = fileManager.getBinaryFileContent(DataStore.getBinaryOutputMoviesFilename());
-            StringBuilder textTest = fileManager.getTextFileContent(DataStore.getTextOutputMoviesFilename());
+            StringBuilder binaryTest = fileManager.getMoviesFileManager().getBinaryOutputFileContent();
+            StringBuilder textTest = fileManager.getMoviesFileManager().getTextOutputFileContent();
             
             System.out.println();
             System.out.println("Vypis " + DataStore.getTextOutputMoviesFilename());
@@ -215,8 +215,8 @@ public class FileManagerAccessorTest
             
             fileManager.getTVEpisodesFileManager().saveOutputDataIntoFiles(listEpisodes);
             
-            binaryTest = fileManager.getBinaryFileContent(DataStore.getBinaryOutputTVEpisodesFilename());
-            textTest = fileManager.getTextFileContent(DataStore.getTextOutputTVEpisodesFilename());
+            binaryTest = fileManager.getTVEpisodesFileManager().getBinaryOutputFileContent();
+            textTest = fileManager.getTVEpisodesFileManager().getTextOutputFileContent();
             
             System.out.println();
             System.out.println("Vypis " + DataStore.getTextOutputTVEpisodesFilename());
@@ -324,8 +324,8 @@ public class FileManagerAccessorTest
             
             fileManager.getTVSeasonsFileManager().saveOutputDataIntoFiles(listSeasons);
             
-            binaryTest = fileManager.getBinaryFileContent(DataStore.getBinaryOutputTVSeasonsFilename());
-            textTest = fileManager.getTextFileContent(DataStore.getTextOutputTVSeasonsFilename());
+            binaryTest = fileManager.getTVSeasonsFileManager().getBinaryOutputFileContent();
+            textTest = fileManager.getTVSeasonsFileManager().getTextOutputFileContent();
             
             System.out.println();
             System.out.println("Vypis " + DataStore.getTextOutputTVSeasonsFilename());
@@ -432,8 +432,8 @@ public class FileManagerAccessorTest
             
             fileManager.getTVShowsFileManager().saveOutputDataIntoFiles(listShows);
             
-            binaryTest = fileManager.getBinaryFileContent(DataStore.getBinaryOutputTVShowsFilename());
-            textTest = fileManager.getTextFileContent(DataStore.getTextOutputTVShowsFilename());
+            binaryTest = fileManager.getTVShowsFileManager().getBinaryOutputFileContent();
+            textTest = fileManager.getTVShowsFileManager().getTextOutputFileContent();
             
             System.out.println();
             System.out.println("Vypis " + DataStore.getTextOutputTVShowsFilename());

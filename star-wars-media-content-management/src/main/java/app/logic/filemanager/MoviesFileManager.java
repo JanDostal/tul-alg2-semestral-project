@@ -67,6 +67,179 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         return moviesFileManager;
     }
     
+    public @Override StringBuilder getTextOutputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+                
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getTextOutputMoviesFilename()), StandardCharsets.UTF_8))) 
+        {
+            char[] buffer = new char[1024];
+            int charsRead;
+            String textPart;
+            
+            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            {
+               textPart = new String(buffer, 0, charsRead);
+               text.append(textPart);
+            }
+        }
+        
+        try (Scanner sc = new Scanner(text.toString())) 
+        {
+            if (sc.hasNextLine() == false)
+            {
+                sc.close();
+                //exception
+            }
+        }
+        
+        return text;
+    }
+
+    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+        
+        try (DataInputStream dataInputStream = new DataInputStream(
+                new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
+                filenameSeparator + DataStore.getBinaryOutputMoviesFilename())))) 
+        {
+            boolean fileEndReached = false;
+            int movieId;
+            long movieRuntime;
+            char[] movieName;
+            int moviePercentageRating;
+            char[] movieHyperlink;
+            char[] movieContent;
+            long movieReleaseDate;
+            char[] movieEra;
+
+            while (fileEndReached == false) 
+            {
+                try 
+                {
+                    movieId = dataInputStream.readInt();
+                    movieRuntime = dataInputStream.readLong();
+
+                    movieName = new char[MovieOutput.ATTRIBUTE_NAME_LENGTH];
+
+                    for (int i = 0; i < movieName.length; i++) 
+                    {
+                        movieName[i] = dataInputStream.readChar();
+                    }
+
+                    moviePercentageRating = dataInputStream.readInt();
+
+                    movieHyperlink = new char[MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH];
+
+                    for (int i = 0; i < movieHyperlink.length; i++) 
+                    {
+                        movieHyperlink[i] = dataInputStream.readChar();
+                    }
+
+                    movieContent = new char[MovieOutput.ATTRIBUTE_CONTENT_LENGTH];
+
+                    for (int i = 0; i < movieContent.length; i++) 
+                    {
+                        movieContent[i] = dataInputStream.readChar();
+                    }
+
+                    movieReleaseDate = dataInputStream.readLong();
+
+                    movieEra = new char[MovieOutput.ATTRIBUTE_ERA_LENGTH];
+
+                    for (int i = 0; i < movieEra.length; i++) 
+                    {
+                        movieEra[i] = dataInputStream.readChar();
+                    }
+                    
+                    text.append(movieId).append(" ").append(movieRuntime).append(" ")
+                            .append(new String(movieName)).append(" ")
+                            .append(moviePercentageRating).append(" ").append(new String(movieHyperlink))
+                            .append(" ").append(new String(movieContent)).append(" ").append(movieReleaseDate)
+                            .append(" ").append(new String(movieEra)).append("\n\n");
+                } 
+                catch (EOFException e) 
+                {
+                    fileEndReached = true;
+                }
+            }
+        }
+        
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
+                + DataStore.getBinaryOutputMoviesFilename());
+        
+        if (binaryFile.length() == 0) 
+        {
+            //exception
+        }
+        
+        return text;
+    }
+
+    public @Override StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+                
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getTextInputMoviesFilename()), StandardCharsets.UTF_8))) 
+        {
+            char[] buffer = new char[1024];
+            int charsRead;
+            String textPart;
+            
+            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            {
+               textPart = new String(buffer, 0, charsRead);
+               text.append(textPart);
+            }
+        }
+        
+        try (Scanner sc = new Scanner(text.toString())) 
+        {
+            if (sc.hasNextLine() == false)
+            {
+                sc.close();
+                //exception
+            }
+        }
+        
+        return text;
+    }
+
+    public @Override StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException 
+    {
+        StringBuilder text = new StringBuilder();
+        
+        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
+                FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                        DataStore.getBinaryInputMoviesFilename()))) 
+        {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            String textPart;
+
+            while ((bytesRead = bufferedInputStream.read(buffer)) != -1) 
+            {
+                textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
+                text.append(textPart);
+            }
+        }
+        
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+                + DataStore.getBinaryInputMoviesFilename());
+        
+        if (binaryFile.length() == 0) 
+        {
+            //exception
+        }
+        
+        return text;
+    }
+    
     public @Override List<MovieOutput> loadOutputDataFrom(boolean fromBinary) throws FileNotFoundException, IOException
     {
         List<MovieOutput> parsedMovies = new ArrayList<>();
