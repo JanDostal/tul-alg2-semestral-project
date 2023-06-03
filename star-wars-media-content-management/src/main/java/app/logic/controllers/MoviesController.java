@@ -523,6 +523,7 @@ public class MoviesController
                 loadOutputDataFrom(fromBinary);
         
         
+        
     }
     
     public int addMoviesFrom(boolean fromBinary) throws IOException, FileNotFoundException 

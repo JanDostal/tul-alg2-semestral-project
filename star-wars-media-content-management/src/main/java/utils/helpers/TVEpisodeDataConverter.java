@@ -113,7 +113,7 @@ public final class TVEpisodeDataConverter
                 wasWatched, hyperlink, content, orderInTVShowSeason, tvSeasonForeignKey);
     }
     
-    public static TVEpisode convertToDataFrom(TVEpisodeOutput outputData) throws DateTimeException
+    public static TVEpisode convertToDataFrom(TVEpisodeOutput outputData)
     {
         PrimaryKey primaryKey = new PrimaryKey(outputData.getId());       
         Duration runtime;
@@ -191,43 +191,10 @@ public final class TVEpisodeDataConverter
             stringContent = null;
         }
 
-        //exception
-        LocalDate releaseDate;
+        int orderInTVShowSeason = outputData.getOrderInTVShowSeason();
+        PrimaryKey tvSeasonForeignKey = new PrimaryKey(outputData.getTVSeasonId());
         
-        if (outputData.getReleaseDateInEpochSeconds() < 0) 
-        {
-            releaseDate = null;
-        }
-        else 
-        {
-            releaseDate = Instant.ofEpochSecond(outputData.getReleaseDateInEpochSeconds()).
-                atZone(ZoneOffset.UTC).toLocalDate();
-        }
-        
-        StringBuilder stringEra = new StringBuilder();
-        
-        for (char c : outputData.getEra().toCharArray()) 
-        {
-            if (c != Character.MIN_VALUE) 
-            {
-                stringEra.append(c);
-            }
-        }
-        
-        //exception
-        Era era;
-                
-        try 
-        {
-            era = Era.valueOf(stringEra.toString());
-        }
-        catch (IllegalArgumentException ex) 
-        {
-            era = null;
-        }
-        
-        
-        return new Movie(primaryKey, runtime, stringName, percentage, wasWatched,
-                stringHyperlink, stringContent, releaseDate, era);
+        return new TVEpisode(primaryKey, runtime, stringName, percentage, wasWatched,
+                stringHyperlink, stringContent, orderInTVShowSeason, tvSeasonForeignKey);
     }
 }
