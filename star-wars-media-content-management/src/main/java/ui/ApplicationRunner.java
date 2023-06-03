@@ -14,15 +14,11 @@ import utils.emailsender.EmailSender;
 public class ApplicationRunner 
 {
     public static void main(String[] args) 
-    {
-        DataContextAccessor dataContextAccessor = DataContextAccessor.getInstance();
-        EmailSender emailSender = EmailSender.getInstance();
-        FileManagerAccessor fileManagerAccessor = FileManagerAccessor.getInstance();
-        
-        MoviesController moviesController = MoviesController.getInstance(dataContextAccessor, 
-                emailSender, fileManagerAccessor);
-        TVEpisodesController tvEpisodesController = TVEpisodesController.getInstance(dataContextAccessor, 
-                emailSender, fileManagerAccessor);
+    {        
+        MoviesController moviesController = MoviesController.getInstance(DataContextAccessor.getInstance(), 
+                EmailSender.getInstance(), FileManagerAccessor.getInstance());
+        TVEpisodesController tvEpisodesController = TVEpisodesController.getInstance(DataContextAccessor.getInstance(), 
+                EmailSender.getInstance(), FileManagerAccessor.getInstance());
         
         ConsoleUI ui = new ConsoleUI(moviesController, tvEpisodesController);
     }
