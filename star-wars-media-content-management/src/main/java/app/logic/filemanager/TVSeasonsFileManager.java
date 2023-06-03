@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package app.logic.filemanager;
 
 import app.logic.datastore.DataStore;
@@ -29,6 +26,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import utils.exceptions.FileEmptyException;
+import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataFileManager;
 
 /**
@@ -71,7 +70,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         return tvSeasonsFileManager;
     }
     
-    public @Override StringBuilder getTextOutputFileContent() throws FileNotFoundException, IOException 
+    public @Override StringBuilder getTextOutputFileContent() throws FileNotFoundException, IOException, FileEmptyException
     {
         StringBuilder text = new StringBuilder();
                 
@@ -95,14 +94,15 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             if (sc.hasNextLine() == false)
             {
                 sc.close();
-                //exception
+                throw new FileEmptyException("Soubor " + DataStore.getTextOutputTVSeasonsFilename() + " je prázdný");
             }
         }
         
         return text;
     }
 
-    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException 
+    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException, 
+            FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
         
@@ -138,13 +138,14 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         
         if (binaryFile.length() == 0) 
         {
-            //exception
+            throw new FileEmptyException("Soubor " + DataStore.getBinaryOutputTVSeasonsFilename() + " je prázdný");
         }
         
         return text;
     }
 
-    public @Override StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException 
+    public @Override StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException, 
+            FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
                 
@@ -168,14 +169,15 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             if (sc.hasNextLine() == false)
             {
                 sc.close();
-                //exception
+                throw new FileEmptyException("Soubor " + DataStore.getTextInputTVSeasonsFilename() + " je prázdný");
             }
         }
         
         return text;
     }
 
-    public @Override StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException 
+    public @Override StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException, 
+            FileEmptyException
     {
         StringBuilder text = new StringBuilder();
         
@@ -199,18 +201,23 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         
         if (binaryFile.length() == 0) 
         {
-            //exception
+            throw new FileEmptyException("Soubor " + DataStore.getBinaryInputTVSeasonsFilename() + " je prázdný");
         }
         
         return text;
     }
     
-    public @Override List<TVSeasonOutput> loadOutputDataFrom(boolean fromBinary) throws FileNotFoundException, IOException
+    public @Override List<TVSeasonOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException
     {
         List<TVSeasonOutput> parsedTVSeasons = new ArrayList<>();
         
         if (fromBinary == true) 
         {
+            File outputTVSeasonsBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getBinaryOutputTVSeasonsFilename());
+            
+            outputTVSeasonsBinary.createNewFile();
+            
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputTVSeasonsFilename())))) 
@@ -236,18 +243,16 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     }
                 }
             }
-            
-            File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
-                + DataStore.getBinaryOutputTVSeasonsFilename());
-        
-            if (binaryFile.length() == 0) 
-            {
-                //exception
-            }
         }
         else 
         {
+            File outputTVSeasonsText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                    DataStore.getTextOutputTVSeasonsFilename());
+        
+            outputTVSeasonsText.createNewFile();
+            
             StringBuilder text = new StringBuilder();
+            String errorParsingMessage = "Soubor " + DataStore.getTextOutputTVSeasonsFilename() + " má poškozená data";
             
             try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                     new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
@@ -283,16 +288,10 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
 
             boolean enteredSectionAttributes = false;
             boolean enteredSectionValues = false;
-            boolean isFileEmpty = true;
 
             try (Scanner sc = new Scanner(text.toString())) 
             {
                 String textLine;
-
-                if (sc.hasNextLine() == true) 
-                {
-                    isFileEmpty = false;
-                }
 
                 while (sc.hasNextLine() == true) 
                 {
@@ -305,7 +304,14 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking 
                             + "[\\s\t]*$") && enteredSectionValues == true) 
                     {
-                        parseOutputData(tvSeasonOutputFieldsValues, parsedTVSeasons, tvSeasonOutputFields);
+                        try 
+                        {
+                            parseOutputData(tvSeasonOutputFieldsValues, parsedTVSeasons, tvSeasonOutputFields);
+                        }
+                        catch (NumberFormatException ex) 
+                        {
+                            throw new FileParsingException(errorParsingMessage);
+                        }
 
                         break;
                     } 
@@ -319,7 +325,14 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
                             + "[\\s\t]*$") && enteredSectionValues == true) 
                     {
-                        parseOutputData(tvSeasonOutputFieldsValues, parsedTVSeasons, tvSeasonOutputFields);
+                        try 
+                        {
+                            parseOutputData(tvSeasonOutputFieldsValues, parsedTVSeasons, tvSeasonOutputFields);
+                        }
+                        catch (NumberFormatException ex) 
+                        {
+                            throw new FileParsingException(errorParsingMessage);
+                        }
 
                         enteredSectionAttributes = true;
                         enteredSectionValues = false;
@@ -339,7 +352,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
 
                         if (parts.length != 2) 
                         {
-                            throw new IOException();
+                            throw new FileParsingException(errorParsingMessage);
                         }
 
                         int fieldId;
@@ -350,14 +363,14 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                         } 
                         catch (NumberFormatException ex) 
                         {
-                            throw new IOException();
+                            throw new FileParsingException(errorParsingMessage);
                         }
 
                         String fieldName = tvSeasonOutputFieldsIds.get(fieldId);
 
                         if (fieldName == null) 
                         {
-                            throw new IOException();
+                            throw new FileParsingException(errorParsingMessage);
                         }
 
                         StringBuilder fieldValue = tvSeasonOutputFieldsValues.get(fieldName);
@@ -366,10 +379,6 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                         tvSeasonOutputFieldsValues.put(fieldName, newFieldValue);
                     }
                 }
-            }
-
-            if (isFileEmpty == true) {
-                //exception
             }
         }
                                 
@@ -387,21 +396,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         outputTVSeasonsTextCopy.delete();
         outputTVSeasonsBinaryCopy.delete();
     }
-    
-    public @Override void tryCreateDataOutputFiles() throws IOException 
-    {
-        File outputTVSeasonsText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getTextOutputTVSeasonsFilename());
         
-        File outputTVSeasonsBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getBinaryOutputTVSeasonsFilename());
-        
-        outputTVSeasonsText.createNewFile();
-        outputTVSeasonsBinary.createNewFile();
-    }
-    
-    public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException, 
-            FileNotFoundException
+    public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
     {
         File outputTVSeasonsTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 "copy_" + DataStore.getTextOutputTVSeasonsFilename());
@@ -460,8 +456,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         }
     }
     
-    public @Override void saveOutputDataIntoFiles(List<TVSeasonOutput> newOutputData) throws IOException, 
-            FileNotFoundException
+    public @Override void saveOutputDataIntoFiles(List<TVSeasonOutput> newOutputData) throws IOException
     {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
@@ -484,7 +479,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         }
     }
     
-    public @Override List<TVSeasonInput> loadInputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException
+    public @Override List<TVSeasonInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
+            FileEmptyException, FileNotFoundException
     {
         StringBuilder text = new StringBuilder();
         
@@ -504,13 +500,18 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     text.append(textPart);
                 }
             }
+            catch (FileNotFoundException e) 
+            {
+                throw new FileNotFoundException("Soubor " + 
+                        DataStore.getBinaryInputTVSeasonsFilename() + " neexistuje");
+            }
             
             File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
                 + DataStore.getBinaryInputTVSeasonsFilename());
         
             if (binaryFile.length() == 0) 
             {
-                //exception
+                throw new FileEmptyException("Soubor " + DataStore.getBinaryInputTVSeasonsFilename() + " je prázdný");
             }
         }
         else 
@@ -528,6 +529,11 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     textPart = new String(buffer, 0, charsRead);
                     text.append(textPart);
                 }
+            }
+            catch (FileNotFoundException e) 
+            {
+                throw new FileNotFoundException("Soubor " + 
+                        DataStore.getTextInputTVSeasonsFilename() + " neexistuje");
             }
         }
                                 
@@ -639,7 +645,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         
         if (isFileEmpty == true && fromBinary == false) 
         {
-            //exception
+            throw new FileEmptyException("Soubor " + DataStore.getTextInputTVSeasonsFilename() + " je prázdný");
         }
 
         return parsedTVSeasons;
@@ -673,29 +679,22 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
     }
     
     private void parseOutputData(Map<String, StringBuilder> tvSeasonOutputFieldsValues,
-            List<TVSeasonOutput> parsedTVSeasons, Field[] tvSeasonOutputFields) throws IOException 
+            List<TVSeasonOutput> parsedTVSeasons, Field[] tvSeasonOutputFields) 
     {        
-        try 
+        int id = Integer.parseInt(tvSeasonOutputFieldsValues.get("id").toString());
+        int orderInTVShow = Integer.parseInt(tvSeasonOutputFieldsValues.get("orderInTVShow").toString());
+        int tvShowId = Integer.parseInt(tvSeasonOutputFieldsValues.get("tvShowId").toString());
+
+        parsedTVSeasons.add(new TVSeasonOutput(id, orderInTVShow, tvShowId));
+
+        tvSeasonOutputFieldsValues.clear();
+
+        for (Field field : tvSeasonOutputFields) 
         {
-            int id = Integer.parseInt(tvSeasonOutputFieldsValues.get("id").toString());
-            int orderInTVShow = Integer.parseInt(tvSeasonOutputFieldsValues.get("orderInTVShow").toString());
-            int tvShowId = Integer.parseInt(tvSeasonOutputFieldsValues.get("tvShowId").toString());
-          
-            parsedTVSeasons.add(new TVSeasonOutput(id, orderInTVShow, tvShowId));
-            
-            tvSeasonOutputFieldsValues.clear();
-            
-            for (Field field : tvSeasonOutputFields) 
+            if (!Modifier.isStatic(field.getModifiers())) 
             {
-                if (!Modifier.isStatic(field.getModifiers())) 
-                {
-                    tvSeasonOutputFieldsValues.put(field.getName(), new StringBuilder());
-                }
+                tvSeasonOutputFieldsValues.put(field.getName(), new StringBuilder());
             }
-        }
-        catch (NumberFormatException ex) 
-        {
-            throw new IOException();
         }
     }
     

@@ -99,7 +99,8 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         return text;
     }
 
-    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException, FileEmptyException 
+    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException, 
+            FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
         
@@ -158,7 +159,8 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
     }
 
 
-    public @Override StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException, FileEmptyException 
+    public @Override StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException, 
+            FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
                 
@@ -189,7 +191,8 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         return text;
     }
     
-    public @Override StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException, FileEmptyException 
+    public @Override StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException, 
+            FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
         
@@ -518,7 +521,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
     }
     
     public @Override List<TVShowInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
-             FileEmptyException, FileNotFoundException
+            FileEmptyException, FileNotFoundException
     {
         StringBuilder text = new StringBuilder();
         
