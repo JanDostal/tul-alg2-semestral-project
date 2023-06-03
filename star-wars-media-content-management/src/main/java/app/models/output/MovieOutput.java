@@ -11,9 +11,9 @@ import java.util.Arrays;
  */
 public class MovieOutput
 {
-    public static final int ATTRIBUTE_NAME_LENGTH = 40;
+    public static final int ATTRIBUTE_NAME_LENGTH = 100;
     public static final int ATTRIBUTE_HYPERLINK_LENGTH = 180;
-    public static final int ATTRIBUTE_ERA_LENGTH = 30;
+    public static final int ATTRIBUTE_ERA_LENGTH = 60;
     public static final int ATTRIBUTE_CONTENT_LENGTH = 1000;
     
     private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
@@ -50,20 +50,23 @@ public class MovieOutput
     {
         this.id = id;
         this.runtimeInSeconds = runtimeInSeconds;
-        this.name = name == null || name.trim().isEmpty() ? null : 
+        this.name = name == null ? Arrays.copyOf("".toCharArray(), ATTRIBUTE_NAME_LENGTH) : 
                 Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
         this.percentageRating = percentageRating;
-        this.hyperlinkForContentWatch = hyperlinkForContentWatch == null || 
-                hyperlinkForContentWatch.trim().isEmpty() ? null : 
+        this.hyperlinkForContentWatch = hyperlinkForContentWatch == null ? 
+                Arrays.copyOf("".toCharArray(), 
+                ATTRIBUTE_HYPERLINK_LENGTH) : 
                 Arrays.copyOf(hyperlinkForContentWatch.toCharArray(), 
                 ATTRIBUTE_HYPERLINK_LENGTH);
-        this.shortContentSummary = shortContentSummary == null || 
-                shortContentSummary.trim().isEmpty() ? null: 
+        this.shortContentSummary = shortContentSummary == null ? 
+                Arrays.copyOf("".toCharArray(), 
+                ATTRIBUTE_CONTENT_LENGTH) : 
                 Arrays.copyOf(shortContentSummary.toCharArray(), 
                 ATTRIBUTE_CONTENT_LENGTH);
         this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
-        this.era = era == null || era.trim().isEmpty() ? 
-                null : Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
+        this.era = era == null ? 
+                Arrays.copyOf("".toCharArray(), ATTRIBUTE_ERA_LENGTH) : 
+                Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
     }
     
     public int getId() 
@@ -78,7 +81,7 @@ public class MovieOutput
 
     public String getName() 
     {
-        return name == null ? null : new String(name);
+        return new String(name);
     }
 
     public int getPercentageRating() 
@@ -88,13 +91,12 @@ public class MovieOutput
 
     public String getHyperlinkForContentWatch() 
     {
-        return hyperlinkForContentWatch == null ? null : 
-                new String(hyperlinkForContentWatch);
+        return new String(hyperlinkForContentWatch);
     }
 
     public String getShortContentSummary() 
     {
-        return shortContentSummary == null ? null : new String(shortContentSummary);
+        return new String(shortContentSummary);
     }
     
     public long getReleaseDateInEpochSeconds() 
@@ -104,14 +106,14 @@ public class MovieOutput
     
     public String getEra() 
     {
-        return era == null ? null : new String(era);
+        return new String(era);
     }
     
     public @Override String toString() 
     {
-        String nameText = name == null ? null : new String(name);
-        String hyperlinkText = hyperlinkForContentWatch == null ? null : new String(hyperlinkForContentWatch);
-        String eraText = era == null ? null : new String(era);
+        String nameText = new String(name);
+        String hyperlinkText = new String(hyperlinkForContentWatch);
+        String eraText = new String(era);
         
         return String.format("MovieOutput{id=%d, runtimeInSeconds=%d, name=%s, "
                 + "percentageRating=%d, hyperlinkForContentWatch=%s, "

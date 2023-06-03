@@ -42,7 +42,7 @@ public class TVShowsTable implements IDataTable<TVShow>
         return tvShowsTable;
     }
     
-    public @Override TVShow addFrom(TVShow inputData) 
+    public @Override void addFrom(TVShow inputData) 
     {
         //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
                 
@@ -57,9 +57,7 @@ public class TVShowsTable implements IDataTable<TVShow>
         
         TVShow newData = new TVShow(newPrimaryKey, inputData.getName(), 
                 inputData.getReleaseDate(), inputData.getEra());
-        tvShowsData.add(newData);
-        
-        return newData;
+        tvShowsData.add(newData);        
     }
 
     public @Override void loadFrom(TVShow outputData) 
@@ -168,6 +166,11 @@ public class TVShowsTable implements IDataTable<TVShow>
     public @Override void sortByPrimaryKey(List<TVShow> sourceList) 
     {
         Collections.sort(sourceList);
+    }
+    
+    public @Override void clearData() 
+    {
+        tvShowsData.clear();
     }
     
     private PrimaryKey generatePrimaryKey() 

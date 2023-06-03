@@ -10,7 +10,8 @@ import java.time.format.DateTimeFormatter;
  *
  * @author jan.dostal
  */
-public class DataModelsTest {
+public class DataModelsTest 
+{
 
     /**
      * @param args the command line arguments

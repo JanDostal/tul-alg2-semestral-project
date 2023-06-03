@@ -46,7 +46,7 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
         return tvEpisodesTable;
     }
     
-    public @Override TVEpisode addFrom(TVEpisode inputData) 
+    public @Override void addFrom(TVEpisode inputData) 
     {
         //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
         
@@ -74,9 +74,7 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
                 inputData.getOrderInTVShowSeason(),
                 inputData.getTVSeasonForeignKey());
         
-        tvEpisodesData.add(newData);
-        
-        return newData;
+        tvEpisodesData.add(newData);        
     }
 
     public @Override void loadFrom(TVEpisode outputData) 
@@ -211,6 +209,11 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
     public @Override void sortByPrimaryKey(List<TVEpisode> sourceList) 
     {
         Collections.sort(sourceList);
+    }
+    
+    public @Override void clearData() 
+    {
+        tvEpisodesData.clear();
     }
     
     private PrimaryKey generatePrimaryKey() 

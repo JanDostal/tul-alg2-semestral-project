@@ -18,6 +18,44 @@ public final class DataStore
     
     private static String appName = "Star Wars Media Content Management";
     
+    private static String dataDirectoryName = "data";
+    
+    private static String textInputMoviesFilename = "input_movies.txt";
+    
+    private static String textInputTVShowsFilename = "input_tvShows.txt";
+    
+    private static String textInputTVSeasonsFilename = "input_tvSeasons.txt";
+    
+    private static String textInputTVEpisodesFilename = "input_tvEpisodes.txt";
+    
+    
+    private static String binaryInputMoviesFilename = "input_movies.bin";
+    
+    private static String binaryInputTVShowsFilename = "input_tvShows.bin";
+    
+    private static String binaryInputTVSeasonsFilename = "input_tvSeasons.bin";
+    
+    private static String binaryInputTVEpisodesFilename = "input_tvEpisodes.bin";
+    
+    
+    private static String textOutputMoviesFilename = "output_movies.txt";
+    
+    private static String textOutputTVShowsFilename = "output_tvShows.txt";
+    
+    private static String textOutputTVSeasonsFilename = "output_tvSeasons.txt";
+    
+    private static String textOutputTVEpisodesFilename = "output_tvEpisodes.txt";
+    
+    
+    private static String binaryOutputMoviesFilename = "output_movies.bin";
+    
+    private static String binaryOutputTVShowsFilename = "output_tvShows.bin";
+    
+    private static String binaryOutputTVSeasonsFilename = "output_tvSeasons.bin";
+    
+    private static String binaryOutputTVEpisodesFilename = "output_tvEpisodes.bin";
+    
+    
     private static Collator czechCollator = Collator.getInstance(new Locale("cs", "CZ"));
     
     private static Map<String, String> erasDescriptions;
@@ -144,8 +182,92 @@ public final class DataStore
         return czechCollator;
     }
     
-    public static String loadAppName() 
+    public static String getAppName() 
     {
         return appName;
+    }
+
+    public static String getTextInputMoviesFilename() 
+    {
+        return textInputMoviesFilename;
+    }
+
+    public static String getTextInputTVShowsFilename() 
+    {
+        return textInputTVShowsFilename;
+    }
+
+    public static String getTextInputTVSeasonsFilename() 
+    {
+        return textInputTVSeasonsFilename;
+    }
+
+    public static String getTextInputTVEpisodesFilename() 
+    {
+        return textInputTVEpisodesFilename;
+    }
+
+    public static String getBinaryInputMoviesFilename() 
+    {
+        return binaryInputMoviesFilename;
+    }
+
+    public static String getBinaryInputTVShowsFilename() {
+        return binaryInputTVShowsFilename;
+    }
+
+    public static String getBinaryInputTVSeasonsFilename() 
+    {
+        return binaryInputTVSeasonsFilename;
+    }
+
+    public static String getBinaryInputTVEpisodesFilename() 
+    {
+        return binaryInputTVEpisodesFilename;
+    }
+
+    public static String getTextOutputMoviesFilename() 
+    {
+        return textOutputMoviesFilename;
+    }
+
+    public static String getTextOutputTVSeasonsFilename() 
+    {
+        return textOutputTVSeasonsFilename;
+    }
+
+    public static String getTextOutputTVEpisodesFilename() 
+    {
+        return textOutputTVEpisodesFilename;
+    }
+
+    public static String getBinaryOutputMoviesFilename() 
+    {
+        return binaryOutputMoviesFilename;
+    }
+
+    public static String getBinaryOutputTVShowsFilename() 
+    {
+        return binaryOutputTVShowsFilename;
+    }
+
+    public static String getBinaryOutputTVSeasonsFilename() 
+    {
+        return binaryOutputTVSeasonsFilename;
+    }
+
+    public static String getBinaryOutputTVEpisodesFilename() 
+    {
+        return binaryOutputTVEpisodesFilename;
+    }
+    
+    public static String getTextOutputTVShowsFilename() 
+    {
+        return textOutputTVShowsFilename;
+    }
+    
+    public static String getDataDirectoryName() 
+    {
+        return dataDirectoryName;
     }
 }

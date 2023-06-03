@@ -3,8 +3,20 @@ package app.logic.controllers;
 
 import app.logic.datacontext.DataContextAccessor;
 import app.logic.datastore.DataStore;
+import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
 import app.models.data.Movie;
+import app.models.data.PrimaryKey;
+import app.models.data.TVEpisode;
+import app.models.data.TVSeason;
+import app.models.data.TVShow;
+import app.models.input.MovieInput;
+import app.models.output.MovieOutput;
+import app.models.output.TVEpisodeOutput;
+import app.models.output.TVSeasonOutput;
+import app.models.output.TVShowOutput;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.Collator;
 import java.text.Normalizer;
 import java.time.Duration;
@@ -12,6 +24,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +32,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.mail.EmailException;
 import utils.emailsender.EmailSender;
+import utils.helpers.MovieDataConverter;
+import utils.helpers.TVEpisodeDataConverter;
+import utils.helpers.TVSeasonDataConverter;
+import utils.helpers.TVShowDataConverter;
 
 /**
  *
@@ -31,6 +48,8 @@ public class MoviesController
     private final DataContextAccessor dbContext;
     
     private final EmailSender emailSender;
+    
+    private final FileManagerAccessor fileManagerAccessor;
     
     private final Collator czechCollator = DataStore.loadCzechCollator();
     
@@ -96,17 +115,20 @@ public class MoviesController
         return m2.getPercentageRating() - m1.getPercentageRating();
     };
     
-    private MoviesController(DataContextAccessor dbContext, EmailSender emailSender) 
+    private MoviesController(DataContextAccessor dbContext, EmailSender emailSender, 
+            FileManagerAccessor fileManagerAccessor) 
     {
         this.dbContext = dbContext;
         this.emailSender = emailSender;
+        this.fileManagerAccessor = fileManagerAccessor;
     }
     
-    public static MoviesController getInstance(DataContextAccessor dbContext, EmailSender emailSender) 
+    public static MoviesController getInstance(DataContextAccessor dbContext, EmailSender emailSender, 
+            FileManagerAccessor fileManagerAccessor) 
     {
         if (movieController == null) 
         {
-            movieController = new MoviesController(dbContext, emailSender);
+            movieController = new MoviesController(dbContext, emailSender, fileManagerAccessor);
         }
         
         return movieController;
@@ -123,37 +145,49 @@ public class MoviesController
         
         dbContext.getMoviesTable().sortBy(BY_DATE_OLDEST_MOVIE, filteredMovies);
         
-        String subject = String.format("%s - Neshlédnuté filmy - Podle datumu uvedení", DataStore.loadAppName());
+        String subject = String.format("%s - Neshlédnuté filmy - Podle datumu uvedení", DataStore.getAppName());
         
         StringBuilder message = new StringBuilder();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
         message.append("<html>");
         message.append("<h1>Neshlédnuté filmy od nejstaršího datumu uvedení</h1>");
-        message.append("<ul>");
         
-        for (Movie m : filteredMovies) 
+        if(filteredMovies.isEmpty()) 
         {
-            String durationText = m.getRuntime() == null ? null : String.format("%02d:%02d:%02d", 
-                    m.getRuntime().toHours(), m.getRuntime().toMinutesPart(), 
-                    m.getRuntime().toSecondsPart());
-            
-            message.append("<li>");
-            message.append("<h2>");
-            message.append(m.getName());
-            message.append("</h2>");
-            message.append("<p>");
-            message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(formatter)));
-            message.append("</p>");
-            message.append("<p>");
-            message.append(String.format("Délka filmu: %s", durationText));
-            message.append("</p>");
-            message.append(String.format("<a href=\"%s\">", m.getHyperlinkForContentWatch()));
-            message.append("Shlédnout");
-            message.append("</a>");
-            message.append("</li>");
+            message.append("<br>");
+            message.append("<p style=\"color:red\">Žádné filmy</p>");
+            message.append("<br>");
         }
-        message.append("</ul>");
+        else 
+        {
+            message.append("<ul>");
+
+            for (Movie m : filteredMovies) 
+            {
+                String durationText = m.getRuntime() == null ? null : String.format("%dh %dm %ds",
+                        m.getRuntime().toHours(), m.getRuntime().toMinutesPart(),
+                        m.getRuntime().toSecondsPart());
+
+                message.append("<li>");
+                message.append("<h2>");
+                message.append(m.getName());
+                message.append("</h2>");
+                message.append("<p>");
+                message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(formatter)));
+                message.append("</p>");
+                message.append("<p>");
+                message.append(String.format("Délka filmu: %s", durationText));
+                message.append("</p>");
+                message.append(String.format("<a href=\"%s\">", m.getHyperlinkForContentWatch()));
+                message.append("Shlédnout");
+                message.append("</a>");
+                message.append("</li>");
+            }
+
+            message.append("</ul>");
+        }
+        
         message.append("</html>");
         
         emailSender.sendEmail(recipientEmailAddress, subject, message);
@@ -167,7 +201,7 @@ public class MoviesController
         List<Movie> filteredMovies;
         
         String subject = String.format("%s - Neshlédnuté filmy - Podle chronologických období", 
-                DataStore.loadAppName());
+                DataStore.getAppName());
         StringBuilder message = new StringBuilder();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
@@ -189,7 +223,7 @@ public class MoviesController
             if (filteredMovies.isEmpty()) 
             {
                 message.append("<br>");
-                message.append("<br>");
+                message.append("<p style=\"color:red\">Žádné filmy</p>");
                 message.append("<br>");
             }
             else 
@@ -198,8 +232,8 @@ public class MoviesController
             
                 for (Movie m : filteredMovies) 
                 {
-                    String durationText = m.getRuntime() == null ? null : String.format("%02d:%02d:%02d", 
-                            m.getRuntime().toHours(), m.getRuntime().toMinutesPart(), 
+                    String durationText = m.getRuntime() == null ? null : String.format("%dh %dm %ds", 
+                            m.getRuntime().toHoursPart(), m.getRuntime().toMinutesPart(), 
                             m.getRuntime().toSecondsPart());
             
                     message.append("<li>");
@@ -444,6 +478,217 @@ public class MoviesController
         });
         
         return foundMovies;
+    }
+    
+    public StringBuilder getMoviesChosenFileContent(String fileName) throws IOException 
+    {
+        StringBuilder content = new StringBuilder();
+        
+        if (fileName.equals(DataStore.getBinaryInputMoviesFilename())) 
+        {
+            content = fileManagerAccessor.getMoviesFileManager().getBinaryInputFileContent();
+        }
+        else if (fileName.equals(DataStore.getBinaryOutputMoviesFilename())) 
+        {
+            content = fileManagerAccessor.getMoviesFileManager().getBinaryOutputFileContent();
+        }
+        else if (fileName.equals(DataStore.getTextInputMoviesFilename())) 
+        {
+            content = fileManagerAccessor.getMoviesFileManager().getTextInputFileContent();
+        }
+        else if (fileName.equals(DataStore.getTextOutputMoviesFilename())) 
+        {
+            content = fileManagerAccessor.getMoviesFileManager().getTextOutputFileContent();
+        }
+        
+        return content;
+    }
+    
+    public Movie getMovieDetail(PrimaryKey chosenMoviePrimaryKey) 
+    {
+        Movie foundMovie = dbContext.getMoviesTable().getBy(chosenMoviePrimaryKey);
+        
+        return foundMovie;
+    }
+    
+    public void loadAllOutputDataFrom(boolean fromBinary) throws IOException 
+    {
+        fileManagerAccessor.getMoviesFileManager().tryCreateDataOutputFiles();
+        fileManagerAccessor.getTVShowsFileManager().tryCreateDataOutputFiles();
+        fileManagerAccessor.getTVSeasonsFileManager().tryCreateDataOutputFiles();
+        fileManagerAccessor.getTVEpisodesFileManager().tryCreateDataOutputFiles();
+        
+        //vyhazovani vyjimky v kazde z nasledujicich metod
+        List<MovieOutput> outputMovies = fileManagerAccessor.getMoviesFileManager().
+                loadOutputDataFrom(fromBinary);
+        List<TVShowOutput> outputTVShows = fileManagerAccessor.getTVShowsFileManager().
+                loadOutputDataFrom(fromBinary);
+        List<TVSeasonOutput> outputTVSeasons = fileManagerAccessor.getTVSeasonsFileManager().
+                loadOutputDataFrom(fromBinary);
+        List<TVEpisodeOutput> outputTVEpisodes = fileManagerAccessor.getTVEpisodesFileManager().
+                loadOutputDataFrom(fromBinary);
+        
+        Movie convertedOutputMovie;
+        TVShow convertedOutputTVShow;
+        TVSeason convertedOutputTVSeason;
+        TVEpisode convertedOutputTVEpisode;
+                    
+        for (MovieOutput m : outputMovies) 
+        {
+            convertedOutputMovie = MovieDataConverter.convertToDataFrom(m);
+            dbContext.getMoviesTable().loadFrom(convertedOutputMovie);
+        }
+        
+        for (TVShowOutput m : outputTVShows) 
+        {
+            convertedOutputTVShow = TVShowDataConverter.convertToDataFrom(m);
+            dbContext.getTVShowsTable().loadFrom(convertedOutputTVShow);
+        }
+        
+        for (TVSeasonOutput m : outputTVSeasons) 
+        {
+            convertedOutputTVSeason = TVSeasonDataConverter.convertToDataFrom(m);
+            dbContext.getTVSeasonsTable().loadFrom(convertedOutputTVSeason);
+        }
+        
+        for (TVEpisodeOutput m : outputTVEpisodes) 
+        {
+            convertedOutputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(m);
+            dbContext.getTVEpisodesTable().loadFrom(convertedOutputTVEpisode);
+        }
+    }
+    
+    public int addMoviesFrom(boolean fromBinary) throws IOException, FileNotFoundException 
+    {
+        updateMoviesOutputFilesWithExistingData();
+        
+        List<MovieInput> inputMovies = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
+        
+        if (inputMovies.isEmpty()) 
+        {
+            return 0;
+        }
+        else 
+        {
+            Movie convertedInputMovie;
+            
+            for (MovieInput inputMovie : inputMovies) 
+            {
+                convertedInputMovie = MovieDataConverter.convertToDataFrom(inputMovie);
+                dbContext.getMoviesTable().addFrom(convertedInputMovie);
+            }
+
+            fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+                  
+            updateMoviesOutputFilesWithNewChanges();
+        }
+        
+        //pocet nahranych filmu
+        return 5;
+    }
+    
+    public void deleteMovieBy(PrimaryKey moviePrimaryKey) throws IOException
+    {
+        updateMoviesOutputFilesWithExistingData();
+
+        fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+
+        dbContext.getMoviesTable().deleteBy(moviePrimaryKey);
+
+        updateMoviesOutputFilesWithNewChanges();
+    }
+    
+    public void deleteMovies(List<Movie> chosenMovies) throws IOException
+    {       
+        updateMoviesOutputFilesWithExistingData();
+        
+        fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        
+        for (Movie m : chosenMovies) 
+        {
+            dbContext.getMoviesTable().deleteBy(m.getPrimaryKey());
+        }
+
+        updateMoviesOutputFilesWithNewChanges();
+    }
+    
+    public boolean editMovieBy(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) throws IOException 
+    {
+        updateMoviesOutputFilesWithExistingData();
+        
+        List<MovieInput> editedMovie = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
+                
+        if (editedMovie.isEmpty()) 
+        {
+            //exception
+        }
+        
+        Movie convertedInputMovie = MovieDataConverter.convertToDataFrom(editedMovie.get(0));
+
+        fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+
+        boolean wasDataChanged = dbContext.getMoviesTable().editBy(existingMoviePrimaryKey, convertedInputMovie);
+
+        updateMoviesOutputFilesWithNewChanges();
+
+        return wasDataChanged;
+    }
+        
+    private void updateMoviesOutputFilesWithExistingData() throws IOException 
+    {
+        List<Movie> currentMovies = dbContext.getMoviesTable().getAll();
+        dbContext.getMoviesTable().sortByPrimaryKey(currentMovies);
+        
+        List<MovieOutput> outputMovies = new ArrayList<>();
+        MovieOutput outputMovie;
+        
+        for (Movie m : currentMovies) 
+        {
+            outputMovie = MovieDataConverter.convertToOutputDataFrom(m);
+            outputMovies.add(outputMovie);
+        }
+        
+        fileManagerAccessor.getMoviesFileManager().saveOutputDataIntoFiles(outputMovies);
+    }
+    
+    private void updateMoviesOutputFilesWithNewChanges() throws IOException 
+    {
+        List<Movie> currentMovies = dbContext.getMoviesTable().getAll();
+        dbContext.getMoviesTable().sortByPrimaryKey(currentMovies);
+        
+        List<MovieOutput> outputMovies = new ArrayList<>();
+        MovieOutput outputMovie;
+
+        for (Movie m : currentMovies) 
+        {
+            outputMovie = MovieDataConverter.convertToOutputDataFrom(m);
+            outputMovies.add(outputMovie);
+        }
+
+        try 
+        {
+            fileManagerAccessor.getMoviesFileManager().saveOutputDataIntoFiles(outputMovies);
+        } 
+        catch (IOException e) 
+        {
+            fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(true);
+            
+            outputMovies = fileManagerAccessor.getMoviesFileManager().loadOutputDataFrom(true);
+                       
+            Movie convertedOutputMovie;
+            
+            dbContext.getMoviesTable().clearData();
+            
+            for (MovieOutput m : outputMovies) 
+            {
+                convertedOutputMovie = MovieDataConverter.convertToDataFrom(m);
+                dbContext.getMoviesTable().loadFrom(convertedOutputMovie);
+            }            
+        } 
+        finally 
+        {
+            fileManagerAccessor.getMoviesFileManager().tryDeleteDataOutputFilesCopies();
+        }
     }
         
     private static LocalDate getCurrentDate() 

@@ -39,42 +39,45 @@ public class DataContextAccessorTest
                 75, true, "https://www.example01.com", "Velmi krásný film", 
                 LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
        
-        movieAdd = moviesTable.addFrom(movieAdd);
+        moviesTable.addFrom(movieAdd);
+        
+        List<Movie> movies = moviesTable.getAll();
         
         TVShow showAdd = new TVShow(null, "Clone Wars", LocalDate.parse("2023-05-20", 
                 DateTimeFormatter.ISO_LOCAL_DATE), Era.REIGN_OF_THE_EMPIRE);
         
-        showAdd = showsTable.addFrom(showAdd);
+        showsTable.addFrom(showAdd);
         
-        TVSeason seasonAdd = new TVSeason(null, 1, showAdd.getPrimaryKey());
+        List<TVShow> shows = showsTable.getAll();
         
-        seasonAdd = seasonsTable.addFrom(seasonAdd);
+        TVSeason seasonAdd = new TVSeason(null, 1, shows.get(0).getPrimaryKey());
+        
+        seasonsTable.addFrom(seasonAdd);
+        
+        List<TVSeason> seasons = seasonsTable.getAll();
         
         TVEpisode episodeAdd = new TVEpisode(null, Duration.ofMinutes(45), "Twin suns", 
                 0, false, "https://www.example02.com", "Velmi krásná epizoda", 
-                1, seasonAdd.getPrimaryKey());
+                1, seasons.get(0).getPrimaryKey());
         
-        episodeAdd = episodesTable.addFrom(episodeAdd);
+        episodesTable.addFrom(episodeAdd);
+        
+        List<TVEpisode> episodes = episodesTable.getAll();
         
         //getBy method
         System.out.println("getBy method");
         System.out.println();
         
-        System.out.println(moviesTable.getBy(movieAdd.getPrimaryKey()));
-        System.out.println(showsTable.getBy(showAdd.getPrimaryKey()));
-        System.out.println(seasonsTable.getBy(seasonAdd.getPrimaryKey()));
-        System.out.println(episodesTable.getBy(episodeAdd.getPrimaryKey()));
+        System.out.println(moviesTable.getBy(movies.get(0).getPrimaryKey()));
+        System.out.println(showsTable.getBy( shows.get(0).getPrimaryKey()));
+        System.out.println(seasonsTable.getBy(seasons.get(0).getPrimaryKey()));
+        System.out.println(episodesTable.getBy(episodes.get(0).getPrimaryKey()));
         
         
         //getAll method
         System.out.println();
         System.out.println("getAll method");
         System.out.println();
-        
-        List<Movie> movies = moviesTable.getAll();
-        List<TVEpisode> episodes = episodesTable.getAll();
-        List<TVSeason> seasons = seasonsTable.getAll();
-        List<TVShow> shows = showsTable.getAll();
         
         System.out.println("Stav tabulek po použití addFrom:");
         System.out.println();
@@ -117,13 +120,13 @@ public class DataContextAccessorTest
         System.out.println("deleteBy method");
         System.out.println();
         
-        episodesTable.deleteBy(episodeAdd.getPrimaryKey());
+        episodesTable.deleteBy(episodes.get(0).getPrimaryKey());
         episodes = episodesTable.getAll();
-        seasonsTable.deleteBy(seasonAdd.getPrimaryKey());
+        seasonsTable.deleteBy(seasons.get(0).getPrimaryKey());
         seasons = seasonsTable.getAll();
-        showsTable.deleteBy(showAdd.getPrimaryKey());
+        showsTable.deleteBy(shows.get(0).getPrimaryKey());
         shows = showsTable.getAll();
-        moviesTable.deleteBy(movieAdd.getPrimaryKey());
+        moviesTable.deleteBy(movies.get(0).getPrimaryKey());
         movies = moviesTable.getAll();
         
         System.out.println("Stav tabulek po použití deleteBy:");
@@ -168,10 +171,17 @@ public class DataContextAccessorTest
         System.out.println("loadFrom method");
         System.out.println();
         
-        showsTable.loadFrom(showAdd);
-        seasonsTable.loadFrom(seasonAdd);
-        episodesTable.loadFrom(episodeAdd);
-        moviesTable.loadFrom(movieAdd);
+        showsTable.loadFrom(new TVShow(new PrimaryKey(23), "Clone Wars", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.REIGN_OF_THE_EMPIRE));
+        
+        seasonsTable.loadFrom(new TVSeason(new PrimaryKey(232), 2, new PrimaryKey(23)));
+        episodesTable.loadFrom(new TVEpisode(new PrimaryKey(232), Duration.ofMinutes(45), "Star Wars: The New Dawn", 
+                75, true, "https://www.example01.com", "Velmi krásný film", 
+                2, new PrimaryKey(232)));
+        
+        moviesTable.loadFrom(new Movie(new PrimaryKey(21313), Duration.ofMinutes(45), "Star Wars: The New Dawn", 
+                75, true, "https://www.example01.com", "Velmi krásný film", 
+                LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI));
         
         episodes = episodesTable.getAll();
         seasons = seasonsTable.getAll();
@@ -220,10 +230,10 @@ public class DataContextAccessorTest
         System.out.println("editBy method");
         System.out.println();
         
-        boolean wasDataChanged = showsTable.editBy(showAdd.getPrimaryKey(), new TVShow(null, "Rebels", LocalDate.parse("2023-05-20", 
+        boolean wasDataChanged = showsTable.editBy(shows.get(0).getPrimaryKey(), new TVShow(null, "Rebels", LocalDate.parse("2023-05-20", 
                 DateTimeFormatter.ISO_LOCAL_DATE), Era.REIGN_OF_THE_EMPIRE));
         
-        showAdd = showsTable.getBy(showAdd.getPrimaryKey());
+        showAdd = showsTable.getBy(shows.get(0).getPrimaryKey());
         System.out.println("Došlo ke změně dat:" + wasDataChanged);
         System.out.println(showAdd);
         

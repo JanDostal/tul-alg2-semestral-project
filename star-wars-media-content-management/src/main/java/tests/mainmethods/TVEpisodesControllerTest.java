@@ -3,17 +3,19 @@ package tests.mainmethods;
 
 import app.logic.controllers.TVEpisodesController;
 import app.logic.datacontext.DataContextAccessor;
+import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
-import app.models.data.Movie;
 import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import utils.emailsender.EmailSender;
 import utils.interfaces.IDataTable;
 
 /**
@@ -29,7 +31,11 @@ public class TVEpisodesControllerTest
         IDataTable<TVSeason> seasonsTable = dbContext.getTVSeasonsTable();
         IDataTable<TVEpisode> episodesTable = dbContext.getTVEpisodesTable();
         
-        TVEpisodesController controller = TVEpisodesController.getInstance(dbContext);
+        EmailSender emailSender = EmailSender.getInstance();
+        FileManagerAccessor fileManager = FileManagerAccessor.getInstance();
+        FileManagerAccessor.setDataDirectory("data");
+        
+        TVEpisodesController controller = TVEpisodesController.getInstance(dbContext, emailSender, fileManager);
         
         TVShow show = new TVShow(new PrimaryKey(1), "show", LocalDate.parse("2023-05-20", 
                 DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
@@ -144,24 +150,26 @@ public class TVEpisodesControllerTest
         //getTotalRuntimeOfAllEpisodesInTVShow method
         
         Duration getTotalRuntimeOfAllEpisodesInTVShow_result = 
-                controller.getTotalRuntimeOfAllEpisodesInTVShow(show.getPrimaryKey());
+                controller.getTotalRuntimeOfAllEpisodesInTVShow(show.getPrimaryKey(), true);
         
         System.out.println();
         System.out.println("getTotalRuntimeOfAllEpisodesInTVShow method:");
         System.out.println();
         
-        System.out.println("Celkova doba v minutach: " + getTotalRuntimeOfAllEpisodesInTVShow_result.toMinutes());
+        System.out.println("Celkova doba pouze shlednuteho obsahu v minutach: " 
+                + getTotalRuntimeOfAllEpisodesInTVShow_result.toMinutes());
         
         //getTotalRuntimeOfAllEpisodesInTVShowSeason method
         
         Duration getTotalRuntimeOfAllEpisodesInTVShowSeason_result = 
-                controller.getTotalRuntimeOfAllEpisodesInTVShowSeason(season.getPrimaryKey());
+                controller.getTotalRuntimeOfAllEpisodesInTVShowSeason(season.getPrimaryKey(), true);
         
         System.out.println();
         System.out.println("getTotalRuntimeOfAllEpisodesInTVShowSeason method:");
         System.out.println();
         
-        System.out.println("Celkova doba v minutach: " + getTotalRuntimeOfAllEpisodesInTVShowSeason_result.toMinutes());
+        System.out.println("Celkova doba pouze shlednuteho obsahu v minutach: " + 
+                getTotalRuntimeOfAllEpisodesInTVShowSeason_result.toMinutes());
         
         //getAverageRuntimeOfAllEpisodesInTVShowSeason method
         
@@ -211,6 +219,198 @@ public class TVEpisodesControllerTest
         System.out.println("Prumerne hodnoceni v procentech: " + 
                 getAverageRatingOfAllEpisodesInTVShowSeason_result);
         
-                
+        
+        //addTVShowsFrom
+        System.out.println();
+        System.out.println("addTVShowsFrom method (text):");
+        System.out.println();
+        
+        try 
+        {
+            controller.addTVShowsFrom(false);
+            
+            List<TVShow> moviesList = showsTable.getAll();
+            
+            for (TVShow m : moviesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //addTVSeasonsFrom
+        System.out.println();
+        System.out.println("addTVSeasonsFrom method (text):");
+        System.out.println();
+        
+        try 
+        {
+            controller.addTVSeasonsFrom(show.getPrimaryKey(), false);
+            
+            List<TVSeason> seasonsList = seasonsTable.getAll();
+            
+            for (TVSeason m : seasonsList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //addTVEpisodesFrom
+        System.out.println();
+        System.out.println("addTVEpisodesFrom method (text):");
+        System.out.println();
+        
+        try 
+        {
+            controller.addTVEpisodesFrom(season3.getPrimaryKey(), false);
+            
+            List<TVEpisode> episodesList = episodesTable.getAll();
+            
+            for (TVEpisode m : episodesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //editTVEpisodeBy
+        System.out.println();
+        System.out.println("editTVEpisodeBy method (text):");
+        System.out.println();
+        
+        try 
+        {
+            controller.editTVEpisodeBy(episodeB.getPrimaryKey(), season3.getPrimaryKey(), false);
+            
+            List<TVEpisode> episodesList = episodesTable.getAll();
+            
+            for (TVEpisode m : episodesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //editTVSeasonBy
+        System.out.println();
+        System.out.println("editTVSeasonBy method (text):");
+        System.out.println();
+        
+        try 
+        {
+            controller.editTVSeasonBy(season3.getPrimaryKey(), season3.getTVShowForeignKey(), false);
+            
+            List<TVSeason> seasonsList = seasonsTable.getAll();
+            
+            for (TVSeason m : seasonsList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //editTVShowBy
+        System.out.println();
+        System.out.println("editTVShowBy method (text):");
+        System.out.println();
+        
+        try 
+        {
+            controller.editTVShowBy(show2.getPrimaryKey(), false);
+            
+            List<TVShow> showsList = showsTable.getAll();
+            
+            for (TVShow m : showsList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //deleteTVShowBy
+        System.out.println();
+        System.out.println("deleteTVShowBy method :");
+        System.out.println();
+        
+        try 
+        {
+            controller.deleteTVShowBy(show.getPrimaryKey());
+            
+            List<TVShow> showsList = showsTable.getAll();
+            List<TVSeason> seasonsList = seasonsTable.getAll();
+            List<TVEpisode> episodesList = episodesTable.getAll();
+            
+            for (TVShow m : showsList) 
+            {
+                System.out.println(m);
+            }
+            
+            for (TVSeason m : seasonsList) 
+            {
+                System.out.println(m);
+            }
+            
+            for (TVEpisode m : episodesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //deleteTVShows
+        System.out.println();
+        System.out.println("deleteTVShows method :");
+        System.out.println();
+        
+        try 
+        {
+            controller.deleteTVShows(showsTable.getAll());
+            
+            List<TVShow> showsList = showsTable.getAll();
+            List<TVSeason> seasonsList = seasonsTable.getAll();
+            List<TVEpisode> episodesList = episodesTable.getAll();
+            
+            for (TVShow m : showsList) 
+            {
+                System.out.println(m);
+            }
+            
+            for (TVSeason m : seasonsList) 
+            {
+                System.out.println(m);
+            }
+            
+            for (TVEpisode m : episodesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
     }
 }

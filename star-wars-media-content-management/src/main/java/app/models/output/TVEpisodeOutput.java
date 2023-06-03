@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class TVEpisodeOutput
 { 
-    public static final int ATTRIBUTE_NAME_LENGTH = 40;
+    public static final int ATTRIBUTE_NAME_LENGTH = 100;
     public static final int ATTRIBUTE_HYPERLINK_LENGTH = 180;
     public static final int ATTRIBUTE_CONTENT_LENGTH = 1000;
     
@@ -47,16 +47,19 @@ public class TVEpisodeOutput
     {
         this.id = id;
         this.runtimeInSeconds = runtimeInSeconds;
-        this.name = name == null || name.trim().isEmpty() ? null : 
+        this.name = name == null ? 
+                Arrays.copyOf("".toCharArray(), ATTRIBUTE_NAME_LENGTH) : 
                 Arrays.copyOf(name.toCharArray(), ATTRIBUTE_NAME_LENGTH);
         this.percentageRating = percentageRating;
-        this.hyperlinkForContentWatch = hyperlinkForContentWatch == null || 
-                hyperlinkForContentWatch.trim().isEmpty() ? 
-                null : Arrays.copyOf(hyperlinkForContentWatch.toCharArray(), 
+        this.hyperlinkForContentWatch = hyperlinkForContentWatch == null ? 
+                Arrays.copyOf("".toCharArray(), 
+                ATTRIBUTE_HYPERLINK_LENGTH) : 
+                Arrays.copyOf(hyperlinkForContentWatch.toCharArray(), 
                 ATTRIBUTE_HYPERLINK_LENGTH);
-        this.shortContentSummary = shortContentSummary == null || 
-                shortContentSummary.trim().isEmpty() ? 
-                null : Arrays.copyOf(shortContentSummary.toCharArray(), 
+        this.shortContentSummary = shortContentSummary == null ? 
+                Arrays.copyOf("".toCharArray(), 
+                ATTRIBUTE_CONTENT_LENGTH) : 
+                Arrays.copyOf(shortContentSummary.toCharArray(), 
                 ATTRIBUTE_CONTENT_LENGTH);
         this.orderInTVShowSeason = orderInTVShowSeason;
         this.tvSeasonId = tvSeasonId;
@@ -74,7 +77,7 @@ public class TVEpisodeOutput
 
     public String getName() 
     {
-        return name == null ? null : new String(name);
+        return new String(name);
     }
 
     public int getPercentageRating() 
@@ -84,12 +87,12 @@ public class TVEpisodeOutput
 
     public String getHyperlinkForContentWatch() 
     {
-        return hyperlinkForContentWatch == null ? null : new String(hyperlinkForContentWatch);
+        return new String(hyperlinkForContentWatch);
     }
 
     public String getShortContentSummary() 
     {
-        return shortContentSummary == null ? null : new String(shortContentSummary);
+        return new String(shortContentSummary);
     }
 
     public int getOrderInTVShowSeason() 
@@ -104,8 +107,8 @@ public class TVEpisodeOutput
     
     public @Override String toString() 
     {
-        String nameText = name == null ? null : new String(name);
-        String hyperlinkText = hyperlinkForContentWatch == null ? null : new String(hyperlinkForContentWatch);
+        String nameText = new String(name);
+        String hyperlinkText = new String(hyperlinkForContentWatch);
         
         return String.format("TVEpisodeOutput{id=%d, runtimeInSeconds=%d, name=%s, "
                 + "percentageRating=%d, hyperlinkForContentWatch=%s, "

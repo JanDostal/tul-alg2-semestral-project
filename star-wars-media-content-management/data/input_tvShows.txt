@@ -1,0 +1,31 @@
+
+ 
+    
+                      
+ 
+   
+[Attributes]  
+
+name 1
+releaseDateInEpochSeconds 2
+era 3
+
+   [Values]   
+    
+Mařenka 1
+1232 2
+FALL_OF_THE_JEDI 3
+
+     [Attributes]
+
+name 1
+releaseDateInEpochSeconds 2
+era 3
+
+[Values]      
+    
+Karel 1
+1232 2
+FALL_OF_THE_JEDI 3
+
+[End]

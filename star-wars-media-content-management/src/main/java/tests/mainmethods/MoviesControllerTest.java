@@ -2,13 +2,16 @@
 package tests.mainmethods;
 
 import app.logic.controllers.MoviesController;
+import app.logic.controllers.TVEpisodesController;
 import app.logic.datacontext.DataContextAccessor;
+import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,8 +33,10 @@ public class MoviesControllerTest
         DataContextAccessor dbContext = DataContextAccessor.getInstance();
         EmailSender emailSender = EmailSender.getInstance();
         IDataTable<Movie> moviesTable = dbContext.getMoviesTable();
+        FileManagerAccessor fileManager = FileManagerAccessor.getInstance();
+        FileManagerAccessor.setDataDirectory("data");
         
-        MoviesController controller = MoviesController.getInstance(dbContext, emailSender);
+        MoviesController controller = MoviesController.getInstance(dbContext, emailSender, fileManager);
         
         Movie movieA = new Movie(new PrimaryKey(3), null, "movieA", 
                 60, true, "https://www.example01.com", "A", 
@@ -216,7 +221,7 @@ public class MoviesControllerTest
                 60, false, null, null, 
                 LocalDate.parse("2021-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
-        movieSearch_01 = dbContext.getMoviesTable().addFrom(movieSearch_01);
+        dbContext.getMoviesTable().addFrom(movieSearch_01);
         
         List<Movie> searchForMovie_result = 
                 controller.searchForMovie("ahóje jě");
@@ -252,5 +257,145 @@ public class MoviesControllerTest
                 controller.getAverageRatingOfAllMoviesByEra(Era.FALL_OF_THE_JEDI);
         
         System.out.println("Prumerne hodnoceni v procentech: " + getAverageRatingOfAllMoviesByEra_result);
+        
+        //addMoviesFrom
+        System.out.println();
+        System.out.println("addMoviesFrom method (text):");
+        System.out.println();
+        
+        try 
+        {
+            controller.addMoviesFrom(false);
+            
+            List<Movie> moviesList = moviesTable.getAll();
+            
+            for (Movie m : moviesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //deleteMovieBy
+        System.out.println();
+        System.out.println("deleteMovieBy method:");
+        System.out.println();
+        
+        try 
+        {
+            controller.deleteMovieBy(movieSearch_01.getPrimaryKey());
+            
+            List<Movie> moviesList = moviesTable.getAll();
+            
+            for (Movie m : moviesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //deleteMovies
+        System.out.println();
+        System.out.println("deleteMovies method:");
+        System.out.println();
+        
+        try 
+        {
+            List<Movie> moviesList = moviesTable.getAll();
+            
+            controller.deleteMovies(moviesList);
+            
+            moviesList = moviesTable.getAll();
+            
+            for (Movie m : moviesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //editMovieBy
+        System.out.println();
+        System.out.println("editMovieBy method:");
+        System.out.println();
+        
+        try 
+        {
+            Movie movieForEdit = new Movie(new PrimaryKey(2312123), null, "movieOla", 
+                2, false, null, null, 
+                null, Era.THE_OLD_REPUBLIC);
+            
+            System.out.println(movieForEdit);
+        
+            moviesTable.loadFrom(movieForEdit);
+            
+            boolean wasDataChangedForEdit = controller.editMovieBy(movieForEdit.getPrimaryKey(), false);
+            
+            List<Movie> moviesList = moviesTable.getAll();
+            
+            System.out.println(wasDataChangedForEdit);
+            
+            for (Movie m : moviesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //loadAllOutputDataFrom
+        System.out.println();
+        System.out.println("loadAllOutputDataFrom method:");
+        System.out.println();
+        
+        try 
+        {
+            dbContext.getMoviesTable().clearData();
+            dbContext.getTVEpisodesTable().clearData();
+            dbContext.getTVSeasonsTable().clearData();
+            dbContext.getTVShowsTable().clearData();
+
+            controller.loadAllOutputDataFrom(false);
+
+            List<Movie> moviesAfterLoad = dbContext.getMoviesTable().getAll();
+            List<TVEpisode> tvEpisodesAfterLoad = dbContext.getTVEpisodesTable().getAll();
+            List<TVSeason> tvSeasonsAfterLoad = dbContext.getTVSeasonsTable().getAll();
+            List<TVShow> tvShowsAfterLoad = dbContext.getTVShowsTable().getAll();
+
+            for (Movie m : moviesAfterLoad) 
+            {
+                System.out.println(m);
+            }
+
+            for (TVEpisode m : tvEpisodesAfterLoad) 
+            {
+                System.out.println(m);
+            }
+
+            for (TVSeason m : tvSeasonsAfterLoad) 
+            {
+                System.out.println(m);
+            }
+
+            for (TVShow m : tvShowsAfterLoad) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
     }
 }
