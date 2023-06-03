@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import utils.exceptions.DataConversionException;
 
 /**
  * meziclanek mezi databazi a soubory
@@ -60,7 +61,7 @@ public final class MovieDataConverter
                 hyperlink, content, epochSeconds, era);
     }
     
-    public static Movie convertToDataFrom(MovieInput inputData) throws DateTimeException
+    public static Movie convertToDataFrom(MovieInput inputData) throws DataConversionException
     {
         PrimaryKey placeholderKey = new PrimaryKey(0);
         Duration runtime;
@@ -120,7 +121,6 @@ public final class MovieDataConverter
             content = inputData.getShortContentSummary();
         }
         
-        //exception
         LocalDate releaseDate;
         
         if (inputData.getReleaseDateInEpochSeconds() < 0) 
@@ -129,11 +129,17 @@ public final class MovieDataConverter
         }
         else 
         {
-            releaseDate = Instant.ofEpochSecond(inputData.getReleaseDateInEpochSeconds()).
-                atZone(ZoneOffset.UTC).toLocalDate();
+            try 
+            {
+                releaseDate = Instant.ofEpochSecond(inputData.getReleaseDateInEpochSeconds()).
+                        atZone(ZoneOffset.UTC).toLocalDate();
+            }
+            catch (DateTimeException e) 
+            {
+                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení");
+            }
         }
         
-        //exception
         Era era;
                 
         try 
@@ -149,7 +155,7 @@ public final class MovieDataConverter
                 wasWatched, hyperlink, content, releaseDate, era);
     }
     
-    public static Movie convertToDataFrom(MovieOutput outputData) throws DateTimeException
+    public static Movie convertToDataFrom(MovieOutput outputData) throws DataConversionException
     {
         PrimaryKey primaryKey = new PrimaryKey(outputData.getId());       
         Duration runtime;
@@ -227,7 +233,6 @@ public final class MovieDataConverter
             stringContent = null;
         }
 
-        //exception
         LocalDate releaseDate;
         
         if (outputData.getReleaseDateInEpochSeconds() < 0) 
@@ -236,8 +241,15 @@ public final class MovieDataConverter
         }
         else 
         {
-            releaseDate = Instant.ofEpochSecond(outputData.getReleaseDateInEpochSeconds()).
-                atZone(ZoneOffset.UTC).toLocalDate();
+            try 
+            {
+                releaseDate = Instant.ofEpochSecond(outputData.getReleaseDateInEpochSeconds()).
+                        atZone(ZoneOffset.UTC).toLocalDate();
+            }
+            catch (DateTimeException e) 
+            {
+                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení");
+            }
         }
         
         StringBuilder stringEra = new StringBuilder();
@@ -250,7 +262,6 @@ public final class MovieDataConverter
             }
         }
         
-        //exception
         Era era;
                 
         try 
@@ -261,7 +272,6 @@ public final class MovieDataConverter
         {
             era = null;
         }
-        
         
         return new Movie(primaryKey, runtime, stringName, percentage, wasWatched,
                 stringHyperlink, stringContent, releaseDate, era);

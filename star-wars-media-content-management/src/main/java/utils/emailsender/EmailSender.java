@@ -35,8 +35,7 @@ public class EmailSender
         return emailSender;
     }
     
-    public void sendEmail(String recipientEmailAddress, String subject, StringBuilder message) 
-            throws EmailException, NullPointerException
+    public void sendEmail(String recipientEmailAddress, String subject, StringBuilder message) throws EmailException
     {
         HtmlEmail email = new HtmlEmail();
         email.setHostName(hostName);

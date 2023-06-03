@@ -14,4 +14,9 @@ public class FileParsingException extends Exception
     {
         super(message);
     }
+    
+    public FileParsingException() 
+    {
+        super();
+    }
 }

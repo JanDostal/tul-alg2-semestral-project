@@ -14,4 +14,9 @@ public class DatabaseException extends Exception
     {
         super(message);
     }
+    
+    public DatabaseException() 
+    {
+        super();
+    }
 }

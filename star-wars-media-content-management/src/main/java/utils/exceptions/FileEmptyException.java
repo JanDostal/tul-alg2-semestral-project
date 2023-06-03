@@ -14,4 +14,9 @@ public class FileEmptyException extends Exception
     {
         super(message);
     }
+    
+    public FileEmptyException() 
+    {
+        super();
+    }
 }

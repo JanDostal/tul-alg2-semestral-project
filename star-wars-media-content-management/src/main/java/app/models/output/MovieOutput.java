@@ -1,8 +1,6 @@
 
 package app.models.output;
 
-import java.time.Duration;
-import java.time.LocalDate;
 import java.util.Arrays;
 
 /**

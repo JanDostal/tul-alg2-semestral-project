@@ -14,4 +14,9 @@ public class DataConversionException extends Exception
     {
         super(message);
     }
+    
+    public DataConversionException() 
+    {
+        super();
+    }
 }

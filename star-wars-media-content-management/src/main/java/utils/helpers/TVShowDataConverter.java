@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import utils.exceptions.DataConversionException;
 
 /**
  *
@@ -45,7 +46,7 @@ public final class TVShowDataConverter
         return new TVShowOutput(id, name, epochSeconds, era);
     }
     
-    public static TVShow convertToDataFrom(TVShowInput inputData) throws DateTimeException
+    public static TVShow convertToDataFrom(TVShowInput inputData) throws DataConversionException
     {
         PrimaryKey placeholderKey = new PrimaryKey(0);
         
@@ -69,11 +70,17 @@ public final class TVShowDataConverter
         }
         else 
         {
-            releaseDate = Instant.ofEpochSecond(inputData.getReleaseDateInEpochSeconds()).
-                atZone(ZoneOffset.UTC).toLocalDate();
+            try 
+            {
+                releaseDate = Instant.ofEpochSecond(inputData.getReleaseDateInEpochSeconds()).
+                        atZone(ZoneOffset.UTC).toLocalDate();
+            }
+            catch (DateTimeException e) 
+            {
+                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení");
+            }
         }
         
-        //exception
         Era era;
                 
         try 
@@ -88,7 +95,7 @@ public final class TVShowDataConverter
         return new TVShow(placeholderKey, name, releaseDate, era);
     }
     
-    public static TVShow convertToDataFrom(TVShowOutput outputData) throws DateTimeException
+    public static TVShow convertToDataFrom(TVShowOutput outputData) throws DataConversionException
     {
         PrimaryKey primaryKey = new PrimaryKey(outputData.getId());       
                
@@ -109,7 +116,6 @@ public final class TVShowDataConverter
             stringName = null;
         }
 
-        //exception
         LocalDate releaseDate;
         
         if (outputData.getReleaseDateInEpochSeconds() < 0) 
@@ -118,8 +124,15 @@ public final class TVShowDataConverter
         }
         else 
         {
-            releaseDate = Instant.ofEpochSecond(outputData.getReleaseDateInEpochSeconds()).
-                atZone(ZoneOffset.UTC).toLocalDate();
+            try 
+            {
+                releaseDate = Instant.ofEpochSecond(outputData.getReleaseDateInEpochSeconds()).
+                        atZone(ZoneOffset.UTC).toLocalDate();
+            }
+            catch (DateTimeException e) 
+            {
+                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení");
+            }
         }
         
         StringBuilder stringEra = new StringBuilder();
@@ -132,7 +145,6 @@ public final class TVShowDataConverter
             }
         }
         
-        //exception
         Era era;
                 
         try 
