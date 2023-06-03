@@ -46,8 +46,7 @@ public final class TVEpisodeDataConverter
                 hyperlink, content, orderInTVShowSeason, tvSeasonId);
     }
     
-    public static TVEpisode convertToDataFrom(TVEpisodeInput inputData, 
-            PrimaryKey tvSeasonForeignKey)
+    public static TVEpisode convertToDataFrom(TVEpisodeInput inputData, PrimaryKey tvSeasonForeignKey)
     {
         PrimaryKey placeholderKey = new PrimaryKey(0);
         Duration runtime;

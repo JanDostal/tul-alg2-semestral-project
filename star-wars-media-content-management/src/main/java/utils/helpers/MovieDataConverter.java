@@ -11,7 +11,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 /**
@@ -23,7 +22,6 @@ public final class MovieDataConverter
     private MovieDataConverter()
     {
     }
-    
     
     public static MovieOutput convertToOutputDataFrom(Movie data) 
     {
