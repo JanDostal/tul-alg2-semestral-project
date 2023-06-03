@@ -1,25 +1,31 @@
-[Attributes]
+
+ 
+    
+                      
+ 
+   
+[Attributes]  
 
 name 1
 releaseDateInEpochSeconds 2
 era 3
 
-[Values]
+   [Values]   
     
 Mařenka 1
 1232 2
-asdasd 3
+FALL_OF_THE_JEDI 3
 
-[Attributes]
+     [Attributes]
 
 name 1
 releaseDateInEpochSeconds 2
 era 3
 
-[Values]
+[Values]      
     
 Karel 1
 1232 2
-asdasd 3
+FALL_OF_THE_JEDI 3
 
 [End]

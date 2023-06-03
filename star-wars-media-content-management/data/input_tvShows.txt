@@ -14,7 +14,7 @@ era 3
     
 Mařenka 1
 1232 2
-asdasd 3
+FALL_OF_THE_JEDI 3
 
      [Attributes]
 
@@ -26,6 +26,6 @@ era 3
     
 Karel 1
 1232 2
-asdasd 3
+FALL_OF_THE_JEDI 3
 
 [End]

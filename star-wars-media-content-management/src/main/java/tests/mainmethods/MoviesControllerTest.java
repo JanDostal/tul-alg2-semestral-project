@@ -2,6 +2,7 @@
 package tests.mainmethods;
 
 import app.logic.controllers.MoviesController;
+import app.logic.controllers.TVEpisodesController;
 import app.logic.datacontext.DataContextAccessor;
 import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
@@ -344,6 +345,50 @@ public class MoviesControllerTest
             System.out.println(wasDataChangedForEdit);
             
             for (Movie m : moviesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
+        
+        //loadAllOutputDataFrom
+        System.out.println();
+        System.out.println("loadAllOutputDataFrom method:");
+        System.out.println();
+        
+        try 
+        {
+            dbContext.getMoviesTable().clearData();
+            dbContext.getTVEpisodesTable().clearData();
+            dbContext.getTVSeasonsTable().clearData();
+            dbContext.getTVShowsTable().clearData();
+
+            controller.loadAllOutputDataFrom(false);
+
+            List<Movie> moviesAfterLoad = dbContext.getMoviesTable().getAll();
+            List<TVEpisode> tvEpisodesAfterLoad = dbContext.getTVEpisodesTable().getAll();
+            List<TVSeason> tvSeasonsAfterLoad = dbContext.getTVSeasonsTable().getAll();
+            List<TVShow> tvShowsAfterLoad = dbContext.getTVShowsTable().getAll();
+
+            for (Movie m : moviesAfterLoad) 
+            {
+                System.out.println(m);
+            }
+
+            for (TVEpisode m : tvEpisodesAfterLoad) 
+            {
+                System.out.println(m);
+            }
+
+            for (TVSeason m : tvSeasonsAfterLoad) 
+            {
+                System.out.println(m);
+            }
+
+            for (TVShow m : tvShowsAfterLoad) 
             {
                 System.out.println(m);
             }

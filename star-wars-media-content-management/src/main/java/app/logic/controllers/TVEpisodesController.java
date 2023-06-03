@@ -9,6 +9,13 @@ import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
+import app.models.input.TVEpisodeInput;
+import app.models.input.TVSeasonInput;
+import app.models.input.TVShowInput;
+import app.models.output.TVEpisodeOutput;
+import app.models.output.TVSeasonOutput;
+import app.models.output.TVShowOutput;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.Collator;
 import java.text.Normalizer;
@@ -28,6 +35,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.mail.EmailException;
 import utils.emailsender.EmailSender;
+import utils.helpers.TVEpisodeDataConverter;
+import utils.helpers.TVSeasonDataConverter;
+import utils.helpers.TVShowDataConverter;
 
 /**
  *
@@ -631,6 +641,487 @@ public class TVEpisodesController
         TVEpisode foundTVEpisode = dbContext.getTVEpisodesTable().getBy(chosenTVEpisodePrimaryKey);
         
         return foundTVEpisode;
+    }
+    
+    public int addTVShowsFrom(boolean fromBinary) throws IOException, FileNotFoundException 
+    {
+        updateTVShowsOutputFilesWithExistingData();
+        
+        List<TVShowInput> inputTVShows = fileManagerAccessor.getTVShowsFileManager().loadInputDataFrom(fromBinary);
+        
+        if (inputTVShows.isEmpty()) 
+        {
+            return 0;
+        }
+        else 
+        {
+            TVShow convertedInputTVShow;
+            
+            for (TVShowInput inputTVShow : inputTVShows) 
+            {
+                convertedInputTVShow = TVShowDataConverter.convertToDataFrom(inputTVShow);
+                dbContext.getTVShowsTable().addFrom(convertedInputTVShow);
+            }
+
+            fileManagerAccessor.getTVShowsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+                  
+            updateTVShowsOutputFilesWithNewChanges();
+        }
+        
+        //pocet nahranych filmu
+        return 5;
+    }
+    
+    public int addTVSeasonsFrom(PrimaryKey chosenTVShowPrimaryKey, 
+            boolean fromBinary) throws IOException, FileNotFoundException 
+    {
+        updateTVSeasonsOutputFilesWithExistingData();
+        
+        List<TVSeasonInput> inputTVSeasons = fileManagerAccessor.getTVSeasonsFileManager().
+                loadInputDataFrom(fromBinary);
+        
+        if (inputTVSeasons.isEmpty()) 
+        {
+            return 0;
+        }
+        else 
+        {
+            TVSeason convertedInputTVSeason;
+            
+            for (TVSeasonInput inputTVSeason : inputTVSeasons) 
+            {
+                convertedInputTVSeason = TVSeasonDataConverter.convertToDataFrom(inputTVSeason, 
+                        chosenTVShowPrimaryKey);
+                dbContext.getTVSeasonsTable().addFrom(convertedInputTVSeason);
+            }
+
+            fileManagerAccessor.getTVSeasonsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+                  
+            updateTVSeasonsOutputFilesWithNewChanges();
+        }
+        
+        //pocet nahranych sezon
+        return 5;
+    }
+    
+    public int addTVEpisodesFrom(PrimaryKey chosenTVSeasonPrimaryKey, 
+            boolean fromBinary) throws IOException, FileNotFoundException 
+    {
+        updateTVEpisodesOutputFilesWithExistingData();
+        
+        List<TVEpisodeInput> inputTVEpisodes = fileManagerAccessor.getTVEpisodesFileManager().
+                loadInputDataFrom(fromBinary);
+        
+        if (inputTVEpisodes.isEmpty()) 
+        {
+            return 0;
+        }
+        else 
+        {
+            TVEpisode convertedInputTVEpisode;
+            
+            for (TVEpisodeInput inputTVEpisode : inputTVEpisodes) 
+            {
+                convertedInputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(inputTVEpisode, 
+                        chosenTVSeasonPrimaryKey);
+                dbContext.getTVEpisodesTable().addFrom(convertedInputTVEpisode);
+            }
+
+            fileManagerAccessor.getTVEpisodesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+                  
+            updateTVEpisodesOutputFilesWithNewChanges();
+        }
+        
+        //pocet nahranych epizod
+        return 5;
+    }
+    
+    public void deleteTVShowBy(PrimaryKey tvShowPrimaryKey) throws IOException
+    {
+        updateTVEpisodesOutputFilesWithExistingData();
+        updateTVSeasonsOutputFilesWithExistingData();
+        updateTVShowsOutputFilesWithExistingData();
+
+        fileManagerAccessor.getTVEpisodesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        fileManagerAccessor.getTVSeasonsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        fileManagerAccessor.getTVShowsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        
+        List<TVSeason> showSeasons = dbContext.getTVSeasonsTable().filterBy(e -> 
+                    e.getTVShowForeignKey().equals(tvShowPrimaryKey));
+        List<TVEpisode> seasonEpisodes;
+            
+        for (TVSeason o : showSeasons) 
+        {
+            seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e ->
+                    e.getTVSeasonForeignKey().equals(o.getPrimaryKey()));
+                
+            for (TVEpisode s : seasonEpisodes) 
+            {
+                dbContext.getTVEpisodesTable().deleteBy(s.getPrimaryKey());
+            }
+                
+            dbContext.getTVSeasonsTable().deleteBy(o.getPrimaryKey());
+        }
+            
+        dbContext.getTVShowsTable().deleteBy(tvShowPrimaryKey);
+        
+        updateTVEpisodesOutputFilesWithNewChanges();
+        updateTVSeasonsOutputFilesWithNewChanges();
+        updateTVShowsOutputFilesWithNewChanges();
+    }
+    
+    public void deleteTVSeasonBy(PrimaryKey tvSeasonPrimaryKey) throws IOException
+    {
+        updateTVEpisodesOutputFilesWithExistingData();
+        updateTVSeasonsOutputFilesWithExistingData();
+        
+        fileManagerAccessor.getTVEpisodesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        fileManagerAccessor.getTVSeasonsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        
+        List<TVEpisode> seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e
+                -> e.getTVSeasonForeignKey().equals(tvSeasonPrimaryKey));
+
+        for (TVEpisode o : seasonEpisodes) 
+        {
+            dbContext.getTVEpisodesTable().deleteBy(o.getPrimaryKey());
+        }
+
+        dbContext.getTVSeasonsTable().deleteBy(tvSeasonPrimaryKey);
+        
+        updateTVEpisodesOutputFilesWithNewChanges();
+        updateTVSeasonsOutputFilesWithNewChanges();
+    }
+    
+    public void deleteTVEpisodeBy(PrimaryKey tvEpisodePrimaryKey) throws IOException
+    {
+        updateTVEpisodesOutputFilesWithExistingData();
+
+        fileManagerAccessor.getTVEpisodesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+
+        dbContext.getTVEpisodesTable().deleteBy(tvEpisodePrimaryKey);
+
+        updateTVEpisodesOutputFilesWithNewChanges();
+    }
+    
+    public void deleteTVShows(List<TVShow> chosenTVShows) throws IOException
+    {
+        updateTVEpisodesOutputFilesWithExistingData();
+        updateTVSeasonsOutputFilesWithExistingData();
+        updateTVShowsOutputFilesWithExistingData();
+        
+        fileManagerAccessor.getTVEpisodesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        fileManagerAccessor.getTVSeasonsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        fileManagerAccessor.getTVShowsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        
+        List<TVSeason> showSeasons;
+        List<TVEpisode> seasonEpisodes;
+        
+        for (TVShow m : chosenTVShows) 
+        {
+            showSeasons = dbContext.getTVSeasonsTable().filterBy(e -> 
+                    e.getTVShowForeignKey().equals(m.getPrimaryKey()));
+            
+            for (TVSeason o : showSeasons) 
+            {
+                seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e ->
+                    e.getTVSeasonForeignKey().equals(o.getPrimaryKey()));
+                
+                for (TVEpisode s : seasonEpisodes) 
+                {
+                    dbContext.getTVEpisodesTable().deleteBy(s.getPrimaryKey());
+                }
+                
+                dbContext.getTVSeasonsTable().deleteBy(o.getPrimaryKey());
+            }
+            
+            dbContext.getTVShowsTable().deleteBy(m.getPrimaryKey());
+        }
+        
+        updateTVEpisodesOutputFilesWithNewChanges();
+        updateTVSeasonsOutputFilesWithNewChanges();
+        updateTVShowsOutputFilesWithNewChanges();
+    }
+    
+    public void deleteTVSeasons(List<TVSeason> chosenTVSeasons) throws IOException
+    {
+        updateTVEpisodesOutputFilesWithExistingData();
+        updateTVSeasonsOutputFilesWithExistingData();
+        
+        fileManagerAccessor.getTVEpisodesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        fileManagerAccessor.getTVSeasonsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        
+        List<TVEpisode> seasonEpisodes;
+        
+        for (TVSeason m : chosenTVSeasons) 
+        {
+            seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e -> 
+                    e.getTVSeasonForeignKey().equals(m.getPrimaryKey()));
+            
+            for (TVEpisode o : seasonEpisodes) 
+            {
+                dbContext.getTVEpisodesTable().deleteBy(o.getPrimaryKey());
+            }
+            
+            dbContext.getTVSeasonsTable().deleteBy(m.getPrimaryKey());
+        }
+        
+        updateTVEpisodesOutputFilesWithNewChanges();
+        updateTVSeasonsOutputFilesWithNewChanges();
+    }
+    
+    public void deleteTVEpisodes(List<TVEpisode> chosenTVEpisodes) throws IOException
+    {
+        updateTVEpisodesOutputFilesWithExistingData();
+
+        fileManagerAccessor.getTVEpisodesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        
+        for (TVEpisode m : chosenTVEpisodes) 
+        {
+            dbContext.getTVEpisodesTable().deleteBy(m.getPrimaryKey());
+        }
+
+        updateTVEpisodesOutputFilesWithNewChanges();
+    }
+    
+    public boolean editTVShowBy(PrimaryKey existingTVShowPrimaryKey, boolean fromBinary) throws IOException 
+    {
+        updateTVShowsOutputFilesWithExistingData();
+        
+        List<TVShowInput> editedTVShow = fileManagerAccessor.getTVShowsFileManager().loadInputDataFrom(fromBinary);
+                
+        if (editedTVShow.isEmpty()) 
+        {
+            //exception
+        }
+        
+        TVShow convertedInputTVShow = TVShowDataConverter.convertToDataFrom(editedTVShow.get(0));
+
+        fileManagerAccessor.getTVShowsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+
+        boolean wasDataChanged = dbContext.getTVShowsTable().editBy(existingTVShowPrimaryKey, convertedInputTVShow);
+
+        updateTVShowsOutputFilesWithNewChanges();
+
+        return wasDataChanged; 
+    }
+    
+    public boolean editTVSeasonBy(PrimaryKey existingTVSeasonPrimaryKey, 
+            PrimaryKey tvSeasonForeignKey, boolean fromBinary) throws IOException 
+    {
+        updateTVSeasonsOutputFilesWithExistingData();
+        
+        List<TVSeasonInput> editedTVSeason = fileManagerAccessor.getTVSeasonsFileManager().loadInputDataFrom(fromBinary);
+                
+        if (editedTVSeason.isEmpty()) 
+        {
+            //exception
+        }
+        
+        TVSeason convertedInputTVSeason = TVSeasonDataConverter.convertToDataFrom(editedTVSeason.get(0), 
+                tvSeasonForeignKey);
+
+        fileManagerAccessor.getTVSeasonsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+
+        boolean wasDataChanged = dbContext.getTVSeasonsTable().editBy(existingTVSeasonPrimaryKey, convertedInputTVSeason);
+
+        updateTVSeasonsOutputFilesWithNewChanges();
+
+        return wasDataChanged; 
+    }
+    
+    public boolean editTVEpisodeBy(PrimaryKey existingTVEpisodePrimaryKey, 
+            PrimaryKey tvEpisodeForeignKey, boolean fromBinary) throws IOException 
+    {
+        updateTVEpisodesOutputFilesWithExistingData();
+        
+        List<TVEpisodeInput> editedTVEpisode = fileManagerAccessor.getTVEpisodesFileManager().loadInputDataFrom(fromBinary);
+                
+        if (editedTVEpisode.isEmpty()) 
+        {
+            //exception
+        }
+        
+        TVEpisode convertedInputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(editedTVEpisode.get(0), 
+                tvEpisodeForeignKey);
+
+        fileManagerAccessor.getTVEpisodesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+
+        boolean wasDataChanged = dbContext.getTVEpisodesTable().editBy(existingTVEpisodePrimaryKey, convertedInputTVEpisode);
+
+        updateTVEpisodesOutputFilesWithNewChanges();
+
+        return wasDataChanged; 
+    }
+        
+    private void updateTVShowsOutputFilesWithExistingData() throws IOException 
+    {
+        List<TVShow> currentTVShows = dbContext.getTVShowsTable().getAll();
+        dbContext.getTVShowsTable().sortByPrimaryKey(currentTVShows);
+        
+        List<TVShowOutput> outputTVShows = new ArrayList<>();
+        TVShowOutput outputTVShow;
+        
+        for (TVShow m : currentTVShows) 
+        {
+            outputTVShow = TVShowDataConverter.convertToOutputDataFrom(m);
+            outputTVShows.add(outputTVShow);
+        }
+        
+        fileManagerAccessor.getTVShowsFileManager().saveOutputDataIntoFiles(outputTVShows);
+    }
+    
+    private void updateTVShowsOutputFilesWithNewChanges() throws IOException 
+    {
+        List<TVShow> currentTVShows = dbContext.getTVShowsTable().getAll();
+        dbContext.getTVShowsTable().sortByPrimaryKey(currentTVShows);
+        
+        List<TVShowOutput> outputTVShows = new ArrayList<>();
+        TVShowOutput outputTVShow;
+
+        for (TVShow m : currentTVShows) 
+        {
+            outputTVShow = TVShowDataConverter.convertToOutputDataFrom(m);
+            outputTVShows.add(outputTVShow);
+        }
+
+        try 
+        {
+            fileManagerAccessor.getTVShowsFileManager().saveOutputDataIntoFiles(outputTVShows);
+        } 
+        catch (IOException e)
+        {
+            fileManagerAccessor.getTVShowsFileManager().transferBetweenOutputDataAndCopyFiles(true);
+            
+            outputTVShows = fileManagerAccessor.getTVShowsFileManager().loadOutputDataFrom(true);
+                       
+            TVShow convertedOutputTVShow;
+            
+            dbContext.getTVShowsTable().clearData();
+            
+            for (TVShowOutput m : outputTVShows) 
+            {
+                convertedOutputTVShow = TVShowDataConverter.convertToDataFrom(m);
+                dbContext.getTVShowsTable().loadFrom(convertedOutputTVShow);
+            }            
+        } 
+        finally 
+        {
+            fileManagerAccessor.getTVShowsFileManager().tryDeleteDataOutputFilesCopies();
+        }
+    }
+    
+    private void updateTVSeasonsOutputFilesWithExistingData() throws IOException 
+    {
+        List<TVSeason> currentTVSeasons = dbContext.getTVSeasonsTable().getAll();
+        dbContext.getTVSeasonsTable().sortByPrimaryKey(currentTVSeasons);
+        
+        List<TVSeasonOutput> outputTVSeasons = new ArrayList<>();
+        TVSeasonOutput outputTVSeason;
+        
+        for (TVSeason m : currentTVSeasons) 
+        {
+            outputTVSeason = TVSeasonDataConverter.convertToOutputDataFrom(m);
+            outputTVSeasons.add(outputTVSeason);
+        }
+        
+        fileManagerAccessor.getTVSeasonsFileManager().saveOutputDataIntoFiles(outputTVSeasons);
+    }
+    
+    private void updateTVSeasonsOutputFilesWithNewChanges() throws IOException 
+    {
+        List<TVSeason> currentTVSeasons = dbContext.getTVSeasonsTable().getAll();
+        dbContext.getTVSeasonsTable().sortByPrimaryKey(currentTVSeasons);
+        
+        List<TVSeasonOutput> outputTVSeasons = new ArrayList<>();
+        TVSeasonOutput outputTVSeason;
+
+        for (TVSeason m : currentTVSeasons) 
+        {
+            outputTVSeason = TVSeasonDataConverter.convertToOutputDataFrom(m);
+            outputTVSeasons.add(outputTVSeason);
+        }
+
+        try 
+        {
+            fileManagerAccessor.getTVSeasonsFileManager().saveOutputDataIntoFiles(outputTVSeasons);
+        } 
+        catch (IOException e)
+        {
+            fileManagerAccessor.getTVSeasonsFileManager().transferBetweenOutputDataAndCopyFiles(true);
+            
+            outputTVSeasons = fileManagerAccessor.getTVSeasonsFileManager().loadOutputDataFrom(true);
+                       
+            TVSeason convertedOutputTVSeason;
+            
+            dbContext.getTVSeasonsTable().clearData();
+            
+            for (TVSeasonOutput m : outputTVSeasons) 
+            {
+                convertedOutputTVSeason = TVSeasonDataConverter.convertToDataFrom(m);
+                dbContext.getTVSeasonsTable().loadFrom(convertedOutputTVSeason);
+            }            
+        } 
+        finally 
+        {
+            fileManagerAccessor.getTVSeasonsFileManager().tryDeleteDataOutputFilesCopies();
+        }
+    }
+    
+    private void updateTVEpisodesOutputFilesWithExistingData() throws IOException 
+    {
+        List<TVEpisode> currentTVEpisodes = dbContext.getTVEpisodesTable().getAll();
+        dbContext.getTVEpisodesTable().sortByPrimaryKey(currentTVEpisodes);
+        
+        List<TVEpisodeOutput> outputTVEpisodes = new ArrayList<>();
+        TVEpisodeOutput outputTVEpisode;
+        
+        for (TVEpisode m : currentTVEpisodes) 
+        {
+            outputTVEpisode = TVEpisodeDataConverter.convertToOutputDataFrom(m);
+            outputTVEpisodes.add(outputTVEpisode);
+        }
+        
+        fileManagerAccessor.getTVEpisodesFileManager().saveOutputDataIntoFiles(outputTVEpisodes);
+    }
+    
+    private void updateTVEpisodesOutputFilesWithNewChanges() throws IOException 
+    {
+        List<TVEpisode> currentTVEpisodes = dbContext.getTVEpisodesTable().getAll();
+        dbContext.getTVEpisodesTable().sortByPrimaryKey(currentTVEpisodes);
+        
+        List<TVEpisodeOutput> outputTVEpisodes = new ArrayList<>();
+        TVEpisodeOutput outputTVEpisode;
+
+        for (TVEpisode m : currentTVEpisodes) 
+        {
+            outputTVEpisode = TVEpisodeDataConverter.convertToOutputDataFrom(m);
+            outputTVEpisodes.add(outputTVEpisode);
+        }
+
+        try 
+        {
+            fileManagerAccessor.getTVEpisodesFileManager().saveOutputDataIntoFiles(outputTVEpisodes);
+        } 
+        catch (IOException e)
+        {
+            fileManagerAccessor.getTVEpisodesFileManager().transferBetweenOutputDataAndCopyFiles(true);
+            
+            outputTVEpisodes = fileManagerAccessor.getTVEpisodesFileManager().loadOutputDataFrom(true);
+                       
+            TVEpisode convertedOutputTVEpisode;
+            
+            dbContext.getTVEpisodesTable().clearData();
+            
+            for (TVEpisodeOutput m : outputTVEpisodes) 
+            {
+                convertedOutputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(m);
+                dbContext.getTVEpisodesTable().loadFrom(convertedOutputTVEpisode);
+            }            
+        } 
+        finally 
+        {
+            fileManagerAccessor.getTVEpisodesFileManager().tryDeleteDataOutputFilesCopies();
+        }
     }
     
     private static LocalDate getCurrentDate() 

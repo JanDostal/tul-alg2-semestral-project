@@ -7,6 +7,9 @@ import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
+import app.models.data.TVEpisode;
+import app.models.data.TVSeason;
+import app.models.data.TVShow;
 import app.models.input.MovieInput;
 import app.models.output.MovieOutput;
 import app.models.output.TVEpisodeOutput;
@@ -30,6 +33,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.mail.EmailException;
 import utils.emailsender.EmailSender;
 import utils.helpers.MovieDataConverter;
+import utils.helpers.TVEpisodeDataConverter;
+import utils.helpers.TVSeasonDataConverter;
+import utils.helpers.TVShowDataConverter;
 
 /**
  *
@@ -522,8 +528,34 @@ public class MoviesController
         List<TVEpisodeOutput> outputTVEpisodes = fileManagerAccessor.getTVEpisodesFileManager().
                 loadOutputDataFrom(fromBinary);
         
+        Movie convertedOutputMovie;
+        TVShow convertedOutputTVShow;
+        TVSeason convertedOutputTVSeason;
+        TVEpisode convertedOutputTVEpisode;
+                    
+        for (MovieOutput m : outputMovies) 
+        {
+            convertedOutputMovie = MovieDataConverter.convertToDataFrom(m);
+            dbContext.getMoviesTable().loadFrom(convertedOutputMovie);
+        }
         
+        for (TVShowOutput m : outputTVShows) 
+        {
+            convertedOutputTVShow = TVShowDataConverter.convertToDataFrom(m);
+            dbContext.getTVShowsTable().loadFrom(convertedOutputTVShow);
+        }
         
+        for (TVSeasonOutput m : outputTVSeasons) 
+        {
+            convertedOutputTVSeason = TVSeasonDataConverter.convertToDataFrom(m);
+            dbContext.getTVSeasonsTable().loadFrom(convertedOutputTVSeason);
+        }
+        
+        for (TVEpisodeOutput m : outputTVEpisodes) 
+        {
+            convertedOutputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(m);
+            dbContext.getTVEpisodesTable().loadFrom(convertedOutputTVEpisode);
+        }
     }
     
     public int addMoviesFrom(boolean fromBinary) throws IOException, FileNotFoundException 
@@ -531,7 +563,6 @@ public class MoviesController
         updateMoviesOutputFilesWithExistingData();
         
         List<MovieInput> inputMovies = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
-        List<Movie> convertedInputMovies = new ArrayList<>();
         
         if (inputMovies.isEmpty()) 
         {
@@ -544,16 +575,11 @@ public class MoviesController
             for (MovieInput inputMovie : inputMovies) 
             {
                 convertedInputMovie = MovieDataConverter.convertToDataFrom(inputMovie);
-                convertedInputMovies.add(convertedInputMovie);
+                dbContext.getMoviesTable().addFrom(convertedInputMovie);
             }
 
             fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
-                    
-            for (Movie movieForAddition : convertedInputMovies) 
-            {
-                dbContext.getMoviesTable().addFrom(movieForAddition);
-            }
-            
+                  
             updateMoviesOutputFilesWithNewChanges();
         }
         
@@ -573,9 +599,9 @@ public class MoviesController
     }
     
     public void deleteMovies(List<Movie> chosenMovies) throws IOException
-    {
+    {       
         updateMoviesOutputFilesWithExistingData();
-
+        
         fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
         
         for (Movie m : chosenMovies) 
@@ -605,7 +631,7 @@ public class MoviesController
 
         updateMoviesOutputFilesWithNewChanges();
 
-        return wasDataChanged;        
+        return wasDataChanged;
     }
         
     private void updateMoviesOutputFilesWithExistingData() throws IOException 
@@ -650,21 +676,14 @@ public class MoviesController
             outputMovies = fileManagerAccessor.getMoviesFileManager().loadOutputDataFrom(true);
                        
             Movie convertedOutputMovie;
-            List<Movie> convertedOutputMovies = new ArrayList<>();
+            
+            dbContext.getMoviesTable().clearData();
             
             for (MovieOutput m : outputMovies) 
             {
                 convertedOutputMovie = MovieDataConverter.convertToDataFrom(m);
-                convertedOutputMovies.add(convertedOutputMovie);
-            }
-            
-            dbContext.getMoviesTable().clearData();
-            
-            for (Movie m : convertedOutputMovies) 
-            {
-                dbContext.getMoviesTable().addFrom(m);
-            }
-            
+                dbContext.getMoviesTable().loadFrom(convertedOutputMovie);
+            }            
         } 
         finally 
         {
