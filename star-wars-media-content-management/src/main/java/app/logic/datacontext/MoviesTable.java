@@ -42,7 +42,7 @@ public class MoviesTable implements IDataTable<Movie>
         return moviesTable;
     }
         
-    public @Override Movie addFrom(Movie inputData) 
+    public @Override void addFrom(Movie inputData) 
     {
         //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
                 
@@ -66,8 +66,6 @@ public class MoviesTable implements IDataTable<Movie>
                     inputData.getEra());
         
         moviesData.add(newData);
-        
-        return newData;
     }
 
     public @Override void loadFrom(Movie outputData) 

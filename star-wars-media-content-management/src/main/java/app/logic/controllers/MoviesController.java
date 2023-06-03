@@ -9,6 +9,9 @@ import app.models.data.Movie;
 import app.models.data.PrimaryKey;
 import app.models.input.MovieInput;
 import app.models.output.MovieOutput;
+import app.models.output.TVEpisodeOutput;
+import app.models.output.TVSeasonOutput;
+import app.models.output.TVShowOutput;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.Collator;
@@ -469,6 +472,57 @@ public class MoviesController
         });
         
         return foundMovies;
+    }
+    
+    public StringBuilder getMoviesChosenFileContent(String fileName) throws IOException 
+    {
+        StringBuilder content = new StringBuilder();
+        
+        if (fileName.equals(DataStore.getBinaryInputMoviesFilename())) 
+        {
+            content = fileManagerAccessor.getMoviesFileManager().getBinaryInputFileContent();
+        }
+        else if (fileName.equals(DataStore.getBinaryOutputMoviesFilename())) 
+        {
+            content = fileManagerAccessor.getMoviesFileManager().getBinaryOutputFileContent();
+        }
+        else if (fileName.equals(DataStore.getTextInputMoviesFilename())) 
+        {
+            content = fileManagerAccessor.getMoviesFileManager().getTextInputFileContent();
+        }
+        else if (fileName.equals(DataStore.getTextOutputMoviesFilename())) 
+        {
+            content = fileManagerAccessor.getMoviesFileManager().getTextOutputFileContent();
+        }
+        
+        return content;
+    }
+    
+    public Movie getMovieDetail(PrimaryKey chosenMoviePrimaryKey) 
+    {
+        Movie foundMovie = dbContext.getMoviesTable().getBy(chosenMoviePrimaryKey);
+        
+        return foundMovie;
+    }
+    
+    public void loadAllOutputDataFrom(boolean fromBinary) throws IOException 
+    {
+        fileManagerAccessor.getMoviesFileManager().tryCreateDataOutputFiles();
+        fileManagerAccessor.getTVShowsFileManager().tryCreateDataOutputFiles();
+        fileManagerAccessor.getTVSeasonsFileManager().tryCreateDataOutputFiles();
+        fileManagerAccessor.getTVEpisodesFileManager().tryCreateDataOutputFiles();
+        
+        //vyhazovani vyjimky v kazde z nasledujicich metod
+        List<MovieOutput> outputMovies = fileManagerAccessor.getMoviesFileManager().
+                loadOutputDataFrom(fromBinary);
+        List<TVShowOutput> outputTVShows = fileManagerAccessor.getTVShowsFileManager().
+                loadOutputDataFrom(fromBinary);
+        List<TVSeasonOutput> outputTVSeasons = fileManagerAccessor.getTVSeasonsFileManager().
+                loadOutputDataFrom(fromBinary);
+        List<TVEpisodeOutput> outputTVEpisodes = fileManagerAccessor.getTVEpisodesFileManager().
+                loadOutputDataFrom(fromBinary);
+        
+        
     }
     
     public int addMoviesFrom(boolean fromBinary) throws IOException, FileNotFoundException 

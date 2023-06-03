@@ -13,7 +13,7 @@ import java.util.function.Predicate;
  */
 public interface IDataTable<T extends DatabaseRecord>
 {
-    T addFrom(T inputData);
+    void addFrom(T inputData);
     void loadFrom(T outputData);
     void deleteBy(PrimaryKey primaryKey);
     boolean editBy(PrimaryKey primaryKey, T editedExistingData);

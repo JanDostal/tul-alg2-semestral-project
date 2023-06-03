@@ -9,6 +9,7 @@ import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
+import java.io.IOException;
 import java.text.Collator;
 import java.text.Normalizer;
 import java.time.Duration;
@@ -453,28 +454,6 @@ public class TVEpisodesController
         return filteredTVShows.size();
     }
     
-    public List<TVShow> searchForTVShow(String name) 
-    {
-        String normalizedName = Normalizer.normalize(name, Normalizer.Form.NFD)
-                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
-                    .toLowerCase();
-        
-        String regex = normalizedName;
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher("");
-        
-        List<TVShow> foundShows = dbContext.getTVShowsTable().filterBy(show -> 
-        {
-            String normalizedShowName = Normalizer.normalize(show.getName(), Normalizer.Form.NFD)
-                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
-                    .toLowerCase();
-            matcher.reset(normalizedShowName);
-            return matcher.find();
-        });
-        
-        return foundShows;
-    }
-    
     public List<TVEpisode> getFavoriteEpisodesFromEntireTVShow(PrimaryKey tvShowPrimaryKey) 
     {
         List<TVEpisode> filteredEpisodes = new ArrayList<>();
@@ -537,6 +516,121 @@ public class TVEpisodesController
                 newData);
                 
         return wasDataChanged;
+    }
+    
+    public List<TVShow> searchForTVShow(String name) 
+    {
+        String normalizedName = Normalizer.normalize(name, Normalizer.Form.NFD)
+                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                    .toLowerCase();
+        
+        String regex = normalizedName;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher("");
+        
+        List<TVShow> foundShows = dbContext.getTVShowsTable().filterBy(show -> 
+        {
+            String normalizedShowName = Normalizer.normalize(show.getName(), Normalizer.Form.NFD)
+                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                    .toLowerCase();
+            matcher.reset(normalizedShowName);
+            return matcher.find();
+        });
+        
+        return foundShows;
+    }
+    
+    public StringBuilder getTVShowsChosenFileContent(String fileName) throws IOException 
+    {
+        StringBuilder content = new StringBuilder();
+        
+        if (fileName.equals(DataStore.getBinaryInputTVShowsFilename())) 
+        {
+            content = fileManagerAccessor.getTVShowsFileManager().getBinaryInputFileContent();
+        }
+        else if (fileName.equals(DataStore.getBinaryOutputTVShowsFilename())) 
+        {
+            content = fileManagerAccessor.getTVShowsFileManager().getBinaryOutputFileContent();
+        }
+        else if (fileName.equals(DataStore.getTextInputTVShowsFilename())) 
+        {
+            content = fileManagerAccessor.getTVShowsFileManager().getTextInputFileContent();
+        }
+        else if (fileName.equals(DataStore.getTextOutputTVShowsFilename())) 
+        {
+            content = fileManagerAccessor.getTVShowsFileManager().getTextOutputFileContent();
+        }
+        
+        return content;
+    }
+    
+    public StringBuilder getTVSeasonsChosenFileContent(String fileName) throws IOException 
+    {
+        StringBuilder content = new StringBuilder();
+        
+        if (fileName.equals(DataStore.getBinaryInputTVSeasonsFilename())) 
+        {
+            content = fileManagerAccessor.getTVSeasonsFileManager().getBinaryInputFileContent();
+        }
+        else if (fileName.equals(DataStore.getBinaryOutputTVSeasonsFilename())) 
+        {
+            content = fileManagerAccessor.getTVSeasonsFileManager().getBinaryOutputFileContent();
+        }
+        else if (fileName.equals(DataStore.getTextInputTVSeasonsFilename())) 
+        {
+            content = fileManagerAccessor.getTVSeasonsFileManager().getTextInputFileContent();
+        }
+        else if (fileName.equals(DataStore.getTextOutputTVSeasonsFilename())) 
+        {
+            content = fileManagerAccessor.getTVSeasonsFileManager().getTextOutputFileContent();
+        }
+        
+        return content;
+    }
+    
+    public StringBuilder getTVEpisodesChosenFileContent(String fileName) throws IOException 
+    {
+        StringBuilder content = new StringBuilder();
+        
+        if (fileName.equals(DataStore.getBinaryInputTVEpisodesFilename())) 
+        {
+            content = fileManagerAccessor.getTVEpisodesFileManager().getBinaryInputFileContent();
+        }
+        else if (fileName.equals(DataStore.getBinaryOutputTVEpisodesFilename())) 
+        {
+            content = fileManagerAccessor.getTVEpisodesFileManager().getBinaryOutputFileContent();
+        }
+        else if (fileName.equals(DataStore.getTextInputTVEpisodesFilename())) 
+        {
+            content = fileManagerAccessor.getTVEpisodesFileManager().getTextInputFileContent();
+        }
+        else if (fileName.equals(DataStore.getTextOutputTVEpisodesFilename())) 
+        {
+            content = fileManagerAccessor.getTVEpisodesFileManager().getTextOutputFileContent();
+        }
+        
+        return content;
+    }
+    
+    public TVShow getTVShowDetail(PrimaryKey chosenTVShowPrimaryKey) 
+    {
+        TVShow foundTVShow = dbContext.getTVShowsTable().getBy(chosenTVShowPrimaryKey);
+        
+        return foundTVShow;
+    }
+    
+    public TVSeason getTVSeasonDetail(PrimaryKey chosenTVSeasonPrimaryKey) 
+    {
+        TVSeason foundTVSeason = dbContext.getTVSeasonsTable().getBy(chosenTVSeasonPrimaryKey);
+        
+        return foundTVSeason;
+    }
+    
+    public TVEpisode getTVEpisodeDetail(PrimaryKey chosenTVEpisodePrimaryKey) 
+    {
+        TVEpisode foundTVEpisode = dbContext.getTVEpisodesTable().getBy(chosenTVEpisodePrimaryKey);
+        
+        return foundTVEpisode;
     }
     
     private static LocalDate getCurrentDate() 
