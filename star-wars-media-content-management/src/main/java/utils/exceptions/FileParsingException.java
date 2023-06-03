@@ -8,6 +8,10 @@ package utils.exceptions;
  *
  * @author Admin
  */
-public class FileParsingException {
-    
+public class FileParsingException extends Exception
+{
+    public FileParsingException(String message) 
+    {
+        super(message);
+    }
 }

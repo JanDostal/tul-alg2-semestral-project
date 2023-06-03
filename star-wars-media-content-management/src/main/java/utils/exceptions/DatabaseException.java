@@ -8,6 +8,10 @@ package utils.exceptions;
  *
  * @author Admin
  */
-public class DatabaseException {
-    
+public class DatabaseException extends Exception
+{
+    public DatabaseException(String message) 
+    {
+        super(message);
+    }
 }

@@ -8,6 +8,10 @@ package utils.exceptions;
  *
  * @author Admin
  */
-public class DataConversionException {
-    
+public class DataConversionException extends Exception
+{
+    public DataConversionException(String message) 
+    {
+        super(message);
+    }
 }
