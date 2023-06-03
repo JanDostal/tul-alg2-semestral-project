@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 /**
  * meziclanek mezi databazi a soubory
@@ -52,7 +53,7 @@ public final class MovieDataConverter
         else 
         {
             LocalDateTime releaseDataDateTime = data.getReleaseDate().atStartOfDay();
-            epochSeconds = releaseDataDateTime.atZone(ZoneId.systemDefault()).toEpochSecond();
+            epochSeconds = releaseDataDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
         }
         
         String era = data.getEra().toString();
@@ -124,14 +125,14 @@ public final class MovieDataConverter
         //exception
         LocalDate releaseDate;
         
-        if (inputData.getReleaseDateInEpochSeconds() <= 0) 
+        if (inputData.getReleaseDateInEpochSeconds() < 0) 
         {
             releaseDate = null;
         }
         else 
         {
             releaseDate = Instant.ofEpochSecond(inputData.getReleaseDateInEpochSeconds()).
-                atZone(ZoneId.systemDefault()).toLocalDate();
+                atZone(ZoneOffset.UTC).toLocalDate();
         }
         
         //exception
@@ -231,14 +232,14 @@ public final class MovieDataConverter
         //exception
         LocalDate releaseDate;
         
-        if (outputData.getReleaseDateInEpochSeconds() <= 0) 
+        if (outputData.getReleaseDateInEpochSeconds() < 0) 
         {
             releaseDate = null;
         }
         else 
         {
             releaseDate = Instant.ofEpochSecond(outputData.getReleaseDateInEpochSeconds()).
-                atZone(ZoneId.systemDefault()).toLocalDate();
+                atZone(ZoneOffset.UTC).toLocalDate();
         }
         
         StringBuilder stringEra = new StringBuilder();

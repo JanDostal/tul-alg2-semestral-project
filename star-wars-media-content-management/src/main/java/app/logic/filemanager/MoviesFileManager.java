@@ -929,9 +929,12 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                     append(" ").append(movieOutputFieldsIds.get("era")).
                     append("\n").append("\n");
         }
-
-        String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
-        outputTextData.append(endMarking).append("\n");
+        
+        if (newOutputMovies.isEmpty() == false) 
+        {
+            String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
+            outputTextData.append(endMarking).append("\n");
+        }
         
         return outputTextData;
     }

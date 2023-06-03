@@ -747,9 +747,12 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     append(" ").append(tvSeasonOutputFieldsIds.get("tvShowId")).
                     append("\n").append("\n");
         }
-
-        String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
-        outputTextData.append(endMarking).append("\n");
+        
+        if (newOutputTVSeasons.isEmpty() == false) 
+        {
+            String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
+            outputTextData.append(endMarking).append("\n");
+        }
         
         return outputTextData;
     }

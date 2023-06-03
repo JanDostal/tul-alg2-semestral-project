@@ -321,5 +321,36 @@ public class MoviesControllerTest
         {
             System.out.println("chyba");
         }
+        
+        //editMovieBy
+        System.out.println();
+        System.out.println("editMovieBy method:");
+        System.out.println();
+        
+        try 
+        {
+            Movie movieForEdit = new Movie(new PrimaryKey(2312123), null, "movieOla", 
+                2, false, null, null, 
+                null, Era.THE_OLD_REPUBLIC);
+            
+            System.out.println(movieForEdit);
+        
+            moviesTable.loadFrom(movieForEdit);
+            
+            boolean wasDataChangedForEdit = controller.editMovieBy(movieForEdit.getPrimaryKey(), false);
+            
+            List<Movie> moviesList = moviesTable.getAll();
+            
+            System.out.println(wasDataChangedForEdit);
+            
+            for (Movie m : moviesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (IOException e) 
+        {
+            System.out.println("chyba");
+        }
     }
 }

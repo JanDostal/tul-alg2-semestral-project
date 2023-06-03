@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import utils.helpers.MovieDataConverter;
 
@@ -36,8 +37,8 @@ public class DataConvertersTest
         
         LocalDate localDate = LocalDate.of(2012, 5, 12); 
         LocalDateTime localDateTime = localDate.atStartOfDay();
-        long epochSeconds = localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond();
-        LocalDate date = Instant.ofEpochSecond(1336774800).atZone(ZoneId.systemDefault()).toLocalDate();
+        long epochSeconds = localDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+        LocalDate date = Instant.ofEpochSecond(1336780800).atZone(ZoneOffset.UTC).toLocalDate();
         
         Movie movie = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "filmA", 
                 50, true, "https://www.example01.com", "Velmi krásný film", 

@@ -810,8 +810,11 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     append("\n").append("\n");
         }
 
-        String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
-        outputTextData.append(endMarking).append("\n");
+        if (newOutputTVShows.isEmpty() == false) 
+        {
+            String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
+            outputTextData.append(endMarking).append("\n");
+        }
         
         return outputTextData;
     }

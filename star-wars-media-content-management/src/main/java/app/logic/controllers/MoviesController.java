@@ -530,6 +530,28 @@ public class MoviesController
 
         updateMoviesOutputFilesWithNewChanges();
     }
+    
+    public boolean editMovieBy(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) throws IOException 
+    {
+        updateMoviesOutputFilesWithExistingData();
+        
+        List<MovieInput> editedMovie = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
+                
+        if (editedMovie.isEmpty()) 
+        {
+            //exception
+        }
+        
+        Movie convertedInputMovie = MovieDataConverter.convertToDataFrom(editedMovie.get(0));
+
+        fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+
+        boolean wasDataChanged = dbContext.getMoviesTable().editBy(existingMoviePrimaryKey, convertedInputMovie);
+
+        updateMoviesOutputFilesWithNewChanges();
+
+        return wasDataChanged;        
+    }
         
     private void updateMoviesOutputFilesWithExistingData() throws IOException 
     {
