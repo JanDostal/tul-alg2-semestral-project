@@ -22,6 +22,7 @@ import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import utils.emailsender.EmailSender;
+import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
@@ -71,8 +72,8 @@ public class EmailSenderTest
                     60, true, "https://www.novinky.cz/?amp=1", "A",
                     LocalDate.parse("2023-05-18", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
 
-            Movie movieB = new Movie(new PrimaryKey(4), Duration.ofMinutes(200), "Poslední z Jediů",
-                    40, false, "https://www.seznamzpravy.cz/?amp=1", "B",
+            Movie movieB = new Movie(new PrimaryKey(4), null, "Poslední z Jediů",
+                    40, false, null, "B",
                     LocalDate.parse("2023-05-15", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
 
             Movie movieC = new Movie(new PrimaryKey(5), Duration.ofMinutes(200), "Klony Útočí",
@@ -85,8 +86,8 @@ public class EmailSenderTest
             TVSeason season1 = new TVSeason(new PrimaryKey(1), 2, show.getPrimaryKey());
             TVSeason season2 = new TVSeason(new PrimaryKey(2), 1, show.getPrimaryKey());
 
-            TVEpisode episodeB = new TVEpisode(new PrimaryKey(3), Duration.ofMinutes(50), "episodeB",
-                    60, false, "https://www.example02.com", "Velmi špatná epizoda", 2, season1.getPrimaryKey());
+            TVEpisode episodeB = new TVEpisode(new PrimaryKey(3), null, null,
+                    60, false, null, "Velmi špatná epizoda", 2, season1.getPrimaryKey());
 
             TVEpisode episodeC = new TVEpisode(new PrimaryKey(4), Duration.ofMinutes(50), "episodeA",
                     60, false, "https://www.example03.com", "Velmi špatná epizoda navždy", 1, season1.getPrimaryKey());
@@ -139,6 +140,10 @@ public class EmailSenderTest
         catch (NullPointerException ex) 
         {
             System.out.println("Zadana emailova adresa ma hodnotu null");
+        }
+        catch (DatabaseException e) 
+        {
+            System.out.println(e.getMessage());
         }
     }
 }

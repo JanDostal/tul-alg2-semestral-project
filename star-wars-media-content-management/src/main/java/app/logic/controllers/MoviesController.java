@@ -145,13 +145,16 @@ public class MoviesController
         
         dbContext.getMoviesTable().sortBy(BY_DATE_OLDEST_MOVIE, filteredMovies);
         
-        String subject = String.format("%s - Neshlédnuté filmy - Podle datumu uvedení", DataStore.getAppName());
-        
-        StringBuilder message = new StringBuilder();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
+        String subject = String.format("%s - Nezhlédnuté filmy - Podle datumu uvedení", DataStore.getAppName());
+        
+        StringBuilder message = new StringBuilder();
+        String durationText;
+        String hyperlinkText;
+        
         message.append("<html>");
-        message.append("<h1>Neshlédnuté filmy od nejstaršího datumu uvedení</h1>");
+        message.append("<h1>Nezhlédnuté filmy od nejstaršího datumu uvedení</h1>");
         
         if(filteredMovies.isEmpty()) 
         {
@@ -165,13 +168,16 @@ public class MoviesController
 
             for (Movie m : filteredMovies) 
             {
-                String durationText = m.getRuntime() == null ? null : String.format("%dh %dm %ds",
-                        m.getRuntime().toHours(), m.getRuntime().toMinutesPart(),
+                durationText = m.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
+                        String.format("%dh %dm %ds", m.getRuntime().toHours(), m.getRuntime().toMinutesPart(),
                         m.getRuntime().toSecondsPart());
+                
+                hyperlinkText = m.getHyperlinkForContentWatch() == null ? "<span style=\"color:red\">Neuveden</span>" : 
+                                String.format("<a href=\"%s\">Zhlédnout</a>", m.getHyperlinkForContentWatch());
 
                 message.append("<li>");
                 message.append("<h2>");
-                message.append(m.getName());
+                message.append(String.format("Film %s", m.getName()));
                 message.append("</h2>");
                 message.append("<p>");
                 message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(formatter)));
@@ -179,9 +185,9 @@ public class MoviesController
                 message.append("<p>");
                 message.append(String.format("Délka filmu: %s", durationText));
                 message.append("</p>");
-                message.append(String.format("<a href=\"%s\">", m.getHyperlinkForContentWatch()));
-                message.append("Shlédnout");
-                message.append("</a>");
+                message.append("<p>");
+                message.append(String.format("Odkaz ke zhlédnutí: %s", hyperlinkText));
+                message.append("</p>");
                 message.append("</li>");
             }
 
@@ -200,13 +206,17 @@ public class MoviesController
         LocalDate currentDate = getCurrentDate();
         List<Movie> filteredMovies;
         
-        String subject = String.format("%s - Neshlédnuté filmy - Podle chronologických období", 
-                DataStore.getAppName());
-        StringBuilder message = new StringBuilder();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
+        String subject = String.format("%s - Nezhlédnuté filmy - Podle chronologických období", 
+                DataStore.getAppName());
+        
+        StringBuilder message = new StringBuilder();
+        String durationText;
+        String hyperlinkText;
+        
         message.append("<html>");
-        message.append("<h1>Neshlédnuté filmy od nejstaršího chronologického období</h1>");
+        message.append("<h1>Nezhlédnuté filmy od nejstaršího chronologického období</h1>");
         
         for (Era era : Era.values()) 
         {
@@ -217,7 +227,7 @@ public class MoviesController
             dbContext.getMoviesTable().sortBy(BY_NAME_ALPHABETICALLY_MOVIE, filteredMovies);
             
             message.append("<h2>");
-            message.append(String.format("%s", era.getDisplayName()));
+            message.append(String.format("Období %s", era.getDisplayName()));
             message.append("</h2>");
             
             if (filteredMovies.isEmpty()) 
@@ -232,13 +242,16 @@ public class MoviesController
             
                 for (Movie m : filteredMovies) 
                 {
-                    String durationText = m.getRuntime() == null ? null : String.format("%dh %dm %ds", 
-                            m.getRuntime().toHoursPart(), m.getRuntime().toMinutesPart(), 
+                    durationText = m.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
+                            String.format("%dh %dm %ds", m.getRuntime().toHoursPart(), m.getRuntime().toMinutesPart(), 
                             m.getRuntime().toSecondsPart());
+                    
+                    hyperlinkText = m.getHyperlinkForContentWatch() == null ? "<span style=\"color:red\">Neuveden</span>" : 
+                                String.format("<a href=\"%s\">Zhlédnout</a>", m.getHyperlinkForContentWatch());
             
                     message.append("<li>");
                     message.append("<h3>");
-                    message.append(m.getName());
+                    message.append(String.format("Film %s", m.getName()));
                     message.append("</h3>");
                     message.append("<p>");
                     message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(formatter)));
@@ -246,9 +259,9 @@ public class MoviesController
                     message.append("<p>");
                     message.append(String.format("Délka filmu: %s", durationText));
                     message.append("</p>");
-                    message.append(String.format("<a href=\"%s\">", m.getHyperlinkForContentWatch()));
-                    message.append("Shlédnout");
-                    message.append("</a>");
+                    message.append("<p>");
+                    message.append(String.format("Odkaz ke zhlédnutí: %s", hyperlinkText));
+                    message.append("</p>");
                     message.append("</li>");
                 }
             

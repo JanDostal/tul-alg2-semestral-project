@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
@@ -47,15 +48,28 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
     }    
 
 
-    public @Override void addFrom(TVSeason inputData) 
+    public @Override void addFrom(TVSeason inputData) throws DatabaseException
     {
-        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+        if (inputData == null) 
+        {
+            throw new DatabaseException("Data přidané sezóny seriálu jsou prázdná");
+        }
+           
+        if (inputData.getOrderInTVShow() <= 0) 
+        {
+            throw new DatabaseException("Pořadí přidané sezóny seriálu musí být větší než nula");
+        }
+        
+        if (inputData.getTVShowForeignKey().getId() <= 0) 
+        {
+            throw new DatabaseException("Identifikátor seriálu pro přidanou sezónu musí být větší než nula");
+        }
         
         TVShow existingTVShow = tvShowsTable.getBy(inputData.getTVShowForeignKey());
             
         if (existingTVShow == null) 
         {
-            //exception
+            throw new DatabaseException("Identifikátor seriálu pro přidanou sezónu neodkazuje na žádný seriál");
         }
                 
         PrimaryKey newPrimaryKey = generatePrimaryKey();
@@ -64,7 +78,7 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
         
         if (tvSeasonWithDuplicateData.isEmpty() == false) 
         {
-            //exception
+            throw new DatabaseException("Data přidané sezóny seriálu jsou duplicitní");
         }
         
         TVSeason newData = new TVSeason(newPrimaryKey, inputData.getOrderInTVShow(), 
@@ -72,76 +86,91 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
         tvSeasonsData.add(newData);        
     }
 
-    public @Override void loadFrom(TVSeason outputData) 
+    public @Override void loadFrom(TVSeason outputData) throws DatabaseException
     {
-        //porovnavani spravnosti vystupnich dat (pozdeji exceptions)
+        if (outputData == null) 
+        {
+            throw new DatabaseException("Existující data sezóny seriálu jsou prázdná");
+        }
+        
+        if (outputData.getPrimaryKey().getId() <= 0) 
+        {
+            throw new DatabaseException("Identifikátor existující sezóny seriálu musí být větší než nula");
+        }
+        
+        if (outputData.getOrderInTVShow() <= 0) 
+        {
+            throw new DatabaseException("Pořadí existující sezóny seriálu musí být větší než nula");
+        }
+        
+        if (outputData.getTVShowForeignKey().getId() <= 0) 
+        {
+            throw new DatabaseException("Identifikátor seriálu pro existující sezónu musí být větší než nula");
+        }
         
         TVSeason tvSeasonWithDuplicateKey = getBy(outputData.getPrimaryKey());
         
         if (tvSeasonWithDuplicateKey != null) 
         {
-            //exception
+            throw new DatabaseException("Identifikátor existující sezóny seriálu je duplicitní");
         }
         
         TVShow existingTVShow = tvShowsTable.getBy(outputData.getTVShowForeignKey());
             
         if (existingTVShow == null) 
         {
-            //exception
+            throw new DatabaseException("Identifikátor seriálu pro existující sezónu neodkazuje na žádný seriál");
         }
         
         List<TVSeason> tvSeasonWithDuplicateData = filterBy(season -> season.equals(outputData));
         
         if (tvSeasonWithDuplicateData.isEmpty() == false) 
         {
-            //exception
+            throw new DatabaseException("Data existující sezóny seriálu jsou duplicitní");
         }
         
         tvSeasonsData.add(outputData);
     }
 
-    public @Override void deleteBy(PrimaryKey primaryKey) 
+    public @Override void deleteBy(PrimaryKey primaryKey) throws DatabaseException
     {
         TVSeason foundTVSeason = getBy(primaryKey);
         
-        if (foundTVSeason == null) 
+        if (foundTVSeason == null)
         {
-            //exception
+            throw new DatabaseException("Sezóna seriálu vybraná pro smazání nebyla nalezena");
         }
         
         tvSeasonsData.remove(foundTVSeason);
     }
 
-    public @Override boolean editBy(PrimaryKey primaryKey, TVSeason editedExistingData) 
+    public @Override boolean editBy(PrimaryKey primaryKey, TVSeason editedExistingData) throws DatabaseException
     {
         TVSeason foundTVSeason = getBy(primaryKey);
         
         if (foundTVSeason == null) 
         {
-            //exception
+            throw new DatabaseException("Sezóna seriálu vybraná pro editaci nebyla nalezena");
         }
         
-        List<TVSeason> seasonWithDuplicateData = filterBy(season -> 
-                season.getPrimaryKey().equals(foundTVSeason.getPrimaryKey()) == false
-                && season.equals(editedExistingData));
-        
-        if (seasonWithDuplicateData.isEmpty() == false) 
+        if (editedExistingData == null) 
         {
-            //exception
+            throw new DatabaseException("Nová data editované sezóny seriálu jsou prázdná");
         }
         
-        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
-        TVShow existingTVShow = tvShowsTable.getBy(editedExistingData.getTVShowForeignKey());
-            
-        if (existingTVShow == null) 
+        if (editedExistingData.getOrderInTVShow() <= 0) 
         {
-            //exception
+            throw new DatabaseException("Pořadí editované sezóny seriálu musí být větší než nula");
+        }
+        
+        if (editedExistingData.getTVShowForeignKey().getId() <= 0) 
+        {
+            throw new DatabaseException("Identifikátor seriálu pro editovanou sezónu musí být větší než nula");
         }
                 
         boolean wasDataChanged = false;
         
-        if (Objects.equals(foundTVSeason.getTVShowForeignKey(), 
-                editedExistingData.getTVShowForeignKey()) == false || 
+        if (Objects.equals(foundTVSeason.getTVShowForeignKey(), editedExistingData.getTVShowForeignKey()) == false || 
             foundTVSeason.getOrderInTVShow() != editedExistingData.getOrderInTVShow())
         {
             wasDataChanged = true;
@@ -149,6 +178,23 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
         
         if (wasDataChanged == true) 
         {
+            TVShow existingTVShow = tvShowsTable.getBy(editedExistingData.getTVShowForeignKey());
+            
+            if (existingTVShow == null) 
+            {
+                throw new DatabaseException("Upravený identifikátor seriálu pro "
+                        + "editovanou sezónu neodkazuje na žádný seriál");
+            }
+            
+            List<TVSeason> seasonWithDuplicateData = filterBy(season -> 
+                    season.getPrimaryKey().equals(foundTVSeason.getPrimaryKey()) == false 
+                            && season.equals(editedExistingData));
+            
+            if (seasonWithDuplicateData.isEmpty() == false) 
+            {
+                throw new DatabaseException("Upravená data editované sezóny jsou duplicitní");
+            }
+            
             TVSeason newData = new TVSeason(primaryKey, editedExistingData.getOrderInTVShow(), 
                     editedExistingData.getTVShowForeignKey());
             

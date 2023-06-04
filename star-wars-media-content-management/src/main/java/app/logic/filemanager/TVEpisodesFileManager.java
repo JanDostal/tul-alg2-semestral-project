@@ -457,6 +457,18 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         return parsedTVEpisodes;
     }
     
+    public @Override void tryDeleteDataOutputFilesCopies() 
+    {
+        File outputTVEpisodesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getTextOutputTVEpisodesFilename());
+        
+        File outputTVEpisodesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getBinaryOutputTVEpisodesFilename());
+        
+        outputTVEpisodesTextCopy.delete();
+        outputTVEpisodesBinaryCopy.delete();
+    }
+    
     public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
     {
         File outputTVEpisodesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
@@ -519,12 +531,6 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
             outputTVEpisodesTextCopy.delete();
             outputTVEpisodesBinaryCopy.delete();
             throw new IOException();
-        }
-        
-        if (fromCopyFiles == true) 
-        {
-            outputTVEpisodesTextCopy.delete();
-            outputTVEpisodesBinaryCopy.delete();
         }
     }
 

@@ -141,12 +141,12 @@ public class TVShowsTable implements IDataTable<TVShow>
         
         if (editedExistingData.getEra() == null) 
         {
-            throw new DatabaseException("Chronologické období seriálu musí být vybráno");
+            throw new DatabaseException("Chronologické období editovaného seriálu musí být vybráno");
         }
         
         if (editedExistingData.getName() == null) 
         {
-            throw new DatabaseException("Seriál musí mít název");
+            throw new DatabaseException("Editovaný seriál musí mít název");
         }
         
         boolean wasDataChanged = false;

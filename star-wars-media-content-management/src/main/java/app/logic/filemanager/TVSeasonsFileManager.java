@@ -383,6 +383,18 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                                 
         return parsedTVSeasons;
     }
+    
+    public @Override void tryDeleteDataOutputFilesCopies() 
+    {
+        File outputTVSeasonsTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getTextOutputTVSeasonsFilename());
+        
+        File outputTVSeasonsBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getBinaryOutputTVSeasonsFilename());
+        
+        outputTVSeasonsTextCopy.delete();
+        outputTVSeasonsBinaryCopy.delete();
+    }
          
     public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
     {
@@ -446,12 +458,6 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             outputTVSeasonsTextCopy.delete();
             outputTVSeasonsBinaryCopy.delete();
             throw new IOException();
-        }
-        
-        if (fromCopyFiles == true) 
-        {
-            outputTVSeasonsTextCopy.delete();
-            outputTVSeasonsBinaryCopy.delete();
         }
     }
     

@@ -466,6 +466,18 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         return parsedMovies;
     }
     
+    public @Override void tryDeleteDataOutputFilesCopies() 
+    {
+        File outputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getTextOutputMoviesFilename());
+        
+        File outputMoviesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getBinaryOutputMoviesFilename());
+        
+        outputMoviesTextCopy.delete();
+        outputMoviesBinaryCopy.delete();
+    }
+    
     public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
     {
         File outputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
@@ -528,12 +540,6 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             outputMoviesTextCopy.delete();
             outputMoviesBinaryCopy.delete();
             throw new IOException();
-        }
-        
-        if (fromCopyFiles == true) 
-        {
-            outputMoviesTextCopy.delete();
-            outputMoviesBinaryCopy.delete();
         }
     }
         

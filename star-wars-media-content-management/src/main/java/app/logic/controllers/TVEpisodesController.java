@@ -127,17 +127,19 @@ public class TVEpisodesController
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
-        String subject = String.format("%s - Neshlédnuté epizody seriálu %s, nacházejícího se v období %s"
+        String subject = String.format("%s - Nezhlédnuté epizody seriálu %s, nacházejícího se v období %s"
                 + " s datumem vydání %s", 
                 DataStore.getAppName(), queriedTVShow.getName(), queriedTVShow.getEra().getDisplayName(), 
                 queriedTVShow.getReleaseDate().format(formatter));
         
         StringBuilder message = new StringBuilder();
         String durationText;
+        String nameText;
+        String hyperlinkText;
         
         message.append("<html>");
         message.append("<h1>");
-        message.append(String.format("Neshlédnuté epizody seriálu %s", queriedTVShow.getName()));
+        message.append(String.format("Nezhlédnuté epizody seriálu %s", queriedTVShow.getName()));
         message.append("</h1>");
         
         if(showSeasons.isEmpty()) 
@@ -172,23 +174,28 @@ public class TVEpisodesController
 
                     for (TVEpisode e : seasonEpisodes) 
                     {
-                        durationText = e.getRuntime() == null ? null : String.format("%dh %dm %ds",
-                                e.getRuntime().toHoursPart(), e.getRuntime().toMinutesPart(),
+                        durationText = e.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
+                                String.format("%dh %dm %ds", e.getRuntime().toHoursPart(), e.getRuntime().toMinutesPart(),
                                 e.getRuntime().toSecondsPart());
+                        
+                        nameText = e.getName() == null ? "<span style=\"color:red\">Není znám</span>" : e.getName();
+                        
+                        hyperlinkText = e.getHyperlinkForContentWatch() == null ? "<span style=\"color:red\">Neuveden</span>" : 
+                                String.format("<a href=\"%s\">Zhlédnout</a>", e.getHyperlinkForContentWatch());
 
                         message.append("<li>");
                         message.append("<h3>");
                         message.append(String.format("Epizoda %d", e.getOrderInTVShowSeason()));
                         message.append("</h3>");
                         message.append("<p>");
-                        message.append(String.format("Název: %s", e.getName()));
+                        message.append(String.format("Název: %s", nameText));
                         message.append("</p>");
                         message.append("<p>");
                         message.append(String.format("Délka epizody: %s", durationText));
                         message.append("</p>");
-                        message.append(String.format("<a href=\"%s\">", e.getHyperlinkForContentWatch()));
-                        message.append("Shlédnout");
-                        message.append("</a>");
+                        message.append("<p>");
+                        message.append(String.format("Odkaz ke zhlédnutí: %s", hyperlinkText));
+                        message.append("</p>");
                         message.append("</li>");
                     }
 
