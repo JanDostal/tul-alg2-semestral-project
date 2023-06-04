@@ -1,6 +1,8 @@
 
 package utils.emailsender;
 
+import javax.mail.AuthenticationFailedException;
+import javax.mail.SendFailedException;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
@@ -35,9 +37,12 @@ public class EmailSender
         return emailSender;
     }
     
-    public void sendEmail(String recipientEmailAddress, String subject, StringBuilder message) throws EmailException
+    public void sendEmail(String recipientEmailAddress, String subject, StringBuilder message) throws EmailException, 
+            AuthenticationFailedException, SendFailedException, NullPointerException
     {
-        HtmlEmail email = new HtmlEmail();
+        try 
+        {
+            HtmlEmail email = new HtmlEmail();
         email.setHostName(hostName);
         email.setCharset(org.apache.commons.mail.EmailConstants.UTF_8);
         email.setSmtpPort(smtpPort);
@@ -48,5 +53,14 @@ public class EmailSender
         email.addTo(recipientEmailAddress);
         email.setHtmlMsg(message.toString());
         email.send();  
+        }
+        catch (EmailException ex) 
+       {
+            System.out.println("Chyba sítě nebo neexistující zadaná emailová adresa nebo prazdne telo emailu");
+       }
+       catch (NullPointerException ex) 
+       {
+            System.out.println("Zadana emailova adresa je prazdna");
+       }
     }
 }

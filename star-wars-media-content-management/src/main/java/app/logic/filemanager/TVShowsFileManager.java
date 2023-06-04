@@ -415,19 +415,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                                 
         return parsedTVShows;
     }
-    
-    public @Override void tryDeleteDataOutputFilesCopies() 
-    {
-        File outputTVShowsTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getTextOutputTVShowsFilename());
-        
-        File outputTVShowsBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getBinaryOutputTVShowsFilename());
-        
-        outputTVShowsTextCopy.delete();
-        outputTVShowsBinaryCopy.delete();
-    }
-     
+         
     public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
     {
         File outputTVShowsTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
@@ -484,6 +472,18 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             {
                 dataOutputStream.write(byteBuffer, 0, bytesRead);
             }
+        }
+        catch (IOException e) 
+        {
+            outputTVShowsTextCopy.delete();
+            outputTVShowsBinaryCopy.delete();
+            throw new IOException();
+        }
+        
+        if (fromCopyFiles == true) 
+        {
+            outputTVShowsTextCopy.delete();
+            outputTVShowsBinaryCopy.delete();
         }
     }
     

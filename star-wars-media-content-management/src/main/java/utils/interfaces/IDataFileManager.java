@@ -18,7 +18,6 @@ public interface IDataFileManager<T, S>
     StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException, FileEmptyException;
     StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException, FileEmptyException;
     List<S> loadOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException;
-    void tryDeleteDataOutputFilesCopies();
     void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException;
     void saveOutputDataIntoFiles(List<S> newOutputData) throws IOException;
     List<T> loadInputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException;
