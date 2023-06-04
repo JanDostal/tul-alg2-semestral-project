@@ -61,7 +61,6 @@ public final class TVShowDataConverter
             name = inputData.getName();
         }
          
-        //exception
         LocalDate releaseDate;
         
         if (inputData.getReleaseDateInEpochSeconds() < 0) 

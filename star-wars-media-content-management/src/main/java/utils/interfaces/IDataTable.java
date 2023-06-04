@@ -6,6 +6,7 @@ import app.models.data.PrimaryKey;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+import utils.exceptions.DatabaseException;
 
 /**
  *
@@ -13,10 +14,10 @@ import java.util.function.Predicate;
  */
 public interface IDataTable<T extends DatabaseRecord>
 {
-    void addFrom(T inputData);
-    void loadFrom(T outputData);
-    void deleteBy(PrimaryKey primaryKey);
-    boolean editBy(PrimaryKey primaryKey, T editedExistingData);
+    void addFrom(T inputData) throws DatabaseException;
+    void loadFrom(T outputData) throws DatabaseException;
+    void deleteBy(PrimaryKey primaryKey) throws DatabaseException;
+    boolean editBy(PrimaryKey primaryKey, T editedExistingData) throws DatabaseException;
     T getBy(PrimaryKey primaryKey);
     List<T> getAll();
     List<T> filterBy(Predicate<T> condition);

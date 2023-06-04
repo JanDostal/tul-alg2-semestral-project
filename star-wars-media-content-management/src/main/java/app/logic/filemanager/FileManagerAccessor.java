@@ -94,7 +94,7 @@ public class FileManagerAccessor
     {
         if (dataDirectory == null) 
         {
-            throw new IllegalStateException("Cesta k data adresari jeste nebyla nastavena");
+            throw new IllegalArgumentException("Cesta k adresáři data ještě nebyla nastavena");
         }
         
         return dataDirectory.getAbsolutePath();
@@ -109,17 +109,17 @@ public class FileManagerAccessor
            if (dataDirectory.exists() == false || dataDirectory.isDirectory() == false) 
            {
                dataDirectory = null;
-               throw new IllegalArgumentException("Dany adresar neexistuje nebo se jedna o soubor");
+               throw new IllegalArgumentException("Zadaný adresář neexistuje nebo se jedná o soubor");
            }
            else if (dataDirectory.getName().equals(DataStore.getDataDirectoryName()) == false) 
            {
                dataDirectory = null;
-               throw new IllegalArgumentException("Zadaný adresar neni pojmenovany jako data");
+               throw new IllegalArgumentException("Zadaný adresář není pojmenovaný jako data");
            }
         }
         else 
         {
-            throw new IllegalStateException("Cesta k adresari data byla jiz zadana.");
+            throw new IllegalArgumentException("Cesta k adresáři data byla již zadána");
         }
     }
 }

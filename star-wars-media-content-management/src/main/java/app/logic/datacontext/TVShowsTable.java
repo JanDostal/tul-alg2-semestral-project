@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
@@ -42,9 +43,22 @@ public class TVShowsTable implements IDataTable<TVShow>
         return tvShowsTable;
     }
     
-    public @Override void addFrom(TVShow inputData) 
+    public @Override void addFrom(TVShow inputData) throws DatabaseException
     {
-        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+        if (inputData == null) 
+        {
+            throw new DatabaseException("Data přidaného seriálu jsou prázdná");
+        }
+        
+        if (inputData.getEra() == null) 
+        {
+            throw new DatabaseException("Chronologické období přidaného seriálu musí být vybráno");
+        }
+        
+        if (inputData.getName() == null) 
+        {
+            throw new DatabaseException("Přidaný seriál musí mít název");
+        }
                 
         PrimaryKey newPrimaryKey = generatePrimaryKey();
         
@@ -52,7 +66,7 @@ public class TVShowsTable implements IDataTable<TVShow>
         
         if (tvShowWithDuplicateData.isEmpty() == false) 
         {
-            //exception
+            throw new DatabaseException("Data přidaného seriálu jsou duplicitní");
         }
         
         TVShow newData = new TVShow(newPrimaryKey, inputData.getName(), 
@@ -60,58 +74,80 @@ public class TVShowsTable implements IDataTable<TVShow>
         tvShowsData.add(newData);        
     }
 
-    public @Override void loadFrom(TVShow outputData) 
+    public @Override void loadFrom(TVShow outputData) throws DatabaseException
     {
-        //porovnavani spravnosti vystupnich dat (pozdeji exceptions)
+        if (outputData == null) 
+        {
+            throw new DatabaseException("Existující data seriálu jsou prázdná");
+        }
+        
+        if (outputData.getPrimaryKey().getId() <= 0) 
+        {
+            throw new DatabaseException("Identifikátor existujícího seriálu musí být větší než nula");
+        }
+        
+        if (outputData.getEra() == null) 
+        {
+            throw new DatabaseException("Chronologické období existujícího seriálu musí být vybráno");
+        }
+        
+        if (outputData.getName() == null) 
+        {
+            throw new DatabaseException("Existující seriál musí mít název");
+        }
         
         TVShow tvShowWithDuplicateKey = getBy(outputData.getPrimaryKey());
         
         if (tvShowWithDuplicateKey != null) 
         {
-            //exception
+            throw new DatabaseException("Identifikátor existujícího seriálu je duplicitní");
         }
         
         List<TVShow> tvShowWithDuplicateData = filterBy(show -> show.equals(outputData));
         
         if (tvShowWithDuplicateData.isEmpty() == false) 
         {
-            //exception
+            throw new DatabaseException("Data existujícího seriálu jsou duplicitní");
         }
         
         tvShowsData.add(outputData);
     }
 
-    public @Override void deleteBy(PrimaryKey primaryKey) 
+    public @Override void deleteBy(PrimaryKey primaryKey) throws DatabaseException
     {
         TVShow foundTVShow = getBy(primaryKey);
         
         if (foundTVShow == null) 
         {
-            //exception
+            throw new DatabaseException("Seriál vybraný pro smazání nebyl nalezen");
         }
         
         tvShowsData.remove(foundTVShow);
     }
 
-    public @Override boolean editBy(PrimaryKey primaryKey, TVShow editedExistingData) 
+    public @Override boolean editBy(PrimaryKey primaryKey, TVShow editedExistingData) throws DatabaseException
     {
         TVShow foundTVShow = getBy(primaryKey);
         
         if (foundTVShow == null) 
         {
-            //exception
+            throw new DatabaseException("Seriál vybraný pro editaci nebyl nalezen");
         }
         
-        List<TVShow> showWithDuplicateData = filterBy(show -> 
-                show.getPrimaryKey().equals(foundTVShow.getPrimaryKey()) == false
-                && show.equals(editedExistingData));
-        
-        if (showWithDuplicateData.isEmpty() == false) 
+        if (editedExistingData == null) 
         {
-            //exception
+            throw new DatabaseException("Nová data editovaného seriálu jsou prázdná");
         }
         
-        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+        if (editedExistingData.getEra() == null) 
+        {
+            throw new DatabaseException("Chronologické období seriálu musí být vybráno");
+        }
+        
+        if (editedExistingData.getName() == null) 
+        {
+            throw new DatabaseException("Seriál musí mít název");
+        }
         
         boolean wasDataChanged = false;
         
@@ -123,7 +159,16 @@ public class TVShowsTable implements IDataTable<TVShow>
         }
         
         if (wasDataChanged == true) 
-        {            
+        {
+            List<TVShow> showWithDuplicateData = filterBy(show -> 
+                show.getPrimaryKey().equals(foundTVShow.getPrimaryKey()) == false
+                && show.equals(editedExistingData));
+        
+            if (showWithDuplicateData.isEmpty() == false) 
+            {
+                throw new DatabaseException("Upravená data editovaného seriálu jsou duplicitní");
+            }
+            
             TVShow newData = new TVShow(primaryKey, editedExistingData.getName(), 
                     editedExistingData.getReleaseDate(), editedExistingData.getEra());
             
