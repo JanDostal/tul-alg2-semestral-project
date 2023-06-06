@@ -32,6 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.mail.EmailException;
 import utils.emailsender.EmailSender;
+import utils.exceptions.DatabaseException;
 import utils.helpers.MovieDataConverter;
 import utils.helpers.TVEpisodeDataConverter;
 import utils.helpers.TVSeasonDataConverter;
@@ -135,7 +136,7 @@ public class MoviesController
     }
     
     //email method
-    public void sendUnwatchedOldestMoviesWithHyperlinks(String recipientEmailAddress) throws EmailException 
+    public void sendUnwatchedOldestMoviesWithHyperlinksByEmail(String recipientEmailAddress) throws EmailException 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -200,8 +201,7 @@ public class MoviesController
     }
     
     //email method
-    public void sendUnwatchedMoviesWithHyperlinksInChronologicalEras(String recipientEmailAddress) 
-            throws EmailException 
+    public void sendUnwatchedMoviesWithHyperlinksInChronologicalErasByEmail(String recipientEmailAddress) throws EmailException 
     {
         LocalDate currentDate = getCurrentDate();
         List<Movie> filteredMovies;
@@ -454,7 +454,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public boolean rateMovie(Movie existingMovie, int percentageRating)
+    public boolean rateMovie(Movie existingMovie, int percentageRating) throws DatabaseException
     {
         Movie newData = new Movie(existingMovie.getPrimaryKey(), 
                     existingMovie.getRuntime(), 

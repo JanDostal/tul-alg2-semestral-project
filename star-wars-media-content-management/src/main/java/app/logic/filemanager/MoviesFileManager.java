@@ -87,6 +87,16 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                text.append(textPart);
             }
         }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getTextOutputMoviesFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getTextOutputMoviesFilename());
+        }
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
@@ -170,6 +180,16 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 }
             }
         }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getBinaryOutputMoviesFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getBinaryOutputMoviesFilename());
+        }
         
         File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
                 + DataStore.getBinaryOutputMoviesFilename());
@@ -200,6 +220,16 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                textPart = new String(buffer, 0, charsRead);
                text.append(textPart);
             }
+        }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getTextInputMoviesFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getTextInputMoviesFilename());
         }
         
         try (Scanner sc = new Scanner(text.toString())) 
@@ -232,6 +262,16 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
                 text.append(textPart);
             }
+        }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getBinaryInputMoviesFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getBinaryInputMoviesFilename());
         }
         
         File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
@@ -319,6 +359,10 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                     }
                 }
             }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryOutputMoviesFilename());
+            }
         }
         else 
         {
@@ -343,6 +387,10 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                     textPart = new String(buffer, 0, charsRead);
                     text.append(textPart);
                 }
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + DataStore.getTextOutputMoviesFilename());
             }
 
             Class<?> movieOutputClass = MovieOutput.class;
@@ -539,7 +587,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         {
             outputMoviesTextCopy.delete();
             outputMoviesBinaryCopy.delete();
-            throw new IOException();
+            throw new IOException("Chyba při kopírování mezi výstupními soubory filmů a kopiemi");
         }
     }
         
@@ -587,6 +635,10 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
 
             bufferedWriter.write(generatedMoviesTextRepresentations.toString());
         }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při zápisu výstupních souborů filmů");
+        }
     }
     
     public @Override List<MovieInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
@@ -614,6 +666,11 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             {
                 throw new FileNotFoundException("Soubor " + 
                         DataStore.getBinaryInputMoviesFilename() + " neexistuje");
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + 
+                        DataStore.getBinaryInputMoviesFilename());
             }
             
             File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
@@ -644,6 +701,11 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             {
                 throw new FileNotFoundException("Soubor " + 
                         DataStore.getTextInputMoviesFilename() + " neexistuje");
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + 
+                        DataStore.getTextInputMoviesFilename());
             }
         }
                                 

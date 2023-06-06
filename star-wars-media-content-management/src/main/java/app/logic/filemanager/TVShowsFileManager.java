@@ -86,6 +86,16 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                text.append(textPart);
             }
         }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getTextOutputTVShowsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getTextOutputTVShowsFilename());
+        }
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
@@ -146,6 +156,16 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 }
             }
         }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getBinaryOutputTVShowsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getBinaryOutputTVShowsFilename());
+        }
         
         File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
                 + DataStore.getBinaryOutputTVShowsFilename());
@@ -178,6 +198,16 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                text.append(textPart);
             }
         }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getTextInputTVShowsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getTextInputTVShowsFilename());
+        }
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
@@ -209,6 +239,16 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
                 text.append(textPart);
             }
+        }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getBinaryInputTVShowsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getBinaryInputTVShowsFilename());
         }
         
         File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
@@ -274,6 +314,10 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     }
                 }
             }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryOutputTVShowsFilename());
+            }
         }
         else
         {
@@ -298,6 +342,10 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     textPart = new String(buffer, 0, charsRead);
                     text.append(textPart);
                 }
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + DataStore.getTextOutputTVShowsFilename());
             }
 
             Class<?> tvShowOutputClass = TVShowOutput.class;
@@ -489,7 +537,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         {
             outputTVShowsTextCopy.delete();
             outputTVShowsBinaryCopy.delete();
-            throw new IOException();
+            throw new IOException("Chyba při kopírování mezi výstupními soubory seriálů a kopiemi");
         }
     }
     
@@ -524,6 +572,10 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
             bufferedWriter.write(generatedTVShowsTextRepresentations.toString());
         }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při zápisu výstupních souborů seriálů");
+        }
     }
     
     public @Override List<TVShowInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
@@ -551,6 +603,11 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             {
                 throw new FileNotFoundException("Soubor " + 
                         DataStore.getBinaryInputTVShowsFilename() + " neexistuje");
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + 
+                        DataStore.getBinaryInputTVShowsFilename());
             }
             
             File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
@@ -581,6 +638,11 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             {
                 throw new FileNotFoundException("Soubor " + 
                         DataStore.getTextInputTVShowsFilename() + " neexistuje");
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + 
+                        DataStore.getTextInputTVShowsFilename());
             }
         }
                                 

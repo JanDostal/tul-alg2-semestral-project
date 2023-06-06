@@ -186,7 +186,6 @@ public class MoviesTable implements IDataTable<Movie>
             wasDataChanged = true;
         }
         
-        
         if (wasDataChanged == true) 
         {
             List<Movie> movieWithDuplicateData = filterBy(movie -> 

@@ -114,7 +114,7 @@ public class TVEpisodesController
     }
     
     //email method
-    public void sendUnwatchedEpisodesWithHyperlinksInTVShow(String recipientEmailAddress, PrimaryKey tvShowPrimaryKey) 
+    public void sendUnwatchedEpisodesWithHyperlinksInTVShowByEmail(String recipientEmailAddress, PrimaryKey tvShowPrimaryKey) 
             throws EmailException
     {
         TVShow queriedTVShow = dbContext.getTVShowsTable().getBy(tvShowPrimaryKey);

@@ -87,6 +87,17 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                text.append(textPart);
             }
         }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getTextOutputTVSeasonsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getTextOutputTVSeasonsFilename());
+        }
+        
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
@@ -131,6 +142,16 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 }
             }
         }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getBinaryOutputTVSeasonsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getBinaryOutputTVSeasonsFilename());
+        }
         
         File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
                 + DataStore.getBinaryOutputTVSeasonsFilename());
@@ -161,6 +182,16 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                textPart = new String(buffer, 0, charsRead);
                text.append(textPart);
             }
+        }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getTextInputTVSeasonsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getTextInputTVSeasonsFilename());
         }
         
         try (Scanner sc = new Scanner(text.toString())) 
@@ -193,6 +224,16 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
                 text.append(textPart);
             }
+        }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getBinaryInputTVShowsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getBinaryInputTVSeasonsFilename());
         }
         
         File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
@@ -242,6 +283,10 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     }
                 }
             }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryOutputTVSeasonsFilename());
+            }
         }
         else 
         {
@@ -266,6 +311,10 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     textPart = new String(buffer, 0, charsRead);
                     text.append(textPart);
                 }
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + DataStore.getTextOutputTVSeasonsFilename());
             }
 
             Class<?> tvSeasonOutputClass = TVSeasonOutput.class;
@@ -457,7 +506,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         {
             outputTVSeasonsTextCopy.delete();
             outputTVSeasonsBinaryCopy.delete();
-            throw new IOException();
+            throw new IOException("Chyba při kopírování mezi výstupními soubory sezón seriálů a kopiemi");
         }
     }
     
@@ -481,6 +530,10 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             }
 
             bufferedWriter.write(generatedTVSeasonsTextRepresentations.toString());
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při zápisu výstupních souborů sezón seriálů");
         }
     }
     
@@ -509,6 +562,11 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             {
                 throw new FileNotFoundException("Soubor " + 
                         DataStore.getBinaryInputTVSeasonsFilename() + " neexistuje");
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + 
+                        DataStore.getBinaryInputTVSeasonsFilename());
             }
             
             File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
@@ -539,6 +597,11 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             {
                 throw new FileNotFoundException("Soubor " + 
                         DataStore.getTextInputTVSeasonsFilename() + " neexistuje");
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + 
+                        DataStore.getTextInputTVSeasonsFilename());
             }
         }
                                 

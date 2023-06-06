@@ -109,29 +109,29 @@ public class EmailSenderTest
             moviesTable.loadFrom(movieB);
             moviesTable.loadFrom(movieC);
 
-            //sendUnwatchedOldestMoviesWithHyperlinks method from MoviesController
+            //sendUnwatchedOldestMoviesWithHyperlinksByEmail method from MoviesController
             System.out.println();
-            System.out.println("sendUnwatchedOldestMoviesWithHyperlinks "
+            System.out.println("sendUnwatchedOldestMoviesWithHyperlinksByEmail "
                     + "method from MoviesController:");
             System.out.println();
 
-            controller.sendUnwatchedOldestMoviesWithHyperlinks("honzaswtor@gmail.com");
+            controller.sendUnwatchedOldestMoviesWithHyperlinksByEmail("honzaswtor@gmail.com");
 
-            //sendUnwatchedMoviesWithHyperlinksInChronologicalEras method from MoviesController
+            //sendUnwatchedMoviesWithHyperlinksInChronologicalErasByEmail method from MoviesController
             System.out.println();
-            System.out.println("sendUnwatchedMoviesWithHyperlinksInChronologicalEras "
+            System.out.println("sendUnwatchedMoviesWithHyperlinksInChronologicalErasByEmail "
                     + "method from MoviesController:");
             System.out.println();
 
-            controller.sendUnwatchedMoviesWithHyperlinksInChronologicalEras("honzaswtor@gmail.com");
+            controller.sendUnwatchedMoviesWithHyperlinksInChronologicalErasByEmail("honzaswtor@gmail.com");
 
-            //sendUnwatchedEpisodesWithHyperlinksInTVShow method from MoviesController
+            //sendUnwatchedEpisodesWithHyperlinksInTVShowByEmail method from MoviesController
             System.out.println();
-            System.out.println("sendUnwatchedEpisodesWithHyperlinksInTVShow "
+            System.out.println("sendUnwatchedEpisodesWithHyperlinksInTVShowByEmail "
                     + "method from MoviesController:");
             System.out.println();
 
-            controller2.sendUnwatchedEpisodesWithHyperlinksInTVShow("honzaswtor@gmail.com", show.getPrimaryKey());
+            controller2.sendUnwatchedEpisodesWithHyperlinksInTVShowByEmail("honzaswtor@gmail.com", show.getPrimaryKey());
         } 
         catch (EmailException ex) 
         {
