@@ -569,52 +569,68 @@ public class MoviesController
         }
     }
     
-    public StringBuilder addMoviesFrom(boolean fromBinary) throws IOException 
+    public StringBuilder addMoviesFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException 
     {
         updateMoviesOutputFilesWithExistingData();
         
         List<MovieInput> inputMovies = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
         
+        StringBuilder message = new StringBuilder();
+        
         if (inputMovies.isEmpty()) 
         {
-            return 0;
+            message.append("Nic se nenahrálo ze souboru");
+            return message;
         }
         else 
         {
+            StringBuilder moviesErrorMessages = new StringBuilder();
             Movie convertedInputMovie;
+            int counter = 0;
+            int errorCounter = 0;
             
             for (MovieInput inputMovie : inputMovies) 
             {
-                convertedInputMovie = MovieDataConverter.convertToDataFrom(inputMovie);
-                dbContext.getMoviesTable().addFrom(convertedInputMovie);
+                counter++;
+                
+                try 
+                {
+                    convertedInputMovie = MovieDataConverter.convertToDataFrom(inputMovie);
+                    dbContext.getMoviesTable().addFrom(convertedInputMovie);
+                   
+                }
+                catch (DatabaseException | DataConversionException e) 
+                {
+                    errorCounter++;
+                    moviesErrorMessages.append(String.format("Chybový stav filmu s pořadím %d: %s", 
+                            counter, e.getMessage())).append("\n");
+                }
             }
-
-            fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+            
+            int successfullyUploadedMoviesCount = inputMovies.size() - errorCounter;
+            message.append(String.format("Celkově se podařilo nahrát %d filmů do databáze a naopak se nepodařilo nahrát %d filmů", 
+                    successfullyUploadedMoviesCount, errorCounter)).append("\n");
+            message.append(moviesErrorMessages);
                   
             updateMoviesOutputFilesWithNewChanges();
         }
         
-        //pocet nahranych filmu
-        return 5;
+        return message;
     }
     
-    public void deleteMovieBy(PrimaryKey moviePrimaryKey) throws IOException
+    public void deleteMovieBy(PrimaryKey moviePrimaryKey) throws IOException, DatabaseException
     {
         updateMoviesOutputFilesWithExistingData();
-
-        fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
 
         dbContext.getMoviesTable().deleteBy(moviePrimaryKey);
 
         updateMoviesOutputFilesWithNewChanges();
     }
     
-    public void deleteMovies(List<Movie> chosenMovies) throws IOException
+    public void deleteMovies(List<Movie> chosenMovies) throws IOException, DatabaseException
     {       
         updateMoviesOutputFilesWithExistingData();
-        
-        fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
-        
+                
         for (Movie m : chosenMovies) 
         {
             dbContext.getMoviesTable().deleteBy(m.getPrimaryKey());
@@ -623,7 +639,8 @@ public class MoviesController
         updateMoviesOutputFilesWithNewChanges();
     }
     
-    public boolean editMovieBy(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) throws IOException 
+    public boolean editMovieBy(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) throws IOException, FileNotFoundException, 
+            FileEmptyException, DataConversionException, DatabaseException 
     {
         updateMoviesOutputFilesWithExistingData();
         
@@ -631,7 +648,7 @@ public class MoviesController
                 
         if (editedMovie.isEmpty()) 
         {
-            //exception
+            throw new FileEmptyException("Data filmu vybraného pro editaci se nepodařilo nahrát ze souboru");
         }
         
         Movie convertedInputMovie = MovieDataConverter.convertToDataFrom(editedMovie.get(0));
