@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
@@ -42,9 +43,27 @@ public class MoviesTable implements IDataTable<Movie>
         return moviesTable;
     }
         
-    public @Override void addFrom(Movie inputData) 
+    public @Override void addFrom(Movie inputData) throws DatabaseException
     {
-        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+        if (inputData == null) 
+        {
+            throw new DatabaseException("Data přidaného filmu jsou prázdná");
+        }
+        
+        if (inputData.getPercentageRating() > 100) 
+        {
+            throw new DatabaseException("Procentuální hodnocení zhlédnutého přidaného filmu musí být v rozsahu 0 - 100");
+        }
+        
+        if (inputData.getEra() == null) 
+        {
+            throw new DatabaseException("Chronologické období přidaného filmu musí být vybráno");
+        }
+        
+        if (inputData.getName() == null) 
+        {
+            throw new DatabaseException("Přidaný film musí mít název");
+        }
                 
         PrimaryKey newPrimaryKey = generatePrimaryKey();
         
@@ -52,7 +71,7 @@ public class MoviesTable implements IDataTable<Movie>
         
         if (movieWithDuplicateData.isEmpty() == false) 
         {
-            //exception
+            throw new DatabaseException("Data přidaného filmu jsou duplicitní");
         }
         
         Movie newData = new Movie(newPrimaryKey, 
@@ -68,59 +87,90 @@ public class MoviesTable implements IDataTable<Movie>
         moviesData.add(newData);
     }
 
-    public @Override void loadFrom(Movie outputData) 
+    public @Override void loadFrom(Movie outputData) throws DatabaseException
     {
-        //porovnavani spravnosti vystupnich dat (pozdeji exceptions)
+        if (outputData == null) 
+        {
+            throw new DatabaseException("Existující data filmu jsou prázdná");
+        }
+        
+        if (outputData.getPrimaryKey().getId() <= 0) 
+        {
+            throw new DatabaseException("Identifikátor existujícího filmu musí být větší než nula");
+        }
+        
+        if (outputData.getPercentageRating() > 100) 
+        {
+            throw new DatabaseException("Procentuální hodnocení zhlédnutého existujícího filmu musí být v rozsahu 0 - 100");
+        }
+        
+        if (outputData.getEra() == null) 
+        {
+            throw new DatabaseException("Chronologické období existujícího filmu musí být vybráno");
+        }
+        
+        if (outputData.getName() == null) 
+        {
+            throw new DatabaseException("Existující film musí mít název");
+        }
         
         Movie movieWithDuplicateKey = getBy(outputData.getPrimaryKey());
         
         if (movieWithDuplicateKey != null) 
         {
-            //exception
+            throw new DatabaseException("Identifikátor existujícího filmu je duplicitní");
         }
         
         List<Movie> movieWithDuplicateData = filterBy(movie -> movie.equals(outputData));
         
         if (movieWithDuplicateData.isEmpty() == false) 
         {
-            //exception
+            throw new DatabaseException("Data existujícího filmu jsou duplicitní");
         }
         
         moviesData.add(outputData);
     }
 
-    public @Override void deleteBy(PrimaryKey primaryKey) 
+    public @Override void deleteBy(PrimaryKey primaryKey) throws DatabaseException
     {
         Movie foundMovie = getBy(primaryKey);
         
         if (foundMovie == null) 
         {
-            //exception
+            throw new DatabaseException("Film vybraný pro smazání nebyl nalezen");
         }
         
         moviesData.remove(foundMovie);
     }
 
-    public @Override boolean editBy(PrimaryKey primaryKey, Movie editedExistingData) 
+    public @Override boolean editBy(PrimaryKey primaryKey, Movie editedExistingData) throws DatabaseException 
     {
         Movie foundMovie = getBy(primaryKey);
-        
+                
         if (foundMovie == null) 
         {
-            //exception
+            throw new DatabaseException("Film vybraný pro editaci nebyl nalezen");
         }
         
-        List<Movie> movieWithDuplicateData = filterBy(movie -> 
-                movie.getPrimaryKey().equals(foundMovie.getPrimaryKey()) == false
-                && movie.equals(editedExistingData));
-        
-        if (movieWithDuplicateData.isEmpty() == false) 
+        if (editedExistingData == null) 
         {
-            //exception
+            throw new DatabaseException("Nová data editovaného filmu jsou prázdná");
         }
         
-        //porovnavani spravnosti vstupnich dat (pozdeji exceptions)
+        if (editedExistingData.getPercentageRating() > 100) 
+        {
+            throw new DatabaseException("Procentuální hodnocení zhlédnutého editovaného filmu musí být v rozsahu 0 - 100");
+        }
         
+        if (editedExistingData.getEra() == null) 
+        {
+            throw new DatabaseException("Chronologické období editovaného filmu musí být vybráno");
+        }
+        
+        if (editedExistingData.getName() == null) 
+        {
+            throw new DatabaseException("Editovaný film musí mít název");
+        }
         
         boolean wasDataChanged = false;
         
@@ -130,8 +180,7 @@ public class MoviesTable implements IDataTable<Movie>
             Objects.equals(foundMovie.getReleaseDate(), editedExistingData.getReleaseDate()) == false ||
             foundMovie.getPercentageRating() != editedExistingData.getPercentageRating() ||
             Objects.equals(foundMovie.getName(), editedExistingData.getName()) == false ||
-            Objects.equals(foundMovie.getHyperlinkForContentWatch(), 
-                    editedExistingData.getHyperlinkForContentWatch()) == false ||
+            Objects.equals(foundMovie.getHyperlinkForContentWatch(), editedExistingData.getHyperlinkForContentWatch()) == false ||
             foundMovie.getEra() != editedExistingData.getEra())
         {
             wasDataChanged = true;
@@ -140,6 +189,15 @@ public class MoviesTable implements IDataTable<Movie>
         
         if (wasDataChanged == true) 
         {
+            List<Movie> movieWithDuplicateData = filterBy(movie -> 
+                movie.getPrimaryKey().equals(foundMovie.getPrimaryKey()) == false
+                && movie.equals(editedExistingData));
+        
+            if (movieWithDuplicateData.isEmpty() == false) 
+            {
+                throw new DatabaseException("Upravená data editovaného filmu jsou duplicitní");
+            }
+            
             Movie newData = new Movie(primaryKey, 
                     editedExistingData.getRuntime(), 
                     editedExistingData.getName(), 

@@ -152,8 +152,8 @@ public class TVShowsTable implements IDataTable<TVShow>
         boolean wasDataChanged = false;
         
         if (Objects.equals(foundTVShow.getReleaseDate(), editedExistingData.getReleaseDate()) == false || 
-            Objects.equals(foundTVShow.getName(), editedExistingData.getName()) == false ||
-            foundTVShow.getEra() != editedExistingData.getEra())
+            Objects.equals(foundTVShow.getName(), editedExistingData.getName()) == false || foundTVShow.getEra() 
+                != editedExistingData.getEra())
         {
             wasDataChanged = true;
         }
