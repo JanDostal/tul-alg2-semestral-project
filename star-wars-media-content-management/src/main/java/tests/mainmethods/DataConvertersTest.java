@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import utils.exceptions.DataConversionException;
 import utils.helpers.MovieDataConverter;
 
 /**
@@ -59,10 +60,17 @@ public class DataConvertersTest
         
         System.out.println(movieOutput);
         
-        Movie convertedMovie = MovieDataConverter.convertToDataFrom(movieOutput);
-        
-        System.out.println(convertedMovie);
-        
+        Movie convertedMovie = null;
+        try 
+        {
+            convertedMovie = MovieDataConverter.convertToDataFrom(movieOutput);
+            System.out.println(convertedMovie);
+        }
+        catch (DataConversionException e) 
+        {
+            System.out.println(e.getMessage());
+        }
+                
         System.out.println();
         System.out.println("convertToDataFrom (inputData)");
         System.out.println();
@@ -73,8 +81,15 @@ public class DataConvertersTest
         
         System.out.println(movieInput);
         
-        convertedMovie = MovieDataConverter.convertToDataFrom(movieInput);
-        
-        System.out.println(convertedMovie);
+
+        try 
+        {
+            convertedMovie = MovieDataConverter.convertToDataFrom(movieInput);
+            System.out.println(convertedMovie);
+        }
+        catch (DataConversionException e) 
+        {
+            System.out.println(e.getMessage());
+        }
     }
 }

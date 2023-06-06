@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import utils.emailsender.EmailSender;
+import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
@@ -67,18 +68,25 @@ public class TVEpisodesControllerTest
         TVEpisode episodeE = new TVEpisode(new PrimaryKey(7), Duration.ofMinutes(500), "episodeE", 
                 60, true, "https://www.example06.com", "sadasdssadssadaadsasd", 1, season4.getPrimaryKey());
         
-        showsTable.loadFrom(show2);
-        showsTable.loadFrom(show);
-        showsTable.loadFrom(show3);
-        seasonsTable.loadFrom(season);
-        seasonsTable.loadFrom(season3);
-        seasonsTable.loadFrom(season4);
-        seasonsTable.loadFrom(season2);
-        episodesTable.loadFrom(episodeB);
-        episodesTable.loadFrom(episodeC);
-        episodesTable.loadFrom(episodeE);
-        episodesTable.loadFrom(episodeA);
-        episodesTable.loadFrom(episodeD);
+        try 
+        {
+            showsTable.loadFrom(show2);
+            showsTable.loadFrom(show);
+            showsTable.loadFrom(show3);
+            seasonsTable.loadFrom(season);
+            seasonsTable.loadFrom(season3);
+            seasonsTable.loadFrom(season4);
+            seasonsTable.loadFrom(season2);
+            episodesTable.loadFrom(episodeB);
+            episodesTable.loadFrom(episodeC);
+            episodesTable.loadFrom(episodeE);
+            episodesTable.loadFrom(episodeA);
+            episodesTable.loadFrom(episodeD);
+        }
+        catch (DatabaseException e) 
+        {
+            System.out.println(e.getMessage());
+        }
         
         System.out.println();
         System.out.println("Kontrolni vypis:");

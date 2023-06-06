@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import utils.emailsender.EmailSender;
+import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
@@ -66,13 +67,21 @@ public class MoviesControllerTest
                 2, false, null, null, 
                 null, Era.FALL_OF_THE_JEDI);
         
-        moviesTable.loadFrom(movieA);
-        moviesTable.loadFrom(movieB);
-        moviesTable.loadFrom(movieC);
-        moviesTable.loadFrom(movieD);
-        moviesTable.loadFrom(movieE);
-        moviesTable.loadFrom(movieF);
-        moviesTable.loadFrom(movieG);
+        try 
+        {
+            moviesTable.loadFrom(movieA);
+            moviesTable.loadFrom(movieB);
+            moviesTable.loadFrom(movieC);
+            moviesTable.loadFrom(movieD);
+            moviesTable.loadFrom(movieE);
+            moviesTable.loadFrom(movieF);
+            moviesTable.loadFrom(movieG);
+        }
+        catch (DatabaseException e) 
+        {
+            System.out.println(e.getMessage());
+        }
+
         
         System.out.println();
         System.out.println("Kontrolni vypis:");
@@ -221,7 +230,14 @@ public class MoviesControllerTest
                 60, false, null, null, 
                 LocalDate.parse("2021-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
-        dbContext.getMoviesTable().addFrom(movieSearch_01);
+        try 
+        {
+            dbContext.getMoviesTable().addFrom(movieSearch_01);
+        }
+        catch (DatabaseException e) 
+        {
+            System.out.println(e.getMessage());
+        }
         
         List<Movie> searchForMovie_result = 
                 controller.searchForMovie("ahóje jě");
@@ -349,7 +365,7 @@ public class MoviesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException e) 
+        catch (IOException | DatabaseException e) 
         {
             System.out.println("chyba");
         }

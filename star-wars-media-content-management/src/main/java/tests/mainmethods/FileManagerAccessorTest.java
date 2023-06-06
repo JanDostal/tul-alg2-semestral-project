@@ -8,16 +8,18 @@ import app.models.input.TVEpisodeInput;
 import app.models.input.TVSeasonInput;
 import app.models.input.TVShowInput;
 import app.models.output.MovieOutput;
-import static app.models.output.MovieOutput.ATTRIBUTE_NAME_LENGTH;
 import app.models.output.TVEpisodeOutput;
 import app.models.output.TVSeasonOutput;
 import app.models.output.TVShowOutput;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import utils.exceptions.FileEmptyException;
+import utils.exceptions.FileParsingException;
 
 /**
  *
@@ -140,14 +142,6 @@ public class FileManagerAccessorTest
             
             fileManager.getMoviesFileManager().tryDeleteDataOutputFilesCopies();
             
-            //tryCreateDataOutputFiles method
-            System.out.println();
-            System.out.println("tryCreateDataOutputFiles method:");
-            System.out.println();
-            
-            fileManager.getMoviesFileManager().tryCreateDataOutputFiles();
-            
-            
             //loadOutputDataFrom method
             System.out.println();
             System.out.println("loadOutputDataFrom method from text:");
@@ -250,15 +244,7 @@ public class FileManagerAccessorTest
             System.out.println();
             
             fileManager.getTVEpisodesFileManager().tryDeleteDataOutputFilesCopies();
-            
-            //tryCreateDataOutputFiles method
-            System.out.println();
-            System.out.println("tryCreateDataOutputFiles method:");
-            System.out.println();
-            
-            fileManager.getTVEpisodesFileManager().tryCreateDataOutputFiles();
-            
-            
+                        
             //loadOutputDataFrom method
             System.out.println();
             System.out.println("loadOutputDataFrom method from text:");
@@ -359,13 +345,6 @@ public class FileManagerAccessorTest
             System.out.println();
             
             fileManager.getTVSeasonsFileManager().tryDeleteDataOutputFilesCopies();
-            
-            //tryCreateDataOutputFiles method
-            System.out.println();
-            System.out.println("tryCreateDataOutputFiles method:");
-            System.out.println();
-            
-            fileManager.getTVSeasonsFileManager().tryCreateDataOutputFiles();
             
             //loadOutputDataFrom method
             System.out.println();
@@ -468,13 +447,6 @@ public class FileManagerAccessorTest
             
             fileManager.getTVShowsFileManager().tryDeleteDataOutputFilesCopies();
             
-            //tryCreateDataOutputFiles method
-            System.out.println();
-            System.out.println("tryCreateDataOutputFiles method:");
-            System.out.println();
-            
-            fileManager.getTVShowsFileManager().tryCreateDataOutputFiles();
-            
             //loadOutputDataFrom method
             System.out.println();
             System.out.println("loadOutputDataFrom method from text:");
@@ -500,7 +472,7 @@ public class FileManagerAccessorTest
             }
             
         }
-        catch (Exception e) 
+        catch (IOException | FileEmptyException | FileParsingException e) 
         {
             System.out.println(e.getMessage());
         }
