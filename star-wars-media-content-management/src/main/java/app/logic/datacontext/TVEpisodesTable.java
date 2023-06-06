@@ -107,43 +107,50 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
         
         if (outputData.getPrimaryKey().getId() <= 0) 
         {
-            throw new DatabaseException("Identifikátor existující epizody sezóny musí být větší než nula");
+            throw new DatabaseException("Identifikátor " + outputData.getPrimaryKey().getId() 
+                    + " existující epizody sezóny musí být větší než nula");
         }
         
         if (outputData.getPercentageRating() > 100) 
         {
-            throw new DatabaseException("Procentuální hodnocení zhlédnuté existující epizody sezóny musí být v rozsahu 0 - 100");
+            throw new DatabaseException("Procentuální hodnocení zhlédnuté existující epizody sezóny s identifikátorem " 
+                    + outputData.getPrimaryKey().getId() + " musí být v rozsahu 0 - 100");
         }
         
         if (outputData.getOrderInTVShowSeason() <= 0)
         {
-            throw new DatabaseException("Pořadí existující epizody sezóny musí být větší než nula");
+            throw new DatabaseException("Pořadí existující epizody sezóny s identifikátorem " 
+                    + outputData.getPrimaryKey().getId() + " musí být větší než nula");
         }
         
         if (outputData.getTVSeasonForeignKey().getId() <= 0) 
         {
-            throw new DatabaseException("Identifikátor sezóny pro existující epizodu musí být větší než nula");
+            throw new DatabaseException("Identifikátor sezóny pro existující epizodu s identifikátorem " 
+                    + outputData.getPrimaryKey().getId() + " musí být větší než nula");
         }
         
         TVEpisode tvEpisodeWithDuplicateKey = getBy(outputData.getPrimaryKey());
         
         if (tvEpisodeWithDuplicateKey != null) 
         {
-            throw new DatabaseException("Identifikátor existující epizody sezóny je duplicitní");
+            throw new DatabaseException("Identifikátor " + outputData.getPrimaryKey().getId() 
+                    + " existující epizody sezóny je duplicitní");
         }
         
         TVSeason existingTVSeason = tvSeasonsTable.getBy(outputData.getTVSeasonForeignKey());
             
         if (existingTVSeason == null) 
         {
-            throw new DatabaseException("Identifikátor sezóny pro existující epizodu neodkazuje na žádnou sezónu");
+            throw new DatabaseException("Identifikátor sezóny pro existující epizodu s identifikátorem " 
+                    + outputData.getPrimaryKey().getId() + " neodkazuje na žádnou sezónu");
         }
         
         List<TVEpisode> tvEpisodeWithDuplicateData = filterBy(episode -> episode.equals(outputData));
         
         if (tvEpisodeWithDuplicateData.isEmpty() == false) 
         {
-            throw new DatabaseException("Data existující epizody sezóny jsou duplicitní");
+            throw new DatabaseException("Data existující epizody sezóny s identifikátorem " 
+                    + outputData.getPrimaryKey().getId() + " jsou duplicitní");
         }
         
         tvEpisodesData.add(outputData);

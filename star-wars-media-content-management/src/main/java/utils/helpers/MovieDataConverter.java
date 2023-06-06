@@ -136,7 +136,7 @@ public final class MovieDataConverter
             }
             catch (DateTimeException e) 
             {
-                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení");
+                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení konvertovaného filmu");
             }
         }
         
@@ -248,7 +248,8 @@ public final class MovieDataConverter
             }
             catch (DateTimeException e) 
             {
-                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení");
+                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení "
+                        + "konvertovaného filmu s identifikátorem " + outputData.getId());
             }
         }
         

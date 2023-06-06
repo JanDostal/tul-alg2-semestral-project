@@ -83,31 +83,36 @@ public class TVShowsTable implements IDataTable<TVShow>
         
         if (outputData.getPrimaryKey().getId() <= 0) 
         {
-            throw new DatabaseException("Identifikátor existujícího seriálu musí být větší než nula");
+            throw new DatabaseException("Identifikátor " + outputData.getPrimaryKey().getId() + 
+                    " existujícího seriálu musí být větší než nula");
         }
         
         if (outputData.getEra() == null) 
         {
-            throw new DatabaseException("Chronologické období existujícího seriálu musí být vybráno");
+            throw new DatabaseException("Chronologické období existujícího seriálu s identifikátorem " + 
+                    outputData.getPrimaryKey().getId() + " musí být vybráno");
         }
         
         if (outputData.getName() == null) 
         {
-            throw new DatabaseException("Existující seriál musí mít název");
+            throw new DatabaseException("Existující seriál s identifikátorem " + 
+                    outputData.getPrimaryKey().getId() + " musí mít název");
         }
         
         TVShow tvShowWithDuplicateKey = getBy(outputData.getPrimaryKey());
         
         if (tvShowWithDuplicateKey != null) 
         {
-            throw new DatabaseException("Identifikátor existujícího seriálu je duplicitní");
+            throw new DatabaseException("Identifikátor " + outputData.getPrimaryKey().getId() + 
+                    " existujícího seriálu je duplicitní");
         }
         
         List<TVShow> tvShowWithDuplicateData = filterBy(show -> show.equals(outputData));
         
         if (tvShowWithDuplicateData.isEmpty() == false) 
         {
-            throw new DatabaseException("Data existujícího seriálu jsou duplicitní");
+            throw new DatabaseException("Data existujícího seriálu s identifikátorem " + 
+                    outputData.getPrimaryKey().getId() + " jsou duplicitní");
         }
         
         tvShowsData.add(outputData);

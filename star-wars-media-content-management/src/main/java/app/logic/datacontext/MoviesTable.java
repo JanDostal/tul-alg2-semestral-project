@@ -96,36 +96,42 @@ public class MoviesTable implements IDataTable<Movie>
         
         if (outputData.getPrimaryKey().getId() <= 0) 
         {
-            throw new DatabaseException("Identifikátor existujícího filmu musí být větší než nula");
+            throw new DatabaseException("Identifikátor " + outputData.getPrimaryKey().getId() 
+                    + " existujícího filmu musí být větší než nula");
         }
         
         if (outputData.getPercentageRating() > 100) 
         {
-            throw new DatabaseException("Procentuální hodnocení zhlédnutého existujícího filmu musí být v rozsahu 0 - 100");
+            throw new DatabaseException("Procentuální hodnocení zhlédnutého existujícího filmu s identifikátorem " 
+                    + outputData.getPrimaryKey().getId() + " musí být v rozsahu 0 - 100");
         }
         
         if (outputData.getEra() == null) 
         {
-            throw new DatabaseException("Chronologické období existujícího filmu musí být vybráno");
+            throw new DatabaseException("Chronologické období existujícího filmu s identifikátorem " 
+                    + outputData.getPrimaryKey().getId() + " musí být vybráno");
         }
         
         if (outputData.getName() == null) 
         {
-            throw new DatabaseException("Existující film musí mít název");
+            throw new DatabaseException("Existující film s identifikátorem " 
+                    + outputData.getPrimaryKey().getId() + " musí mít název");
         }
         
         Movie movieWithDuplicateKey = getBy(outputData.getPrimaryKey());
         
         if (movieWithDuplicateKey != null) 
         {
-            throw new DatabaseException("Identifikátor existujícího filmu je duplicitní");
+            throw new DatabaseException("Identifikátor " 
+                    + outputData.getPrimaryKey().getId() + " existujícího filmu je duplicitní");
         }
         
         List<Movie> movieWithDuplicateData = filterBy(movie -> movie.equals(outputData));
         
         if (movieWithDuplicateData.isEmpty() == false) 
         {
-            throw new DatabaseException("Data existujícího filmu jsou duplicitní");
+            throw new DatabaseException("Data existujícího filmu s identifikátorem " 
+                    + outputData.getPrimaryKey().getId() + " jsou duplicitní");
         }
         
         moviesData.add(outputData);

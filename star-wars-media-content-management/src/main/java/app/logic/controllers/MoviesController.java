@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.mail.EmailException;
 import utils.emailsender.EmailSender;
 import utils.exceptions.DatabaseException;
+import utils.exceptions.FileEmptyException;
 import utils.helpers.MovieDataConverter;
 import utils.helpers.TVEpisodeDataConverter;
 import utils.helpers.TVSeasonDataConverter;
@@ -493,7 +494,7 @@ public class MoviesController
         return foundMovies;
     }
     
-    public StringBuilder getMoviesChosenFileContent(String fileName) throws IOException 
+    public StringBuilder getMoviesChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
     {
         StringBuilder content = new StringBuilder();
         
@@ -525,12 +526,7 @@ public class MoviesController
     }
     
     public void loadAllOutputDataFrom(boolean fromBinary) throws IOException 
-    {
-        fileManagerAccessor.getMoviesFileManager().tryCreateDataOutputFiles();
-        fileManagerAccessor.getTVShowsFileManager().tryCreateDataOutputFiles();
-        fileManagerAccessor.getTVSeasonsFileManager().tryCreateDataOutputFiles();
-        fileManagerAccessor.getTVEpisodesFileManager().tryCreateDataOutputFiles();
-        
+    {        
         //vyhazovani vyjimky v kazde z nasledujicich metod
         List<MovieOutput> outputMovies = fileManagerAccessor.getMoviesFileManager().
                 loadOutputDataFrom(fromBinary);

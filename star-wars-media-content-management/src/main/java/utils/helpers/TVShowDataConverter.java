@@ -76,7 +76,7 @@ public final class TVShowDataConverter
             }
             catch (DateTimeException e) 
             {
-                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení");
+                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení konvertovaného seriálu");
             }
         }
         
@@ -130,7 +130,8 @@ public final class TVShowDataConverter
             }
             catch (DateTimeException e) 
             {
-                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení");
+                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení "
+                        + "konvertovaného seriálu s identifikátorem " + outputData.getId());
             }
         }
         
