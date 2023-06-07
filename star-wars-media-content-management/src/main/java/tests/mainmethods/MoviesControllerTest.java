@@ -381,7 +381,7 @@ public class MoviesControllerTest
         {
             System.out.println(o.getMessage());
         }
-        catch (IOException | DatabaseException | FileEmptyException | DataConversionException e) 
+        catch (IOException | DatabaseException | FileEmptyException | FileParsingException | DataConversionException e) 
         {
             System.out.println(e.getMessage());
         }

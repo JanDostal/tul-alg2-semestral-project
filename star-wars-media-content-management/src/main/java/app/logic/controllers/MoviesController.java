@@ -586,7 +586,8 @@ public class MoviesController
         
         if (inputMovies.isEmpty()) 
         {
-            message.append("Nic se nenahrálo ze souboru");
+            message.append("Nic se nenahrálo ze souboru ").append(fromBinary == true ? 
+                    DataStore.getBinaryInputMoviesFilename() : DataStore.getTextInputMoviesFilename());
             return message;
         }
         else 
@@ -634,20 +635,26 @@ public class MoviesController
         updateMoviesOutputFilesWithNewChanges();
     }
     
-    public void deleteMovies(List<Movie> chosenMovies) throws IOException, DatabaseException
+    public void deleteMovies(List<Movie> chosenMovies) throws IOException
     {       
         updateMoviesOutputFilesWithExistingData();
                 
         for (Movie m : chosenMovies) 
         {
-            dbContext.getMoviesTable().deleteBy(m.getPrimaryKey());
+            try 
+            {
+                dbContext.getMoviesTable().deleteBy(m.getPrimaryKey());
+            }
+            catch (DatabaseException e) 
+            {
+            }
         }
 
         updateMoviesOutputFilesWithNewChanges();
     }
     
     public boolean editMovieBy(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) throws IOException, FileNotFoundException, 
-            FileEmptyException, DataConversionException, DatabaseException 
+            FileEmptyException, DataConversionException, DatabaseException, FileParsingException 
     {
         updateMoviesOutputFilesWithExistingData();
         
@@ -655,7 +662,8 @@ public class MoviesController
                 
         if (editedMovie.isEmpty()) 
         {
-            throw new FileEmptyException("Data filmu vybraného pro editaci se nepodařilo nahrát ze souboru");
+            String filename = fromBinary == true ? DataStore.getBinaryInputMoviesFilename() : DataStore.getTextInputMoviesFilename();
+            throw new FileParsingException("Data filmu vybraného pro editaci se nepodařilo nahrát ze souboru " + filename);
         }
         
         Movie convertedInputMovie = MovieDataConverter.convertToDataFrom(editedMovie.get(0));
