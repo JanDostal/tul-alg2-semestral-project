@@ -246,8 +246,10 @@ public class TVEpisodesControllerTest
         System.out.println();
         
         try 
-        {
-            controller.addTVShowsFrom(false);
+        {            
+            StringBuilder message = controller.addTVShowsFrom(false);
+            
+            System.out.println(message.toString());
             
             List<TVShow> moviesList = showsTable.getAll();
             
@@ -271,8 +273,10 @@ public class TVEpisodesControllerTest
         System.out.println();
         
         try 
-        {
-            controller.addTVSeasonsFrom(show.getPrimaryKey(), false);
+        {            
+            StringBuilder message = controller.addTVSeasonsFrom(show.getPrimaryKey(), false);
+            
+            System.out.println(message.toString());
             
             List<TVSeason> seasonsList = seasonsTable.getAll();
             
@@ -297,7 +301,9 @@ public class TVEpisodesControllerTest
         
         try 
         {
-            controller.addTVEpisodesFrom(season3.getPrimaryKey(), false);
+            StringBuilder message = controller.addTVEpisodesFrom(season3.getPrimaryKey(), false);
+            
+            System.out.println(message.toString());
             
             List<TVEpisode> episodesList = episodesTable.getAll();
             
@@ -314,7 +320,6 @@ public class TVEpisodesControllerTest
         {
             System.out.println(e.getMessage());
         }
-        
         
         //deleteTVShowBy
         System.out.println();
@@ -401,8 +406,10 @@ public class TVEpisodesControllerTest
             episodesTable.loadFrom(episodeForEdit);
             
             System.out.println(episodeForEdit);
-                    
-            controller.editTVEpisodeBy(episodeForEdit.getPrimaryKey(), seasonEdit.getPrimaryKey(), false);
+                                
+            boolean wasDataChangedForEdit = controller.editTVEpisodeBy(episodeForEdit.getPrimaryKey(), seasonEdit.getPrimaryKey(), false);;
+            
+            System.out.println(wasDataChangedForEdit);
             
             List<TVEpisode> episodesList = episodesTable.getAll();
             
@@ -429,7 +436,9 @@ public class TVEpisodesControllerTest
         {
             System.out.println(seasonEdit);
             
-            controller.editTVSeasonBy(seasonEdit.getPrimaryKey(), seasonEdit.getTVShowForeignKey(), false);
+            boolean wasDataChangedForEdit = controller.editTVSeasonBy(seasonEdit.getPrimaryKey(), seasonEdit.getTVShowForeignKey(), false);
+            
+            System.out.println(wasDataChangedForEdit);
             
             List<TVSeason> seasonsList = seasonsTable.getAll();
             
@@ -456,7 +465,9 @@ public class TVEpisodesControllerTest
         {
             System.out.println(showEdit);
             
-            controller.editTVShowBy(showEdit.getPrimaryKey(), false);
+            boolean wasDataChangedForEdit = controller.editTVShowBy(showEdit.getPrimaryKey(), false);
+            
+            System.out.println(wasDataChangedForEdit);
             
             List<TVShow> showsList = showsTable.getAll();
             

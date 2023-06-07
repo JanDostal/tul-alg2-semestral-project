@@ -24,7 +24,7 @@ era 3
 
 [Values]      
     
- 1
+Jeníček 1
 1232 2
 FALL_OF_THE_JEDI 3
 

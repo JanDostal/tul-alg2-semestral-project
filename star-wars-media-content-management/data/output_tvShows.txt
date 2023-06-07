@@ -1,0 +1,15 @@
+[Attributes]
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+era 4
+
+[Values]
+
+3 1
+Mařenka 2
+0 3
+FALL_OF_THE_JEDI 4
+
+[End]
