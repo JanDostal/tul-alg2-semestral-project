@@ -14,10 +14,7 @@ import app.models.output.TVShowOutput;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 import utils.exceptions.FileEmptyException;
 import utils.exceptions.FileParsingException;
 
@@ -476,7 +473,7 @@ public class FileManagerAccessorTest
         {
             System.out.println(o.getMessage());
         }
-        catch (IOException | FileEmptyException | FileParsingException e) 
+        catch (IOException | FileEmptyException | FileParsingException | IllegalArgumentException e) 
         {
             System.out.println(e.getMessage());
         }

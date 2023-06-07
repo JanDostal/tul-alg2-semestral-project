@@ -9,6 +9,7 @@ import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -16,7 +17,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import utils.emailsender.EmailSender;
+import utils.exceptions.DataConversionException;
 import utils.exceptions.DatabaseException;
+import utils.exceptions.FileEmptyException;
+import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataTable;
 
 /**
@@ -34,7 +38,15 @@ public class TVEpisodesControllerTest
         
         EmailSender emailSender = EmailSender.getInstance();
         FileManagerAccessor fileManager = FileManagerAccessor.getInstance();
-        FileManagerAccessor.setDataDirectory("data");
+        
+        try 
+        {
+            FileManagerAccessor.setDataDirectory("data");
+        }
+        catch (IllegalArgumentException e) 
+        {
+            System.out.println(e.getMessage());
+        }
         
         TVEpisodesController controller = TVEpisodesController.getInstance(dbContext, emailSender, fileManager);
         
@@ -244,9 +256,13 @@ public class TVEpisodesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException e) 
+        catch (FileNotFoundException l) 
         {
-            System.out.println("chyba");
+            System.out.println(l.getMessage());
+        }
+        catch (IOException | FileEmptyException e) 
+        {
+            System.out.println(e.getMessage());
         }
         
         //addTVSeasonsFrom
@@ -265,9 +281,13 @@ public class TVEpisodesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException e) 
+        catch (FileNotFoundException l) 
         {
-            System.out.println("chyba");
+            System.out.println(l.getMessage());
+        }
+        catch (IOException | FileEmptyException e) 
+        {
+            System.out.println(e.getMessage());
         }
         
         //addTVEpisodesFrom
@@ -286,73 +306,15 @@ public class TVEpisodesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException e) 
+        catch (FileNotFoundException l) 
         {
-            System.out.println("chyba");
+            System.out.println(l.getMessage());
+        }
+        catch (IOException | FileEmptyException e) 
+        {
+            System.out.println(e.getMessage());
         }
         
-        //editTVEpisodeBy
-        System.out.println();
-        System.out.println("editTVEpisodeBy method (text):");
-        System.out.println();
-        
-        try 
-        {
-            controller.editTVEpisodeBy(episodeB.getPrimaryKey(), season3.getPrimaryKey(), false);
-            
-            List<TVEpisode> episodesList = episodesTable.getAll();
-            
-            for (TVEpisode m : episodesList) 
-            {
-                System.out.println(m);
-            }
-        }
-        catch (IOException e) 
-        {
-            System.out.println("chyba");
-        }
-        
-        //editTVSeasonBy
-        System.out.println();
-        System.out.println("editTVSeasonBy method (text):");
-        System.out.println();
-        
-        try 
-        {
-            controller.editTVSeasonBy(season3.getPrimaryKey(), season3.getTVShowForeignKey(), false);
-            
-            List<TVSeason> seasonsList = seasonsTable.getAll();
-            
-            for (TVSeason m : seasonsList) 
-            {
-                System.out.println(m);
-            }
-        }
-        catch (IOException e) 
-        {
-            System.out.println("chyba");
-        }
-        
-        //editTVShowBy
-        System.out.println();
-        System.out.println("editTVShowBy method (text):");
-        System.out.println();
-        
-        try 
-        {
-            controller.editTVShowBy(show2.getPrimaryKey(), false);
-            
-            List<TVShow> showsList = showsTable.getAll();
-            
-            for (TVShow m : showsList) 
-            {
-                System.out.println(m);
-            }
-        }
-        catch (IOException e) 
-        {
-            System.out.println("chyba");
-        }
         
         //deleteTVShowBy
         System.out.println();
@@ -382,9 +344,9 @@ public class TVEpisodesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException e) 
+        catch (IOException | DatabaseException e) 
         {
-            System.out.println("chyba");
+            System.out.println(e.getMessage());
         }
         
         //deleteTVShows
@@ -417,7 +379,99 @@ public class TVEpisodesControllerTest
         }
         catch (IOException e) 
         {
-            System.out.println("chyba");
+            System.out.println(e.getMessage());
+        }
+        
+        //editTVEpisodeBy
+        System.out.println();
+        System.out.println("editTVEpisodeBy method (text):");
+        System.out.println();
+        
+        TVShow showEdit = new TVShow(new PrimaryKey(3), "show33", LocalDate.parse("2023-05-20", 
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
+        TVSeason seasonEdit = new TVSeason(new PrimaryKey(222), 10, showEdit.getPrimaryKey());
+        TVEpisode episodeForEdit = new TVEpisode(new PrimaryKey(21111), null, "ahojahoj", 
+                2, false, null, null, 
+                55, seasonEdit.getPrimaryKey());
+              
+        try 
+        {
+            showsTable.loadFrom(showEdit);
+            seasonsTable.loadFrom(seasonEdit);
+            episodesTable.loadFrom(episodeForEdit);
+            
+            System.out.println(episodeForEdit);
+                    
+            controller.editTVEpisodeBy(episodeForEdit.getPrimaryKey(), seasonEdit.getPrimaryKey(), false);
+            
+            List<TVEpisode> episodesList = episodesTable.getAll();
+            
+            for (TVEpisode m : episodesList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (FileNotFoundException l) 
+        {
+            System.out.println(l.getMessage());
+        }
+        catch (IOException | FileEmptyException | DatabaseException | FileParsingException e) 
+        {
+            System.out.println(e.getMessage());
+        }
+        
+        //editTVSeasonBy
+        System.out.println();
+        System.out.println("editTVSeasonBy method (text):");
+        System.out.println();
+        
+        try 
+        {
+            System.out.println(seasonEdit);
+            
+            controller.editTVSeasonBy(seasonEdit.getPrimaryKey(), seasonEdit.getTVShowForeignKey(), false);
+            
+            List<TVSeason> seasonsList = seasonsTable.getAll();
+            
+            for (TVSeason m : seasonsList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (FileNotFoundException l) 
+        {
+            System.out.println(l.getMessage());
+        }
+        catch (IOException | FileEmptyException | DatabaseException | FileParsingException e) 
+        {
+            System.out.println(e.getMessage());
+        }
+        
+        //editTVShowBy
+        System.out.println();
+        System.out.println("editTVShowBy method (text):");
+        System.out.println();
+        
+        try 
+        {
+            System.out.println(showEdit);
+            
+            controller.editTVShowBy(showEdit.getPrimaryKey(), false);
+            
+            List<TVShow> showsList = showsTable.getAll();
+            
+            for (TVShow m : showsList) 
+            {
+                System.out.println(m);
+            }
+        }
+        catch (FileNotFoundException l) 
+        {
+            System.out.println(l.getMessage());
+        }
+        catch (IOException | FileEmptyException | DatabaseException | FileParsingException | DataConversionException e) 
+        {
+            System.out.println(e.getMessage());
         }
         
     }

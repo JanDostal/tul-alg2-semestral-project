@@ -38,7 +38,15 @@ public class MoviesControllerTest
         EmailSender emailSender = EmailSender.getInstance();
         IDataTable<Movie> moviesTable = dbContext.getMoviesTable();
         FileManagerAccessor fileManager = FileManagerAccessor.getInstance();
-        FileManagerAccessor.setDataDirectory("data");
+        
+        try 
+        {
+            FileManagerAccessor.setDataDirectory("data");
+        }
+        catch (IllegalArgumentException e) 
+        {
+            System.out.println(e.getMessage());
+        }
         
         MoviesController controller = MoviesController.getInstance(dbContext, emailSender, fileManager);
         
@@ -346,7 +354,7 @@ public class MoviesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException | DatabaseException e) 
+        catch (IOException e) 
         {
             System.out.println(e.getMessage());
         }

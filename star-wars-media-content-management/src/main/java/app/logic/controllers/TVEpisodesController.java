@@ -488,7 +488,7 @@ public class TVEpisodesController
         return filteredTVShows.size();
     }
     
-    public List<TVEpisode> getFavoriteEpisodesFromEntireTVShow(PrimaryKey tvShowPrimaryKey) 
+    public List<TVEpisode> getFavoriteTVEpisodesFromEntireTVShow(PrimaryKey tvShowPrimaryKey) 
     {
         List<TVEpisode> filteredEpisodes = new ArrayList<>();
         List<TVEpisode> seasonEpisodes;
@@ -604,7 +604,7 @@ public class TVEpisodesController
         return content;
     }
     
-    public StringBuilder getTVSeasonsChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileNotFoundException 
+    public StringBuilder getTVSeasonsChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
     {
         StringBuilder content = new StringBuilder();
         
