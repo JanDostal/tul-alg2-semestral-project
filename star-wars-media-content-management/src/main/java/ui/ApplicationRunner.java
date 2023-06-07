@@ -21,5 +21,6 @@ public class ApplicationRunner
                 EmailSender.getInstance(), FileManagerAccessor.getInstance());
         
         ConsoleUI ui = new ConsoleUI(moviesController, tvEpisodesController);
+        ui.start();
     }
 }
