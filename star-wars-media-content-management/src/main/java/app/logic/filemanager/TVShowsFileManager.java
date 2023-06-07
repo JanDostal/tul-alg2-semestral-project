@@ -266,13 +266,16 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
     {
         List<TVShowOutput> parsedTVShows = new ArrayList<>();
         
-        if (fromBinary == true) 
-        {
-            File outputTVShowsBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File outputTVShowsText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getTextOutputTVShowsFilename());
+        File outputTVShowsBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 DataStore.getBinaryOutputTVShowsFilename());
-            
-            outputTVShowsBinary.createNewFile();
-            
+        
+        outputTVShowsText.createNewFile();
+        outputTVShowsBinary.createNewFile();
+        
+        if (fromBinary == true) 
+        {            
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputTVShowsFilename())))) 
@@ -321,11 +324,6 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         }
         else
         {
-            File outputTVShowsText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getTextOutputTVShowsFilename());
-        
-            outputTVShowsText.createNewFile();
-            
             StringBuilder text = new StringBuilder();
             String errorParsingMessage = "Soubor " + DataStore.getTextOutputTVShowsFilename() + " má poškozená data";
             

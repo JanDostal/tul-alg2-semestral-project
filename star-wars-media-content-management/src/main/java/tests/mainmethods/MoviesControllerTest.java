@@ -2,7 +2,6 @@
 package tests.mainmethods;
 
 import app.logic.controllers.MoviesController;
-import app.logic.controllers.TVEpisodesController;
 import app.logic.datacontext.DataContextAccessor;
 import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
@@ -11,13 +10,17 @@ import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import utils.emailsender.EmailSender;
+import utils.exceptions.DataConversionException;
 import utils.exceptions.DatabaseException;
+import utils.exceptions.FileEmptyException;
+import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataTable;
 
 /**
@@ -208,18 +211,22 @@ public class MoviesControllerTest
                 60, false, null, null, 
                 LocalDate.parse("2021-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
-        boolean wasDataChanged = 
-                controller.rateMovie(movieEdit, 60);
-        
-        System.out.println("Po rateMovie pouziti:");
-        System.out.println("zmena dat:" + wasDataChanged);
-        movieEdit = dbContext.getMoviesTable().getBy(movieEdit.getPrimaryKey());
-        System.out.println(movieEdit);
-        
-        wasDataChanged = 
-                controller.rateMovie(movieEdit, 60);
-        System.out.println("zmena dat po druhe se stejnym ohodnocenim: " + wasDataChanged);
-        
+        try 
+        {
+            boolean wasDataChanged = controller.rateMovie(movieEdit, 60);
+             
+            System.out.println("Po rateMovie pouziti:");
+            System.out.println("zmena dat:" + wasDataChanged);
+            movieEdit = dbContext.getMoviesTable().getBy(movieEdit.getPrimaryKey());
+            System.out.println(movieEdit);
+            
+            wasDataChanged = controller.rateMovie(movieEdit, 60);
+            System.out.println("zmena dat po druhe se stejnym ohodnocenim: " + wasDataChanged);
+        }
+        catch (DatabaseException e) 
+        {
+            System.out.println("chyba");
+        }
         
         //searchForMovie method
         System.out.println();
@@ -290,7 +297,11 @@ public class MoviesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException e) 
+        catch (FileNotFoundException l) 
+        {
+            System.out.println("chyba");
+        }
+        catch (IOException | FileEmptyException e) 
         {
             System.out.println("chyba");
         }
@@ -311,7 +322,7 @@ public class MoviesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException e) 
+        catch (IOException | DatabaseException e) 
         {
             System.out.println("chyba");
         }
@@ -334,7 +345,7 @@ public class MoviesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException e) 
+        catch (IOException | DatabaseException e) 
         {
             System.out.println("chyba");
         }
@@ -365,7 +376,11 @@ public class MoviesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException | DatabaseException e) 
+        catch (FileNotFoundException o) 
+        {
+            System.out.println("chyba");
+        }
+        catch (IOException | DatabaseException | FileEmptyException | DataConversionException e) 
         {
             System.out.println("chyba");
         }
@@ -409,7 +424,7 @@ public class MoviesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException e) 
+        catch (IOException | FileParsingException | DataConversionException | DatabaseException e) 
         {
             System.out.println("chyba");
         }

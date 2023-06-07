@@ -472,6 +472,10 @@ public class FileManagerAccessorTest
             }
             
         }
+        catch (FileNotFoundException o) 
+        {
+            System.out.println(o.getMessage());
+        }
         catch (IOException | FileEmptyException | FileParsingException e) 
         {
             System.out.println(e.getMessage());

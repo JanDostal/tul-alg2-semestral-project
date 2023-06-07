@@ -288,14 +288,16 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
     public @Override List<MovieOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException
     {
         List<MovieOutput> parsedMovies = new ArrayList<>();
+        File outputMoviesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getBinaryOutputMoviesFilename());
+        File outputMoviesText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                DataStore.getTextOutputMoviesFilename());
+        
+        outputMoviesBinary.createNewFile();
+        outputMoviesText.createNewFile();
         
         if (fromBinary == true) 
-        {
-            File outputMoviesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getBinaryOutputMoviesFilename());
-            
-            outputMoviesBinary.createNewFile();
-            
+        {            
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputMoviesFilename())))) 
@@ -365,12 +367,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             }
         }
         else 
-        {
-            File outputMoviesText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                    DataStore.getTextOutputMoviesFilename());
-        
-            outputMoviesText.createNewFile();
-            
+        {            
             StringBuilder text = new StringBuilder();
             String errorParsingMessage = "Soubor " + DataStore.getTextOutputMoviesFilename() + " má poškozená data";
             

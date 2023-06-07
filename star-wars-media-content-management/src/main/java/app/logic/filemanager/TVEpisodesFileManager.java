@@ -284,14 +284,16 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
     public @Override List<TVEpisodeOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException 
     {
         List<TVEpisodeOutput> parsedTVEpisodes = new ArrayList<>();
+        File outputTVEpisodesText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                DataStore.getTextOutputTVEpisodesFilename());
+        File outputTVEpisodesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getBinaryOutputTVEpisodesFilename());
+        
+        outputTVEpisodesBinary.createNewFile();
+        outputTVEpisodesText.createNewFile();
         
         if (fromBinary == true) 
-        {
-            File outputTVEpisodesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getBinaryOutputTVEpisodesFilename());
-            
-            outputTVEpisodesBinary.createNewFile();
-            
+        {            
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputTVEpisodesFilename())))) 
@@ -357,11 +359,6 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         }
         else 
         {
-            File outputTVEpisodesText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                    DataStore.getTextOutputTVEpisodesFilename());
-        
-            outputTVEpisodesText.createNewFile();
-            
             StringBuilder text = new StringBuilder();
             String errorParsingMessage = "Soubor " + DataStore.getTextOutputTVEpisodesFilename() + " má poškozená data";
             

@@ -250,14 +250,16 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
     public @Override List<TVSeasonOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException
     {
         List<TVSeasonOutput> parsedTVSeasons = new ArrayList<>();
+        File outputTVSeasonsBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getBinaryOutputTVSeasonsFilename());
+        File outputTVSeasonsText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                DataStore.getTextOutputTVSeasonsFilename());
+        
+        outputTVSeasonsBinary.createNewFile();
+        outputTVSeasonsText.createNewFile();
         
         if (fromBinary == true) 
-        {
-            File outputTVSeasonsBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getBinaryOutputTVSeasonsFilename());
-            
-            outputTVSeasonsBinary.createNewFile();
-            
+        {            
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputTVSeasonsFilename())))) 
@@ -289,12 +291,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             }
         }
         else 
-        {
-            File outputTVSeasonsText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                    DataStore.getTextOutputTVSeasonsFilename());
-        
-            outputTVSeasonsText.createNewFile();
-            
+        {            
             StringBuilder text = new StringBuilder();
             String errorParsingMessage = "Soubor " + DataStore.getTextOutputTVSeasonsFilename() + " má poškozená data";
             
