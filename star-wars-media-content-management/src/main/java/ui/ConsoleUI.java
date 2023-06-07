@@ -5,6 +5,7 @@ import app.logic.controllers.MoviesController;
 import app.logic.controllers.TVEpisodesController;
 import app.logic.datastore.DataStore;
 import app.logic.filemanager.FileManagerAccessor;
+import app.models.data.Era;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -66,8 +67,14 @@ public class ConsoleUI
         
         while (isDatabaseFromFilesLoaded == false && isAppRunning == true) 
         {
-            displayInfoMessage("Dále prosím vyberte typ výstupních souborů (textový, binární) "
-                    + "pro načtení existujících dat z těchto souborů");
+            displayInfoMessage("Dále prosím vyberte typ výstupních souborů a to buďto\n" + 
+                    String.format("textové (%s, %s, %s, %s)%n", DataStore.getTextOutputMoviesFilename(), 
+                            DataStore.getTextOutputTVShowsFilename(), DataStore.getTextOutputTVSeasonsFilename(), 
+                            DataStore.getTextOutputTVEpisodesFilename()) +
+                    String.format("nebo binární (%s, %s, %s, %s)%n", DataStore.getBinaryOutputMoviesFilename(), 
+                            DataStore.getBinaryOutputTVShowsFilename(), DataStore.getBinaryOutputTVSeasonsFilename(), 
+                            DataStore.getBinaryOutputTVEpisodesFilename())
+                    + "pro načtení existujících dat z daných souborů");
             
             displayloadingOutputFilesMenu();
             
@@ -112,7 +119,7 @@ public class ConsoleUI
                 switch (choice) 
                 {
                     case 1:
-                        isDatabaseFromFilesLoaded = loadAllOutputDataFrom(false);
+                        printInformationsAboutChronologicalEras();
                         break;
                     case 2:
                         isDatabaseFromFilesLoaded = loadAllOutputDataFrom(true);
@@ -134,22 +141,36 @@ public class ConsoleUI
         displayInfoMessage("Děkujeme za použití aplikace. Ukončuji...");
     }
     
-    private void displayMainMenu() 
+    private void printInformationsAboutChronologicalEras() 
     {
-        String menuName = "=============== HLAVNÍ MENU ===============";
-        
-        StringBuilder horizontalLine = createMenuHorizontalLine(menuName);
+        String heading = "CHRONOLOGICKÉ ÉRY STAR WARS UNIVERZA (začíná nejstarší érou)";
+                
+        StringBuilder headingWithHorizontalLines = createHeadingWithHorizontalLines(30, heading);
+        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(headingWithHorizontalLines.toString());
         
         System.out.println();
-        System.out.println(menuName);
-        System.out.println(String.format("1. Načíst z textových souborů (%s, %s, %s, %s, "
-                + "dojde případně k automatickému vytvoření daných souborů)", 
-                DataStore.getTextOutputMoviesFilename(), DataStore.getTextOutputTVShowsFilename(), 
-                DataStore.getTextOutputTVSeasonsFilename(), DataStore.getTextOutputTVEpisodesFilename()));
-        System.out.println(String.format("2. Načíst z binárních souborů (%s, %s, %s, %s, "
-                + "dojde případně k automatickému vytvoření daných souborů)", 
-                DataStore.getBinaryOutputMoviesFilename(), DataStore.getBinaryOutputTVShowsFilename(), 
-                DataStore.getBinaryOutputTVSeasonsFilename(), DataStore.getBinaryOutputTVEpisodesFilename()));
+        System.out.println(headingWithHorizontalLines);
+                
+        for (Era era : Era.values()) 
+        {
+            System.out.println();
+            System.out.println("Název éry: " + era.getDisplayName());
+            System.out.println("Popis:");
+            System.out.println(era.getDescription());
+            System.out.println(horizontalLine);
+        }
+    }
+    
+    private void displayMainMenu() 
+    {
+        String menuName = "HLAVNÍ MENU";
+        
+        StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1. Vypsat informace o chronologických érách");
         System.out.println("0. Ukončit aplikaci");
         System.out.println(horizontalLine);
     }
@@ -180,8 +201,12 @@ public class ConsoleUI
     
     private void displayIntroduction() 
     {
+        String introductionHeading = String.format("VÍTEJTE V APLIKACI %s", DataStore.getAppName().toUpperCase());
+        
+        StringBuilder introductionWithHorizontalLines = createHeadingWithHorizontalLines(10, introductionHeading);
+        
         System.out.println();
-        System.out.println(String.format("=== Vítejte v aplikaci %s ===", DataStore.getAppName()));
+        System.out.println(introductionWithHorizontalLines);
     }
     
     private boolean setDataDirectoryPath() 
@@ -232,13 +257,13 @@ public class ConsoleUI
     
     private void displayDataDirectoryPathMenu()
     {
-        String menuName = String.format("=============== MENU NASTAVOVÁNÍ ADRESÁŘE %s ===============", 
-                DataStore.getDataDirectoryName().toUpperCase());
+        String menuName = String.format("MENU NASTAVOVÁNÍ ADRESÁŘE %s", DataStore.getDataDirectoryName().toUpperCase());
         
-        StringBuilder horizontalLine = createMenuHorizontalLine(menuName);
+        StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(10, menuName);
+        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
         
         System.out.println();
-        System.out.println(menuName);
+        System.out.println(menuNameWithHorizontalLines);
         System.out.println(String.format("1. Zadat cestu k %s adresáři", DataStore.getDataDirectoryName()));
         System.out.println("0. Ukončit aplikaci");
         System.out.println(horizontalLine);
@@ -246,33 +271,66 @@ public class ConsoleUI
     
     private void displayloadingOutputFilesMenu() 
     {
-        String menuName = "=============== MENU NAČÍTÁNÍ VÝSTUPNÍCH SOUBORŮ ===============";
+        String menuName = "MENU NAČÍTÁNÍ VÝSTUPNÍCH SOUBORŮ";
         
-        StringBuilder horizontalLine = createMenuHorizontalLine(menuName);
+        StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
         
         System.out.println();
-        System.out.println(menuName);
-        System.out.println(String.format("1. Načíst z textových souborů (%s, %s, %s, %s, "
-                + "dojde případně k automatickému vytvoření daných souborů)", 
-                DataStore.getTextOutputMoviesFilename(), DataStore.getTextOutputTVShowsFilename(), 
-                DataStore.getTextOutputTVSeasonsFilename(), DataStore.getTextOutputTVEpisodesFilename()));
-        System.out.println(String.format("2. Načíst z binárních souborů (%s, %s, %s, %s, "
-                + "dojde případně k automatickému vytvoření daných souborů)", 
-                DataStore.getBinaryOutputMoviesFilename(), DataStore.getBinaryOutputTVShowsFilename(), 
-                DataStore.getBinaryOutputTVSeasonsFilename(), DataStore.getBinaryOutputTVEpisodesFilename()));
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1. Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)");
+        System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
         System.out.println("0. Ukončit aplikaci");
         System.out.println(horizontalLine);
     }
-    
-    private StringBuilder createMenuHorizontalLine(String menuName) 
+        
+    private StringBuilder createDividingBottomHorizontalLineOf(String heading) 
     {
         StringBuilder horizontalLine = new StringBuilder();
         
-        for (char c : menuName.toCharArray()) 
+        for (char c : heading.toCharArray()) 
         {
             horizontalLine.append("-");
         }
         
         return horizontalLine;
+    }
+    
+    private StringBuilder createHeadingWithHorizontalLines(int size, String heading) 
+    {
+        StringBuilder headingWithHorizontalLines = new StringBuilder();
+        
+        for (int i = 0; i < size; i++) 
+        {
+            headingWithHorizontalLines.append("#");
+        }
+        
+        headingWithHorizontalLines.append(" ").append(heading).append(" ");
+        
+        for (int i = 0; i < size; i++) 
+        {
+            headingWithHorizontalLines.append("#");
+        }
+        
+        return headingWithHorizontalLines;
+    }
+    
+    private StringBuilder createMenuNameWithHorizontalLines(int size, String menuName) 
+    {
+        StringBuilder menuNameWithHorizontalLines = new StringBuilder();
+        
+        for (int i = 0; i < size; i++) 
+        {
+            menuNameWithHorizontalLines.append("=");
+        }
+        
+        menuNameWithHorizontalLines.append(" ").append(menuName).append(" ");
+        
+        for (int i = 0; i < size; i++) 
+        {
+            menuNameWithHorizontalLines.append("=");
+        }
+        
+        return menuNameWithHorizontalLines;
     }
 }
