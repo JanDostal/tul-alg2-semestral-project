@@ -473,7 +473,10 @@ public class MoviesController
         
         boolean wasDataChanged = dbContext.getMoviesTable().editBy(existingMovie.getPrimaryKey(), newData);
         
-        updateMoviesOutputFilesWithNewChanges();
+        if (wasDataChanged == true) 
+        {
+            updateMoviesOutputFilesWithNewChanges();
+        }
                 
         return wasDataChanged;
     }
@@ -658,9 +661,12 @@ public class MoviesController
         Movie convertedInputMovie = MovieDataConverter.convertToDataFrom(editedMovie.get(0));
 
         boolean wasDataChanged = dbContext.getMoviesTable().editBy(existingMoviePrimaryKey, convertedInputMovie);
-
-        updateMoviesOutputFilesWithNewChanges();
-
+        
+        if (wasDataChanged == true) 
+        {
+            updateMoviesOutputFilesWithNewChanges();
+        }
+        
         return wasDataChanged;
     }
         

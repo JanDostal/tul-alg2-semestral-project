@@ -154,7 +154,6 @@ public class MoviesControllerTest
         List<Movie> getAnnouncedMovies_result = 
                 controller.getAnnouncedMovies(Era.FALL_OF_THE_JEDI);
         
-        
         for (Movie m : getAnnouncedMovies_result) 
         {
             System.out.println(m);
@@ -208,7 +207,7 @@ public class MoviesControllerTest
         System.out.println();
         
         Movie movieEdit = new Movie(new PrimaryKey(5), null, "movieEdit", 
-                60, false, null, null, 
+                -1, false, null, null, 
                 LocalDate.parse("2021-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
         try 
@@ -225,7 +224,7 @@ public class MoviesControllerTest
         }
         catch (DatabaseException | IOException e) 
         {
-            System.out.println("chyba");
+            System.out.println(e.getMessage());
         }
         
         //searchForMovie method
@@ -288,9 +287,11 @@ public class MoviesControllerTest
         
         try 
         {
-            controller.addMoviesFrom(false);
+            StringBuilder message = controller.addMoviesFrom(false);
             
             List<Movie> moviesList = moviesTable.getAll();
+            
+            System.out.println(message.toString());
             
             for (Movie m : moviesList) 
             {
@@ -299,11 +300,11 @@ public class MoviesControllerTest
         }
         catch (FileNotFoundException l) 
         {
-            System.out.println("chyba");
+            System.out.println(l.getMessage());
         }
         catch (IOException | FileEmptyException e) 
         {
-            System.out.println("chyba");
+            System.out.println(e.getMessage());
         }
         
         //deleteMovieBy
@@ -324,7 +325,7 @@ public class MoviesControllerTest
         }
         catch (IOException | DatabaseException e) 
         {
-            System.out.println("chyba");
+            System.out.println(e.getMessage());
         }
         
         //deleteMovies
@@ -347,7 +348,7 @@ public class MoviesControllerTest
         }
         catch (IOException | DatabaseException e) 
         {
-            System.out.println("chyba");
+            System.out.println(e.getMessage());
         }
         
         //editMovieBy
@@ -378,11 +379,11 @@ public class MoviesControllerTest
         }
         catch (FileNotFoundException o) 
         {
-            System.out.println("chyba");
+            System.out.println(o.getMessage());
         }
         catch (IOException | DatabaseException | FileEmptyException | DataConversionException e) 
         {
-            System.out.println("chyba");
+            System.out.println(e.getMessage());
         }
         
         //loadAllOutputDataFrom
@@ -426,7 +427,7 @@ public class MoviesControllerTest
         }
         catch (IOException | FileParsingException | DataConversionException | DatabaseException e) 
         {
-            System.out.println("chyba");
+            System.out.println(e.getMessage());
         }
     }
 }

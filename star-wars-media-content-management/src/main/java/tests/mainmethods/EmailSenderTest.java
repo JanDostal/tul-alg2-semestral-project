@@ -133,15 +133,11 @@ public class EmailSenderTest
 
             controller2.sendUnwatchedEpisodesWithHyperlinksInTVShowByEmail("honzaswtor@gmail.com", show.getPrimaryKey());
         } 
-        catch (EmailException ex) 
-        {
-            System.out.println("Chyba sítě nebo evidentně neplatná zadaná emailová adresa nebo prazdne telo emailu");
-        } 
         catch (NullPointerException ex) 
         {
             System.out.println("Zadana emailova adresa ma hodnotu null");
         }
-        catch (DatabaseException e) 
+        catch (DatabaseException | EmailException e) 
         {
             System.out.println(e.getMessage());
         }
