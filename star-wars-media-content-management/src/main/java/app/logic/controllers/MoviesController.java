@@ -457,8 +457,10 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public boolean rateMovie(Movie existingMovie, int percentageRating) throws DatabaseException
+    public boolean rateMovie(Movie existingMovie, int percentageRating) throws DatabaseException, IOException
     {
+        updateMoviesOutputFilesWithExistingData();
+        
         Movie newData = new Movie(existingMovie.getPrimaryKey(), 
                     existingMovie.getRuntime(), 
                     existingMovie.getName(), 
@@ -470,6 +472,8 @@ public class MoviesController
                     existingMovie.getEra());
         
         boolean wasDataChanged = dbContext.getMoviesTable().editBy(existingMovie.getPrimaryKey(), newData);
+        
+        updateMoviesOutputFilesWithNewChanges();
                 
         return wasDataChanged;
     }

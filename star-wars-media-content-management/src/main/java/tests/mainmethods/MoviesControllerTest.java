@@ -223,7 +223,7 @@ public class MoviesControllerTest
             wasDataChanged = controller.rateMovie(movieEdit, 60);
             System.out.println("zmena dat po druhe se stejnym ohodnocenim: " + wasDataChanged);
         }
-        catch (DatabaseException e) 
+        catch (DatabaseException | IOException e) 
         {
             System.out.println("chyba");
         }
