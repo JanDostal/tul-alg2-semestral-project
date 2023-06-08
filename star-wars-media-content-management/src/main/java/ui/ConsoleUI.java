@@ -15,17 +15,23 @@ import java.util.Scanner;
  */
 public class ConsoleUI 
 {
-    private static final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
     
     private final TVEpisodesController tvEpisodesController;
     
     private final MoviesController moviesController;
     
-    public ConsoleUI(MoviesController moviesController, 
-            TVEpisodesController tvEpisodesController) 
+    private final MoviesUI moviesUI;
+    
+    private final TVEpisodesUI tvEpisodesUI;
+    
+    public ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController) 
     {
         this.tvEpisodesController = tvEpisodesController;
         this.moviesController = moviesController;
+        this.moviesUI = new MoviesUI(moviesController, scanner);
+        this.tvEpisodesUI = new TVEpisodesUI(tvEpisodesController, scanner);
+        
     }
     
     public void start() 
@@ -44,7 +50,7 @@ public class ConsoleUI
             
             try 
             {
-                choice = loadChoiceFromMenu();
+                choice = loadChoiceFromMenu(scanner);
                 
                 switch (choice) 
                 {
@@ -61,7 +67,7 @@ public class ConsoleUI
             catch (InputMismatchException ex) 
             {
                 displayErrorMessage("Volba musí být vybrána pomocí čísla");
-                advanceToNextInput();
+                advanceToNextInput(scanner);
             }
         }
         
@@ -80,7 +86,7 @@ public class ConsoleUI
             
             try 
             {
-                choice = loadChoiceFromMenu();
+                choice = loadChoiceFromMenu(scanner);
                 
                 switch (choice) 
                 {
@@ -100,7 +106,7 @@ public class ConsoleUI
             catch (InputMismatchException ex) 
             {
                 displayErrorMessage("Volba musí být vybrána pomocí čísla");
-                advanceToNextInput();
+                advanceToNextInput(scanner);
             }
         }
         
@@ -114,7 +120,7 @@ public class ConsoleUI
             
             try 
             {
-                choice = loadChoiceFromMenu();
+                choice = loadChoiceFromMenu(scanner);
                 
                 switch (choice) 
                 {
@@ -122,7 +128,10 @@ public class ConsoleUI
                         printInformationsAboutChronologicalEras();
                         break;
                     case 2:
-                        isDatabaseFromFilesLoaded = loadAllOutputDataFrom(true);
+                        moviesUI.start();
+                        break;
+                    case 3:
+                        tvEpisodesUI.start();
                         break;
                     case 0:
                         isAppRunning = false;
@@ -134,13 +143,87 @@ public class ConsoleUI
             catch (InputMismatchException ex) 
             {
                 displayErrorMessage("Volba musí být vybrána pomocí čísla");
-                advanceToNextInput();
+                advanceToNextInput(scanner);
             }
         }
 
         displayInfoMessage("Děkujeme za použití aplikace. Ukončuji...");
     }
     
+    protected static void displayErrorMessage(String message) 
+    {
+        System.out.println();
+        System.out.println("Chybová zpráva: " + message);
+        System.out.println();
+    }
+    
+    protected static void displayInfoMessage(String message) 
+    {
+        System.out.println();
+        System.out.println("Informační zpráva: " + message);
+    }
+    
+    protected static void advanceToNextInput(Scanner scanner) 
+    {
+        scanner.nextLine();
+    }
+    
+    protected static int loadChoiceFromMenu (Scanner scanner) 
+    {
+        System.out.println("Zadejte číslo volby z menu: ");
+        return scanner.nextInt();
+    }
+    
+    protected static StringBuilder createDividingBottomHorizontalLineOf(String heading) 
+    {
+        StringBuilder horizontalLine = new StringBuilder();
+        
+        for (char c : heading.toCharArray()) 
+        {
+            horizontalLine.append("-");
+        }
+        
+        return horizontalLine;
+    }
+    
+    protected static StringBuilder createHeadingWithHorizontalLines(int size, String heading) 
+    {
+        StringBuilder headingWithHorizontalLines = new StringBuilder();
+        
+        for (int i = 0; i < size; i++) 
+        {
+            headingWithHorizontalLines.append("#");
+        }
+        
+        headingWithHorizontalLines.append(" ").append(heading).append(" ");
+        
+        for (int i = 0; i < size; i++) 
+        {
+            headingWithHorizontalLines.append("#");
+        }
+        
+        return headingWithHorizontalLines;
+    }
+    
+    protected static StringBuilder createMenuNameWithHorizontalLines(int size, String menuName) 
+    {
+        StringBuilder menuNameWithHorizontalLines = new StringBuilder();
+        
+        for (int i = 0; i < size; i++) 
+        {
+            menuNameWithHorizontalLines.append("=");
+        }
+        
+        menuNameWithHorizontalLines.append(" ").append(menuName).append(" ");
+        
+        for (int i = 0; i < size; i++) 
+        {
+            menuNameWithHorizontalLines.append("=");
+        }
+        
+        return menuNameWithHorizontalLines;
+    }
+        
     private void printInformationsAboutChronologicalEras() 
     {
         String heading = "CHRONOLOGICKÉ ÉRY STAR WARS UNIVERZA (začíná nejstarší érou)";
@@ -159,54 +242,6 @@ public class ConsoleUI
             System.out.println(era.getDescription());
             System.out.println(horizontalLine);
         }
-    }
-    
-    private void displayMainMenu() 
-    {
-        String menuName = "HLAVNÍ MENU";
-        
-        StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
-        
-        System.out.println();
-        System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Vypsat informace o chronologických érách");
-        System.out.println("0. Ukončit aplikaci");
-        System.out.println(horizontalLine);
-    }
-    
-    private void displayErrorMessage(String message) 
-    {
-        System.out.println();
-        System.out.println("Chybová zpráva: " + message);
-        System.out.println();
-    }
-    
-    private void displayInfoMessage(String message) 
-    {
-        System.out.println();
-        System.out.println("Informační zpráva: " + message);
-    }
-    
-    private void advanceToNextInput() 
-    {
-        scanner.nextLine();
-    }
-    
-    private int loadChoiceFromMenu () 
-    {
-        System.out.println("Zadejte číslo volby z menu: ");
-        return scanner.nextInt();
-    }
-    
-    private void displayIntroduction() 
-    {
-        String introductionHeading = String.format("VÍTEJTE V APLIKACI %s", DataStore.getAppName().toUpperCase());
-        
-        StringBuilder introductionWithHorizontalLines = createHeadingWithHorizontalLines(10, introductionHeading);
-        
-        System.out.println();
-        System.out.println(introductionWithHorizontalLines);
     }
     
     private boolean setDataDirectoryPath() 
@@ -249,10 +284,36 @@ public class ConsoleUI
     
     private String loadDataDirectoryPath() 
     {
-        advanceToNextInput();
+        advanceToNextInput(scanner);
         System.out.println();
         System.out.println("Zadejte cestu (může být absolutní i relativní, automatické rozpoznání používaného operačního systému): ");
         return scanner.nextLine();
+    }
+    
+    private void displayIntroduction() 
+    {
+        String introductionHeading = String.format("VÍTEJTE V APLIKACI %s", DataStore.getAppName().toUpperCase());
+        
+        StringBuilder introductionWithHorizontalLines = createHeadingWithHorizontalLines(10, introductionHeading);
+        
+        System.out.println();
+        System.out.println(introductionWithHorizontalLines);
+    }
+    
+    private void displayMainMenu() 
+    {
+        String menuName = "HLAVNÍ MENU";
+        
+        StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1. Vypsat informace o chronologických érách");
+        System.out.println("2. Správa filmů");
+        System.out.println("3. Správa TV epizod");
+        System.out.println("0. Ukončit aplikaci");
+        System.out.println(horizontalLine);
     }
     
     private void displayDataDirectoryPathMenu()
@@ -282,55 +343,5 @@ public class ConsoleUI
         System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
         System.out.println("0. Ukončit aplikaci");
         System.out.println(horizontalLine);
-    }
-        
-    private StringBuilder createDividingBottomHorizontalLineOf(String heading) 
-    {
-        StringBuilder horizontalLine = new StringBuilder();
-        
-        for (char c : heading.toCharArray()) 
-        {
-            horizontalLine.append("-");
-        }
-        
-        return horizontalLine;
-    }
-    
-    private StringBuilder createHeadingWithHorizontalLines(int size, String heading) 
-    {
-        StringBuilder headingWithHorizontalLines = new StringBuilder();
-        
-        for (int i = 0; i < size; i++) 
-        {
-            headingWithHorizontalLines.append("#");
-        }
-        
-        headingWithHorizontalLines.append(" ").append(heading).append(" ");
-        
-        for (int i = 0; i < size; i++) 
-        {
-            headingWithHorizontalLines.append("#");
-        }
-        
-        return headingWithHorizontalLines;
-    }
-    
-    private StringBuilder createMenuNameWithHorizontalLines(int size, String menuName) 
-    {
-        StringBuilder menuNameWithHorizontalLines = new StringBuilder();
-        
-        for (int i = 0; i < size; i++) 
-        {
-            menuNameWithHorizontalLines.append("=");
-        }
-        
-        menuNameWithHorizontalLines.append(" ").append(menuName).append(" ");
-        
-        for (int i = 0; i < size; i++) 
-        {
-            menuNameWithHorizontalLines.append("=");
-        }
-        
-        return menuNameWithHorizontalLines;
     }
 }
