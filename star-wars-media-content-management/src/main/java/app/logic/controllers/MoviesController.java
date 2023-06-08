@@ -535,44 +535,28 @@ public class MoviesController
     }
     
     public void loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, 
-            DataConversionException, DatabaseException 
-    {        
-        List<MovieOutput> outputMovies = fileManagerAccessor.getMoviesFileManager().
-                loadOutputDataFrom(fromBinary);
-        List<TVShowOutput> outputTVShows = fileManagerAccessor.getTVShowsFileManager().
-                loadOutputDataFrom(fromBinary);
-        List<TVSeasonOutput> outputTVSeasons = fileManagerAccessor.getTVSeasonsFileManager().
-                loadOutputDataFrom(fromBinary);
-        List<TVEpisodeOutput> outputTVEpisodes = fileManagerAccessor.getTVEpisodesFileManager().
-                loadOutputDataFrom(fromBinary);
+            DataConversionException, DatabaseException, Exception 
+    {
+        try 
+        {
+            List<MovieOutput> outputMovies = fileManagerAccessor.getMoviesFileManager().
+                    loadOutputDataFrom(fromBinary);
         
-        Movie convertedOutputMovie;
-        TVShow convertedOutputTVShow;
-        TVSeason convertedOutputTVSeason;
-        TVEpisode convertedOutputTVEpisode;
+            Movie convertedOutputMovie;
         
-        for (MovieOutput m : outputMovies) 
-        {
-            convertedOutputMovie = MovieDataConverter.convertToDataFrom(m);
-            dbContext.getMoviesTable().loadFrom(convertedOutputMovie);
+            for (MovieOutput m : outputMovies) 
+            {
+                convertedOutputMovie = MovieDataConverter.convertToDataFrom(m);
+                dbContext.getMoviesTable().loadFrom(convertedOutputMovie);
+            }
         }
-
-        for (TVShowOutput m : outputTVShows) 
+        catch (Exception ex) 
         {
-            convertedOutputTVShow = TVShowDataConverter.convertToDataFrom(m);
-            dbContext.getTVShowsTable().loadFrom(convertedOutputTVShow);
-        }
-
-        for (TVSeasonOutput m : outputTVSeasons) 
-        {
-            convertedOutputTVSeason = TVSeasonDataConverter.convertToDataFrom(m);
-            dbContext.getTVSeasonsTable().loadFrom(convertedOutputTVSeason);
-        }
-
-        for (TVEpisodeOutput m : outputTVEpisodes) 
-        {
-            convertedOutputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(m);
-            dbContext.getTVEpisodesTable().loadFrom(convertedOutputTVEpisode);
+            dbContext.getMoviesTable().clearData();
+            dbContext.getTVShowsTable().clearData();
+            dbContext.getTVSeasonsTable().clearData();
+            dbContext.getTVEpisodesTable().clearData();
+            throw new Exception(ex.getMessage());
         }
     }
     

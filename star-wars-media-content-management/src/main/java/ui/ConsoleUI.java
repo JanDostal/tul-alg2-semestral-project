@@ -29,8 +29,8 @@ public class ConsoleUI
     {
         this.tvEpisodesController = tvEpisodesController;
         this.moviesController = moviesController;
-        this.moviesUI = new MoviesUI(moviesController, scanner);
-        this.tvEpisodesUI = new TVEpisodesUI(tvEpisodesController, scanner);
+        this.moviesUI = new MoviesUI(this);
+        this.tvEpisodesUI = new TVEpisodesUI(this);
         
     }
     
@@ -50,7 +50,7 @@ public class ConsoleUI
             
             try 
             {
-                choice = loadChoiceFromMenu(scanner);
+                choice = loadChoiceFromMenu();
                 
                 switch (choice) 
                 {
@@ -67,7 +67,7 @@ public class ConsoleUI
             catch (InputMismatchException ex) 
             {
                 displayErrorMessage("Volba musí být vybrána pomocí čísla");
-                advanceToNextInput(scanner);
+                advanceToNextInput();
             }
         }
         
@@ -86,7 +86,7 @@ public class ConsoleUI
             
             try 
             {
-                choice = loadChoiceFromMenu(scanner);
+                choice = loadChoiceFromMenu();
                 
                 switch (choice) 
                 {
@@ -106,7 +106,7 @@ public class ConsoleUI
             catch (InputMismatchException ex) 
             {
                 displayErrorMessage("Volba musí být vybrána pomocí čísla");
-                advanceToNextInput(scanner);
+                advanceToNextInput();
             }
         }
         
@@ -120,7 +120,7 @@ public class ConsoleUI
             
             try 
             {
-                choice = loadChoiceFromMenu(scanner);
+                choice = loadChoiceFromMenu();
                 
                 switch (choice) 
                 {
@@ -143,38 +143,46 @@ public class ConsoleUI
             catch (InputMismatchException ex) 
             {
                 displayErrorMessage("Volba musí být vybrána pomocí čísla");
-                advanceToNextInput(scanner);
+                advanceToNextInput();
             }
         }
 
         displayInfoMessage("Děkujeme za použití aplikace. Ukončuji...");
     }
     
-    protected static void displayErrorMessage(String message) 
+    protected void displayErrorMessage(String message) 
     {
         System.out.println();
         System.out.println("Chybová zpráva: " + message);
         System.out.println();
     }
     
-    protected static void displayInfoMessage(String message) 
+    protected void displayInfoMessage(String message) 
     {
         System.out.println();
         System.out.println("Informační zpráva: " + message);
     }
     
-    protected static void advanceToNextInput(Scanner scanner) 
+    protected void advanceToNextInput() 
     {
         scanner.nextLine();
     }
     
-    protected static int loadChoiceFromMenu (Scanner scanner) 
+    protected int loadChoiceFromMenu () 
     {
         System.out.println("Zadejte číslo volby z menu: ");
         return scanner.nextInt();
     }
     
-    protected static StringBuilder createDividingBottomHorizontalLineOf(String heading) 
+    private String loadDataDirectoryPath() 
+    {
+        advanceToNextInput();
+        System.out.println();
+        System.out.println("Zadejte cestu (může být absolutní i relativní, automatické rozpoznání používaného operačního systému): ");
+        return scanner.nextLine();
+    }
+    
+    protected StringBuilder createDividingBottomHorizontalLineOf(String heading) 
     {
         StringBuilder horizontalLine = new StringBuilder();
         
@@ -186,7 +194,7 @@ public class ConsoleUI
         return horizontalLine;
     }
     
-    protected static StringBuilder createHeadingWithHorizontalLines(int size, String heading) 
+    protected StringBuilder createHeadingWithHorizontalLines(int size, String heading) 
     {
         StringBuilder headingWithHorizontalLines = new StringBuilder();
         
@@ -205,7 +213,7 @@ public class ConsoleUI
         return headingWithHorizontalLines;
     }
     
-    protected static StringBuilder createMenuNameWithHorizontalLines(int size, String menuName) 
+    protected StringBuilder createMenuNameWithHorizontalLines(int size, String menuName) 
     {
         StringBuilder menuNameWithHorizontalLines = new StringBuilder();
         
@@ -222,72 +230,6 @@ public class ConsoleUI
         }
         
         return menuNameWithHorizontalLines;
-    }
-        
-    private void printInformationsAboutChronologicalEras() 
-    {
-        String heading = "CHRONOLOGICKÉ ÉRY STAR WARS UNIVERZA (začíná nejstarší érou)";
-                
-        StringBuilder headingWithHorizontalLines = createHeadingWithHorizontalLines(30, heading);
-        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(headingWithHorizontalLines.toString());
-        
-        System.out.println();
-        System.out.println(headingWithHorizontalLines);
-                
-        for (Era era : Era.values()) 
-        {
-            System.out.println();
-            System.out.println("Název éry: " + era.getDisplayName());
-            System.out.println("Popis:");
-            System.out.println(era.getDescription());
-            System.out.println(horizontalLine);
-        }
-    }
-    
-    private boolean setDataDirectoryPath() 
-    {
-        boolean isDataDirectorySet = false;
-       
-        String dataDirectoryPath = loadDataDirectoryPath();
-        
-        try 
-        {
-            FileManagerAccessor.setDataDirectory(dataDirectoryPath);
-            isDataDirectorySet = true;
-            displayInfoMessage(String.format("Cesta k adresáři %s úspešně nastavena", DataStore.getDataDirectoryName()));
-        }
-        catch (IllegalArgumentException ex) 
-        {
-            displayErrorMessage(ex.getMessage());
-        }
-        
-        return isDataDirectorySet;
-    }
-    
-    private boolean loadAllOutputDataFrom(boolean fromBinary) 
-    {
-        boolean isDatabaseFromFilesLoaded = false;
-        
-        try 
-        {
-            moviesController.loadAllOutputDataFrom(fromBinary);
-            isDatabaseFromFilesLoaded = true;
-            displayInfoMessage("Existující data z výstupních souborů úspěšně načtena");
-        }
-        catch (Exception ex) 
-        {
-            displayErrorMessage(ex.getMessage());
-        }
-        
-        return isDatabaseFromFilesLoaded;
-    }
-    
-    private String loadDataDirectoryPath() 
-    {
-        advanceToNextInput(scanner);
-        System.out.println();
-        System.out.println("Zadejte cestu (může být absolutní i relativní, automatické rozpoznání používaného operačního systému): ");
-        return scanner.nextLine();
     }
     
     private void displayIntroduction() 
@@ -343,5 +285,65 @@ public class ConsoleUI
         System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
         System.out.println("0. Ukončit aplikaci");
         System.out.println(horizontalLine);
+    }
+        
+    private void printInformationsAboutChronologicalEras() 
+    {
+        String heading = "CHRONOLOGICKÉ ÉRY STAR WARS UNIVERZA (začíná nejstarší érou)";
+                
+        StringBuilder headingWithHorizontalLines = createHeadingWithHorizontalLines(30, heading);
+        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(headingWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(headingWithHorizontalLines);
+                
+        for (Era era : Era.values()) 
+        {
+            System.out.println();
+            System.out.println("Název éry: " + era.getDisplayName());
+            System.out.println("Popis:");
+            System.out.println(era.getDescription());
+            System.out.println(horizontalLine);
+        }
+    }
+    
+    private boolean setDataDirectoryPath() 
+    {
+        boolean isDataDirectorySet = false;
+       
+        String dataDirectoryPath = loadDataDirectoryPath();
+        
+        try 
+        {
+            FileManagerAccessor.setDataDirectory(dataDirectoryPath);
+            isDataDirectorySet = true;
+            displayInfoMessage(String.format("Cesta k adresáři %s úspešně nastavena a je specifikovaná jako%n%s", 
+                    DataStore.getDataDirectoryName(), FileManagerAccessor.getDataDirectoryPath()));
+        }
+        catch (IllegalArgumentException ex) 
+        {
+            displayErrorMessage(ex.getMessage());
+        }
+        
+        return isDataDirectorySet;
+    }
+    
+    private boolean loadAllOutputDataFrom(boolean fromBinary) 
+    {
+        boolean isDatabaseFromFilesLoaded = false;
+        
+        try 
+        {
+            moviesController.loadAllOutputDataFrom(fromBinary);
+            tvEpisodesController.loadAllOutputDataFrom(fromBinary);
+            isDatabaseFromFilesLoaded = true;
+            displayInfoMessage("Existující data z výstupních souborů úspěšně načtena");
+        }
+        catch (Exception ex) 
+        {
+            displayErrorMessage(ex.getMessage());
+        }
+        
+        return isDatabaseFromFilesLoaded;
     }
 }

@@ -673,6 +673,50 @@ public class TVEpisodesController
         return foundTVEpisode;
     }
     
+    public void loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, 
+            DataConversionException, DatabaseException, Exception 
+    {
+        try 
+        {
+            List<TVShowOutput> outputTVShows = fileManagerAccessor.getTVShowsFileManager().
+                    loadOutputDataFrom(fromBinary);
+            List<TVSeasonOutput> outputTVSeasons = fileManagerAccessor.getTVSeasonsFileManager().
+                    loadOutputDataFrom(fromBinary);
+            List<TVEpisodeOutput> outputTVEpisodes = fileManagerAccessor.getTVEpisodesFileManager().
+                    loadOutputDataFrom(fromBinary);
+        
+            TVShow convertedOutputTVShow;
+            TVSeason convertedOutputTVSeason;
+            TVEpisode convertedOutputTVEpisode;
+        
+            for (TVShowOutput m : outputTVShows) 
+            {
+                convertedOutputTVShow = TVShowDataConverter.convertToDataFrom(m);
+                dbContext.getTVShowsTable().loadFrom(convertedOutputTVShow);
+            }
+
+            for (TVSeasonOutput m : outputTVSeasons) 
+            {
+                convertedOutputTVSeason = TVSeasonDataConverter.convertToDataFrom(m);
+                dbContext.getTVSeasonsTable().loadFrom(convertedOutputTVSeason);
+            }
+
+            for (TVEpisodeOutput m : outputTVEpisodes) 
+            {
+                convertedOutputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(m);
+                dbContext.getTVEpisodesTable().loadFrom(convertedOutputTVEpisode);
+            }
+        }
+        catch (Exception ex) 
+        {
+            dbContext.getMoviesTable().clearData();
+            dbContext.getTVShowsTable().clearData();
+            dbContext.getTVSeasonsTable().clearData();
+            dbContext.getTVEpisodesTable().clearData();
+            throw new Exception(ex.getMessage());
+        }
+    }
+    
     public StringBuilder addTVShowsFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException 
     {
         updateTVShowsOutputFilesWithExistingData();

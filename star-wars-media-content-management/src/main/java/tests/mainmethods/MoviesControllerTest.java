@@ -2,6 +2,7 @@
 package tests.mainmethods;
 
 import app.logic.controllers.MoviesController;
+import app.logic.controllers.TVEpisodesController;
 import app.logic.datacontext.DataContextAccessor;
 import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
@@ -49,6 +50,7 @@ public class MoviesControllerTest
         }
         
         MoviesController controller = MoviesController.getInstance(dbContext, emailSender, fileManager);
+        TVEpisodesController controllerEpisodes = TVEpisodesController.getInstance(dbContext, emailSender, fileManager);
         
         Movie movieA = new Movie(new PrimaryKey(3), null, "movieA", 
                 60, true, "https://www.example01.com", "A", 
@@ -396,7 +398,7 @@ public class MoviesControllerTest
         
         //loadAllOutputDataFrom
         System.out.println();
-        System.out.println("loadAllOutputDataFrom method:");
+        System.out.println("loadAllOutputDataFrom method (obě metody z TVEpisodesControlleru a MoviesControlleru):");
         System.out.println();
         
         try 
@@ -407,6 +409,7 @@ public class MoviesControllerTest
             dbContext.getTVShowsTable().clearData();
 
             controller.loadAllOutputDataFrom(false);
+            controllerEpisodes.loadAllOutputDataFrom(false);
 
             List<Movie> moviesAfterLoad = dbContext.getMoviesTable().getAll();
             List<TVEpisode> tvEpisodesAfterLoad = dbContext.getTVEpisodesTable().getAll();
@@ -433,7 +436,7 @@ public class MoviesControllerTest
                 System.out.println(m);
             }
         }
-        catch (IOException | FileParsingException | DataConversionException | DatabaseException e) 
+        catch (Exception e) 
         {
             System.out.println(e.getMessage());
         }

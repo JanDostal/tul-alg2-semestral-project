@@ -14,14 +14,11 @@ import java.util.Scanner;
  */
 public class MoviesUI 
 {
-    private final Scanner scanner;
-        
-    private final MoviesController moviesController;
+    private final ConsoleUI consoleUI;
     
-    protected MoviesUI(MoviesController moviesController, Scanner scanner) 
+    protected MoviesUI(ConsoleUI consoleUI) 
     {
-        this.scanner = scanner;
-        this.moviesController = moviesController;
+        this.consoleUI = consoleUI;
     }
     
     protected void start() 
@@ -35,7 +32,7 @@ public class MoviesUI
             
             try 
             {
-                choice = ConsoleUI.loadChoiceFromMenu(scanner);
+                choice = consoleUI.loadChoiceFromMenu();
                 
                 switch (choice) 
                 {
@@ -45,13 +42,13 @@ public class MoviesUI
                         returnToMainMenu = true;
                         break;
                     default:
-                        ConsoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
                 }
             }
             catch (InputMismatchException ex) 
             {
-                ConsoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
-                ConsoleUI.advanceToNextInput(scanner);
+                consoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
+                consoleUI.advanceToNextInput();
             }
         }
     }
@@ -60,12 +57,27 @@ public class MoviesUI
     {
         String menuName = "PODMENU SPRÁVA FILMŮ";
         
-        StringBuilder menuNameWithHorizontalLines = ConsoleUI.createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = ConsoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)");
+        System.out.println("1. Načíst filmy ze souboru");
+        System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
+        System.out.println("0. Vrátit se do hlavního menu");
+        System.out.println(horizontalLine);
+    }
+    
+    private void loadMoviesFromFile() 
+    {
+        String menuName = "PODMENU SPRÁVA FILMŮ";
+        
+        StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1. Načíst filmy ze souboru");
         System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
         System.out.println("0. Vrátit se do hlavního menu");
         System.out.println(horizontalLine);

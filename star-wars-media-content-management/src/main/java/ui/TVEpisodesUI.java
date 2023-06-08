@@ -14,16 +14,13 @@ import java.util.Scanner;
  */
 public class TVEpisodesUI 
 {
-    private final Scanner scanner;
-        
-    private final TVEpisodesController tvEpisodesController;
+    private final ConsoleUI consoleUI;
     
-    protected TVEpisodesUI(TVEpisodesController tvEpisodesController, Scanner scanner) 
+    protected TVEpisodesUI(ConsoleUI consoleUI) 
     {
-        this.scanner = scanner;
-        this.tvEpisodesController = tvEpisodesController;
+        this.consoleUI = consoleUI;
     }
-    
+        
     protected void start() 
     {
         boolean returnToMainMenu = false;
@@ -35,7 +32,7 @@ public class TVEpisodesUI
             
             try 
             {
-                choice = ConsoleUI.loadChoiceFromMenu(scanner);
+                choice = consoleUI.loadChoiceFromMenu();
                 
                 switch (choice) 
                 {
@@ -45,13 +42,13 @@ public class TVEpisodesUI
                         returnToMainMenu = true;
                         break;
                     default:
-                        ConsoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
                 }
             }
             catch (InputMismatchException ex) 
             {
-                ConsoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
-                ConsoleUI.advanceToNextInput(scanner);
+                consoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
+                consoleUI.advanceToNextInput();
             }
         }
     }
@@ -60,8 +57,8 @@ public class TVEpisodesUI
     {
         String menuName = "PODMENU SPRÁVA TV EPIZOD";
         
-        StringBuilder menuNameWithHorizontalLines = ConsoleUI.createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = ConsoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
