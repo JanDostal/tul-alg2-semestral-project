@@ -28,6 +28,7 @@ public class TVEpisodesUI
         
         while (returnToMainMenu == false) 
         {
+            consoleUI.displayBreadcrumb();
             displayloadingOutputFilesMenu();
             
             try 
@@ -39,6 +40,7 @@ public class TVEpisodesUI
                     case 1:
                         break;
                     case 0:
+                        consoleUI.removeLastBreadcrumbItem();
                         returnToMainMenu = true;
                         break;
                     default:
@@ -59,12 +61,12 @@ public class TVEpisodesUI
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
         StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
-        
+                
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
         System.out.println("1. Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)");
         System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println("0. Vrátit se do hlavního menu");
+        System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
 }

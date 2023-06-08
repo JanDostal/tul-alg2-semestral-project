@@ -416,7 +416,7 @@ public class MoviesControllerTest
             List<TVSeason> tvSeasonsAfterLoad = dbContext.getTVSeasonsTable().getAll();
             List<TVShow> tvShowsAfterLoad = dbContext.getTVShowsTable().getAll();
 
-            for (Movie m : moviesAfterLoad) 
+            for (Movie m : moviesAfterLoad)
             {
                 System.out.println(m);
             }

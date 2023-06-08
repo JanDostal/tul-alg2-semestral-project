@@ -28,6 +28,7 @@ public class MoviesUI
         
         while (returnToMainMenu == false) 
         {
+            consoleUI.displayBreadcrumb();
             displayloadingOutputFilesMenu();
             
             try 
@@ -39,6 +40,7 @@ public class MoviesUI
                     case 1:
                         break;
                     case 0:
+                        consoleUI.removeLastBreadcrumbItem();
                         returnToMainMenu = true;
                         break;
                     default:
@@ -64,7 +66,7 @@ public class MoviesUI
         System.out.println(menuNameWithHorizontalLines);
         System.out.println("1. Načíst filmy ze souboru");
         System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println("0. Vrátit se do hlavního menu");
+        System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
     
@@ -74,7 +76,7 @@ public class MoviesUI
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
         StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
-        
+                
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
         System.out.println("1. Načíst filmy ze souboru");

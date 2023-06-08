@@ -6,7 +6,9 @@ import app.logic.controllers.TVEpisodesController;
 import app.logic.datastore.DataStore;
 import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -25,13 +27,14 @@ public class ConsoleUI
     
     private final TVEpisodesUI tvEpisodesUI;
     
+    private final List<String> breadcrumbItems = new ArrayList<>(); 
+    
     public ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController) 
     {
         this.tvEpisodesController = tvEpisodesController;
         this.moviesController = moviesController;
         this.moviesUI = new MoviesUI(this);
         this.tvEpisodesUI = new TVEpisodesUI(this);
-        
     }
     
     public void start() 
@@ -114,8 +117,11 @@ public class ConsoleUI
         displayInfoMessage("Tato aplikace slouží jako evidence mediálního obsahu (seriály, filmy)"
                 + " v rámci výhradně Star Wars univerza. Nechť vás provází síla.");
         
+        addBreadcrumbItem("Hlavní menu");
+        
         while (isAppRunning == true) 
-        {           
+        {
+            displayBreadcrumb();
             displayMainMenu();
             
             try 
@@ -128,9 +134,11 @@ public class ConsoleUI
                         printInformationsAboutChronologicalEras();
                         break;
                     case 2:
+                        addBreadcrumbItem("Správa filmů");
                         moviesUI.start();
                         break;
                     case 3:
+                        addBreadcrumbItem("Správa TV epizod");
                         tvEpisodesUI.start();
                         break;
                     case 0:
@@ -148,6 +156,32 @@ public class ConsoleUI
         }
 
         displayInfoMessage("Děkujeme za použití aplikace. Ukončuji...");
+    }
+    
+    protected void addBreadcrumbItem(String title) 
+    {
+        breadcrumbItems.add(title);
+    }
+    
+    protected void removeLastBreadcrumbItem() 
+    {
+        breadcrumbItems.remove(breadcrumbItems.size() - 1);
+    }
+    
+    protected void displayBreadcrumb() 
+    {
+        StringBuilder breadcrumb = new StringBuilder("Aktuální cesta v navigaci:");
+        
+        for (String title : breadcrumbItems) 
+        {
+            breadcrumb.append(String.format(" %s /", title));
+        }
+        
+        StringBuilder breadcrumbWithHorizontalLines = createMenuNameWithHorizontalLines(20, breadcrumb.toString());
+        
+        System.out.println();
+        System.out.println(breadcrumbWithHorizontalLines);
+        
     }
     
     protected void displayErrorMessage(String message) 
