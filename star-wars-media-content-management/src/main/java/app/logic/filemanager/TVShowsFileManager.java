@@ -276,6 +276,8 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         
         if (fromBinary == true) 
         {            
+            String errorParsingMessage = "Soubor " + DataStore.getBinaryOutputTVShowsFilename()+ " má poškozená data";
+            
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputTVShowsFilename())))) 
@@ -321,6 +323,11 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             {
                 throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryOutputTVShowsFilename());
             }
+            
+            if (outputTVShowsBinary.length() != 0 && parsedTVShows.isEmpty()) 
+            {
+                throw new FileParsingException(errorParsingMessage);
+            }
         }
         else
         {
@@ -365,10 +372,16 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
             boolean enteredSectionAttributes = false;
             boolean enteredSectionValues = false;
+            boolean isFileEmpty = true;
 
             try (Scanner sc = new Scanner(text.toString())) 
             {
                 String textLine;
+                
+                if (sc.hasNextLine() == true) 
+                {
+                    isFileEmpty = false;
+                }
 
                 while (sc.hasNextLine() == true) 
                 {
@@ -456,6 +469,11 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                         tvShowOutputFieldsValues.put(fieldName, newFieldValue);
                     }
                 }
+            }
+            
+            if (isFileEmpty == false && parsedTVShows.isEmpty()) 
+            {
+                throw new FileParsingException(errorParsingMessage);
             }
         }
                                 
@@ -642,6 +660,15 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 throw new IOException("Chyba při čtení souboru " + 
                         DataStore.getTextInputTVShowsFilename());
             }
+            
+            try (Scanner sc = new Scanner(text.toString())) 
+            {
+                if (sc.hasNextLine() == false)
+                {
+                    sc.close();
+                    throw new FileEmptyException("Soubor " + DataStore.getTextInputTVShowsFilename() + " je prázdný");
+                }
+            }
         }
                                 
         Class<?> tvShowInputClass = TVShowInput.class;
@@ -664,17 +691,11 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         List<TVShowInput> parsedTVShows = new ArrayList<>();
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
-        boolean isFileEmpty = true;
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
             String textLine;
-            
-            if (sc.hasNextLine() == true && fromBinary == false) 
-            {
-                isFileEmpty = false;
-            }
-            
+                        
             while (sc.hasNextLine() == true) 
             {
                 textLine = sc.nextLine();
@@ -748,11 +769,6 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     tvShowInputFieldsValues.put(fieldName, newFieldValue);
                 }
             }
-        }
-        
-        if (isFileEmpty == true && fromBinary == false) 
-        {
-            throw new FileEmptyException("Soubor " + DataStore.getTextInputTVShowsFilename() + " je prázdný");
         }
 
         return parsedTVShows;

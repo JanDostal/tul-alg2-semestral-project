@@ -260,6 +260,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         
         if (fromBinary == true) 
         {            
+            String errorParsingMessage = "Soubor " + DataStore.getBinaryOutputTVSeasonsFilename()+ " má poškozená data";
+            
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputTVSeasonsFilename())))) 
@@ -288,6 +290,11 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             catch (IOException e) 
             {
                 throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryOutputTVSeasonsFilename());
+            }
+            
+            if (outputTVSeasonsBinary.length() != 0 && parsedTVSeasons.isEmpty()) 
+            {
+                throw new FileParsingException(errorParsingMessage);
             }
         }
         else 
@@ -333,10 +340,16 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
 
             boolean enteredSectionAttributes = false;
             boolean enteredSectionValues = false;
+            boolean isFileEmpty = true;
 
             try (Scanner sc = new Scanner(text.toString())) 
             {
                 String textLine;
+                
+                if (sc.hasNextLine() == true) 
+                {
+                    isFileEmpty = false;
+                }
 
                 while (sc.hasNextLine() == true) 
                 {
@@ -424,6 +437,11 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                         tvSeasonOutputFieldsValues.put(fieldName, newFieldValue);
                     }
                 }
+            }
+            
+            if (isFileEmpty == false && parsedTVSeasons.isEmpty()) 
+            {
+                throw new FileParsingException(errorParsingMessage);
             }
         }
                                 
@@ -600,6 +618,15 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 throw new IOException("Chyba při čtení souboru " + 
                         DataStore.getTextInputTVSeasonsFilename());
             }
+            
+            try (Scanner sc = new Scanner(text.toString())) 
+            {
+                if (sc.hasNextLine() == false)
+                {
+                    sc.close();
+                    throw new FileEmptyException("Soubor " + DataStore.getTextInputTVSeasonsFilename() + " je prázdný");
+                }
+            }
         }
                                 
         Class<?> tvSeasonInputClass = TVSeasonInput.class;
@@ -622,17 +649,11 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         List<TVSeasonInput> parsedTVSeasons = new ArrayList<>();
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
-        boolean isFileEmpty = true;
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
             String textLine;
-            
-            if (sc.hasNextLine() == true && fromBinary == false) 
-            {
-                isFileEmpty = false;
-            }
-            
+                        
             while (sc.hasNextLine() == true) 
             {
                 textLine = sc.nextLine();
@@ -708,11 +729,6 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             }
         }
         
-        if (isFileEmpty == true && fromBinary == false) 
-        {
-            throw new FileEmptyException("Soubor " + DataStore.getTextInputTVSeasonsFilename() + " je prázdný");
-        }
-
         return parsedTVSeasons;
     }
     
