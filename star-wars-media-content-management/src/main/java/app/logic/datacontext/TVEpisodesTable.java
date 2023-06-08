@@ -28,20 +28,20 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
     
     private Random primaryKeysGenerator;
     
-    private IDataTable<TVSeason> tvSeasonsTable;
+    private DataContextAccessor dbContext;
     
-    private TVEpisodesTable() 
+    private TVEpisodesTable(DataContextAccessor dbContext) 
     {
-        tvSeasonsTable = TVSeasonsTable.getInstance();
+        this.dbContext = dbContext;
         tvEpisodesData = new ArrayList<>();
         primaryKeysGenerator = new Random();
     }
     
-    protected static IDataTable<TVEpisode> getInstance() 
+    protected static IDataTable<TVEpisode> getInstance(DataContextAccessor dbContext) 
     {
         if (tvEpisodesTable == null) 
         {
-            tvEpisodesTable = new TVEpisodesTable();
+            tvEpisodesTable = new TVEpisodesTable(dbContext);
         }
         
         return tvEpisodesTable;
@@ -69,7 +69,7 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
             throw new DatabaseException("Identifikátor sezóny pro přidanou epizodu musí být větší než nula");
         }
         
-        TVSeason existingTVSeason = tvSeasonsTable.getBy(inputData.getTVSeasonForeignKey());
+        TVSeason existingTVSeason = dbContext.getTVSeasonsTable().getBy(inputData.getTVSeasonForeignKey());
             
         if (existingTVSeason == null) 
         {
@@ -137,7 +137,7 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
                     + " existující epizody sezóny je duplicitní");
         }
         
-        TVSeason existingTVSeason = tvSeasonsTable.getBy(outputData.getTVSeasonForeignKey());
+        TVSeason existingTVSeason = dbContext.getTVSeasonsTable().getBy(outputData.getTVSeasonForeignKey());
             
         if (existingTVSeason == null) 
         {
@@ -213,7 +213,7 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
         
         if (wasDataChanged == true)
         {
-            TVSeason existingTVSeason = tvSeasonsTable.getBy(editedExistingData.getTVSeasonForeignKey());
+            TVSeason existingTVSeason = dbContext.getTVSeasonsTable().getBy(editedExistingData.getTVSeasonForeignKey());
             
             if (existingTVSeason == null) 
             {

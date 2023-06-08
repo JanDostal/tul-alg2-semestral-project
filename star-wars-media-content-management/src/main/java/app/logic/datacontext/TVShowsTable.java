@@ -2,6 +2,8 @@
 package app.logic.datacontext;
 
 import app.models.data.PrimaryKey;
+import app.models.data.TVEpisode;
+import app.models.data.TVSeason;
 import app.models.data.TVShow;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,17 +29,20 @@ public class TVShowsTable implements IDataTable<TVShow>
     
     private Random primaryKeysGenerator;
     
-    private TVShowsTable() 
+    private DataContextAccessor dbContext;
+    
+    private TVShowsTable(DataContextAccessor dbContext) 
     {
+        this.dbContext = dbContext;
         tvShowsData = new ArrayList<>();
         primaryKeysGenerator = new Random();
     }
     
-    protected static IDataTable<TVShow> getInstance() 
+    protected static IDataTable<TVShow> getInstance(DataContextAccessor dbContext) 
     {
         if (tvShowsTable == null) 
         {
-            tvShowsTable = new TVShowsTable();
+            tvShowsTable = new TVShowsTable(dbContext);
         }
         
         return tvShowsTable;
@@ -125,6 +130,35 @@ public class TVShowsTable implements IDataTable<TVShow>
         if (foundTVShow == null) 
         {
             throw new DatabaseException("Seriál vybraný pro smazání nebyl nalezen");
+        }
+        
+        List<TVSeason> showSeasons = dbContext.getTVSeasonsTable().filterBy(e -> 
+                    e.getTVShowForeignKey().equals(primaryKey));
+        List<TVEpisode> seasonEpisodes;
+            
+        for (TVSeason o : showSeasons) 
+        {
+            seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e ->
+                    e.getTVSeasonForeignKey().equals(o.getPrimaryKey()));
+                
+            for (TVEpisode s : seasonEpisodes) 
+            {
+                try 
+                {
+                    dbContext.getTVEpisodesTable().deleteBy(s.getPrimaryKey());
+                }
+                catch (DatabaseException e) 
+                {
+                }
+            }
+            
+            try 
+            {
+                dbContext.getTVSeasonsTable().deleteBy(o.getPrimaryKey());
+            }
+            catch (DatabaseException e) 
+            {
+            }
         }
         
         tvShowsData.remove(foundTVShow);

@@ -873,36 +873,7 @@ public class TVEpisodesController
         updateTVEpisodesOutputFilesWithExistingData();
         updateTVSeasonsOutputFilesWithExistingData();
         updateTVShowsOutputFilesWithExistingData();
-       
-        List<TVSeason> showSeasons = dbContext.getTVSeasonsTable().filterBy(e -> 
-                    e.getTVShowForeignKey().equals(tvShowPrimaryKey));
-        List<TVEpisode> seasonEpisodes;
-            
-        for (TVSeason o : showSeasons) 
-        {
-            seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e ->
-                    e.getTVSeasonForeignKey().equals(o.getPrimaryKey()));
-                
-            for (TVEpisode s : seasonEpisodes) 
-            {
-                try 
-                {
-                    dbContext.getTVEpisodesTable().deleteBy(s.getPrimaryKey());
-                }
-                catch (DatabaseException e) 
-                {
-                }
-            }
-            
-            try 
-            {
-                dbContext.getTVSeasonsTable().deleteBy(o.getPrimaryKey());
-            }
-            catch (DatabaseException e) 
-            {
-            }
-        }
-        
+               
         dbContext.getTVShowsTable().deleteBy(tvShowPrimaryKey);
         
         updateTVEpisodesOutputFilesWithNewChanges();
@@ -914,20 +885,6 @@ public class TVEpisodesController
     {
         updateTVEpisodesOutputFilesWithExistingData();
         updateTVSeasonsOutputFilesWithExistingData();
-                
-        List<TVEpisode> seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e -> 
-                e.getTVSeasonForeignKey().equals(tvSeasonPrimaryKey));
-
-        for (TVEpisode o : seasonEpisodes) 
-        {
-            try 
-            {
-                dbContext.getTVEpisodesTable().deleteBy(o.getPrimaryKey());
-            }
-            catch (DatabaseException e) 
-            {
-            }
-        }
 
         dbContext.getTVSeasonsTable().deleteBy(tvSeasonPrimaryKey);
         
@@ -949,40 +906,9 @@ public class TVEpisodesController
         updateTVEpisodesOutputFilesWithExistingData();
         updateTVSeasonsOutputFilesWithExistingData();
         updateTVShowsOutputFilesWithExistingData();
-                
-        List<TVSeason> showSeasons;
-        List<TVEpisode> seasonEpisodes;
-        
+                        
         for (TVShow m : chosenTVShows) 
         {
-            showSeasons = dbContext.getTVSeasonsTable().filterBy(e -> 
-                    e.getTVShowForeignKey().equals(m.getPrimaryKey()));
-            
-            for (TVSeason o : showSeasons) 
-            {
-                seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e ->
-                    e.getTVSeasonForeignKey().equals(o.getPrimaryKey()));
-                
-                for (TVEpisode s : seasonEpisodes) 
-                {
-                    try 
-                    {
-                        dbContext.getTVEpisodesTable().deleteBy(s.getPrimaryKey());
-                    }
-                    catch (DatabaseException e) 
-                    {
-                    }
-                }
-                
-                try 
-                {
-                    dbContext.getTVSeasonsTable().deleteBy(o.getPrimaryKey());
-                }
-                catch (DatabaseException e) 
-                {
-                }
-            }
-            
             try 
             {
                 dbContext.getTVShowsTable().deleteBy(m.getPrimaryKey());
@@ -1001,25 +927,9 @@ public class TVEpisodesController
     {
         updateTVEpisodesOutputFilesWithExistingData();
         updateTVSeasonsOutputFilesWithExistingData();
-                
-        List<TVEpisode> seasonEpisodes;
-        
+                        
         for (TVSeason m : chosenTVSeasons) 
         {
-            seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e -> 
-                    e.getTVSeasonForeignKey().equals(m.getPrimaryKey()));
-            
-            for (TVEpisode o : seasonEpisodes) 
-            {
-                try 
-                {
-                    dbContext.getTVEpisodesTable().deleteBy(o.getPrimaryKey());
-                }
-                catch (DatabaseException e) 
-                {
-                }
-            }
-            
             try 
             {
                 dbContext.getTVSeasonsTable().deleteBy(m.getPrimaryKey());

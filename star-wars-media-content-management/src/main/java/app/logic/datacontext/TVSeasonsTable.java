@@ -2,6 +2,7 @@
 package app.logic.datacontext;
 
 import app.models.data.PrimaryKey;
+import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
 import java.util.ArrayList;
@@ -28,20 +29,20 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
     
     private Random primaryKeysGenerator;
     
-    private IDataTable<TVShow> tvShowsTable;
+    private DataContextAccessor dbContext;
     
-    private TVSeasonsTable() 
+    private TVSeasonsTable(DataContextAccessor dbContext) 
     {
-        tvShowsTable = TVShowsTable.getInstance();
+        this.dbContext = dbContext;
         tvSeasonsData = new ArrayList<>();
         primaryKeysGenerator = new Random();
     }
     
-    protected static IDataTable<TVSeason> getInstance() 
+    protected static IDataTable<TVSeason> getInstance(DataContextAccessor dbContext) 
     {
         if (tvSeasonsTable == null) 
         {
-            tvSeasonsTable = new TVSeasonsTable();
+            tvSeasonsTable = new TVSeasonsTable(dbContext);
         }
         
         return tvSeasonsTable;
@@ -65,7 +66,7 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
             throw new DatabaseException("Identifikátor seriálu pro přidanou sezónu musí být větší než nula");
         }
         
-        TVShow existingTVShow = tvShowsTable.getBy(inputData.getTVShowForeignKey());
+        TVShow existingTVShow = dbContext.getTVShowsTable().getBy(inputData.getTVShowForeignKey());
             
         if (existingTVShow == null) 
         {
@@ -119,7 +120,7 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
                     + " existující sezóny seriálu je duplicitní");
         }
         
-        TVShow existingTVShow = tvShowsTable.getBy(outputData.getTVShowForeignKey());
+        TVShow existingTVShow = dbContext.getTVShowsTable().getBy(outputData.getTVShowForeignKey());
             
         if (existingTVShow == null) 
         {
@@ -145,6 +146,20 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
         if (foundTVSeason == null)
         {
             throw new DatabaseException("Sezóna seriálu vybraná pro smazání nebyla nalezena");
+        }
+        
+        List<TVEpisode> seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e -> 
+                e.getTVSeasonForeignKey().equals(primaryKey));
+
+        for (TVEpisode o : seasonEpisodes) 
+        {
+            try 
+            {
+                dbContext.getTVEpisodesTable().deleteBy(o.getPrimaryKey());
+            }
+            catch (DatabaseException e) 
+            {
+            }
         }
         
         tvSeasonsData.remove(foundTVSeason);
@@ -184,7 +199,7 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
         
         if (wasDataChanged == true) 
         {
-            TVShow existingTVShow = tvShowsTable.getBy(editedExistingData.getTVShowForeignKey());
+            TVShow existingTVShow = dbContext.getTVShowsTable().getBy(editedExistingData.getTVShowForeignKey());
             
             if (existingTVShow == null) 
             {

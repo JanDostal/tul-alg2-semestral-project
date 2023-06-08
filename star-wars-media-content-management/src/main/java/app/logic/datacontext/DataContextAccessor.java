@@ -25,10 +25,10 @@ public class DataContextAccessor
     
     private DataContextAccessor() 
     {
-        this.tvSeasonsTable = TVSeasonsTable.getInstance();
-        this.tvShowsTable = TVShowsTable.getInstance();
-        this.tvEpisodesTable = TVEpisodesTable.getInstance(); 
-        this.moviesTable = MoviesTable.getInstance();
+        this.tvSeasonsTable = TVSeasonsTable.getInstance(this);
+        this.tvShowsTable = TVShowsTable.getInstance(this);
+        this.tvEpisodesTable = TVEpisodesTable.getInstance(this); 
+        this.moviesTable = MoviesTable.getInstance(this);
     }
 
     public IDataTable<TVSeason> getTVSeasonsTable() 

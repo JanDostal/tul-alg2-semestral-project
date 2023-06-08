@@ -154,7 +154,6 @@ public class ConsoleUI
     {
         System.out.println();
         System.out.println("Chybová zpráva: " + message);
-        System.out.println();
     }
     
     protected void displayInfoMessage(String message) 

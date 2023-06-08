@@ -27,17 +27,20 @@ public class MoviesTable implements IDataTable<Movie>
     
     private Random primaryKeysGenerator;
     
-    private MoviesTable() 
+    private DataContextAccessor dbContext;
+    
+    private MoviesTable(DataContextAccessor dbContext) 
     {
+        this.dbContext = dbContext;
         moviesData = new ArrayList<>();
         primaryKeysGenerator = new Random();
     }
     
-    protected static IDataTable<Movie> getInstance() 
+    protected static IDataTable<Movie> getInstance(DataContextAccessor dbContext) 
     {
         if (moviesTable == null) 
         {
-            moviesTable = new MoviesTable();
+            moviesTable = new MoviesTable(dbContext);
         }
         
         return moviesTable;
