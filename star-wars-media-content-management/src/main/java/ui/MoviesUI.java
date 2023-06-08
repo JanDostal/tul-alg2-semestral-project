@@ -5,6 +5,7 @@
 package ui;
 
 import app.logic.controllers.MoviesController;
+import app.logic.datastore.DataStore;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -29,7 +30,7 @@ public class MoviesUI
         while (returnToMainMenu == false) 
         {
             consoleUI.displayBreadcrumb();
-            displayloadingOutputFilesMenu();
+            displayMoviesManagementSubMenu();
             
             try 
             {
@@ -38,6 +39,8 @@ public class MoviesUI
                 switch (choice) 
                 {
                     case 1:
+                        consoleUI.addBreadcrumbItem("Načíst filmy");
+                        handleMoviesFromInputFileSubMenu();
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -55,7 +58,7 @@ public class MoviesUI
         }
     }
     
-    private void displayloadingOutputFilesMenu() 
+    private void displayMoviesManagementSubMenu() 
     {
         String menuName = "PODMENU SPRÁVA FILMŮ";
         
@@ -64,24 +67,97 @@ public class MoviesUI
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Načíst filmy ze souboru");
-        System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println("0. Vrátit se zpět do nadřazeného menu");
+        System.out.println("1. Načíst filmy ze vstupního souboru");
+        System.out.println("0. Vrátit se zpět do hlavního menu");
         System.out.println(horizontalLine);
     }
     
-    private void loadMoviesFromFile() 
+    private void displayMoviesFromInputFileSubMenu() 
     {
-        String menuName = "PODMENU SPRÁVA FILMŮ";
+        String menuName = "PODMENU NAČÍTÁNÍ FILMŮ ZE VSTUPNÍHO SOUBORU";
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
         StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Načíst filmy ze souboru");
-        System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println("0. Vrátit se do hlavního menu");
+        System.out.println(String.format("1. Načíst z textového souboru %s", DataStore.getTextInputMoviesFilename()));
+        System.out.println(String.format("2. Načíst z binárního souboru %s", DataStore.getBinaryInputMoviesFilename()));
+        System.out.println(String.format("3. Vypsat obsah textového souboru %s", DataStore.getTextInputMoviesFilename()));
+        System.out.println(String.format("4. Vypsat obsah binárního souboru %s", DataStore.getBinaryInputMoviesFilename()));
+        System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
+    }
+    
+    private void loadMoviesFromInputFile(boolean fromBinary) 
+    {        
+        try 
+        {
+            StringBuilder infoMessage = consoleUI.getMoviesController().addMoviesFrom(fromBinary);
+            consoleUI.displayInfoMessage(infoMessage.toString());
+        }
+        catch (Exception ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }        
+    }
+    
+    private void displayMoviesChosenFileContent(String fileName) 
+    {        
+        try 
+        {
+            StringBuilder fileContent = consoleUI.getMoviesController().getMoviesChosenFileContent(fileName);
+            
+            consoleUI.displayInfoMessage("Výpis obsahu souboru " + fileName);
+            System.out.println(fileContent);
+        }
+        catch (Exception ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }        
+    }
+    
+    private void handleMoviesFromInputFileSubMenu() 
+    {
+        boolean returnToParentMenu = false;
+        int choice;
+        
+        while (returnToParentMenu == false) 
+        {
+            consoleUI.displayBreadcrumb();
+            displayMoviesFromInputFileSubMenu();
+            
+            try 
+            {
+                choice = consoleUI.loadChoiceFromMenu();
+                
+                switch (choice) 
+                {
+                    case 1:
+                        loadMoviesFromInputFile(false);
+                        break;
+                    case 2:
+                        loadMoviesFromInputFile(true);
+                        break;
+                    case 3:
+                        displayMoviesChosenFileContent(DataStore.getTextInputMoviesFilename());
+                        break;
+                    case 4:
+                        displayMoviesChosenFileContent(DataStore.getBinaryInputMoviesFilename());
+                        break;
+                    case 0:
+                        consoleUI.removeLastBreadcrumbItem();
+                        returnToParentMenu = true;
+                        break;
+                    default:
+                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                }
+            }
+            catch (InputMismatchException ex) 
+            {
+                consoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
+                consoleUI.advanceToNextInput();
+            }
+        }
     }
 }

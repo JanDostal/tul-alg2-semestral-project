@@ -66,7 +66,7 @@ public class TVEpisodesUI
         System.out.println(menuNameWithHorizontalLines);
         System.out.println("1. Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)");
         System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println("0. Vrátit se zpět do nadřazeného menu");
+        System.out.println("0. Vrátit se zpět do hlavního menu");
         System.out.println(horizontalLine);
     }
 }

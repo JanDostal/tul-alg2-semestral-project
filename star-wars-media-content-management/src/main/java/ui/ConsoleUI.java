@@ -37,6 +37,21 @@ public class ConsoleUI
         this.tvEpisodesUI = new TVEpisodesUI(this);
     }
     
+    protected Scanner getScanner() 
+    {
+        return scanner;
+    }
+    
+    protected MoviesController getMoviesController() 
+    {
+        return moviesController;
+    }
+    
+    protected TVEpisodesController getTVEpisodesController() 
+    {
+        return tvEpisodesController;
+    }
+    
     public void start() 
     {
         boolean isAppRunning = true;
@@ -168,7 +183,7 @@ public class ConsoleUI
         breadcrumbItems.remove(breadcrumbItems.size() - 1);
     }
     
-    protected void displayBreadcrumb() 
+    protected void displayBreadcrumb()
     {
         StringBuilder breadcrumb = new StringBuilder("Aktuální cesta v navigaci:");
         
@@ -334,6 +349,7 @@ public class ConsoleUI
         {
             System.out.println();
             System.out.println("Název éry: " + era.getDisplayName());
+            System.out.println();
             System.out.println("Popis:");
             System.out.println(era.getDescription());
             System.out.println(horizontalLine);
