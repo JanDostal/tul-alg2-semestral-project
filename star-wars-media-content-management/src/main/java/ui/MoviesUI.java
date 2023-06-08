@@ -35,7 +35,7 @@ public class MoviesUI
             
             try 
             {
-                choice = consoleUI.loadChoiceFromMenu();
+                choice = consoleUI.loadChoiceFromSubMenu();
                 
                 switch (choice) 
                 {
@@ -81,17 +81,9 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
-    private String loadEmailFromUser() 
-    {
-        consoleUI.advanceToNextInput();
-        System.out.println();
-        System.out.println("Zadejte e-mailovou adresu: ");
-        return consoleUI.getScanner().nextLine();
-    }
-    
     private void sendUnwatchedMoviesFromOldestByEmail() 
     {
-        String email = loadEmailFromUser();
+        String email = consoleUI.loadEmailFromUser();
         
         try 
         {
@@ -106,7 +98,7 @@ public class MoviesUI
     
     private void sendUnwatchedMoviesInChronologicalErasByEmail() 
     {
-        String email = loadEmailFromUser();
+        String email = consoleUI.loadEmailFromUser();
         
         try 
         {
@@ -176,7 +168,7 @@ public class MoviesUI
             
             try 
             {
-                choice = consoleUI.loadChoiceFromMenu();
+                choice = consoleUI.loadChoiceFromSubMenu();
                 
                 switch (choice) 
                 {

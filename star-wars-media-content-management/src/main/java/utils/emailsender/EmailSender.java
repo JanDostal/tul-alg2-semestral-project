@@ -1,6 +1,7 @@
 
 package utils.emailsender;
 
+import app.logic.datastore.DataStore;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
@@ -45,7 +46,7 @@ public class EmailSender
             email.setSmtpPort(smtpPort);
             email.setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken));
             email.setSSLOnConnect(true);
-            email.setFrom(recipientEmailAddress);
+            email.setFrom(DataStore.getAppCreator());
             email.setSubject(subject);
             email.addTo(recipientEmailAddress);
             email.setHtmlMsg(message.toString());
@@ -53,7 +54,7 @@ public class EmailSender
         }
         catch (EmailException ex) 
         {
-            throw new EmailException("Chyba při odesílání přes internet nebo evidentně neplatná e-mailová adresa");
+            throw new EmailException("Chyba při odesílání přes internet nebo evidentně neplatná e-mailová adresa příjemce");
         }
     }
 }

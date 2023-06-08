@@ -33,7 +33,7 @@ public class TVEpisodesUI
             
             try 
             {
-                choice = consoleUI.loadChoiceFromMenu();
+                choice = consoleUI.loadChoiceFromSubMenu();
                 
                 switch (choice) 
                 {

@@ -216,7 +216,22 @@ public class ConsoleUI
         scanner.nextLine();
     }
     
-    protected int loadChoiceFromMenu () 
+    protected String loadEmailFromUser() 
+    {
+        advanceToNextInput();
+        System.out.println();
+        System.out.println(String.format("Zadejte e-mailovou adresu příjemce (odesílatel bude %s / tvůrce této aplikace): ", 
+                DataStore.getAppCreator()));
+        return scanner.nextLine();
+    }
+    
+    protected int loadChoiceFromSubMenu() 
+    {
+        System.out.println("Zadejte číslo volby z podmenu: ");
+        return scanner.nextInt();
+    }
+    
+    private int loadChoiceFromMenu () 
     {
         System.out.println("Zadejte číslo volby z menu: ");
         return scanner.nextInt();

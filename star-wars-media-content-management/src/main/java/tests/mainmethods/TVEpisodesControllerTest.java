@@ -3,6 +3,7 @@ package tests.mainmethods;
 
 import app.logic.controllers.TVEpisodesController;
 import app.logic.datacontext.DataContextAccessor;
+import app.logic.datastore.DataStore;
 import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
 import app.models.data.PrimaryKey;
@@ -41,7 +42,7 @@ public class TVEpisodesControllerTest
         
         try 
         {
-            FileManagerAccessor.setDataDirectory("data");
+            FileManagerAccessor.setDataDirectory(DataStore.getDataDirectoryName());
         }
         catch (IllegalArgumentException e) 
         {

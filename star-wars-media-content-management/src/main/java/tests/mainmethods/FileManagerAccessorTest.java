@@ -30,7 +30,7 @@ public class FileManagerAccessorTest
 
         try 
         {
-            FileManagerAccessor.setDataDirectory("data");
+            FileManagerAccessor.setDataDirectory(DataStore.getDataDirectoryName());
             String path = FileManagerAccessor.getDataDirectoryPath();
             
             //getDataDirectoryPath method

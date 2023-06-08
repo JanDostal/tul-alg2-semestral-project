@@ -18,6 +18,8 @@ public final class DataStore
     
     private static String appName = "Star Wars Media Content Management";
     
+    private static String appCreator = "honzaswtor@gmail.com";
+    
     private static String dataDirectoryName = "data";
     
     
@@ -270,5 +272,10 @@ public final class DataStore
     public static String getDataDirectoryName() 
     {
         return dataDirectoryName;
+    }
+    
+    public static String getAppCreator() 
+    {
+        return appCreator;
     }
 }

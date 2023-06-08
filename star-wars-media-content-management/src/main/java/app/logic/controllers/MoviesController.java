@@ -37,9 +37,6 @@ import utils.exceptions.DatabaseException;
 import utils.exceptions.FileEmptyException;
 import utils.exceptions.FileParsingException;
 import utils.helpers.MovieDataConverter;
-import utils.helpers.TVEpisodeDataConverter;
-import utils.helpers.TVSeasonDataConverter;
-import utils.helpers.TVShowDataConverter;
 
 /**
  *
