@@ -8,6 +8,7 @@ import app.logic.controllers.MoviesController;
 import app.logic.datastore.DataStore;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.apache.commons.mail.EmailException;
 
 /**
  *
@@ -42,6 +43,12 @@ public class MoviesUI
                         consoleUI.addBreadcrumbItem("Načíst filmy");
                         handleMoviesFromInputFileSubMenu();
                         break;
+                    case 2:
+                        sendUnwatchedMoviesFromOldestByEmail();
+                        break;
+                    case 3:
+                        sendUnwatchedMoviesInChronologicalErasByEmail();
+                        break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
                         returnToMainMenu = true;
@@ -68,8 +75,48 @@ public class MoviesUI
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
         System.out.println("1. Načíst filmy ze vstupního souboru");
+        System.out.println("2. Poslat e-mailem nezhlédnuté filmy od nejstaršího");
+        System.out.println("3. Poslat e-mailem nezhlédnuté filmy v rámci chronologických ér");
         System.out.println("0. Vrátit se zpět do hlavního menu");
         System.out.println(horizontalLine);
+    }
+    
+    private String loadEmailFromUser() 
+    {
+        consoleUI.advanceToNextInput();
+        System.out.println();
+        System.out.println("Zadejte e-mailovou adresu: ");
+        return consoleUI.getScanner().nextLine();
+    }
+    
+    private void sendUnwatchedMoviesFromOldestByEmail() 
+    {
+        String email = loadEmailFromUser();
+        
+        try 
+        {
+            consoleUI.getMoviesController().sendUnwatchedOldestMoviesWithHyperlinksByEmail(email);
+            consoleUI.displayInfoMessage("E-mail byl úspešně odeslán");
+        }
+        catch (EmailException ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }        
+    }
+    
+    private void sendUnwatchedMoviesInChronologicalErasByEmail() 
+    {
+        String email = loadEmailFromUser();
+        
+        try 
+        {
+            consoleUI.getMoviesController().sendUnwatchedMoviesWithHyperlinksInChronologicalErasByEmail(email);
+            consoleUI.displayInfoMessage("E-mail byl úspešně odeslán");
+        }
+        catch (EmailException ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }        
     }
     
     private void displayMoviesFromInputFileSubMenu() 
