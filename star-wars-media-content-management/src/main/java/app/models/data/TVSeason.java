@@ -9,9 +9,9 @@ import java.util.Objects;
  */
 public class TVSeason extends DatabaseRecord
 {    
-    private int orderInTVShow;
+    private final int orderInTVShow;
     
-    private PrimaryKey tvShowForeignKey;
+    private final PrimaryKey tvShowForeignKey;
         
     public TVSeason(PrimaryKey primaryKey, int orderInTVShow, PrimaryKey tvShowForeignKey) 
     {

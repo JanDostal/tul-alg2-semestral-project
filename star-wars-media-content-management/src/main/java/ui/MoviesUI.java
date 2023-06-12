@@ -175,6 +175,9 @@ public class MoviesUI
                         case 1:
                             deleteMoviesInChosenEra(chosenEra);
                             break;
+                        case 2:
+                            
+                            break;
                         case 0:
                             consoleUI.removeLastBreadcrumbItem();
                             returnToParentMenu = true;

@@ -7,17 +7,17 @@ package app.models.input;
  */
 public class TVEpisodeInput
 {
-    private long runtimeInSeconds;
+    private final long runtimeInSeconds;
     
-    private String name;
+    private final String name;
     
-    private int percentageRating;
+    private final int percentageRating;
     
-    private String hyperlinkForContentWatch;
+    private final String hyperlinkForContentWatch;
     
-    private String shortContentSummary;
+    private final String shortContentSummary;
     
-    private int orderInTVShowSeason;
+    private final int orderInTVShowSeason;
     
     public TVEpisodeInput(long runtimeInSeconds, String name, 
             int percentageRating, String hyperlinkForContentWatch,

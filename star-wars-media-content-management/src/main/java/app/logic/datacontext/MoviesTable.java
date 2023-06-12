@@ -23,11 +23,11 @@ public class MoviesTable implements IDataTable<Movie>
 {
     private static IDataTable<Movie> moviesTable;
     
-    private List<Movie> moviesData;
+    private final List<Movie> moviesData;
     
-    private Random primaryKeysGenerator;
+    private final DataContextAccessor dbContext;
     
-    private DataContextAccessor dbContext;
+    private final Random primaryKeysGenerator;
     
     private MoviesTable(DataContextAccessor dbContext) 
     {
@@ -68,7 +68,7 @@ public class MoviesTable implements IDataTable<Movie>
             throw new DatabaseException("Přidaný film musí mít název");
         }
                 
-        PrimaryKey newPrimaryKey = generatePrimaryKey();
+        PrimaryKey newPrimaryKey = dbContext.generatePrimaryKey(this, primaryKeysGenerator);
         
         List<Movie> movieWithDuplicateData = filterBy(movie -> movie.equals(inputData));
         
@@ -260,27 +260,5 @@ public class MoviesTable implements IDataTable<Movie>
     public @Override void clearData() 
     {
         moviesData.clear();
-    }
-    
-    private PrimaryKey generatePrimaryKey() 
-    {
-        boolean isSame = true;
-        PrimaryKey generatedPrimaryKey = null;
-        
-        do 
-        {
-            int id = primaryKeysGenerator.nextInt(Integer.MAX_VALUE) + 1;
-            generatedPrimaryKey = new PrimaryKey(id);
-            
-            Movie movieWithDuplicateKey = getBy(generatedPrimaryKey);  
-
-            if (movieWithDuplicateKey == null)
-            {
-                isSame = false;
-            }
-        }
-        while(isSame);
-        
-        return generatedPrimaryKey;
     }
 }

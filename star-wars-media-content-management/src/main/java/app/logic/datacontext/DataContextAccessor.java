@@ -1,10 +1,13 @@
 
 package app.logic.datacontext;
 
+import app.models.data.DatabaseRecord;
 import app.models.data.Movie;
+import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
+import java.util.Random;
 import utils.interfaces.IDataTable;
 
 /**
@@ -25,10 +28,6 @@ public class DataContextAccessor
     
     private DataContextAccessor() 
     {
-        this.tvSeasonsTable = TVSeasonsTable.getInstance(this);
-        this.tvShowsTable = TVShowsTable.getInstance(this);
-        this.tvEpisodesTable = TVEpisodesTable.getInstance(this); 
-        this.moviesTable = MoviesTable.getInstance(this);
     }
 
     public IDataTable<TVSeason> getTVSeasonsTable() 
@@ -56,8 +55,40 @@ public class DataContextAccessor
         if (dataContextAccessor == null) 
         {
             dataContextAccessor = new DataContextAccessor();
+            
+            dataContextAccessor.initializeDataContextAccessor();
         }
         
         return dataContextAccessor;
+    }
+    
+    private void initializeDataContextAccessor() 
+    {
+        moviesTable = MoviesTable.getInstance(this);
+        tvSeasonsTable = TVSeasonsTable.getInstance(this);
+        tvShowsTable = TVShowsTable.getInstance(this);
+        tvEpisodesTable = TVEpisodesTable.getInstance(this);
+    }
+    
+    protected PrimaryKey generatePrimaryKey(IDataTable dataTable, Random primaryKeysGenerator) 
+    {
+        boolean isSame = true;
+        PrimaryKey generatedPrimaryKey = null;
+        
+        do 
+        {
+            int id = primaryKeysGenerator.nextInt(Integer.MAX_VALUE) + 1;
+            generatedPrimaryKey = new PrimaryKey(id);
+            
+            DatabaseRecord dataWithDuplicateKey = dataTable.getBy(generatedPrimaryKey);  
+
+            if (dataWithDuplicateKey == null)
+            {
+                isSame = false;
+            }
+        }
+        while(isSame);
+        
+        return generatedPrimaryKey;
     }
 }

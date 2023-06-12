@@ -25,11 +25,11 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
 {
     private static IDataTable<TVSeason> tvSeasonsTable;
     
-    private List<TVSeason> tvSeasonsData;
+    private final List<TVSeason> tvSeasonsData;
+        
+    private final DataContextAccessor dbContext;
     
-    private Random primaryKeysGenerator;
-    
-    private DataContextAccessor dbContext;
+    private final Random primaryKeysGenerator;
     
     private TVSeasonsTable(DataContextAccessor dbContext) 
     {
@@ -47,7 +47,6 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
         
         return tvSeasonsTable;
     }    
-
 
     public @Override void addFrom(TVSeason inputData) throws DatabaseException
     {
@@ -73,7 +72,7 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
             throw new DatabaseException("Identifikátor seriálu pro přidanou sezónu neodkazuje na žádný seriál");
         }
                 
-        PrimaryKey newPrimaryKey = generatePrimaryKey();
+        PrimaryKey newPrimaryKey = dbContext.generatePrimaryKey(this, primaryKeysGenerator);
         
         List<TVSeason> tvSeasonWithDuplicateData = filterBy(season -> season.equals(inputData));
         
@@ -263,27 +262,5 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
     public @Override void clearData() 
     {
         tvSeasonsData.clear();
-    }
-    
-    private PrimaryKey generatePrimaryKey() 
-    {
-        boolean isSame = true;
-        PrimaryKey generatedPrimaryKey = null;
-        
-        do 
-        {
-            int id = primaryKeysGenerator.nextInt(Integer.MAX_VALUE) + 1;
-            generatedPrimaryKey = new PrimaryKey(id);
-            
-            TVSeason tvSeasonWithDuplicateKey = getBy(generatedPrimaryKey);  
-
-            if (tvSeasonWithDuplicateKey == null)
-            {
-                isSame = false;
-            }
-        }
-        while(isSame);
-        
-        return generatedPrimaryKey;
     }
 }

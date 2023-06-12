@@ -10,17 +10,17 @@ import java.util.Objects;
  */
 public abstract class MediaContent extends DatabaseRecord
 {    
-    private Duration runtime;
+    private final Duration runtime;
     
-    private String name;
+    private final String name;
     
-    private int percentageRating;
+    private final int percentageRating;
     
-    private boolean wasWatched;
+    private final boolean wasWatched;
     
-    private String hyperlinkForContentWatch;
+    private final String hyperlinkForContentWatch;
     
-    private String shortContentSummary;
+    private final String shortContentSummary;
     
     protected MediaContent(PrimaryKey primaryKey, Duration runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,

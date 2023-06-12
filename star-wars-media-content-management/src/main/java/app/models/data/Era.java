@@ -19,14 +19,13 @@ public enum Era
     RISE_OF_THE_FIRST_ORDER("Vzestup Prvního řádu"),
     NEW_JEDI_ORDER("Nový řád Jedi"); //the latest era
     
-    private String displayName;
+    private final String displayName;
     
     private String description;
     
     private Era(String displayName) 
     {
         this.displayName = displayName;
-        this.description = DataStore.loadEraDescription(this.toString());
     }
     
     public String getDisplayName() 
@@ -36,6 +35,11 @@ public enum Era
     
     public String getDescription() 
     {
+        if (description == null) 
+        {
+            description = DataStore.loadEraDescription(this.toString());
+        }
+        
         return description;
     }
 }

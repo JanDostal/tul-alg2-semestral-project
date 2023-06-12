@@ -16,52 +16,52 @@ public final class DataStore
     {
     }
     
-    private static String appName = "Star Wars Media Content Management";
+    private static final String appName = "Star Wars Media Content Management";
     
-    private static String appCreator = "honzaswtor@gmail.com";
+    private static final String appCreator = "honzaswtor@gmail.com";
     
-    private static String dataDirectoryName = "data";
-    
-    
-    private static String textInputMoviesFilename = "input_movies.txt";
-    
-    private static String textInputTVShowsFilename = "input_tvShows.txt";
-    
-    private static String textInputTVSeasonsFilename = "input_tvSeasons.txt";
-    
-    private static String textInputTVEpisodesFilename = "input_tvEpisodes.txt";
+    private static final String dataDirectoryName = "data";
     
     
-    private static String binaryInputMoviesFilename = "input_movies.bin";
+    private static final String textInputMoviesFilename = "input_movies.txt";
     
-    private static String binaryInputTVShowsFilename = "input_tvShows.bin";
+    private static final String textInputTVShowsFilename = "input_tvShows.txt";
     
-    private static String binaryInputTVSeasonsFilename = "input_tvSeasons.bin";
+    private static final String textInputTVSeasonsFilename = "input_tvSeasons.txt";
     
-    private static String binaryInputTVEpisodesFilename = "input_tvEpisodes.bin";
-    
-    
-    private static String textOutputMoviesFilename = "output_movies.txt";
-    
-    private static String textOutputTVShowsFilename = "output_tvShows.txt";
-    
-    private static String textOutputTVSeasonsFilename = "output_tvSeasons.txt";
-    
-    private static String textOutputTVEpisodesFilename = "output_tvEpisodes.txt";
+    private static final String textInputTVEpisodesFilename = "input_tvEpisodes.txt";
     
     
-    private static String binaryOutputMoviesFilename = "output_movies.bin";
+    private static final String binaryInputMoviesFilename = "input_movies.bin";
     
-    private static String binaryOutputTVShowsFilename = "output_tvShows.bin";
+    private static final String binaryInputTVShowsFilename = "input_tvShows.bin";
     
-    private static String binaryOutputTVSeasonsFilename = "output_tvSeasons.bin";
+    private static final String binaryInputTVSeasonsFilename = "input_tvSeasons.bin";
     
-    private static String binaryOutputTVEpisodesFilename = "output_tvEpisodes.bin";
+    private static final String binaryInputTVEpisodesFilename = "input_tvEpisodes.bin";
     
     
-    private static Collator czechCollator = Collator.getInstance(new Locale("cs", "CZ"));
+    private static final String textOutputMoviesFilename = "output_movies.txt";
     
-    private static Map<String, String> erasDescriptions;
+    private static final String textOutputTVShowsFilename = "output_tvShows.txt";
+    
+    private static final String textOutputTVSeasonsFilename = "output_tvSeasons.txt";
+    
+    private static final String textOutputTVEpisodesFilename = "output_tvEpisodes.txt";
+    
+    
+    private static final String binaryOutputMoviesFilename = "output_movies.bin";
+    
+    private static final String binaryOutputTVShowsFilename = "output_tvShows.bin";
+    
+    private static final String binaryOutputTVSeasonsFilename = "output_tvSeasons.bin";
+    
+    private static final String binaryOutputTVEpisodesFilename = "output_tvEpisodes.bin";
+    
+    
+    private static final Collator czechCollator = Collator.getInstance(new Locale("cs", "CZ"));
+    
+    private static final Map<String, String> erasDescriptions;
     static 
     {
         erasDescriptions = new HashMap<>();

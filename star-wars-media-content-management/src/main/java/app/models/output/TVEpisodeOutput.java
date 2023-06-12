@@ -25,21 +25,21 @@ public class TVEpisodeOutput
             + ATTRIBUTE_ID_BYTES + ATTRIBUTE_RUNTIME_BYTES
             + ATTRIBUTE_RATING_BYTES + ATTRIBUTE_ORDERTVSEASON_BYTES + ATTRIBUTE_TVSEASONID_BYTES;
     
-    private int id;
+    private final int id;
     
-    private long runtimeInSeconds;
+    private final long runtimeInSeconds;
     
-    private char[] name;
+    private final char[] name;
     
-    private int percentageRating;
+    private final int percentageRating;
     
-    private char[] hyperlinkForContentWatch;
+    private final char[] hyperlinkForContentWatch;
     
-    private char[] shortContentSummary;
+    private final char[] shortContentSummary;
     
-    private int orderInTVShowSeason;
+    private final int orderInTVShowSeason;
     
-    private int tvSeasonId;
+    private final int tvSeasonId;
     
     public TVEpisodeOutput(int id, long runtimeInSeconds, String name, 
             int percentageRating, String hyperlinkForContentWatch,

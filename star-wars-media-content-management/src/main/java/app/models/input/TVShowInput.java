@@ -7,11 +7,11 @@ package app.models.input;
  */
 public class TVShowInput 
 {
-    private String name;
+    private final String name;
     
-    private long releaseDateInEpochSeconds;
+    private final long releaseDateInEpochSeconds;
     
-    private String era;
+    private final String era;
     
     public TVShowInput(String name, long releaseDateInEpochSeconds, String era) 
     {

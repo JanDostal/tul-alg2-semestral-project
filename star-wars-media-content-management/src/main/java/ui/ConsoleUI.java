@@ -19,20 +19,27 @@ public class ConsoleUI
 {
     private final Scanner scanner = new Scanner(System.in);
     
+    private boolean wasInitialized = false;
+    
+    private final List<String> breadcrumbItems = new ArrayList<>(); 
+    
     private final TVEpisodesController tvEpisodesController;
     
     private final MoviesController moviesController;
     
-    private final MoviesUI moviesUI;
+    private MoviesUI moviesUI;
     
-    private final TVEpisodesUI tvEpisodesUI;
-    
-    private final List<String> breadcrumbItems = new ArrayList<>(); 
-    
-    protected ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController) 
+    private TVEpisodesUI tvEpisodesUI;
+   
+    public ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController) 
     {
         this.tvEpisodesController = tvEpisodesController;
         this.moviesController = moviesController;
+    }
+    
+    private void initializeConsoleUI() 
+    {
+        wasInitialized = true;
         this.moviesUI = new MoviesUI(this);
         this.tvEpisodesUI = new TVEpisodesUI(this);
     }
@@ -52,8 +59,13 @@ public class ConsoleUI
         return tvEpisodesController;
     }
     
-    protected void start() 
+    public void start() 
     {
+        if (wasInitialized == false) 
+        {
+            initializeConsoleUI();
+        }
+        
         boolean isAppRunning = true;
         boolean isDataDirectorySet = false;
         boolean isDatabaseFromFilesLoaded = false;
@@ -156,6 +168,7 @@ public class ConsoleUI
                         break;
                     case 0:
                         isAppRunning = false;
+                        removeLastBreadcrumbItem();
                         break;
                     default:
                         displayErrorMessage("Nevalidní číslo volby z menu");

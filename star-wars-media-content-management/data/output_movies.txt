@@ -11,34 +11,7 @@ era 8
 
 [Values]
 
-252976556 1
-213212 2
-Skrytá hrozba 3
--1 4
-asdsaa ads  aasasddasasd asdadas d ads asd as 5
-asdasda asdaas asdasdas as asdas das dasas  6
-asdasdsas 6
-sadas 6
-asdasddas 6
-sadasddsasa 6
-sasadadsdas 6
-1686873600 7
-FALL_OF_THE_JEDI 8
-
-[Attributes]
-
-id 1
-runtimeInSeconds 2
-name 3
-percentageRating 4
-hyperlinkForContentWatch 5
-shortContentSummary 6
-releaseDateInEpochSeconds 7
-era 8
-
-[Values]
-
-537997007 1
+2312123 1
 -1 2
 Poslední z Jediů 3
 -1 4

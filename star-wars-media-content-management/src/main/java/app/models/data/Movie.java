@@ -12,9 +12,9 @@ import java.util.Objects;
  */
 public class Movie extends MediaContent
 {
-    private LocalDate releaseDate;
+    private final LocalDate releaseDate;
     
-    private Era era;
+    private final Era era;
     
     public Movie(PrimaryKey primaryKey, Duration runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,

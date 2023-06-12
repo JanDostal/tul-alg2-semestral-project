@@ -11,11 +11,11 @@ import java.util.Objects;
  */
 public class TVShow extends DatabaseRecord
 {    
-    private String name;
+    private final String name;
     
-    private LocalDate releaseDate;
+    private final LocalDate releaseDate;
     
-    private Era era;
+    private final Era era;
         
     public TVShow(PrimaryKey primaryKey, String name, LocalDate releaseDate, Era era) 
     {

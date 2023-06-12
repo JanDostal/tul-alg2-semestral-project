@@ -14,11 +14,11 @@ public class TVSeasonOutput
     public static final int TV_SEASON_RECORD_SIZE = ATTRIBUTE_ID_BYTES 
             + ATTRIBUTE_ORDERTVSHOW_BYTES + ATTRIBUTE_TVSHOWID_BYTES;
     
-    private int id;
+    private final int id;
     
-    private int orderInTVShow;
+    private final int orderInTVShow;
     
-    private int tvShowId;
+    private final int tvShowId;
     
     public TVSeasonOutput(int id, int orderInTVShow, int tvShowId) 
     {

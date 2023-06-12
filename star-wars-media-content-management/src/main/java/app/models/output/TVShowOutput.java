@@ -19,13 +19,13 @@ public class TVShowOutput
             + 2 * ATTRIBUTE_ERA_LENGTH * Character.BYTES
             + ATTRIBUTE_ID_BYTES + ATTRIBUTE_RELEASEDATE_BYTES;
     
-    private int id;
+    private final int id;
     
-    private char[] name;
+    private final char[] name;
     
-    private long releaseDateInEpochSeconds;
+    private final long releaseDateInEpochSeconds;
     
-    private char[] era;
+    private final char[] era;
     
     public TVShowOutput(int id, String name, long releaseDateInEpochSeconds, String era) 
     {

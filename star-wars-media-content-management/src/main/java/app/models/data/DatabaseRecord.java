@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public abstract class DatabaseRecord implements Comparable<DatabaseRecord>
 {
-    private PrimaryKey primaryKey;
+    private final PrimaryKey primaryKey;
     
     protected DatabaseRecord(PrimaryKey primaryKey) 
     {

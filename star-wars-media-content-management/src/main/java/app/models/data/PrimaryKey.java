@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class PrimaryKey 
 {
-    private int id;
+    private final int id;
     
     public PrimaryKey(int id) 
     {

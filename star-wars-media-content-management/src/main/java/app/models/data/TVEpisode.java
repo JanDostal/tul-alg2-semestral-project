@@ -10,9 +10,9 @@ import java.util.Objects;
  */
 public class TVEpisode extends MediaContent
 {
-    private int orderInTVShowSeason;
+    private final int orderInTVShowSeason;
     
-    private PrimaryKey tvSeasonForeignKey;
+    private final PrimaryKey tvSeasonForeignKey;
     
     public TVEpisode(PrimaryKey primaryKey, Duration runtime, String name,
             int percentageRating, boolean wasWatched, String hyperlinkForContentWatch,

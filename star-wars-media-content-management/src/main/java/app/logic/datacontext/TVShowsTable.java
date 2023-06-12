@@ -25,11 +25,11 @@ public class TVShowsTable implements IDataTable<TVShow>
 {
     private static IDataTable<TVShow> tvShowsTable;
     
-    private List<TVShow> tvShowsData;
+    private final List<TVShow> tvShowsData;
+        
+    private final DataContextAccessor dbContext;
     
-    private Random primaryKeysGenerator;
-    
-    private DataContextAccessor dbContext;
+    private final Random primaryKeysGenerator;
     
     private TVShowsTable(DataContextAccessor dbContext) 
     {
@@ -65,7 +65,7 @@ public class TVShowsTable implements IDataTable<TVShow>
             throw new DatabaseException("Přidaný seriál musí mít název");
         }
                 
-        PrimaryKey newPrimaryKey = generatePrimaryKey();
+        PrimaryKey newPrimaryKey = dbContext.generatePrimaryKey(this, primaryKeysGenerator);
         
         List<TVShow> tvShowWithDuplicateData = filterBy(show -> show.equals(inputData));
         
@@ -255,27 +255,5 @@ public class TVShowsTable implements IDataTable<TVShow>
     public @Override void clearData() 
     {
         tvShowsData.clear();
-    }
-    
-    private PrimaryKey generatePrimaryKey() 
-    {
-        boolean isSame = true;
-        PrimaryKey generatedPrimaryKey = null;
-        
-        do 
-        {
-            int id = primaryKeysGenerator.nextInt(Integer.MAX_VALUE) + 1;
-            generatedPrimaryKey = new PrimaryKey(id);
-            
-            TVShow tvShowWithDuplicateKey = getBy(generatedPrimaryKey);  
-
-            if (tvShowWithDuplicateKey == null)
-            {
-                isSame = false;
-            }
-        }
-        while(isSame);
-        
-        return generatedPrimaryKey;
     }
 }

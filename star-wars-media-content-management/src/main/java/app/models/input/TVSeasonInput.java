@@ -7,7 +7,7 @@ package app.models.input;
  */
 public class TVSeasonInput 
 {    
-    private int orderInTVShow;
+    private final int orderInTVShow;
     
     public TVSeasonInput(int orderInTVShow) 
     {

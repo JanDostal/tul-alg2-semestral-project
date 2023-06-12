@@ -26,21 +26,21 @@ public class MovieOutput
             + ATTRIBUTE_ID_BYTES + ATTRIBUTE_RUNTIME_BYTES + ATTRIBUTE_RATING_BYTES
             + ATTRIBUTE_RELEASEDATE_BYTES;
     
-    private int id;
+    private final int id;
     
-    private long runtimeInSeconds;
+    private final long runtimeInSeconds;
     
-    private char[] name;
+    private final char[] name;
     
-    private int percentageRating;
+    private final int percentageRating;
         
-    private char[] hyperlinkForContentWatch;
+    private final char[] hyperlinkForContentWatch;
     
-    private char[] shortContentSummary;
+    private final char[] shortContentSummary;
     
-    private long releaseDateInEpochSeconds;
+    private final long releaseDateInEpochSeconds;
     
-    private char[] era;
+    private final char[] era;
         
     public MovieOutput(int id, long runtimeInSeconds, String name, 
             int percentageRating, String hyperlinkForContentWatch,

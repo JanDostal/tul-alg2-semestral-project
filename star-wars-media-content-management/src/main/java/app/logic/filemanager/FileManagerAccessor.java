@@ -31,13 +31,13 @@ public class FileManagerAccessor
     
     private static File dataDirectory;
     
-    private IDataFileManager<MovieInput, MovieOutput> moviesFileManager;
+    private final IDataFileManager<MovieInput, MovieOutput> moviesFileManager;
     
-    private IDataFileManager<TVShowInput, TVShowOutput> tvShowsFileManager;
+    private final IDataFileManager<TVShowInput, TVShowOutput> tvShowsFileManager;
     
-    private IDataFileManager<TVSeasonInput, TVSeasonOutput> tvSeasonsFileManager;
+    private final IDataFileManager<TVSeasonInput, TVSeasonOutput> tvSeasonsFileManager;
     
-    private IDataFileManager<TVEpisodeInput, TVEpisodeOutput> tvEpisodesFileManager;
+    private final IDataFileManager<TVEpisodeInput, TVEpisodeOutput> tvEpisodesFileManager;
     
     private final String filenameSeparator = System.getProperty("file.separator");;
     
