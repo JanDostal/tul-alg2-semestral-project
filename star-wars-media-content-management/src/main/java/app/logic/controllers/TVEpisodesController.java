@@ -192,7 +192,7 @@ public class TVEpisodesController
                     for (TVEpisode e : seasonEpisodes) 
                     {
                         durationText = e.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
-                                String.format("%dh %dm %ds", e.getRuntime().toHoursPart(), e.getRuntime().toMinutesPart(),
+                                String.format("%d h %d m %d s", e.getRuntime().toHoursPart(), e.getRuntime().toMinutesPart(),
                                 e.getRuntime().toSecondsPart());
                         
                         nameText = e.getName() == null ? "<span style=\"color:red\">Není znám</span>" : e.getName();
@@ -468,7 +468,7 @@ public class TVEpisodesController
         return seasonEpisodes;
     }
     
-    public List<TVShow> getAnnouncedTVShows(Era era) 
+    public List<TVShow> getAnnouncedTVShowsByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -483,7 +483,7 @@ public class TVEpisodesController
     
     public int getAnnouncedTVShowsCountByEra(Era era) 
     {        
-        List<TVShow> filteredTVShows = getAnnouncedTVShows(era);
+        List<TVShow> filteredTVShows = getAnnouncedTVShowsByEra(era);
                 
         return filteredTVShows.size();
     }
@@ -750,8 +750,9 @@ public class TVEpisodesController
                 catch (DatabaseException | DataConversionException e) 
                 {
                     errorCounter++;
-                    moviesErrorMessages.append(String.format("Chybový stav seriálu s pořadím %d: %s", 
-                            counter, e.getMessage())).append("\n");
+                    moviesErrorMessages.append(String.format("Chybový stav seriálu s pořadím %d v souboru %s: %s", 
+                            counter, fromBinary == true ? DataStore.getBinaryInputTVShowsFilename() : 
+                                    DataStore.getTextInputTVShowsFilename() ,e.getMessage())).append("\n");
                 }
             }
             
@@ -800,8 +801,9 @@ public class TVEpisodesController
                 catch (DatabaseException e) 
                 {
                     errorCounter++;
-                    moviesErrorMessages.append(String.format("Chybový stav sezóny vybraného seriálu s pořadím %d: %s", 
-                            counter, e.getMessage())).append("\n");
+                    moviesErrorMessages.append(String.format("Chybový stav sezóny vybraného seriálu s pořadím %d v souboru %s: %s", 
+                            counter, fromBinary == true ? DataStore.getBinaryInputTVSeasonsFilename() : 
+                                    DataStore.getTextInputTVSeasonsFilename() ,e.getMessage())).append("\n");
                 }
             }
 
@@ -851,8 +853,9 @@ public class TVEpisodesController
                 catch (DatabaseException e) 
                 {
                     errorCounter++;
-                    moviesErrorMessages.append(String.format("Chybový stav epizody vybrané sezóny s pořadím %d: %s", 
-                            counter, e.getMessage())).append("\n");
+                    moviesErrorMessages.append(String.format("Chybový stav epizody vybrané sezóny s pořadím %d v souboru %s: %s", 
+                            counter, fromBinary == true ? DataStore.getBinaryInputTVEpisodesFilename() : 
+                                    DataStore.getTextInputTVEpisodesFilename() ,e.getMessage())).append("\n");
                 }
             }
 

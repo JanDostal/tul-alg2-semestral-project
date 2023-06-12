@@ -157,12 +157,12 @@ public class MoviesControllerTest
             System.out.println(m);
         }
         
-        //getAnnouncedMovies method
+        //getAnnouncedMoviesByEra method
         System.out.println();
-        System.out.println("getAnnouncedMovies method:");
+        System.out.println("getAnnouncedMoviesByEra method:");
         System.out.println();
         List<Movie> getAnnouncedMovies_result = 
-                controller.getAnnouncedMovies(Era.FALL_OF_THE_JEDI);
+                controller.getAnnouncedMoviesByEra(Era.FALL_OF_THE_JEDI);
         
         for (Movie m : getAnnouncedMovies_result) 
         {

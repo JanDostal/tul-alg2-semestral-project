@@ -11,18 +11,18 @@ era 8
 
 [Values]
 
-1224699069 1
+252976556 1
 213212 2
-Mařenka 3
-50 4
-asdsaa ads  aasasddasasd asdadas d ads asd a 5
+Skrytá hrozba 3
+-1 4
+asdsaa ads  aasasddasasd asdadas d ads asd as 5
 asdasda asdaas asdasdas as asdas das dasas  6
-asdasdsa 6
+asdasdsas 6
 sadas 6
 asdasddas 6
 sadasddsasa 6
 sasadadsdas 6
-0 7
+1686873600 7
 FALL_OF_THE_JEDI 8
 
 [Attributes]
@@ -38,18 +38,13 @@ era 8
 
 [Values]
 
-1782756185 1
-213212 2
-Jeníček 3
-50 4
-asdsaa ads  aasasddasasd asdadas d ads asd as 5
-asdasda asdaas asdasdas as asdas das dasas  6
-asdasdsas 6
-sadas 6
-asdasddas 6
-sadasddsasa 6
-sasadadsdas 6
-0 7
+537997007 1
+-1 2
+Poslední z Jediů 3
+-1 4
+ 5
+ 6
+-1 7
 FALL_OF_THE_JEDI 8
 
 [End]

@@ -11,17 +11,12 @@ era 7
 
 [Values]
 
-213212 1
-Mařenka 2
-50 3
-asdsaa ads  aasasddasasd asdadas d ads asd a 4
-asdasda asdaas asdasdas as asdas das dasas  5
-asdasdsa 5
-sadas 5
-asdasddas 5
-sadasddsasa 5
-sasadadsdas 5
-1232 6
+-1 1
+Poslední z Jediů 2
+-1 3
+ 4
+ 5
+-1 6
 FALL_OF_THE_JEDI 7
 
 [Attributes]
@@ -37,8 +32,8 @@ era 7
 [Values]
     
 213212 1
-Jeníček 2
-50 3
+Skrytá hrozba 2
+-1 3
 asdsaa ads  aasasddasasd asdadas d ads asd as 4
 asdasda asdaas asdasdas as asdas das dasas  5
 asdasdsas 5
@@ -46,7 +41,7 @@ sadas 5
 asdasddas 5
 sadasddsasa 5
 sasadadsdas 5
-1232 6
+1686873600 6
 FALL_OF_THE_JEDI 7
 
 [End]

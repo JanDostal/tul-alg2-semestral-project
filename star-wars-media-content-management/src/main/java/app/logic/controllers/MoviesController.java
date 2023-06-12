@@ -170,7 +170,7 @@ public class MoviesController
             for (Movie m : filteredMovies) 
             {
                 durationText = m.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
-                        String.format("%dh %dm %ds", m.getRuntime().toHours(), m.getRuntime().toMinutesPart(),
+                        String.format("%d h %d m %d s", m.getRuntime().toHours(), m.getRuntime().toMinutesPart(),
                         m.getRuntime().toSecondsPart());
                 
                 hyperlinkText = m.getHyperlinkForContentWatch() == null ? "<span style=\"color:red\">Neuveden</span>" : 
@@ -243,7 +243,7 @@ public class MoviesController
                 for (Movie m : filteredMovies) 
                 {
                     durationText = m.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
-                            String.format("%dh %dm %ds", m.getRuntime().toHoursPart(), m.getRuntime().toMinutesPart(), 
+                            String.format("%d h %d m %d s", m.getRuntime().toHoursPart(), m.getRuntime().toMinutesPart(), 
                             m.getRuntime().toSecondsPart());
                     
                     hyperlinkText = m.getHyperlinkForContentWatch() == null ? "<span style=\"color:red\">Neuveden</span>" : 
@@ -400,7 +400,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public List<Movie> getAnnouncedMovies(Era era) 
+        public List<Movie> getAnnouncedMoviesByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -415,7 +415,7 @@ public class MoviesController
     
     public int getAnnouncedMoviesCountByEra(Era era) 
     {
-        List<Movie> filteredMovies = getAnnouncedMovies(era);
+        List<Movie> filteredMovies = getAnnouncedMoviesByEra(era);
                 
         return filteredMovies.size();
     }
@@ -591,8 +591,9 @@ public class MoviesController
                 catch (DatabaseException | DataConversionException e) 
                 {
                     errorCounter++;
-                    moviesErrorMessages.append(String.format("Chybový stav filmu s pořadím %d: %s", 
-                            counter, e.getMessage())).append("\n");
+                    moviesErrorMessages.append(String.format("Chybový stav filmu s pořadím %d v souboru %s: %s", 
+                            counter, fromBinary == true ? DataStore.getBinaryInputMoviesFilename() : 
+                                    DataStore.getTextInputMoviesFilename() ,e.getMessage())).append("\n");
                 }
             }
             

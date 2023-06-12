@@ -29,7 +29,7 @@ public class ConsoleUI
     
     private final List<String> breadcrumbItems = new ArrayList<>(); 
     
-    public ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController) 
+    protected ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController) 
     {
         this.tvEpisodesController = tvEpisodesController;
         this.moviesController = moviesController;
@@ -52,7 +52,7 @@ public class ConsoleUI
         return tvEpisodesController;
     }
     
-    public void start() 
+    protected void start() 
     {
         boolean isAppRunning = true;
         boolean isDataDirectorySet = false;
@@ -100,7 +100,7 @@ public class ConsoleUI
                             DataStore.getBinaryOutputTVEpisodesFilename())
                     + "pro načtení existujících dat z daných souborů");
             
-            displayloadingOutputFilesMenu();
+            displayLoadingOutputFilesMenu();
             
             try 
             {
@@ -149,11 +149,9 @@ public class ConsoleUI
                         printInformationsAboutChronologicalEras();
                         break;
                     case 2:
-                        addBreadcrumbItem("Správa filmů");
                         moviesUI.start();
                         break;
                     case 3:
-                        addBreadcrumbItem("Správa TV epizod");
                         tvEpisodesUI.start();
                         break;
                     case 0:
@@ -192,7 +190,7 @@ public class ConsoleUI
             breadcrumb.append(String.format(" %s /", title));
         }
         
-        StringBuilder breadcrumbWithHorizontalLines = createMenuNameWithHorizontalLines(20, breadcrumb.toString());
+        StringBuilder breadcrumbWithHorizontalLines = createMenuNameWithHorizontalLines(15, breadcrumb.toString());
         
         System.out.println();
         System.out.println(breadcrumbWithHorizontalLines);
@@ -216,6 +214,13 @@ public class ConsoleUI
         scanner.nextLine();
     }
     
+    protected int loadChosenEraOrderFromUser() 
+    {
+        System.out.println();
+        System.out.println("Zadejte pořadové číslo éry: ");
+        return scanner.nextInt();
+    }
+    
     protected String loadEmailFromUser() 
     {
         advanceToNextInput();
@@ -225,7 +230,7 @@ public class ConsoleUI
         return scanner.nextLine();
     }
     
-    protected int loadChoiceFromSubMenu() 
+    protected int loadChoiceFromSubmenu() 
     {
         System.out.println("Zadejte číslo volby z podmenu: ");
         return scanner.nextInt();
@@ -299,7 +304,7 @@ public class ConsoleUI
     {
         String introductionHeading = String.format("VÍTEJTE V APLIKACI %s", DataStore.getAppName().toUpperCase());
         
-        StringBuilder introductionWithHorizontalLines = createHeadingWithHorizontalLines(10, introductionHeading);
+        StringBuilder introductionWithHorizontalLines = createHeadingWithHorizontalLines(20, introductionHeading);
         
         System.out.println();
         System.out.println(introductionWithHorizontalLines);
@@ -335,7 +340,7 @@ public class ConsoleUI
         System.out.println(horizontalLine);
     }
     
-    private void displayloadingOutputFilesMenu() 
+    private void displayLoadingOutputFilesMenu() 
     {
         String menuName = "MENU NAČÍTÁNÍ VÝSTUPNÍCH SOUBORŮ";
         

@@ -23,17 +23,18 @@ public class TVEpisodesUI
         
     protected void start() 
     {
+        consoleUI.addBreadcrumbItem("Správa TV epizod");
         boolean returnToMainMenu = false;
         int choice;
         
         while (returnToMainMenu == false) 
         {
             consoleUI.displayBreadcrumb();
-            displayloadingOutputFilesMenu();
+            displayLoadingOutputFilesMenu();
             
             try 
             {
-                choice = consoleUI.loadChoiceFromSubMenu();
+                choice = consoleUI.loadChoiceFromSubmenu();
                 
                 switch (choice) 
                 {
@@ -55,7 +56,7 @@ public class TVEpisodesUI
         }
     }
     
-    private void displayloadingOutputFilesMenu() 
+    private void displayLoadingOutputFilesMenu() 
     {
         String menuName = "PODMENU SPRÁVA TV EPIZOD";
         
