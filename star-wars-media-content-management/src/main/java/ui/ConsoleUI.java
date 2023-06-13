@@ -17,6 +17,10 @@ import java.util.Scanner;
  */
 public class ConsoleUI 
 {
+    private static boolean isDataDirectorySet = false;
+    
+    private static boolean isDatabaseFromFilesLoaded = false;
+    
     private final Scanner scanner = new Scanner(System.in);
     
     private boolean wasInitialized = false;
@@ -66,12 +70,10 @@ public class ConsoleUI
             initializeConsoleUI();
         }
         
-        boolean isAppRunning = true;
-        boolean isDataDirectorySet = false;
-        boolean isDatabaseFromFilesLoaded = false;
+        boolean isConsoleRunning = true;
         int choice;
   
-        while (isDataDirectorySet == false && isAppRunning == true) 
+        while (isDataDirectorySet == false && isConsoleRunning == true) 
         {
             displayInfoMessage(String.format("Nejdříve prosím zadejte cestu k adresáři %s (bude obsahovat vstupní a výstupní soubory)", 
                     DataStore.getDataDirectoryName()));
@@ -85,10 +87,10 @@ public class ConsoleUI
                 switch (choice) 
                 {
                     case 1:
-                        isDataDirectorySet = setDataDirectoryPath();
+                        setDataDirectoryPath();
                         break;
                     case 0:
-                        isAppRunning = false;
+                        isConsoleRunning = false;
                         break;
                     default:
                         displayErrorMessage("Nevalidní číslo volby z menu");
@@ -101,7 +103,7 @@ public class ConsoleUI
             }
         }
         
-        while (isDatabaseFromFilesLoaded == false && isAppRunning == true) 
+        while (isDatabaseFromFilesLoaded == false && isConsoleRunning == true) 
         {
             displayInfoMessage("Dále prosím vyberte typ výstupních souborů a to buďto\n" + 
                     String.format("textové (%s, %s, %s, %s)%n", DataStore.getTextOutputMoviesFilename(), 
@@ -121,13 +123,13 @@ public class ConsoleUI
                 switch (choice) 
                 {
                     case 1:
-                        isDatabaseFromFilesLoaded = loadAllOutputDataFrom(false);
+                        loadAllOutputDataFrom(false);
                         break;
                     case 2:
-                        isDatabaseFromFilesLoaded = loadAllOutputDataFrom(true);
+                        loadAllOutputDataFrom(true);
                         break;
                     case 0:
-                        isAppRunning = false;
+                        isConsoleRunning = false;
                         break;
                     default:
                         displayErrorMessage("Nevalidní číslo volby z menu");
@@ -146,7 +148,7 @@ public class ConsoleUI
         
         addBreadcrumbItem("Hlavní menu");
         
-        while (isAppRunning == true) 
+        while (isConsoleRunning == true) 
         {
             displayBreadcrumb();
             displayMainMenu();
@@ -167,7 +169,7 @@ public class ConsoleUI
                         tvEpisodesUI.start();
                         break;
                     case 0:
-                        isAppRunning = false;
+                        isConsoleRunning = false;
                         removeLastBreadcrumbItem();
                         break;
                     default:
@@ -389,10 +391,8 @@ public class ConsoleUI
         }
     }
     
-    private boolean setDataDirectoryPath() 
-    {
-        boolean isDataDirectorySet = false;
-       
+    private void setDataDirectoryPath() 
+    {       
         String dataDirectoryPath = loadDataDirectoryPath();
         
         try 
@@ -405,15 +405,11 @@ public class ConsoleUI
         catch (IllegalArgumentException ex) 
         {
             displayErrorMessage(ex.getMessage());
-        }
-        
-        return isDataDirectorySet;
+        }        
     }
     
-    private boolean loadAllOutputDataFrom(boolean fromBinary) 
-    {
-        boolean isDatabaseFromFilesLoaded = false;
-        
+    private void loadAllOutputDataFrom(boolean fromBinary) 
+    {        
         try 
         {
             moviesController.loadAllOutputDataFrom(fromBinary);
@@ -425,7 +421,5 @@ public class ConsoleUI
         {
             displayErrorMessage(ex.getMessage());
         }
-        
-        return isDatabaseFromFilesLoaded;
     }
 }

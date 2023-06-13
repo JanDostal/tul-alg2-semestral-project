@@ -9,6 +9,8 @@ shortContentSummary 5
 releaseDateInEpochSeconds 6
 era 7
 
+Order: 1
+
 [Values]
 
 -1 1
@@ -28,6 +30,8 @@ hyperlinkForContentWatch 4
 shortContentSummary 5
 releaseDateInEpochSeconds 6
 era 7
+
+Order: 2
 
 [Values]
     

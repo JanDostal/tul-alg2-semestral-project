@@ -11,13 +11,37 @@ era 8
 
 [Values]
 
-2312123 1
--1 2
-Poslední z Jediů 3
--1 4
- 5
- 6
--1 7
-FALL_OF_THE_JEDI 8
+1 1
+222 2
+Mařenka 3
+100 4
+https://example.com 5
+ahoj 6
+ahoj 6
+2222222 7
+DAWN_OF_THE_JEDI 8
+
+[Attributes]
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+releaseDateInEpochSeconds 7
+era 8
+
+[Values]
+
+2 1
+222 2
+Jeníček 3
+40 4
+https://example2.com 5
+ahíj 6
+áahoj 6
+2222 7
+DAWN_OF_THE_JEDI 8
 
 [End]

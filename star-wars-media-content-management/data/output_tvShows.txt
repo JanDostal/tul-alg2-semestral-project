@@ -1,0 +1,29 @@
+[Attributes]
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+era 4
+
+[Values]
+
+2 1
+Jeníček 2
+2 3
+FALL_OF_THE_JEDI 4
+
+[Attributes]
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+era 4
+
+[Values]
+
+1 1
+Mařenka 2
+5 3
+FALL_OF_THE_JEDI 4
+
+[End]

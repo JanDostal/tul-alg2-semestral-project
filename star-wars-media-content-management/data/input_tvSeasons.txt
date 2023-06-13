@@ -2,6 +2,8 @@
 
 orderInTVShow 1
 
+Order: 1
+
 [Values]
     
 1 1
@@ -9,6 +11,8 @@ orderInTVShow 1
 [Attributes]
 
 orderInTVShow 1
+
+Order: 2
 
 [Values]
     

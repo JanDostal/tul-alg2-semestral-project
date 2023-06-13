@@ -70,14 +70,14 @@ public class DataContextAccessor
         tvEpisodesTable = TVEpisodesTable.getInstance(this);
     }
     
-    protected PrimaryKey generatePrimaryKey(IDataTable dataTable, Random primaryKeysGenerator) 
+    protected PrimaryKey generatePrimaryKey(IDataTable dataTable, Random dataTablePrimaryKeysGenerator) 
     {
         boolean isSame = true;
         PrimaryKey generatedPrimaryKey = null;
         
         do 
         {
-            int id = primaryKeysGenerator.nextInt(Integer.MAX_VALUE) + 1;
+            int id = dataTablePrimaryKeysGenerator.nextInt(Integer.MAX_VALUE) + 1;
             generatedPrimaryKey = new PrimaryKey(id);
             
             DatabaseRecord dataWithDuplicateKey = dataTable.getBy(generatedPrimaryKey);  

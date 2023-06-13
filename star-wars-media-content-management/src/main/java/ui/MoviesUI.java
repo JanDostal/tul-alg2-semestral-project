@@ -95,20 +95,20 @@ public class MoviesUI
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Smazat aktuálně vypsané filmy");
-        System.out.println("2. Vypsat detail vybraného filmu");
+        System.out.println("1. Smazat aktuálně vypsané oznámené filmy");
+        System.out.println("2. Vypsat detail vybraného oznámeného filmu");
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
     
-    private void deleteMoviesInChosenEra(Era chosenEra) 
+    private void deleteAnnouncedMoviesInChosenEra(Era chosenEra) 
     {
         List<Movie> announcedMoviesByChosenEra = consoleUI.getMoviesController().getAnnouncedMoviesByEra(chosenEra);
         
         try 
         {
             consoleUI.getMoviesController().deleteMovies(announcedMoviesByChosenEra);
-            consoleUI.displayInfoMessage("Filmy v dané éře úspěšně smazány");
+            consoleUI.displayInfoMessage("Oznámené filmy v dané éře úspěšně smazány");
         }
         catch (Exception ex) 
         {
@@ -116,21 +116,77 @@ public class MoviesUI
         }   
     }
     
-    private void printAnnouncedMoviesByEra(Era chosenEra) 
+    private int loadChosenMovieFromUser() 
+    {
+        System.out.println();
+        System.out.println("Zadejte pořadové číslo filmu: ");
+        return consoleUI.getScanner().nextInt();
+    }
+    
+    private void handleDisplayDetailAboutAnnouncedMovieSubmenu(List<Movie> announcedMoviesByChosenEra) 
+    {
+        try
+        {
+            int movieOrderFromList = loadChosenMovieFromUser();
+            Movie chosenMovie = announcedMoviesByChosenEra.get(movieOrderFromList - 1);
+
+            consoleUI.addBreadcrumbItem(String.format("Detail filmu %s", chosenMovie.getName()));
+            boolean returnToParentMenu = false;
+            int choice;
+
+            while (returnToParentMenu == false) 
+            {
+                printErasWithAnnouncedMoviesCount();
+                consoleUI.displayBreadcrumb();
+                displayPrintErasWithAnnouncedMoviesCountSubmenu();
+
+                try 
+                {
+                    choice = consoleUI.loadChoiceFromSubmenu();
+
+                    switch (choice) {
+                        case 1:
+                            handlePrintAnnouncedMoviesByEraSubmenu();
+                            break;
+                        case 0:
+                            consoleUI.removeLastBreadcrumbItem();
+                            returnToParentMenu = true;
+                            break;
+                        default:
+                            consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                    }
+                } catch (InputMismatchException ex) {
+                    consoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
+                    consoleUI.advanceToNextInput();
+                }
+            }
+        }
+        catch (InputMismatchException ex) 
+        {
+            consoleUI.displayErrorMessage("Pořadové číslo musí být číslo");
+            consoleUI.advanceToNextInput();
+        }
+        catch (IndexOutOfBoundsException ex) 
+        {
+            consoleUI.displayErrorMessage("Pořadové číslo neodpovídá žádnému z filmů");
+            consoleUI.advanceToNextInput();
+        }
+    }
+    
+    private void printAnnouncedMoviesByEra(List<Movie> announcedMoviesByChosenEra, Era chosenEra) 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
                 String.format("JEDNOTLIVÉ OZNAMENÉ FILMY ÉRY %s (řazeno abecedně)", chosenEra.getDisplayName().toUpperCase()));
         
         StringBuilder dividingLine = consoleUI.createDividingBottomHorizontalLineOf(heading.toString());
-        
+                
         System.out.println();
         System.out.println(heading);
         System.out.println();
-        System.out.println("Počet filmů: " + consoleUI.getMoviesController().getAnnouncedMoviesCountByEra(chosenEra));
+        System.out.println("Počet filmů: " + announcedMoviesByChosenEra.size());
         System.out.println();
         System.out.println(dividingLine);
         
-        List<Movie> announcedMoviesByChosenEra = consoleUI.getMoviesController().getAnnouncedMoviesByEra(chosenEra);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
@@ -145,7 +201,7 @@ public class MoviesUI
         }
         
         System.out.println();
-        System.out.println(dividingLine);
+        System.out.println(dividingLine);        
     }
     
     private void handlePrintAnnouncedMoviesByEraSubmenu() 
@@ -162,7 +218,8 @@ public class MoviesUI
 
             while (returnToParentMenu == false) 
             {
-                printAnnouncedMoviesByEra(chosenEra);
+                List<Movie> announcedMoviesByChosenEra = consoleUI.getMoviesController().getAnnouncedMoviesByEra(chosenEra);
+                printAnnouncedMoviesByEra(announcedMoviesByChosenEra, chosenEra);
                 consoleUI.displayBreadcrumb();
                 displayPrintAnnouncedMoviesByEraSubmenu(chosenEra);
 
@@ -173,7 +230,7 @@ public class MoviesUI
                     switch (choice) 
                     {
                         case 1:
-                            deleteMoviesInChosenEra(chosenEra);
+                            deleteAnnouncedMoviesInChosenEra(chosenEra);
                             break;
                         case 2:
                             

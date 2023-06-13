@@ -7,6 +7,8 @@ hyperlinkForContentWatch 4
 shortContentSummary 5
 orderInTVShowSeason 6
 
+Order: 1
+
 [Values]
     
 213212 1
@@ -29,6 +31,8 @@ percentageRating 3
 hyperlinkForContentWatch 4
 shortContentSummary 5
 orderInTVShowSeason 6
+
+Order: 2
 
 [Values]
     
