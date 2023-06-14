@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.mail.EmailException;
@@ -400,7 +401,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-        public List<Movie> getAnnouncedMoviesByEra(Era era) 
+    public List<Movie> getAnnouncedMoviesByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -561,7 +562,7 @@ public class MoviesController
     {
         updateMoviesOutputFilesWithExistingData();
         
-        List<MovieInput> inputMovies = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
+        Map<Integer, MovieInput> inputMovies = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
         
         StringBuilder message = new StringBuilder();
         
@@ -575,16 +576,13 @@ public class MoviesController
         {
             StringBuilder moviesErrorMessages = new StringBuilder();
             Movie convertedInputMovie;
-            int counter = 0;
             int errorCounter = 0;
-            
-            for (MovieInput inputMovie : inputMovies) 
-            {
-                counter++;
-                
-                try 
+                      
+            for (Map.Entry<Integer, MovieInput> inputMovie : inputMovies.entrySet()) 
+            {                
+                try
                 {
-                    convertedInputMovie = MovieDataConverter.convertToDataFrom(inputMovie);
+                    convertedInputMovie = MovieDataConverter.convertToDataFrom(inputMovie.getValue());
                     dbContext.getMoviesTable().addFrom(convertedInputMovie);
                    
                 }
@@ -592,7 +590,7 @@ public class MoviesController
                 {
                     errorCounter++;
                     moviesErrorMessages.append(String.format("Chybový stav filmu s pořadím %d v souboru %s: %s", 
-                            counter, fromBinary == true ? DataStore.getBinaryInputMoviesFilename() : 
+                            inputMovie.getKey(), fromBinary == true ? DataStore.getBinaryInputMoviesFilename() : 
                                     DataStore.getTextInputMoviesFilename() ,e.getMessage())).append("\n");
                 }
             }

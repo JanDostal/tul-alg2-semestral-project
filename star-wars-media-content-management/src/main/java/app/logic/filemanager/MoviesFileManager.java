@@ -656,7 +656,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         }
     }
     
-    public @Override List<MovieInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
+    public @Override Map<Integer, MovieInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
             FileEmptyException, FileNotFoundException
     {
         StringBuilder text = new StringBuilder();
@@ -750,7 +750,8 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             }
         }
                 
-        List<MovieInput> parsedMovies = new ArrayList<>();
+        Map<Integer, MovieInput> parsedMovies = new LinkedHashMap<>();   
+        int inputMovieOrder = 0;
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
         
@@ -769,7 +770,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    parseInputData(movieInputFieldsValues, parsedMovies, movieInputFields);
+                    parseInputData(movieInputFieldsValues, parsedMovies, movieInputFields, inputMovieOrder);
                     
                     break; 
                 }
@@ -783,9 +784,9 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    parseInputData(movieInputFieldsValues, parsedMovies,
-                            movieInputFields);
+                    parseInputData(movieInputFieldsValues, parsedMovies, movieInputFields, inputMovieOrder);
                     
+                    inputMovieOrder++;
                     enteredSectionAttributes = true;
                     enteredSectionValues = false;
                     
@@ -794,6 +795,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
                         "[\\s\t]*$") && enteredSectionAttributes == false) 
                 {
+                    inputMovieOrder++;
                     enteredSectionAttributes = true;
                     continue;
                 }
@@ -842,7 +844,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
     }
      
     private void parseInputData(Map<String, StringBuilder> movieInputFieldsValues,
-            List<MovieInput> parsedMovies, Field[] movieInputFields) 
+            Map<Integer, MovieInput> parsedMovies, Field[] movieInputFields, int inputMovieOrder) 
     {        
         try 
         {
@@ -851,7 +853,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             long epochSeconds = Long.parseLong(movieInputFieldsValues.get("releaseDateInEpochSeconds").
                                 toString());
                         
-            parsedMovies.add(new MovieInput(runtime, movieInputFieldsValues.get("name").toString(), 
+            parsedMovies.put(inputMovieOrder, new MovieInput(runtime, movieInputFieldsValues.get("name").toString(), 
                     percentage, movieInputFieldsValues.get("hyperlinkForContentWatch").toString(), 
                     movieInputFieldsValues.get("shortContentSummary").toString(), 
                     epochSeconds, movieInputFieldsValues.get("era").toString()));

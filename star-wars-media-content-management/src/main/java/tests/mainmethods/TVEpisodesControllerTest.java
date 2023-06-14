@@ -408,7 +408,7 @@ public class TVEpisodesControllerTest
             
             System.out.println(episodeForEdit);
                                 
-            boolean wasDataChangedForEdit = controller.editTVEpisodeBy(episodeForEdit.getPrimaryKey(), seasonEdit.getPrimaryKey(), false);;
+            boolean wasDataChangedForEdit = controller.editTVEpisodeBy(episodeForEdit.getPrimaryKey(), seasonEdit.getPrimaryKey(), false);
             
             System.out.println(wasDataChangedForEdit);
             

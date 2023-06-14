@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import utils.exceptions.FileEmptyException;
 import utils.exceptions.FileParsingException;
 
@@ -69,22 +70,22 @@ public class FileManagerAccessorTest
             System.out.println();
             System.out.println("loadInputDataFrom method from text:");
             System.out.println();
-            List<MovieInput> a = fileManager.getMoviesFileManager().loadInputDataFrom(false);
+            Map<Integer, MovieInput> a = fileManager.getMoviesFileManager().loadInputDataFrom(false);
         
-            for (MovieInput m : a) 
+            for (Map.Entry<Integer, MovieInput> m : a.entrySet()) 
             {
-                System.out.println(m);
+                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
             }
                         
             //loadInputDataFrom method
             System.out.println();
             System.out.println("loadInputDataFrom method from binary:");
             System.out.println();
-            List<MovieInput> b = fileManager.getMoviesFileManager().loadInputDataFrom(true);
+            Map<Integer, MovieInput> b = fileManager.getMoviesFileManager().loadInputDataFrom(true);
         
-            for (MovieInput m : b) 
+            for (Map.Entry<Integer, MovieInput> m : b.entrySet()) 
             {
-                System.out.println(m);
+                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
             }
             
             //saveOutputDataIntoFiles method
@@ -172,22 +173,22 @@ public class FileManagerAccessorTest
             System.out.println();
             System.out.println("loadInputDataFrom method from text:");
             System.out.println();
-            List<TVEpisodeInput> ooo = fileManager.getTVEpisodesFileManager().loadInputDataFrom(false);
+            Map<Integer, TVEpisodeInput> ooo = fileManager.getTVEpisodesFileManager().loadInputDataFrom(false);
         
-            for (TVEpisodeInput m : ooo) 
+            for (Map.Entry<Integer, TVEpisodeInput> m : ooo.entrySet()) 
             {
-                System.out.println(m);
+                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
             }
                         
             //loadInputDataFrom method
             System.out.println();
             System.out.println("loadInputDataFrom method from binary:");
             System.out.println();
-            List<TVEpisodeInput> ooo2 = fileManager.getTVEpisodesFileManager().loadInputDataFrom(true);
+            Map<Integer, TVEpisodeInput> ooo2 = fileManager.getTVEpisodesFileManager().loadInputDataFrom(true);
         
-            for (TVEpisodeInput m : ooo2) 
+            for (Map.Entry<Integer, TVEpisodeInput> m : ooo2.entrySet()) 
             {
-                System.out.println(m);
+                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
             }
             
             //saveOutputDataIntoFiles method
@@ -275,22 +276,22 @@ public class FileManagerAccessorTest
             System.out.println();
             System.out.println("loadInputDataFrom method from text:");
             System.out.println();
-            List<TVSeasonInput> ooo3 = fileManager.getTVSeasonsFileManager().loadInputDataFrom(false);
+            Map<Integer, TVSeasonInput> ooo3 = fileManager.getTVSeasonsFileManager().loadInputDataFrom(false);
         
-            for (TVSeasonInput m : ooo3) 
+            for (Map.Entry<Integer, TVSeasonInput> m : ooo3.entrySet()) 
             {
-                System.out.println(m);
+                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
             }
                         
             //loadInputDataFrom method
             System.out.println();
             System.out.println("loadInputDataFrom method from binary:");
             System.out.println();
-            List<TVSeasonInput> ooo4 = fileManager.getTVSeasonsFileManager().loadInputDataFrom(true);
+            Map<Integer, TVSeasonInput> ooo4 = fileManager.getTVSeasonsFileManager().loadInputDataFrom(true);
         
-            for (TVSeasonInput m : ooo4) 
+            for (Map.Entry<Integer, TVSeasonInput> m : ooo4.entrySet()) 
             {
-                System.out.println(m);
+                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
             }
             
             //saveOutputDataIntoFiles method
@@ -376,22 +377,22 @@ public class FileManagerAccessorTest
             System.out.println();
             System.out.println("loadInputDataFrom method from text:");
             System.out.println();
-            List<TVShowInput> ooo5 = fileManager.getTVShowsFileManager().loadInputDataFrom(false);
+            Map<Integer, TVShowInput> ooo5 = fileManager.getTVShowsFileManager().loadInputDataFrom(false);
         
-            for (TVShowInput m : ooo5) 
+            for (Map.Entry<Integer, TVShowInput> m : ooo5.entrySet()) 
             {
-                System.out.println(m);
+                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
             }
                         
             //loadInputDataFrom method
             System.out.println();
             System.out.println("loadInputDataFrom method from binary:");
             System.out.println();
-            List<TVShowInput> ooo6 = fileManager.getTVShowsFileManager().loadInputDataFrom(true);
+            Map<Integer, TVShowInput> ooo6 = fileManager.getTVShowsFileManager().loadInputDataFrom(true);
         
-            for (TVShowInput m : ooo6) 
+            for (Map.Entry<Integer, TVShowInput> m : ooo6.entrySet()) 
             {
-                System.out.println(m);
+                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
             }
             
             //saveOutputDataIntoFiles method

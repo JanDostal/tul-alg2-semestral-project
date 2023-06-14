@@ -4,6 +4,7 @@ package utils.interfaces;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import utils.exceptions.FileEmptyException;
 import utils.exceptions.FileParsingException;
 
@@ -21,6 +22,6 @@ public interface IDataFileManager<T, S>
     void tryDeleteDataOutputFilesCopies();
     void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException;
     void saveOutputDataIntoFiles(List<S> newOutputData) throws IOException;
-    List<T> loadInputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException;
+    Map<Integer, T> loadInputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException;
     
 }

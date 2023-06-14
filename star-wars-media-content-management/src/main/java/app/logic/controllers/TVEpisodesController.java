@@ -721,7 +721,7 @@ public class TVEpisodesController
     {
         updateTVShowsOutputFilesWithExistingData();
         
-        List<TVShowInput> inputTVShows = fileManagerAccessor.getTVShowsFileManager().loadInputDataFrom(fromBinary);
+        Map<Integer, TVShowInput> inputTVShows = fileManagerAccessor.getTVShowsFileManager().loadInputDataFrom(fromBinary);
         
         StringBuilder message = new StringBuilder();
         
@@ -735,23 +735,20 @@ public class TVEpisodesController
         {
             StringBuilder moviesErrorMessages = new StringBuilder();
             TVShow convertedInputTVShow;
-            int counter = 0;
             int errorCounter = 0;
             
-            for (TVShowInput inputTVShow : inputTVShows) 
-            {
-                counter++;
-                
+            for (Map.Entry<Integer, TVShowInput> inputTVShow : inputTVShows.entrySet()) 
+            {                
                 try 
                 {
-                    convertedInputTVShow = TVShowDataConverter.convertToDataFrom(inputTVShow);
+                    convertedInputTVShow = TVShowDataConverter.convertToDataFrom(inputTVShow.getValue());
                     dbContext.getTVShowsTable().addFrom(convertedInputTVShow);
                 }
                 catch (DatabaseException | DataConversionException e) 
                 {
                     errorCounter++;
                     moviesErrorMessages.append(String.format("Chybový stav seriálu s pořadím %d v souboru %s: %s", 
-                            counter, fromBinary == true ? DataStore.getBinaryInputTVShowsFilename() : 
+                            inputTVShow.getKey(), fromBinary == true ? DataStore.getBinaryInputTVShowsFilename() : 
                                     DataStore.getTextInputTVShowsFilename() ,e.getMessage())).append("\n");
                 }
             }
@@ -772,7 +769,7 @@ public class TVEpisodesController
     {
         updateTVSeasonsOutputFilesWithExistingData();
         
-        List<TVSeasonInput> inputTVSeasons = fileManagerAccessor.getTVSeasonsFileManager().loadInputDataFrom(fromBinary);
+        Map<Integer, TVSeasonInput> inputTVSeasons = fileManagerAccessor.getTVSeasonsFileManager().loadInputDataFrom(fromBinary);
         
         StringBuilder message = new StringBuilder();
         
@@ -786,23 +783,20 @@ public class TVEpisodesController
         {
             StringBuilder moviesErrorMessages = new StringBuilder();
             TVSeason convertedInputTVSeason;
-            int counter = 0;
             int errorCounter = 0;
             
-            for (TVSeasonInput inputTVSeason : inputTVSeasons) 
-            {
-                counter++;
-                
+            for (Map.Entry<Integer, TVSeasonInput> inputTVSeason : inputTVSeasons.entrySet()) 
+            {                
                 try 
                 {
-                    convertedInputTVSeason = TVSeasonDataConverter.convertToDataFrom(inputTVSeason, chosenTVShowPrimaryKey);
+                    convertedInputTVSeason = TVSeasonDataConverter.convertToDataFrom(inputTVSeason.getValue(), chosenTVShowPrimaryKey);
                     dbContext.getTVSeasonsTable().addFrom(convertedInputTVSeason);
                 }
                 catch (DatabaseException e) 
                 {
                     errorCounter++;
                     moviesErrorMessages.append(String.format("Chybový stav sezóny vybraného seriálu s pořadím %d v souboru %s: %s", 
-                            counter, fromBinary == true ? DataStore.getBinaryInputTVSeasonsFilename() : 
+                            inputTVSeason.getKey(), fromBinary == true ? DataStore.getBinaryInputTVSeasonsFilename() : 
                                     DataStore.getTextInputTVSeasonsFilename() ,e.getMessage())).append("\n");
                 }
             }
@@ -824,7 +818,7 @@ public class TVEpisodesController
     {
         updateTVEpisodesOutputFilesWithExistingData();
         
-        List<TVEpisodeInput> inputTVEpisodes = fileManagerAccessor.getTVEpisodesFileManager().loadInputDataFrom(fromBinary);
+        Map<Integer, TVEpisodeInput> inputTVEpisodes = fileManagerAccessor.getTVEpisodesFileManager().loadInputDataFrom(fromBinary);
         
         StringBuilder message = new StringBuilder();
         
@@ -838,24 +832,21 @@ public class TVEpisodesController
         {
             StringBuilder moviesErrorMessages = new StringBuilder();
             TVEpisode convertedInputTVEpisode;
-            int counter = 0;
             int errorCounter = 0;
             
-            for (TVEpisodeInput inputTVEpisode : inputTVEpisodes) 
-            {
-                counter++;
-                
+            for (Map.Entry<Integer, TVEpisodeInput> inputTVEpisode : inputTVEpisodes.entrySet()) 
+            {                
                 try 
                 {
-                    convertedInputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(inputTVEpisode, chosenTVSeasonPrimaryKey);
+                    convertedInputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(inputTVEpisode.getValue(), chosenTVSeasonPrimaryKey);
                     dbContext.getTVEpisodesTable().addFrom(convertedInputTVEpisode);
                 }
                 catch (DatabaseException e) 
                 {
                     errorCounter++;
                     moviesErrorMessages.append(String.format("Chybový stav epizody vybrané sezóny s pořadím %d v souboru %s: %s", 
-                            counter, fromBinary == true ? DataStore.getBinaryInputTVEpisodesFilename() : 
-                                    DataStore.getTextInputTVEpisodesFilename() ,e.getMessage())).append("\n");
+                            inputTVEpisode.getKey(), fromBinary == true ? DataStore.getBinaryInputTVEpisodesFilename() : 
+                                    DataStore.getTextInputTVEpisodesFilename(), e.getMessage())).append("\n");
                 }
             }
 

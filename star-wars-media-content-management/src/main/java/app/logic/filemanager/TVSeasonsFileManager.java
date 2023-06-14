@@ -552,7 +552,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         }
     }
     
-    public @Override List<TVSeasonInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
+    public @Override Map<Integer, TVSeasonInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
             FileEmptyException, FileNotFoundException
     {
         StringBuilder text = new StringBuilder();
@@ -646,7 +646,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             }
         }
                 
-        List<TVSeasonInput> parsedTVSeasons = new ArrayList<>();
+        Map<Integer, TVSeasonInput> parsedTVSeasons = new LinkedHashMap<>();
+        int inputTVSeasonOrder = 0;
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
         
@@ -665,7 +666,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    parseInputData(tvSeasonInputFieldsValues, parsedTVSeasons, tvSeasonInputFields);
+                    parseInputData(tvSeasonInputFieldsValues, parsedTVSeasons, tvSeasonInputFields, inputTVSeasonOrder);
                     
                     break; 
                 }
@@ -679,9 +680,9 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    parseInputData(tvSeasonInputFieldsValues, parsedTVSeasons,
-                            tvSeasonInputFields);
+                    parseInputData(tvSeasonInputFieldsValues, parsedTVSeasons, tvSeasonInputFields, inputTVSeasonOrder);
                     
+                    inputTVSeasonOrder++;
                     enteredSectionAttributes = true;
                     enteredSectionValues = false;
                     
@@ -690,6 +691,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
                         "[\\s\t]*$") && enteredSectionAttributes == false) 
                 {
+                    inputTVSeasonOrder++;
                     enteredSectionAttributes = true;
                     continue;
                 }
@@ -733,14 +735,14 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
     }
     
     private void parseInputData(Map<String, StringBuilder> tvSeasonInputFieldsValues,
-            List<TVSeasonInput> parsedTVSeasons, Field[] tvSeasonInputFields) 
+            Map<Integer, TVSeasonInput> parsedTVSeasons, Field[] tvSeasonInputFields, int inputTVSeasonOrder) 
     {
         try 
         {
             int orderInTVShow = Integer.parseInt(tvSeasonInputFieldsValues.
                     get("orderInTVShow").toString());
                         
-            parsedTVSeasons.add(new TVSeasonInput(orderInTVShow));
+            parsedTVSeasons.put(inputTVSeasonOrder, new TVSeasonInput(orderInTVShow));
         }
         catch (NumberFormatException ex) 
         {   
