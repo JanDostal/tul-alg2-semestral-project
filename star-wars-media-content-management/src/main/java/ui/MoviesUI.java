@@ -218,7 +218,7 @@ public class MoviesUI
         System.out.println();
         System.out.println(dividingLine);
         
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
         
@@ -228,7 +228,7 @@ public class MoviesUI
             
             System.out.println();
             System.out.println(String.format("%-10s%s %-30s%s %s", counter + ".", "Název:", movie.getName(), 
-                    "Datum vydání:", movie.getReleaseDate() == null ? "Není známo" : movie.getReleaseDate().format(formatter)));
+                    "Datum vydání:", movie.getReleaseDate() == null ? "Není známo" : movie.getReleaseDate().format(dateFormatter)));
         }
         
         System.out.println();

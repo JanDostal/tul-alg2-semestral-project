@@ -121,16 +121,15 @@ public class TVEpisodesController
     public void sendUnwatchedEpisodesWithHyperlinksInTVShowByEmail(String recipientEmailAddress, PrimaryKey tvShowPrimaryKey) 
             throws EmailException, DatabaseException
     {
-        TVShow queriedTVShow = dbContext.getTVShowsTable().getBy(tvShowPrimaryKey);
+        TVShow foundTVShow = dbContext.getTVShowsTable().getBy(tvShowPrimaryKey);
         LocalDate currentDate = getCurrentDate();
         
-        if (queriedTVShow == null) 
+        if (foundTVShow == null) 
         {
             throw new DatabaseException("Seriál vybraný pro odeslání e-mailu nebyl nalezen");
         }
-        else if (queriedTVShow.getReleaseDate() == null || 
-                 queriedTVShow.getReleaseDate().compareTo(currentDate) > 0)
-        
+        else if (foundTVShow.getReleaseDate() == null || 
+                 foundTVShow.getReleaseDate().compareTo(currentDate) > 0)
         {
             throw new DatabaseException("Seriál vybraný pro odeslání e-mailu ještě nebyl vydán");
         }
@@ -142,12 +141,11 @@ public class TVEpisodesController
         
         dbContext.getTVSeasonsTable().sortBy(BY_ORDER_ASCENDING_SEASON, showSeasons);
         
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
+        DateTimeFormatter emailDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.forLanguageTag("cs-CZ"));
         
-        String subject = String.format("%s - Nezhlédnuté epizody seriálu %s, nacházejícího se v období %s"
-                + " s datumem vydání %s", 
-                DataStore.getAppName(), queriedTVShow.getName(), queriedTVShow.getEra().getDisplayName(), 
-                queriedTVShow.getReleaseDate().format(formatter));
+        String subject = String.format("%s - Nezhlédnuté epizody - Seriál %s - Období %s - Datum uvedení seriálu %s", 
+                DataStore.getAppName(), foundTVShow.getName(), foundTVShow.getEra().getDisplayName(), 
+                foundTVShow.getReleaseDate().format(emailDateFormatter));
         
         StringBuilder message = new StringBuilder();
         String durationText;
@@ -156,7 +154,7 @@ public class TVEpisodesController
         
         message.append("<html>");
         message.append("<h1>");
-        message.append(String.format("Nezhlédnuté epizody seriálu %s", queriedTVShow.getName()));
+        message.append(String.format("Nezhlédnuté epizody seriálu %s", foundTVShow.getName()));
         message.append("</h1>");
         
         if(showSeasons.isEmpty()) 

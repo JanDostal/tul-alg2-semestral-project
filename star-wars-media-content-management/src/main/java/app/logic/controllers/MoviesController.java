@@ -147,16 +147,16 @@ public class MoviesController
         
         dbContext.getMoviesTable().sortBy(BY_DATE_OLDEST_MOVIE, filteredMovies);
         
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
-        String subject = String.format("%s - Nezhlédnuté filmy - Podle datumu uvedení", DataStore.getAppName());
+        String subject = String.format("%s - Nezhlédnuté filmy - Seřazené podle data uvedení", DataStore.getAppName());
         
         StringBuilder message = new StringBuilder();
         String durationText;
         String hyperlinkText;
         
         message.append("<html>");
-        message.append("<h1>Nezhlédnuté filmy od nejstaršího datumu uvedení</h1>");
+        message.append("<h1>Nezhlédnuté filmy seřazené od nejstaršího datumu uvedení</h1>");
         
         if(filteredMovies.isEmpty()) 
         {
@@ -182,7 +182,7 @@ public class MoviesController
                 message.append(String.format("Film %s", m.getName()));
                 message.append("</h2>");
                 message.append("<p>");
-                message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(formatter)));
+                message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(dateFormatter)));
                 message.append("</p>");
                 message.append("<p>");
                 message.append(String.format("Délka filmu: %s", durationText));
@@ -207,9 +207,9 @@ public class MoviesController
         LocalDate currentDate = getCurrentDate();
         List<Movie> filteredMovies;
         
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
-        String subject = String.format("%s - Nezhlédnuté filmy - Podle chronologických období", 
+        String subject = String.format("%s - Nezhlédnuté filmy - Seřazené podle chronologických období", 
                 DataStore.getAppName());
         
         StringBuilder message = new StringBuilder();
@@ -217,7 +217,7 @@ public class MoviesController
         String hyperlinkText;
         
         message.append("<html>");
-        message.append("<h1>Nezhlédnuté filmy od nejstaršího chronologického období</h1>");
+        message.append("<h1>Nezhlédnuté filmy seřazené od nejstaršího chronologického období</h1>");
         
         for (Era era : Era.values()) 
         {
@@ -255,7 +255,7 @@ public class MoviesController
                     message.append(String.format("Film %s", m.getName()));
                     message.append("</h3>");
                     message.append("<p>");
-                    message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(formatter)));
+                    message.append(String.format("Datum vydání: %s", m.getReleaseDate().format(dateFormatter)));
                     message.append("</p>");
                     message.append("<p>");
                     message.append(String.format("Délka filmu: %s", durationText));
