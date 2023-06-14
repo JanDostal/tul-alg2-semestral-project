@@ -79,7 +79,7 @@ public class MoviesUI
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Načíst filmy ze vstupního souboru");
+        System.out.println("1. Přidat filmy ze vstupního souboru");
         System.out.println("2. Poslat e-mailem filmy");
         System.out.println("3. Vypsat oznámené filmy v jednotlivých érách");
         System.out.println("0. Vrátit se zpět do hlavního menu");
@@ -88,7 +88,7 @@ public class MoviesUI
     
     private void displayPrintAnnouncedMoviesByEraSubmenu(Era chosenEra) 
     {
-        String menuName = "PODMENU VYPSANÝCH OZNÁMENÝCH FILMŮ ÉRY " + chosenEra.getDisplayName().toUpperCase();
+        String menuName = "PODMENU OZNÁMENÝCH FILMŮ ÉRY " + chosenEra.getDisplayName().toUpperCase();
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
         StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
@@ -101,26 +101,41 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
-    private void deleteAnnouncedMoviesInChosenEra(Era chosenEra) 
-    {
-        List<Movie> announcedMoviesByChosenEra = consoleUI.getMoviesController().getAnnouncedMoviesByEra(chosenEra);
-        
-        try 
-        {
-            consoleUI.getMoviesController().deleteMovies(announcedMoviesByChosenEra);
-            consoleUI.displayInfoMessage("Oznámené filmy v dané éře úspěšně smazány");
-        }
-        catch (Exception ex) 
-        {
-            consoleUI.displayErrorMessage(ex.getMessage());
-        }   
-    }
     
     private int loadChosenMovieFromUser() 
     {
         System.out.println();
         System.out.println("Zadejte pořadové číslo filmu: ");
         return consoleUI.getScanner().nextInt();
+    }
+    
+    private void printAnnouncedMovieDetail(Movie chosenMovie) 
+    {
+        StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
+                String.format("DETAIL OZNÁMENÉHO FILMU %s", chosenMovie.getName().toUpperCase()));
+        
+        StringBuilder dividingLine = consoleUI.createDividingBottomHorizontalLineOf(heading.toString());
+                
+        System.out.println();
+        System.out.println(heading);
+        System.out.println();
+        System.out.println(dividingLine);
+        System.out.println();
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
+        String runtimeText = String.format("%d h %d m %d s", chosenMovie.getRuntime().toHours(), 
+                chosenMovie.getRuntime().toMinutesPart(), chosenMovie.getRuntime().toSecondsPart());
+        
+        System.out.println(String.format("%-30s%d", "Identifikátor:", chosenMovie.getPrimaryKey().getId()));
+        System.out.println();
+        System.out.println(String.format("%-30s%s", "Název:", chosenMovie.getName()));
+        System.out.println();
+        System.out.println(String.format("%-30s%s", "Chronologická éra:", chosenMovie.getEra().getDisplayName()));
+        System.out.println();
+        System.out.println(String.format("%-30s%s", "Délka filmu:", chosenMovie.getEra().getDisplayName()));
+        
+        System.out.println();
+        System.out.println(dividingLine);  
     }
     
     private void handleDisplayDetailAboutAnnouncedMovieSubmenu(List<Movie> announcedMoviesByChosenEra) 
@@ -130,7 +145,7 @@ public class MoviesUI
             int movieOrderFromList = loadChosenMovieFromUser();
             Movie chosenMovie = announcedMoviesByChosenEra.get(movieOrderFromList - 1);
 
-            consoleUI.addBreadcrumbItem(String.format("Detail filmu %s", chosenMovie.getName()));
+            consoleUI.addBreadcrumbItem(String.format("Detail oznámeného filmu %s", chosenMovie.getName()));
             boolean returnToParentMenu = false;
             int choice;
 
@@ -147,6 +162,7 @@ public class MoviesUI
                     switch (choice) {
                         case 1:
                             handlePrintAnnouncedMoviesByEraSubmenu();
+                            chosenMovie = consoleUI.getMoviesController().getMovieDetail(chosenMovie.getPrimaryKey());
                             break;
                         case 0:
                             consoleUI.removeLastBreadcrumbItem();
@@ -173,10 +189,25 @@ public class MoviesUI
         }
     }
     
+    private void deleteAnnouncedMoviesInChosenEra(Era chosenEra) 
+    {
+        List<Movie> announcedMoviesByChosenEra = consoleUI.getMoviesController().getAnnouncedMoviesByEra(chosenEra);
+        
+        try 
+        {
+            consoleUI.getMoviesController().deleteMovies(announcedMoviesByChosenEra);
+            consoleUI.displayInfoMessage("Oznámené filmy v dané éře úspěšně smazány");
+        }
+        catch (Exception ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }   
+    }
+    
     private void printAnnouncedMoviesByEra(List<Movie> announcedMoviesByChosenEra, Era chosenEra) 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
-                String.format("JEDNOTLIVÉ OZNAMENÉ FILMY ÉRY %s (řazeno abecedně)", chosenEra.getDisplayName().toUpperCase()));
+                String.format("OZNAMENÉ FILMY ÉRY %s (řazeno abecedně)", chosenEra.getDisplayName().toUpperCase()));
         
         StringBuilder dividingLine = consoleUI.createDividingBottomHorizontalLineOf(heading.toString());
                 
@@ -264,7 +295,7 @@ public class MoviesUI
     
     private void displayPrintErasWithAnnouncedMoviesCountSubmenu() 
     {
-        String menuName = "PODMENU VYPSANÝCH ÉR S POČTEM OZNÁMENÝCH FILMŮ";
+        String menuName = "PODMENU ÉR S POČTEM OZNÁMENÝCH FILMŮ";
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
         StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
@@ -279,7 +310,7 @@ public class MoviesUI
     private void printErasWithAnnouncedMoviesCount() 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
-                "JEDNOTLIVÉ ÉRY S POČTEM OZNÁMENÝCH FILMŮ (začíná nejstarší érou)");
+                "ÉRY S POČTEM OZNÁMENÝCH FILMŮ (začíná nejstarší érou)");
         
         StringBuilder dividingLine = consoleUI.createDividingBottomHorizontalLineOf(heading.toString());
         
@@ -385,7 +416,7 @@ public class MoviesUI
     
     private void handleSendMoviesByEmailSubmenu() 
     {
-        consoleUI.addBreadcrumbItem("Poslat filmy e-mailem");
+        consoleUI.addBreadcrumbItem("Posílání filmů e-mailem");
         boolean returnToParentMenu = false;
         int choice;
         
@@ -424,7 +455,7 @@ public class MoviesUI
     
     private void displayLoadMoviesFromInputFileSubmenu() 
     {
-        String menuName = "PODMENU NAČÍTÁNÍ FILMŮ ZE VSTUPNÍHO SOUBORU";
+        String menuName = "PODMENU PŘIDÁVÁNÍ FILMŮ ZE VSTUPNÍHO SOUBORU";
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
         StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
@@ -451,30 +482,10 @@ public class MoviesUI
             consoleUI.displayErrorMessage(ex.getMessage());
         }        
     }
-    
-    private void displayMoviesChosenFileContent(String fileName) 
-    {        
-        try 
-        {
-            StringBuilder fileContent = consoleUI.getMoviesController().getMoviesChosenFileContent(fileName);
-            
-            StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
-            
-            System.out.println();
-            System.out.println(heading);
-            System.out.println();
-            
-            System.out.println(fileContent);
-        }
-        catch (Exception ex) 
-        {
-            consoleUI.displayErrorMessage(ex.getMessage());
-        }        
-    }
-    
+        
     private void handleLoadMoviesFromInputFileSubmenu() 
     {
-        consoleUI.addBreadcrumbItem("Načíst filmy");
+        consoleUI.addBreadcrumbItem("Přidávání filmů ze vstupního souboru");
         boolean returnToParentMenu = false;
         int choice;
         
@@ -496,10 +507,10 @@ public class MoviesUI
                         loadMoviesFromInputFile(true);
                         break;
                     case 3:
-                        displayMoviesChosenFileContent(DataStore.getTextInputMoviesFilename());
+                        consoleUI.displayMoviesChosenFileContent(DataStore.getTextInputMoviesFilename());
                         break;
                     case 4:
-                        displayMoviesChosenFileContent(DataStore.getBinaryInputMoviesFilename());
+                        consoleUI.displayMoviesChosenFileContent(DataStore.getBinaryInputMoviesFilename());
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();

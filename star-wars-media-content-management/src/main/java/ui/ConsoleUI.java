@@ -6,6 +6,7 @@ import app.logic.controllers.TVEpisodesController;
 import app.logic.datastore.DataStore;
 import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -21,7 +22,7 @@ public class ConsoleUI
     
     private static boolean isDatabaseFromFilesLoaded = false;
     
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8.name());
     
     private boolean wasInitialized = false;
     
@@ -128,6 +129,30 @@ public class ConsoleUI
                     case 2:
                         loadAllOutputDataFrom(true);
                         break;
+                    case 3:
+                        displayMoviesChosenFileContent(DataStore.getTextOutputMoviesFilename());
+                        break;
+                    case 4:
+                        displayTVShowsChosenFileContent(DataStore.getTextOutputTVShowsFilename());
+                        break;
+                    case 5:
+                        displayTVSeasonsChosenFileContent(DataStore.getTextOutputTVSeasonsFilename());
+                        break;
+                    case 6:
+                        displayTVEpisodesChosenFileContent(DataStore.getTextOutputTVEpisodesFilename());
+                        break;
+                    case 7:
+                        displayMoviesChosenFileContent(DataStore.getBinaryOutputMoviesFilename());
+                        break;
+                    case 8:
+                        displayTVShowsChosenFileContent(DataStore.getBinaryOutputTVShowsFilename());
+                        break;
+                    case 9:
+                        displayTVSeasonsChosenFileContent(DataStore.getBinaryOutputTVSeasonsFilename());
+                        break;
+                    case 10:
+                        displayTVEpisodesChosenFileContent(DataStore.getTextOutputTVEpisodesFilename());
+                        break;
                     case 0:
                         isConsoleRunning = false;
                         break;
@@ -142,11 +167,14 @@ public class ConsoleUI
             }
         }
         
-        displayIntroduction();
-        displayInfoMessage("Tato aplikace slouží jako evidence mediálního obsahu (seriály, filmy)"
-                + " v rámci výhradně Star Wars univerza. Nechť vás provází síla.");
+        if (isConsoleRunning == true) 
+        {
+            displayIntroduction();
+            displayInfoMessage("Tato aplikace slouží jako evidence mediálního obsahu (seriály, filmy)" 
+                    + " v rámci výhradně Star Wars univerza. Nechť vás provází síla.");
         
-        addBreadcrumbItem("Hlavní menu");
+            addBreadcrumbItem("Hlavní menu");
+        }
         
         while (isConsoleRunning == true) 
         {
@@ -315,6 +343,86 @@ public class ConsoleUI
         return menuNameWithHorizontalLines;
     }
     
+    protected void displayMoviesChosenFileContent(String fileName) 
+    {        
+        try 
+        {
+            StringBuilder fileContent = getMoviesController().getMoviesChosenFileContent(fileName);
+            
+            StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
+            
+            System.out.println();
+            System.out.println(heading);
+            System.out.println();
+            
+            System.out.println(fileContent);
+        }
+        catch (Exception ex) 
+        {
+            displayErrorMessage(ex.getMessage());
+        }        
+    }
+    
+    protected void displayTVShowsChosenFileContent(String fileName) 
+    {        
+        try 
+        {
+            StringBuilder fileContent = getTVEpisodesController().getTVShowsChosenFileContent(fileName);
+            
+            StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
+            
+            System.out.println();
+            System.out.println(heading);
+            System.out.println();
+            
+            System.out.println(fileContent);
+        }
+        catch (Exception ex) 
+        {
+            displayErrorMessage(ex.getMessage());
+        }        
+    }
+    
+    protected void displayTVSeasonsChosenFileContent(String fileName) 
+    {        
+        try 
+        {
+            StringBuilder fileContent = getTVEpisodesController().getTVSeasonsChosenFileContent(fileName);
+            
+            StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
+            
+            System.out.println();
+            System.out.println(heading);
+            System.out.println();
+            
+            System.out.println(fileContent);
+        }
+        catch (Exception ex) 
+        {
+            displayErrorMessage(ex.getMessage());
+        }        
+    }
+    
+    protected void displayTVEpisodesChosenFileContent(String fileName) 
+    {        
+        try 
+        {
+            StringBuilder fileContent = getTVEpisodesController().getTVEpisodesChosenFileContent(fileName);
+            
+            StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
+            
+            System.out.println();
+            System.out.println(heading);
+            System.out.println();
+            
+            System.out.println(fileContent);
+        }
+        catch (Exception ex) 
+        {
+            displayErrorMessage(ex.getMessage());
+        }        
+    }
+    
     private void displayIntroduction() 
     {
         String introductionHeading = String.format("VÍTEJTE V APLIKACI %s", DataStore.getAppName().toUpperCase());
@@ -335,8 +443,8 @@ public class ConsoleUI
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
         System.out.println("1. Vypsat informace o chronologických érách");
-        System.out.println("2. Správa filmů");
-        System.out.println("3. Správa TV epizod");
+        System.out.println("2. Spravovat filmy");
+        System.out.println("3. Spravovat TV epizody");
         System.out.println("0. Ukončit aplikaci");
         System.out.println(horizontalLine);
     }
@@ -364,10 +472,18 @@ public class ConsoleUI
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println("0. Ukončit aplikaci");
-        System.out.println(horizontalLine);
+        System.out.println("1.  Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)");
+        System.out.println("2.  Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
+        System.out.println(String.format("3.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputMoviesFilename()));
+        System.out.println(String.format("4.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputTVShowsFilename()));
+        System.out.println(String.format("5.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputTVSeasonsFilename()));
+        System.out.println(String.format("6.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputTVEpisodesFilename()));
+        System.out.println(String.format("7.  Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputMoviesFilename()));
+        System.out.println(String.format("8.  Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputTVShowsFilename()));
+        System.out.println(String.format("9.  Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputTVSeasonsFilename()));
+        System.out.println(String.format("10. Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputTVEpisodesFilename()));
+        System.out.println("0.  Ukončit aplikaci");
+        System.out.println(horizontalLine);        
     }
         
     private void printInformationsAboutChronologicalEras() 
@@ -383,7 +499,7 @@ public class ConsoleUI
         for (Era era : Era.values()) 
         {
             System.out.println();
-            System.out.println("Název éry: " + era.getDisplayName());
+            System.out.println("Název: " + era.getDisplayName());
             System.out.println();
             System.out.println("Popis:");
             System.out.println(era.getDescription());
