@@ -120,13 +120,15 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 filenameSeparator + DataStore.getBinaryOutputMoviesFilename())))) 
         {
             boolean fileEndReached = false;
+            String moviesDivider = "\n\n\n\n\n\n\n\n\n";
+            
             int movieId;
-            long movieRuntime;
+            long movieRuntimeInSeconds;
             char[] movieName;
             int moviePercentageRating;
             char[] movieHyperlink;
             char[] movieContent;
-            long movieReleaseDate;
+            long movieReleaseDateInEpochSeconds;
             char[] movieEra;
 
             while (fileEndReached == false) 
@@ -134,7 +136,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 try 
                 {
                     movieId = dataInputStream.readInt();
-                    movieRuntime = dataInputStream.readLong();
+                    movieRuntimeInSeconds = dataInputStream.readLong();
 
                     movieName = new char[MovieOutput.ATTRIBUTE_NAME_LENGTH];
 
@@ -159,7 +161,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                         movieContent[i] = dataInputStream.readChar();
                     }
 
-                    movieReleaseDate = dataInputStream.readLong();
+                    movieReleaseDateInEpochSeconds = dataInputStream.readLong();
 
                     movieEra = new char[MovieOutput.ATTRIBUTE_ERA_LENGTH];
 
@@ -168,14 +170,23 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                         movieEra[i] = dataInputStream.readChar();
                     }
                     
-                    text.append(movieId).append(" ").append(movieRuntime).append(" ")
-                            .append(new String(movieName)).append(" ")
-                            .append(moviePercentageRating).append(" ").append(new String(movieHyperlink))
-                            .append(" ").append(new String(movieContent)).append(" ").append(movieReleaseDate)
-                            .append(" ").append(new String(movieEra)).append("\n\n");
+                    text.append(String.format("%-38s%d", "Identifikátor:", movieId)).append("\n");
+                    text.append(String.format("%-38s%d", "Délka filmu v sekundách:", movieRuntimeInSeconds)).append("\n");
+                    text.append(String.format("%-38s%s", "Název:", new String(movieName))).append("\n");
+                    text.append(String.format("%-38s%d", "Procentuální hodnocení:", moviePercentageRating)).append("\n");
+                    text.append(String.format("%-38s%s", "Odkaz ke zhlédnutí:", new String(movieHyperlink))).append("\n");
+                    
+                    text.append("Krátké shrnutí obsahu:").append("\n");
+                    text.append("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||").append("\n");
+                    text.append(new String(movieContent));
+                    text.append("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||").append("\n");
+                    
+                    text.append(String.format("%-38s%d", "Datum uvedení v epoch sekundách:", movieReleaseDateInEpochSeconds)).append("\n");
+                    text.append(String.format("%-38s%s", "Chronologická éra:", new String(movieEra))).append(moviesDivider);
                 } 
                 catch (EOFException e) 
                 {
+                    text.delete(text.length() - moviesDivider.length(), text.length());
                     fileEndReached = true;
                 }
             }
@@ -925,6 +936,10 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         {
             attributesMarking = inputFileAttributesSectionMarking.replaceAll("\\\\", "");
             outputTextData.append(attributesMarking).append("\n");
+            outputTextData.append("\n");
+            
+            outputTextData.append("Identificator: ").append(m.getId()).append("\n");
+            
             outputTextData.append("\n");
 
             for (Map.Entry<String, Integer> entry : movieOutputFieldsIds.entrySet()) 

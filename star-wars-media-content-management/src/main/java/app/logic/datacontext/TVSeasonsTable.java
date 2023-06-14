@@ -72,14 +72,14 @@ public class TVSeasonsTable implements IDataTable<TVSeason>
             throw new DatabaseException("Identifikátor seriálu pro přidanou sezónu neodkazuje na žádný seriál");
         }
                 
-        PrimaryKey newPrimaryKey = dbContext.generatePrimaryKey(this, primaryKeysGenerator);
-        
         List<TVSeason> tvSeasonWithDuplicateData = filterBy(season -> season.equals(inputData));
         
         if (tvSeasonWithDuplicateData.isEmpty() == false) 
         {
             throw new DatabaseException("Data přidané sezóny seriálu jsou duplicitní");
         }
+        
+        PrimaryKey newPrimaryKey = dbContext.generatePrimaryKey(this, primaryKeysGenerator);
         
         TVSeason newData = new TVSeason(newPrimaryKey, inputData.getOrderInTVShow(), 
                 inputData.getTVShowForeignKey());

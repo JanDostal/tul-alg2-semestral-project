@@ -293,7 +293,7 @@ public class ConsoleUI
         return scanner.nextLine();
     }
     
-    protected StringBuilder createDividingBottomHorizontalLineOf(String heading) 
+    protected StringBuilder createDividingHorizontalLineOf(String heading) 
     {
         StringBuilder horizontalLine = new StringBuilder();
         
@@ -350,12 +350,16 @@ public class ConsoleUI
             StringBuilder fileContent = getMoviesController().getMoviesChosenFileContent(fileName);
             
             StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
+            StringBuilder dividingLine = createDividingHorizontalLineOf(heading.toString());
             
             System.out.println();
             System.out.println(heading);
             System.out.println();
+            System.out.println(dividingLine);
             
             System.out.println(fileContent);
+            
+            System.out.println(dividingLine);
         }
         catch (Exception ex) 
         {
@@ -370,12 +374,16 @@ public class ConsoleUI
             StringBuilder fileContent = getTVEpisodesController().getTVShowsChosenFileContent(fileName);
             
             StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
+            StringBuilder dividingLine = createDividingHorizontalLineOf(heading.toString());
             
             System.out.println();
             System.out.println(heading);
-            System.out.println();
+            System.out.println();         
+            System.out.println(dividingLine);
             
             System.out.println(fileContent);
+            
+            System.out.println(dividingLine);
         }
         catch (Exception ex) 
         {
@@ -390,12 +398,16 @@ public class ConsoleUI
             StringBuilder fileContent = getTVEpisodesController().getTVSeasonsChosenFileContent(fileName);
             
             StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
+            StringBuilder dividingLine = createDividingHorizontalLineOf(heading.toString());
             
             System.out.println();
             System.out.println(heading);
             System.out.println();
+            System.out.println(dividingLine);
             
             System.out.println(fileContent);
+            
+            System.out.println(dividingLine);
         }
         catch (Exception ex) 
         {
@@ -410,12 +422,16 @@ public class ConsoleUI
             StringBuilder fileContent = getTVEpisodesController().getTVEpisodesChosenFileContent(fileName);
             
             StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
+            StringBuilder dividingLine = createDividingHorizontalLineOf(heading.toString());
             
             System.out.println();
             System.out.println(heading);
             System.out.println();
+            System.out.println(dividingLine);
             
             System.out.println(fileContent);
+            
+            System.out.println(dividingLine);
         }
         catch (Exception ex) 
         {
@@ -438,7 +454,7 @@ public class ConsoleUI
         String menuName = "HLAVNÍ MENU";
         
         StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        StringBuilder horizontalLine = createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
@@ -454,7 +470,7 @@ public class ConsoleUI
         String menuName = String.format("MENU NASTAVOVÁNÍ ADRESÁŘE %s", DataStore.getDataDirectoryName().toUpperCase());
         
         StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(10, menuName);
-        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        StringBuilder horizontalLine = createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
@@ -468,7 +484,7 @@ public class ConsoleUI
         String menuName = "MENU NAČÍTÁNÍ VÝSTUPNÍCH SOUBORŮ";
         
         StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        StringBuilder horizontalLine = createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
@@ -491,7 +507,7 @@ public class ConsoleUI
         String heading = "CHRONOLOGICKÉ ÉRY STAR WARS UNIVERZA (začíná nejstarší érou)";
                 
         StringBuilder headingWithHorizontalLines = createHeadingWithHorizontalLines(30, heading);
-        StringBuilder horizontalLine = createDividingBottomHorizontalLineOf(headingWithHorizontalLines.toString());
+        StringBuilder horizontalLine = createDividingHorizontalLineOf(headingWithHorizontalLines.toString());
         
         System.out.println();
         System.out.println(headingWithHorizontalLines);

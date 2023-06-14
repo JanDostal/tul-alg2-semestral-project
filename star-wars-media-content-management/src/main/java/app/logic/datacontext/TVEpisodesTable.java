@@ -4,6 +4,7 @@ package app.logic.datacontext;
 import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
+import app.models.output.TVEpisodeOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,6 +70,26 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
             throw new DatabaseException("Identifikátor sezóny pro přidanou epizodu musí být větší než nula");
         }
         
+        if (inputData.getName() != null && inputData.getName().length() > TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH) 
+        {
+            throw new DatabaseException("Název přidané epizody sezóny nesmí mít délku větší než " + 
+                    TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH + " znaků");
+        }
+        
+        if (inputData.getHyperlinkForContentWatch() != null && 
+                inputData.getHyperlinkForContentWatch().length() > TVEpisodeOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
+        {
+            throw new DatabaseException("Odkaz ke zhlédnutí přidané epizody sezóny nesmí mít délku větší než " + 
+                    TVEpisodeOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
+        }
+        
+        if (inputData.getShortContentSummary() != null && 
+                inputData.getShortContentSummary().length() > TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH) 
+        {
+            throw new DatabaseException("Krátké shrnutí obsahu přidané epizody sezóny nesmí mít délku větší než " + 
+                    TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH + " znaků");
+        }
+        
         TVSeason existingTVSeason = dbContext.getTVSeasonsTable().getBy(inputData.getTVSeasonForeignKey());
             
         if (existingTVSeason == null) 
@@ -76,14 +97,14 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
             throw new DatabaseException("Identifikátor sezóny pro přidanou epizodu neodkazuje na žádnou sezónu");
         }
                 
-        PrimaryKey newPrimaryKey = dbContext.generatePrimaryKey(this, primaryKeysGenerator);
-        
         List<TVEpisode> tvEpisodeWithDuplicateData = filterBy(episode -> episode.equals(inputData));
         
         if (tvEpisodeWithDuplicateData.isEmpty() == false) 
         {
             throw new DatabaseException("Data přidané epizody sezóny jsou duplicitní");
         }
+        
+        PrimaryKey newPrimaryKey = dbContext.generatePrimaryKey(this, primaryKeysGenerator);
         
         TVEpisode newData = new TVEpisode(newPrimaryKey, 
                 inputData.getRuntime(), 
@@ -195,6 +216,26 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
         if (editedExistingData.getTVSeasonForeignKey().getId() <= 0) 
         {
             throw new DatabaseException("Identifikátor sezóny pro editovanou epizodu musí být větší než nula");
+        }
+        
+        if (editedExistingData.getName() != null && editedExistingData.getName().length() > TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH) 
+        {
+            throw new DatabaseException("Název editované epizody sezóny nesmí mít délku větší než " + 
+                    TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH + " znaků");
+        }
+        
+        if (editedExistingData.getHyperlinkForContentWatch() != null && 
+                editedExistingData.getHyperlinkForContentWatch().length() > TVEpisodeOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
+        {
+            throw new DatabaseException("Odkaz ke zhlédnutí editované epizody sezóny nesmí mít délku větší než " + 
+                    TVEpisodeOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
+        }
+        
+        if (editedExistingData.getShortContentSummary() != null && 
+                editedExistingData.getShortContentSummary().length() > TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH) 
+        {
+            throw new DatabaseException("Krátké shrnutí obsahu editované epizody sezóny nesmí mít délku větší než " + 
+                    TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH + " znaků");
         }
         
         boolean wasDataChanged = false;

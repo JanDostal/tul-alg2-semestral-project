@@ -75,7 +75,7 @@ public class MoviesUI
         String menuName = "PODMENU SPRÁVA FILMŮ";
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
@@ -91,7 +91,7 @@ public class MoviesUI
         String menuName = "PODMENU OZNÁMENÝCH FILMŮ ÉRY " + chosenEra.getDisplayName().toUpperCase();
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
@@ -114,7 +114,7 @@ public class MoviesUI
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
                 String.format("DETAIL OZNÁMENÉHO FILMU %s", chosenMovie.getName().toUpperCase()));
         
-        StringBuilder dividingLine = consoleUI.createDividingBottomHorizontalLineOf(heading.toString());
+        StringBuilder dividingLine = consoleUI.createDividingHorizontalLineOf(heading.toString());
                 
         System.out.println();
         System.out.println(heading);
@@ -209,7 +209,7 @@ public class MoviesUI
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
                 String.format("OZNAMENÉ FILMY ÉRY %s (řazeno abecedně)", chosenEra.getDisplayName().toUpperCase()));
         
-        StringBuilder dividingLine = consoleUI.createDividingBottomHorizontalLineOf(heading.toString());
+        StringBuilder dividingLine = consoleUI.createDividingHorizontalLineOf(heading.toString());
                 
         System.out.println();
         System.out.println(heading);
@@ -298,7 +298,7 @@ public class MoviesUI
         String menuName = "PODMENU ÉR S POČTEM OZNÁMENÝCH FILMŮ";
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
@@ -312,7 +312,7 @@ public class MoviesUI
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
                 "ÉRY S POČTEM OZNÁMENÝCH FILMŮ (začíná nejstarší érou)");
         
-        StringBuilder dividingLine = consoleUI.createDividingBottomHorizontalLineOf(heading.toString());
+        StringBuilder dividingLine = consoleUI.createDividingHorizontalLineOf(heading.toString());
         
         System.out.println();
         System.out.println(heading);
@@ -374,7 +374,7 @@ public class MoviesUI
         String menuName = "PODMENU POSÍLÁNÍ FILMŮ E-MAILEM";
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
@@ -458,7 +458,7 @@ public class MoviesUI
         String menuName = "PODMENU PŘIDÁVÁNÍ FILMŮ ZE VSTUPNÍHO SOUBORU";
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);

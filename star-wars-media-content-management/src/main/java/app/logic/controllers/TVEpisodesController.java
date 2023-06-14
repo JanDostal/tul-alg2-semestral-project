@@ -960,12 +960,19 @@ public class TVEpisodesController
     {
         updateTVShowsOutputFilesWithExistingData();
         
-        List<TVShowInput> editedTVShow = fileManagerAccessor.getTVShowsFileManager().loadInputDataFrom(fromBinary);
-                
+        Map<Integer, TVShowInput> editedTVShow = fileManagerAccessor.getTVShowsFileManager().loadInputDataFrom(fromBinary);
+        
+        String filename = fromBinary == true ? DataStore.getBinaryInputTVShowsFilename() : DataStore.getTextInputTVShowsFilename();
+        
         if (editedTVShow.isEmpty()) 
         {
-            String filename = fromBinary == true ? DataStore.getBinaryInputTVShowsFilename() : DataStore.getTextInputTVShowsFilename();
             throw new FileParsingException("Data seriálu vybraného pro editaci se nepodařilo nahrát ze souboru " + filename);
+        }
+        
+        if (editedTVShow.size() > 1 || editedTVShow.get(1) == null) 
+        {
+            throw new FileParsingException("Soubor " + 
+                    filename + " musí obsahovat právě jeden seriál vybraný pro editaci");
         }
         
         TVShow convertedInputTVShow = TVShowDataConverter.convertToDataFrom(editedTVShow.get(0));
@@ -985,12 +992,18 @@ public class TVEpisodesController
     {
         updateTVSeasonsOutputFilesWithExistingData();
         
-        List<TVSeasonInput> editedTVSeason = fileManagerAccessor.getTVSeasonsFileManager().loadInputDataFrom(fromBinary);
+        Map<Integer, TVSeasonInput> editedTVSeason = fileManagerAccessor.getTVSeasonsFileManager().loadInputDataFrom(fromBinary);
+        
+        String filename = fromBinary == true ? DataStore.getBinaryInputTVSeasonsFilename() : DataStore.getTextInputTVSeasonsFilename();
                 
         if (editedTVSeason.isEmpty()) 
         {
-            String filename = fromBinary == true ? DataStore.getBinaryInputTVSeasonsFilename() : DataStore.getTextInputTVSeasonsFilename();
             throw new FileParsingException("Data sezóny vybrané pro editaci se nepodařilo nahrát ze souboru " + filename);
+        }
+        
+        if (editedTVSeason.size() > 1 || editedTVSeason.get(1) == null) 
+        {
+            throw new FileParsingException("Soubor " + filename + " musí obsahovat právě jednu sezónu vybranou pro editaci");
         }
         
         TVSeason convertedInputTVSeason = TVSeasonDataConverter.convertToDataFrom(editedTVSeason.get(0), tvSeasonForeignKey);
@@ -1010,13 +1023,18 @@ public class TVEpisodesController
     {
         updateTVEpisodesOutputFilesWithExistingData();
         
-        List<TVEpisodeInput> editedTVEpisode = fileManagerAccessor.getTVEpisodesFileManager().loadInputDataFrom(fromBinary);
+        Map<Integer, TVEpisodeInput> editedTVEpisode = fileManagerAccessor.getTVEpisodesFileManager().loadInputDataFrom(fromBinary);
+        
+        String filename = fromBinary == true ? DataStore.getBinaryInputTVEpisodesFilename() : DataStore.getTextInputTVEpisodesFilename();
                 
         if (editedTVEpisode.isEmpty()) 
         {
-            String filename = fromBinary == true ? 
-                    DataStore.getBinaryInputTVEpisodesFilename() : DataStore.getTextInputTVEpisodesFilename();
             throw new FileParsingException("Data epizody vybrané pro editaci se nepodařilo nahrát ze souboru " + filename);
+        }
+        
+        if (editedTVEpisode.size() > 1 || editedTVEpisode.get(1) == null) 
+        {
+            throw new FileParsingException("Soubor " + filename + " musí obsahovat právě jednu epizodu vybranou pro editaci");
         }
         
         TVEpisode convertedInputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(editedTVEpisode.get(0), tvEpisodeForeignKey);

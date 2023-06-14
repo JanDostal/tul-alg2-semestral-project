@@ -61,7 +61,7 @@ public class TVEpisodesUI
         String menuName = "PODMENU SPRÁVA TV EPIZOD";
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = consoleUI.createDividingBottomHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);

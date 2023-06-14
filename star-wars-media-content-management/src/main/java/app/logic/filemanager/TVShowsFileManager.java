@@ -119,9 +119,11 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 filenameSeparator + DataStore.getBinaryOutputTVShowsFilename())))) 
         {
             boolean fileEndReached = false;
+            String tvShowsDivider = "\n\n\n\n\n\n\n\n\n";
+            
             int tvShowId;
             char[] tvShowName;
-            long tvShowReleaseDate;
+            long tvShowReleaseDateInEpochSeconds;
             char[] tvShowEra;
 
             while (fileEndReached == false) 
@@ -137,7 +139,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                         tvShowName[i] = dataInputStream.readChar();
                     }
 
-                    tvShowReleaseDate = dataInputStream.readLong();
+                    tvShowReleaseDateInEpochSeconds = dataInputStream.readLong();
 
                     tvShowEra = new char[TVShowOutput.ATTRIBUTE_ERA_LENGTH];
 
@@ -146,12 +148,14 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                         tvShowEra[i] = dataInputStream.readChar();
                     }
                     
-                    text.append(tvShowId).append(" ").append(new String(tvShowName))
-                            .append(" ").append(tvShowReleaseDate).append(" ").append(new String(tvShowEra)).
-                            append("\n\n");
+                    text.append(String.format("%-38s%d", "Identifikátor:", tvShowId)).append("\n");
+                    text.append(String.format("%-38s%s", "Název:", new String(tvShowName))).append("\n");
+                    text.append(String.format("%-38s%d", "Datum uvedení v epoch sekundách:", tvShowReleaseDateInEpochSeconds)).append("\n");
+                    text.append(String.format("%-38s%s", "Chronologická éra:", new String(tvShowEra))).append(tvShowsDivider);
                 } 
                 catch (EOFException e) 
                 {
+                    text.delete(text.length() - tvShowsDivider.length(), text.length());
                     fileEndReached = true;
                 }
             }
@@ -849,6 +853,10 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         {
             attributesMarking = inputFileAttributesSectionMarking.replaceAll("\\\\", "");
             outputTextData.append(attributesMarking).append("\n");
+            outputTextData.append("\n");
+            
+            outputTextData.append("Identificator: ").append(m.getId()).append("\n");
+            
             outputTextData.append("\n");
 
             for (Map.Entry<String, Integer> entry : tvShowOutputFieldsIds.entrySet()) 

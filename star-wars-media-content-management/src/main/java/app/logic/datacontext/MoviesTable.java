@@ -3,6 +3,7 @@ package app.logic.datacontext;
 
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
+import app.models.output.MovieOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -67,15 +68,35 @@ public class MoviesTable implements IDataTable<Movie>
         {
             throw new DatabaseException("Přidaný film musí mít název");
         }
-                
-        PrimaryKey newPrimaryKey = dbContext.generatePrimaryKey(this, primaryKeysGenerator);
         
+        if (inputData.getName().length() > MovieOutput.ATTRIBUTE_NAME_LENGTH) 
+        {
+            throw new DatabaseException("Název přidaného filmu nesmí mít délku větší než " + MovieOutput.ATTRIBUTE_NAME_LENGTH + 
+                    " znaků");
+        }
+        
+        if (inputData.getHyperlinkForContentWatch() != null && 
+                inputData.getHyperlinkForContentWatch().length() > MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
+        {
+            throw new DatabaseException("Odkaz ke zhlédnutí přidaného filmu nesmí mít délku větší než " + 
+                    MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
+        }
+        
+        if (inputData.getShortContentSummary() != null && 
+                inputData.getShortContentSummary().length() > MovieOutput.ATTRIBUTE_CONTENT_LENGTH) 
+        {
+            throw new DatabaseException("Krátké shrnutí obsahu přidaného filmu nesmí mít délku větší než " + 
+                    MovieOutput.ATTRIBUTE_CONTENT_LENGTH + " znaků");
+        }
+            
         List<Movie> movieWithDuplicateData = filterBy(movie -> movie.equals(inputData));
         
         if (movieWithDuplicateData.isEmpty() == false) 
         {
             throw new DatabaseException("Data přidaného filmu jsou duplicitní");
         }
+        
+        PrimaryKey newPrimaryKey = dbContext.generatePrimaryKey(this, primaryKeysGenerator);
         
         Movie newData = new Movie(newPrimaryKey, 
                     inputData.getRuntime(), 
@@ -179,6 +200,26 @@ public class MoviesTable implements IDataTable<Movie>
         if (editedExistingData.getName() == null) 
         {
             throw new DatabaseException("Editovaný film musí mít název");
+        }
+        
+        if (editedExistingData.getName().length() > MovieOutput.ATTRIBUTE_NAME_LENGTH) 
+        {
+            throw new DatabaseException("Název editovaného filmu nesmí mít délku větší než " + MovieOutput.ATTRIBUTE_NAME_LENGTH + 
+                    " znaků");
+        }
+        
+        if (editedExistingData.getHyperlinkForContentWatch() != null && 
+                editedExistingData.getHyperlinkForContentWatch().length() > MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
+        {
+            throw new DatabaseException("Odkaz ke zhlédnutí editovaného filmu nesmí mít délku větší než " + 
+                    MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
+        }
+        
+        if (editedExistingData.getShortContentSummary() != null && 
+                editedExistingData.getShortContentSummary().length() > MovieOutput.ATTRIBUTE_CONTENT_LENGTH) 
+        {
+            throw new DatabaseException("Krátké shrnutí obsahu editovaného filmu nesmí mít délku větší než " + 
+                    MovieOutput.ATTRIBUTE_CONTENT_LENGTH + " znaků");
         }
         
         boolean wasDataChanged = false;

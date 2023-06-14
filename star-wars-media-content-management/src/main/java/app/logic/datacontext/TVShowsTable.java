@@ -5,6 +5,7 @@ import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
+import app.models.output.TVShowOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -64,15 +65,21 @@ public class TVShowsTable implements IDataTable<TVShow>
         {
             throw new DatabaseException("Přidaný seriál musí mít název");
         }
-                
-        PrimaryKey newPrimaryKey = dbContext.generatePrimaryKey(this, primaryKeysGenerator);
         
+        if (inputData.getName().length() > TVShowOutput.ATTRIBUTE_NAME_LENGTH) 
+        {
+            throw new DatabaseException("Název přidaného seriálu nesmí mít délku větší než " + TVShowOutput.ATTRIBUTE_NAME_LENGTH + 
+                    " znaků");
+        }
+                
         List<TVShow> tvShowWithDuplicateData = filterBy(show -> show.equals(inputData));
         
         if (tvShowWithDuplicateData.isEmpty() == false) 
         {
             throw new DatabaseException("Data přidaného seriálu jsou duplicitní");
         }
+        
+        PrimaryKey newPrimaryKey = dbContext.generatePrimaryKey(this, primaryKeysGenerator);
         
         TVShow newData = new TVShow(newPrimaryKey, inputData.getName(), 
                 inputData.getReleaseDate(), inputData.getEra());
@@ -186,6 +193,12 @@ public class TVShowsTable implements IDataTable<TVShow>
         if (editedExistingData.getName() == null) 
         {
             throw new DatabaseException("Editovaný seriál musí mít název");
+        }
+        
+        if (editedExistingData.getName().length() > TVShowOutput.ATTRIBUTE_NAME_LENGTH) 
+        {
+            throw new DatabaseException("Název editovaného seriálu nesmí mít délku větší než " + TVShowOutput.ATTRIBUTE_NAME_LENGTH + 
+                    " znaků");
         }
         
         boolean wasDataChanged = false;

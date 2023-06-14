@@ -638,12 +638,19 @@ public class MoviesController
     {
         updateMoviesOutputFilesWithExistingData();
         
-        List<MovieInput> editedMovie = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
+        Map<Integer, MovieInput> editedMovie = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
+        
+        String filename = fromBinary == true ? DataStore.getBinaryInputMoviesFilename() : DataStore.getTextInputMoviesFilename();
                 
         if (editedMovie.isEmpty()) 
         {
-            String filename = fromBinary == true ? DataStore.getBinaryInputMoviesFilename() : DataStore.getTextInputMoviesFilename();
             throw new FileParsingException("Data filmu vybraného pro editaci se nepodařilo nahrát ze souboru " + filename);
+        }
+        
+        if (editedMovie.size() > 1 || editedMovie.get(1) == null) 
+        {
+            throw new FileParsingException("Soubor " + 
+                    filename + " musí obsahovat právě jeden film vybraný pro editaci");
         }
         
         Movie convertedInputMovie = MovieDataConverter.convertToDataFrom(editedMovie.get(0));

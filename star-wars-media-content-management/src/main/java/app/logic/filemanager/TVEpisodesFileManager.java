@@ -120,8 +120,10 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 filenameSeparator + DataStore.getBinaryOutputTVEpisodesFilename())))) 
         {
             boolean fileEndReached = false;
+            String tvEpisodesDivider = "\n\n\n\n\n\n\n\n\n";
+            
             int tvEpisodeId;
-            long tvEpisodeRuntime;
+            long tvEpisodeRuntimeInSeconds;
             char[] tvEpisodeName;
             int tvEpisodePercentageRating;
             char[] tvEpisodeHyperlink;
@@ -134,7 +136,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 try 
                 {
                     tvEpisodeId = dataInputStream.readInt();
-                    tvEpisodeRuntime = dataInputStream.readLong();
+                    tvEpisodeRuntimeInSeconds = dataInputStream.readLong();
 
                     tvEpisodeName = new char[TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH];
 
@@ -163,15 +165,23 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
 
                     tvEpisodeTVSeasonId = dataInputStream.readInt();
                     
-                    text.append(tvEpisodeId).append(" ").append(tvEpisodeRuntime).append(" ")
-                            .append(new String(tvEpisodeName)).append(" ")
-                            .append(tvEpisodePercentageRating).append(" ").append(new String(tvEpisodeHyperlink))
-                            .append(" ").append(new String(tvEpisodeContent)).append(" ")
-                            .append(tvEpisodeOrderInTVShowSeason).append(" ")
-                            .append(tvEpisodeTVSeasonId).append("\n\n");
+                    text.append(String.format("%-38s%d", "Identifikátor:", tvEpisodeId)).append("\n");
+                    text.append(String.format("%-38s%d", "Délka TV epizody v sekundách:", tvEpisodeRuntimeInSeconds)).append("\n");
+                    text.append(String.format("%-38s%s", "Název:", new String(tvEpisodeName))).append("\n");
+                    text.append(String.format("%-38s%d", "Procentuální hodnocení:", tvEpisodePercentageRating)).append("\n");
+                    text.append(String.format("%-38s%s", "Odkaz ke zhlédnutí:", new String(tvEpisodeHyperlink))).append("\n");
+                    
+                    text.append("Krátké shrnutí obsahu:").append("\n");
+                    text.append("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||").append("\n");
+                    text.append(new String(tvEpisodeContent));
+                    text.append("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||").append("\n");
+                                        
+                    text.append(String.format("%-38s%d", "Pořadí epizody v rámci sezóny:", tvEpisodeOrderInTVShowSeason)).append("\n");
+                    text.append(String.format("%-38s%d", "Identifikátor sezóny pro epizodu:", tvEpisodeTVSeasonId)).append(tvEpisodesDivider);
                 } 
                 catch (EOFException e) 
                 {
+                    text.delete(text.length() - tvEpisodesDivider.length(), text.length());
                     fileEndReached = true;
                 }
             }
@@ -912,6 +922,10 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         {
             attributesMarking = inputFileAttributesSectionMarking.replaceAll("\\\\", "");
             outputTextData.append(attributesMarking).append("\n");
+            outputTextData.append("\n");
+            
+            outputTextData.append("Identificator: ").append(m.getId()).append("\n");
+            
             outputTextData.append("\n");
 
             for (Map.Entry<String, Integer> entry : tvEpisodeOutputFieldsIds.entrySet()) 

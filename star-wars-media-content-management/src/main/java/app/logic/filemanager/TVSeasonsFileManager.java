@@ -121,6 +121,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 filenameSeparator + DataStore.getBinaryOutputTVSeasonsFilename())))) 
         {
             boolean fileEndReached = false;
+            String tvSeasonsDivider = "\n\n\n\n\n\n\n\n\n";
+            
             int tvSeasonId;
             int tvSeasonOrderInTVShow;
             int tvSeasonTVShowId;
@@ -132,12 +134,14 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     tvSeasonId = dataInputStream.readInt();
                     tvSeasonOrderInTVShow = dataInputStream.readInt();
                     tvSeasonTVShowId = dataInputStream.readInt();
-                    
-                    text.append(tvSeasonId).append(" ").append(tvSeasonOrderInTVShow).append(" ").
-                            append(tvSeasonTVShowId).append("\n\n");
+                                        
+                    text.append(String.format("%-38s%d", "Identifikátor:", tvSeasonId)).append("\n");
+                    text.append(String.format("%-38s%d", "Pořadí sezóny v rámci seriálu:", tvSeasonOrderInTVShow)).append("\n");
+                    text.append(String.format("%-38s%d", "Identifikátor seriálu pro sezónu:", tvSeasonTVShowId)).append(tvSeasonsDivider);
                 } 
                 catch (EOFException e) 
                 {
+                    text.delete(text.length() - tvSeasonsDivider.length(), text.length());
                     fileEndReached = true;
                 }
             }
@@ -806,6 +810,10 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         {
             attributesMarking = inputFileAttributesSectionMarking.replaceAll("\\\\", "");
             outputTextData.append(attributesMarking).append("\n");
+            outputTextData.append("\n");
+            
+            outputTextData.append("Identificator: ").append(m.getId()).append("\n");
+            
             outputTextData.append("\n");
 
             for (Map.Entry<String, Integer> entry : tvSeasonOutputFieldsIds.entrySet()) 
