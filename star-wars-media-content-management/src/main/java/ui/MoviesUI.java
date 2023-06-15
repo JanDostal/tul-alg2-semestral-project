@@ -81,8 +81,14 @@ public class MoviesUI
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
         System.out.println("1. Přidat filmy ze vstupního souboru");
-        System.out.println("2. Poslat e-mailem filmy");
-        System.out.println("3. Vypsat oznámené filmy v jednotlivých érách");
+        System.out.println("2. Vyhledat film podle jména");
+        System.out.println("3. Poslat e-mailem filmy");
+        System.out.println("4. Vypsat oznámené filmy v jednotlivých érách");
+        System.out.println("5. Vypsat vydané nezhlédnuté filmy v jednotlivých érách");
+        System.out.println("6. Vypsat vydané zhlédnuté filmy v jednotlivých érách");
+        System.out.println("7. Vypsat nejoblíbenější filmy");
+        System.out.println("8. Vypsat nejnovější vydané filmy");
+        System.out.println("9. Vypsat obsahy výstupních souborů filmů");
         System.out.println("0. Vrátit se zpět do hlavního menu");
         System.out.println(horizontalLine);
     }
