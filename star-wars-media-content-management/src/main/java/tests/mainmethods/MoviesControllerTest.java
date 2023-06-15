@@ -107,11 +107,11 @@ public class MoviesControllerTest
             System.out.println(s);
         }
 
-        //getLongestMoviesByEra method
-        List<Movie> getLongestMoviesByEra_result = controller.getLongestMoviesByEra(Era.FALL_OF_THE_JEDI, true);
+        //getReleasedLongestMoviesByEra method
+        List<Movie> getLongestMoviesByEra_result = controller.getReleasedLongestMoviesByEra(Era.FALL_OF_THE_JEDI, true);
         
         System.out.println();
-        System.out.println("getLongestMoviesByEra method:");
+        System.out.println("getReleasedLongestMoviesByEra method:");
         System.out.println();
         
         for (Movie m : getLongestMoviesByEra_result) 
@@ -119,24 +119,24 @@ public class MoviesControllerTest
             System.out.println(m);
         }
         
-        //getMoviesByEraInAlphabeticalOrder method
+        //getReleasedMoviesByEraInAlphabeticalOrder method
         System.out.println();
-        System.out.println("getMoviesByEraInAlphabeticalOrder method:");
+        System.out.println("getReleasedMoviesByEraInAlphabeticalOrder method:");
         System.out.println();
         List<Movie> getMoviesByEraInAlphabeticalOrder_result = 
-                controller.getMoviesByEraInAlphabeticalOrder(Era.FALL_OF_THE_JEDI, true);
+                controller.getReleasedMoviesByEraInAlphabeticalOrder(Era.FALL_OF_THE_JEDI, true);
                 
         for (Movie m : getMoviesByEraInAlphabeticalOrder_result) 
         {
             System.out.println(m);
         }
         
-        //getNewestMoviesByEra method
+        //getNewestReleasedMoviesByEra method
         System.out.println();
-        System.out.println("getNewestMoviesByEra method:");
+        System.out.println("getNewestReleasedMoviesByEra method:");
         System.out.println();
         List<Movie> getNewestMoviesByEra_result = 
-                controller.getNewestMoviesByEra(Era.FALL_OF_THE_JEDI, true);
+                controller.getNewestReleasedMoviesByEra(Era.FALL_OF_THE_JEDI, true);
         
         
         for (Movie m : getNewestMoviesByEra_result) 
@@ -178,12 +178,12 @@ public class MoviesControllerTest
         
         System.out.println("počet: " + getAnnouncedMoviesCountByEra_result);
         
-        //getMoviesCountByEra method
+        //getReleasedMoviesCountByEra method
         System.out.println();
-        System.out.println("getMoviesCountByEra method:");
+        System.out.println("getReleasedMoviesCountByEra method:");
         System.out.println();
         int getMoviesCountByEra_result = 
-                controller.getMoviesCountByEra(Era.FALL_OF_THE_JEDI, true);
+                controller.getReleasedMoviesCountByEra(Era.FALL_OF_THE_JEDI, true);
         
         System.out.println("počet: " + getMoviesCountByEra_result);
         
@@ -199,12 +199,12 @@ public class MoviesControllerTest
             System.out.println(m);
         }
         
-        //getNewestMovies method
+        //getNewestReleasedMovies method
         System.out.println();
-        System.out.println("getNewestMovies method:");
+        System.out.println("getNewestReleasedMovies method:");
         System.out.println();
         List<Movie> getNewestMovies_result = 
-                controller.getNewestMovies();
+                controller.getNewestReleasedMovies();
         
         for (Movie m : getNewestMovies_result) 
         {
@@ -263,30 +263,30 @@ public class MoviesControllerTest
             System.out.println(m);
         }
         
-        //getTotalRuntimeOfAllMoviesByEra method
+        //getTotalRuntimeOfAllReleasedMoviesByEra method
         System.out.println();
-        System.out.println("getTotalRuntimeOfAllMoviesByEra method:");
+        System.out.println("getTotalRuntimeOfAllReleasedMoviesByEra method:");
         System.out.println();
         Duration getTotalRuntimeOfAllMoviesByEra_result = 
-                controller.getTotalRuntimeOfAllMoviesByEra(Era.FALL_OF_THE_JEDI, true);
+                controller.getTotalRuntimeOfAllReleasedMoviesByEra(Era.FALL_OF_THE_JEDI, true);
         
         System.out.println("Doba v minutach: " + getTotalRuntimeOfAllMoviesByEra_result.toMinutes());
         
-        //getAverageRuntimeOfAllMoviesByEra method
+        //getAverageRuntimeOfAllReleasedMoviesByEra method
         System.out.println();
-        System.out.println("getAverageRuntimeOfAllMoviesByEra method:");
+        System.out.println("getAverageRuntimeOfAllReleasedMoviesByEra method:");
         System.out.println();
         Duration getAverageRuntimeOfAllMoviesByEra_result = 
-                controller.getAverageRuntimeOfAllMoviesByEra(Era.FALL_OF_THE_JEDI, true);
+                controller.getAverageRuntimeOfAllReleasedMoviesByEra(Era.FALL_OF_THE_JEDI, true);
         
         System.out.println("Doba v minutach: " + getAverageRuntimeOfAllMoviesByEra_result.toMinutes());
         
-        //getAverageRatingOfAllMoviesByEra method
+        //getAverageRatingOfAllReleasedMoviesByEra method
         System.out.println();
-        System.out.println("getAverageRatingOfAllMoviesByEra method:");
+        System.out.println("getAverageRatingOfAllReleasedMoviesByEra method:");
         System.out.println();
         float getAverageRatingOfAllMoviesByEra_result = 
-                controller.getAverageRatingOfAllMoviesByEra(Era.FALL_OF_THE_JEDI);
+                controller.getAverageRatingOfAllReleasedMoviesByEra(Era.FALL_OF_THE_JEDI);
         
         System.out.println("Prumerne hodnoceni v procentech: " + getAverageRatingOfAllMoviesByEra_result);
         
@@ -312,7 +312,7 @@ public class MoviesControllerTest
         {
             System.out.println(l.getMessage());
         }
-        catch (IOException | FileEmptyException e) 
+        catch (IOException | FileEmptyException | FileParsingException e) 
         {
             System.out.println(e.getMessage());
         }

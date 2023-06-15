@@ -115,13 +115,13 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
+        String tvSeasonsDivider = "\n\n\n\n\n\n\n\n\n";
         
         try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputTVSeasonsFilename())))) 
         {
             boolean fileEndReached = false;
-            String tvSeasonsDivider = "\n\n\n\n\n\n\n\n\n";
             
             int tvSeasonId;
             int tvSeasonOrderInTVShow;
@@ -141,7 +141,6 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 } 
                 catch (EOFException e) 
                 {
-                    text.delete(text.length() - tvSeasonsDivider.length(), text.length());
                     fileEndReached = true;
                 }
             }
@@ -164,6 +163,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         {
             throw new FileEmptyException("Soubor " + DataStore.getBinaryOutputTVSeasonsFilename() + " je prázdný");
         }
+        
+        text.delete(text.length() - tvSeasonsDivider.length(), text.length());
         
         return text;
     }
@@ -557,7 +558,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
     }
     
     public @Override Map<Integer, TVSeasonInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
-            FileEmptyException, FileNotFoundException
+            FileEmptyException, FileNotFoundException, FileParsingException
     {
         StringBuilder text = new StringBuilder();
         
@@ -733,6 +734,12 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     tvSeasonInputFieldsValues.put(fieldName, newFieldValue);
                 }
             }
+        }
+        
+        if (parsedTVSeasons.isEmpty()) 
+        {
+            throw new FileParsingException(String.format("Nic se nenahrálo ze souboru %s", fromBinary == true ? 
+                    DataStore.getBinaryInputTVSeasonsFilename() : DataStore.getTextInputTVSeasonsFilename()));
         }
         
         return parsedTVSeasons;

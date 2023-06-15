@@ -171,9 +171,9 @@ public class MoviesController
             for (Movie m : filteredMovies) 
             {
                 durationText = m.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
-                        String.format("%d h %d m %d s", m.getRuntime().toHours(), m.getRuntime().toMinutesPart(),
+                        String.format("%02d:%02d:%02d", m.getRuntime().toHours(), m.getRuntime().toMinutesPart(),
                         m.getRuntime().toSecondsPart());
-                
+                              
                 hyperlinkText = m.getHyperlinkForContentWatch() == null ? "<span style=\"color:red\">Neuveden</span>" : 
                                 String.format("<a href=\"%s\">Zhlédnout</a>", m.getHyperlinkForContentWatch());
 
@@ -244,7 +244,7 @@ public class MoviesController
                 for (Movie m : filteredMovies) 
                 {
                     durationText = m.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
-                            String.format("%d h %d m %d s", m.getRuntime().toHoursPart(), m.getRuntime().toMinutesPart(), 
+                            String.format("%02d:%02d:%02d", m.getRuntime().toHoursPart(), m.getRuntime().toMinutesPart(), 
                             m.getRuntime().toSecondsPart());
                     
                     hyperlinkText = m.getHyperlinkForContentWatch() == null ? "<span style=\"color:red\">Neuveden</span>" : 
@@ -276,7 +276,7 @@ public class MoviesController
     }
     
     //statistic method
-    public Duration getTotalRuntimeOfAllMoviesByEra(Era era, boolean onlyWatched)
+    public Duration getTotalRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
     {
         Duration duration = Duration.ZERO;
         LocalDate currentDate = getCurrentDate();
@@ -298,7 +298,7 @@ public class MoviesController
     }
     
     //statistic method
-    public Duration getAverageRuntimeOfAllMoviesByEra(Era era, boolean onlyWatched)
+    public Duration getAverageRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
     {
         Duration duration = Duration.ZERO;
         long averageSeconds;
@@ -325,7 +325,7 @@ public class MoviesController
     }
     
     //statistic method
-    public float getAverageRatingOfAllMoviesByEra(Era era)
+    public float getAverageRatingOfAllReleasedMoviesByEra(Era era)
     {
         float averageRating;
         long totalRating = 0;
@@ -346,7 +346,7 @@ public class MoviesController
         return averageRating;
     }
     
-    public List<Movie> getLongestMoviesByEra(Era era, boolean onlyWatched) 
+    public List<Movie> getReleasedLongestMoviesByEra(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -359,7 +359,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public List<Movie> getMoviesByEraInAlphabeticalOrder(Era era, boolean onlyWatched) 
+    public List<Movie> getReleasedMoviesByEraInAlphabeticalOrder(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -373,7 +373,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public List<Movie> getNewestMoviesByEra(Era era, boolean onlyWatched) 
+    public List<Movie> getNewestReleasedMoviesByEra(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -421,9 +421,9 @@ public class MoviesController
         return filteredMovies.size();
     }
     
-    public int getMoviesCountByEra(Era era, boolean onlyWatched) 
+    public int getReleasedMoviesCountByEra(Era era, boolean onlyWatched) 
     {        
-        List<Movie> filteredMovies = getNewestMoviesByEra(era, onlyWatched);
+        List<Movie> filteredMovies = getNewestReleasedMoviesByEra(era, onlyWatched);
                 
         return filteredMovies.size();
     }
@@ -442,7 +442,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public List<Movie> getNewestMovies()
+    public List<Movie> getNewestReleasedMovies()
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -524,14 +524,7 @@ public class MoviesController
         
         return content;
     }
-    
-    public Movie getMovieDetail(PrimaryKey chosenMoviePrimaryKey) 
-    {
-        Movie foundMovie = dbContext.getMoviesTable().getBy(chosenMoviePrimaryKey);
         
-        return foundMovie;
-    }
-    
     public void loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, 
             DataConversionException, DatabaseException, Exception 
     {
@@ -558,51 +551,42 @@ public class MoviesController
         }
     }
     
-    public StringBuilder addMoviesFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException 
+    public StringBuilder addMoviesFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
     {
         updateMoviesOutputFilesWithExistingData();
         
         Map<Integer, MovieInput> inputMovies = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
         
         StringBuilder message = new StringBuilder();
-        
-        if (inputMovies.isEmpty()) 
+        StringBuilder moviesErrorMessages = new StringBuilder();
+   
+        Movie convertedInputMovie;
+        int errorCounter = 0;
+
+        for (Map.Entry<Integer, MovieInput> inputMovie : inputMovies.entrySet()) 
         {
-            message.append("Nic se nenahrálo ze souboru ").append(fromBinary == true ? 
-                    DataStore.getBinaryInputMoviesFilename() : DataStore.getTextInputMoviesFilename());
-            return message;
-        }
-        else 
-        {
-            StringBuilder moviesErrorMessages = new StringBuilder();
-            Movie convertedInputMovie;
-            int errorCounter = 0;
-                      
-            for (Map.Entry<Integer, MovieInput> inputMovie : inputMovies.entrySet()) 
-            {                
-                try
-                {
-                    convertedInputMovie = MovieDataConverter.convertToDataFrom(inputMovie.getValue());
-                    dbContext.getMoviesTable().addFrom(convertedInputMovie);
-                   
-                }
-                catch (DatabaseException | DataConversionException e) 
-                {
-                    errorCounter++;
-                    moviesErrorMessages.append(String.format("Chybový stav filmu s pořadím %d v souboru %s: %s", 
-                            inputMovie.getKey(), fromBinary == true ? DataStore.getBinaryInputMoviesFilename() : 
-                                    DataStore.getTextInputMoviesFilename() ,e.getMessage())).append("\n");
-                }
+            try 
+            {
+                convertedInputMovie = MovieDataConverter.convertToDataFrom(inputMovie.getValue());
+                dbContext.getMoviesTable().addFrom(convertedInputMovie);
+
+            } 
+            catch (DatabaseException | DataConversionException e) 
+            {
+                errorCounter++;
+                moviesErrorMessages.append(String.format("Chybový stav filmu s pořadím %d v souboru %s: %s", 
+                        inputMovie.getKey(), fromBinary == true ? DataStore.getBinaryInputMoviesFilename() : 
+                                DataStore.getTextInputMoviesFilename(), e.getMessage())).append("\n");
             }
-            
-            int successfullyUploadedMoviesCount = inputMovies.size() - errorCounter;
-            message.append(String.format("Celkově se podařilo nahrát %d filmů do databáze a naopak se nepodařilo nahrát %d filmů", 
-                    successfullyUploadedMoviesCount, errorCounter)).append("\n");
-            message.append(moviesErrorMessages);
-                  
-            updateMoviesOutputFilesWithNewChanges();
         }
-        
+
+        int successfullyUploadedMoviesCount = inputMovies.size() - errorCounter;
+        message.append(String.format("Celkově se podařilo nahrát %d filmů do databáze a naopak se nepodařilo nahrát %d filmů",
+                successfullyUploadedMoviesCount, errorCounter)).append("\n");
+        message.append(moviesErrorMessages);
+
+        updateMoviesOutputFilesWithNewChanges();
+
         return message;
     }
     
@@ -641,11 +625,6 @@ public class MoviesController
         Map<Integer, MovieInput> editedMovie = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
         
         String filename = fromBinary == true ? DataStore.getBinaryInputMoviesFilename() : DataStore.getTextInputMoviesFilename();
-                
-        if (editedMovie.isEmpty()) 
-        {
-            throw new FileParsingException("Data filmu vybraného pro editaci se nepodařilo nahrát ze souboru " + filename);
-        }
         
         if (editedMovie.size() > 1 || editedMovie.get(1) == null) 
         {
@@ -653,7 +632,7 @@ public class MoviesController
                     filename + " musí obsahovat právě jeden film vybraný pro editaci");
         }
         
-        Movie convertedInputMovie = MovieDataConverter.convertToDataFrom(editedMovie.get(0));
+        Movie convertedInputMovie = MovieDataConverter.convertToDataFrom(editedMovie.get(1));
 
         boolean wasDataChanged = dbContext.getMoviesTable().editBy(existingMoviePrimaryKey, convertedInputMovie);
         

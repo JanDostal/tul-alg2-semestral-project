@@ -59,7 +59,6 @@ public class FileManagerAccessor
             inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
     }
     
-        
     public static FileManagerAccessor getInstance() 
     {
         if (fileManagerAccessor == null) 

@@ -128,8 +128,8 @@ public class TVEpisodesController
         {
             throw new DatabaseException("Seriál vybraný pro odeslání e-mailu nebyl nalezen");
         }
-        else if (foundTVShow.getReleaseDate() == null || 
-                 foundTVShow.getReleaseDate().compareTo(currentDate) > 0)
+        
+        if (foundTVShow.getReleaseDate() == null || foundTVShow.getReleaseDate().compareTo(currentDate) > 0)
         {
             throw new DatabaseException("Seriál vybraný pro odeslání e-mailu ještě nebyl vydán");
         }
@@ -190,7 +190,7 @@ public class TVEpisodesController
                     for (TVEpisode e : seasonEpisodes) 
                     {
                         durationText = e.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
-                                String.format("%d h %d m %d s", e.getRuntime().toHoursPart(), e.getRuntime().toMinutesPart(),
+                                String.format("%02d:%02d:%02d", e.getRuntime().toHoursPart(), e.getRuntime().toMinutesPart(),
                                 e.getRuntime().toSecondsPart());
                         
                         nameText = e.getName() == null ? "<span style=\"color:red\">Není znám</span>" : e.getName();
@@ -225,7 +225,7 @@ public class TVEpisodesController
     }
     
     //statistic method
-    public Duration getTotalRuntimeOfAllEpisodesInTVShow(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) 
+    public Duration getTotalRuntimeOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) 
     {
         Duration duration = Duration.ZERO;
         
@@ -253,7 +253,7 @@ public class TVEpisodesController
     }
     
     //statistic method
-    public Duration getTotalRuntimeOfAllEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
+    public Duration getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
     {
         Duration duration = Duration.ZERO;
         
@@ -273,7 +273,7 @@ public class TVEpisodesController
     }
     
     //statistic method
-    public Duration getAverageRuntimeOfAllEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey) 
+    public Duration getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey) 
     {        
         Duration duration = Duration.ZERO;
         long averageSeconds;
@@ -297,7 +297,7 @@ public class TVEpisodesController
     }
     
     //statistic method
-    public Duration getAverageRuntimeOfAllEpisodesInTVShow(PrimaryKey tvShowPrimaryKey) 
+    public Duration getAverageRuntimeOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey) 
     {        
         Duration duration = Duration.ZERO;
         long averageSeconds;
@@ -329,7 +329,7 @@ public class TVEpisodesController
     }
     
     //statistic method
-    public float getAverageRatingOfAllEpisodesInTVShow(PrimaryKey tvShowPrimaryKey) 
+    public float getAverageRatingOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey) 
     {        
         float averageRating;
         long totalRating = 0;
@@ -358,7 +358,7 @@ public class TVEpisodesController
     }
     
     //statistic method
-    public float getAverageRatingOfAllEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey) 
+    public float getAverageRatingOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey) 
     {        
         float averageRating;
         long totalRating = 0;
@@ -376,7 +376,7 @@ public class TVEpisodesController
         return averageRating;
     }
     
-    public Map<TVShow, Duration> getLongestTVShowsByEra(Era era) 
+    public Map<TVShow, Duration> getLongestReleasedTVShowsByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
         List<TVSeason> showSeasons;
@@ -395,12 +395,12 @@ public class TVEpisodesController
             showDuration = Duration.ZERO;
             
             showSeasons = dbContext.
-                getTVSeasonsTable().filterBy(s -> s.getTVShowForeignKey().equals(show.getPrimaryKey()));
+                    getTVSeasonsTable().filterBy(s -> s.getTVShowForeignKey().equals(show.getPrimaryKey()));
             
             for (TVSeason season : showSeasons) 
             {
                 seasonEpisodes = dbContext.
-                getTVEpisodesTable().filterBy(s -> s.getTVSeasonForeignKey().equals(season.getPrimaryKey()));
+                        getTVEpisodesTable().filterBy(s -> s.getTVSeasonForeignKey().equals(season.getPrimaryKey()));
                 
                 for (TVEpisode episode : seasonEpisodes) 
                 {
@@ -434,7 +434,7 @@ public class TVEpisodesController
         return filteredShowsWithDurations;
     }
     
-    public List<TVEpisode> getTVShowLongestEpisodes(PrimaryKey tvShowPrimaryKey) 
+    public List<TVEpisode> getReleasedTVShowLongestEpisodes(PrimaryKey tvShowPrimaryKey) 
     {
         List<TVEpisode> foundEpisodes = new ArrayList<>();
         List<TVEpisode> seasonEpisodes;
@@ -454,7 +454,7 @@ public class TVEpisodesController
         return foundEpisodes;
     }
     
-    public List<TVEpisode> getTVShowSeasonLongestEpisodes(PrimaryKey tvShowSeasonPrimaryKey) 
+    public List<TVEpisode> getReleasedTVShowSeasonLongestEpisodes(PrimaryKey tvShowSeasonPrimaryKey) 
     {
         List<TVEpisode> seasonEpisodes;
         
@@ -650,27 +650,6 @@ public class TVEpisodesController
         return content;
     }
     
-    public TVShow getTVShowDetail(PrimaryKey chosenTVShowPrimaryKey) 
-    {
-        TVShow foundTVShow = dbContext.getTVShowsTable().getBy(chosenTVShowPrimaryKey);
-        
-        return foundTVShow;
-    }
-    
-    public TVSeason getTVSeasonDetail(PrimaryKey chosenTVSeasonPrimaryKey) 
-    {
-        TVSeason foundTVSeason = dbContext.getTVSeasonsTable().getBy(chosenTVSeasonPrimaryKey);
-        
-        return foundTVSeason;
-    }
-    
-    public TVEpisode getTVEpisodeDetail(PrimaryKey chosenTVEpisodePrimaryKey) 
-    {
-        TVEpisode foundTVEpisode = dbContext.getTVEpisodesTable().getBy(chosenTVEpisodePrimaryKey);
-        
-        return foundTVEpisode;
-    }
-    
     public void loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, 
             DataConversionException, DatabaseException, Exception 
     {
@@ -715,148 +694,121 @@ public class TVEpisodesController
         }
     }
     
-    public StringBuilder addTVShowsFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException 
+    public StringBuilder addTVShowsFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException, FileParsingException 
     {
         updateTVShowsOutputFilesWithExistingData();
         
         Map<Integer, TVShowInput> inputTVShows = fileManagerAccessor.getTVShowsFileManager().loadInputDataFrom(fromBinary);
         
         StringBuilder message = new StringBuilder();
+        StringBuilder moviesErrorMessages = new StringBuilder();
         
-        if (inputTVShows.isEmpty()) 
+        TVShow convertedInputTVShow;
+        int errorCounter = 0;
+
+        for (Map.Entry<Integer, TVShowInput> inputTVShow : inputTVShows.entrySet()) 
         {
-            message.append("Nic se nenahrálo ze souboru ").append(fromBinary == true ? 
-                    DataStore.getBinaryInputTVShowsFilename() : DataStore.getTextInputTVShowsFilename());
-            return message;
-        }
-        else 
-        {
-            StringBuilder moviesErrorMessages = new StringBuilder();
-            TVShow convertedInputTVShow;
-            int errorCounter = 0;
-            
-            for (Map.Entry<Integer, TVShowInput> inputTVShow : inputTVShows.entrySet()) 
-            {                
-                try 
-                {
-                    convertedInputTVShow = TVShowDataConverter.convertToDataFrom(inputTVShow.getValue());
-                    dbContext.getTVShowsTable().addFrom(convertedInputTVShow);
-                }
-                catch (DatabaseException | DataConversionException e) 
-                {
-                    errorCounter++;
-                    moviesErrorMessages.append(String.format("Chybový stav seriálu s pořadím %d v souboru %s: %s", 
-                            inputTVShow.getKey(), fromBinary == true ? DataStore.getBinaryInputTVShowsFilename() : 
-                                    DataStore.getTextInputTVShowsFilename() ,e.getMessage())).append("\n");
-                }
+            try 
+            {
+                convertedInputTVShow = TVShowDataConverter.convertToDataFrom(inputTVShow.getValue());
+                dbContext.getTVShowsTable().addFrom(convertedInputTVShow);
+            } 
+            catch (DatabaseException | DataConversionException e) 
+            {
+                errorCounter++;
+                moviesErrorMessages.append(String.format("Chybový stav seriálu s pořadím %d v souboru %s: %s", 
+                        inputTVShow.getKey(), fromBinary == true ? DataStore.getBinaryInputTVShowsFilename() : 
+                                DataStore.getTextInputTVShowsFilename(), e.getMessage())).append("\n");
             }
-            
-            int successfullyUploadedTVShowsCount = inputTVShows.size() - errorCounter;
-            message.append(String.format("Celkově se podařilo nahrát %d seriálů do databáze a naopak se nepodařilo nahrát %d seriálů", 
-                    successfullyUploadedTVShowsCount, errorCounter)).append("\n");
-            message.append(moviesErrorMessages);
-                  
-            updateTVShowsOutputFilesWithNewChanges();
         }
-        
+
+        int successfullyUploadedTVShowsCount = inputTVShows.size() - errorCounter;
+        message.append(String.format("Celkově se podařilo nahrát %d seriálů do databáze a naopak se nepodařilo nahrát %d seriálů", 
+                successfullyUploadedTVShowsCount, errorCounter)).append("\n");
+        message.append(moviesErrorMessages);
+
+        updateTVShowsOutputFilesWithNewChanges();
+
         return message;
     }
     
     public StringBuilder addTVSeasonsFrom(PrimaryKey chosenTVShowPrimaryKey, boolean fromBinary) 
-            throws IOException, FileNotFoundException, FileEmptyException 
+            throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
     {
         updateTVSeasonsOutputFilesWithExistingData();
         
         Map<Integer, TVSeasonInput> inputTVSeasons = fileManagerAccessor.getTVSeasonsFileManager().loadInputDataFrom(fromBinary);
         
         StringBuilder message = new StringBuilder();
+        StringBuilder moviesErrorMessages = new StringBuilder();
         
-        if (inputTVSeasons.isEmpty()) 
-        {
-            message.append("Nic se nenahrálo ze souboru ").append(fromBinary == true ? 
-                    DataStore.getBinaryInputTVSeasonsFilename() : DataStore.getTextInputTVSeasonsFilename());
-            return message;
-        }
-        else 
-        {
-            StringBuilder moviesErrorMessages = new StringBuilder();
-            TVSeason convertedInputTVSeason;
-            int errorCounter = 0;
-            
-            for (Map.Entry<Integer, TVSeasonInput> inputTVSeason : inputTVSeasons.entrySet()) 
-            {                
-                try 
-                {
-                    convertedInputTVSeason = TVSeasonDataConverter.convertToDataFrom(inputTVSeason.getValue(), chosenTVShowPrimaryKey);
-                    dbContext.getTVSeasonsTable().addFrom(convertedInputTVSeason);
-                }
-                catch (DatabaseException e) 
-                {
-                    errorCounter++;
-                    moviesErrorMessages.append(String.format("Chybový stav sezóny vybraného seriálu s pořadím %d v souboru %s: %s", 
-                            inputTVSeason.getKey(), fromBinary == true ? DataStore.getBinaryInputTVSeasonsFilename() : 
-                                    DataStore.getTextInputTVSeasonsFilename() ,e.getMessage())).append("\n");
-                }
-            }
+        TVSeason convertedInputTVSeason;
+        int errorCounter = 0;
 
-            int successfullyUploadedTVSeasonsCount = inputTVSeasons.size() - errorCounter;
-            message.append(String.format("Celkově se podařilo nahrát %d sezón vybraného seriálu "
-                    + "do databáze a naopak se nepodařilo nahrát %d sezón vybraného seriálu", 
-                    successfullyUploadedTVSeasonsCount, errorCounter)).append("\n");
-            message.append(moviesErrorMessages);
-                  
-            updateTVSeasonsOutputFilesWithNewChanges();
+        for (Map.Entry<Integer, TVSeasonInput> inputTVSeason : inputTVSeasons.entrySet()) 
+        {
+            try 
+            {
+                convertedInputTVSeason = TVSeasonDataConverter.convertToDataFrom(inputTVSeason.getValue(), chosenTVShowPrimaryKey);
+                dbContext.getTVSeasonsTable().addFrom(convertedInputTVSeason);
+            } 
+            catch (DatabaseException e) 
+            {
+                errorCounter++;
+                moviesErrorMessages.append(String.format("Chybový stav sezóny vybraného seriálu s pořadím %d v souboru %s: %s", 
+                        inputTVSeason.getKey(), fromBinary == true ? DataStore.getBinaryInputTVSeasonsFilename() : 
+                                DataStore.getTextInputTVSeasonsFilename(), e.getMessage())).append("\n");
+            }
         }
-        
+
+        int successfullyUploadedTVSeasonsCount = inputTVSeasons.size() - errorCounter;
+        message.append(String.format("Celkově se podařilo nahrát %d sezón vybraného seriálu "
+                + "do databáze a naopak se nepodařilo nahrát %d sezón vybraného seriálu",
+                successfullyUploadedTVSeasonsCount, errorCounter)).append("\n");
+        message.append(moviesErrorMessages);
+
+        updateTVSeasonsOutputFilesWithNewChanges();
+
         return message;
     }
     
     public StringBuilder addTVEpisodesFrom(PrimaryKey chosenTVSeasonPrimaryKey, boolean fromBinary) 
-            throws IOException, FileNotFoundException, FileEmptyException 
+            throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
     {
         updateTVEpisodesOutputFilesWithExistingData();
         
         Map<Integer, TVEpisodeInput> inputTVEpisodes = fileManagerAccessor.getTVEpisodesFileManager().loadInputDataFrom(fromBinary);
         
         StringBuilder message = new StringBuilder();
+        StringBuilder moviesErrorMessages = new StringBuilder();
         
-        if (inputTVEpisodes.isEmpty()) 
-        {
-            message.append("Nic se nenahrálo ze souboru ").append(fromBinary == true ? 
-                    DataStore.getBinaryInputTVEpisodesFilename() : DataStore.getTextInputTVEpisodesFilename());
-            return message;
-        }
-        else 
-        {
-            StringBuilder moviesErrorMessages = new StringBuilder();
-            TVEpisode convertedInputTVEpisode;
-            int errorCounter = 0;
-            
-            for (Map.Entry<Integer, TVEpisodeInput> inputTVEpisode : inputTVEpisodes.entrySet()) 
-            {                
-                try 
-                {
-                    convertedInputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(inputTVEpisode.getValue(), chosenTVSeasonPrimaryKey);
-                    dbContext.getTVEpisodesTable().addFrom(convertedInputTVEpisode);
-                }
-                catch (DatabaseException e) 
-                {
-                    errorCounter++;
-                    moviesErrorMessages.append(String.format("Chybový stav epizody vybrané sezóny s pořadím %d v souboru %s: %s", 
-                            inputTVEpisode.getKey(), fromBinary == true ? DataStore.getBinaryInputTVEpisodesFilename() : 
-                                    DataStore.getTextInputTVEpisodesFilename(), e.getMessage())).append("\n");
-                }
-            }
+        TVEpisode convertedInputTVEpisode;
+        int errorCounter = 0;
 
-            int successfullyUploadedTVEpisodesCount = inputTVEpisodes.size() - errorCounter;
-            message.append(String.format("Celkově se podařilo nahrát %d epizod vybrané sezóny do databáze"
-                    + " a naopak se nepodařilo nahrát %d epizod vybrané sezóny", 
-                    successfullyUploadedTVEpisodesCount, errorCounter)).append("\n");
-            message.append(moviesErrorMessages);
-                  
-            updateTVEpisodesOutputFilesWithNewChanges();
+        for (Map.Entry<Integer, TVEpisodeInput> inputTVEpisode : inputTVEpisodes.entrySet()) 
+        {
+            try 
+            {
+                convertedInputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(inputTVEpisode.getValue(), chosenTVSeasonPrimaryKey);
+                dbContext.getTVEpisodesTable().addFrom(convertedInputTVEpisode);
+            } 
+            catch (DatabaseException e) 
+            {
+                errorCounter++;
+                moviesErrorMessages.append(String.format("Chybový stav epizody vybrané sezóny s pořadím %d v souboru %s: %s", 
+                        inputTVEpisode.getKey(), fromBinary == true ? DataStore.getBinaryInputTVEpisodesFilename() : 
+                                DataStore.getTextInputTVEpisodesFilename(), e.getMessage())).append("\n");
+            }
         }
-        
+
+        int successfullyUploadedTVEpisodesCount = inputTVEpisodes.size() - errorCounter;
+        message.append(String.format("Celkově se podařilo nahrát %d epizod vybrané sezóny do databáze" 
+                + " a naopak se nepodařilo nahrát %d epizod vybrané sezóny", 
+                successfullyUploadedTVEpisodesCount, errorCounter)).append("\n");
+        message.append(moviesErrorMessages);
+
+        updateTVEpisodesOutputFilesWithNewChanges();
+
         return message;
     }
     
@@ -954,26 +906,21 @@ public class TVEpisodesController
     }
     
     public boolean editTVShowBy(PrimaryKey existingTVShowPrimaryKey, boolean fromBinary) throws IOException, 
-            FileNotFoundException, FileEmptyException, FileParsingException, DataConversionException, DatabaseException 
+            FileNotFoundException, FileEmptyException, DataConversionException, DatabaseException, FileParsingException 
     {
         updateTVShowsOutputFilesWithExistingData();
         
         Map<Integer, TVShowInput> editedTVShow = fileManagerAccessor.getTVShowsFileManager().loadInputDataFrom(fromBinary);
         
         String filename = fromBinary == true ? DataStore.getBinaryInputTVShowsFilename() : DataStore.getTextInputTVShowsFilename();
-        
-        if (editedTVShow.isEmpty()) 
-        {
-            throw new FileParsingException("Data seriálu vybraného pro editaci se nepodařilo nahrát ze souboru " + filename);
-        }
-        
+                
         if (editedTVShow.size() > 1 || editedTVShow.get(1) == null) 
         {
             throw new FileParsingException("Soubor " + 
                     filename + " musí obsahovat právě jeden seriál vybraný pro editaci");
         }
         
-        TVShow convertedInputTVShow = TVShowDataConverter.convertToDataFrom(editedTVShow.get(0));
+        TVShow convertedInputTVShow = TVShowDataConverter.convertToDataFrom(editedTVShow.get(1));
 
         boolean wasDataChanged = dbContext.getTVShowsTable().editBy(existingTVShowPrimaryKey, convertedInputTVShow);
 
@@ -993,18 +940,13 @@ public class TVEpisodesController
         Map<Integer, TVSeasonInput> editedTVSeason = fileManagerAccessor.getTVSeasonsFileManager().loadInputDataFrom(fromBinary);
         
         String filename = fromBinary == true ? DataStore.getBinaryInputTVSeasonsFilename() : DataStore.getTextInputTVSeasonsFilename();
-                
-        if (editedTVSeason.isEmpty()) 
-        {
-            throw new FileParsingException("Data sezóny vybrané pro editaci se nepodařilo nahrát ze souboru " + filename);
-        }
-        
+                        
         if (editedTVSeason.size() > 1 || editedTVSeason.get(1) == null) 
         {
             throw new FileParsingException("Soubor " + filename + " musí obsahovat právě jednu sezónu vybranou pro editaci");
         }
         
-        TVSeason convertedInputTVSeason = TVSeasonDataConverter.convertToDataFrom(editedTVSeason.get(0), tvSeasonForeignKey);
+        TVSeason convertedInputTVSeason = TVSeasonDataConverter.convertToDataFrom(editedTVSeason.get(1), tvSeasonForeignKey);
 
         boolean wasDataChanged = dbContext.getTVSeasonsTable().editBy(existingTVSeasonPrimaryKey, convertedInputTVSeason);
         
@@ -1024,18 +966,13 @@ public class TVEpisodesController
         Map<Integer, TVEpisodeInput> editedTVEpisode = fileManagerAccessor.getTVEpisodesFileManager().loadInputDataFrom(fromBinary);
         
         String filename = fromBinary == true ? DataStore.getBinaryInputTVEpisodesFilename() : DataStore.getTextInputTVEpisodesFilename();
-                
-        if (editedTVEpisode.isEmpty()) 
-        {
-            throw new FileParsingException("Data epizody vybrané pro editaci se nepodařilo nahrát ze souboru " + filename);
-        }
-        
+                        
         if (editedTVEpisode.size() > 1 || editedTVEpisode.get(1) == null) 
         {
             throw new FileParsingException("Soubor " + filename + " musí obsahovat právě jednu epizodu vybranou pro editaci");
         }
         
-        TVEpisode convertedInputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(editedTVEpisode.get(0), tvEpisodeForeignKey);
+        TVEpisode convertedInputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(editedTVEpisode.get(1), tvEpisodeForeignKey);
 
         boolean wasDataChanged = dbContext.getTVEpisodesTable().editBy(existingTVEpisodePrimaryKey, convertedInputTVEpisode);
         

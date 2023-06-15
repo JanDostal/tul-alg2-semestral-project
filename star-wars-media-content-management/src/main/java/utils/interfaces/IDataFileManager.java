@@ -22,6 +22,5 @@ public interface IDataFileManager<T, S>
     void tryDeleteDataOutputFilesCopies();
     void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException;
     void saveOutputDataIntoFiles(List<S> newOutputData) throws IOException;
-    Map<Integer, T> loadInputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException;
-    
+    Map<Integer, T> loadInputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException, FileParsingException;
 }

@@ -113,13 +113,13 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
+        String tvShowsDivider = "\n\n\n\n\n\n\n\n\n";
         
         try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputTVShowsFilename())))) 
         {
             boolean fileEndReached = false;
-            String tvShowsDivider = "\n\n\n\n\n\n\n\n\n";
             
             int tvShowId;
             char[] tvShowName;
@@ -155,7 +155,6 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 } 
                 catch (EOFException e) 
                 {
-                    text.delete(text.length() - tvShowsDivider.length(), text.length());
                     fileEndReached = true;
                 }
             }
@@ -178,6 +177,8 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         {
             throw new FileEmptyException("Soubor " + DataStore.getBinaryOutputTVShowsFilename() + " je prázdný");
         }
+        
+        text.delete(text.length() - tvShowsDivider.length(), text.length());
         
         return text;
     }
@@ -599,7 +600,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
     }
     
     public @Override Map<Integer, TVShowInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
-            FileEmptyException, FileNotFoundException
+            FileEmptyException, FileNotFoundException, FileParsingException
     {
         StringBuilder text = new StringBuilder();
         
@@ -775,6 +776,12 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     tvShowInputFieldsValues.put(fieldName, newFieldValue);
                 }
             }
+        }
+        
+        if (parsedTVShows.isEmpty()) 
+        {
+            throw new FileParsingException(String.format("Nic se nenahrálo ze souboru %s", fromBinary == true ? 
+                    DataStore.getBinaryInputTVShowsFilename() : DataStore.getTextInputTVShowsFilename()));
         }
 
         return parsedTVShows;

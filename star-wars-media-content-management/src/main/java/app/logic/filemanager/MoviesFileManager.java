@@ -114,13 +114,13 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             FileEmptyException
     {
         StringBuilder text = new StringBuilder();
+        String moviesDivider = "\n\n\n\n\n\n\n\n\n";
         
         try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputMoviesFilename())))) 
         {
             boolean fileEndReached = false;
-            String moviesDivider = "\n\n\n\n\n\n\n\n\n";
             
             int movieId;
             long movieRuntimeInSeconds;
@@ -186,7 +186,6 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 } 
                 catch (EOFException e) 
                 {
-                    text.delete(text.length() - moviesDivider.length(), text.length());
                     fileEndReached = true;
                 }
             }
@@ -209,6 +208,8 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         {
             throw new FileEmptyException("Soubor " + DataStore.getBinaryOutputMoviesFilename() + " je prázdný");
         }
+        
+        text.delete(text.length() - moviesDivider.length(), text.length());
         
         return text;
     }
@@ -668,7 +669,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
     }
     
     public @Override Map<Integer, MovieInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
-            FileEmptyException, FileNotFoundException
+            FileEmptyException, FileNotFoundException, FileParsingException
     {
         StringBuilder text = new StringBuilder();
         
@@ -849,6 +850,12 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                     movieInputFieldsValues.put(fieldName, newFieldValue);
                 }
             }
+        }
+        
+        if (parsedMovies.isEmpty()) 
+        {
+            throw new FileParsingException(String.format("Nic se nenahrálo ze souboru %s", fromBinary == true ? 
+                    DataStore.getBinaryInputMoviesFilename() : DataStore.getTextInputMoviesFilename()));
         }
 
         return parsedMovies;

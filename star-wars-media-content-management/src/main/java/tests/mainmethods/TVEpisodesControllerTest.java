@@ -124,13 +124,13 @@ public class TVEpisodesControllerTest
             System.out.println(s);
         }
         
-        //getTVShowSeasonLongestEpisodes method
+        //getReleasedTVShowSeasonLongestEpisodes method
         
         List<TVEpisode> getTVShowSeasonLongestEpisodes_result = 
-                controller.getTVShowSeasonLongestEpisodes(season.getPrimaryKey());
+                controller.getReleasedTVShowSeasonLongestEpisodes(season.getPrimaryKey());
         
         System.out.println();
-        System.out.println("getTVShowSeasonLongestEpisodes method:");
+        System.out.println("getReleasedTVShowSeasonLongestEpisodes method:");
         System.out.println();
         
         for (TVEpisode m : getTVShowSeasonLongestEpisodes_result) 
@@ -139,13 +139,13 @@ public class TVEpisodesControllerTest
         }
        
                         
-        //getTVShowLongestEpisodes method
+        //getReleasedTVShowLongestEpisodes method
         
         List<TVEpisode> getTVShowLongestEpisodes_result = 
-                controller.getTVShowLongestEpisodes(show.getPrimaryKey());
+                controller.getReleasedTVShowLongestEpisodes(show.getPrimaryKey());
         
         System.out.println();
-        System.out.println("getTVShowLongestEpisodes method:");
+        System.out.println("getReleasedTVShowLongestEpisodes method:");
         System.out.println();
         
         for (TVEpisode m : getTVShowLongestEpisodes_result) 
@@ -153,13 +153,13 @@ public class TVEpisodesControllerTest
             System.out.println(m);
         }
         
-        //getLongestTVShowsByEra method
+        //getLongestReleasedTVShowsByEra method
         
         Map<TVShow, Duration> getLongestTVShowsByEra_result = 
-                controller.getLongestTVShowsByEra(Era.AGE_OF_THE_REBELLION);
+                controller.getLongestReleasedTVShowsByEra(Era.AGE_OF_THE_REBELLION);
         
         System.out.println();
-        System.out.println("getLongestTVShowsByEra method:");
+        System.out.println("getLongestReleasedTVShowsByEra method:");
         System.out.println();
         
         for (Map.Entry<TVShow, Duration> entry : getLongestTVShowsByEra_result.entrySet()) 
@@ -168,73 +168,73 @@ public class TVEpisodesControllerTest
                 entry.getValue().toMinutesPart(), entry.getValue().toSecondsPart()));
         }
         
-        //getTotalRuntimeOfAllEpisodesInTVShow method
+        //getTotalRuntimeOfAllReleasedEpisodesInTVShow method
         
         Duration getTotalRuntimeOfAllEpisodesInTVShow_result = 
-                controller.getTotalRuntimeOfAllEpisodesInTVShow(show.getPrimaryKey(), true);
+                controller.getTotalRuntimeOfAllReleasedEpisodesInTVShow(show.getPrimaryKey(), true);
         
         System.out.println();
-        System.out.println("getTotalRuntimeOfAllEpisodesInTVShow method:");
+        System.out.println("getTotalRuntimeOfAllReleasedEpisodesInTVShow method:");
         System.out.println();
         
         System.out.println("Celkova doba pouze shlednuteho obsahu v minutach: " 
                 + getTotalRuntimeOfAllEpisodesInTVShow_result.toMinutes());
         
-        //getTotalRuntimeOfAllEpisodesInTVShowSeason method
+        //getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason method
         
         Duration getTotalRuntimeOfAllEpisodesInTVShowSeason_result = 
-                controller.getTotalRuntimeOfAllEpisodesInTVShowSeason(season.getPrimaryKey(), true);
+                controller.getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason(season.getPrimaryKey(), true);
         
         System.out.println();
-        System.out.println("getTotalRuntimeOfAllEpisodesInTVShowSeason method:");
+        System.out.println("getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason method:");
         System.out.println();
         
         System.out.println("Celkova doba pouze shlednuteho obsahu v minutach: " + 
                 getTotalRuntimeOfAllEpisodesInTVShowSeason_result.toMinutes());
         
-        //getAverageRuntimeOfAllEpisodesInTVShowSeason method
+        //getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason method
         
         Duration getAverageRuntimeOfAllEpisodesInTVShowSeason_result = 
-                controller.getAverageRuntimeOfAllEpisodesInTVShowSeason(season.getPrimaryKey());
+                controller.getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason(season.getPrimaryKey());
         
         System.out.println();
-        System.out.println("getAverageRuntimeOfAllEpisodesInTVShowSeason method:");
+        System.out.println("getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason method:");
         System.out.println();
         
         System.out.println("Prumerna doba v minutach: " + 
                 getAverageRuntimeOfAllEpisodesInTVShowSeason_result.toMinutes());
         
-        //getAverageRuntimeOfAllEpisodesInTVShow method
+        //getAverageRuntimeOfAllReleasedEpisodesInTVShow method
         
         Duration getAverageRuntimeOfAllEpisodesInTVShow_result = 
-                controller.getAverageRuntimeOfAllEpisodesInTVShow(show.getPrimaryKey());
+                controller.getAverageRuntimeOfAllReleasedEpisodesInTVShow(show.getPrimaryKey());
         
         System.out.println();
-        System.out.println("getAverageRuntimeOfAllEpisodesInTVShow method:");
+        System.out.println("getAverageRuntimeOfAllReleasedEpisodesInTVShow method:");
         System.out.println();
         
         System.out.println("Prumerna doba v minutach: " + 
                 getAverageRuntimeOfAllEpisodesInTVShow_result.toMinutes());
         
-        //getAverageRatingOfAllEpisodesInTVShow method
+        //getAverageRatingOfAllReleasedEpisodesInTVShow method
         
         float getAverageRatingOfAllEpisodesInTVShow_result = 
-                controller.getAverageRatingOfAllEpisodesInTVShow(show.getPrimaryKey());
+                controller.getAverageRatingOfAllReleasedEpisodesInTVShow(show.getPrimaryKey());
         
         System.out.println();
-        System.out.println("getAverageRatingOfAllEpisodesInTVShow method:");
+        System.out.println("getAverageRatingOfAllReleasedEpisodesInTVShow method:");
         System.out.println();
         
         System.out.println("Prumerne hodnoceni v procentech: " + 
                 getAverageRatingOfAllEpisodesInTVShow_result);
         
-        //getAverageRatingOfAllEpisodesInTVShowSeason method
+        //getAverageRatingOfAllReleasedEpisodesInTVShowSeason method
         
         float getAverageRatingOfAllEpisodesInTVShowSeason_result = 
-                controller.getAverageRatingOfAllEpisodesInTVShowSeason(season.getPrimaryKey());
+                controller.getAverageRatingOfAllReleasedEpisodesInTVShowSeason(season.getPrimaryKey());
         
         System.out.println();
-        System.out.println("getAverageRatingOfAllEpisodesInTVShowSeason method:");
+        System.out.println("getAverageRatingOfAllReleasedEpisodesInTVShowSeason method:");
         System.out.println();
         
         System.out.println("Prumerne hodnoceni v procentech: " + 
@@ -263,7 +263,7 @@ public class TVEpisodesControllerTest
         {
             System.out.println(l.getMessage());
         }
-        catch (IOException | FileEmptyException e) 
+        catch (IOException | FileEmptyException | FileParsingException e) 
         {
             System.out.println(e.getMessage());
         }
@@ -290,7 +290,7 @@ public class TVEpisodesControllerTest
         {
             System.out.println(l.getMessage());
         }
-        catch (IOException | FileEmptyException e) 
+        catch (IOException | FileEmptyException | FileParsingException e) 
         {
             System.out.println(e.getMessage());
         }
@@ -317,7 +317,7 @@ public class TVEpisodesControllerTest
         {
             System.out.println(l.getMessage());
         }
-        catch (IOException | FileEmptyException e) 
+        catch (IOException | FileEmptyException | FileParsingException e) 
         {
             System.out.println(e.getMessage());
         }

@@ -114,13 +114,13 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
             FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
+        String tvEpisodesDivider = "\n\n\n\n\n\n\n\n\n";
         
         try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputTVEpisodesFilename())))) 
         {
             boolean fileEndReached = false;
-            String tvEpisodesDivider = "\n\n\n\n\n\n\n\n\n";
             
             int tvEpisodeId;
             long tvEpisodeRuntimeInSeconds;
@@ -181,7 +181,6 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 } 
                 catch (EOFException e) 
                 {
-                    text.delete(text.length() - tvEpisodesDivider.length(), text.length());
                     fileEndReached = true;
                 }
             }
@@ -204,6 +203,8 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         {
             throw new FileEmptyException("Soubor " + DataStore.getBinaryOutputTVEpisodesFilename() + " je prázdný");
         }
+        
+        text.delete(text.length() - tvEpisodesDivider.length(), text.length());
         
         return text;
     }
@@ -655,7 +656,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
     }
 
     public @Override Map<Integer, TVEpisodeInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
-            FileEmptyException, FileNotFoundException
+            FileEmptyException, FileNotFoundException, FileParsingException
     {
         StringBuilder text = new StringBuilder();
         
@@ -836,6 +837,12 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     tvEpisodeInputFieldsValues.put(fieldName, newFieldValue);
                 }
             }
+        }
+        
+        if (parsedTVEpisodes.isEmpty()) 
+        {
+            throw new FileParsingException(String.format("Nic se nenahrálo ze souboru %s", fromBinary == true ? 
+                    DataStore.getBinaryInputTVEpisodesFilename() : DataStore.getTextInputTVEpisodesFilename()));
         }
         
         return parsedTVEpisodes;

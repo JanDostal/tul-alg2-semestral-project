@@ -214,6 +214,119 @@ public class ConsoleUI
         displayInfoMessage("Děkujeme za použití aplikace. Ukončuji...");
     }
     
+    private void displayDataDirectoryPathMenu()
+    {
+        String menuName = String.format("MENU NASTAVOVÁNÍ ADRESÁŘE %s", DataStore.getDataDirectoryName().toUpperCase());
+        
+        StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(10, menuName);
+        StringBuilder horizontalLine = createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println(String.format("1. Zadat cestu k %s adresáři", DataStore.getDataDirectoryName()));
+        System.out.println("0. Ukončit aplikaci");
+        System.out.println(horizontalLine);
+    }
+    
+    private void displayLoadingOutputFilesMenu() 
+    {
+        String menuName = "MENU NAČÍTÁNÍ VÝSTUPNÍCH SOUBORŮ";
+        
+        StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1.  Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)");
+        System.out.println("2.  Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
+        System.out.println(String.format("3.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputMoviesFilename()));
+        System.out.println(String.format("4.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputTVShowsFilename()));
+        System.out.println(String.format("5.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputTVSeasonsFilename()));
+        System.out.println(String.format("6.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputTVEpisodesFilename()));
+        System.out.println(String.format("7.  Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputMoviesFilename()));
+        System.out.println(String.format("8.  Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputTVShowsFilename()));
+        System.out.println(String.format("9.  Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputTVSeasonsFilename()));
+        System.out.println(String.format("10. Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputTVEpisodesFilename()));
+        System.out.println("0.  Ukončit aplikaci");
+        System.out.println(horizontalLine);        
+    }
+    
+    private void displayIntroduction() 
+    {
+        String introductionHeading = String.format("VÍTEJTE V APLIKACI %s", DataStore.getAppName().toUpperCase());
+        
+        StringBuilder introductionWithHorizontalLines = createHeadingWithHorizontalLines(20, introductionHeading);
+        
+        System.out.println();
+        System.out.println(introductionWithHorizontalLines);
+    }
+    
+    private void displayMainMenu() 
+    {
+        String menuName = "HLAVNÍ MENU";
+        
+        StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1. Vypsat informace o chronologických érách");
+        System.out.println("2. Spravovat filmy");
+        System.out.println("3. Spravovat TV epizody");
+        System.out.println("0. Ukončit aplikaci");
+        System.out.println(horizontalLine);
+    }
+    
+    protected StringBuilder createDividingHorizontalLineOf(String heading) 
+    {
+        StringBuilder horizontalLine = new StringBuilder();
+        
+        for (char c : heading.toCharArray()) 
+        {
+            horizontalLine.append("-");
+        }
+        
+        return horizontalLine;
+    }
+    
+    protected StringBuilder createHeadingWithHorizontalLines(int size, String heading) 
+    {
+        StringBuilder headingWithHorizontalLines = new StringBuilder();
+        
+        for (int i = 0; i < size; i++) 
+        {
+            headingWithHorizontalLines.append("#");
+        }
+        
+        headingWithHorizontalLines.append(" ").append(heading).append(" ");
+        
+        for (int i = 0; i < size; i++) 
+        {
+            headingWithHorizontalLines.append("#");
+        }
+        
+        return headingWithHorizontalLines;
+    }
+    
+    protected StringBuilder createMenuNameWithHorizontalLines(int size, String menuName) 
+    {
+        StringBuilder menuNameWithHorizontalLines = new StringBuilder();
+        
+        for (int i = 0; i < size; i++) 
+        {
+            menuNameWithHorizontalLines.append("=");
+        }
+        
+        menuNameWithHorizontalLines.append(" ").append(menuName).append(" ");
+        
+        for (int i = 0; i < size; i++) 
+        {
+            menuNameWithHorizontalLines.append("=");
+        }
+        
+        return menuNameWithHorizontalLines;
+    }
+    
     protected void addBreadcrumbItem(String title) 
     {
         breadcrumbItems.add(title);
@@ -293,54 +406,36 @@ public class ConsoleUI
         return scanner.nextLine();
     }
     
-    protected StringBuilder createDividingHorizontalLineOf(String heading) 
-    {
-        StringBuilder horizontalLine = new StringBuilder();
+    private void setDataDirectoryPath() 
+    {       
+        String dataDirectoryPath = loadDataDirectoryPath();
         
-        for (char c : heading.toCharArray()) 
+        try 
         {
-            horizontalLine.append("-");
+            FileManagerAccessor.setDataDirectory(dataDirectoryPath);
+            isDataDirectorySet = true;
+            displayInfoMessage(String.format("Cesta k adresáři %s úspešně nastavena a je specifikovaná jako%n%s", 
+                    DataStore.getDataDirectoryName(), FileManagerAccessor.getDataDirectoryPath()));
         }
-        
-        return horizontalLine;
+        catch (IllegalArgumentException ex) 
+        {
+            displayErrorMessage(ex.getMessage());
+        }        
     }
     
-    protected StringBuilder createHeadingWithHorizontalLines(int size, String heading) 
-    {
-        StringBuilder headingWithHorizontalLines = new StringBuilder();
-        
-        for (int i = 0; i < size; i++) 
+    private void loadAllOutputDataFrom(boolean fromBinary) 
+    {        
+        try 
         {
-            headingWithHorizontalLines.append("#");
+            moviesController.loadAllOutputDataFrom(fromBinary);
+            tvEpisodesController.loadAllOutputDataFrom(fromBinary);
+            isDatabaseFromFilesLoaded = true;
+            displayInfoMessage("Existující data z výstupních souborů úspěšně načtena");
         }
-        
-        headingWithHorizontalLines.append(" ").append(heading).append(" ");
-        
-        for (int i = 0; i < size; i++) 
+        catch (Exception ex) 
         {
-            headingWithHorizontalLines.append("#");
+            displayErrorMessage(ex.getMessage());
         }
-        
-        return headingWithHorizontalLines;
-    }
-    
-    protected StringBuilder createMenuNameWithHorizontalLines(int size, String menuName) 
-    {
-        StringBuilder menuNameWithHorizontalLines = new StringBuilder();
-        
-        for (int i = 0; i < size; i++) 
-        {
-            menuNameWithHorizontalLines.append("=");
-        }
-        
-        menuNameWithHorizontalLines.append(" ").append(menuName).append(" ");
-        
-        for (int i = 0; i < size; i++) 
-        {
-            menuNameWithHorizontalLines.append("=");
-        }
-        
-        return menuNameWithHorizontalLines;
     }
     
     protected void displayMoviesChosenFileContent(String fileName) 
@@ -438,69 +533,6 @@ public class ConsoleUI
             displayErrorMessage(ex.getMessage());
         }        
     }
-    
-    private void displayIntroduction() 
-    {
-        String introductionHeading = String.format("VÍTEJTE V APLIKACI %s", DataStore.getAppName().toUpperCase());
-        
-        StringBuilder introductionWithHorizontalLines = createHeadingWithHorizontalLines(20, introductionHeading);
-        
-        System.out.println();
-        System.out.println(introductionWithHorizontalLines);
-    }
-    
-    private void displayMainMenu() 
-    {
-        String menuName = "HLAVNÍ MENU";
-        
-        StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
-        
-        System.out.println();
-        System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Vypsat informace o chronologických érách");
-        System.out.println("2. Spravovat filmy");
-        System.out.println("3. Spravovat TV epizody");
-        System.out.println("0. Ukončit aplikaci");
-        System.out.println(horizontalLine);
-    }
-    
-    private void displayDataDirectoryPathMenu()
-    {
-        String menuName = String.format("MENU NASTAVOVÁNÍ ADRESÁŘE %s", DataStore.getDataDirectoryName().toUpperCase());
-        
-        StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(10, menuName);
-        StringBuilder horizontalLine = createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
-        
-        System.out.println();
-        System.out.println(menuNameWithHorizontalLines);
-        System.out.println(String.format("1. Zadat cestu k %s adresáři", DataStore.getDataDirectoryName()));
-        System.out.println("0. Ukončit aplikaci");
-        System.out.println(horizontalLine);
-    }
-    
-    private void displayLoadingOutputFilesMenu() 
-    {
-        String menuName = "MENU NAČÍTÁNÍ VÝSTUPNÍCH SOUBORŮ";
-        
-        StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(30, menuName);
-        StringBuilder horizontalLine = createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
-        
-        System.out.println();
-        System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1.  Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println("2.  Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println(String.format("3.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputMoviesFilename()));
-        System.out.println(String.format("4.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputTVShowsFilename()));
-        System.out.println(String.format("5.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputTVSeasonsFilename()));
-        System.out.println(String.format("6.  Vypsat obsah textového souboru %s (diagnostika při chybě)", DataStore.getTextOutputTVEpisodesFilename()));
-        System.out.println(String.format("7.  Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputMoviesFilename()));
-        System.out.println(String.format("8.  Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputTVShowsFilename()));
-        System.out.println(String.format("9.  Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputTVSeasonsFilename()));
-        System.out.println(String.format("10. Vypsat obsah binárního souboru %s (diagnostika při chybě)", DataStore.getBinaryOutputTVEpisodesFilename()));
-        System.out.println("0.  Ukončit aplikaci");
-        System.out.println(horizontalLine);        
-    }
         
     private void printInformationsAboutChronologicalEras() 
     {
@@ -520,38 +552,6 @@ public class ConsoleUI
             System.out.println("Popis:");
             System.out.println(era.getDescription());
             System.out.println(horizontalLine);
-        }
-    }
-    
-    private void setDataDirectoryPath() 
-    {       
-        String dataDirectoryPath = loadDataDirectoryPath();
-        
-        try 
-        {
-            FileManagerAccessor.setDataDirectory(dataDirectoryPath);
-            isDataDirectorySet = true;
-            displayInfoMessage(String.format("Cesta k adresáři %s úspešně nastavena a je specifikovaná jako%n%s", 
-                    DataStore.getDataDirectoryName(), FileManagerAccessor.getDataDirectoryPath()));
-        }
-        catch (IllegalArgumentException ex) 
-        {
-            displayErrorMessage(ex.getMessage());
-        }        
-    }
-    
-    private void loadAllOutputDataFrom(boolean fromBinary) 
-    {        
-        try 
-        {
-            moviesController.loadAllOutputDataFrom(fromBinary);
-            tvEpisodesController.loadAllOutputDataFrom(fromBinary);
-            isDatabaseFromFilesLoaded = true;
-            displayInfoMessage("Existující data z výstupních souborů úspěšně načtena");
-        }
-        catch (Exception ex) 
-        {
-            displayErrorMessage(ex.getMessage());
         }
     }
 }

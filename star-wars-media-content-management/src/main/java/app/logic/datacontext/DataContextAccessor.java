@@ -29,6 +29,18 @@ public class DataContextAccessor
     private DataContextAccessor() 
     {
     }
+    
+    public static DataContextAccessor getInstance() 
+    {
+        if (dataContextAccessor == null) 
+        {
+            dataContextAccessor = new DataContextAccessor();
+            
+            dataContextAccessor.initializeDataContextAccessor();
+        }
+        
+        return dataContextAccessor;
+    }
 
     public IDataTable<TVSeason> getTVSeasonsTable() 
     {
@@ -49,19 +61,7 @@ public class DataContextAccessor
     {
         return moviesTable;
     }
-    
-    public static DataContextAccessor getInstance() 
-    {
-        if (dataContextAccessor == null) 
-        {
-            dataContextAccessor = new DataContextAccessor();
-            
-            dataContextAccessor.initializeDataContextAccessor();
-        }
-        
-        return dataContextAccessor;
-    }
-    
+
     private void initializeDataContextAccessor() 
     {
         moviesTable = MoviesTable.getInstance(this);
