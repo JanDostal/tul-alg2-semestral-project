@@ -98,6 +98,24 @@ public class TVEpisodesController
         return m1.getOrderInTVShow()- m2.getOrderInTVShow();
     };
     
+    private final Comparator<TVShow> BY_DATE_NEWEST_TVSHOW = (TVShow m1, TVShow m2) -> 
+    {
+        if (m1.getReleaseDate() == null && m2.getReleaseDate() == null) 
+        {
+            return 0;
+        } 
+        else if (m1.getReleaseDate() == null) 
+        {
+            return 1;
+        } 
+        else if (m2.getReleaseDate() == null) 
+        {
+            return -1;
+        }
+        
+        return m2.getReleaseDate().compareTo(m1.getReleaseDate());
+    };
+    
     private TVEpisodesController(DataContextAccessor dbContext, EmailSender emailSender, 
             FileManagerAccessor fileManagerAccessor) 
     {
@@ -131,7 +149,7 @@ public class TVEpisodesController
         
         if (foundTVShow.getReleaseDate() == null || foundTVShow.getReleaseDate().compareTo(currentDate) > 0)
         {
-            throw new DatabaseException("Seriál vybraný pro odeslání e-mailu ještě nebyl vydán");
+                throw new DatabaseException("Seriál vybraný pro odeslání e-mailu ještě nebyl vydán");
         }
         
         List<TVEpisode> seasonEpisodes;
@@ -225,9 +243,10 @@ public class TVEpisodesController
     }
     
     //statistic method
-    public Duration getTotalRuntimeOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) 
+    public Map<Integer, Duration> getTotalRuntimeOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) 
     {
-        Duration duration = Duration.ZERO;
+        Duration totalDuration = Duration.ZERO;
+        int durationsCount = 0;
         
         List<TVEpisode> seasonEpisodes;
         
@@ -244,18 +263,23 @@ public class TVEpisodesController
             {
                 if (e.getRuntime() != null) 
                 {
-                    duration = duration.plus(e.getRuntime());
+                    durationsCount++;
+                    totalDuration = totalDuration.plus(e.getRuntime());
                 }
             }
         }
         
-        return duration;
+        Map<Integer, Duration> result = new LinkedHashMap<>();
+        result.put(durationsCount, totalDuration);
+        
+        return result;
     }
     
     //statistic method
-    public Duration getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
+    public Map<Integer, Duration> getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
     {
-        Duration duration = Duration.ZERO;
+        Duration totalDuration = Duration.ZERO;
+        int durationsCount = 0;
         
         List<TVEpisode> seasonEpisodes = dbContext.
                 getTVEpisodesTable().filterBy(s -> s.getTVSeasonForeignKey().equals(tvShowSeasonPrimaryKey) &&
@@ -265,67 +289,71 @@ public class TVEpisodesController
         {
             if (e.getRuntime() != null) 
             {
-                duration = duration.plus(e.getRuntime());
-            }
-        }
-        
-        return duration;
-    }
-    
-    //statistic method
-    public Duration getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey) 
-    {        
-        Duration duration = Duration.ZERO;
-        long averageSeconds;
-        int durationsCount = 0;
-        
-        List<TVEpisode> seasonEpisodes = dbContext.
-                getTVEpisodesTable().filterBy(s -> s.getTVSeasonForeignKey().equals(tvShowSeasonPrimaryKey));
-        
-        for (TVEpisode e : seasonEpisodes) 
-        {
-            if (e.getRuntime() != null) 
-            {
                 durationsCount++;
-                duration = duration.plus(e.getRuntime());
+                totalDuration = totalDuration.plus(e.getRuntime());
             }
         }
-        
-        averageSeconds = duration.toSeconds() / durationsCount;
-        
-        return Duration.ofSeconds(averageSeconds);
+                
+        Map<Integer, Duration> result = new LinkedHashMap<>();
+        result.put(durationsCount, totalDuration);
+              
+        return result;
     }
     
     //statistic method
-    public Duration getAverageRuntimeOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey) 
+    public Map<Integer, Duration> getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
     {        
-        Duration duration = Duration.ZERO;
         long averageSeconds;
-        int durationsCount = 0;
         
-        List<TVEpisode> seasonEpisodes;
+        Map<Integer, Duration> totalRuntimeOfAllReleasedEpisodesInTVShowSeason = 
+                getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason(tvShowSeasonPrimaryKey, onlyWatched);
         
-        List<TVSeason> showSeasons = dbContext.
-                getTVSeasonsTable().filterBy(s -> s.getTVShowForeignKey().equals(tvShowPrimaryKey));
+        int durationsCount = totalRuntimeOfAllReleasedEpisodesInTVShowSeason.keySet().iterator().next();
+        Duration totalDuration = totalRuntimeOfAllReleasedEpisodesInTVShowSeason.get(durationsCount);
         
-        for (TVSeason season : showSeasons) 
+        if (durationsCount == 0) 
         {
-            seasonEpisodes = dbContext.
-                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(season.getPrimaryKey()));
-            
-            for (TVEpisode e : seasonEpisodes) 
-            {
-                if (e.getRuntime() != null) 
-                {
-                    durationsCount++;
-                    duration = duration.plus(e.getRuntime());
-                }
-            }
+            averageSeconds = 0;
+        }
+        else 
+        {
+            averageSeconds = totalDuration.toSeconds() / durationsCount;
         }
         
-        averageSeconds = duration.toSeconds() / durationsCount;
+        Duration averageDuration = Duration.ofSeconds(averageSeconds);
         
-        return Duration.ofSeconds(averageSeconds);
+        Map<Integer, Duration> result = new LinkedHashMap<>();
+        result.put(durationsCount, averageDuration);
+       
+        return result;
+    }
+    
+    //statistic method
+    public Map<Integer, Duration> getAverageRuntimeOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) 
+    {        
+        long averageSeconds;
+        
+        Map<Integer, Duration> totalRuntimeOfAllReleasedEpisodesInTVShow = 
+                getTotalRuntimeOfAllReleasedEpisodesInTVShow(tvShowPrimaryKey, onlyWatched);
+        
+        int durationsCount = totalRuntimeOfAllReleasedEpisodesInTVShow.keySet().iterator().next();
+        Duration totalDuration = totalRuntimeOfAllReleasedEpisodesInTVShow.get(durationsCount);
+        
+        if (durationsCount == 0) 
+        {
+            averageSeconds = 0;
+        }
+        else 
+        {
+            averageSeconds = totalDuration.toSeconds() / durationsCount;
+        }
+        
+        Duration averageDuration = Duration.ofSeconds(averageSeconds);
+        
+        Map<Integer, Duration> result = new LinkedHashMap<>();
+        result.put(durationsCount, averageDuration);
+              
+        return result;
     }
     
     //statistic method
@@ -343,7 +371,8 @@ public class TVEpisodesController
         for (TVSeason season : showSeasons) 
         {
             seasonEpisodes = dbContext.
-                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(season.getPrimaryKey()));
+                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(season.getPrimaryKey())
+                && e.getWasWatched() == true);
             
             for (TVEpisode e : seasonEpisodes) 
             {
@@ -352,8 +381,15 @@ public class TVEpisodesController
             }
         }
         
-        averageRating = totalRating / (float) ratingsCount;
-              
+        if (ratingsCount == 0) 
+        {
+            averageRating = 0;
+        }
+        else 
+        {
+            averageRating = totalRating / (float) ratingsCount;
+        }
+                      
         return averageRating;
     }
     
@@ -364,35 +400,56 @@ public class TVEpisodesController
         long totalRating = 0;
                 
         List<TVEpisode> seasonEpisodes = dbContext.
-                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(tvShowSeasonPrimaryKey));
+                getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(tvShowSeasonPrimaryKey) 
+                && e.getWasWatched() == true);
         
         for (TVEpisode e : seasonEpisodes) 
         {
             totalRating += e.getPercentageRating();
         }
         
-        averageRating = totalRating / (float) seasonEpisodes.size();
-              
+        if (seasonEpisodes.isEmpty() == true) 
+        {
+            averageRating = 0;
+        }
+        else 
+        {
+            averageRating = totalRating / (float) seasonEpisodes.size();
+        }
+                      
         return averageRating;
     }
     
-    public Map<TVShow, Duration> getLongestReleasedTVShowsByEra(Era era) 
+    public List<TVShow> getNewestReleasedTVShows()
+    {
+        LocalDate currentDate = getCurrentDate();
+        
+        List<TVShow> filteredTVShows = dbContext.getTVShowsTable().filterBy(m -> 
+                m.getReleaseDate() != null && 
+                m.getReleaseDate().compareTo(currentDate) <= 0);
+        
+        dbContext.getTVShowsTable().sortBy(BY_DATE_NEWEST_TVSHOW, filteredTVShows);
+                
+        return filteredTVShows;
+    }
+    
+    public List<TVShow> getLongestReleasedTVShowsByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
         List<TVSeason> showSeasons;
         List<TVEpisode> seasonEpisodes;
-        Map<TVShow, Duration> filteredShowsWithDurations = new LinkedHashMap<>();
         
         List<TVShow> filteredShows = dbContext.getTVShowsTable().filterBy(s -> 
                 s.getEra() == era && s.getReleaseDate() != null && 
                         s.getReleaseDate().compareTo(currentDate) <= 0);
         
-        List<Duration> tvShowsDurations = new ArrayList<>();
-        Duration showDuration;
+        List<Duration> tvShowsTotalDurations = new ArrayList<>();
+        
+        Duration showTotalDuration;
         
         for (TVShow show : filteredShows) 
         {
-            showDuration = Duration.ZERO;
+            showTotalDuration = Duration.ZERO;
             
             showSeasons = dbContext.
                     getTVSeasonsTable().filterBy(s -> s.getTVShowForeignKey().equals(show.getPrimaryKey()));
@@ -406,32 +463,31 @@ public class TVEpisodesController
                 {
                     if (episode.getRuntime() != null) 
                     {
-                        showDuration = showDuration.plus(episode.getRuntime());
+                        showTotalDuration = showTotalDuration.plus(episode.getRuntime());
                     }
                 }                
             }
             
-            tvShowsDurations.add(showDuration);
+            tvShowsTotalDurations.add(showTotalDuration);
         }
         
-        Comparator<Object> s = Comparator.comparingLong(tvShow -> {
+        Comparator<Object> byLongestTotalDurationTVShow = Comparator.comparingLong(tvShow -> 
+        {
             int index = filteredShows.indexOf(tvShow);
-            if (index >= 0 && index < tvShowsDurations.size()) {
-                Duration duration = tvShowsDurations.get(index);
+            
+            if (index >= 0 && index < tvShowsTotalDurations.size()) 
+            {
+                Duration duration = tvShowsTotalDurations.get(index);
                 return duration.toSeconds();
             }
+            
             return 0;
+            
         }).reversed();
         
-        Collections.sort(filteredShows, s);
-        Collections.sort(tvShowsDurations, Comparator.comparingLong(Duration::toSeconds).reversed());
+        Collections.sort(filteredShows, byLongestTotalDurationTVShow);
         
-        for (int i = 0; i < filteredShows.size(); i++) 
-        {
-            filteredShowsWithDurations.put(filteredShows.get(i), tvShowsDurations.get(i));
-        }
-        
-        return filteredShowsWithDurations;
+        return filteredShows;
     }
     
     public List<TVEpisode> getReleasedTVShowLongestEpisodes(PrimaryKey tvShowPrimaryKey) 
@@ -520,6 +576,15 @@ public class TVEpisodesController
         return seasonEpisodes;
     }
     
+    public int getTVShowSeasonEpisodesCount(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
+    {
+        List<TVEpisode> filteredEpisodes = dbContext.getTVEpisodesTable().filterBy(e -> 
+                e.getTVSeasonForeignKey().equals(tvShowSeasonPrimaryKey) && 
+                        e.getWasWatched() == onlyWatched);
+        
+        return filteredEpisodes.size();
+    }
+    
     public List<TVSeason> getTVShowSeasonsByOrder(PrimaryKey tvShowPrimaryKey) 
     {
         List<TVSeason> showSeasons;
@@ -532,9 +597,21 @@ public class TVEpisodesController
         return showSeasons;
     }
     
+    public int getTVShowSeasonsCount(PrimaryKey tvShowPrimaryKey) 
+    {
+        List<TVSeason> filteredSeasons = getTVShowSeasonsByOrder(tvShowPrimaryKey);
+        
+        return filteredSeasons.size();
+    }
+    
     public boolean rateTVEpisode(TVEpisode existingEpisode, int percentageRating) throws DatabaseException, IOException
     {
         updateTVEpisodesOutputFilesWithExistingData();
+        
+        if (percentageRating < 0) 
+        {
+            throw new IllegalArgumentException("Procentuální ohodnocení TV epizody nesmí být záporné");
+        }
         
         TVEpisode newData = new TVEpisode(existingEpisode.getPrimaryKey(), 
                     existingEpisode.getRuntime(), 

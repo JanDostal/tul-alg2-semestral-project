@@ -474,7 +474,7 @@ public class FileManagerAccessorTest
         {
             System.out.println(o.getMessage());
         }
-        catch (IOException | FileEmptyException | FileParsingException | IllegalArgumentException e) 
+        catch (IOException | FileEmptyException | FileParsingException | IllegalArgumentException | IllegalStateException e) 
         {
             System.out.println(e.getMessage());
         }

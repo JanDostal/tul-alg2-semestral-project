@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -276,32 +277,9 @@ public class MoviesController
     }
     
     //statistic method
-    public Duration getTotalRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
+    public Map<Integer, Duration> getTotalRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
     {
-        Duration duration = Duration.ZERO;
-        LocalDate currentDate = getCurrentDate();
-        
-        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
-                m.getEra() == era && m.getReleaseDate() != null && 
-                        m.getReleaseDate().compareTo(currentDate) <= 0 
-                        && m.getWasWatched() == onlyWatched);
-        
-        for (Movie m : filteredMovies) 
-        {
-            if (m.getRuntime() != null) 
-            {
-                duration = duration.plus(m.getRuntime());
-            }
-        }
-                
-        return duration;
-    }
-    
-    //statistic method
-    public Duration getAverageRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
-    {
-        Duration duration = Duration.ZERO;
-        long averageSeconds;
+        Duration totalDuration = Duration.ZERO;
         int durationsCount = 0;
         LocalDate currentDate = getCurrentDate();
         
@@ -315,13 +293,41 @@ public class MoviesController
             if (m.getRuntime() != null) 
             {
                 durationsCount++;
-                duration = duration.plus(m.getRuntime());
+                totalDuration = totalDuration.plus(m.getRuntime());
             }
         }
         
-        averageSeconds = duration.toSeconds() / durationsCount;
+        Map<Integer, Duration> result = new LinkedHashMap<>();
+        result.put(durationsCount, totalDuration);
+                
+        return result;
+    }
+    
+    //statistic method
+    public Map<Integer, Duration> getAverageRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
+    {
+        long averageSeconds;
+        
+        Map<Integer, Duration> totalRuntimeOfAllReleasedMoviesByEra = getTotalRuntimeOfAllReleasedMoviesByEra(era, onlyWatched);
+        
+        int durationsCount = totalRuntimeOfAllReleasedMoviesByEra.keySet().iterator().next();
+        Duration totalDuration = totalRuntimeOfAllReleasedMoviesByEra.get(durationsCount);
+        
+        if (durationsCount == 0) 
+        {
+            averageSeconds = 0;
+        }
+        else 
+        {
+            averageSeconds = totalDuration.toSeconds() / durationsCount;
+        }
+        
+        Duration averageDuration = Duration.ofSeconds(averageSeconds);
+        
+        Map<Integer, Duration> result = new LinkedHashMap<>();
+        result.put(durationsCount, averageDuration);
               
-        return Duration.ofSeconds(averageSeconds);
+        return result;
     }
     
     //statistic method
@@ -341,8 +347,15 @@ public class MoviesController
             totalRating += m.getPercentageRating();
         }
         
-        averageRating = totalRating / (float) filteredMovies.size();
-              
+        if (filteredMovies.isEmpty() == true) 
+        {
+            averageRating = 0;
+        }
+        else 
+        {
+            averageRating = totalRating / (float) filteredMovies.size();
+        }
+                      
         return averageRating;
     }
     
@@ -458,6 +471,11 @@ public class MoviesController
     public boolean rateMovie(Movie existingMovie, int percentageRating) throws DatabaseException, IOException
     {
         updateMoviesOutputFilesWithExistingData();
+        
+        if (percentageRating < 0) 
+        {
+            throw new IllegalArgumentException("Procentuální ohodnocení filmu nesmí být záporné");
+        }
         
         Movie newData = new Movie(existingMovie.getPrimaryKey(), 
                     existingMovie.getRuntime(), 

@@ -89,11 +89,11 @@ public class FileManagerAccessor
         return moviesFileManager;
     }
     
-    public static String getDataDirectoryPath() 
+    public static String getDataDirectoryPath()
     {
         if (dataDirectory == null) 
         {
-            throw new IllegalArgumentException("Cesta k adresáři " + DataStore.getDataDirectoryName() + " ještě nebyla nastavena");
+            throw new IllegalStateException("Cesta k adresáři " + DataStore.getDataDirectoryName() + " ještě nebyla nastavena");
         }
         
         return dataDirectory.getAbsolutePath();
@@ -118,7 +118,7 @@ public class FileManagerAccessor
         }
         else 
         {
-            throw new IllegalArgumentException("Cesta k adresáři " + DataStore.getDataDirectoryName() + " byla již zadána");
+            throw new IllegalStateException("Cesta k adresáři " + DataStore.getDataDirectoryName() + " byla již zadána");
         }
     }
 }

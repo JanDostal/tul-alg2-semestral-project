@@ -425,7 +425,7 @@ public class ConsoleUI
             displayInfoMessage(String.format("Cesta k adresáři %s úspešně nastavena a je specifikovaná jako%n%s", 
                     DataStore.getDataDirectoryName(), FileManagerAccessor.getDataDirectoryPath()));
         }
-        catch (IllegalArgumentException ex) 
+        catch (IllegalArgumentException | IllegalStateException ex) 
         {
             displayErrorMessage(ex.getMessage());
         }        

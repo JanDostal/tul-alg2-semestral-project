@@ -4,6 +4,7 @@ package tests.mainmethods;
 import app.logic.controllers.MoviesController;
 import app.logic.controllers.TVEpisodesController;
 import app.logic.datacontext.DataContextAccessor;
+import app.logic.datastore.DataStore;
 import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
 import app.models.data.Movie;
@@ -17,6 +18,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import utils.emailsender.EmailSender;
 import utils.exceptions.DataConversionException;
 import utils.exceptions.DatabaseException;
@@ -42,9 +44,9 @@ public class MoviesControllerTest
         
         try 
         {
-            FileManagerAccessor.setDataDirectory("data");
+            FileManagerAccessor.setDataDirectory(DataStore.getDataDirectoryName());
         }
-        catch (IllegalArgumentException e) 
+        catch (IllegalArgumentException | IllegalStateException e) 
         {
             System.out.println(e.getMessage());
         }
@@ -232,7 +234,7 @@ public class MoviesControllerTest
             wasDataChanged = controller.rateMovie(movieEdit, 60);
             System.out.println("zmena dat po druhe se stejnym ohodnocenim: " + wasDataChanged);
         }
-        catch (DatabaseException | IOException e) 
+        catch (DatabaseException | IOException | IllegalArgumentException e) 
         {
             System.out.println(e.getMessage());
         }
@@ -267,19 +269,29 @@ public class MoviesControllerTest
         System.out.println();
         System.out.println("getTotalRuntimeOfAllReleasedMoviesByEra method:");
         System.out.println();
-        Duration getTotalRuntimeOfAllMoviesByEra_result = 
+        Map<Integer, Duration> getTotalRuntimeOfAllMoviesByEra_result = 
                 controller.getTotalRuntimeOfAllReleasedMoviesByEra(Era.FALL_OF_THE_JEDI, true);
         
-        System.out.println("Doba v minutach: " + getTotalRuntimeOfAllMoviesByEra_result.toMinutes());
+        int watchedMoviesRuntimesCount_total = getTotalRuntimeOfAllMoviesByEra_result.keySet().iterator().next();
+        
+        System.out.println("Doba v minutach: " + getTotalRuntimeOfAllMoviesByEra_result.get(watchedMoviesRuntimesCount_total).toMinutes());
+        System.out.println("Pocet zhlednutych filmu se zadanou runtime: " + 
+                watchedMoviesRuntimesCount_total);
         
         //getAverageRuntimeOfAllReleasedMoviesByEra method
         System.out.println();
         System.out.println("getAverageRuntimeOfAllReleasedMoviesByEra method:");
         System.out.println();
-        Duration getAverageRuntimeOfAllMoviesByEra_result = 
+        Map<Integer, Duration> getAverageRuntimeOfAllMoviesByEra_result = 
                 controller.getAverageRuntimeOfAllReleasedMoviesByEra(Era.FALL_OF_THE_JEDI, true);
         
-        System.out.println("Doba v minutach: " + getAverageRuntimeOfAllMoviesByEra_result.toMinutes());
+        int watchedMoviesRuntimesCount_average = getAverageRuntimeOfAllMoviesByEra_result.keySet().iterator().next();
+
+                       
+        System.out.println("Doba v minutach: " + getAverageRuntimeOfAllMoviesByEra_result.
+                get(watchedMoviesRuntimesCount_average).toMinutes());
+        System.out.println("Pocet zhlednutych filmu se zadanou runtime: " + 
+                watchedMoviesRuntimesCount_average);
         
         //getAverageRatingOfAllReleasedMoviesByEra method
         System.out.println();
