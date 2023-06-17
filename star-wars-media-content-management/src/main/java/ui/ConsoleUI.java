@@ -408,14 +408,6 @@ public class ConsoleUI
         return scanner.nextInt();
     }
     
-    private String loadDataDirectoryPath() 
-    {
-        advanceToNextInput();
-        System.out.println();
-        System.out.println("Zadejte cestu (může být absolutní i relativní, automatické rozpoznání používaného operačního systému): ");
-        return scanner.nextLine();
-    }
-    
     private void setDataDirectoryPath() 
     {       
         String dataDirectoryPath = loadDataDirectoryPath();
@@ -431,6 +423,14 @@ public class ConsoleUI
         {
             displayErrorMessage(ex.getMessage());
         }        
+    }
+    
+    private String loadDataDirectoryPath() 
+    {
+        advanceToNextInput();
+        System.out.println();
+        System.out.println("Zadejte cestu (může být absolutní i relativní, automatické rozpoznání používaného operačního systému): ");
+        return scanner.nextLine();
     }
     
     private void loadAllOutputDataFrom(boolean fromBinary) 

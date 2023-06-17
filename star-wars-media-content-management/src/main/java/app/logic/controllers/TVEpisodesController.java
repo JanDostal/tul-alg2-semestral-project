@@ -301,34 +301,6 @@ public class TVEpisodesController
     }
     
     //statistic method
-    public Map<Integer, Duration> getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
-    {        
-        long averageSeconds;
-        
-        Map<Integer, Duration> totalRuntimeOfAllReleasedEpisodesInTVShowSeason = 
-                getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason(tvShowSeasonPrimaryKey, onlyWatched);
-        
-        int durationsCount = totalRuntimeOfAllReleasedEpisodesInTVShowSeason.keySet().iterator().next();
-        Duration totalDuration = totalRuntimeOfAllReleasedEpisodesInTVShowSeason.get(durationsCount);
-        
-        if (durationsCount == 0) 
-        {
-            averageSeconds = 0;
-        }
-        else 
-        {
-            averageSeconds = totalDuration.toSeconds() / durationsCount;
-        }
-        
-        Duration averageDuration = Duration.ofSeconds(averageSeconds);
-        
-        Map<Integer, Duration> result = new LinkedHashMap<>();
-        result.put(durationsCount, averageDuration);
-       
-        return result;
-    }
-    
-    //statistic method
     public Map<Integer, Duration> getAverageRuntimeOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) 
     {        
         long averageSeconds;
@@ -353,6 +325,34 @@ public class TVEpisodesController
         Map<Integer, Duration> result = new LinkedHashMap<>();
         result.put(durationsCount, averageDuration);
               
+        return result;
+    }
+    
+    //statistic method
+    public Map<Integer, Duration> getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
+    {        
+        long averageSeconds;
+        
+        Map<Integer, Duration> totalRuntimeOfAllReleasedEpisodesInTVShowSeason = 
+                getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason(tvShowSeasonPrimaryKey, onlyWatched);
+        
+        int durationsCount = totalRuntimeOfAllReleasedEpisodesInTVShowSeason.keySet().iterator().next();
+        Duration totalDuration = totalRuntimeOfAllReleasedEpisodesInTVShowSeason.get(durationsCount);
+        
+        if (durationsCount == 0) 
+        {
+            averageSeconds = 0;
+        }
+        else 
+        {
+            averageSeconds = totalDuration.toSeconds() / durationsCount;
+        }
+        
+        Duration averageDuration = Duration.ofSeconds(averageSeconds);
+        
+        Map<Integer, Duration> result = new LinkedHashMap<>();
+        result.put(durationsCount, averageDuration);
+       
         return result;
     }
     
@@ -633,11 +633,11 @@ public class TVEpisodesController
         return wasDataChanged;
     }
     
-    public List<TVShow> searchForTVShow(String name) 
+    public List<TVShow> searchForTVShow(String name)
     {
         if (name.isEmpty() || name.isBlank()) 
         {
-            throw new IllegalArgumentException("Hledaný název filmu nemůže být prázdný");
+            throw new IllegalArgumentException("Hledaný název TV seriálu nemůže být prázdný");
         }
         
         String normalizedName = Normalizer.normalize(name, Normalizer.Form.NFD)

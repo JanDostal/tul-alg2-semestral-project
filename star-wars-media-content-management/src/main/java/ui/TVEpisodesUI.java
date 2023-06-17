@@ -30,7 +30,7 @@ public class TVEpisodesUI
         while (returnToMainMenu == false) 
         {
             consoleUI.displayBreadcrumb();
-            displayLoadingOutputFilesMenu();
+            displayTVEpisodesManagementSubmenu();
             
             try 
             {
@@ -56,17 +56,24 @@ public class TVEpisodesUI
         }
     }
     
-    private void displayLoadingOutputFilesMenu() 
+    private void displayTVEpisodesManagementSubmenu() 
     {
         String menuName = "PODMENU SPRÁVA TV EPIZOD";
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
         StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
-                
+        
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println("2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
+        System.out.println("1. Přidat filmy ze vstupního souboru");
+        System.out.println("2. Vyhledat film podle jména");
+        System.out.println("3. Poslat e-mailem filmy");
+        System.out.println("4. Vypsat oznámené filmy v jednotlivých érách");
+        System.out.println("5. Vypsat vydané nezhlédnuté filmy v jednotlivých érách");
+        System.out.println("6. Vypsat vydané zhlédnuté filmy v jednotlivých érách");
+        System.out.println("7. Vypsat nejoblíbenější filmy");
+        System.out.println("8. Vypsat nejnovější vydané filmy");
+        System.out.println("9. Vypsat obsahy výstupních souborů filmů");
         System.out.println("0. Vrátit se zpět do hlavního menu");
         System.out.println(horizontalLine);
     }
