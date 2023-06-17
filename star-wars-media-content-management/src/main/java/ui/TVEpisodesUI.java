@@ -4,7 +4,9 @@
  */
 package ui;
 
+import app.logic.controllers.DataType;
 import app.logic.controllers.TVEpisodesController;
+import app.logic.datastore.DataStore;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -39,6 +41,21 @@ public class TVEpisodesUI
                 switch (choice) 
                 {
                     case 1:
+                        handleLoadTVShowsFromInputFileSubmenu();
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                    case 8:
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -65,16 +82,90 @@ public class TVEpisodesUI
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Přidat filmy ze vstupního souboru");
-        System.out.println("2. Vyhledat film podle jména");
-        System.out.println("3. Poslat e-mailem filmy");
-        System.out.println("4. Vypsat oznámené filmy v jednotlivých érách");
-        System.out.println("5. Vypsat vydané nezhlédnuté filmy v jednotlivých érách");
-        System.out.println("6. Vypsat vydané zhlédnuté filmy v jednotlivých érách");
-        System.out.println("7. Vypsat nejoblíbenější filmy");
-        System.out.println("8. Vypsat nejnovější vydané filmy");
-        System.out.println("9. Vypsat obsahy výstupních souborů filmů");
+        System.out.println("1. Přidat TV seriály ze vstupního souboru");
+        System.out.println("2. Vyhledat TV seriál podle jména");
+        System.out.println("3. Vypsat oznámené TV seriály v jednotlivých érách");
+        System.out.println("4. Vypsat vydané TV seriály v jednotlivých érách");
+        System.out.println("5. Vypsat nejnovější již vydané TV seriály");
+        System.out.println("6. Vypsat obsahy výstupních souborů TV epizod");
+        System.out.println("7. Vypsat obsahy výstupních souborů TV sezón");
+        System.out.println("8. Vypsat obsahy výstupních souborů TV seriálů");
         System.out.println("0. Vrátit se zpět do hlavního menu");
         System.out.println(horizontalLine);
+    }
+    
+    private void displayLoadTVShowsFromInputFileSubmenu() 
+    {
+        String menuName = "PODMENU PŘIDÁVÁNÍ TV SERIÁLŮ ZE VSTUPNÍHO SOUBORU";
+        
+        StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
+                
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println(String.format("1. Načíst z textového souboru %s", DataStore.getTextInputTVShowsFilename()));
+        System.out.println(String.format("2. Načíst z binárního souboru %s", DataStore.getBinaryInputTVShowsFilename()));
+        System.out.println(String.format("3. Vypsat obsah textového souboru %s", DataStore.getTextInputTVShowsFilename()));
+        System.out.println(String.format("4. Vypsat obsah binárního souboru %s", DataStore.getBinaryInputTVShowsFilename()));
+        System.out.println("0. Vrátit se zpět do nadřazeného menu");
+        System.out.println(horizontalLine);
+    }
+    
+    private void handleLoadTVShowsFromInputFileSubmenu() 
+    {
+        consoleUI.addBreadcrumbItem("Přidávání TV seriálů ze vstupního souboru");
+        boolean returnToParentMenu = false;
+        int choice;
+        
+        while (returnToParentMenu == false) 
+        {
+            consoleUI.displayBreadcrumb();
+            displayLoadTVShowsFromInputFileSubmenu();
+            
+            try 
+            {
+                choice = consoleUI.loadChoiceFromSubmenu();
+                
+                switch (choice) 
+                {
+                    case 1:
+                        loadTVShowsFromInputFile(false);
+                        break;
+                    case 2:
+                        loadTVShowsFromInputFile(true);
+                        break;
+                    case 3:
+                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputTVShowsFilename(), DataType.TV_SHOW);
+                        break;
+                    case 4:
+                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputTVShowsFilename(), DataType.TV_SHOW);
+                        break;
+                    case 0:
+                        consoleUI.removeLastBreadcrumbItem();
+                        returnToParentMenu = true;
+                        break;
+                    default:
+                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                }
+            }
+            catch (InputMismatchException ex) 
+            {
+                consoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
+                consoleUI.advanceToNextInput();
+            }
+        }
+    }
+    
+    private void loadTVShowsFromInputFile(boolean fromBinary) 
+    {        
+        try 
+        {
+            StringBuilder infoMessage = consoleUI.getTVEpisodesController().addTVShowsFrom(fromBinary);
+            consoleUI.displayInfoMessage(infoMessage.toString());
+        }
+        catch (Exception ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }        
     }
 }
