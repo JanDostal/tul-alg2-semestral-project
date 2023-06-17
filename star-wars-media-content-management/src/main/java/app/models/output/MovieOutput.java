@@ -11,7 +11,7 @@ public class MovieOutput
 {
     public static final int ATTRIBUTE_NAME_LENGTH = 100;
     public static final int ATTRIBUTE_HYPERLINK_LENGTH = 180;
-    public static final int ATTRIBUTE_ERA_LENGTH = 60;
+    public static final int ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH = 60;
     public static final int ATTRIBUTE_CONTENT_LENGTH = 1000;
     
     private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
@@ -21,7 +21,7 @@ public class MovieOutput
     
     public static final int MOVIE_RECORD_SIZE = 2 * ATTRIBUTE_NAME_LENGTH * Character.BYTES
             + 2 * ATTRIBUTE_HYPERLINK_LENGTH * Character.BYTES
-            + 2 * ATTRIBUTE_ERA_LENGTH * Character.BYTES
+            + 2 * ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH * Character.BYTES
             + 2 * ATTRIBUTE_CONTENT_LENGTH * Character.BYTES
             + ATTRIBUTE_ID_BYTES + ATTRIBUTE_RUNTIME_BYTES + ATTRIBUTE_RATING_BYTES
             + ATTRIBUTE_RELEASEDATE_BYTES;
@@ -40,11 +40,11 @@ public class MovieOutput
     
     private final long releaseDateInEpochSeconds;
     
-    private final char[] era;
+    private final char[] eraCodeDesignation;
         
     public MovieOutput(int id, long runtimeInSeconds, String name, 
             int percentageRating, String hyperlinkForContentWatch,
-            String shortContentSummary, long releaseDateInEpochSeconds, String era) 
+            String shortContentSummary, long releaseDateInEpochSeconds, String eraCodeDesignation) 
     {
         this.id = id;
         this.runtimeInSeconds = runtimeInSeconds;
@@ -62,9 +62,9 @@ public class MovieOutput
                 Arrays.copyOf(shortContentSummary.toCharArray(), 
                 ATTRIBUTE_CONTENT_LENGTH);
         this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
-        this.era = era == null ? 
-                Arrays.copyOf("".toCharArray(), ATTRIBUTE_ERA_LENGTH) : 
-                Arrays.copyOf(era.toCharArray(), ATTRIBUTE_ERA_LENGTH);
+        this.eraCodeDesignation = eraCodeDesignation == null ? 
+                Arrays.copyOf("".toCharArray(), ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH) : 
+                Arrays.copyOf(eraCodeDesignation.toCharArray(), ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH);
     }
     
     public int getId() 
@@ -102,20 +102,20 @@ public class MovieOutput
         return releaseDateInEpochSeconds;
     }
     
-    public String getEra() 
+    public String getEraCodeDesignation() 
     {
-        return new String(era);
+        return new String(eraCodeDesignation);
     }
     
     public @Override String toString() 
     {
         String nameText = new String(name);
         String hyperlinkText = new String(hyperlinkForContentWatch);
-        String eraText = new String(era);
+        String eraText = new String(eraCodeDesignation);
         
         return String.format("MovieOutput{id=%d, runtimeInSeconds=%d, name=%s, "
                 + "percentageRating=%d, hyperlinkForContentWatch=%s, "
-                + "releaseDateInEpochSeconds=%d, era=%s}", id, runtimeInSeconds,
+                + "releaseDateInEpochSeconds=%d, eraCodeDesignation=%s}", id, runtimeInSeconds,
                 nameText, percentageRating, hyperlinkText,
                 releaseDateInEpochSeconds, eraText);
     }

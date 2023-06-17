@@ -8,7 +8,7 @@ percentageRating 3
 hyperlinkForContentWatch 4
 shortContentSummary 5
 releaseDateInEpochSeconds 6
-era 7
+eraCodeDesignation 7
 
 [Values]
 
@@ -17,7 +17,7 @@ Poslední z Jediů 2
 -1 3
  4
  5
--1 6
+1684281600 6
 FALL_OF_THE_JEDI 7
 
 [Attributes]
@@ -30,7 +30,7 @@ percentageRating 3
 hyperlinkForContentWatch 4
 shortContentSummary 5
 releaseDateInEpochSeconds 6
-era 7
+eraCodeDesignation 7
 
 [Values]
 
@@ -38,13 +38,36 @@ era 7
 Skrytá Hrozba2 2
 23 3
 asdsaa ads  aasasddasasd asdadas d ads asd as 4
+ollllllllllllllllllllllllllllllllllllllllllll 4
 asdasda asdaas asdasdas as asdas das dasas.  5
       asdasdsas 5
   .sadas 5
 	asdasddas 5
 	sadasddsasa 5
 	sasadadsdas 5
-1686873600 6
+1684281600 6
+FALL_OF_THE_JEDI 7
+
+[Attributes]
+
+Order: 3
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+-1 1
+Ahoj 2
+-1 3
+ 4
+ 5
+-1 6
 FALL_OF_THE_JEDI 7
 
 [End]

@@ -19,11 +19,11 @@ public class MovieInput
     
     private final long releaseDateInEpochSeconds;
     
-    private final String era;
+    private final String eraCodeDesignation;
         
     public MovieInput(long runtimeInSeconds, String name, 
             int percentageRating, String hyperlinkForContentWatch,
-            String shortContentSummary, long releaseDateInEpochSeconds, String era) 
+            String shortContentSummary, long releaseDateInEpochSeconds, String eraCodeDesignation) 
     {
         this.runtimeInSeconds = runtimeInSeconds;
         this.name = name;
@@ -31,7 +31,7 @@ public class MovieInput
         this.hyperlinkForContentWatch = hyperlinkForContentWatch;
         this.shortContentSummary = shortContentSummary;
         this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
-        this.era = era;
+        this.eraCodeDesignation = eraCodeDesignation;
     }
         
     public long getRuntimeInSeconds() 
@@ -64,17 +64,17 @@ public class MovieInput
         return releaseDateInEpochSeconds;
     }
     
-    public String getEra() 
+    public String getEraCodeDesignation() 
     {
-        return era;
+        return eraCodeDesignation;
     }
     
     public @Override String toString() 
     {
         return String.format("MovieInput{runtimeInSeconds=%d, name=%s, "
                 + "percentageRating=%d, hyperlinkForContentWatch=%s, "
-                + "releaseDateInEpochSeconds=%d, era=%s}", runtimeInSeconds, name,
+                + "releaseDateInEpochSeconds=%d, eraCodeDesignation=%s}", runtimeInSeconds, name,
                 percentageRating, hyperlinkForContentWatch,
-                releaseDateInEpochSeconds, era);
+                releaseDateInEpochSeconds, eraCodeDesignation);
     }
 }

@@ -1,6 +1,7 @@
 
 package app.logic.datastore;
 
+import app.models.data.Era;
 import java.text.Collator;
 import java.util.HashMap;
 import java.util.Locale;
@@ -66,7 +67,7 @@ public final class DataStore
     {
         erasDescriptions = new HashMap<>();
         
-        erasDescriptions.put("DAWN_OF_THE_JEDI", 
+        erasDescriptions.put(Era.DAWN_OF_THE_JEDI.toString(), 
                 """
                 Nejstarší období, odehrává se před obdobím Staré republiky.
     
@@ -76,7 +77,7 @@ public final class DataStore
                 """        
         );
         
-        erasDescriptions.put("THE_OLD_REPUBLIC", 
+        erasDescriptions.put(Era.THE_OLD_REPUBLIC.toString(), 
                 """
                 Období odehrávající se po období Úsvitu Jediů a 
                 před obdobím Vrcholné republiky.
@@ -89,7 +90,7 @@ public final class DataStore
                 """      
         );
         
-        erasDescriptions.put("THE_HIGH_REPUBLIC", 
+        erasDescriptions.put(Era.THE_HIGH_REPUBLIC.toString(), 
                 """
                 Období odehrávající se po období Staré republiky a před obdobím Pádu Jediů.
     
@@ -101,7 +102,7 @@ public final class DataStore
                 """    
         );
         
-        erasDescriptions.put("FALL_OF_THE_JEDI", 
+        erasDescriptions.put(Era.FALL_OF_THE_JEDI.toString(), 
                 """
                 Období odehrávající se po období Vrcholné republiky a 
                 před obdobím Vlády impéria.
@@ -112,7 +113,7 @@ public final class DataStore
                 """   
         );
         
-        erasDescriptions.put("REIGN_OF_THE_EMPIRE", 
+        erasDescriptions.put(Era.REIGN_OF_THE_EMPIRE.toString(), 
                 """
                 Období odehrávající se po období Pádů Jediů a před obdobím Věku povstání.
     
@@ -124,7 +125,7 @@ public final class DataStore
                 """  
         );
         
-        erasDescriptions.put("AGE_OF_THE_REBELLION", 
+        erasDescriptions.put(Era.AGE_OF_THE_REBELLION.toString(), 
                 """
                 Období odehrávající se po období Vlády impéria a před obdobím Nové republiky.
     
@@ -135,7 +136,7 @@ public final class DataStore
                 """
         );
         
-        erasDescriptions.put("THE_NEW_REPUBLIC", 
+        erasDescriptions.put(Era.THE_NEW_REPUBLIC.toString(), 
                 """
                 Období odehrávající se po období Věku povstání a před 
                 obdobím Vzestupu Prvního řádu.
@@ -151,7 +152,7 @@ public final class DataStore
                 """
         );
         
-        erasDescriptions.put("RISE_OF_THE_FIRST_ORDER", 
+        erasDescriptions.put(Era.RISE_OF_THE_FIRST_ORDER.toString(), 
                 """
                 Období odehrávající se po období Nové republiky a 
                 před obdobím Nového řádu Jedi.
@@ -163,7 +164,7 @@ public final class DataStore
                 """
         );
         
-        erasDescriptions.put("NEW_JEDI_ORDER",
+        erasDescriptions.put(Era.NEW_JEDI_ORDER.toString(),
                 """
                 Nejnovější období odehrávající se po období Vzestupu Prvního řádu.
     

@@ -121,24 +121,24 @@ public class MoviesControllerTest
             System.out.println(m);
         }
         
-        //getReleasedMoviesByEraInAlphabeticalOrder method
+        //getReleasedMoviesInAlphabeticalOrderByEra method
         System.out.println();
-        System.out.println("getReleasedMoviesByEraInAlphabeticalOrder method:");
+        System.out.println("getReleasedMoviesInAlphabeticalOrderByEra method:");
         System.out.println();
         List<Movie> getMoviesByEraInAlphabeticalOrder_result = 
-                controller.getReleasedMoviesByEraInAlphabeticalOrder(Era.FALL_OF_THE_JEDI, true);
+                controller.getReleasedMoviesInAlphabeticalOrderByEra(Era.FALL_OF_THE_JEDI, true);
                 
         for (Movie m : getMoviesByEraInAlphabeticalOrder_result) 
         {
             System.out.println(m);
         }
         
-        //getNewestReleasedMoviesByEra method
+        //getReleasedNewestMoviesByEra method
         System.out.println();
-        System.out.println("getNewestReleasedMoviesByEra method:");
+        System.out.println("getReleasedNewestMoviesByEra method:");
         System.out.println();
         List<Movie> getNewestMoviesByEra_result = 
-                controller.getNewestReleasedMoviesByEra(Era.FALL_OF_THE_JEDI, true);
+                controller.getReleasedNewestMoviesByEra(Era.FALL_OF_THE_JEDI, true);
         
         
         for (Movie m : getNewestMoviesByEra_result) 
@@ -159,12 +159,12 @@ public class MoviesControllerTest
             System.out.println(m);
         }
         
-        //getAnnouncedMoviesByEra method
+        //getAnnouncedMoviesInAlphabeticalOrderByEra method
         System.out.println();
-        System.out.println("getAnnouncedMoviesByEra method:");
+        System.out.println("getAnnouncedMoviesInAlphabeticalOrderByEra method:");
         System.out.println();
         List<Movie> getAnnouncedMovies_result = 
-                controller.getAnnouncedMoviesByEra(Era.FALL_OF_THE_JEDI);
+                controller.getAnnouncedMoviesInAlphabeticalOrderByEra(Era.FALL_OF_THE_JEDI);
         
         for (Movie m : getAnnouncedMovies_result) 
         {
@@ -201,12 +201,12 @@ public class MoviesControllerTest
             System.out.println(m);
         }
         
-        //getNewestReleasedMovies method
+        //getReleasedNewestMovies method
         System.out.println();
-        System.out.println("getNewestReleasedMovies method:");
+        System.out.println("getReleasedNewestMovies method:");
         System.out.println();
         List<Movie> getNewestMovies_result = 
-                controller.getNewestReleasedMovies();
+                controller.getReleasedNewestMovies();
         
         for (Movie m : getNewestMovies_result) 
         {

@@ -11,12 +11,12 @@ public class TVShowInput
     
     private final long releaseDateInEpochSeconds;
     
-    private final String era;
+    private final String eraCodeDesignation;
     
-    public TVShowInput(String name, long releaseDateInEpochSeconds, String era) 
+    public TVShowInput(String name, long releaseDateInEpochSeconds, String eraCodeDesignation) 
     {
         this.name = name;
-        this.era = era;
+        this.eraCodeDesignation = eraCodeDesignation;
         this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
     }
         
@@ -30,14 +30,14 @@ public class TVShowInput
         return releaseDateInEpochSeconds;
     }
 
-    public String getEra() 
+    public String getEraCodeDesignation() 
     {
-        return era;
+        return eraCodeDesignation;
     }
     
     public @Override String toString() 
     {
         return String.format("TVShowInput{name=%s, releaseDateInEpochSeconds=%d, "
-                + "era=%s}", name, releaseDateInEpochSeconds, era);
+                + "eraCodeDesignation=%s}", name, releaseDateInEpochSeconds, eraCodeDesignation);
     }
 }

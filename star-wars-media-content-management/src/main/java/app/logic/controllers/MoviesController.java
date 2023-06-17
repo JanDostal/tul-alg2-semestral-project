@@ -372,7 +372,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public List<Movie> getReleasedMoviesByEraInAlphabeticalOrder(Era era, boolean onlyWatched) 
+    public List<Movie> getReleasedMoviesInAlphabeticalOrderByEra(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -386,7 +386,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public List<Movie> getNewestReleasedMoviesByEra(Era era, boolean onlyWatched) 
+    public List<Movie> getReleasedNewestMoviesByEra(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -414,7 +414,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public List<Movie> getAnnouncedMoviesByEra(Era era) 
+    public List<Movie> getAnnouncedMoviesInAlphabeticalOrderByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -429,14 +429,14 @@ public class MoviesController
     
     public int getAnnouncedMoviesCountByEra(Era era) 
     {
-        List<Movie> filteredMovies = getAnnouncedMoviesByEra(era);
+        List<Movie> filteredMovies = getAnnouncedMoviesInAlphabeticalOrderByEra(era);
                 
         return filteredMovies.size();
     }
     
     public int getReleasedMoviesCountByEra(Era era, boolean onlyWatched) 
     {        
-        List<Movie> filteredMovies = getNewestReleasedMoviesByEra(era, onlyWatched);
+        List<Movie> filteredMovies = getReleasedNewestMoviesByEra(era, onlyWatched);
                 
         return filteredMovies.size();
     }
@@ -455,7 +455,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public List<Movie> getNewestReleasedMovies()
+    public List<Movie> getReleasedNewestMovies()
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -745,7 +745,7 @@ public class MoviesController
         }
     }
         
-    private static LocalDate getCurrentDate() 
+    public static LocalDate getCurrentDate() 
     {
         return LocalDate.now(ZoneId.systemDefault());
     }

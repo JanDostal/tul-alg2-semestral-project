@@ -55,10 +55,10 @@ public final class MovieDataConverter
             epochSeconds = releaseDataDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
         }
         
-        String era = data.getEra().toString();
+        String eraCodeDesignation = data.getEra().toString();
         
         return new MovieOutput(id, runtime, name, percentage, 
-                hyperlink, content, epochSeconds, era);
+                hyperlink, content, epochSeconds, eraCodeDesignation);
     }
     
     public static Movie convertToDataFrom(MovieInput inputData) throws DataConversionException
@@ -144,7 +144,7 @@ public final class MovieDataConverter
                 
         try 
         {
-            era = Era.valueOf(inputData.getEra());
+            era = Era.valueOf(inputData.getEraCodeDesignation());
         }
         catch (IllegalArgumentException ex) 
         {
@@ -253,13 +253,13 @@ public final class MovieDataConverter
             }
         }
         
-        StringBuilder stringEra = new StringBuilder();
+        StringBuilder stringEraCodeDesignation = new StringBuilder();
         
-        for (char c : outputData.getEra().toCharArray()) 
+        for (char c : outputData.getEraCodeDesignation().toCharArray()) 
         {
             if (c != Character.MIN_VALUE) 
             {
-                stringEra.append(c);
+                stringEraCodeDesignation.append(c);
             }
         }
         
@@ -267,7 +267,7 @@ public final class MovieDataConverter
                 
         try 
         {
-            era = Era.valueOf(stringEra.toString());
+            era = Era.valueOf(stringEraCodeDesignation.toString());
         }
         catch (IllegalArgumentException ex) 
         {

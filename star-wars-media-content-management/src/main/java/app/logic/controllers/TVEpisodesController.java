@@ -420,7 +420,7 @@ public class TVEpisodesController
         return averageRating;
     }
     
-    public List<TVShow> getNewestReleasedTVShows()
+    public List<TVShow> getReleasedNewestTVShows()
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -433,7 +433,7 @@ public class TVEpisodesController
         return filteredTVShows;
     }
     
-    public List<TVShow> getLongestReleasedTVShowsByEra(Era era) 
+    public List<TVShow> getReleasedLongestTVShowsByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
         List<TVSeason> showSeasons;
@@ -522,7 +522,7 @@ public class TVEpisodesController
         return seasonEpisodes;
     }
     
-    public List<TVShow> getAnnouncedTVShowsByEra(Era era) 
+    public List<TVShow> getAnnouncedTVShowsInAlphabeticalOrderByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -537,7 +537,7 @@ public class TVEpisodesController
     
     public int getAnnouncedTVShowsCountByEra(Era era) 
     {        
-        List<TVShow> filteredTVShows = getAnnouncedTVShowsByEra(era);
+        List<TVShow> filteredTVShows = getAnnouncedTVShowsInAlphabeticalOrderByEra(era);
                 
         return filteredTVShows.size();
     }
@@ -1310,7 +1310,7 @@ public class TVEpisodesController
         }
     }
     
-    private static LocalDate getCurrentDate() 
+    public static LocalDate getCurrentDate() 
     {
         return LocalDate.now(ZoneId.systemDefault());
     }

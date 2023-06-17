@@ -1,6 +1,7 @@
 
 package ui;
 
+import app.logic.controllers.DataType;
 import app.logic.controllers.MoviesController;
 import app.logic.controllers.TVEpisodesController;
 import app.logic.datastore.DataStore;
@@ -130,28 +131,28 @@ public class ConsoleUI
                         loadAllOutputDataFrom(true);
                         break;
                     case 3:
-                        displayMoviesChosenFileContent(DataStore.getTextOutputMoviesFilename());
+                        displayDataChosenFileContent(DataStore.getTextOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 4:
-                        displayTVShowsChosenFileContent(DataStore.getTextOutputTVShowsFilename());
+                        displayDataChosenFileContent(DataStore.getTextOutputTVShowsFilename(), DataType.TV_SHOW);
                         break;
                     case 5:
-                        displayTVSeasonsChosenFileContent(DataStore.getTextOutputTVSeasonsFilename());
+                        displayDataChosenFileContent(DataStore.getTextOutputTVSeasonsFilename(), DataType.TV_SEASON);
                         break;
                     case 6:
-                        displayTVEpisodesChosenFileContent(DataStore.getTextOutputTVEpisodesFilename());
+                        displayDataChosenFileContent(DataStore.getTextOutputTVEpisodesFilename(), DataType.TV_EPISODE);
                         break;
                     case 7:
-                        displayMoviesChosenFileContent(DataStore.getBinaryOutputMoviesFilename());
+                        displayDataChosenFileContent(DataStore.getBinaryOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 8:
-                        displayTVShowsChosenFileContent(DataStore.getBinaryOutputTVShowsFilename());
+                        displayDataChosenFileContent(DataStore.getBinaryOutputTVShowsFilename(), DataType.TV_SHOW);
                         break;
                     case 9:
-                        displayTVSeasonsChosenFileContent(DataStore.getBinaryOutputTVSeasonsFilename());
+                        displayDataChosenFileContent(DataStore.getBinaryOutputTVSeasonsFilename(), DataType.TV_SEASON);
                         break;
                     case 10:
-                        displayTVEpisodesChosenFileContent(DataStore.getTextOutputTVEpisodesFilename());
+                        displayDataChosenFileContent(DataStore.getTextOutputTVEpisodesFilename(), DataType.TV_EPISODE);
                         break;
                     case 0:
                         isConsoleRunning = false;
@@ -438,7 +439,8 @@ public class ConsoleUI
             moviesController.loadAllOutputDataFrom(fromBinary);
             tvEpisodesController.loadAllOutputDataFrom(fromBinary);
             isDatabaseFromFilesLoaded = true;
-            displayInfoMessage("Existující data z výstupních souborů úspěšně načtena");
+            displayInfoMessage("Existující data z " + (fromBinary == true ? 
+                    "binárních" : "textových") + " výstupních souborů úspěšně načtena");
         }
         catch (Exception ex) 
         {
@@ -446,83 +448,27 @@ public class ConsoleUI
         }
     }
     
-    protected void displayMoviesChosenFileContent(String fileName) 
-    {        
+    protected void displayDataChosenFileContent(String fileName, DataType dataType) 
+    {   
         try 
         {
-            StringBuilder fileContent = getMoviesController().getMoviesChosenFileContent(fileName);
+            StringBuilder fileContent = null;
             
-            StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
-            StringBuilder dividingLine = createDividingHorizontalLineOf(heading.toString());
-            
-            System.out.println();
-            System.out.println(heading);
-            System.out.println();
-            System.out.println(dividingLine);
-            
-            System.out.println(fileContent);
-            
-            System.out.println(dividingLine);
-        }
-        catch (Exception ex) 
-        {
-            displayErrorMessage(ex.getMessage());
-        }        
-    }
-    
-    protected void displayTVShowsChosenFileContent(String fileName) 
-    {        
-        try 
-        {
-            StringBuilder fileContent = getTVEpisodesController().getTVShowsChosenFileContent(fileName);
-            
-            StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
-            StringBuilder dividingLine = createDividingHorizontalLineOf(heading.toString());
-            
-            System.out.println();
-            System.out.println(heading);
-            System.out.println();         
-            System.out.println(dividingLine);
-            
-            System.out.println(fileContent);
-            
-            System.out.println(dividingLine);
-        }
-        catch (Exception ex) 
-        {
-            displayErrorMessage(ex.getMessage());
-        }        
-    }
-    
-    protected void displayTVSeasonsChosenFileContent(String fileName) 
-    {        
-        try 
-        {
-            StringBuilder fileContent = getTVEpisodesController().getTVSeasonsChosenFileContent(fileName);
-            
-            StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
-            StringBuilder dividingLine = createDividingHorizontalLineOf(heading.toString());
-            
-            System.out.println();
-            System.out.println(heading);
-            System.out.println();
-            System.out.println(dividingLine);
-            
-            System.out.println(fileContent);
-            
-            System.out.println(dividingLine);
-        }
-        catch (Exception ex) 
-        {
-            displayErrorMessage(ex.getMessage());
-        }        
-    }
-    
-    protected void displayTVEpisodesChosenFileContent(String fileName) 
-    {        
-        try 
-        {
-            StringBuilder fileContent = getTVEpisodesController().getTVEpisodesChosenFileContent(fileName);
+            switch (dataType) 
+            {
+                case MOVIE:
+                    fileContent = getMoviesController().getMoviesChosenFileContent(fileName);
+                    break;
+                case TV_SHOW:
+                    fileContent = getTVEpisodesController().getTVShowsChosenFileContent(fileName);
+                    break;
+                case TV_SEASON:
+                    fileContent = getTVEpisodesController().getTVSeasonsChosenFileContent(fileName);
+                    break;
+                case TV_EPISODE:
+                    fileContent = getTVEpisodesController().getTVEpisodesChosenFileContent(fileName);
+                    break; 
+            }
             
             StringBuilder heading = createHeadingWithHorizontalLines(15, "VÝPIS OBSAHU SOUBORU " + fileName.toUpperCase());
             StringBuilder dividingLine = createDividingHorizontalLineOf(heading.toString());
@@ -551,13 +497,19 @@ public class ConsoleUI
         
         System.out.println();
         System.out.println(headingWithHorizontalLines);
+        
+        displayInfoMessage("Kódová označení se používají jako hodnoty atributu era ve vstupních a výstupních souborech filmů a TV seriálů");
+        System.out.println(horizontalLine);
                 
         for (Era era : Era.values()) 
         {
             System.out.println();
-            System.out.println("Název: " + era.getDisplayName());
+            System.out.println(String.format("%-20s%s", "Název:", era.getDisplayName()));
+            System.out.println();
+            System.out.println(String.format("%-20s%s", "Kódové označení:", era.toString()));
             System.out.println();
             System.out.println("Popis:");
+            System.out.println();
             System.out.println(era.getDescription());
             System.out.println(horizontalLine);
         }

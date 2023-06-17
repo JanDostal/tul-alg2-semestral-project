@@ -153,13 +153,13 @@ public class TVEpisodesControllerTest
             System.out.println(m);
         }
         
-        //getLongestReleasedTVShowsByEra method
+        //getReleasedNewestTVShows method
         
         List<TVShow> getNewestReleasedTVShows_result = 
-                controller.getNewestReleasedTVShows();
+                controller.getReleasedNewestTVShows();
         
         System.out.println();
-        System.out.println("getNewestReleasedTVShows method:");
+        System.out.println("getReleasedNewestTVShows method:");
         System.out.println();
                 
         for (TVShow s : getNewestReleasedTVShows_result) 
@@ -167,13 +167,13 @@ public class TVEpisodesControllerTest
             System.out.println(s);
         }
                 
-        //getLongestReleasedTVShowsByEra method
+        //getReleasedLongestTVShowsByEra method
         
         List<TVShow> getLongestTVShowsByEra_result = 
-                controller.getLongestReleasedTVShowsByEra(Era.AGE_OF_THE_REBELLION);
+                controller.getReleasedLongestTVShowsByEra(Era.AGE_OF_THE_REBELLION);
         
         System.out.println();
-        System.out.println("getLongestReleasedTVShowsByEra method:");
+        System.out.println("getReleasedLongestTVShowsByEra method:");
         System.out.println();
                 
         for (TVShow s : getLongestTVShowsByEra_result) 

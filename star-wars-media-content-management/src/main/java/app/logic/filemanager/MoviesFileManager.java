@@ -129,7 +129,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             char[] movieHyperlink;
             char[] movieContent;
             long movieReleaseDateInEpochSeconds;
-            char[] movieEra;
+            char[] movieEraCodeDesignation;
 
             while (fileEndReached == false) 
             {
@@ -163,11 +163,11 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
 
                     movieReleaseDateInEpochSeconds = dataInputStream.readLong();
 
-                    movieEra = new char[MovieOutput.ATTRIBUTE_ERA_LENGTH];
+                    movieEraCodeDesignation = new char[MovieOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
 
-                    for (int i = 0; i < movieEra.length; i++) 
+                    for (int i = 0; i < movieEraCodeDesignation.length; i++) 
                     {
-                        movieEra[i] = dataInputStream.readChar();
+                        movieEraCodeDesignation[i] = dataInputStream.readChar();
                     }
                     
                     text.append(String.format("%-38s%d", "Identifikátor:", movieId)).append("\n");
@@ -182,7 +182,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                     text.append("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||").append("\n");
                     
                     text.append(String.format("%-38s%d", "Datum uvedení v epoch sekundách:", movieReleaseDateInEpochSeconds)).append("\n");
-                    text.append(String.format("%-38s%s", "Chronologická éra:", new String(movieEra))).append(moviesDivider);
+                    text.append(String.format("%-38s%s", "Chronologická éra:", new String(movieEraCodeDesignation))).append(moviesDivider);
                 } 
                 catch (EOFException e) 
                 {
@@ -324,7 +324,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 char[] movieHyperlink;
                 char[] movieContent;
                 long movieReleaseDate;
-                char[] movieEra;
+                char[] movieEraCodeDesignation;
                 
                 while (fileEndReached == false) 
                 {
@@ -358,16 +358,16 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
 
                         movieReleaseDate = dataInputStream.readLong();
 
-                        movieEra = new char[MovieOutput.ATTRIBUTE_ERA_LENGTH];
+                        movieEraCodeDesignation = new char[MovieOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
 
-                        for (int i = 0; i < movieEra.length; i++) 
+                        for (int i = 0; i < movieEraCodeDesignation.length; i++) 
                         {
-                            movieEra[i] = dataInputStream.readChar();
+                            movieEraCodeDesignation[i] = dataInputStream.readChar();
                         }
                         
                         parsedMovies.add(new MovieOutput(movieId, movieRuntime, new String(movieName), 
                                 moviePercentageRating, new String(movieHyperlink), new String(movieContent), 
-                                movieReleaseDate, new String(movieEra)));
+                                movieReleaseDate, new String(movieEraCodeDesignation)));
                     }
                     catch (EOFException e) 
                     {
@@ -654,7 +654,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 
                 dataOutputStream.writeLong(m.getReleaseDateInEpochSeconds());
                 
-                for (char c : m.getEra().toCharArray())     
+                for (char c : m.getEraCodeDesignation().toCharArray())     
                 {
                     dataOutputStream.writeChar(c);
                 }
@@ -874,7 +874,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             parsedMovies.put(inputMovieOrder, new MovieInput(runtime, movieInputFieldsValues.get("name").toString(), 
                     percentage, movieInputFieldsValues.get("hyperlinkForContentWatch").toString(), 
                     movieInputFieldsValues.get("shortContentSummary").toString(), 
-                    epochSeconds, movieInputFieldsValues.get("era").toString()));
+                    epochSeconds, movieInputFieldsValues.get("eraCodeDesignation").toString()));
         }
         catch (NumberFormatException ex) 
         {   
@@ -904,7 +904,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         parsedMovies.add(new MovieOutput(id, runtime, movieOutputFieldsValues.get("name").toString(),
                 percentage, movieOutputFieldsValues.get("hyperlinkForContentWatch").toString(),
                 movieOutputFieldsValues.get("shortContentSummary").toString(),
-                epochSeconds, movieOutputFieldsValues.get("era").toString()));
+                epochSeconds, movieOutputFieldsValues.get("eraCodeDesignation").toString()));
 
         movieOutputFieldsValues.clear();
 
@@ -1020,7 +1020,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             
             changedStringField = new StringBuilder();
             
-            for (char c : m.getEra().toCharArray()) 
+            for (char c : m.getEraCodeDesignation().toCharArray()) 
             {
                 if (c != Character.MIN_VALUE) 
                 {
@@ -1029,7 +1029,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             }
             
             outputTextData.append(changedStringField.toString()).
-                    append(" ").append(movieOutputFieldsIds.get("era")).
+                    append(" ").append(movieOutputFieldsIds.get("eraCodeDesignation")).
                     append("\n").append("\n");
         }
         

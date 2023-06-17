@@ -124,7 +124,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             int tvShowId;
             char[] tvShowName;
             long tvShowReleaseDateInEpochSeconds;
-            char[] tvShowEra;
+            char[] tvShowEraCodeDesignation;
 
             while (fileEndReached == false) 
             {
@@ -141,17 +141,17 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
                     tvShowReleaseDateInEpochSeconds = dataInputStream.readLong();
 
-                    tvShowEra = new char[TVShowOutput.ATTRIBUTE_ERA_LENGTH];
+                    tvShowEraCodeDesignation = new char[TVShowOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
 
-                    for (int i = 0; i < tvShowEra.length; i++) 
+                    for (int i = 0; i < tvShowEraCodeDesignation.length; i++) 
                     {
-                        tvShowEra[i] = dataInputStream.readChar();
+                        tvShowEraCodeDesignation[i] = dataInputStream.readChar();
                     }
                     
                     text.append(String.format("%-38s%d", "Identifikátor:", tvShowId)).append("\n");
                     text.append(String.format("%-38s%s", "Název:", new String(tvShowName))).append("\n");
                     text.append(String.format("%-38s%d", "Datum uvedení v epoch sekundách:", tvShowReleaseDateInEpochSeconds)).append("\n");
-                    text.append(String.format("%-38s%s", "Chronologická éra:", new String(tvShowEra))).append(tvShowsDivider);
+                    text.append(String.format("%-38s%s", "Chronologická éra:", new String(tvShowEraCodeDesignation))).append(tvShowsDivider);
                 } 
                 catch (EOFException e) 
                 {
@@ -291,7 +291,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 int tvShowId;
                 char[] tvShowName;
                 long tvShowReleaseDate;
-                char[] tvShowEra;
+                char[] tvShowEraCodeDesignation;
                 
                 while (fileEndReached == false) 
                 {
@@ -308,15 +308,15 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
                         tvShowReleaseDate = dataInputStream.readLong();
 
-                        tvShowEra = new char[TVShowOutput.ATTRIBUTE_ERA_LENGTH];
+                        tvShowEraCodeDesignation = new char[TVShowOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
 
-                        for (int i = 0; i < tvShowEra.length; i++) 
+                        for (int i = 0; i < tvShowEraCodeDesignation.length; i++) 
                         {
-                            tvShowEra[i] = dataInputStream.readChar();
+                            tvShowEraCodeDesignation[i] = dataInputStream.readChar();
                         }
 
                         parsedTVShows.add(new TVShowOutput(tvShowId, new String(tvShowName), 
-                                tvShowReleaseDate, new String(tvShowEra)));
+                                tvShowReleaseDate, new String(tvShowEraCodeDesignation)));
                     }
                     catch (EOFException e) 
                     {
@@ -585,7 +585,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 
                 dataOutputStream.writeLong(m.getReleaseDateInEpochSeconds());
                 
-                for (char c : m.getEra().toCharArray()) 
+                for (char c : m.getEraCodeDesignation().toCharArray()) 
                 {
                     dataOutputStream.writeChar(c);
                 }
@@ -795,7 +795,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             long epochSeconds = Long.parseLong(tvShowInputFieldsValues.get("releaseDateInEpochSeconds").toString());
                         
             parsedTVShows.put(inputTVShowOrder, new TVShowInput(tvShowInputFieldsValues.get("name").toString(), epochSeconds, 
-                    tvShowInputFieldsValues.get("era").toString()));
+                    tvShowInputFieldsValues.get("eraCodeDesignation").toString()));
         }
         catch (NumberFormatException ex) 
         {   
@@ -821,7 +821,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         long epochSeconds = Long.parseLong(tvShowOutputFieldsValues.get("releaseDateInEpochSeconds").toString());
 
         parsedTVShows.add(new TVShowOutput(id, tvShowOutputFieldsValues.get("name").toString(),
-                epochSeconds, tvShowOutputFieldsValues.get("era").toString()));
+                epochSeconds, tvShowOutputFieldsValues.get("eraCodeDesignation").toString()));
 
         tvShowOutputFieldsValues.clear();
 
@@ -898,7 +898,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             
             changedStringField = new StringBuilder();
             
-            for (char c : m.getEra().toCharArray()) 
+            for (char c : m.getEraCodeDesignation().toCharArray()) 
             {
                 if (c != Character.MIN_VALUE) 
                 {
@@ -907,7 +907,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             }
             
             outputTextData.append(changedStringField.toString()).
-                    append(" ").append(tvShowOutputFieldsIds.get("era")).
+                    append(" ").append(tvShowOutputFieldsIds.get("eraCodeDesignation")).
                     append("\n").append("\n");
         }
 
