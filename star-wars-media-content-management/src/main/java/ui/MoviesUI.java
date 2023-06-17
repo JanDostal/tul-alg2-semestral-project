@@ -52,7 +52,7 @@ public class MoviesUI
                         handleLoadMoviesFromInputFileSubmenu();
                         break;
                     case 2:
-                        
+                        handlePrintFoundMoviesByNameSubmenu();
                         break;
                     case 3:
                         handleSendMoviesByEmailSubmenu();
@@ -109,6 +109,21 @@ public class MoviesUI
         System.out.println("8. Vypsat nejnovější vydané filmy");
         System.out.println("9. Vypsat obsahy výstupních souborů filmů");
         System.out.println("0. Vrátit se zpět do hlavního menu");
+        System.out.println(horizontalLine);
+    }
+    
+    private void displayPrintFoundMoviesByNameSubmenu() 
+    {
+        String menuName = "PODMENU NALEZENÝCH FILMŮ PODLE NÁZVU";
+        
+        StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1. Smazat aktuálně vypsané nalezené filmy");
+        System.out.println("2. Vypsat detail vybraného nalezeného filmu");
+        System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
     
@@ -298,6 +313,112 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    private void handlePrintFoundMoviesByNameSubmenu() 
+    {
+        try 
+        {
+            String movieQueriedName = loadMovieNameFromUser();
+            List<Movie> foundMoviesByName = consoleUI.getMoviesController().searchForMovie(movieQueriedName);
+
+            consoleUI.addBreadcrumbItem("Nalezené filmy podle názvu");
+
+            boolean returnToParentMenu = false;
+            int choice;
+
+            while (returnToParentMenu == false) 
+            {
+                foundMoviesByName = consoleUI.getMoviesController().searchForMovie(movieQueriedName);
+
+                printFoundMoviesByName(foundMoviesByName, movieQueriedName);
+                consoleUI.displayBreadcrumb();
+                displayPrintFoundMoviesByNameSubmenu();
+
+                try 
+                {
+                    choice = consoleUI.loadChoiceFromSubmenu();
+
+                    switch (choice) 
+                    {
+                        case 1:
+                            deleteChosenMovies(foundMoviesByName);
+                            break;
+                        case 2:
+                            handleDisplayDetailAboutMovieSubmenu(foundMoviesByName);
+                            break;
+                        case 0:
+                            consoleUI.removeLastBreadcrumbItem();
+                            returnToParentMenu = true;
+                            break;
+                        default:
+                            consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                    }
+                } 
+                catch (InputMismatchException ex) 
+                {
+                    consoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
+                    consoleUI.advanceToNextInput();
+                }
+            }
+        }
+        catch (IllegalArgumentException ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }
+    }
+    
+    private String loadMovieNameFromUser() 
+    {
+        consoleUI.advanceToNextInput();
+        System.out.println();
+        System.out.println("Zadejte název filmu: ");
+        return consoleUI.getScanner().nextLine();
+    }
+    
+    private void printFoundMoviesByName(List<Movie> foundMovies, String queriedName) 
+    {
+        StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, "NALEZENÉ FILMY PODLE NÁZVU");
+        
+        StringBuilder dividingLine = consoleUI.createDividingHorizontalLineOf(heading.toString());
+                        
+        System.out.println();
+        System.out.println(heading);
+        System.out.println();
+        System.out.println(String.format("%-20s%d", "Počet filmů:", foundMovies.size()));
+        System.out.println(String.format("%-20s%s", "Hledaný název:", queriedName));
+        System.out.println();
+        System.out.println(dividingLine);
+        
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
+        
+        int counter = 0;
+        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        String durationText;
+        String percentageRatingText;
+        String releaseDateText;
+        
+        for (Movie movie : foundMovies) 
+        {
+            counter++;
+
+            percentageRatingText = movie.getWasWatched() == true ? movie.getPercentageRating() + " %" : "Nehodnoceno";
+            
+            durationText = movie.getRuntime() == null ? "Neznámá" : String.format("%02d:%02d:%02d", movie.getRuntime().toHours(), 
+                    movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
+            
+            releaseDateText =  movie.getReleaseDate() == null ? "Neznámé" : movie.getReleaseDate().format(dateFormatter);
+                    
+            System.out.println();
+            System.out.println(String.format("%-15s%s %-" + nameMaxLength + "s%s %-16s%s %-14s%s %s", 
+                    counter + ".", "Název:", movie.getName(), 
+                    "Datum vydání:", releaseDateText,
+                    "Délka:", durationText,
+                    "Hodnocení:", percentageRatingText));
+        }
+        
+        System.out.println();
+        System.out.println(dividingLine);  
+    }
+    
     private void handlePrintReleasedNewestMoviesSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Nejnovější již vydané filmy");
@@ -365,9 +486,9 @@ public class MoviesUI
         {
             counter++;
                         
-            percentageRatingText = movie.getWasWatched() == true ? movie.getPercentageRating() + " %" : "Není ohodnoceno";
+            percentageRatingText = movie.getWasWatched() == true ? movie.getPercentageRating() + " %" : "Nehodnoceno";
             
-            durationText = movie.getRuntime() == null ? "Není známa" : String.format("%02d:%02d:%02d", movie.getRuntime().toHours(), 
+            durationText = movie.getRuntime() == null ? "Neznámá" : String.format("%02d:%02d:%02d", movie.getRuntime().toHours(), 
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
@@ -448,7 +569,7 @@ public class MoviesUI
         {
             counter++;
             
-            durationText = movie.getRuntime() == null ? "Není známa" : String.format("%02d:%02d:%02d", movie.getRuntime().toHours(), 
+            durationText = movie.getRuntime() == null ? "Neznámá" : String.format("%02d:%02d:%02d", movie.getRuntime().toHours(), 
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
@@ -842,7 +963,7 @@ public class MoviesUI
         {
             counter++;
             
-            durationText = movie.getRuntime() == null ? "Není známa" : String.format("%02d:%02d:%02d", movie.getRuntime().toHours(), 
+            durationText = movie.getRuntime() == null ? "Neznámá" : String.format("%02d:%02d:%02d", movie.getRuntime().toHours(), 
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
@@ -1131,7 +1252,7 @@ public class MoviesUI
         {
             counter++;
             
-            durationText = movie.getRuntime() == null ? "Není známa" : String.format("%02d:%02d:%02d", movie.getRuntime().toHours(), 
+            durationText = movie.getRuntime() == null ? "Neznámá" : String.format("%02d:%02d:%02d", movie.getRuntime().toHours(), 
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
@@ -1293,7 +1414,7 @@ public class MoviesUI
             System.out.println();
             System.out.println(String.format("%-15s%s %-" + nameMaxLength + "s%s %s", 
                     counter + ".", "Název:", movie.getName(), 
-                    "Datum vydání:", movie.getReleaseDate() == null ? "Není známo" : movie.getReleaseDate().format(dateFormatter)));
+                    "Datum vydání:", movie.getReleaseDate() == null ? "Neznámé" : movie.getReleaseDate().format(dateFormatter)));
         }
         
         System.out.println();
@@ -1388,6 +1509,10 @@ public class MoviesUI
                                 {
                                     consoleUI.removeLastBreadcrumbItem();
                                 }
+                            }
+                            else 
+                            {
+                                consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
                             }
                             
                             break;
@@ -1500,7 +1625,7 @@ public class MoviesUI
         
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
-        String runtimeText = chosenMovie.getRuntime() == null ? "Není známa" :
+        String runtimeText = chosenMovie.getRuntime() == null ? "Neznámá" :
                 String.format("%02d:%02d:%02d", chosenMovie.getRuntime().toHours(), 
                         chosenMovie.getRuntime().toMinutesPart(), chosenMovie.getRuntime().toSecondsPart());
         
@@ -1508,7 +1633,7 @@ public class MoviesUI
         System.out.println(String.format("%-30s%s", "Název:", chosenMovie.getName()));
         System.out.println(String.format("%-30s%s", "Chronologická éra:", chosenMovie.getEra().getDisplayName()));
         System.out.println(String.format("%-30s%s", "Datum uvedení:", chosenMovie.getReleaseDate() == null ? 
-                "Není známo" : chosenMovie.getReleaseDate().format(dateFormatter)));    
+                "Neznámé" : chosenMovie.getReleaseDate().format(dateFormatter)));    
         System.out.println(String.format("%-30s%s", "Délka filmu:", runtimeText));
         
         if (wasReleased == true) 
@@ -1516,12 +1641,12 @@ public class MoviesUI
             String shortContentSummaryText;
             
             System.out.println(String.format("%-30s%s", "Procentualní ohodnocení:", 
-                    chosenMovie.getWasWatched() == true ? chosenMovie.getPercentageRating() + " %" : "Není ohodnoceno"));
+                    chosenMovie.getWasWatched() == true ? chosenMovie.getPercentageRating() + " %" : "Nehodnoceno"));
             System.out.println(String.format("%-30s%s", "Odkaz ke zhlédnutí:", 
-                    chosenMovie.getHyperlinkForContentWatch() == null ? "Není znám" : chosenMovie.getHyperlinkForContentWatch()));
+                    chosenMovie.getHyperlinkForContentWatch() == null ? "Neznámý" : chosenMovie.getHyperlinkForContentWatch()));
             
             shortContentSummaryText = chosenMovie.getShortContentSummary() == null ? 
-                    String.format("%-30s%s", "Krátké shrnutí obsahu:", "Není známo") : 
+                    String.format("%-30s%s", "Krátké shrnutí obsahu:", "Neznámé") : 
                     String.format("Krátké shrnutí obsahu:%n%n%s", chosenMovie.getShortContentSummary());
             
             System.out.println(shortContentSummaryText);

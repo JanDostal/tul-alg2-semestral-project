@@ -207,11 +207,11 @@ public class TVEpisodesController
 
                     for (TVEpisode e : seasonEpisodes) 
                     {
-                        durationText = e.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
+                        durationText = e.getRuntime() == null ? "<span style=\"color:red\">Neznámá</span>" : 
                                 String.format("%02d:%02d:%02d", e.getRuntime().toHoursPart(), e.getRuntime().toMinutesPart(),
                                 e.getRuntime().toSecondsPart());
                         
-                        nameText = e.getName() == null ? "<span style=\"color:red\">Není znám</span>" : e.getName();
+                        nameText = e.getName() == null ? "<span style=\"color:red\">Neznámý</span>" : e.getName();
                         
                         hyperlinkText = e.getHyperlinkForContentWatch() == null ? "<span style=\"color:red\">Neuveden</span>" : 
                                 String.format("<a href=\"%s\">Zhlédnout</a>", e.getHyperlinkForContentWatch());
@@ -635,6 +635,11 @@ public class TVEpisodesController
     
     public List<TVShow> searchForTVShow(String name) 
     {
+        if (name.isEmpty() || name.isBlank()) 
+        {
+            throw new IllegalArgumentException("Hledaný název filmu nemůže být prázdný");
+        }
+        
         String normalizedName = Normalizer.normalize(name, Normalizer.Form.NFD)
                     .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
                     .toLowerCase();

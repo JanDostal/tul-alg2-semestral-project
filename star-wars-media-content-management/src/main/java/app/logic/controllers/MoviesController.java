@@ -171,7 +171,7 @@ public class MoviesController
 
             for (Movie m : filteredMovies) 
             {
-                durationText = m.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
+                durationText = m.getRuntime() == null ? "<span style=\"color:red\">Neznámá</span>" : 
                         String.format("%02d:%02d:%02d", m.getRuntime().toHours(), m.getRuntime().toMinutesPart(),
                         m.getRuntime().toSecondsPart());
                               
@@ -244,7 +244,7 @@ public class MoviesController
             
                 for (Movie m : filteredMovies) 
                 {
-                    durationText = m.getRuntime() == null ? "<span style=\"color:red\">Není známa</span>" : 
+                    durationText = m.getRuntime() == null ? "<span style=\"color:red\">Neznámá</span>" : 
                             String.format("%02d:%02d:%02d", m.getRuntime().toHoursPart(), m.getRuntime().toMinutesPart(), 
                             m.getRuntime().toSecondsPart());
                     
@@ -499,6 +499,11 @@ public class MoviesController
     
     public List<Movie> searchForMovie(String name) 
     {
+        if (name.isEmpty() || name.isBlank()) 
+        {
+            throw new IllegalArgumentException("Hledaný název filmu nemůže být prázdný");
+        }
+        
         String normalizedName = Normalizer.normalize(name, Normalizer.Form.NFD)
                     .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
                     .toLowerCase();
