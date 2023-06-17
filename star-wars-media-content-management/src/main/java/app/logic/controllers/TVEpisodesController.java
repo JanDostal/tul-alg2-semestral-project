@@ -419,20 +419,7 @@ public class TVEpisodesController
                       
         return averageRating;
     }
-    
-    public List<TVShow> getReleasedNewestTVShows()
-    {
-        LocalDate currentDate = getCurrentDate();
         
-        List<TVShow> filteredTVShows = dbContext.getTVShowsTable().filterBy(m -> 
-                m.getReleaseDate() != null && 
-                m.getReleaseDate().compareTo(currentDate) <= 0);
-        
-        dbContext.getTVShowsTable().sortBy(BY_DATE_NEWEST_TVSHOW, filteredTVShows);
-                
-        return filteredTVShows;
-    }
-    
     public List<TVShow> getReleasedLongestTVShowsByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
@@ -522,26 +509,6 @@ public class TVEpisodesController
         return seasonEpisodes;
     }
     
-    public List<TVShow> getAnnouncedTVShowsInAlphabeticalOrderByEra(Era era) 
-    {
-        LocalDate currentDate = getCurrentDate();
-        
-        List<TVShow> filteredTVShows = dbContext.getTVShowsTable().filterBy(s -> 
-                s.getEra() == era && (s.getReleaseDate() == null || 
-                        s.getReleaseDate().compareTo(currentDate) > 0));
-        
-        dbContext.getTVShowsTable().sortBy(BY_NAME_ALPHABETICALLY_SHOW, filteredTVShows);
-        
-        return filteredTVShows;
-    }
-    
-    public int getAnnouncedTVShowsCountByEra(Era era) 
-    {        
-        List<TVShow> filteredTVShows = getAnnouncedTVShowsInAlphabeticalOrderByEra(era);
-                
-        return filteredTVShows.size();
-    }
-    
     public List<TVEpisode> getFavoriteTVEpisodesFromEntireTVShow(PrimaryKey tvShowPrimaryKey) 
     {
         List<TVEpisode> filteredEpisodes = new ArrayList<>();
@@ -562,6 +529,25 @@ public class TVEpisodesController
         dbContext.getTVEpisodesTable().sortBy(BY_PERCENTAGE_RATING_HIGHEST_EPISODE, filteredEpisodes);
         
         return filteredEpisodes;
+    }
+    
+    public List<TVSeason> getTVShowSeasonsByOrder(PrimaryKey tvShowPrimaryKey) 
+    {
+        List<TVSeason> showSeasons;
+        
+        showSeasons = dbContext.
+                getTVSeasonsTable().filterBy(e -> e.getTVShowForeignKey().equals(tvShowPrimaryKey));
+        
+        dbContext.getTVSeasonsTable().sortBy(BY_ORDER_ASCENDING_SEASON, showSeasons);
+        
+        return showSeasons;
+    }
+    
+    public int getTVShowSeasonsCount(PrimaryKey tvShowPrimaryKey) 
+    {
+        List<TVSeason> filteredSeasons = getTVShowSeasonsByOrder(tvShowPrimaryKey);
+        
+        return filteredSeasons.size();
     }
     
     public List<TVEpisode> getTVShowSeasonEpisodesByOrder(PrimaryKey tvShowSeasonPrimaryKey) 
@@ -585,23 +571,37 @@ public class TVEpisodesController
         return filteredEpisodes.size();
     }
     
-    public List<TVSeason> getTVShowSeasonsByOrder(PrimaryKey tvShowPrimaryKey) 
+    public List<TVShow> getAnnouncedTVShowsInAlphabeticalOrderByEra(Era era) 
     {
-        List<TVSeason> showSeasons;
+        LocalDate currentDate = getCurrentDate();
         
-        showSeasons = dbContext.
-                getTVSeasonsTable().filterBy(e -> e.getTVShowForeignKey().equals(tvShowPrimaryKey));
+        List<TVShow> filteredTVShows = dbContext.getTVShowsTable().filterBy(s -> 
+                s.getEra() == era && (s.getReleaseDate() == null || 
+                        s.getReleaseDate().compareTo(currentDate) > 0));
         
-        dbContext.getTVSeasonsTable().sortBy(BY_ORDER_ASCENDING_SEASON, showSeasons);
+        dbContext.getTVShowsTable().sortBy(BY_NAME_ALPHABETICALLY_SHOW, filteredTVShows);
         
-        return showSeasons;
+        return filteredTVShows;
     }
     
-    public int getTVShowSeasonsCount(PrimaryKey tvShowPrimaryKey) 
+    public int getAnnouncedTVShowsCountByEra(Era era) 
+    {        
+        List<TVShow> filteredTVShows = getAnnouncedTVShowsInAlphabeticalOrderByEra(era);
+                
+        return filteredTVShows.size();
+    }
+    
+    public List<TVShow> getReleasedNewestTVShows()
     {
-        List<TVSeason> filteredSeasons = getTVShowSeasonsByOrder(tvShowPrimaryKey);
+        LocalDate currentDate = getCurrentDate();
         
-        return filteredSeasons.size();
+        List<TVShow> filteredTVShows = dbContext.getTVShowsTable().filterBy(m -> 
+                m.getReleaseDate() != null && 
+                m.getReleaseDate().compareTo(currentDate) <= 0);
+        
+        dbContext.getTVShowsTable().sortBy(BY_DATE_NEWEST_TVSHOW, filteredTVShows);
+                
+        return filteredTVShows;
     }
     
     public boolean rateTVEpisode(TVEpisode existingEpisode, int percentageRating) throws DatabaseException, IOException
