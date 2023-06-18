@@ -16,6 +16,38 @@ FALL_OF_THE_JEDI 4
 
 [Attributes]
 
+Identificator: 422270217
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+422270217 1
+Mařenka 2
+-1 3
+FALL_OF_THE_JEDI 4
+
+[Attributes]
+
+Identificator: 1521992171
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+1521992171 1
+Jeníček 2
+-1 3
+FALL_OF_THE_JEDI 4
+
+[Attributes]
+
 Identificator: 1881017874
 
 id 1

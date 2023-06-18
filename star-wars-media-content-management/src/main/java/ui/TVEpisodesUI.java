@@ -7,7 +7,13 @@ package ui;
 import app.logic.controllers.DataType;
 import app.logic.controllers.TVEpisodesController;
 import app.logic.datastore.DataStore;
+import app.models.data.Era;
+import app.models.data.TVShow;
+import app.models.output.TVShowOutput;
+import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -46,6 +52,7 @@ public class TVEpisodesUI
                     case 2:
                         break;
                     case 3:
+                        handlePrintErasWithAnnouncedTVShowsSubmenu();
                         break;
                     case 4:
                         break;
@@ -62,7 +69,7 @@ public class TVEpisodesUI
                         returnToMainMenu = true;
                         break;
                     default:
-                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                 }
             }
             catch (InputMismatchException ex) 
@@ -111,6 +118,35 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    private void displayPrintErasWithAnnouncedTVShowsSubmenu() 
+    {
+        String menuName = "PODMENU ÉR S OZNÁMENÝMI TV SERIÁLY";
+        
+        StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1. Vypsat abecedně oznámené TV seriály vybrané éry");
+        System.out.println("0. Vrátit se zpět do nadřazeného menu");
+        System.out.println(horizontalLine);
+    }
+    
+    private void displayPrintAnnouncedTVShowsInAlphabeticalOrderByEraSubmenu(Era chosenEra) 
+    {
+        String menuName = "PODMENU OZNÁMENÝCH TV SERIÁLŮ ÉRY " + chosenEra.getDisplayName().toUpperCase();
+        
+        StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1. Smazat aktuálně vypsané oznámené TV seriály");
+        System.out.println("2. Vypsat detail vybraného oznámeného TV seriálu");
+        System.out.println("0. Vrátit se zpět do nadřazeného menu");
+        System.out.println(horizontalLine);
+    }
+    
     private void handleLoadTVShowsFromInputFileSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Přidávání TV seriálů ze vstupního souboru");
@@ -145,7 +181,7 @@ public class TVEpisodesUI
                         returnToParentMenu = true;
                         break;
                     default:
-                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                 }
             }
             catch (InputMismatchException ex) 
@@ -167,5 +203,174 @@ public class TVEpisodesUI
         {
             consoleUI.displayErrorMessage(ex.getMessage());
         }        
+    }
+    
+    private void handlePrintErasWithAnnouncedTVShowsSubmenu() 
+    {
+        consoleUI.addBreadcrumbItem("Éry s oznámenými TV seriály"); 
+        boolean returnToParentMenu = false;
+        int choice;
+        
+        while (returnToParentMenu == false) 
+        {
+            printErasWithAnnouncedTVShows();
+            consoleUI.displayBreadcrumb();
+            displayPrintErasWithAnnouncedTVShowsSubmenu();
+            
+            try 
+            {
+                choice = consoleUI.loadChoiceFromSubmenu();
+                
+                switch (choice) 
+                {
+                    case 1:
+                        handlePrintAnnouncedTVShowsInAlphabeticalOrderByEraSubmenu();
+                        break;
+                    case 0:
+                        consoleUI.removeLastBreadcrumbItem();
+                        returnToParentMenu = true;
+                        break;
+                    default:
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
+                }
+            }
+            catch (InputMismatchException ex) 
+            {
+                consoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
+                consoleUI.advanceToNextInput();
+            }
+        }
+    } 
+    
+    private void printErasWithAnnouncedTVShows() 
+    {
+        StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
+                "ÉRY S OZNÁMENÝMI TV SERIÁLY (začíná nejstarší érou)");
+        
+        StringBuilder dividingLine = consoleUI.createDividingHorizontalLineOf(heading.toString());
+        
+        System.out.println();
+        System.out.println(heading);
+        
+        int counter = 0;
+        
+        for (Era era : Era.values()) 
+        {
+            counter++;
+                        
+            System.out.println();
+            System.out.println(String.format("%-10s%s %-25s%s %d", 
+                    counter + ".", "Období:", era.getDisplayName(), 
+                    "Počet seriálů:", consoleUI.getTVEpisodesController().getAnnouncedTVShowsCountByEra(era)));
+        }
+        
+        System.out.println();
+        System.out.println(dividingLine);
+    }
+    
+    private void handlePrintAnnouncedTVShowsInAlphabeticalOrderByEraSubmenu() 
+    {
+        try 
+        {
+            int eraOrderFromList = consoleUI.loadChosenEraOrderFromUser();
+            Era chosenEra = Era.values()[eraOrderFromList - 1];
+
+            consoleUI.addBreadcrumbItem(String.format("Oznámené TV seriály éry %s (řazeno abecedně)", chosenEra.getDisplayName()));
+            
+            boolean returnToParentMenu = false;
+            int choice;
+
+            while (returnToParentMenu == false) 
+            {
+                List<TVShow> announcedTVShowsByChosenEra = consoleUI.getTVEpisodesController().
+                        getAnnouncedTVShowsInAlphabeticalOrderByEra(chosenEra);
+                
+                printAnnouncedTVShowsInAlphabeticalOrderByEra(announcedTVShowsByChosenEra, chosenEra);
+                consoleUI.displayBreadcrumb();
+                displayPrintAnnouncedTVShowsInAlphabeticalOrderByEraSubmenu(chosenEra);
+
+                try 
+                {
+                    choice = consoleUI.loadChoiceFromSubmenu();
+
+                    switch (choice) 
+                    {
+                        case 1:
+                            deleteChosenTVShows(announcedTVShowsByChosenEra);
+                            break;
+                        case 2:
+                            handleDisplayDetailAboutTVShowSubmenu(announcedTVShowsByChosenEra);
+                            break;
+                        case 0:
+                            consoleUI.removeLastBreadcrumbItem();
+                            returnToParentMenu = true;
+                            break;
+                        default:
+                            consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
+                    }
+                } 
+                catch (InputMismatchException ex) 
+                {
+                    consoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
+                    consoleUI.advanceToNextInput();
+                }
+            }
+        }
+        catch (InputMismatchException ex) 
+        {
+            consoleUI.displayErrorMessage("Pořadové číslo musí být číslo");
+            consoleUI.advanceToNextInput();
+        }
+        catch (IndexOutOfBoundsException ex) 
+        {
+            consoleUI.displayErrorMessage("Pořadové číslo neodpovídá žádné z ér");
+            consoleUI.advanceToNextInput();
+        }
+    }
+    
+    private void printAnnouncedTVShowsInAlphabeticalOrderByEra(List<TVShow> announcedTVShowsByChosenEra, Era chosenEra) 
+    {
+        StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
+                String.format("OZNAMENÉ TV SERIÁLY ÉRY %s (řazeno abecedně)", chosenEra.getDisplayName().toUpperCase()));
+        
+        StringBuilder dividingLine = consoleUI.createDividingHorizontalLineOf(heading.toString());
+                
+        System.out.println();
+        System.out.println(heading);
+        System.out.println();
+        System.out.println("Počet seriálů: " + announcedTVShowsByChosenEra.size());
+        System.out.println();
+        System.out.println(dividingLine);
+        
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
+        
+        int counter = 0;
+        int nameMaxLength = TVShowOutput.ATTRIBUTE_NAME_LENGTH + 5;
+        
+        for (TVShow tvShow : announcedTVShowsByChosenEra) 
+        {
+            counter++;
+                    
+            System.out.println();
+            System.out.println(String.format("%-15s%s %-" + nameMaxLength + "s%s %s", 
+                    counter + ".", "Název:", tvShow.getName(), 
+                    "Datum vydání:", tvShow.getReleaseDate() == null ? "Neznámé" : tvShow.getReleaseDate().format(dateFormatter)));
+        }
+        
+        System.out.println();
+        System.out.println(dividingLine);        
+    }
+    
+    private void deleteChosenTVShows(List<TVShow> chosenTVShows) 
+    {        
+        try 
+        {
+            consoleUI.getTVEpisodesController().deleteTVShows(chosenTVShows);
+            consoleUI.displayInfoMessage("Vybrané TV seriály úspěšně smazány");
+        }
+        catch (Exception ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }   
     }
 }

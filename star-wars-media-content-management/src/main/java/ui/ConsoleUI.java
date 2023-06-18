@@ -96,7 +96,7 @@ public class ConsoleUI
                         isConsoleRunning = false;
                         break;
                     default:
-                        displayErrorMessage("Nevalidní číslo volby z menu");
+                        displayErrorMessage("Neplatné číslo volby z menu");
                 }
             }
             catch (InputMismatchException ex) 
@@ -159,7 +159,7 @@ public class ConsoleUI
                         isConsoleRunning = false;
                         break;
                     default:
-                        displayErrorMessage("Nevalidní číslo volby z menu");
+                        displayErrorMessage("Neplatné číslo volby z menu");
                 }
             }
             catch (InputMismatchException ex) 
@@ -203,7 +203,7 @@ public class ConsoleUI
                         removeLastBreadcrumbItem();
                         break;
                     default:
-                        displayErrorMessage("Nevalidní číslo volby z menu");
+                        displayErrorMessage("Neplatné číslo volby z menu");
                 }
             }
             catch (InputMismatchException ex) 

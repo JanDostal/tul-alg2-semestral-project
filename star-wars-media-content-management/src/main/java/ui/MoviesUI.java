@@ -80,7 +80,7 @@ public class MoviesUI
                         returnToMainMenu = true;
                         break;
                     default:
-                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                 }
             }
             catch (InputMismatchException ex) 
@@ -363,7 +363,7 @@ public class MoviesUI
                         returnToParentMenu = true;
                         break;
                     default:
-                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                 }
             }
             catch (InputMismatchException ex) 
@@ -424,7 +424,7 @@ public class MoviesUI
                             returnToParentMenu = true;
                             break;
                         default:
-                            consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                            consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                     }
                 } 
                 catch (InputMismatchException ex) 
@@ -521,7 +521,7 @@ public class MoviesUI
                         returnToParentMenu = true;
                         break;
                     default:
-                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                 }
             }
             catch (InputMismatchException ex) 
@@ -588,7 +588,7 @@ public class MoviesUI
                         returnToParentMenu = true;
                         break;
                     default:
-                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                 }
             }
             catch (InputMismatchException ex) 
@@ -661,7 +661,7 @@ public class MoviesUI
                             returnToParentMenu = true;
                             break;
                         default:
-                            consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                            consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                     }
                 } 
                 catch (InputMismatchException ex) 
@@ -748,7 +748,7 @@ public class MoviesUI
                         returnToParentMenu = true;
                         break;
                     default:
-                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                 }
             }
             catch (InputMismatchException ex) 
@@ -885,7 +885,7 @@ public class MoviesUI
                             returnToParentMenu = true;
                             break;
                         default:
-                            consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                            consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                     }
                 } 
                 catch (InputMismatchException ex) 
@@ -1017,7 +1017,7 @@ public class MoviesUI
                         returnToParentMenu = true;
                         break;
                     default:
-                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                 }
             }
             catch (InputMismatchException ex) 
@@ -1166,7 +1166,7 @@ public class MoviesUI
                             returnToParentMenu = true;
                             break;
                         default:
-                            consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                            consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                     }
                 } 
                 catch (InputMismatchException ex) 
@@ -1304,7 +1304,7 @@ public class MoviesUI
                         returnToParentMenu = true;
                         break;
                     default:
-                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                 }
             } 
             catch (InputMismatchException ex) 
@@ -1385,7 +1385,7 @@ public class MoviesUI
                         returnToParentMenu = true;
                         break;
                     default:
-                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                 }
             } 
             catch (InputMismatchException ex) 
@@ -1466,7 +1466,7 @@ public class MoviesUI
                         returnToParentMenu = true;
                         break;
                     default:
-                        consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                 }
             }
             catch (InputMismatchException ex) 
@@ -1568,7 +1568,7 @@ public class MoviesUI
                             }
                             else 
                             {
-                                consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                                consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                             }
                             
                             break;
@@ -1577,7 +1577,7 @@ public class MoviesUI
                             returnToParentMenu = true;
                             break;
                         default:
-                            consoleUI.displayErrorMessage("Nevalidní číslo volby z podmenu");
+                            consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
                     }
                 } 
                 catch (InputMismatchException ex) 

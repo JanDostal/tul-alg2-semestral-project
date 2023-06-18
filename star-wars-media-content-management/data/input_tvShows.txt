@@ -15,7 +15,7 @@ Order: 1
    [Values]   
     
 Mařenka 1
-1232 2
+-1 2
 FALL_OF_THE_JEDI 3
 
      [Attributes]
@@ -29,7 +29,7 @@ Order: 2
 [Values]      
     
 Jeníček 1
-1232 2
+-1 2
 FALL_OF_THE_JEDI 3
 
 [End]
