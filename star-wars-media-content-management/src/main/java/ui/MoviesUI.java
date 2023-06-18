@@ -67,7 +67,7 @@ public class MoviesUI
                         handlePrintErasWithWatchedMoviesSubmenu();
                         break;
                     case 7:
-                        handlePrintFavoriteMoviesOfAllTimeSubmenu();
+                        handlePrintReleasedFavoriteMoviesOfAllTimeSubmenu();
                         break;
                     case 8:
                         handlePrintReleasedNewestMoviesSubmenu();
@@ -252,7 +252,7 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
-    private void displayPrintFavoriteMoviesOfAllTimeSubmenu() 
+    private void displayPrintReleasedFavoriteMoviesOfAllTimeSubmenu() 
     {
         String menuName = "PODMENU NEJOBLÍBENĚJŠÍCH FILMŮ";
         
@@ -776,12 +776,10 @@ public class MoviesUI
         
         int counter = 0;
         
-        Map<Integer, Duration> eraUnwatchedMoviesTotalDurationWithCount;
-        Map<Integer, Duration> eraUnwatchedMoviesAverageDurationWithCount;
+        Duration eraUnwatchedMoviesTotalDuration;
+        Duration eraUnwatchedMoviesAverageDuration;
         
         int eraUnwatchedMoviesWithDurationSetCount;
-        Duration totalDuration;
-        Duration averageDuration;
         
         String totalDurationText;
         String averageDurationText;
@@ -790,20 +788,18 @@ public class MoviesUI
         {
             counter++;
             
-            eraUnwatchedMoviesTotalDurationWithCount = 
-                    consoleUI.getMoviesController().getTotalRuntimeOfAllReleasedMoviesByEra(era, false);
-            eraUnwatchedMoviesAverageDurationWithCount = 
-                    consoleUI.getMoviesController().getAverageRuntimeOfAllReleasedMoviesByEra(era, false);
+            eraUnwatchedMoviesTotalDuration = consoleUI.getMoviesController().getTotalRuntimeOfAllReleasedMoviesByEra(era, false);
+            eraUnwatchedMoviesAverageDuration = consoleUI.getMoviesController().getAverageRuntimeOfAllReleasedMoviesByEra(era, false);
             
-            eraUnwatchedMoviesWithDurationSetCount = eraUnwatchedMoviesTotalDurationWithCount.keySet().iterator().next();
+            eraUnwatchedMoviesWithDurationSetCount = consoleUI.getMoviesController().getReleasedMoviesWithRuntimeSetCountByEra(era, false);
+                        
+            totalDurationText =  String.format("%02d:%02d:%02d", eraUnwatchedMoviesTotalDuration.toHours(), 
+                    eraUnwatchedMoviesTotalDuration.toMinutesPart(), 
+                    eraUnwatchedMoviesTotalDuration.toSecondsPart());
             
-            totalDuration = eraUnwatchedMoviesTotalDurationWithCount.get(eraUnwatchedMoviesWithDurationSetCount);
-            averageDuration = eraUnwatchedMoviesAverageDurationWithCount.get(eraUnwatchedMoviesWithDurationSetCount);
-            
-            totalDurationText =  String.format("%02d:%02d:%02d", totalDuration.toHours(), totalDuration.toMinutesPart(), 
-                    totalDuration.toSecondsPart());
-            averageDurationText =  String.format("%02d:%02d:%02d", averageDuration.toHours(), averageDuration.toMinutesPart(), 
-                    averageDuration.toSecondsPart());
+            averageDurationText =  String.format("%02d:%02d:%02d", eraUnwatchedMoviesAverageDuration.toHours(), 
+                    eraUnwatchedMoviesAverageDuration.toMinutesPart(), 
+                    eraUnwatchedMoviesAverageDuration.toSecondsPart());
 
             System.out.println();            
             System.out.println(String.format("%-6s%s %-25s%s %-14d%s %-14d%s %-14s%s %s", 
@@ -929,21 +925,18 @@ public class MoviesUI
         
         StringBuilder dividingLine = consoleUI.createDividingHorizontalLineOf(heading.toString());
         
+        Duration unwatchedMoviesTotalDuration = consoleUI.getMoviesController().getTotalRuntimeOfAllReleasedMoviesByEra(chosenEra, false);
+        Duration unwatchedMoviesAverageDuration = consoleUI.getMoviesController().getAverageRuntimeOfAllReleasedMoviesByEra(chosenEra, false);
+            
+        int unwatchedMoviesWithDurationSetCount = consoleUI.getMoviesController().getReleasedMoviesWithRuntimeSetCountByEra(chosenEra, false);
+                        
+        String totalDurationText =  String.format("%02d:%02d:%02d", unwatchedMoviesTotalDuration.toHours(), 
+                unwatchedMoviesTotalDuration.toMinutesPart(), 
+                unwatchedMoviesTotalDuration.toSecondsPart());
         
-        Map<Integer, Duration> unwatchedMoviesTotalDurationWithCount = 
-                consoleUI.getMoviesController().getTotalRuntimeOfAllReleasedMoviesByEra(chosenEra, false);
-        Map<Integer, Duration> unwatchedMoviesAverageDurationWithCount = 
-                consoleUI.getMoviesController().getAverageRuntimeOfAllReleasedMoviesByEra(chosenEra, false);
-            
-        int unwatchedMoviesWithDurationSetCount = unwatchedMoviesTotalDurationWithCount.keySet().iterator().next();
-            
-        Duration totalDuration = unwatchedMoviesTotalDurationWithCount.get(unwatchedMoviesWithDurationSetCount);
-        Duration averageDuration = unwatchedMoviesAverageDurationWithCount.get(unwatchedMoviesWithDurationSetCount);
-            
-        String totalDurationText =  String.format("%02d:%02d:%02d", totalDuration.toHours(), totalDuration.toMinutesPart(), 
-                totalDuration.toSecondsPart());
-        String averageDurationText =  String.format("%02d:%02d:%02d", averageDuration.toHours(), averageDuration.toMinutesPart(), 
-                averageDuration.toSecondsPart());
+        String averageDurationText =  String.format("%02d:%02d:%02d", unwatchedMoviesAverageDuration.toHours(), 
+                unwatchedMoviesAverageDuration.toMinutesPart(), 
+                unwatchedMoviesAverageDuration.toSecondsPart());
                 
         System.out.println();
         System.out.println(heading);
@@ -1045,12 +1038,10 @@ public class MoviesUI
         
         int counter = 0;
         
-        Map<Integer, Duration> eraWatchedMoviesTotalDurationWithCount;
-        Map<Integer, Duration> eraWatchedMoviesAverageDurationWithCount;
+        Duration eraWatchedMoviesTotalDuration;
+        Duration eraWatchedMoviesAverageDuration;
         
-        int eraWatchedMoviesWithDurationSetCount;
-        Duration totalDuration;
-        Duration averageDuration;
+        int eraWatchedMoviesWithRuntimeSetCount;
         
         String totalDurationText;
         String averageDurationText;
@@ -1060,29 +1051,30 @@ public class MoviesUI
         {
             counter++;
             
-            eraWatchedMoviesTotalDurationWithCount = 
+            eraWatchedMoviesTotalDuration = 
                     consoleUI.getMoviesController().getTotalRuntimeOfAllReleasedMoviesByEra(era, true);
-            eraWatchedMoviesAverageDurationWithCount = 
+            eraWatchedMoviesAverageDuration = 
                     consoleUI.getMoviesController().getAverageRuntimeOfAllReleasedMoviesByEra(era, true);
             
             averagePercentageRating = consoleUI.getMoviesController().getAverageRatingOfAllReleasedMoviesByEra(era);
             
-            eraWatchedMoviesWithDurationSetCount = eraWatchedMoviesTotalDurationWithCount.keySet().iterator().next();
+            eraWatchedMoviesWithRuntimeSetCount = 
+                    consoleUI.getMoviesController().getReleasedMoviesWithRuntimeSetCountByEra(era, true);
+                        
+            totalDurationText =  String.format("%02d:%02d:%02d", eraWatchedMoviesTotalDuration.toHours(), 
+                    eraWatchedMoviesTotalDuration.toMinutesPart(), 
+                    eraWatchedMoviesTotalDuration.toSecondsPart());
             
-            totalDuration = eraWatchedMoviesTotalDurationWithCount.get(eraWatchedMoviesWithDurationSetCount);
-            averageDuration = eraWatchedMoviesAverageDurationWithCount.get(eraWatchedMoviesWithDurationSetCount);
-            
-            totalDurationText =  String.format("%02d:%02d:%02d", totalDuration.toHours(), totalDuration.toMinutesPart(), 
-                    totalDuration.toSecondsPart());
-            averageDurationText =  String.format("%02d:%02d:%02d", averageDuration.toHours(), averageDuration.toMinutesPart(), 
-                    averageDuration.toSecondsPart());
+            averageDurationText =  String.format("%02d:%02d:%02d", eraWatchedMoviesAverageDuration.toHours(), 
+                    eraWatchedMoviesAverageDuration.toMinutesPart(), 
+                    eraWatchedMoviesAverageDuration.toSecondsPart());
 
             System.out.println();            
             System.out.println(String.format("%-4s%s %-25s%s %-14d%s %-14d%s %-14s%s %-14s%s %.2f %%", 
                     counter + ".", 
                     "Období:", era.getDisplayName(), 
                     "Počet filmů:", consoleUI.getMoviesController().getReleasedMoviesCountByEra(era, true),
-                    "Počet filmů s délkou:", eraWatchedMoviesWithDurationSetCount,
+                    "Počet filmů s délkou:", eraWatchedMoviesWithRuntimeSetCount,
                     "Délka filmů:", totalDurationText,
                     "Průměrná délka filmů:", averageDurationText,
                     "Průměrné hodnocení filmů:", averagePercentageRating));
@@ -1141,7 +1133,7 @@ public class MoviesUI
                         break;
                     case FAVORITE:
                         watchedMoviesByChosenEra = 
-                                consoleUI.getMoviesController().getFavoriteMoviesByEra(chosenEra);
+                                consoleUI.getMoviesController().getReleasedFavoriteMoviesByEra(chosenEra);
                         break;
                 }
                                 
@@ -1214,30 +1206,28 @@ public class MoviesUI
         
         StringBuilder dividingLine = consoleUI.createDividingHorizontalLineOf(heading.toString());
         
-        
-        Map<Integer, Duration> watchedMoviesTotalDurationWithCount = 
-                consoleUI.getMoviesController().getTotalRuntimeOfAllReleasedMoviesByEra(chosenEra, true);
-        Map<Integer, Duration> watchedMoviesAverageDurationWithCount = 
-                consoleUI.getMoviesController().getAverageRuntimeOfAllReleasedMoviesByEra(chosenEra, true);
+        Duration watchedMoviesTotalDuration = consoleUI.getMoviesController().getTotalRuntimeOfAllReleasedMoviesByEra(chosenEra, true);
+        Duration watchedMoviesAverageDuration = consoleUI.getMoviesController().getAverageRuntimeOfAllReleasedMoviesByEra(chosenEra, true);
         
         float averagePercentageRating = consoleUI.getMoviesController().getAverageRatingOfAllReleasedMoviesByEra(chosenEra);
             
-        int watchedMoviesWithDurationSetCount = watchedMoviesTotalDurationWithCount.keySet().iterator().next();
-            
-        Duration totalDuration = watchedMoviesTotalDurationWithCount.get(watchedMoviesWithDurationSetCount);
-        Duration averageDuration = watchedMoviesAverageDurationWithCount.get(watchedMoviesWithDurationSetCount);
-            
-        String totalDurationText =  String.format("%02d:%02d:%02d", totalDuration.toHours(), totalDuration.toMinutesPart(), 
-                totalDuration.toSecondsPart());
-        String averageDurationText =  String.format("%02d:%02d:%02d", averageDuration.toHours(), averageDuration.toMinutesPart(), 
-                averageDuration.toSecondsPart());
+        int watchedMoviesWithRuntimeSetCount = consoleUI.
+                getMoviesController().getReleasedMoviesWithRuntimeSetCountByEra(chosenEra, true);
+                        
+        String totalDurationText =  String.format("%02d:%02d:%02d", watchedMoviesTotalDuration.toHours(), 
+                watchedMoviesTotalDuration.toMinutesPart(), 
+                watchedMoviesTotalDuration.toSecondsPart());
+        
+        String averageDurationText =  String.format("%02d:%02d:%02d", watchedMoviesAverageDuration.toHours(), 
+                watchedMoviesAverageDuration.toMinutesPart(), 
+                watchedMoviesAverageDuration.toSecondsPart());
                 
         System.out.println();
         System.out.println(heading);
         System.out.println();
         System.out.println(String.format("%-70s%d", "Počet filmů:", watchedMoviesByChosenEra.size()));
         System.out.println(String.format("%-70s%d", "Počet filmů s délkou (zahrnuty pouze filmy s nastavenou délkou):", 
-                watchedMoviesWithDurationSetCount));
+                watchedMoviesWithRuntimeSetCount));
         System.out.println(String.format("%-70s%s", "Délka filmů (zahrnuty pouze filmy s nastavenou délkou):", 
                 totalDurationText));
         System.out.println(String.format("%-70s%s", "Průměrná délka filmů (zahrnuty pouze filmy s nastavenou délkou):", 
@@ -1272,7 +1262,7 @@ public class MoviesUI
         System.out.println(dividingLine);        
     }
     
-    private void handlePrintFavoriteMoviesOfAllTimeSubmenu() 
+    private void handlePrintReleasedFavoriteMoviesOfAllTimeSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Nejoblíbenější filmy");
 
@@ -1281,11 +1271,11 @@ public class MoviesUI
 
         while (returnToParentMenu == false) 
         {
-            List<Movie> favoriteMoviesOfAllTime = consoleUI.getMoviesController().getFavoriteMoviesOfAllTime();
+            List<Movie> favoriteMoviesOfAllTime = consoleUI.getMoviesController().getReleasedFavoriteMoviesOfAllTime();
 
-            printFavoriteMoviesOfAllTime(favoriteMoviesOfAllTime);
+            printReleasedFavoriteMoviesOfAllTime(favoriteMoviesOfAllTime);
             consoleUI.displayBreadcrumb();
-            displayPrintFavoriteMoviesOfAllTimeSubmenu();
+            displayPrintReleasedFavoriteMoviesOfAllTimeSubmenu();
 
             try 
             {
@@ -1315,7 +1305,7 @@ public class MoviesUI
         }
     }
     
-    private void printFavoriteMoviesOfAllTime(List<Movie> favoriteMovies) 
+    private void printReleasedFavoriteMoviesOfAllTime(List<Movie> favoriteMovies) 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, "NEJOBLÍBENĚJŠÍ FILMY");
         

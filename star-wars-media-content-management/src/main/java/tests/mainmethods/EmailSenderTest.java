@@ -88,7 +88,7 @@ public class EmailSenderTest
            TVSeason season1 = new TVSeason(new PrimaryKey(1), 2, show.getPrimaryKey());
            TVSeason season2 = new TVSeason(new PrimaryKey(2), 1, show.getPrimaryKey());
 
-           TVEpisode episodeB = new TVEpisode(new PrimaryKey(3), null, null,
+           TVEpisode episodeB = new TVEpisode(new PrimaryKey(3), Duration.ofMinutes(50), null,
                    60, false, null, "Velmi špatná epizoda", 2, season1.getPrimaryKey());
 
            TVEpisode episodeC = new TVEpisode(new PrimaryKey(4), Duration.ofMinutes(50), "episodeA",

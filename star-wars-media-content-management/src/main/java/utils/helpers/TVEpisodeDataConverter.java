@@ -23,17 +23,8 @@ public final class TVEpisodeDataConverter
     public static TVEpisodeOutput convertToOutputDataFrom(TVEpisode data) 
     {
         int id = data.getPrimaryKey().getId();
-        long runtime;
+        long runtime = data.getRuntime().toSeconds();
         
-        if (data.getRuntime() == null) 
-        {
-            runtime = -1;
-        }
-        else 
-        {
-            runtime = data.getRuntime().toSeconds();
-        }
-
         String name = data.getName();
         int percentage = data.getPercentageRating();
         String hyperlink = data.getHyperlinkForContentWatch();

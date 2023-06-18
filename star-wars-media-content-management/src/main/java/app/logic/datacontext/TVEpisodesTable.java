@@ -70,6 +70,11 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
             throw new DatabaseException("Identifikátor sezóny pro přidanou epizodu musí být větší než nula");
         }
         
+        if (inputData.getRuntime() == null) 
+        {
+            throw new DatabaseException("Přidaná epizoda sezóny musí mít délku trvání");
+        }
+        
         if (inputData.getName() != null && inputData.getName().length() > TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH) 
         {
             throw new DatabaseException("Název přidané epizody sezóny nesmí mít délku větší než " + 
@@ -150,6 +155,12 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
                     + outputData.getPrimaryKey().getId() + " musí být větší než nula");
         }
         
+        if (outputData.getRuntime() == null) 
+        {
+            throw new DatabaseException("Délka trvání existující epizody sezóny s identifikátorem "
+                    + outputData.getPrimaryKey().getId() + " musí být nastavena");
+        }
+        
         TVEpisode tvEpisodeWithDuplicateKey = getBy(outputData.getPrimaryKey());
         
         if (tvEpisodeWithDuplicateKey != null) 
@@ -216,6 +227,11 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
         if (editedExistingData.getTVSeasonForeignKey().getId() <= 0) 
         {
             throw new DatabaseException("Identifikátor sezóny pro editovanou epizodu musí být větší než nula");
+        }
+        
+        if (editedExistingData.getRuntime() == null) 
+        {
+            throw new DatabaseException("Editovaná epizoda sezóny musí mít délku trvání");
         }
         
         if (editedExistingData.getName() != null && editedExistingData.getName().length() > TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH) 

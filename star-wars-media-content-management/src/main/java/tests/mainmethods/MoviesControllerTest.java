@@ -146,12 +146,12 @@ public class MoviesControllerTest
             System.out.println(m);
         }
         
-        //getFavoriteMoviesByEra method
+        //getReleasedFavoriteMoviesByEra method
         System.out.println();
-        System.out.println("getFavoriteMoviesByEra method:");
+        System.out.println("getReleasedFavoriteMoviesByEra method:");
         System.out.println();
         List<Movie> getFavoriteMoviesByEra_result = 
-                controller.getFavoriteMoviesByEra(Era.FALL_OF_THE_JEDI);
+                controller.getReleasedFavoriteMoviesByEra(Era.FALL_OF_THE_JEDI);
         
         
         for (Movie m : getFavoriteMoviesByEra_result) 
@@ -189,12 +189,12 @@ public class MoviesControllerTest
         
         System.out.println("počet: " + getMoviesCountByEra_result);
         
-        //getFavoriteMoviesOfAllTime method
+        //getReleasedFavoriteMoviesOfAllTime method
         System.out.println();
-        System.out.println("getFavoriteMoviesOfAllTime method:");
+        System.out.println("getReleasedFavoriteMoviesOfAllTime method:");
         System.out.println();
         List<Movie> getFavoriteMoviesOfAllTime_result = 
-                controller.getFavoriteMoviesOfAllTime();
+                controller.getReleasedFavoriteMoviesOfAllTime();
         
         for (Movie m : getFavoriteMoviesOfAllTime_result) 
         {
@@ -269,12 +269,12 @@ public class MoviesControllerTest
         System.out.println();
         System.out.println("getTotalRuntimeOfAllReleasedMoviesByEra method:");
         System.out.println();
-        Map<Integer, Duration> getTotalRuntimeOfAllMoviesByEra_result = 
+        Duration getTotalRuntimeOfAllMoviesByEra_result = 
                 controller.getTotalRuntimeOfAllReleasedMoviesByEra(Era.FALL_OF_THE_JEDI, true);
         
-        int watchedMoviesRuntimesCount_total = getTotalRuntimeOfAllMoviesByEra_result.keySet().iterator().next();
+        int watchedMoviesRuntimesCount_total = controller.getReleasedMoviesWithRuntimeSetCountByEra(Era.FALL_OF_THE_JEDI, true);
         
-        System.out.println("Doba v minutach: " + getTotalRuntimeOfAllMoviesByEra_result.get(watchedMoviesRuntimesCount_total).toMinutes());
+        System.out.println("Doba v minutach: " + getTotalRuntimeOfAllMoviesByEra_result.toMinutes());
         System.out.println("Pocet zhlednutych filmu se zadanou runtime: " + 
                 watchedMoviesRuntimesCount_total);
         
@@ -282,14 +282,12 @@ public class MoviesControllerTest
         System.out.println();
         System.out.println("getAverageRuntimeOfAllReleasedMoviesByEra method:");
         System.out.println();
-        Map<Integer, Duration> getAverageRuntimeOfAllMoviesByEra_result = 
+        Duration getAverageRuntimeOfAllMoviesByEra_result = 
                 controller.getAverageRuntimeOfAllReleasedMoviesByEra(Era.FALL_OF_THE_JEDI, true);
         
-        int watchedMoviesRuntimesCount_average = getAverageRuntimeOfAllMoviesByEra_result.keySet().iterator().next();
-
+        int watchedMoviesRuntimesCount_average = controller.getReleasedMoviesWithRuntimeSetCountByEra(Era.FALL_OF_THE_JEDI, true);
                        
-        System.out.println("Doba v minutach: " + getAverageRuntimeOfAllMoviesByEra_result.
-                get(watchedMoviesRuntimesCount_average).toMinutes());
+        System.out.println("Doba v minutach: " + getAverageRuntimeOfAllMoviesByEra_result.toMinutes());
         System.out.println("Pocet zhlednutych filmu se zadanou runtime: " + 
                 watchedMoviesRuntimesCount_average);
         
@@ -300,7 +298,11 @@ public class MoviesControllerTest
         float getAverageRatingOfAllMoviesByEra_result = 
                 controller.getAverageRatingOfAllReleasedMoviesByEra(Era.FALL_OF_THE_JEDI);
         
+        int watchedMoviesCount_average = controller.getReleasedMoviesCountByEra(Era.FALL_OF_THE_JEDI, true);
+        
         System.out.println("Prumerne hodnoceni v procentech: " + getAverageRatingOfAllMoviesByEra_result);
+        System.out.println("Pocet zhlednutych filmu: " + 
+                watchedMoviesCount_average);
         
         //addMoviesFrom
         System.out.println();

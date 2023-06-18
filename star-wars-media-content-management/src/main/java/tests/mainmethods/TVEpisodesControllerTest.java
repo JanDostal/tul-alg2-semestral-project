@@ -137,8 +137,7 @@ public class TVEpisodesControllerTest
         {
             System.out.println(m);
         }
-       
-                        
+      
         //getReleasedTVShowLongestEpisodes method
         
         List<TVEpisode> getTVShowLongestEpisodes_result = 
@@ -183,68 +182,69 @@ public class TVEpisodesControllerTest
         
         //getTotalRuntimeOfAllReleasedEpisodesInTVShow method
         
-        Map<Integer, Duration> getTotalRuntimeOfAllEpisodesInTVShow_result = 
+        Duration getTotalRuntimeOfAllEpisodesInTVShow_result = 
                 controller.getTotalRuntimeOfAllReleasedEpisodesInTVShow(show.getPrimaryKey(), true);
         
         System.out.println();
         System.out.println("getTotalRuntimeOfAllReleasedEpisodesInTVShow method:");
         System.out.println();
         
+        int watchedShowEpisodesCount_total = controller.getReleasedTVShowEpisodesCount(show.getPrimaryKey(), true);
         
-        int watchedShowEpisodesWithRuntimeCount_total = getTotalRuntimeOfAllEpisodesInTVShow_result.keySet().iterator().next();
-        
-        System.out.println("Celkova doba pouze shlednuteho obsahu v minutach: " 
-                + getTotalRuntimeOfAllEpisodesInTVShow_result.get(watchedShowEpisodesWithRuntimeCount_total).toMinutes());
-        System.out.println("Počet zhlednutych epizod se zadanou delkou: "
-                + watchedShowEpisodesWithRuntimeCount_total);
+        System.out.println("Celkova doba pouze zhlednuteho obsahu v minutach: " 
+                + getTotalRuntimeOfAllEpisodesInTVShow_result.toMinutes());
+        System.out.println("Počet zhlednutych epizod: "
+                + watchedShowEpisodesCount_total);
         
         //getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason method
         
-        Map<Integer, Duration> getTotalRuntimeOfAllEpisodesInTVShowSeason_result = 
+        Duration getTotalRuntimeOfAllEpisodesInTVShowSeason_result = 
                 controller.getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason(season.getPrimaryKey(), true);
         
         System.out.println();
         System.out.println("getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason method:");
         System.out.println();
         
-        int watchedSeasonEpisodesWithRuntimeCount_total = getTotalRuntimeOfAllEpisodesInTVShowSeason_result.keySet().iterator().next();
+        int watchedSeasonEpisodesCount_total = 
+                controller.getReleasedTVShowSeasonEpisodesCount(season.getPrimaryKey(), true);
         
-        System.out.println("Celkova doba pouze shlednuteho obsahu v minutach: " + 
-                getTotalRuntimeOfAllEpisodesInTVShowSeason_result.get(watchedSeasonEpisodesWithRuntimeCount_total).toMinutes());
-        System.out.println("Počet zhlednutych epizod se zadanou delkou: "
-                + watchedSeasonEpisodesWithRuntimeCount_total);
+        System.out.println("Celkova doba pouze zhlednuteho obsahu v minutach: " + 
+                getTotalRuntimeOfAllEpisodesInTVShowSeason_result.toMinutes());
+        System.out.println("Počet zhlednutych epizod: "
+                + watchedSeasonEpisodesCount_total);
         
         //getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason method
         
-        Map<Integer, Duration> getAverageRuntimeOfAllEpisodesInTVShowSeason_result = 
+        Duration getAverageRuntimeOfAllEpisodesInTVShowSeason_result = 
                 controller.getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason(season.getPrimaryKey(), true);
         
         System.out.println();
         System.out.println("getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason method:");
         System.out.println();
         
-        int watchedSeasonEpisodesWithRuntimeCount_average = getAverageRuntimeOfAllEpisodesInTVShowSeason_result.keySet().iterator().next();
+        int watchedSeasonEpisodesCount_average = 
+                controller.getReleasedTVShowSeasonEpisodesCount(season.getPrimaryKey(), true);
         
         System.out.println("Prumerna doba zhlednuteho obsahu v minutach: " + 
-                getAverageRuntimeOfAllEpisodesInTVShowSeason_result.get(watchedSeasonEpisodesWithRuntimeCount_average).toMinutes());
-        System.out.println("Počet zhlednutych epizod se zadanou delkou: "
-                + watchedSeasonEpisodesWithRuntimeCount_average);
+                getAverageRuntimeOfAllEpisodesInTVShowSeason_result.toMinutes());
+        System.out.println("Počet zhlednutych epizod: "
+                + watchedSeasonEpisodesCount_average);
         
         //getAverageRuntimeOfAllReleasedEpisodesInTVShow method
         
-        Map<Integer, Duration> getAverageRuntimeOfAllEpisodesInTVShow_result = 
+        Duration getAverageRuntimeOfAllEpisodesInTVShow_result = 
                 controller.getAverageRuntimeOfAllReleasedEpisodesInTVShow(show.getPrimaryKey(), true);
         
         System.out.println();
         System.out.println("getAverageRuntimeOfAllReleasedEpisodesInTVShow method:");
         System.out.println();
         
-        int watchedShowEpisodesWithRuntimeCount_average = getAverageRuntimeOfAllEpisodesInTVShow_result.keySet().iterator().next();
+        int watchedShowEpisodesCount_average = controller.getReleasedTVShowEpisodesCount(show.getPrimaryKey(), true);
         
         System.out.println("Prumerna doba zhlednuteho obsahu v minutach: " + 
-                getAverageRuntimeOfAllEpisodesInTVShow_result.get(watchedShowEpisodesWithRuntimeCount_average).toMinutes());
-        System.out.println("Počet zhlednutych epizod se zadanou delkou: "
-                + watchedShowEpisodesWithRuntimeCount_average);
+                getAverageRuntimeOfAllEpisodesInTVShow_result.toMinutes());
+        System.out.println("Počet zhlednutych epizod: "
+                + watchedShowEpisodesCount_average);
         
         //getAverageRatingOfAllReleasedEpisodesInTVShow method
         
@@ -257,6 +257,8 @@ public class TVEpisodesControllerTest
         
         System.out.println("Prumerne hodnoceni v procentech: " + 
                 getAverageRatingOfAllEpisodesInTVShow_result);
+        System.out.println("Pocet epizod: " + 
+                controller.getReleasedTVShowEpisodesCount(show.getPrimaryKey(), true));
         
         //getAverageRatingOfAllReleasedEpisodesInTVShowSeason method
         
@@ -269,7 +271,8 @@ public class TVEpisodesControllerTest
         
         System.out.println("Prumerne hodnoceni v procentech: " + 
                 getAverageRatingOfAllEpisodesInTVShowSeason_result);
-        
+        System.out.println("Pocet epizod: " + 
+                controller.getReleasedTVShowSeasonEpisodesCount(season.getPrimaryKey(), true));
         
         //addTVShowsFrom
         System.out.println();
@@ -426,7 +429,7 @@ public class TVEpisodesControllerTest
         TVShow showEdit = new TVShow(new PrimaryKey(3), "show33", LocalDate.parse("2023-05-20", 
                 DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
         TVSeason seasonEdit = new TVSeason(new PrimaryKey(222), 10, showEdit.getPrimaryKey());
-        TVEpisode episodeForEdit = new TVEpisode(new PrimaryKey(21111), null, "ahojahoj", 
+        TVEpisode episodeForEdit = new TVEpisode(new PrimaryKey(21111), Duration.ofMinutes(900), "ahojahoj", 
                 2, false, null, null, 
                 55, seasonEdit.getPrimaryKey());
               

@@ -277,41 +277,32 @@ public class MoviesController
     }
     
     //statistic method
-    public Map<Integer, Duration> getTotalRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
+    public Duration getTotalRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
     {
         Duration totalDuration = Duration.ZERO;
-        int durationsCount = 0;
         LocalDate currentDate = getCurrentDate();
         
         List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
                 m.getEra() == era && m.getReleaseDate() != null && 
-                        m.getReleaseDate().compareTo(currentDate) <= 0 
-                        && m.getWasWatched() == onlyWatched);
+                        m.getReleaseDate().compareTo(currentDate) <= 0 && 
+                        m.getWasWatched() == onlyWatched && m.getRuntime() != null);
         
         for (Movie m : filteredMovies) 
         {
-            if (m.getRuntime() != null) 
-            {
-                durationsCount++;
-                totalDuration = totalDuration.plus(m.getRuntime());
-            }
+            totalDuration = totalDuration.plus(m.getRuntime());
         }
-        
-        Map<Integer, Duration> result = new LinkedHashMap<>();
-        result.put(durationsCount, totalDuration);
-                
-        return result;
+                        
+        return totalDuration;
     }
     
     //statistic method
-    public Map<Integer, Duration> getAverageRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
+    public Duration getAverageRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
     {
         long averageSeconds;
         
-        Map<Integer, Duration> totalRuntimeOfAllReleasedMoviesByEra = getTotalRuntimeOfAllReleasedMoviesByEra(era, onlyWatched);
+        Duration totalRuntimeOfAllReleasedMoviesByEra = getTotalRuntimeOfAllReleasedMoviesByEra(era, onlyWatched);
         
-        int durationsCount = totalRuntimeOfAllReleasedMoviesByEra.keySet().iterator().next();
-        Duration totalDuration = totalRuntimeOfAllReleasedMoviesByEra.get(durationsCount);
+        int durationsCount = getReleasedMoviesWithRuntimeSetCountByEra(era, onlyWatched);
         
         if (durationsCount == 0) 
         {
@@ -319,15 +310,12 @@ public class MoviesController
         }
         else 
         {
-            averageSeconds = totalDuration.toSeconds() / durationsCount;
+            averageSeconds = totalRuntimeOfAllReleasedMoviesByEra.toSeconds() / durationsCount;
         }
         
         Duration averageDuration = Duration.ofSeconds(averageSeconds);
-        
-        Map<Integer, Duration> result = new LinkedHashMap<>();
-        result.put(durationsCount, averageDuration);
-              
-        return result;
+                      
+        return averageDuration;
     }
     
     //statistic method
@@ -357,6 +345,35 @@ public class MoviesController
         }
                       
         return averageRating;
+    }
+    
+    //statistic method
+    public int getAnnouncedMoviesCountByEra(Era era) 
+    {
+        List<Movie> filteredMovies = getAnnouncedMoviesInAlphabeticalOrderByEra(era);
+                
+        return filteredMovies.size();
+    }
+    
+    //statistic method
+    public int getReleasedMoviesWithRuntimeSetCountByEra(Era era, boolean onlyWatched) 
+    {
+        LocalDate currentDate = getCurrentDate();
+                
+        List<Movie> filteredMovies = dbContext.getMoviesTable().filterBy(m -> 
+                m.getEra() == era && m.getReleaseDate() != null && 
+                        m.getReleaseDate().compareTo(currentDate) <= 0 && 
+                        m.getWasWatched() == onlyWatched && m.getRuntime() != null);
+                
+        return filteredMovies.size();
+    }
+    
+    //statistic method
+    public int getReleasedMoviesCountByEra(Era era, boolean onlyWatched) 
+    {        
+        List<Movie> filteredMovies = getReleasedNewestMoviesByEra(era, onlyWatched);
+                
+        return filteredMovies.size();
     }
     
     public List<Movie> getReleasedLongestMoviesByEra(Era era, boolean onlyWatched) 
@@ -400,7 +417,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public List<Movie> getFavoriteMoviesByEra(Era era) 
+    public List<Movie> getReleasedFavoriteMoviesByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
         
@@ -427,21 +444,7 @@ public class MoviesController
         return filteredMovies;
     }
     
-    public int getAnnouncedMoviesCountByEra(Era era) 
-    {
-        List<Movie> filteredMovies = getAnnouncedMoviesInAlphabeticalOrderByEra(era);
-                
-        return filteredMovies.size();
-    }
-    
-    public int getReleasedMoviesCountByEra(Era era, boolean onlyWatched) 
-    {        
-        List<Movie> filteredMovies = getReleasedNewestMoviesByEra(era, onlyWatched);
-                
-        return filteredMovies.size();
-    }
-    
-    public List<Movie> getFavoriteMoviesOfAllTime() 
+    public List<Movie> getReleasedFavoriteMoviesOfAllTime() 
     {
         LocalDate currentDate = getCurrentDate();
         
