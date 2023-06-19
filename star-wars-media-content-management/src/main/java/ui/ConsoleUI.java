@@ -239,25 +239,25 @@ public class ConsoleUI
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1.  Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println("2.  Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)");
-        System.out.println(String.format("3.  Vypsat obsah textového souboru %s (diagnostika chyby při načítání)", 
+        System.out.println(String.format("%-4s Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)", "1."));
+        System.out.println(String.format("%-4s Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)", "2."));
+        System.out.println(String.format("%-4s Vypsat obsah textového souboru %s (diagnostika chyby při načítání)", "3.", 
                 DataStore.getTextOutputMoviesFilename()));
-        System.out.println(String.format("4.  Vypsat obsah textového souboru %s (diagnostika chyby při načítání)", 
+        System.out.println(String.format("%-4s Vypsat obsah textového souboru %s (diagnostika chyby při načítání)", "4.",
                 DataStore.getTextOutputTVShowsFilename()));
-        System.out.println(String.format("5.  Vypsat obsah textového souboru %s (diagnostika chyby při načítání)", 
+        System.out.println(String.format("%-4s Vypsat obsah textového souboru %s (diagnostika chyby při načítání)", "5.",
                 DataStore.getTextOutputTVSeasonsFilename()));
-        System.out.println(String.format("6.  Vypsat obsah textového souboru %s (ddiagnostika chyby při načítání)", 
+        System.out.println(String.format("%-4s Vypsat obsah textového souboru %s (ddiagnostika chyby při načítání)", "6.",
                 DataStore.getTextOutputTVEpisodesFilename()));
-        System.out.println(String.format("7.  Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", 
+        System.out.println(String.format("%-4s Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", "7.",
                 DataStore.getBinaryOutputMoviesFilename()));
-        System.out.println(String.format("8.  Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", 
+        System.out.println(String.format("%-4s Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", "8.",
                 DataStore.getBinaryOutputTVShowsFilename()));
-        System.out.println(String.format("9.  Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", 
+        System.out.println(String.format("%-4s Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", "9.",
                 DataStore.getBinaryOutputTVSeasonsFilename()));
-        System.out.println(String.format("10. Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", 
+        System.out.println(String.format("%-4s Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", "10.",
                 DataStore.getBinaryOutputTVEpisodesFilename()));
-        System.out.println("0.  Ukončit aplikaci");
+        System.out.println(String.format("%-4s Ukončit aplikaci", "0."));
         System.out.println(horizontalLine);        
     }
     
@@ -349,12 +349,28 @@ public class ConsoleUI
     
     protected void displayBreadcrumb()
     {
-        StringBuilder breadcrumb = new StringBuilder("Aktuální cesta v navigaci:");
+        StringBuilder breadcrumb = new StringBuilder("Aktuální cesta v navigaci: ");
+        String breadcrumbDivider = " / ";
+        
+        int count = 0;
+        boolean setNewLine = false;
         
         for (String title : breadcrumbItems) 
         {
-            breadcrumb.append(String.format(" %s /", title));
+            count++;
+            
+            if (setNewLine == true) 
+            {
+                breadcrumb.append("\n");
+                setNewLine = false;
+            }
+            
+            breadcrumb.append(String.format("%s%s", title, breadcrumbDivider));
+            
+            if (count % 4 == 0) setNewLine = true;
         }
+        
+        breadcrumb.delete(breadcrumb.length() - breadcrumbDivider.length(), breadcrumb.length());
         
         StringBuilder breadcrumbWithHorizontalLines = createMenuNameWithHorizontalLines(15, breadcrumb.toString());
         

@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class TVShowOutput 
 {   
-    public static final int ATTRIBUTE_NAME_LENGTH = 100;
+    public static final int ATTRIBUTE_NAME_LENGTH = 60;
     public static final int ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH = 60;
     
     private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;

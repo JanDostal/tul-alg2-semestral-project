@@ -1,9 +1,3 @@
-
- 
-    
-                      
- 
-   
 [Attributes]  
 
 name 1
@@ -29,7 +23,7 @@ Order: 2
 [Values]      
     
 Jeníček 1
--1 2
+23232 2
 FALL_OF_THE_JEDI 3
 
 [End]

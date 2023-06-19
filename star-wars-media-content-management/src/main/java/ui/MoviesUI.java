@@ -318,13 +318,39 @@ public class MoviesUI
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
         System.out.println("1. Smazat film");
-        System.out.println("2. Upravit film pomocí vstupního textového souboru " + DataStore.getTextInputMoviesFilename());
-        System.out.println("3. Upravit film pomocí vstupního binárního souboru " + DataStore.getBinaryInputMoviesFilename());
-        System.out.println("4. Vypsat obsah vstupního textového souboru " + DataStore.getTextInputMoviesFilename());
-        System.out.println("5. Vypsat obsah vstupního binárního souboru " + DataStore.getBinaryInputMoviesFilename());
+        System.out.println("2. Upravit film");
         
-        if (wasReleased == true) System.out.println("6. Ohodnotit film");
+        if (wasReleased == true) System.out.println("3. Ohodnotit film");
         
+        System.out.println("0. Vrátit se zpět do nadřazeného menu");
+        System.out.println(horizontalLine);
+    }
+    
+    private void displayEditChosenMovieSubmenu(Movie chosenMovie) 
+    {
+        boolean wasReleased = false;
+        
+        if (chosenMovie.getReleaseDate() != null && 
+                chosenMovie.getReleaseDate().compareTo(MoviesController.getCurrentDate()) <= 0) 
+        {
+            wasReleased = true;
+        }
+        
+        String menuName = wasReleased == true ? chosenMovie.getWasWatched() == true ? 
+                "PODMENU EDITACE ZHLÉDNUTÉHO FILMU " + chosenMovie.getName().toUpperCase() : 
+                "PODMENU EDITACE NEZHLÉDNUTÉHO FILMU " + chosenMovie.getName().toUpperCase() : 
+                "PODMENU EDITACE OZNÁMENÉHO FILMU " + chosenMovie.getName().toUpperCase();
+        
+        StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1. Upravit film pomocí vstupního textového souboru " + DataStore.getTextInputMoviesFilename());
+        System.out.println("2. Upravit film pomocí vstupního binárního souboru " + DataStore.getBinaryInputMoviesFilename());
+        System.out.println("3. Vypsat obsah vstupního textového souboru " + DataStore.getTextInputMoviesFilename());
+        System.out.println("4. Vypsat obsah vstupního binárního souboru " + DataStore.getBinaryInputMoviesFilename());
+                
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
@@ -482,8 +508,9 @@ public class MoviesUI
             releaseDateText =  movie.getReleaseDate() == null ? "Neznámé" : movie.getReleaseDate().format(dateFormatter);
                     
             System.out.println();
-            System.out.println(String.format("%-15s%s %-" + nameMaxLength + "s%s %-16s%s %-14s%s %s", 
-                    counter + ".", "Název:", movie.getName(), 
+            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %-13s%s %-12s%s %s", 
+                    counter + ".", 
+                    "Název:", movie.getName(), 
                     "Datum vydání:", releaseDateText,
                     "Délka:", durationText,
                     "Hodnocení:", percentageRatingText));
@@ -616,8 +643,9 @@ public class MoviesUI
             counter++;
                         
             System.out.println();
-            System.out.println(String.format("%-10s%s %-25s%s %d", 
-                    counter + ".", "Období:", era.getDisplayName(), 
+            System.out.println(String.format("%-6s%s %-25s%s %d", 
+                    counter + ".", 
+                    "Období:", era.getDisplayName(), 
                     "Počet filmů:", consoleUI.getMoviesController().getAnnouncedMoviesCountByEra(era)));
         }
         
@@ -707,8 +735,9 @@ public class MoviesUI
             counter++;
                     
             System.out.println();
-            System.out.println(String.format("%-15s%s %-" + nameMaxLength + "s%s %s", 
-                    counter + ".", "Název:", movie.getName(), 
+            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %s", 
+                    counter + ".", 
+                    "Název:", movie.getName(), 
                     "Datum vydání:", movie.getReleaseDate() == null ? "Neznámé" : movie.getReleaseDate().format(dateFormatter)));
         }
         
@@ -802,7 +831,7 @@ public class MoviesUI
                     eraUnwatchedMoviesAverageDuration.toSecondsPart());
 
             System.out.println();            
-            System.out.println(String.format("%-6s%s %-25s%s %-14d%s %-14d%s %-14s%s %s", 
+            System.out.println(String.format("%-6s%s %-25s%s %-7d%s %-7d%s %-12s%s %s", 
                     counter + ".", 
                     "Období:", era.getDisplayName(), 
                     "Počet filmů:", consoleUI.getMoviesController().getReleasedMoviesCountByEra(era, false),
@@ -965,8 +994,9 @@ public class MoviesUI
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
-            System.out.println(String.format("%-15s%s %-" + nameMaxLength + "s%s %-16s%s %s", 
-                    counter + ".", "Název:", movie.getName(), 
+            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %-13s%s %s", 
+                    counter + ".", 
+                    "Název:", movie.getName(), 
                     "Datum vydání:", movie.getReleaseDate().format(dateFormatter),
                     "Délka:", durationText));
         }
@@ -1070,7 +1100,7 @@ public class MoviesUI
                     eraWatchedMoviesAverageDuration.toSecondsPart());
 
             System.out.println();            
-            System.out.println(String.format("%-4s%s %-25s%s %-14d%s %-14d%s %-14s%s %-14s%s %.2f %%", 
+            System.out.println(String.format("%-6s%s %-25s%s %-7d%s %-7d%s %-12s%s %-12s%s %.2f %%", 
                     counter + ".", 
                     "Období:", era.getDisplayName(), 
                     "Počet filmů:", consoleUI.getMoviesController().getReleasedMoviesCountByEra(era, true),
@@ -1251,8 +1281,9 @@ public class MoviesUI
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
-            System.out.println(String.format("%-15s%s %-" + nameMaxLength + "s%s %-16s%s %-14s%s %d %%", 
-                    counter + ".", "Název:", movie.getName(), 
+            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %-13s%s %-12s%s %d %%", 
+                    counter + ".", 
+                    "Název:", movie.getName(), 
                     "Datum vydání:", movie.getReleaseDate().format(dateFormatter),
                     "Délka:", durationText,
                     "Hodnocení:", movie.getPercentageRating()));
@@ -1332,8 +1363,9 @@ public class MoviesUI
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
-            System.out.println(String.format("%-15s%s %-" + nameMaxLength + "s%s %-16s%s %-14s%s %d %%", 
-                    counter + ".", "Název:", movie.getName(), 
+            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %-13s%s %-12s%s %d %%", 
+                    counter + ".", 
+                    "Název:", movie.getName(), 
                     "Datum vydání:", movie.getReleaseDate().format(dateFormatter),
                     "Délka:", durationText,
                     "Hodnocení:", movie.getPercentageRating()));
@@ -1416,8 +1448,9 @@ public class MoviesUI
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
-            System.out.println(String.format("%-15s%s %-" + nameMaxLength + "s%s %-16s%s %-14s%s %s", 
-                    counter + ".", "Název:", movie.getName(), 
+            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %-13s%s %-12s%s %s", 
+                    counter + ".", 
+                    "Název:", movie.getName(), 
                     "Datum vydání:", movie.getReleaseDate().format(dateFormatter),
                     "Délka:", durationText,
                     "Hodnocení:", percentageRatingText));
@@ -1491,17 +1524,16 @@ public class MoviesUI
 
             while (returnToParentMenu == false) 
             {
-                printMovieDetail(chosenMovie);
-                
-                consoleUI.displayInfoMessage(String.format("Při úpravě filmu se používají stejné"
-                        + " vstupní soubory jako u přidávání filmů.%nPro jednoznačnost je nutné mít v daném souboru pouze jeden film."));
-                
-                consoleUI.displayInfoMessage(String.format("Při úpravě filmu se používá v "
-                        + "souboru úplně totožná struktura dat jako u přidávání filmů.%nPo úpravě"
+                printMovieDetail(chosenMovie, false);
+                                
+                consoleUI.displayInfoMessage(String.format("Po úpravě"
                         + (wasReleased == true ? " nebo po ohodnocení" : "") + " se "
-                        + "film nemusí vypisovat tam, kde se původně vypisoval.%n"
-                        + "Při smazání filmu" + (wasReleased == true ? ", ohodnocení filmu" : "") + " nebo při reálné úpravě dat filmu "
-                        + "dojde k návratu zpátky do nadřazeného menu."));
+                        + "film nemusí vypisovat tam, kde se původně vypisoval"));
+                                
+                consoleUI.displayInfoMessage(String.format("Při smazání filmu" 
+                        + (wasReleased == true ? ", ohodnocení filmu" : "") 
+                        + " nebo při reálné úpravě dat filmu "
+                        + "dojde k návratu zpátky do daného výpisu s filmy"));            
  
                 consoleUI.displayBreadcrumb();
                 displayDetailAboutMovieSubmenu(chosenMovie);
@@ -1522,7 +1554,7 @@ public class MoviesUI
                             
                             break;
                         case 2:
-                            returnToParentMenu = editMovieFromInputFile(chosenMovie.getPrimaryKey(), false);    
+                            returnToParentMenu = handleDisplayEditChosenMovieSubmenu(chosenMovie); 
                             
                             if (returnToParentMenu == true) 
                             {
@@ -1531,21 +1563,6 @@ public class MoviesUI
                             
                             break;
                         case 3:
-                            returnToParentMenu = editMovieFromInputFile(chosenMovie.getPrimaryKey(), true);
-                            
-                            if (returnToParentMenu == true) 
-                            {
-                                consoleUI.removeLastBreadcrumbItem();
-                            }
-                            
-                            break;
-                        case 4:
-                            consoleUI.displayDataChosenFileContent(DataStore.getTextInputMoviesFilename(), DataType.MOVIE);
-                            break;
-                        case 5:
-                            consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputMoviesFilename(), DataType.MOVIE);
-                            break;
-                        case 6:
                             
                             if (wasReleased == true) 
                             {
@@ -1596,7 +1613,7 @@ public class MoviesUI
         return consoleUI.getScanner().nextInt();
     }
     
-    private void printMovieDetail(Movie chosenMovie) 
+    private void printMovieDetail(Movie chosenMovie, boolean isInEditMode) 
     {
         boolean wasReleased = false;
         
@@ -1607,7 +1624,8 @@ public class MoviesUI
         }
         
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
-                String.format("DETAIL %s FILMU %s", 
+                String.format("%s %s FILMU %s",
+                        isInEditMode == true ? "EDITACE" : "DETAIL",
                         wasReleased == true ? chosenMovie.getWasWatched() == true ? 
                         "ZHLÉDNUTÉHO" : "NEZHLÉDNUTÉHO" : "OZNÁMENÉHO", 
                         chosenMovie.getName().toUpperCase()));
@@ -1671,32 +1689,6 @@ public class MoviesUI
         return returnToParentMenu;
     }
     
-    private boolean editMovieFromInputFile(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) 
-    {
-        boolean returnToParentMenu = false;
-        
-        try 
-        {
-            boolean wasDataChanged = consoleUI.getMoviesController().editMovieBy(existingMoviePrimaryKey, fromBinary);
-             
-            if (wasDataChanged == true) 
-            {
-                consoleUI.displayInfoMessage("Upravená data vybraného filmu se úspěšně uložila");
-                returnToParentMenu = true;
-            }
-            else 
-            {
-                consoleUI.displayInfoMessage("Nedošlo k žádné změně dat u vybraného filmu");
-            }
-        }
-        catch (Exception ex) 
-        {
-            consoleUI.displayErrorMessage(ex.getMessage());
-        }
-        
-        return returnToParentMenu;
-    }
-    
     private boolean rateMovie(Movie chosenMovie) 
     {
         boolean returnToParentMenu = false;
@@ -1744,6 +1736,113 @@ public class MoviesUI
         System.out.println();
         System.out.println("Zadejte hodnocení filmu jako procenta od 0 až do 100: ");
         return consoleUI.getScanner().nextInt();
+    }
+    
+    private boolean handleDisplayEditChosenMovieSubmenu(Movie chosenMovie) 
+    {
+        boolean wasReleased = false;
+
+        if (chosenMovie.getReleaseDate() != null && 
+                chosenMovie.getReleaseDate().compareTo(MoviesController.getCurrentDate()) <= 0) 
+        {
+            wasReleased = true;
+        }
+
+        consoleUI.addBreadcrumbItem(String.format("Editace %s filmu %s", 
+                wasReleased == true ? chosenMovie.getWasWatched() == true ? 
+                        "zhlédnutého" : "nezhlédnutého" : "oznámeného", chosenMovie.getName()));
+
+        boolean returnToParentMenu = false;
+        boolean returnToMoviesListMenu = false;
+        int choice;
+
+        while (returnToParentMenu == false && returnToMoviesListMenu == false) 
+        {
+            printMovieDetail(chosenMovie, true);
+                
+            consoleUI.displayInfoMessage(String.format("Při úpravě filmu se používají stejné"
+                    + " vstupní soubory jako u přidávání filmů"));
+            
+            consoleUI.displayInfoMessage(String.format("Pro jednoznačnost je nutné mít v daném souboru pouze jeden film"));
+
+            consoleUI.displayInfoMessage(String.format("Při úpravě filmu se používá v " 
+                    + "souboru úplně totožná struktura dat jako u přidávání filmů"));
+            
+            consoleUI.displayBreadcrumb();
+            displayEditChosenMovieSubmenu(chosenMovie);
+
+            try 
+            {
+                choice = consoleUI.loadChoiceFromSubmenu();
+
+                switch (choice) 
+                {
+                    case 1:
+                        returnToMoviesListMenu = editMovieFromInputFile(chosenMovie.getPrimaryKey(), false);
+
+                        if (returnToMoviesListMenu == true) 
+                        {
+                            consoleUI.removeLastBreadcrumbItem();
+                        }
+
+                        break;
+                    case 2:
+                        returnToMoviesListMenu = editMovieFromInputFile(chosenMovie.getPrimaryKey(), true);
+
+                        if (returnToMoviesListMenu == true) 
+                        {
+                            consoleUI.removeLastBreadcrumbItem();
+                        }
+
+                        break;
+                    case 3:
+                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputMoviesFilename(), DataType.MOVIE);
+                        break;
+                    case 4:
+                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputMoviesFilename(), DataType.MOVIE);
+                        break;
+                    case 0:
+                        consoleUI.removeLastBreadcrumbItem();
+                        returnToParentMenu = true;
+                        break;
+                    default:
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
+                }
+            } 
+            catch (InputMismatchException ex) 
+            {
+                consoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
+                consoleUI.advanceToNextInput();
+            }
+        }
+        
+        return returnToMoviesListMenu;
+    }
+    
+    private boolean editMovieFromInputFile(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) 
+    {
+        boolean returnToParentMenu = false;
+        
+        try 
+        {
+            boolean wasDataChanged = consoleUI.getMoviesController().editMovieBy(existingMoviePrimaryKey, fromBinary);
+             
+            if (wasDataChanged == true) 
+            {
+                consoleUI.displayInfoMessage("Upravená data vybraného filmu se úspěšně uložila");
+                returnToParentMenu = true;
+            }
+            else 
+            {
+                consoleUI.displayInfoMessage("Nedošlo k žádné změně dat u vybraného filmu");
+            }
+        }
+        catch (Exception ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }
+        
+        return returnToParentMenu;
     }
          
     private void deleteChosenMovies(List<Movie> chosenMovies) 

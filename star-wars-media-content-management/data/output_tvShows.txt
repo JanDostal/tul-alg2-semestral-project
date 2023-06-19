@@ -1,6 +1,6 @@
 [Attributes]
 
-Identificator: 3
+Identificator: 1016378600
 
 id 1
 name 2
@@ -9,9 +9,9 @@ eraCodeDesignation 4
 
 [Values]
 
-3 1
-show33 2
-1684540800 3
-AGE_OF_THE_REBELLION 4
+1016378600 1
+Hola 2
+0 3
+FALL_OF_THE_JEDI 4
 
 [End]

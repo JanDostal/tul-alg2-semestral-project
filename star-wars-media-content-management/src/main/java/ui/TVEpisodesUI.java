@@ -9,6 +9,7 @@ import app.logic.controllers.DataType;
 import app.logic.controllers.TVEpisodesController;
 import app.logic.datastore.DataStore;
 import app.models.data.Era;
+import app.models.data.PrimaryKey;
 import app.models.data.TVShow;
 import app.models.output.TVShowOutput;
 import java.time.Duration;
@@ -182,6 +183,63 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    private void displayDetailAboutTVShowSubmenu(TVShow chosenTVShow) 
+    {
+        boolean wasReleased = false;
+        
+        if (chosenTVShow.getReleaseDate() != null && 
+                chosenTVShow.getReleaseDate().compareTo(TVEpisodesController.getCurrentDate()) <= 0) 
+        {
+            wasReleased = true;
+        }
+        
+        String menuName = wasReleased == true ? "PODMENU DETAILU VYDANÉHO TV SERIÁLU " + chosenTVShow.getName().toUpperCase() : 
+                "PODMENU DETAILU OZNÁMENÉHO TV SERIÁLU " + chosenTVShow.getName().toUpperCase();
+        
+        StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1. Smazat TV seriál");
+        System.out.println("2. Upravit TV seriál");
+        
+        if (wasReleased == true) 
+        {
+            System.out.println("3. Vypsat TV sezóny");
+        }
+        
+        System.out.println("0. Vrátit se zpět do nadřazeného menu");
+        System.out.println(horizontalLine);
+    }
+    
+    private void displayEditChosenTVShowSubmenu(TVShow chosenTVShow) 
+    {
+        boolean wasReleased = false;
+        
+        if (chosenTVShow.getReleaseDate() != null && 
+                chosenTVShow.getReleaseDate().compareTo(TVEpisodesController.getCurrentDate()) <= 0) 
+        {
+            wasReleased = true;
+        }
+        
+        String menuName = wasReleased == true ? "PODMENU EDITACE VYDANÉHO TV SERIÁLU " + chosenTVShow.getName().toUpperCase() : 
+                "PODMENU EDITACE OZNÁMENÉHO TV SERIÁLU " + chosenTVShow.getName().toUpperCase();
+        
+        StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
+        StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
+        
+        System.out.println();
+        System.out.println(menuNameWithHorizontalLines);
+        System.out.println("1. Upravit TV seriál pomocí vstupního textového souboru " + DataStore.getTextInputTVShowsFilename());
+        System.out.println("2. Upravit TV seriál pomocí vstupního binárního souboru " + DataStore.getBinaryInputTVShowsFilename());
+        System.out.println("3. Vypsat obsah vstupního textového souboru " + DataStore.getTextInputTVShowsFilename());
+        System.out.println("4. Vypsat obsah vstupního binárního souboru " + DataStore.getBinaryInputTVShowsFilename());
+                
+        System.out.println("0. Vrátit se zpět do nadřazeného menu");
+        System.out.println(horizontalLine);
+    }
+    
     private void handleLoadTVShowsFromInputFileSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Přidávání TV seriálů ze vstupního souboru");
@@ -294,8 +352,9 @@ public class TVEpisodesUI
             counter++;
                         
             System.out.println();
-            System.out.println(String.format("%-10s%s %-25s%s %d", 
-                    counter + ".", "Období:", era.getDisplayName(), 
+            System.out.println(String.format("%-6s%s %-25s%s %d", 
+                    counter + ".", 
+                    "Období:", era.getDisplayName(), 
                     "Počet seriálů:", consoleUI.getTVEpisodesController().getAnnouncedTVShowsCountByEra(era)));
         }
         
@@ -387,8 +446,9 @@ public class TVEpisodesUI
             counter++;
                     
             System.out.println();
-            System.out.println(String.format("%-15s%s %-" + nameMaxLength + "s%s %s", 
-                    counter + ".", "Název:", tvShow.getName(), 
+            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %s", 
+                    counter + ".", 
+                    "Název:", tvShow.getName(), 
                     "Datum vydání:", tvShow.getReleaseDate() == null ? "Neznámé" : tvShow.getReleaseDate().format(dateFormatter)));
         }
         
@@ -448,7 +508,7 @@ public class TVEpisodesUI
         
  
         System.out.println();
-        System.out.println(dividingLine);
+        System.out.println(heading);
         
         int counter = 0;
                 
@@ -457,7 +517,7 @@ public class TVEpisodesUI
             counter++;
                         
             System.out.println();            
-            System.out.println(String.format("%-10s%s %-25s%s %d", 
+            System.out.println(String.format("%-6s%s %-25s%s %d", 
                     counter + ".", 
                     "Období:", era.getDisplayName(), 
                     "Počet seriálů:", consoleUI.getTVEpisodesController().getReleasedTVShowsCountByEra(era)));
@@ -514,6 +574,9 @@ public class TVEpisodesUI
                 }
                                 
                 printReleasedTVShowsByEra(releasedTVShowsByChosenEra, chosenEra, dataSorting);
+                
+                consoleUI.displayInfoMessage("Při smazání vydaných TV seriálů se smažou i příslušné TV sezóny a TV epizody");
+                
                 consoleUI.displayBreadcrumb();
                 displayPrintReleasedTVShowsByEraSubmenu(chosenEra);
 
@@ -585,8 +648,6 @@ public class TVEpisodesUI
         consoleUI.displayInfoMessage("Všechny TV epizody mají vždy nastavenou délku trvání");
         
         System.out.println();
-        System.out.println(dividingLine);
-        System.out.println();
         
         System.out.println("Počet seriálů: " + releasedTVShowsByChosenEra.size());
         System.out.println();
@@ -596,12 +657,12 @@ public class TVEpisodesUI
         
         int counter = 0;
         int nameMaxLength = TVShowOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int statisticInformationsIndentationWidth = nameMaxLength + 27;
         
         int showWatchedEpisodesCount;
         int showUnwatchedEpisodesCount;
         int showEpisodesCount;
         
-        String showWatchedEpisodesTotalDurationText;
         String showUnwatchedEpisodesTotalDurationText;
         String showEpisodesTotalDurationText;
         
@@ -609,13 +670,13 @@ public class TVEpisodesUI
         Duration showUnwatchedEpisodesTotalDuration;
         Duration showEpisodesTotalDuration;
         
-        float averagePercentageRating;
+        float showAveragePercentageRating;
         
         for (TVShow show : releasedTVShowsByChosenEra) 
         {
             counter++;
             
-            averagePercentageRating = consoleUI.getTVEpisodesController().
+            showAveragePercentageRating = consoleUI.getTVEpisodesController().
                     getAverageRatingOfAllReleasedEpisodesInTVShow(show.getPrimaryKey());
             
             showWatchedEpisodesCount = consoleUI.getTVEpisodesController().
@@ -627,19 +688,303 @@ public class TVEpisodesUI
             showEpisodesCount = showUnwatchedEpisodesCount + showWatchedEpisodesCount;
             
             
-            showWatchedEpisodesTotalDuration = 
+            showWatchedEpisodesTotalDuration = consoleUI.getTVEpisodesController().
+                    getTotalRuntimeOfAllReleasedEpisodesInTVShow(show.getPrimaryKey(), true);
+            
+            showUnwatchedEpisodesTotalDuration = consoleUI.getTVEpisodesController().
+                    getTotalRuntimeOfAllReleasedEpisodesInTVShow(show.getPrimaryKey(), false);
+            
+            showEpisodesTotalDuration = showWatchedEpisodesTotalDuration.plus(showUnwatchedEpisodesTotalDuration);
+            
+            showEpisodesTotalDurationText =  String.format("%02d:%02d:%02d", showEpisodesTotalDuration.toHours(), 
+                showEpisodesTotalDuration.toMinutesPart(), 
+                showEpisodesTotalDuration.toSecondsPart());
+        
+            showUnwatchedEpisodesTotalDurationText =  String.format("%02d:%02d:%02d", showUnwatchedEpisodesTotalDuration.toHours(), 
+                showUnwatchedEpisodesTotalDuration.toMinutesPart(), 
+                showUnwatchedEpisodesTotalDuration.toSecondsPart());
             
                     
             System.out.println();
-            System.out.println(String.format("%-15s%s %-" + nameMaxLength + "s%s %-16s%s %-14s%s %d %%", 
-                    counter + ".", "Název:", show.getName(), 
-                    "Datum vydání:", show.getReleaseDate().format(dateFormatter),
-                    "Délka:", durationText,
-                    "Hodnocení:", movie.getPercentageRating()));
+            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %s", 
+                    counter + ".", 
+                    "Název:", show.getName(), 
+                    "Datum vydání:", show.getReleaseDate().format(dateFormatter)));
+              
+            System.out.println(String.format("%" + statisticInformationsIndentationWidth + "s %-15d%s %-15d%-28s %d",
+                    "Počet epizod:", showEpisodesCount,
+                    "Počet nezhlédnutých epizod:", showUnwatchedEpisodesCount,
+                    "Počet zhlédnutých epizod:", showWatchedEpisodesCount));
+            
+            System.out.println(String.format("%" + statisticInformationsIndentationWidth + "s %-15s%s %-15s%-28s %.2f %%",
+                    "Délka epizod:", showEpisodesTotalDurationText,
+                    "Délka nezhlédnutých epizod:", showUnwatchedEpisodesTotalDurationText,
+                    "Průměrné hodnocení epizod:", showAveragePercentageRating));
+                        
         }
         
         System.out.println();
         System.out.println(dividingLine);        
+    }
+    
+    private void handleDisplayDetailAboutTVShowSubmenu(List<TVShow> chosenTVShows) 
+    {
+        try
+        {
+            int TVShowOrderFromList = loadChosenTVShowFromUser();
+            TVShow chosenTVShow = chosenTVShows.get(TVShowOrderFromList - 1);
+            
+            boolean wasReleased = false;
+            
+            if(chosenTVShow.getReleaseDate() != null && 
+                    chosenTVShow.getReleaseDate().compareTo(TVEpisodesController.getCurrentDate()) <= 0) 
+            {
+                wasReleased = true;
+            }
+            
+            consoleUI.addBreadcrumbItem(String.format("Detail %s TV seriálu %s", 
+                    wasReleased == true ? "vydaného" : "oznámeného", chosenTVShow.getName()));
+            
+            boolean returnToParentMenu = false;
+            int choice;
+
+            while (returnToParentMenu == false) 
+            {
+                printTVShowDetail(chosenTVShow, false);
+                                
+                consoleUI.displayInfoMessage(String.format("Po úpravě se "
+                        + "TV seriál nemusí vypisovat tam, kde se původně vypisoval"));
+                                
+                consoleUI.displayInfoMessage(String.format("Při smazání TV seriálu"
+                        + " nebo při reálné úpravě dat TV seriálu "
+                        + "dojde k návratu zpátky do daného výpisu s TV seriály"));
+                
+                if (wasReleased == true) consoleUI.displayInfoMessage(String.format("Při smazání vydaného TV seriálu se smažou"
+                        + " i příslušné TV sezóny a TV epizody"));
+ 
+                consoleUI.displayBreadcrumb();
+                displayDetailAboutTVShowSubmenu(chosenTVShow);
+
+                try 
+                {
+                    choice = consoleUI.loadChoiceFromSubmenu();
+
+                    switch (choice) 
+                    {
+                        case 1:
+                            returnToParentMenu = deleteChosenTVShow(chosenTVShow.getPrimaryKey());
+                            
+                            if (returnToParentMenu == true) 
+                            {
+                                consoleUI.removeLastBreadcrumbItem();
+                            }
+                            
+                            break;
+                        case 2:
+                            returnToParentMenu = handleDisplayEditChosenTVShowSubmenu(chosenTVShow); 
+                            
+                            if (returnToParentMenu == true) 
+                            {
+                                consoleUI.removeLastBreadcrumbItem();
+                            }
+                            
+                            break;
+                        case 3:
+                            //vypsat sezony
+                            break;
+                        case 0:
+                            consoleUI.removeLastBreadcrumbItem();
+                            returnToParentMenu = true;
+                            break;
+                        default:
+                            consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
+                    }
+                } 
+                catch (InputMismatchException ex) 
+                {
+                    consoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
+                    consoleUI.advanceToNextInput();
+                }
+            }
+        }
+        catch (InputMismatchException ex) 
+        {
+            consoleUI.displayErrorMessage("Pořadové číslo musí být číslo");
+            consoleUI.advanceToNextInput();
+        }
+        catch (IndexOutOfBoundsException ex) 
+        {
+            consoleUI.displayErrorMessage("Pořadové číslo neodpovídá žádnému z TV seriálů");
+            consoleUI.advanceToNextInput();
+        }
+    }
+    
+    private int loadChosenTVShowFromUser() 
+    {
+        System.out.println();
+        System.out.println("Zadejte pořadové číslo TV seriálu: ");
+        return consoleUI.getScanner().nextInt();
+    }
+    
+    private void printTVShowDetail(TVShow chosenTVShow, boolean isInEditMode) 
+    {
+        boolean wasReleased = false;
+        
+        if(chosenTVShow.getReleaseDate() != null && 
+                    chosenTVShow.getReleaseDate().compareTo(TVEpisodesController.getCurrentDate()) <= 0) 
+        {
+            wasReleased = true;
+        }
+        
+        StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
+                String.format("%s %s TV SERIÁLU %s",
+                        isInEditMode == true ? "EDITACE" : "DETAIL",
+                        wasReleased == true ? "VYDANÉHO" : "OZNÁMENÉHO", 
+                        chosenTVShow.getName().toUpperCase()));
+        
+        StringBuilder dividingLine = consoleUI.createDividingHorizontalLineOf(heading.toString());
+                
+        System.out.println();
+        System.out.println(heading);
+        System.out.println();
+        System.out.println(dividingLine);
+        System.out.println();
+        
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
+                
+        System.out.println(String.format("%-30s%d", "Identifikátor:", chosenTVShow.getPrimaryKey().getId()));
+        System.out.println(String.format("%-30s%s", "Název:", chosenTVShow.getName()));
+        System.out.println(String.format("%-30s%s", "Chronologická éra:", chosenTVShow.getEra().getDisplayName()));
+        System.out.println(String.format("%-30s%s", "Datum uvedení:", chosenTVShow.getReleaseDate() == null ? 
+                "Neznámé" : chosenTVShow.getReleaseDate().format(dateFormatter)));
+                
+        System.out.println();
+        System.out.println(dividingLine);  
+    }
+    
+    private boolean deleteChosenTVShow(PrimaryKey tvShowPrimaryKey) 
+    {
+        boolean returnToParentMenu = false;
+        
+        try 
+        {
+            consoleUI.getTVEpisodesController().deleteTVShowBy(tvShowPrimaryKey);
+            consoleUI.displayInfoMessage("Vybraný TV seriál úspěšně smazán");
+            returnToParentMenu = true;
+        }
+        catch (Exception ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }
+        
+        return returnToParentMenu;
+    }
+    
+    private boolean handleDisplayEditChosenTVShowSubmenu(TVShow chosenTVShow) 
+    {
+        boolean wasReleased = false;
+
+        if (chosenTVShow.getReleaseDate() != null && 
+                chosenTVShow.getReleaseDate().compareTo(TVEpisodesController.getCurrentDate()) <= 0) 
+        {
+            wasReleased = true;
+        }
+
+        consoleUI.addBreadcrumbItem(String.format("Editace %s TV seriálu %s", 
+                wasReleased == true ? "vydaného" : "oznámeného", 
+                chosenTVShow.getName()));
+
+        boolean returnToParentMenu = false;
+        boolean returnToTVShowsListMenu = false;
+        int choice;
+
+        while (returnToParentMenu == false && returnToTVShowsListMenu == false) 
+        {
+            printTVShowDetail(chosenTVShow, true);
+                
+            consoleUI.displayInfoMessage(String.format("Při úpravě TV seriálu se používají stejné"
+                    + " vstupní soubory jako u přidávání TV seriálů"));
+            
+            consoleUI.displayInfoMessage(String.format("Pro jednoznačnost je nutné mít v daném souboru pouze jeden TV seriál"));
+
+            consoleUI.displayInfoMessage(String.format("Při úpravě TV seriálu se používá v " 
+                    + "souboru úplně totožná struktura dat jako u přidávání TV seriálů"));
+            
+            consoleUI.displayBreadcrumb();
+            displayEditChosenTVShowSubmenu(chosenTVShow);
+
+            try 
+            {
+                choice = consoleUI.loadChoiceFromSubmenu();
+
+                switch (choice) 
+                {
+                    case 1:
+                        returnToTVShowsListMenu = editTVShowFromInputFile(chosenTVShow.getPrimaryKey(), false);
+
+                        if (returnToTVShowsListMenu == true) 
+                        {
+                            consoleUI.removeLastBreadcrumbItem();
+                        }
+
+                        break;
+                    case 2:
+                        returnToTVShowsListMenu = editTVShowFromInputFile(chosenTVShow.getPrimaryKey(), true);
+
+                        if (returnToTVShowsListMenu == true) 
+                        {
+                            consoleUI.removeLastBreadcrumbItem();
+                        }
+
+                        break;
+                    case 3:
+                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputTVShowsFilename(), DataType.TV_SHOW);
+                        break;
+                    case 4:
+                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputTVShowsFilename(), DataType.TV_SHOW);
+                        break;
+                    case 0:
+                        consoleUI.removeLastBreadcrumbItem();
+                        returnToParentMenu = true;
+                        break;
+                    default:
+                        consoleUI.displayErrorMessage("Neplatné číslo volby z podmenu");
+                }
+            } 
+            catch (InputMismatchException ex) 
+            {
+                consoleUI.displayErrorMessage("Volba musí být vybrána pomocí čísla");
+                consoleUI.advanceToNextInput();
+            }
+        }
+        
+        return returnToTVShowsListMenu;
+    }
+    
+    private boolean editTVShowFromInputFile(PrimaryKey existingTVShowPrimaryKey, boolean fromBinary) 
+    {
+        boolean returnToParentMenu = false;
+        
+        try 
+        {
+            boolean wasDataChanged = consoleUI.getTVEpisodesController().editTVShowBy(existingTVShowPrimaryKey, fromBinary);
+             
+            if (wasDataChanged == true) 
+            {
+                consoleUI.displayInfoMessage("Upravená data vybraného TV seriálu se úspěšně uložila");
+                returnToParentMenu = true;
+            }
+            else 
+            {
+                consoleUI.displayInfoMessage("Nedošlo k žádné změně dat u vybraného TV seriálu");
+            }
+        }
+        catch (Exception ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }
+        
+        return returnToParentMenu;
     }
     
     private void deleteChosenTVShows(List<TVShow> chosenTVShows) 

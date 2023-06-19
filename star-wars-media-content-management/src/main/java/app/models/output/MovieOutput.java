@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class MovieOutput
 {
-    public static final int ATTRIBUTE_NAME_LENGTH = 100;
+    public static final int ATTRIBUTE_NAME_LENGTH = 60;
     public static final int ATTRIBUTE_HYPERLINK_LENGTH = 180;
     public static final int ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH = 60;
     public static final int ATTRIBUTE_CONTENT_LENGTH = 1000;

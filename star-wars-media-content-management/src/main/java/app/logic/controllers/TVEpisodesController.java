@@ -85,7 +85,7 @@ public class TVEpisodesController
         return m1.getOrderInTVShow()- m2.getOrderInTVShow();
     };
     
-    private final Comparator<TVShow> BY_DATE_NEWEST_TVSHOW = (TVShow m1, TVShow m2) -> 
+    private final Comparator<TVShow> BY_DATE_NEWEST_SHOW = (TVShow m1, TVShow m2) -> 
     {
         if (m1.getReleaseDate() == null && m2.getReleaseDate() == null) 
         {
@@ -454,7 +454,7 @@ public class TVEpisodesController
                 m.getEra() == era && m.getReleaseDate() != null && 
                         m.getReleaseDate().compareTo(currentDate) <= 0);
         
-        dbContext.getTVShowsTable().sortBy(BY_DATE_NEWEST_TVSHOW, filteredShows);
+        dbContext.getTVShowsTable().sortBy(BY_DATE_NEWEST_SHOW, filteredShows);
         
         return filteredShows;
     }
@@ -624,7 +624,7 @@ public class TVEpisodesController
                 m.getReleaseDate() != null && 
                 m.getReleaseDate().compareTo(currentDate) <= 0);
         
-        dbContext.getTVShowsTable().sortBy(BY_DATE_NEWEST_TVSHOW, filteredTVShows);
+        dbContext.getTVShowsTable().sortBy(BY_DATE_NEWEST_SHOW, filteredTVShows);
                 
         return filteredTVShows;
     }

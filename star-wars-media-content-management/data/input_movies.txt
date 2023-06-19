@@ -12,9 +12,9 @@ eraCodeDesignation 7
 
 [Values]
 
--1 1
+2323232 1
 Poslední z Jediů 2
--1 3
+23 3
  4
  5
 1684281600 6
