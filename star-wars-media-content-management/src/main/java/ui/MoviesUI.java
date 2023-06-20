@@ -14,8 +14,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Scanner;
 import org.apache.commons.mail.EmailException;
 
 /**
@@ -508,7 +506,7 @@ public class MoviesUI
             releaseDateText =  movie.getReleaseDate() == null ? "Neznámé" : movie.getReleaseDate().format(dateFormatter);
                     
             System.out.println();
-            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %-13s%s %-12s%s %s", 
+            System.out.println(String.format("%-8s%s %-" + nameMaxLength + "s%s %-14s%s %-13s%s %s", 
                     counter + ".", 
                     "Název:", movie.getName(), 
                     "Datum vydání:", releaseDateText,
@@ -643,7 +641,7 @@ public class MoviesUI
             counter++;
                         
             System.out.println();
-            System.out.println(String.format("%-6s%s %-25s%s %d", 
+            System.out.println(String.format("%-7s%s %-28s%s %d", 
                     counter + ".", 
                     "Období:", era.getDisplayName(), 
                     "Počet filmů:", consoleUI.getMoviesController().getAnnouncedMoviesCountByEra(era)));
@@ -735,7 +733,7 @@ public class MoviesUI
             counter++;
                     
             System.out.println();
-            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %s", 
+            System.out.println(String.format("%-8s%s %-" + nameMaxLength + "s%s %s", 
                     counter + ".", 
                     "Název:", movie.getName(), 
                     "Datum vydání:", movie.getReleaseDate() == null ? "Neznámé" : movie.getReleaseDate().format(dateFormatter)));
@@ -831,7 +829,7 @@ public class MoviesUI
                     eraUnwatchedMoviesAverageDuration.toSecondsPart());
 
             System.out.println();            
-            System.out.println(String.format("%-6s%s %-25s%s %-7d%s %-7d%s %-12s%s %s", 
+            System.out.println(String.format("%-7s%s %-28s%s %-7d%s %-7d%s %-13s%s %s", 
                     counter + ".", 
                     "Období:", era.getDisplayName(), 
                     "Počet filmů:", consoleUI.getMoviesController().getReleasedMoviesCountByEra(era, false),
@@ -994,7 +992,7 @@ public class MoviesUI
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
-            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %-13s%s %s", 
+            System.out.println(String.format("%-8s%s %-" + nameMaxLength + "s%s %-14s%s %s", 
                     counter + ".", 
                     "Název:", movie.getName(), 
                     "Datum vydání:", movie.getReleaseDate().format(dateFormatter),
@@ -1100,14 +1098,14 @@ public class MoviesUI
                     eraWatchedMoviesAverageDuration.toSecondsPart());
 
             System.out.println();            
-            System.out.println(String.format("%-6s%s %-25s%s %-7d%s %-7d%s %-12s%s %-12s%s %.2f %%", 
+            System.out.println(String.format("%-7s%s %-28s%s %-7d%s %-12s%s %-7d%s %-13s%s %s", 
                     counter + ".", 
                     "Období:", era.getDisplayName(), 
                     "Počet filmů:", consoleUI.getMoviesController().getReleasedMoviesCountByEra(era, true),
+                    "Průměrné hodnocení filmů:", String.format("%.2f %%", averagePercentageRating),
                     "Počet filmů s délkou:", eraWatchedMoviesWithRuntimeSetCount,
                     "Délka filmů:", totalDurationText,
-                    "Průměrná délka filmů:", averageDurationText,
-                    "Průměrné hodnocení filmů:", averagePercentageRating));
+                    "Průměrná délka filmů:", averageDurationText));
         }
         
         System.out.println();
@@ -1256,14 +1254,17 @@ public class MoviesUI
         System.out.println(heading);
         System.out.println();
         System.out.println(String.format("%-70s%d", "Počet filmů:", watchedMoviesByChosenEra.size()));
+        System.out.println(String.format("%-70s%.2f %%", "Průměrné hodnocení filmů:", 
+                averagePercentageRating));
+        
+        System.out.println();
+        
         System.out.println(String.format("%-70s%d", "Počet filmů s délkou (zahrnuty pouze filmy s nastavenou délkou):", 
                 watchedMoviesWithRuntimeSetCount));
         System.out.println(String.format("%-70s%s", "Délka filmů (zahrnuty pouze filmy s nastavenou délkou):", 
                 totalDurationText));
         System.out.println(String.format("%-70s%s", "Průměrná délka filmů (zahrnuty pouze filmy s nastavenou délkou):", 
                 averageDurationText));
-        System.out.println(String.format("%-70s%.2f %%", "Průměrné hodnocení filmů:", 
-                averagePercentageRating));
         System.out.println();
         System.out.println(dividingLine);
         
@@ -1281,7 +1282,7 @@ public class MoviesUI
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
-            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %-13s%s %-12s%s %d %%", 
+            System.out.println(String.format("%-8s%s %-" + nameMaxLength + "s%s %-14s%s %-12s%s %d %%", 
                     counter + ".", 
                     "Název:", movie.getName(), 
                     "Datum vydání:", movie.getReleaseDate().format(dateFormatter),
@@ -1363,7 +1364,7 @@ public class MoviesUI
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
-            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %-13s%s %-12s%s %d %%", 
+            System.out.println(String.format("%-8s%s %-" + nameMaxLength + "s%s %-14s%s %-12s%s %d %%", 
                     counter + ".", 
                     "Název:", movie.getName(), 
                     "Datum vydání:", movie.getReleaseDate().format(dateFormatter),
@@ -1448,7 +1449,7 @@ public class MoviesUI
                     movie.getRuntime().toMinutesPart(), movie.getRuntime().toSecondsPart());
                     
             System.out.println();
-            System.out.println(String.format("%-7s%s %-" + nameMaxLength + "s%s %-13s%s %-12s%s %s", 
+            System.out.println(String.format("%-8s%s %-" + nameMaxLength + "s%s %-14s%s %-12s%s %s", 
                     counter + ".", 
                     "Název:", movie.getName(), 
                     "Datum vydání:", movie.getReleaseDate().format(dateFormatter),
@@ -1652,15 +1653,13 @@ public class MoviesUI
         System.out.println(String.format("%-30s%s", "Délka filmu:", runtimeText));
         
         if (wasReleased == true) 
-        {
-            String shortContentSummaryText;
-            
-            System.out.println(String.format("%-30s%s", "Procentualní ohodnocení:", 
+        {            
+            System.out.println(String.format("%-30s%s", "Procentuální ohodnocení:", 
                     chosenMovie.getWasWatched() == true ? chosenMovie.getPercentageRating() + " %" : "Nehodnoceno"));
             System.out.println(String.format("%-30s%s", "Odkaz ke zhlédnutí:", 
                     chosenMovie.getHyperlinkForContentWatch() == null ? "Neznámý" : chosenMovie.getHyperlinkForContentWatch()));
             
-            shortContentSummaryText = chosenMovie.getShortContentSummary() == null ? 
+            String shortContentSummaryText = chosenMovie.getShortContentSummary() == null ? 
                     String.format("%-30s%s", "Krátké shrnutí obsahu:", "Neznámé") : 
                     String.format("Krátké shrnutí obsahu:%n%n%s", chosenMovie.getShortContentSummary());
             
@@ -1687,55 +1686,6 @@ public class MoviesUI
         }
         
         return returnToParentMenu;
-    }
-    
-    private boolean rateMovie(Movie chosenMovie) 
-    {
-        boolean returnToParentMenu = false;
-        
-        try 
-        {
-            int percentageRating = loadMoviePercentageRatingFromUser();
-            
-            boolean wasDataChanged = consoleUI.getMoviesController().rateMovie(chosenMovie, percentageRating);
-             
-            if (wasDataChanged == true && chosenMovie.getWasWatched() == false) 
-            {
-                consoleUI.displayInfoMessage("Vybraný film byl ohodnocen úspěšně a označen jako zhlédnutý");
-                returnToParentMenu = true;
-            }
-            else if (wasDataChanged == true && chosenMovie.getWasWatched() == true) 
-            {
-                consoleUI.displayInfoMessage("Vybraný film byl ohodnocen úspěšně a jedná se o opakované ohodnocení");
-                returnToParentMenu = true;
-            }
-            else 
-            {
-                consoleUI.displayInfoMessage("Ohodnocení filmu zůstalo beze změny");
-            }
-        }
-        catch (InputMismatchException ex) 
-        {
-            consoleUI.displayErrorMessage("Procentuální hodnocení musí být celé číslo");
-            consoleUI.advanceToNextInput();
-        }
-        catch (IllegalArgumentException ex) 
-        {
-            consoleUI.displayErrorMessage(ex.getMessage());
-        }
-        catch (Exception ex) 
-        {
-            consoleUI.displayErrorMessage(ex.getMessage());
-        }
-        
-        return returnToParentMenu;
-    }
-    
-    private int loadMoviePercentageRatingFromUser() 
-    {
-        System.out.println();
-        System.out.println("Zadejte hodnocení filmu jako procenta od 0 až do 100: ");
-        return consoleUI.getScanner().nextInt();
     }
     
     private boolean handleDisplayEditChosenMovieSubmenu(Movie chosenMovie) 
@@ -1843,6 +1793,55 @@ public class MoviesUI
         }
         
         return returnToParentMenu;
+    }
+    
+    private boolean rateMovie(Movie chosenMovie) 
+    {
+        boolean returnToParentMenu = false;
+        
+        try 
+        {
+            int percentageRating = loadMoviePercentageRatingFromUser();
+            
+            boolean wasDataChanged = consoleUI.getMoviesController().rateMovie(chosenMovie, percentageRating);
+             
+            if (wasDataChanged == true && chosenMovie.getWasWatched() == false) 
+            {
+                consoleUI.displayInfoMessage("Vybraný film byl ohodnocen úspěšně a označen jako zhlédnutý");
+                returnToParentMenu = true;
+            }
+            else if (wasDataChanged == true && chosenMovie.getWasWatched() == true) 
+            {
+                consoleUI.displayInfoMessage("Vybraný film byl ohodnocen úspěšně a jedná se o opakované ohodnocení");
+                returnToParentMenu = true;
+            }
+            else 
+            {
+                consoleUI.displayInfoMessage("Ohodnocení filmu zůstalo beze změny");
+            }
+        }
+        catch (InputMismatchException ex) 
+        {
+            consoleUI.displayErrorMessage("Procentuální hodnocení musí být celé číslo");
+            consoleUI.advanceToNextInput();
+        }
+        catch (IllegalArgumentException ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }
+        catch (Exception ex) 
+        {
+            consoleUI.displayErrorMessage(ex.getMessage());
+        }
+        
+        return returnToParentMenu;
+    }
+    
+    private int loadMoviePercentageRatingFromUser() 
+    {
+        System.out.println();
+        System.out.println("Zadejte hodnocení filmu jako procenta od 0 až do 100: ");
+        return consoleUI.getScanner().nextInt();
     }
          
     private void deleteChosenMovies(List<Movie> chosenMovies) 

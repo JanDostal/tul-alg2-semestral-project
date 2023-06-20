@@ -367,7 +367,7 @@ public class ConsoleUI
             
             breadcrumb.append(String.format("%s%s", title, breadcrumbDivider));
             
-            if (count % 4 == 0) setNewLine = true;
+            if (count % 3 == 0) setNewLine = true;
         }
         
         breadcrumb.delete(breadcrumb.length() - breadcrumbDivider.length(), breadcrumb.length());

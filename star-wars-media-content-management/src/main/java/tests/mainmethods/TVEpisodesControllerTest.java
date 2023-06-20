@@ -52,13 +52,13 @@ public class TVEpisodesControllerTest
         TVEpisodesController controller = TVEpisodesController.getInstance(dbContext, emailSender, fileManager);
         
         TVShow show = new TVShow(new PrimaryKey(1), "show", LocalDate.parse("2023-05-23", 
-                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_REBELLION);
         
         TVShow show2 = new TVShow(new PrimaryKey(2), "show2", LocalDate.parse("2023-05-20", 
-                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_REBELLION);
         
         TVShow show3 = new TVShow(new PrimaryKey(3), "show3", LocalDate.parse("2023-05-25", 
-                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_REBELLION);
         
         TVSeason season = new TVSeason(new PrimaryKey(1), 2, show.getPrimaryKey());
         TVSeason season2 = new TVSeason(new PrimaryKey(2), 3, show.getPrimaryKey());
@@ -169,7 +169,7 @@ public class TVEpisodesControllerTest
         //getReleasedLongestTVShowsByEra method
         
         List<TVShow> getLongestTVShowsByEra_result = 
-                controller.getReleasedLongestTVShowsByEra(Era.AGE_OF_THE_REBELLION);
+                controller.getReleasedLongestTVShowsByEra(Era.AGE_OF_REBELLION);
         
         System.out.println();
         System.out.println("getReleasedLongestTVShowsByEra method:");
@@ -427,7 +427,7 @@ public class TVEpisodesControllerTest
         System.out.println();
         
         TVShow showEdit = new TVShow(new PrimaryKey(3), "show33", LocalDate.parse("2023-05-20", 
-                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_REBELLION);
         TVSeason seasonEdit = new TVSeason(new PrimaryKey(222), 10, showEdit.getPrimaryKey());
         TVEpisode episodeForEdit = new TVEpisode(new PrimaryKey(21111), Duration.ofMinutes(900), "ahojahoj", 
                 2, false, null, null, 

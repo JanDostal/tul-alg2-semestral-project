@@ -125,7 +125,7 @@ public final class DataStore
                 """  
         );
         
-        erasDescriptions.put(Era.AGE_OF_THE_REBELLION.toString(), 
+        erasDescriptions.put(Era.AGE_OF_REBELLION.toString(), 
                 """
                 Období odehrávající se po období Vlády impéria a před obdobím Nové republiky.
     

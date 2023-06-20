@@ -59,7 +59,7 @@ public class DataModelsTest
         System.out.println();
         
         TVShow show = new TVShow(new PrimaryKey(1), "show", LocalDate.parse("2023-05-20", 
-                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_REBELLION);
         System.out.println(show);
         
         //tvSeason test
@@ -112,7 +112,7 @@ public class DataModelsTest
         
         //same reference
         TVShow show01_test = new TVShow(new PrimaryKey(10), "show1", LocalDate.parse("2023-05-20", 
-                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_REBELLION);
         
         TVShow show02_test = show01_test;
         
@@ -137,7 +137,7 @@ public class DataModelsTest
         
         //comparison if method decides origin of instances from data type or instances themselves
         TVShow show04_test = new TVShow(new PrimaryKey(10), "show1", LocalDate.parse("2023-05-20", 
-                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_REBELLION);
         DatabaseRecord show05_test = show04_test;
         
         System.out.println("Instances show01_test and show05_test are compared by instances (should be true): " 
@@ -179,7 +179,7 @@ public class DataModelsTest
         
         //same reference
         TVShow referenceTVShow_test = new TVShow(new PrimaryKey(10), "show1", LocalDate.parse("2023-05-20", 
-                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_THE_REBELLION);
+                DateTimeFormatter.ISO_LOCAL_DATE), Era.AGE_OF_REBELLION);
         TVSeason season01_test = new TVSeason(new PrimaryKey(222), 2, referenceTVShow_test.getPrimaryKey());
         
         TVSeason season02_test = season01_test;

@@ -414,15 +414,7 @@ public class TVEpisodesController
                 
         return totalCount;
     }
-    
-    //statistic method
-    public int getReleasedTVShowSeasonsCount(PrimaryKey tvShowPrimaryKey) 
-    {
-        List<TVSeason> filteredSeasons = getReleasedTVShowSeasonsByOrder(tvShowPrimaryKey);
         
-        return filteredSeasons.size();
-    }
-    
     //statistic method
     public int getReleasedTVShowSeasonEpisodesCount(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
     {
@@ -1039,7 +1031,7 @@ public class TVEpisodesController
         return wasDataChanged; 
     }
     
-    public boolean editTVSeasonBy(PrimaryKey existingTVSeasonPrimaryKey, PrimaryKey tvSeasonForeignKey, boolean fromBinary) 
+    public boolean editTVSeasonBy(PrimaryKey existingTVSeasonPrimaryKey, PrimaryKey tvShowForeignKey, boolean fromBinary) 
             throws IOException, FileNotFoundException, FileEmptyException, DatabaseException, FileParsingException 
     {
         updateTVSeasonsOutputFilesWithExistingData();
@@ -1053,7 +1045,7 @@ public class TVEpisodesController
             throw new FileParsingException("Soubor " + filename + " musí obsahovat právě jednu sezónu vybranou pro editaci");
         }
         
-        TVSeason convertedInputTVSeason = TVSeasonDataConverter.convertToDataFrom(editedTVSeason.get(1), tvSeasonForeignKey);
+        TVSeason convertedInputTVSeason = TVSeasonDataConverter.convertToDataFrom(editedTVSeason.get(1), tvShowForeignKey);
 
         boolean wasDataChanged = dbContext.getTVSeasonsTable().editBy(existingTVSeasonPrimaryKey, convertedInputTVSeason);
         
@@ -1065,7 +1057,7 @@ public class TVEpisodesController
         return wasDataChanged; 
     }
     
-    public boolean editTVEpisodeBy(PrimaryKey existingTVEpisodePrimaryKey, PrimaryKey tvEpisodeForeignKey, boolean fromBinary) 
+    public boolean editTVEpisodeBy(PrimaryKey existingTVEpisodePrimaryKey, PrimaryKey tvSeasonForeignKey, boolean fromBinary) 
             throws IOException, FileNotFoundException, FileEmptyException, DatabaseException, FileParsingException 
     {
         updateTVEpisodesOutputFilesWithExistingData();
@@ -1079,7 +1071,7 @@ public class TVEpisodesController
             throw new FileParsingException("Soubor " + filename + " musí obsahovat právě jednu epizodu vybranou pro editaci");
         }
         
-        TVEpisode convertedInputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(editedTVEpisode.get(1), tvEpisodeForeignKey);
+        TVEpisode convertedInputTVEpisode = TVEpisodeDataConverter.convertToDataFrom(editedTVEpisode.get(1), tvSeasonForeignKey);
 
         boolean wasDataChanged = dbContext.getTVEpisodesTable().editBy(existingTVEpisodePrimaryKey, convertedInputTVEpisode);
         
