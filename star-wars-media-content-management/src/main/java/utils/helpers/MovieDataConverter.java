@@ -1,4 +1,3 @@
-
 package utils.helpers;
 
 import app.models.data.Era;
@@ -15,8 +14,11 @@ import java.time.ZoneOffset;
 import utils.exceptions.DataConversionException;
 
 /**
- * meziclanek mezi databazi a soubory
- * @author Admin
+ * Represents a Movie data converter for input, output and data model of movie
+ * MovieDataConverter class is used when converting input file movie data to database movie data
+ * MovieDataConverter class is used when converting database movie data to output file movie data
+ * MovieDataConverter class is used when converting output file movie data to database movie data
+ * @author jan.dostal
  */
 public final class MovieDataConverter 
 {

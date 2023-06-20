@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package utils.exceptions;
 
 /**
- *
- * @author Admin
+ * Represents a custom exception class for dealing with checked exceptions during manipulation of data in database
+ * DatabaseException class is used in data context data tables
+ * DatabaseException class is used for dealing with data duplicity, validity, duplicate or invalid primary key etc.
+ * @author jan.dostal
  */
 public class DatabaseException extends Exception
 {

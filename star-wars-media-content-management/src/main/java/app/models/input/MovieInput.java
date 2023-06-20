@@ -1,8 +1,8 @@
-
 package app.models.input;
 
 /**
- *
+ * Represents a input data model class for movie
+ * MovieInput class is used when parsing movies input data files
  * @author jan.dostal
  */
 public class MovieInput

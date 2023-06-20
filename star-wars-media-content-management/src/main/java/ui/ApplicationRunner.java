@@ -1,4 +1,3 @@
-
 package ui;
 
 import app.logic.controllers.MoviesController;
@@ -8,11 +7,13 @@ import app.logic.filemanager.FileManagerAccessor;
 import utils.emailsender.EmailSender;
 
 /**
- *
- * @author Admin
+ * Application for managing, reviewing and organizing star wars media content (movies, TV shows)
+ * @author jan.dostal
+ * @version 1.0 06/20/23
  */
 public class ApplicationRunner 
 {
+    //application initialization
     public static void main(String[] args) 
     {        
         MoviesController moviesController = MoviesController.getInstance(DataContextAccessor.getInstance(), 

@@ -1,11 +1,11 @@
-
 package app.models.data;
 
-import java.util.Objects;
 
 /**
- *
- * @author Admin
+ * Represents an abstract class for classification of data as database records
+ * DatabaseRecord class is used in IDataTable interface to ensure the data has primary key data type attribute
+ * DatabaseRecord class also also offers sorting by primary keys
+ * @author jan.dostal
  */
 public abstract class DatabaseRecord implements Comparable<DatabaseRecord>
 {

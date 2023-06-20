@@ -1,4 +1,3 @@
-
 package tests.mainmethods;
 
 import app.logic.datastore.DataStore;
@@ -20,11 +19,12 @@ import utils.exceptions.FileEmptyException;
 import utils.exceptions.FileParsingException;
 
 /**
- *
- * @author Admin
+ * Represents a custom unit test class for testing file manager service of file manager module
+ * @author jan.dostal
  */
 public class FileManagerAccessorTest 
 {
+    //testing main
     public static void main(String[] args)
     {
         FileManagerAccessor fileManager = FileManagerAccessor.getInstance();

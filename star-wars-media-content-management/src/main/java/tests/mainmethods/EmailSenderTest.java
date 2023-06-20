@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package tests.mainmethods;
 
 import app.logic.controllers.MoviesController;
@@ -19,7 +15,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import utils.emailsender.EmailSender;
@@ -27,11 +22,12 @@ import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
- *
- * @author Admin
+ * Represents a custom unit test class for testing email service of email sender module
+ * @author jan.dostal
  */
 public class EmailSenderTest 
 {
+    //testing main
     public static void main(String[] args) throws EmailException 
     {   
 //        String randomGeneratedAppToken = "qnaadtxcznjyvzln";
@@ -59,7 +55,7 @@ public class EmailSenderTest
 //       {
 //            System.out.println("Zadana emailova adresa prijemce ma hodnotu null");
 //       }
-        
+//        
        try 
        {
            DataContextAccessor dbContext = DataContextAccessor.getInstance();

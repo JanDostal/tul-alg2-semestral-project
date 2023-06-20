@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package utils.helpers;
 
 import app.models.data.PrimaryKey;
@@ -10,8 +6,11 @@ import app.models.input.TVSeasonInput;
 import app.models.output.TVSeasonOutput;
 
 /**
- *
- * @author Admin
+ * Represents a TV season data converter for input, output and data model of TV season
+ * TVSeasonDataConverter class is used when converting input file tv season data to database tv season data
+ * TVSeasonDataConverter class is used when converting database tv season data to output file tv season data
+ * TVSeasonDataConverter class is used when converting output file tv season data to database tv season data
+ * @author jan.dostal
  */
 public final class TVSeasonDataConverter 
 {

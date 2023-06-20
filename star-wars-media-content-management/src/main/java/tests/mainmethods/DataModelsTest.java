@@ -7,15 +7,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- *
+ * Represents a custom unit test class for testing data models of models data module
  * @author jan.dostal
  */
 public class DataModelsTest 
 {
-
-    /**
-     * @param args the command line arguments
-     */
+    //testing main
     public static void main(String[] args) 
     {
         //movie test

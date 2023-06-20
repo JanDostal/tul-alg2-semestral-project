@@ -1,10 +1,11 @@
-
 package app.models.data;
 
 import java.util.Objects;
 
 /**
- *
+ * Represents a data model class for tv season
+ * TVSeason class has access to primary key attribute from DatabaseRecord
+ * TVSeason class can test for duplicity or equality between two tv season data instances  
  * @author jan.dostal
  */
 public class TVSeason extends DatabaseRecord

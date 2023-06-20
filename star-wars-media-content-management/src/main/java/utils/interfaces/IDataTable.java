@@ -1,4 +1,3 @@
-
 package utils.interfaces;
 
 import app.models.data.DatabaseRecord;
@@ -9,7 +8,9 @@ import java.util.function.Predicate;
 import utils.exceptions.DatabaseException;
 
 /**
- *
+ * Represents an IDataTable interface for implementation in individual data tables
+ * IDataFileManager interface defines functions like creating, deleting, filtering, sorting, editing, reading
+ * @param <T> Represents a data model, which has to inherit from DatabaseRecord, to ensure it will have primary key attribute
  * @author jan.dostal
  */
 public interface IDataTable<T extends DatabaseRecord>

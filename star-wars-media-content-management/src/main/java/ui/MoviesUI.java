@@ -1,4 +1,3 @@
-
 package ui;
 
 import app.logic.controllers.DataSorting;
@@ -17,8 +16,9 @@ import java.util.Locale;
 import org.apache.commons.mail.EmailException;
 
 /**
- *
- * @author Admin
+ * Represents a movies UI module, which represents a UI section dealing with movies data
+ * MoviesUI is communicating with ConsoleUI to use common methods and use movies controller
+ * @author jan.dostal
  */
 public class MoviesUI 
 {

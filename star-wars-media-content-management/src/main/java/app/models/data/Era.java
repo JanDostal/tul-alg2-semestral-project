@@ -1,10 +1,11 @@
-
 package app.models.data;
 
 import app.logic.datastore.DataStore;
 
 /**
- *
+ * Represents an enum type for specifying various Star wars chronological eras
+ * Chronological eras are used to classify data (movies and TV shows)
+ * Each era has default name for usage in data files and display name with description for usage in UI
  * @author jan.dostal
  */
 public enum Era 

@@ -1,11 +1,11 @@
-
 package app.models.data;
 
 import java.time.Duration;
 import java.util.Objects;
 
 /**
- *
+ * Represents an abstract class for grouping data, which represents direct media content (movies, TV episodes)
+ * MediaContent class is specified as database record, so it has primary key attribute
  * @author jan.dostal
  */
 public abstract class MediaContent extends DatabaseRecord

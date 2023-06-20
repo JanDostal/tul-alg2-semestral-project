@@ -30,8 +30,10 @@ import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataFileManager;
 
 /**
- *
- * @author Admin
+ * Represents a tv shows file manager, which works specifically with TV shows data files
+ * TV shows file manager works with tv show input and output data models and implements IDataFileManager interface
+ * TV shows file manager is made available through accessor
+ * @author jan.dostal
  */
 public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowOutput>
 {

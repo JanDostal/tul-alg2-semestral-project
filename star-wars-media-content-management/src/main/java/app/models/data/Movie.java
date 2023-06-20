@@ -1,4 +1,3 @@
-
 package app.models.data;
 
 import java.time.Duration;
@@ -7,7 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
- *
+ * Represents a data model class for movie
+ * Movie class inherits from MediaContent class, so it can be grouped with other classes which inherit from MediaContent
+ * Also movies class has access to primary key attribute from MediaContent
+ * Movie class can test for duplicity or equality between two movies data instances  
  * @author jan.dostal
  */
 public class Movie extends MediaContent

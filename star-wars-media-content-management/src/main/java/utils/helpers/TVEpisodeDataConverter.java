@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package utils.helpers;
 
 import app.models.data.PrimaryKey;
@@ -11,8 +7,11 @@ import app.models.output.TVEpisodeOutput;
 import java.time.Duration;
 
 /**
- *
- * @author Admin
+ * Represents a TV episode data converter for input, output and data model of TV episode
+ * TVEpisodeDataConverter class is used when converting input file tv episode data to database tv episode data
+ * TVEpisodeDataConverter class is used when converting database tv episode data to output file tv episode data
+ * TVEpisodeDataConverter class is used when converting output file tv episode data to database tv episode data
+ * @author jan.dostal
  */
 public final class TVEpisodeDataConverter 
 {

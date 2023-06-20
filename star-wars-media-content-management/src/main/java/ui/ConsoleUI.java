@@ -1,4 +1,3 @@
-
 package ui;
 
 import app.logic.controllers.DataType;
@@ -7,16 +6,16 @@ import app.logic.controllers.TVEpisodesController;
 import app.logic.datastore.DataStore;
 import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- *
- * @author Admin
+ * Represents a common UI module for all data UI modules
+ * ConsoleUI class offers breadcrumb for easier navigation in UI
+ * ConsoleUI class is communicating with business logic through Movies and TVEpisodes controllers 
+ * @author jan.dostal
  */
 public class ConsoleUI 
 {

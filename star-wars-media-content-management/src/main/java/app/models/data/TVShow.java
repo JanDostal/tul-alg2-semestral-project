@@ -1,4 +1,3 @@
-
 package app.models.data;
 
 import java.time.LocalDate;
@@ -6,7 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
- *
+ * Represents a data model class for tv show
+ * TVShow class has access to primary key attribute from DatabaseRecord
+ * TVShow class can test for duplicity or equality between two tv show data instances  
  * @author jan.dostal
  */
 public class TVShow extends DatabaseRecord

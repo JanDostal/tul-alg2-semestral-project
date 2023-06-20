@@ -1,4 +1,3 @@
-
 package utils.emailsender;
 
 import app.logic.datastore.DataStore;
@@ -7,8 +6,10 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 
 /**
- *
- * @author Admin
+ * Represents an email service for usage of sending encoded HTML data through e-mail
+ * EmailSender class uses SMTP protocol and google SMTP server
+ * EmailSender class uses UTF-8 to encode charsets in HTML
+ * @author jan.dostal
  */
 public class EmailSender 
 {

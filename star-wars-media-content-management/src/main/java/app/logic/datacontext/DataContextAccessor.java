@@ -1,4 +1,3 @@
-
 package app.logic.datacontext;
 
 import app.models.data.DatabaseRecord;
@@ -11,7 +10,8 @@ import java.util.Random;
 import utils.interfaces.IDataTable;
 
 /**
- *
+ * Represents a database access layer service for accessing and manipulating data in data tables
+ * Database context accessor data tables are made available through accessor
  * @author jan.dostal
  */
 public class DataContextAccessor 

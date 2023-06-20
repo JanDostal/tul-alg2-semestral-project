@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package utils.exceptions;
 
 /**
- *
- * @author Admin
+ * Represents a custom exception class for dealing with checked exceptions during printing or parsing data files
+ * FileEmptyException class is used in data file managers
+ * FileEmptyException class is used for checking if file has any content
+ * @author jan.dostal
  */
 public class FileEmptyException extends Exception
 {

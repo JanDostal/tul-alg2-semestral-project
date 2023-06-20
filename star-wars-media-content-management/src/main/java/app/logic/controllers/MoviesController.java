@@ -1,4 +1,3 @@
-
 package app.logic.controllers;
 
 import app.logic.datacontext.DataContextAccessor;
@@ -7,14 +6,8 @@ import app.logic.filemanager.FileManagerAccessor;
 import app.models.data.Era;
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
-import app.models.data.TVEpisode;
-import app.models.data.TVSeason;
-import app.models.data.TVShow;
 import app.models.input.MovieInput;
 import app.models.output.MovieOutput;
-import app.models.output.TVEpisodeOutput;
-import app.models.output.TVSeasonOutput;
-import app.models.output.TVShowOutput;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.Collator;
@@ -23,10 +16,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -41,8 +32,10 @@ import utils.exceptions.FileParsingException;
 import utils.helpers.MovieDataConverter;
 
 /**
- *
- * @author Admin
+ * Represents a movies controller for acting as business logic for application
+ * Movies controller works with movie data type
+ * Movies controller uses services like file manager, email service and database access layer
+ * @author jan.dostal
  */
 public class MoviesController 
 {

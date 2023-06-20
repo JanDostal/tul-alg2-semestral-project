@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package tests.mainmethods;
 
 import app.models.data.Era;
@@ -13,18 +9,18 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import utils.exceptions.DataConversionException;
 import utils.helpers.MovieDataConverter;
 
 /**
- *
- * @author Admin
+ * Represents a custom unit test class for testing data converter of helpers module
+ * @author jan.dostal
  */
 public class DataConvertersTest 
 {
+    //testing main
     public static void main(String[] args) 
     {
         //MovieDataConverter

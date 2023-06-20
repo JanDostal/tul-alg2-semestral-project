@@ -1,4 +1,3 @@
-    
 package app.logic.filemanager;
 
 import app.logic.datastore.DataStore;
@@ -31,8 +30,10 @@ import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataFileManager;
 
 /**
- *
- * @author Admin
+ * Represents a movies file manager, which works specifically with movies data files
+ * Movies file manager works with movie input and output data models and implements IDataFileManager interface
+ * Movies file manager is made available through accessor
+ * @author jan.dostal
  */
 public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutput>
 {

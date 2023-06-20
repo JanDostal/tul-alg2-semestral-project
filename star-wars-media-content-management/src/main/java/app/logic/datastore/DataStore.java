@@ -8,8 +8,8 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- *
- * @author Admin
+ * Represents a datastore, which accesses static data like files names, informations about app etc.
+ * @author jan.dostal
  */
 public final class DataStore 
 {

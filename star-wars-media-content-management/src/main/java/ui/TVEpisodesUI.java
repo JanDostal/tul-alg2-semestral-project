@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ui;
 
 import app.logic.controllers.DataSorting;
@@ -18,18 +14,15 @@ import app.models.output.TVShowOutput;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Scanner;
 import org.apache.commons.mail.EmailException;
 import utils.exceptions.DatabaseException;
 
 /**
- *
- * @author Admin
+ * Represents a tv episodes UI module, which represents a UI section dealing with tv episodes, tv seasons and tv shows data
+ * TVEpisodesUI is communicating with ConsoleUI to use common methods and use tv episodes controller
+ * @author jan.dostal
  */
 public class TVEpisodesUI 
 {

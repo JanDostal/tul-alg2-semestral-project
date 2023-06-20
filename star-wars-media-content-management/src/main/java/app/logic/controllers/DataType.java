@@ -1,9 +1,9 @@
-
 package app.logic.controllers;
 
 /**
- *
- * @author Admin
+ * Represents an enum type for different types of data
+ * Data types originate from data context
+ * @author jan.dostal
  */
 public enum DataType 
 {

@@ -2,7 +2,8 @@
 package app.models.input;
 
 /**
- *
+ * Represents a input data model class for tv show
+ * TVShowInput class is used when parsing tv show input data files
  * @author jan.dostal
  */
 public class TVShowInput 

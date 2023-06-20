@@ -1,4 +1,3 @@
-
 package tests.mainmethods;
 
 import app.logic.controllers.MoviesController;
@@ -18,7 +17,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 import utils.emailsender.EmailSender;
 import utils.exceptions.DataConversionException;
 import utils.exceptions.DatabaseException;
@@ -27,14 +25,12 @@ import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataTable;
 
 /**
- *
- * @author Admin
+ * Represents a custom unit test class for testing Movies controller of controllers module
+ * @author jan.dostal
  */
 public class MoviesControllerTest 
 {
-    /**
-     * @param args the command line arguments
-     */
+    //testing main
     public static void main(String[] args) 
     {
         DataContextAccessor dbContext = DataContextAccessor.getInstance();

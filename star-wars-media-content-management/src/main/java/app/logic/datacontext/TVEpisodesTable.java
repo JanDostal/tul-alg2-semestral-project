@@ -1,4 +1,3 @@
-
 package app.logic.datacontext;
 
 import app.models.data.PrimaryKey;
@@ -18,7 +17,8 @@ import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
- *
+ * Represents a tv episodes data table, which offers basic CRUD operations
+ * TV episodes data table works with tv episode data type and implements IDataTable interface
  * @author jan.dostal
  */
 public class TVEpisodesTable implements IDataTable<TVEpisode>

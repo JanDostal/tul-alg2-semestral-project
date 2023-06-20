@@ -1,21 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package tests.mainmethods;
 
 import app.models.output.*;
 
 /**
- *
- * @author Admin
+ * Represents a custom unit test class for testing Data output models of models output module
+ * @author jan.dostal
  */
 public class OutputModelsTest 
 {
 
-    /**
-     * @param args the command line arguments
-     */
+    //testing main
     public static void main(String[] args) 
     {
         //movie test

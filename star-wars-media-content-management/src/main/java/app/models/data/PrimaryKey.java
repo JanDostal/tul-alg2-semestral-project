@@ -1,11 +1,13 @@
-
 package app.models.data;
 
 import java.util.Objects;
 
 /**
- *
- * @author Admin
+ * Represents a custom data type for primary key
+ * PrimaryKey class is used in data models to ensure they can be used as database records
+ * PrimaryKey class is used in IDataTable interface
+ * PrimaryKey class can test for duplicity or equality between two primary keys instances  
+ * @author jan.dostal
  */
 public class PrimaryKey 
 {

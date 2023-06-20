@@ -1,11 +1,13 @@
-
 package app.models.data;
 
 import java.time.Duration;
 import java.util.Objects;
 
 /**
- *
+ * Represents a data model class for tv episode
+ * TVEpisode class inherits from MediaContent class, so it can be grouped with other classes which inherit from MediaContent
+ * Also TVEpisode class has access to primary key attribute from MediaContent
+ * TVEpisode class can test for duplicity or equality between two tv episodes data instances  
  * @author jan.dostal
  */
 public class TVEpisode extends MediaContent

@@ -1,11 +1,12 @@
-
 package app.models.output;
 
 import java.util.Arrays;
 
 /**
- *
- * @author Admin
+ * Represents a output data model class for tv show
+ * TVShowOutput class is used when writing into or pasing tv shows output data files
+ * TVShowOutput class has attributes bytes sizes and character lengths to be able to write into output binary file
+ * @author jan.dostal
  */
 public class TVShowOutput 
 {   

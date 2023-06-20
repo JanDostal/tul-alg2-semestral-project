@@ -16,7 +16,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 import utils.emailsender.EmailSender;
 import utils.exceptions.DataConversionException;
 import utils.exceptions.DatabaseException;
@@ -25,11 +24,12 @@ import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataTable;
 
 /**
- *
- * @author Admin
+ * Represents a custom unit test class for testing TVEpisodes controller of controllers module
+ * @author jan.dostal
  */
 public class TVEpisodesControllerTest 
 {
+    //testing main
     public static void main(String[] args) 
     {
         DataContextAccessor dbContext = DataContextAccessor.getInstance();

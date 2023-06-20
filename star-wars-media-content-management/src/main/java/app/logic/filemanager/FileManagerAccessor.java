@@ -1,4 +1,3 @@
-
 package app.logic.filemanager;
 
 import app.logic.datastore.DataStore;
@@ -10,20 +9,14 @@ import app.models.output.MovieOutput;
 import app.models.output.TVEpisodeOutput;
 import app.models.output.TVSeasonOutput;
 import app.models.output.TVShowOutput;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 import utils.interfaces.IDataFileManager;
 
 /**
- *
- * @author Admin
+ * Represents a file manager access layer service for working with data files
+ * File manager accessor data files managers are made available through accessor
+ * File manager accessor data files managers are using UTF-8 to encode or decode text files
+ * @author jan.dostal
  */
 public class FileManagerAccessor 
 {

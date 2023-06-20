@@ -1,4 +1,3 @@
-
 package app.logic.filemanager;
 
 import app.logic.datastore.DataStore;
@@ -31,8 +30,10 @@ import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataFileManager;
 
 /**
- *
- * @author Admin
+ * Represents a tv episodes file manager, which works specifically with TV episodes data files
+ * TV episodes file manager works with tv episode input and output data models and implements IDataFileManager interface
+ * TV episodes file manager is made available through accessor
+ * @author jan.dostal
  */
 public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, TVEpisodeOutput>
 {

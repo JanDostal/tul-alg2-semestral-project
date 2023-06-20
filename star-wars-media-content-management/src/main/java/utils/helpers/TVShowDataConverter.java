@@ -1,4 +1,3 @@
-
 package utils.helpers;
 
 import app.models.data.Era;
@@ -14,8 +13,11 @@ import java.time.ZoneOffset;
 import utils.exceptions.DataConversionException;
 
 /**
- *
- * @author Admin
+ * Represents a TV show data converter for input, output and data model of TV show
+ * TVShowDataConverter class is used when converting input file tv show data to database tv show data
+ * TVShowDataConverter class is used when converting database tv show data to output file tv show data
+ * TVShowDataConverter class is used when converting output file tv show data to database tv show data
+ * @author jan.dostal
  */
 public final class TVShowDataConverter 
 {

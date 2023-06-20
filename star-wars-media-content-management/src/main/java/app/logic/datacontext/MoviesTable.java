@@ -1,4 +1,3 @@
-
 package app.logic.datacontext;
 
 import app.models.data.Movie;
@@ -17,7 +16,9 @@ import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
- *
+ * Represents a movies data table, which offers basic CRUD operations
+ * Movies data table works with movie data type and implements IDataTable interface
+ * Movies data table is made available through accessor and can communicate with other data tables through accessor
  * @author jan.dostal
  */
 public class MoviesTable implements IDataTable<Movie>

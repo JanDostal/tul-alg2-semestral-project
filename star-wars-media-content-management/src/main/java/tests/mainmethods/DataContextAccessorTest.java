@@ -1,4 +1,3 @@
-
 package tests.mainmethods;
 
 import app.logic.datacontext.DataContextAccessor;
@@ -18,14 +17,12 @@ import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
- *
- * @author Admin
+ * Represents a custom unit test class for testing data context access layer service with data tables of data context module
+ * @author jan.dostal
  */
 public class DataContextAccessorTest 
 {
-    /**
-     * @param args the command line arguments
-     */
+    //testing main
     public static void main(String[] args) 
     {
         try 

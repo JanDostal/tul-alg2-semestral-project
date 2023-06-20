@@ -1,4 +1,3 @@
-
 package app.logic.controllers;
 
 import app.logic.datacontext.DataContextAccessor;
@@ -26,8 +25,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -44,8 +41,10 @@ import utils.helpers.TVSeasonDataConverter;
 import utils.helpers.TVShowDataConverter;
 
 /**
- *
- * @author Admin
+ * Represents a TV episodes controller for acting as business logic for application
+ * TV episodes controller works with TV episode, TV season and TV show data types
+ * TV episodes controller uses services like file manager, email service and database access layer
+ * @author jan.dostal
  */
 public class TVEpisodesController 
 {

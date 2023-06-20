@@ -18,7 +18,9 @@ import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
- *
+ * Represents a tv seasons data table, which offers basic CRUD operations
+ * TV seasons data table works with tv season data type and implements IDataTable interface
+ * TV seasons data table is made available through accessor and can communicate with other data tables through accessor
  * @author jan.dostal
  */
 public class TVSeasonsTable implements IDataTable<TVSeason>
