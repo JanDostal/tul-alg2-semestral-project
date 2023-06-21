@@ -652,7 +652,9 @@ public class ConsoleUI
         System.out.println();
         System.out.println(headingWithHorizontalLines);
         
-        displayInfoMessage("Kódová označení se používají jako hodnoty atributu era ve vstupních a výstupních souborech filmů a TV seriálů");
+        displayInfoMessage("Kódová označení se používají jako hodnoty atributu eraCodeDesignation "
+                + "ve vstupních a výstupních souborech filmů a TV seriálů");
+        
         System.out.println(horizontalLine);
                 
         for (Era era : Era.values()) 
