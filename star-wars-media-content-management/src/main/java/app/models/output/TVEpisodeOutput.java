@@ -12,7 +12,7 @@ public class TVEpisodeOutput
 { 
     public static final int ATTRIBUTE_NAME_LENGTH = 60;
     public static final int ATTRIBUTE_HYPERLINK_LENGTH = 180;
-    public static final int ATTRIBUTE_CONTENT_LENGTH = 1000;
+    public static final int ATTRIBUTE_SUMMARY_LENGTH = 1000;
     
     private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
     private static final int ATTRIBUTE_RUNTIME_BYTES = Long.BYTES;
@@ -22,7 +22,7 @@ public class TVEpisodeOutput
     
     public static final int TV_EPISODE_RECORD_SIZE = 2 * ATTRIBUTE_NAME_LENGTH * Character.BYTES
             + 2 * ATTRIBUTE_HYPERLINK_LENGTH * Character.BYTES
-            + 2 * ATTRIBUTE_CONTENT_LENGTH * Character.BYTES
+            + 2 * ATTRIBUTE_SUMMARY_LENGTH * Character.BYTES
             + ATTRIBUTE_ID_BYTES + ATTRIBUTE_RUNTIME_BYTES
             + ATTRIBUTE_RATING_BYTES + ATTRIBUTE_ORDERTVSEASON_BYTES + ATTRIBUTE_TVSEASONID_BYTES;
     
@@ -73,9 +73,9 @@ public class TVEpisodeOutput
                 ATTRIBUTE_HYPERLINK_LENGTH);
         this.shortContentSummary = shortContentSummary == null ? 
                 Arrays.copyOf("".toCharArray(), 
-                ATTRIBUTE_CONTENT_LENGTH) : 
+                ATTRIBUTE_SUMMARY_LENGTH) : 
                 Arrays.copyOf(shortContentSummary.toCharArray(), 
-                ATTRIBUTE_CONTENT_LENGTH);
+                ATTRIBUTE_SUMMARY_LENGTH);
         this.orderInTVShowSeason = orderInTVShowSeason;
         this.tvSeasonId = tvSeasonId;
     }

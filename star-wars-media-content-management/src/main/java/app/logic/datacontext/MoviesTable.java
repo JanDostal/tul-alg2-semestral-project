@@ -99,10 +99,10 @@ public class MoviesTable implements IDataTable<Movie>
         }
         
         if (inputData.getShortContentSummary() != null && 
-                inputData.getShortContentSummary().length() > MovieOutput.ATTRIBUTE_CONTENT_LENGTH) 
+                inputData.getShortContentSummary().length() > MovieOutput.ATTRIBUTE_SUMMARY_LENGTH) 
         {
             throw new DatabaseException("Krátké shrnutí obsahu přidaného filmu nesmí mít délku větší než " + 
-                    MovieOutput.ATTRIBUTE_CONTENT_LENGTH + " znaků");
+                    MovieOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
         }
             
         List<Movie> movieWithDuplicateData = filterBy(movie -> movie.equals(inputData));
@@ -232,10 +232,10 @@ public class MoviesTable implements IDataTable<Movie>
         }
         
         if (editedExistingData.getShortContentSummary() != null && 
-                editedExistingData.getShortContentSummary().length() > MovieOutput.ATTRIBUTE_CONTENT_LENGTH) 
+                editedExistingData.getShortContentSummary().length() > MovieOutput.ATTRIBUTE_SUMMARY_LENGTH) 
         {
             throw new DatabaseException("Krátké shrnutí obsahu editovaného filmu nesmí mít délku větší než " + 
-                    MovieOutput.ATTRIBUTE_CONTENT_LENGTH + " znaků");
+                    MovieOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
         }
         
         boolean wasDataChanged = false;

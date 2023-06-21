@@ -42,18 +42,122 @@ eraCodeDesignation 7
 
 [Values]
 
-213212 1
-Skrytá Hrozba2 2
-23 3
-asdsaa ads  aasasddasasd asdadas d ads asd as 4
-ollllllllllllllllllllllllllllllllllllllllllll 4
-asdasda asdaas asdasdas as asdas das dasas.  5
-      asdasdsas 5
-  .sadas 5
-	asdasddas 5
-	sadasddsasa 5
-	sasadadsdas 5
-1684281600 6
+8520 1
+Star Wars: Episode II - Attack of the Clones 2
+67 3
+https://film.kukaj.io/star-wars-epizoda-ii-klony-utoci-2002 4
+A decade after the Naboo invasion, Senator Padme Amidala is returning to Corusant when she instantly discovers that someone has put a price on her head. 5
+At the same time, the Galactic Republic is under pressure due to a separatist movement which is forcing Chancellor Palpatine to create a clone army to keep them safe 5
+from the growing threat. The Jedi Council dispatch Obi-Wan Kenobi to launch an investigation in who's behind Senator Amidala's assassination while his apprentice, a now 5
+grown Anakin Skywalker is assigned to keep watch over Amidala, while falling into a secret romance with her which goes against his vows as a Jedi. 5
+ 5
+Meanwhile, renegade Jedi Count Dooku is preparing to go to war against the Jedi with a united droid army that could bring the Republic to it's knees. 5
+1021161600 6
 FALL_OF_THE_JEDI 7
+
+[Attributes]
+
+Order: 3
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+8400 1
+Star Wars: Episode III - Revenge of the Sith 2
+85 3
+https://film.kukaj.io/star-wars-epizoda-iii-pomsta-sithu 4
+Nearly three years have passed since the beginning of the Clone Wars. The Republic, with the help of the Jedi, take 5
+on Count Dooku and the Separatists. With a new threat rising, the Jedi Council sends Obi-Wan Kenobi and Anakin Skywalker to aid the captured Chancellor. 5
+Anakin feels he is ready to be promoted to Jedi Master. Obi-Wan is hunting down the Separatist General, Grievous. 5
+ 5
+When Anakin has future visions of pain and suffering coming Padmé's way, he sees Master Yoda for counsel. When Darth Sidious executes Order 66, it 5
+destroys most of all the Jedi have built. Experience the birth of Darth Vader. Feel the betrayal that leads to hatred between two brothers. And witness the power of hope. 5
+1115856000 6
+FALL_OF_THE_JEDI 7
+
+[Attributes]
+
+Order: 4
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+7260 1
+Star Wars: Episode IV - A New Hope 2
+75 3
+https://film.kukaj.io/star-wars-episode-iv-a-new-hope 4
+Part IV in George Lucas' epic, this movie opens with a rebel ship being boarded by the tyrannical Darth Vader. 5
+The plot then follows the life of a simple farm boy, Luke Skywalker, as he and his newly met allies (Han Solo, Chewbacca, Obi-wan Kenobi, C-3PO, R2-D2) 5
+attempt to rescue a rebel leader, Princess Leia, from the clutches of the Empire. 5
+ 5
+The conclusion is culminated as the rebels, including Skywalker and flying ace Wedge Antilles make an attack on the Empire's most powerful and ominous weapon, the Death Star. 5
+233366400 6
+AGE_OF_REBELLION 7
+
+[Attributes]
+
+Order: 5
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+7440 1
+Star Wars: Episode V - The Empire Strikes Back 2
+95 3
+https://film.kukaj.io/star-wars-epizoda-v-imperium-vraci-uder-1980 4
+After receiving a vision from Obi-wan Kenobi and fleeing the ice world of Hoth with his friends after an Imperial attack, 5
+Luke Skywalker travels to the marsh planet of Dagobah, where he is instructed in the ways of the Force by the legendary Jedi Master Yoda. 5
+Meanwhile, Han Solo and Princess Leia make their way to planet Bespin, where they are greeted by Han's old friend, a shifty gambler named Lando Calrissian. 5
+Ambushed by the Empire shortly after their arrival, Han and his friends are imprisoned by Darth Vader. Luke leaves Dagobah to rescue his friends, 5
+and is met by Vader and a startling revelation. 5
+327369600 6
+AGE_OF_REBELLION 7
+
+[Attributes]
+
+Order: 6
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+7860 1
+Star Wars: Episode VI - Return of the Jedi 2
+88 3
+https://film.kukaj.io/star-wars-epizoda-vi-navrat-jediho-1983 4
+After receiving a vision from Obi-wan Kenobi and fleeing the ice world of Hoth with his friends after an Imperial attack, 5
+Luke Skywalker travels to the marsh planet of Dagobah, where he is instructed in the ways of the Force by the legendary Jedi Master Yoda. 5
+Meanwhile, Han Solo and Princess Leia make their way to planet Bespin, where they are greeted by Han's old friend, a shifty gambler named Lando Calrissian. 5
+Ambushed by the Empire shortly after their arrival, Han and his friends are imprisoned by Darth Vader. Luke leaves Dagobah to rescue his friends, 5
+and is met by Vader and a startling revelation. 5
+327369600 6
+AGE_OF_REBELLION 7
 
 [End]

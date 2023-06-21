@@ -172,7 +172,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                         tvEpisodeHyperlink[i] = dataInputStream.readChar();
                     }
 
-                    tvEpisodeContent = new char[TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH];
+                    tvEpisodeContent = new char[TVEpisodeOutput.ATTRIBUTE_SUMMARY_LENGTH];
 
                     for (int i = 0; i < tvEpisodeContent.length; i++) 
                     {
@@ -362,7 +362,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                             tvEpisodeHyperlink[i] = dataInputStream.readChar();
                         }
 
-                        tvEpisodeContent = new char[TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH];
+                        tvEpisodeContent = new char[TVEpisodeOutput.ATTRIBUTE_SUMMARY_LENGTH];
 
                         for (int i = 0; i < tvEpisodeContent.length; i++) 
                         {

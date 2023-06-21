@@ -13,7 +13,7 @@ public class MovieOutput
     public static final int ATTRIBUTE_NAME_LENGTH = 60;
     public static final int ATTRIBUTE_HYPERLINK_LENGTH = 180;
     public static final int ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH = 60;
-    public static final int ATTRIBUTE_CONTENT_LENGTH = 1000;
+    public static final int ATTRIBUTE_SUMMARY_LENGTH = 1000;
     
     private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
     private static final int ATTRIBUTE_RUNTIME_BYTES = Long.BYTES;
@@ -23,7 +23,7 @@ public class MovieOutput
     public static final int MOVIE_RECORD_SIZE = 2 * ATTRIBUTE_NAME_LENGTH * Character.BYTES
             + 2 * ATTRIBUTE_HYPERLINK_LENGTH * Character.BYTES
             + 2 * ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH * Character.BYTES
-            + 2 * ATTRIBUTE_CONTENT_LENGTH * Character.BYTES
+            + 2 * ATTRIBUTE_SUMMARY_LENGTH * Character.BYTES
             + ATTRIBUTE_ID_BYTES + ATTRIBUTE_RUNTIME_BYTES + ATTRIBUTE_RATING_BYTES
             + ATTRIBUTE_RELEASEDATE_BYTES;
     
@@ -73,9 +73,9 @@ public class MovieOutput
                 ATTRIBUTE_HYPERLINK_LENGTH);
         this.shortContentSummary = shortContentSummary == null ? 
                 Arrays.copyOf("".toCharArray(), 
-                ATTRIBUTE_CONTENT_LENGTH) : 
+                ATTRIBUTE_SUMMARY_LENGTH) : 
                 Arrays.copyOf(shortContentSummary.toCharArray(), 
-                ATTRIBUTE_CONTENT_LENGTH);
+                ATTRIBUTE_SUMMARY_LENGTH);
         this.releaseDateInEpochSeconds = releaseDateInEpochSeconds;
         this.eraCodeDesignation = eraCodeDesignation == null ? 
                 Arrays.copyOf("".toCharArray(), ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH) : 

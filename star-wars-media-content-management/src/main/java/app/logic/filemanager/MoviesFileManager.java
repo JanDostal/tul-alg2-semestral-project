@@ -173,7 +173,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                         movieHyperlink[i] = dataInputStream.readChar();
                     }
 
-                    movieContent = new char[MovieOutput.ATTRIBUTE_CONTENT_LENGTH];
+                    movieContent = new char[MovieOutput.ATTRIBUTE_SUMMARY_LENGTH];
 
                     for (int i = 0; i < movieContent.length; i++) 
                     {
@@ -368,7 +368,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                             movieHyperlink[i] = dataInputStream.readChar();
                         }
 
-                        movieContent = new char[MovieOutput.ATTRIBUTE_CONTENT_LENGTH];
+                        movieContent = new char[MovieOutput.ATTRIBUTE_SUMMARY_LENGTH];
 
                         for (int i = 0; i < movieContent.length; i++) 
                         {

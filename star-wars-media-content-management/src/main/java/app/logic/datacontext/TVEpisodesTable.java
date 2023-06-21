@@ -107,10 +107,10 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
         }
         
         if (inputData.getShortContentSummary() != null && 
-                inputData.getShortContentSummary().length() > TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH) 
+                inputData.getShortContentSummary().length() > TVEpisodeOutput.ATTRIBUTE_SUMMARY_LENGTH) 
         {
             throw new DatabaseException("Krátké shrnutí obsahu přidané epizody sezóny nesmí mít délku větší než " + 
-                    TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH + " znaků");
+                    TVEpisodeOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
         }
         
         TVSeason existingTVSeason = dbContext.getTVSeasonsTable().getBy(inputData.getTVSeasonForeignKey());
@@ -266,10 +266,10 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
         }
         
         if (editedExistingData.getShortContentSummary() != null && 
-                editedExistingData.getShortContentSummary().length() > TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH) 
+                editedExistingData.getShortContentSummary().length() > TVEpisodeOutput.ATTRIBUTE_SUMMARY_LENGTH) 
         {
             throw new DatabaseException("Krátké shrnutí obsahu editované epizody sezóny nesmí mít délku větší než " + 
-                    TVEpisodeOutput.ATTRIBUTE_CONTENT_LENGTH + " znaků");
+                    TVEpisodeOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
         }
         
         boolean wasDataChanged = false;
