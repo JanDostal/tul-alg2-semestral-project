@@ -41,9 +41,9 @@ import utils.helpers.TVSeasonDataConverter;
 import utils.helpers.TVShowDataConverter;
 
 /**
- * Represents a TV episodes controller for acting as business logic for application
- * TV episodes controller works with TV episode, TV season and TV show data types
- * TV episodes controller uses services like file manager, email service and database access layer
+ * Represents a TV episodes controller for acting as business logic for application.
+ * TV episodes controller works with TV episode, TV season and TV show data types.
+ * TV episodes controller uses services like file manager, email service and database access layer.
  * @author jan.dostal
  */
 public class TVEpisodesController 
@@ -58,32 +58,57 @@ public class TVEpisodesController
     
     private final Collator czechCollator = DataStore.loadCzechCollator();
     
+    /**
+     * Compares two tv episodes by their runtime atrribute and sorts them from longest.
+     * @return int value indicating if first tv episode runtime is greater or equal than second tv episode runtime
+     */
     private final Comparator<TVEpisode> BY_LONGEST_DURATION_EPISODE = (TVEpisode m1, TVEpisode m2) -> 
     {        
         return m2.getRuntime().compareTo(m1.getRuntime());
     };
-
+    
+    /**
+     * Compares two tv shows by their name attribute and sorts them alphabetically.
+     * @return int value indicating if first tv show name is alphabetically greater or equal than second tv show name
+     */
     private final Comparator<TVShow> BY_NAME_ALPHABETICALLY_SHOW = (TVShow m1, TVShow m2) -> 
             czechCollator.compare(m1.getName(), m2.getName());
     
+    /**
+     * Compares two tv episodes by their percentage rating attribute and sorts them from highest rating.
+     * @return int value indicating if first tv episode rating is greater or equal than second tv episode rating
+     */
     private final Comparator<TVEpisode> 
             BY_PERCENTAGE_RATING_HIGHEST_EPISODE = (TVEpisode m1, TVEpisode m2) -> 
     {        
         return m2.getPercentageRating() - m1.getPercentageRating();
     };
     
+    /**
+     * Compares two tv episodes by their order in tv season attribute and sorts them ascendingly.
+     * @return int value indicating if first tv episode order is greater or equal than second tv episode order
+     */
     private final Comparator<TVEpisode> 
             BY_ORDER_ASCENDING_EPISODE = (TVEpisode m1, TVEpisode m2) -> 
     {        
         return m1.getOrderInTVShowSeason() - m2.getOrderInTVShowSeason();
     };
     
+    /**
+     * Compares two tv seasons by their order in tv show attribute and sorts them ascendingly.
+     * @return int value indicating if first tv season order is greater or equal than second tv season order
+     */
     private final Comparator<TVSeason> 
             BY_ORDER_ASCENDING_SEASON = (TVSeason m1, TVSeason m2) -> 
     {        
         return m1.getOrderInTVShow()- m2.getOrderInTVShow();
     };
     
+    /**
+     * Compares two tv shows by their date attribute and sorts them from newest.
+     * Also if date attribute is null, still continues comparison.
+     * @return int value indicating if first tv show date is newer or equal than second tv show date
+     */
     private final Comparator<TVShow> BY_DATE_NEWEST_SHOW = (TVShow m1, TVShow m2) -> 
     {
         if (m1.getReleaseDate() == null && m2.getReleaseDate() == null) 
@@ -102,6 +127,13 @@ public class TVEpisodesController
         return m2.getReleaseDate().compareTo(m1.getReleaseDate());
     };
     
+    /**
+     * Creates singleton instance of TVEpisodesController.
+     * Uses dependency injection to inject data context, email sender and file manager services.
+     * @param dbContext singleton instance of data context accessor 
+     * @param emailSender singleton instance of email sender 
+     * @param fileManagerAccessor singleton instance of file manager accessor 
+     */
     private TVEpisodesController(DataContextAccessor dbContext, EmailSender emailSender, 
             FileManagerAccessor fileManagerAccessor) 
     {
@@ -110,6 +142,13 @@ public class TVEpisodesController
         this.fileManagerAccessor = fileManagerAccessor;
     }
     
+    /**
+     * Represents a factory method for creating singleton instance.
+     * @param dbContext singleton instance of data context accessor 
+     * @param emailSender singleton instance of email sender 
+     * @param fileManagerAccessor singleton instance of file manager accessor 
+     * @return singleton instance of TVEpisodesController class
+     */
     public static TVEpisodesController getInstance(DataContextAccessor dbContext, EmailSender emailSender, FileManagerAccessor
             fileManagerAccessor) 
     {
@@ -121,7 +160,14 @@ public class TVEpisodesController
         return tvEpisodesController;
     }
     
-    //email method
+    /**
+     * Represents an email method for sending e-mail with HTML encoded unwatched TV episodes with hyperlinks 
+     * in selected TV show.
+     * @param recipientEmailAddress entered recipient e-mail address from user
+     * @param tvShowPrimaryKey represent a identificator of existing tv show from database
+     * @throws org.apache.commons.mail.EmailException if recipientEmailAddress is invalid or network error occures
+     * @throws utils.exceptions.DatabaseException if chosen tv show does not exist or is in announced state
+     */
     public void sendUnwatchedEpisodesWithHyperlinksInTVShowByEmail(String recipientEmailAddress, PrimaryKey tvShowPrimaryKey) 
             throws EmailException, DatabaseException
     {
@@ -229,7 +275,13 @@ public class TVEpisodesController
         emailSender.sendEmail(recipientEmailAddress, subject, message);
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating total runtime of unwatched/watched
+     * tv episodes in selected tv show.
+     * @param tvShowPrimaryKey chosen tv show identificator in database
+     * @param onlyWatched selects if tv episodes filtered will be unwatched or watched
+     * @return total runtime of all watched/unwatched tv episodes in tv show
+     */
     public Duration getTotalRuntimeOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) 
     {
         Duration totalDuration = Duration.ZERO;
@@ -254,7 +306,13 @@ public class TVEpisodesController
         return totalDuration;
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating total runtime of unwatched/watched
+     * tv episodes in selected tv season.
+     * @param tvShowSeasonPrimaryKey chosen tv season identificator in database
+     * @param onlyWatched selects if tv episodes filtered will be unwatched or watched
+     * @return total runtime of all watched/unwatched tv episodes in tv season
+     */
     public Duration getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
     {
         Duration totalDuration = Duration.ZERO;
@@ -271,7 +329,13 @@ public class TVEpisodesController
         return totalDuration;
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating average runtime of unwatched/watched
+     * tv episodes in selected tv show.
+     * @param tvShowPrimaryKey chosen tv show identificator in database
+     * @param onlyWatched selects if tv episodes filtered will be unwatched or watched
+     * @return average runtime of all watched/unwatched tv episodes in tv show
+     */
     public Duration getAverageRuntimeOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) 
     {        
         long averageSeconds;
@@ -294,7 +358,13 @@ public class TVEpisodesController
         return averageDuration;
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating average runtime of unwatched/watched
+     * tv episodes in selected tv season.
+     * @param tvShowSeasonPrimaryKey chosen tv season identificator in database
+     * @param onlyWatched selects if tv episodes filtered will be unwatched or watched
+     * @return average runtime of all watched/unwatched tv episodes in tv season
+     */
     public Duration getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
     {        
         long averageSeconds;
@@ -318,7 +388,12 @@ public class TVEpisodesController
         return averageDuration;
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating average percentage rating (0 - 100) of watched
+     * tv episodes in selected tv show.
+     * @param tvShowPrimaryKey chosen tv show identificator in database
+     * @return average percentage rating of all watched tv episodes in tv show
+     */
     public float getAverageRatingOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey) 
     {        
         float averageRating;
@@ -355,7 +430,12 @@ public class TVEpisodesController
         return averageRating;
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating average percentage rating (0 - 100) of watched
+     * tv episodes in selected tv season.
+     * @param tvShowSeasonPrimaryKey chosen tv season identificator in database
+     * @return average percentage rating of all watched tv episodes in tv season
+     */
     public float getAverageRatingOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey) 
     {        
         float averageRating;
@@ -382,7 +462,12 @@ public class TVEpisodesController
         return averageRating;
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating announced tv shows count
+     * in selected era.
+     * @param era chosen era in which to operate
+     * @return int value indicating total count of announced tv shows
+     */
     public int getAnnouncedTVShowsCountByEra(Era era) 
     {        
         List<TVShow> filteredTVShows = getAnnouncedTVShowsInAlphabeticalOrderByEra(era);
@@ -390,7 +475,12 @@ public class TVEpisodesController
         return filteredTVShows.size();
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating a total count of released 
+     * tv shows in selected era.
+     * @param era chosen era in which to operate
+     * @return int value indicating total count of released tv shows
+     */
     public int getReleasedTVShowsCountByEra(Era era) 
     {        
         List<TVShow> filteredShows = getReleasedNewestTVShowsByEra(era);
@@ -398,7 +488,13 @@ public class TVEpisodesController
         return filteredShows.size();
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating a total count of unwatched/watched 
+     * tv episodes in selected tv show.
+     * @param tvShowPrimaryKey chosen tv show identificator in database
+     * @param onlyWatched selects if tv episodes filtered will be unwatched or watched
+     * @return int value indicating total count of unwatched/watched tv episodes in tv show
+     */
     public int getReleasedTVShowEpisodesCount(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) 
     {
         List<TVSeason> showSeasons = dbContext.
@@ -414,7 +510,13 @@ public class TVEpisodesController
         return totalCount;
     }
         
-    //statistic method
+    /**
+     * Represents a statistic method for calculating a total count of unwatched/watched 
+     * tv episodes in selected tv season.
+     * @param tvShowSeasonPrimaryKey chosen tv season identificator in database
+     * @param onlyWatched selects if tv episodes filtered will be unwatched or watched
+     * @return int value indicating total count of unwatched/watched tv episodes in tv season
+     */
     public int getReleasedTVShowSeasonEpisodesCount(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) 
     {
         List<TVEpisode> filteredEpisodes = dbContext.getTVEpisodesTable().filterBy(e -> 
@@ -423,7 +525,13 @@ public class TVEpisodesController
         
         return filteredEpisodes.size();
     }
-            
+    
+    /**
+     * Represents a method for getting released tv shows, sorted alphabetically,
+     * in selected era.
+     * @param era chosen era in which to operate.
+     * @return list of filtered and sorted released tv shows
+     */
     public List<TVShow> getReleasedTVShowsInAlphabeticalOrderByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
@@ -437,6 +545,12 @@ public class TVEpisodesController
         return filteredShows;
     }
     
+    /**
+     * Represents a method for getting released tv shows, sorted from newest,
+     * in selected era.
+     * @param era chosen era in which to operate.
+     * @return list of filtered and sorted released tv shows
+     */
     public List<TVShow> getReleasedNewestTVShowsByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
@@ -449,7 +563,13 @@ public class TVEpisodesController
         
         return filteredShows;
     }
-        
+    
+     /**
+     * Represents a method for getting released tv shows, sorted from total runtime of all tv episodes,
+     * in selected era.
+     * @param era chosen era in which to operate.
+     * @return list of filtered and sorted released tv shows
+     */
     public List<TVShow> getReleasedLongestTVShowsByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
@@ -504,6 +624,12 @@ public class TVEpisodesController
         return filteredShows;
     }
     
+    /**
+     * Represents a method for getting released tv episodes, sorted from longest,
+     * in selected tv show.
+     * @param tvShowPrimaryKey chosen tv show identificator in database.
+     * @return list of filtered and sorted released tv episodes
+     */
     public List<TVEpisode> getReleasedTVShowLongestEpisodes(PrimaryKey tvShowPrimaryKey) 
     {
         List<TVEpisode> foundEpisodes = new ArrayList<>();
@@ -524,6 +650,12 @@ public class TVEpisodesController
         return foundEpisodes;
     }
     
+    /**
+     * Represents a method for getting released tv episodes, sorted from longest,
+     * in selected tv season.
+     * @param tvShowSeasonPrimaryKey chosen tv season identificator in database.
+     * @return list of filtered and sorted released tv episodes
+     */
     public List<TVEpisode> getReleasedTVShowSeasonLongestEpisodes(PrimaryKey tvShowSeasonPrimaryKey) 
     {
         List<TVEpisode> seasonEpisodes;
@@ -536,6 +668,12 @@ public class TVEpisodesController
         return seasonEpisodes;
     }
     
+    /**
+     * Represents a method for getting watched tv episodes, sorted from highest percentage rating,
+     * in selected tv show.
+     * @param tvShowPrimaryKey chosen tv show identificator in database.
+     * @return list of filtered and sorted watched tv episodes
+     */
     public List<TVEpisode> getReleasedTVShowFavoriteTVEpisodes(PrimaryKey tvShowPrimaryKey) 
     {
         List<TVEpisode> filteredEpisodes = new ArrayList<>();
@@ -558,6 +696,12 @@ public class TVEpisodesController
         return filteredEpisodes;
     }
     
+    /**
+     * Represents a method for getting watched tv episodes, sorted from highest percentage rating,
+     * in selected tv season.
+     * @param tvShowSeasonPrimaryKey chosen tv season identificator in database.
+     * @return list of filtered and sorted watched tv episodes
+     */
     public List<TVEpisode> getReleasedTVShowSeasonFavoriteTVEpisodes(PrimaryKey tvShowSeasonPrimaryKey) 
     {        
         List<TVEpisode> seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e -> 
@@ -569,6 +713,12 @@ public class TVEpisodesController
         return seasonEpisodes;
     }
     
+    /**
+     * Represents a method for getting released tv seasons, sorted by order in tv show,
+     * in selected tv show.
+     * @param tvShowPrimaryKey chosen tv show identificator in database.
+     * @return list of filtered and sorted released tv seasons
+     */
     public List<TVSeason> getReleasedTVShowSeasonsByOrder(PrimaryKey tvShowPrimaryKey) 
     {        
         List<TVSeason> showSeasons = dbContext.getTVSeasonsTable().filterBy(e -> e.getTVShowForeignKey().equals(tvShowPrimaryKey));
@@ -577,7 +727,13 @@ public class TVEpisodesController
         
         return showSeasons;
     }
-        
+    
+    /**
+     * Represents a method for getting released tv episodes, sorted by order in tv season,
+     * in selected tv season.
+     * @param tvShowSeasonPrimaryKey chosen tv season identificator in database.
+     * @return list of filtered and sorted released tv episodes
+     */
     public List<TVEpisode> getReleasedTVShowSeasonEpisodesByOrder(PrimaryKey tvShowSeasonPrimaryKey) 
     {        
         List<TVEpisode> seasonEpisodes = dbContext.getTVEpisodesTable().filterBy(e -> e.getTVSeasonForeignKey().equals(tvShowSeasonPrimaryKey));
@@ -587,6 +743,11 @@ public class TVEpisodesController
         return seasonEpisodes;
     }
     
+    /**
+     * Represents a method for detail detail/instance of selected tv season from database.
+     * @param chosenTVSeasonPrimaryKey chosen tv season identificator in database.
+     * @return instance of found tv season in database
+     */
     public TVSeason getTVSeasonDetail(PrimaryKey chosenTVSeasonPrimaryKey) 
     {
         TVSeason foundTVSeason = dbContext.getTVSeasonsTable().getBy(chosenTVSeasonPrimaryKey);
@@ -594,6 +755,12 @@ public class TVEpisodesController
         return foundTVSeason;
     }
     
+    /**
+     * Represents a method for getting announced tv shows, sorted alphabetically,
+     * in selected era.
+     * @param era chosen era in which to operate.
+     * @return list of filtered and sorted announced tv shows
+     */
     public List<TVShow> getAnnouncedTVShowsInAlphabeticalOrderByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
@@ -607,6 +774,10 @@ public class TVEpisodesController
         return filteredTVShows;
     }
     
+    /**
+     * Represents a method for getting released tv shows, sorted from newest.
+     * @return list of filtered and sorted released tv shows
+     */
     public List<TVShow> getReleasedNewestTVShows()
     {
         LocalDate currentDate = getCurrentDate();
@@ -620,6 +791,15 @@ public class TVEpisodesController
         return filteredTVShows;
     }
     
+    /**
+     * Represents a method for rating a selected tv episode with new percentage rating.
+     * @param existingEpisode tv episode data model instance which rating wants to be changed
+     * @param percentageRating percentage rating in range 0 - 100 indicating likability of tv episode
+     * @return logical value indicating if percentage rating changed or remained unchanged
+     * @throws utils.exceptions.DatabaseException if percentage rating value is invalid
+     * @throws java.io.IOException if updating tv episodes output data files with new data failed
+     * @throws IllegalArgumentException if percentageRating is negative number
+     */
     public boolean rateTVEpisode(TVEpisode existingEpisode, int percentageRating) throws DatabaseException, IOException
     {
         updateTVEpisodesOutputFilesWithExistingData();
@@ -649,6 +829,13 @@ public class TVEpisodesController
         return wasDataChanged;
     }
     
+    /**
+     * Represents a method for searching in tv shows data table by tv show name.
+     * Searching uses regular expression to achieve it.
+     * @param name queried tv show name entered from user
+     * @return list of zero to N tv shows which meet best with queried tv show name
+     * @throws IllegalArgumentException if entered tv show name is empty
+     */
     public List<TVShow> searchForTVShow(String name)
     {
         if (name.isEmpty() || name.isBlank()) 
@@ -676,6 +863,14 @@ public class TVEpisodesController
         return foundShows;
     }
     
+    /**
+     * Represents a method for getting tv shows chosen file (binary/text, input/output) content.
+     * @param fileName name of the chosen file (not file path)
+     * @return stringbuilder which contains file content as string
+     * @throws java.io.IOException when reading from chosen file fails
+     * @throws java.io.FileNotFoundException when chosen file does not exist
+     * @throws utils.exceptions.FileEmptyException when chosen file content is empty
+     */
     public StringBuilder getTVShowsChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
     {
         StringBuilder content = new StringBuilder();
@@ -700,6 +895,14 @@ public class TVEpisodesController
         return content;
     }
     
+    /**
+     * Represents a method for getting tv seasons chosen file (binary/text, input/output) content.
+     * @param fileName name of the chosen file (not file path)
+     * @return stringbuilder which contains file content as string
+     * @throws java.io.IOException when reading from chosen file fails
+     * @throws java.io.FileNotFoundException when chosen file does not exist
+     * @throws utils.exceptions.FileEmptyException when chosen file content is empty
+     */
     public StringBuilder getTVSeasonsChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
     {
         StringBuilder content = new StringBuilder();
@@ -724,6 +927,14 @@ public class TVEpisodesController
         return content;
     }
     
+    /**
+     * Represents a method for getting tv episodes chosen file (binary/text, input/output) content.
+     * @param fileName name of the chosen file (not file path)
+     * @return stringbuilder which contains file content as string
+     * @throws java.io.IOException when reading from chosen file fails
+     * @throws java.io.FileNotFoundException when chosen file does not exist
+     * @throws utils.exceptions.FileEmptyException when chosen file content is empty
+     */
     public StringBuilder getTVEpisodesChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
     {
         StringBuilder content = new StringBuilder();
@@ -748,6 +959,14 @@ public class TVEpisodesController
         return content;
     }
     
+    /**
+     * Represents a method for parsing tv episodes, tv seasons and tv shows output data from binary or text files
+     * @param fromBinary selects if output files will be binary or text
+     * @throws java.io.IOException when reading from output files fails
+     * @throws utils.exceptions.FileParsingException when parsing from output files fails because of corrupted data
+     * @throws utils.exceptions.DataConversionException when parsed output data cannot be converted to database model data
+     * @throws utils.exceptions.DatabaseException when database model data have invalid data, duplicity etc.
+     */
     public void loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, 
             DataConversionException, DatabaseException, Exception 
     {
@@ -792,6 +1011,15 @@ public class TVEpisodesController
         }
     }
     
+    /**
+     * Represents a method for parsing tv shows input data from binary or text file
+     * @param fromBinary selects if input file will be binary or text
+     * @return stringbuilder which contains message log informing about occured errors and parsed tv shows
+     * @throws java.io.IOException when reading from input file fails
+     * @throws java.io.FileNotFoundException when input file does not exist
+     * @throws utils.exceptions.FileEmptyException when input file is empty
+     * @throws utils.exceptions.FileParsingException when nothing was parsed from not-empty input file
+     */
     public StringBuilder addTVShowsFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException, FileParsingException 
     {
         updateTVShowsOutputFilesWithExistingData();
@@ -830,6 +1058,16 @@ public class TVEpisodesController
         return message;
     }
     
+    /**
+     * Represents a method for parsing tv seasons input data from binary or text file
+     * @param chosenTVShowPrimaryKey chosen tv show to which parsed tv seasons will be added/linked
+     * @param fromBinary selects if input file will be binary or text
+     * @return stringbuilder which contains message log informing about occured errors and parsed tv seasons
+     * @throws java.io.IOException when reading from input file fails
+     * @throws java.io.FileNotFoundException when input file does not exist
+     * @throws utils.exceptions.FileEmptyException when input file is empty
+     * @throws utils.exceptions.FileParsingException when nothing was parsed from not-empty input file
+     */
     public StringBuilder addTVSeasonsFrom(PrimaryKey chosenTVShowPrimaryKey, boolean fromBinary) 
             throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
     {
@@ -870,6 +1108,16 @@ public class TVEpisodesController
         return message;
     }
     
+    /**
+     * Represents a method for parsing tv episodes input data from binary or text file
+     * @param chosenTVSeasonPrimaryKey chosen tv season to which parsed tv episodes will be added/linked
+     * @param fromBinary selects if input file will be binary or text
+     * @return stringbuilder which contains message log informing about occured errors and parsed tv episodes
+     * @throws java.io.IOException when reading from input file fails
+     * @throws java.io.FileNotFoundException when input file does not exist
+     * @throws utils.exceptions.FileEmptyException when input file is empty
+     * @throws utils.exceptions.FileParsingException when nothing was parsed from not-empty input file
+     */
     public StringBuilder addTVEpisodesFrom(PrimaryKey chosenTVSeasonPrimaryKey, boolean fromBinary) 
             throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
     {
@@ -910,6 +1158,13 @@ public class TVEpisodesController
         return message;
     }
     
+    /**
+     * Represents a method for deleting chosen data model tv show by its primary key 
+     * (will delete tv show seasons and episodes if they exist).
+     * @param tvShowPrimaryKey represents a tv show identificator in database
+     * @throws java.io.IOException when updating tv shows, tv seasons, and tv episodes output files with new data fails
+     * @throws utils.exceptions.DatabaseException when chosen tv show does not exist
+     */
     public void deleteTVShowBy(PrimaryKey tvShowPrimaryKey) throws IOException, DatabaseException
     {
         updateTVEpisodesOutputFilesWithExistingData();
@@ -923,6 +1178,13 @@ public class TVEpisodesController
         updateTVShowsOutputFilesWithNewChanges();
     }
     
+    /**
+     * Represents a method for deleting chosen data model tv season by its primary key 
+     * (will delete tv season episodes if they exist).
+     * @param tvSeasonPrimaryKey represents a tv season identificator in database
+     * @throws java.io.IOException when updating tv seasons, and tv episodes output files with new data fails
+     * @throws utils.exceptions.DatabaseException when chosen tv season does not exist
+     */
     public void deleteTVSeasonBy(PrimaryKey tvSeasonPrimaryKey) throws IOException, DatabaseException
     {
         updateTVEpisodesOutputFilesWithExistingData();
@@ -934,6 +1196,12 @@ public class TVEpisodesController
         updateTVSeasonsOutputFilesWithNewChanges();
     }
     
+    /**
+     * Represents a method for deleting chosen data model tv episode by its primary key
+     * @param tvEpisodePrimaryKey represents a tv episode identificator in database
+     * @throws java.io.IOException when updating tv episodes output files with new data fails
+     * @throws utils.exceptions.DatabaseException when chosen tv episode does not exist
+     */
     public void deleteTVEpisodeBy(PrimaryKey tvEpisodePrimaryKey) throws IOException, DatabaseException
     {
         updateTVEpisodesOutputFilesWithExistingData();
@@ -943,6 +1211,12 @@ public class TVEpisodesController
         updateTVEpisodesOutputFilesWithNewChanges();
     }
     
+    /**
+     * Represents a method for deleting chosen list of tv shows
+     * (will delete tv shows seasons and episodes if they exist)
+     * @param chosenTVShows list of chosen tv shows originating from database
+     * @throws java.io.IOException when updating tv shows, tv seasons and tv episodes output files with new data fails
+     */
     public void deleteTVShows(List<TVShow> chosenTVShows) throws IOException
     {
         updateTVEpisodesOutputFilesWithExistingData();
@@ -965,6 +1239,12 @@ public class TVEpisodesController
         updateTVShowsOutputFilesWithNewChanges();
     }
     
+    /**
+     * Represents a method for deleting chosen list of tv seasons
+     * (will delete tv seasons episodes if they exist)
+     * @param chosenTVSeasons list of chosen tv seasons originating from database
+     * @throws java.io.IOException when updating tv seasons and tv episodes output files with new data fails
+     */
     public void deleteTVSeasons(List<TVSeason> chosenTVSeasons) throws IOException
     {
         updateTVEpisodesOutputFilesWithExistingData();
@@ -985,6 +1265,11 @@ public class TVEpisodesController
         updateTVSeasonsOutputFilesWithNewChanges();
     }
     
+    /**
+     * Represents a method for deleting chosen list of tv episodes
+     * @param chosenTVEpisodes list of chosen tv episodes originating from database
+     * @throws java.io.IOException when updating tv episodes output files with new data fails
+     */
     public void deleteTVEpisodes(List<TVEpisode> chosenTVEpisodes) throws IOException
     {
         updateTVEpisodesOutputFilesWithExistingData();
@@ -1003,6 +1288,18 @@ public class TVEpisodesController
         updateTVEpisodesOutputFilesWithNewChanges();
     }
     
+    /**
+     * Represents a method for editing chosen tv show by its primary key and using tv shows input file
+     * @param existingTVShowPrimaryKey represents an existing tv show identificator in database
+     * @param fromBinary selects if parsing of new data for existing tv show will be from text or binary input file
+     * @return logical value indicating if existing tv show data was changed or remained same
+     * @throws java.io.IOException if reading from tv shows input file fails
+     * @throws java.io.FileNotFoundException if input file is not found
+     * @throws utils.exceptions.FileEmptyException if input file is empty
+     * @throws utils.exceptions.DataConversionException if tv show input data cannot be converted to tv show database data model
+     * @throws utils.exceptions.DatabaseException if tv show database data are invalid, duplicity etc.
+     * @throws utils.exceptions.FileParsingException when nothing was parsed from not-empty input file
+     */
     public boolean editTVShowBy(PrimaryKey existingTVShowPrimaryKey, boolean fromBinary) throws IOException, 
             FileNotFoundException, FileEmptyException, DataConversionException, DatabaseException, FileParsingException 
     {
@@ -1030,6 +1327,19 @@ public class TVEpisodesController
         return wasDataChanged; 
     }
     
+    /**
+     * Represents a method for editing chosen tv season by its primary key and using tv seasons input file
+     * @param existingTVSeasonPrimaryKey represents an existing tv season identificator in database
+     * @param tvShowForeignKey represents an existing tv show identificator in database 
+     * (to link tv season new data with this tv show).
+     * @param fromBinary selects if parsing of new data for existing tv season will be from text or binary input file
+     * @return logical value indicating if existing tv season data was changed or remained same
+     * @throws java.io.IOException if reading from tv seasons input file fails
+     * @throws java.io.FileNotFoundException if input file is not found
+     * @throws utils.exceptions.FileEmptyException if input file is empty
+     * @throws utils.exceptions.DatabaseException if tv season database data are invalid, duplicity etc.
+     * @throws utils.exceptions.FileParsingException when nothing was parsed from not-empty input file
+     */
     public boolean editTVSeasonBy(PrimaryKey existingTVSeasonPrimaryKey, PrimaryKey tvShowForeignKey, boolean fromBinary) 
             throws IOException, FileNotFoundException, FileEmptyException, DatabaseException, FileParsingException 
     {
@@ -1056,6 +1366,19 @@ public class TVEpisodesController
         return wasDataChanged; 
     }
     
+    /**
+     * Represents a method for editing chosen tv episode by its primary key and using tv episodes input file
+     * @param existingTVEpisodePrimaryKey represents an existing tv episode identificator in database
+     * @param tvSeasonForeignKey represents an existing tv season identificator in database 
+     * (to link tv episode new data with this tv season).
+     * @param fromBinary selects if parsing of new data for existing tv episode will be from text or binary input file
+     * @return logical value indicating if existing tv episode data was changed or remained same
+     * @throws java.io.IOException if reading from tv episodes input file fails
+     * @throws java.io.FileNotFoundException if input file is not found
+     * @throws utils.exceptions.FileEmptyException if input file is empty
+     * @throws utils.exceptions.DatabaseException if tv episode database data are invalid, duplicity etc.
+     * @throws utils.exceptions.FileParsingException when nothing was parsed from not-empty input file
+     */
     public boolean editTVEpisodeBy(PrimaryKey existingTVEpisodePrimaryKey, PrimaryKey tvSeasonForeignKey, boolean fromBinary) 
             throws IOException, FileNotFoundException, FileEmptyException, DatabaseException, FileParsingException 
     {
@@ -1081,7 +1404,11 @@ public class TVEpisodesController
 
         return wasDataChanged; 
     }
-        
+    
+    /**
+     * Represents a method for saving current tv shows table state into output files
+     * @throws java.io.IOException if saving tv shows table state into output files fails
+     */
     private void updateTVShowsOutputFilesWithExistingData() throws IOException 
     {
         List<TVShow> currentTVShows = dbContext.getTVShowsTable().getAll();
@@ -1099,6 +1426,26 @@ public class TVEpisodesController
         fileManagerAccessor.getTVShowsFileManager().saveOutputDataIntoFiles(outputTVShows);
     }
     
+    /**
+     * Represents a method for saving updated tv shows table state into output files.
+     * <p>
+     * The correct usage of this method is to 
+     * call {@link IDataFileManager#transferBetweenOutputDataAndCopyFiles(boolean) 
+     * transferBetweenOutputDataAndCopyFiles} method to
+     * backup output files. Then call {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method to try to save output data.
+     * <p>
+     * If calling {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method fails, then transfer output data from copies back into
+     * output files by {@link IDataFileManager#transferBetweenOutputDataAndCopyFiles(boolean)
+     * transferBetweenOutputDataAndCopyFiles} and load them back into database.
+     * <p>
+     * After all of it, call {@link IDataFileManager#tryDeleteDataOutputFilesCopies() 
+     * tryDeleteDataOutputFilesCopies} method regardless if calling 
+     * {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method fails or not
+     * @throws java.io.IOException if saving tv shows table updated state into output files fails
+     */
     private void updateTVShowsOutputFilesWithNewChanges() throws IOException 
     {
         List<TVShow> currentTVShows = dbContext.getTVShowsTable().getAll();
@@ -1165,6 +1512,10 @@ public class TVEpisodesController
         }
     }
     
+    /**
+     * Represents a method for saving current tv seasons table state into output files
+     * @throws java.io.IOException if saving tv seasons table state into output files fails
+     */
     private void updateTVSeasonsOutputFilesWithExistingData() throws IOException 
     {
         List<TVSeason> currentTVSeasons = dbContext.getTVSeasonsTable().getAll();
@@ -1182,6 +1533,26 @@ public class TVEpisodesController
         fileManagerAccessor.getTVSeasonsFileManager().saveOutputDataIntoFiles(outputTVSeasons);
     }
     
+    /**
+     * Represents a method for saving updated tv seasons table state into output files.
+     * <p>
+     * The correct usage of this method is to 
+     * call {@link IDataFileManager#transferBetweenOutputDataAndCopyFiles(boolean) 
+     * transferBetweenOutputDataAndCopyFiles} method to
+     * backup output files. Then call {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method to try to save output data.
+     * <p>
+     * If calling {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method fails, then transfer output data from copies back into
+     * output files by {@link IDataFileManager#transferBetweenOutputDataAndCopyFiles(boolean)
+     * transferBetweenOutputDataAndCopyFiles} and load them back into database.
+     * <p>
+     * After all of it, call {@link IDataFileManager#tryDeleteDataOutputFilesCopies() 
+     * tryDeleteDataOutputFilesCopies} method regardless if calling 
+     * {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method fails or not
+     * @throws java.io.IOException if saving tv seasons table updated state into output files fails
+     */
     private void updateTVSeasonsOutputFilesWithNewChanges() throws IOException 
     {
         List<TVSeason> currentTVSeasons = dbContext.getTVSeasonsTable().getAll();
@@ -1248,6 +1619,10 @@ public class TVEpisodesController
         }
     }
     
+    /**
+     * Represents a method for saving current tv episodes table state into output files
+     * @throws java.io.IOException if saving tv episodes table state into output files fails
+     */
     private void updateTVEpisodesOutputFilesWithExistingData() throws IOException 
     {
         List<TVEpisode> currentTVEpisodes = dbContext.getTVEpisodesTable().getAll();
@@ -1265,6 +1640,26 @@ public class TVEpisodesController
         fileManagerAccessor.getTVEpisodesFileManager().saveOutputDataIntoFiles(outputTVEpisodes);
     }
     
+    /**
+     * Represents a method for saving updated tv episodes table state into output files.
+     * <p>
+     * The correct usage of this method is to 
+     * call {@link IDataFileManager#transferBetweenOutputDataAndCopyFiles(boolean) 
+     * transferBetweenOutputDataAndCopyFiles} method to
+     * backup output files. Then call {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method to try to save output data.
+     * <p>
+     * If calling {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method fails, then transfer output data from copies back into
+     * output files by {@link IDataFileManager#transferBetweenOutputDataAndCopyFiles(boolean)
+     * transferBetweenOutputDataAndCopyFiles} and load them back into database.
+     * <p>
+     * After all of it, call {@link IDataFileManager#tryDeleteDataOutputFilesCopies() 
+     * tryDeleteDataOutputFilesCopies} method regardless if calling 
+     * {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method fails or not
+     * @throws java.io.IOException if saving tv episodes table updated state into output files fails
+     */
     private void updateTVEpisodesOutputFilesWithNewChanges() throws IOException 
     {
         List<TVEpisode> currentTVEpisodes = dbContext.getTVEpisodesTable().getAll();
@@ -1331,6 +1726,11 @@ public class TVEpisodesController
         }
     }
     
+    /**
+     * Represents a method for getting current date (present date as LocalDate).
+     * Timezone is determined from operating system running application
+     * @return instance of LocalDate, representing present date
+     */
     public static LocalDate getCurrentDate() 
     {
         return LocalDate.now(ZoneId.systemDefault());

@@ -25,7 +25,7 @@ import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataTable;
 
 /**
- * Represents a custom unit test class for testing Movies controller of controllers module
+ * Represents a custom unit test class for testing Movies controller of controllers module.
  * @author jan.dostal
  */
 public class MoviesControllerTest 

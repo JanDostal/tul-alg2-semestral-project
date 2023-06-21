@@ -30,9 +30,9 @@ import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataFileManager;
 
 /**
- * Represents a tv seasons file manager, which works specifically with TV seasons data files
- * TV seasons file manager works with tv season input and output data models and implements IDataFileManager interface
- * TV seasons file manager is made available through accessor
+ * Represents a tv seasons file manager, which works specifically with TV seasons data files.
+ * TV seasons file manager works with tv season input and output data models and implements IDataFileManager interface.
+ * TV seasons file manager is made available through accessor.
  * @author jan.dostal
  */
 public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVSeasonOutput>
@@ -47,6 +47,16 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
     
     private final String inputFileAttributesSectionMarking;
    
+    
+    /**
+     * Creates singleton instance of TVSeasonsFileManager.
+     * Receives filenameSeparator, inputFileEndMarking, inputFileValuesSectionMarking 
+     * and inputFileAttributesSectionMarking parameters in constructor from {@link FileManagerAccessor} class.
+     * @param filenameSeparator file path separator dependent on application running operating system
+     * @param inputFileEndMarking control string for detecting file end
+     * @param inputFileValuesSectionMarking control string for detecting values section in file
+     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
+     */
     private TVSeasonsFileManager(String filenameSeparator, 
             String inputFileEndMarking, String inputFileValuesSectionMarking,
             String inputFileAttributesSectionMarking) 
@@ -57,6 +67,14 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         this.inputFileAttributesSectionMarking = inputFileAttributesSectionMarking;
     }
     
+    /**
+     * Represents a factory method for creating singleton instance.
+     * @param filenameSeparator file path separator dependent on application running operating system
+     * @param inputFileEndMarking control string for detecting file end
+     * @param inputFileValuesSectionMarking control string for detecting values section in file
+     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
+     * @return singleton instance of TVSeasonsFileManager as interface
+     */
     protected static IDataFileManager<TVSeasonInput, TVSeasonOutput> getInstance(String filenameSeparator, 
             String inputFileEndMarking, String inputFileValuesSectionMarking,
             String inputFileAttributesSectionMarking) 
@@ -746,6 +764,19 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         return parsedTVSeasons;
     }
     
+    
+    /**
+     * Represents a method which parses tv season input data (one record) from input binary or text 
+     * file when position in
+     * file reaches either end marking or reaches another attributes section marking.
+     * @param tvSeasonInputFieldsValues represents list of parsed tv season record values mapped to
+     * according tv season input model data attributes names.
+     * @param parsedTVSeasons represents a list of currently parsed tv seasons
+     * @param tvSeasonInputFields represents tv season input model data attributes names, which are
+     * used for indexing particular fields values.
+     * @param inputTVSeasonOrder represents int value, which specifies tv season record loading 
+     * order from file (record on start of file - value 1, record after - value 2).
+     */
     private void parseInputData(Map<String, StringBuilder> tvSeasonInputFieldsValues,
             Map<Integer, TVSeasonInput> parsedTVSeasons, Field[] tvSeasonInputFields, int inputTVSeasonOrder) 
     {
@@ -773,6 +804,16 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         }
     }
     
+    /**
+     * Represents a method which parses tv season output data (one record) from output text file when position in
+     * file reaches either end marking or reaches another attributes section marking.
+     * @param tvSeasonOutputFieldsValues represents list of parsed tv season record values mapped to
+     * according tv season output model data attributes names.
+     * @param parsedTVSeasons represents a list of currently parsed tv seasons
+     * @param tvSeasonOutputFields represents tv season output model data attributes names, which are
+     * used for indexing particular fields values.
+     * @throws NumberFormatException when parsed tv season record number values cannot be converted to from String
+     */
     private void parseOutputData(Map<String, StringBuilder> tvSeasonOutputFieldsValues,
             List<TVSeasonOutput> parsedTVSeasons, Field[] tvSeasonOutputFields) 
     {        
@@ -793,6 +834,12 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         }
     }
     
+    /**
+     * Represents a method which creates tv season output data (multiple records) text representation
+     * for output text file.
+     * @param newOutputTVSeasons represents list of tv season output models data from database
+     * @return text content to save into output text file
+     */
     private StringBuilder createOutputDataTextRepresentation(List<TVSeasonOutput> newOutputTVSeasons) 
     {
         Class<?> tvSeasonOutputClass = TVSeasonOutput.class;

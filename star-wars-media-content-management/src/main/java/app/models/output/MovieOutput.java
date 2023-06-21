@@ -3,9 +3,9 @@ package app.models.output;
 import java.util.Arrays;
 
 /**
- * Represents a output data model class for movie
- * MovieOutput class is used when writing into or pasing movies output data files
- * MovieOutput class has attributes bytes sizes and character lengths to be able to write into output binary file
+ * Represents a output data model class for movie.
+ * MovieOutput class is used when writing into or parsing movies output data files.
+ * MovieOutput class has attributes bytes sizes and character lengths to be able to write into output binary file.
  * @author jan.dostal
  */
 public class MovieOutput
@@ -42,7 +42,21 @@ public class MovieOutput
     private final long releaseDateInEpochSeconds;
     
     private final char[] eraCodeDesignation;
-        
+    
+    
+    /**
+     * Creates a new instance representing movie output data model.
+     * If nullable attributes are null, they transform into empty String.
+     * String attributes values are extended into defined string attributes character lengths.
+     * @param id represents movie id/primary key as number (should be 1 or greater)
+     * @param runtimeInSeconds represents movie runtime/duration in seconds (-infinity, positive number)
+     * @param name represents movie name
+     * @param percentageRating represents movie percentage rating (-infinity, 100)
+     * @param hyperlinkForContentWatch represents URL hyperlink to movie for watching
+     * @param shortContentSummary represents movie short summary of its content
+     * @param releaseDateInEpochSeconds represents movie release date in epoch seconds (GMT/UTC) (-infinity, positive number)
+     * @param eraCodeDesignation represents movie chosen chronological star wars era code designation
+     */
     public MovieOutput(int id, long runtimeInSeconds, String name, 
             int percentageRating, String hyperlinkForContentWatch,
             String shortContentSummary, long releaseDateInEpochSeconds, String eraCodeDesignation) 
@@ -68,41 +82,65 @@ public class MovieOutput
                 Arrays.copyOf(eraCodeDesignation.toCharArray(), ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH);
     }
     
+    /**
+     * @return movie instance id/primary key as number
+     */
     public int getId() 
     {
         return id;
     }
-        
+    
+    /**
+     * @return movie instance runtime in seconds
+     */
     public long getRuntimeInSeconds() 
     {
         return runtimeInSeconds;
     }
-
+    
+    /**
+     * @return movie instance name
+     */
     public String getName() 
     {
         return new String(name);
     }
-
+    
+    /**
+     * @return movie instance percentage rating
+     */
     public int getPercentageRating() 
     {
         return percentageRating;
     }
-
+    
+    /**
+     * @return movie instance URL hyperlink for content watch
+     */
     public String getHyperlinkForContentWatch() 
     {
         return new String(hyperlinkForContentWatch);
     }
-
+    
+    /**
+     * @return movie instance short content summary
+     */
     public String getShortContentSummary() 
     {
         return new String(shortContentSummary);
     }
     
+    /**
+     * @return movie instance release date in epoch seconds (GMT/UTC)
+     */
     public long getReleaseDateInEpochSeconds() 
     {
         return releaseDateInEpochSeconds;
     }
     
+    /**
+     * @return movie instance chosen era code designation
+     */
     public String getEraCodeDesignation() 
     {
         return new String(eraCodeDesignation);

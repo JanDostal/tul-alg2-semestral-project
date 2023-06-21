@@ -16,19 +16,29 @@ import java.util.Locale;
 import org.apache.commons.mail.EmailException;
 
 /**
- * Represents a movies UI module, which represents a UI section dealing with movies data
- * MoviesUI is communicating with ConsoleUI to use common methods and use movies controller
+ * Represents a movies UI submodule, which represents a UI section dealing with movies data.
+ * MoviesUI is communicating with ConsoleUI to use common methods and access movies controller with scanner.
  * @author jan.dostal
  */
 public class MoviesUI 
 {
     private final ConsoleUI consoleUI;
     
+    /**
+     * Creates a new instance of MoviesUI.
+     * Uses dependency injection to inject consoleUI ui module.
+     * @param consoleUI existing instance of ConsoleUI. 
+     * Can be used for using common methods from {@link ConsoleUI} class or access
+     * movies controller with scanner.
+     */
     protected MoviesUI(ConsoleUI consoleUI) 
     {
         this.consoleUI = consoleUI;
     }
     
+    /**
+     * Method for starting this UI submodule (ConsoleUI class calls this method)
+     */
     protected void start() 
     {
         consoleUI.addBreadcrumbItem("Správa filmů");
@@ -89,6 +99,9 @@ public class MoviesUI
         }
     }
     
+    /**
+     * Method for displaying this ui submodule submenu with choices for managing movies
+     */
     private void displayMoviesManagementSubmenu() 
     {
         String menuName = "PODMENU SPRÁVA FILMŮ";
@@ -111,6 +124,9 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for adding movies from movies input file
+     */
     private void displayLoadMoviesFromInputFileSubmenu() 
     {
         String menuName = "PODMENU PŘIDÁVÁNÍ FILMŮ ZE VSTUPNÍHO SOUBORU";
@@ -128,6 +144,9 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for found movies by their name
+     */
     private void displayPrintFoundMoviesByNameSubmenu() 
     {
         String menuName = "PODMENU NALEZENÝCH FILMŮ PODLE NÁZVU";
@@ -143,6 +162,9 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for sending movies by e-mail
+     */
     private void displaySendMoviesByEmailSubmenu() 
     {
         String menuName = "PODMENU POSÍLÁNÍ FILMŮ E-MAILEM";
@@ -158,6 +180,9 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed star wars eras list with annnounced movies
+     */
     private void displayPrintErasWithAnnouncedMoviesSubmenu() 
     {
         String menuName = "PODMENU ÉR S OZNÁMENÝMI FILMY";
@@ -172,6 +197,11 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed announced movies, 
+     * sorted alphabetically by name, of selected star wars era.
+     * @param chosenEra selected star wars era for which to print announced movies
+     */
     private void displayPrintAnnouncedMoviesInAlphabeticalOrderByEraSubmenu(Era chosenEra) 
     {
         String menuName = "PODMENU OZNÁMENÝCH FILMŮ ÉRY " + chosenEra.getDisplayName().toUpperCase();
@@ -187,6 +217,9 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed star wars eras list with unwatched movies
+     */
     private void displayPrintErasWithUnwatchedMoviesSubmenu() 
     {
         String menuName = "PODMENU ÉR S NEZHLÉDNUTÝMI FILMY";
@@ -203,6 +236,10 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed unwatched movies of selected star wars era
+     * @param chosenEra selected star wars era for which to print unwatched movies
+     */
     private void displayPrintUnwatchedMoviesByEraSubmenu(Era chosenEra) 
     {
         String menuName = "PODMENU NEZHLÉDNUTÝCH FILMŮ ÉRY " + chosenEra.getDisplayName().toUpperCase();
@@ -218,6 +255,9 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed star wars eras list with watched movies
+     */
     private void displayPrintErasWithWatchedMoviesSubmenu() 
     {
         String menuName = "PODMENU ÉR SE ZHLÉDNUTÝMI FILMY";
@@ -235,6 +275,10 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed watched movies of selected star wars era
+     * @param chosenEra selected star wars era for which to print watched movies
+     */
     private void displayPrintWatchedMoviesByEraSubmenu(Era chosenEra) 
     {
         String menuName = "PODMENU ZHLÉDNUTÝCH FILMŮ ÉRY " + chosenEra.getDisplayName().toUpperCase();
@@ -250,6 +294,9 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed favorite movies of all time
+     */
     private void displayPrintReleasedFavoriteMoviesOfAllTimeSubmenu() 
     {
         String menuName = "PODMENU NEJOBLÍBENĚJŠÍCH FILMŮ";
@@ -265,6 +312,9 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed newest released movies
+     */
     private void displayPrintReleasedNewestMoviesSubmenu() 
     {
         String menuName = "PODMENU NEJNOVĚJŠÍCH JIŽ VYDANÝCH FILMŮ";
@@ -280,6 +330,9 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printing movies output files contents
+     */
     private void displayPrintMoviesOutputFilesContentsSubmenu() 
     {
         String menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VÝSTUPNÍCH SOUBORŮ FILMŮ";
@@ -294,7 +347,11 @@ public class MoviesUI
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
-        
+    
+    /**
+     * Method for displaying submenu with choices for printing detail about selected movie
+     * @param chosenMovie selected movie for which to display detail informations
+     */
     private void displayDetailAboutMovieSubmenu(Movie chosenMovie) 
     {
         boolean wasReleased = false;
@@ -324,6 +381,10 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for editation of selected movie
+     * @param chosenMovie selected movie for which to display this submenu
+     */
     private void displayEditChosenMovieSubmenu(Movie chosenMovie) 
     {
         boolean wasReleased = false;
@@ -353,6 +414,10 @@ public class MoviesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for handling loading movies from input file submenu 
+     * ({@link displayLoadMoviesFromInputFileSubmenu})
+     */
     private void handleLoadMoviesFromInputFileSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Přidávání filmů ze vstupního souboru");
@@ -398,6 +463,10 @@ public class MoviesUI
         }
     }
     
+    /**
+     * Method which tries to load movies from movies input file
+     * @param fromBinary selects if input file is binary or text
+     */
     private void loadMoviesFromInputFile(boolean fromBinary) 
     {        
         try 
@@ -411,6 +480,10 @@ public class MoviesUI
         }        
     }
     
+    /**
+     * Method for handling printing found movies by name submenu
+     * ({@link displayPrintFoundMoviesByNameSubmenu})
+     */
     private void handlePrintFoundMoviesByNameSubmenu() 
     {
         try 
@@ -464,6 +537,10 @@ public class MoviesUI
         }
     }
     
+    /**
+     * Method which prompts user for entering movie name and then returns it.
+     * @return string value representing movie name
+     */
     private String loadMovieNameFromUser() 
     {
         consoleUI.advanceToNextInput();
@@ -472,6 +549,11 @@ public class MoviesUI
         return consoleUI.getScanner().nextLine();
     }
     
+    /**
+     * Method which prints found movies by name as view/page.
+     * @param foundMovies list of found movies by name
+     * @param queriedName queried movie name used for searching movies by name
+     */
     private void printFoundMoviesByName(List<Movie> foundMovies, String queriedName) 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, "NALEZENÉ FILMY PODLE NÁZVU");
@@ -518,6 +600,10 @@ public class MoviesUI
         System.out.println(dividingLine);  
     }
     
+    /**
+     * Method for handling sending movies by email submenu
+     * ({@link displaySendMoviesByEmailSubmenu})
+     */
     private void handleSendMoviesByEmailSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Posílání filmů e-mailem");
@@ -557,6 +643,9 @@ public class MoviesUI
         }
     }
     
+    /**
+     * Method which tries to send unwatched movies, sorted from oldest, by email
+     */
     private void sendUnwatchedMoviesFromOldestByEmail() 
     {
         String email = consoleUI.loadEmailFromUser();
@@ -572,6 +661,9 @@ public class MoviesUI
         }        
     }
     
+    /**
+     * Method which tries to send unwatched movies, categorized into star wars eras, by email
+     */
     private void sendUnwatchedMoviesInChronologicalErasByEmail() 
     {
         String email = consoleUI.loadEmailFromUser();
@@ -587,6 +679,10 @@ public class MoviesUI
         }        
     }
     
+    /**
+     * Method for handling printing star wars eras with annnounced movies submenu
+     * ({@link displayPrintErasWithAnnouncedMoviesSubmenu})
+     */
     private void handlePrintErasWithAnnouncedMoviesSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Éry s oznámenými filmy"); 
@@ -624,6 +720,9 @@ public class MoviesUI
         }
     } 
     
+    /**
+     * Method for printing star wars eras with announced movies as view/page.
+     */
     private void printErasWithAnnouncedMovies() 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
@@ -651,6 +750,10 @@ public class MoviesUI
         System.out.println(dividingLine);
     }
     
+    /**
+     * Method for handling printing annnounced movies in alphabetical order by era submenu
+     * ({@link displayPrintAnnouncedMoviesInAlphabeticalOrderByEraSubmenu})
+     */
     private void handlePrintAnnouncedMoviesInAlphabeticalOrderByEraSubmenu() 
     {
         try 
@@ -709,6 +812,11 @@ public class MoviesUI
         }
     }
     
+    /**
+     * Method for printing annnounced movies in alphabetical order by selected era as view/page.
+     * @param announcedMoviesByChosenEra list of announced movies in selected era
+     * @param chosenEra selected star wars era from eras list
+     */
     private void printAnnouncedMoviesInAlphabeticalOrderByEra(List<Movie> announcedMoviesByChosenEra, Era chosenEra) 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
@@ -743,6 +851,10 @@ public class MoviesUI
         System.out.println(dividingLine);        
     }
     
+    /**
+     * Method for handling printing eras with unwatched movies submenu
+     * ({@link displayPrintErasWithUnwatchedMoviesSubmenu})
+     */
     private void handlePrintErasWithUnwatchedMoviesSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Éry s nezhlédnutými filmy"); 
@@ -786,6 +898,9 @@ public class MoviesUI
         }
     }
     
+    /**
+     * Method for printing star wars eras with unwatched movies as view/page.
+     */
     private void printErasWithUnwatchedMovies() 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
@@ -842,6 +957,12 @@ public class MoviesUI
         System.out.println(dividingLine);
     }
     
+    /**
+     * Method for handling printing unwatched movies by selected era submenu
+     * ({@link displayPrintUnwatchedMoviesByEraSubmenu})
+     * @param dataSorting chooses sorting criteria for unwatched movies to specify
+     * how they should sort
+     */
     private void handlePrintUnwatchedMoviesByEraSubmenu(DataSorting dataSorting) 
     {
         try 
@@ -930,6 +1051,12 @@ public class MoviesUI
         }
     }
     
+    /**
+     * Method for printing unwatched movies by selected star wars era as view/page.
+     * @param unwatchedMoviesByChosenEra list of unwatched movies by selected era
+     * @param chosenEra selected star wars era from eras list
+     * @param dataSorting specifies how the printed movies should be sorted
+     */
     private void printUnwatchedMoviesByEra(List<Movie> unwatchedMoviesByChosenEra, Era chosenEra, DataSorting dataSorting) 
     {
         StringBuilder heading = null;
@@ -1003,6 +1130,10 @@ public class MoviesUI
         System.out.println(dividingLine);        
     }
     
+    /**
+     * Method for handling printing eras with watched movies submenu
+     * ({@link displayPrintErasWithWatchedMoviesSubmenu})
+     */
     private void handlePrintErasWithWatchedMoviesSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Éry se zhlédnutými filmy"); 
@@ -1048,8 +1179,11 @@ public class MoviesUI
             }
         }
     }
-     
-     private void printErasWithWatchedMovies() 
+    
+    /**
+     * Method for printing eras with watched movies as view/page.
+     */
+    private void printErasWithWatchedMovies() 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
                 "ÉRY SE ZHLÉDNUTÝMI FILMY (začíná nejstarší érou)");
@@ -1111,7 +1245,12 @@ public class MoviesUI
         System.out.println();
         System.out.println(dividingLine);
     }
-     
+    
+    /**
+     * Method for handling printing watched movies by era submenu
+     * ({@link displayPrintWatchedMoviesByEraSubmenu})
+     * @param dataSorting sorting criteria which specifies how the printed movies should be sorted
+     */
     private void handlePrintWatchedMoviesByEraSubmenu(DataSorting dataSorting) 
     {
         try 
@@ -1208,6 +1347,12 @@ public class MoviesUI
         }
     }
     
+    /**
+     * Method for printing watched movies in selected star wars era as view/page.
+     * @param watchedMoviesByChosenEra list of watched movies in selected star wars era
+     * @param chosenEra selected star wars era from eras list
+     * @param dataSorting sorting criteria which specifies how the printed movies should be sort
+     */
     private void printWatchedMoviesByEra(List<Movie> watchedMoviesByChosenEra, Era chosenEra, DataSorting dataSorting) 
     {
         StringBuilder heading = null;
@@ -1294,6 +1439,10 @@ public class MoviesUI
         System.out.println(dividingLine);        
     }
     
+    /**
+     * Method for handling printing released favorite movies of all time submenu
+     * ({@link displayPrintReleasedFavoriteMoviesOfAllTimeSubmenu})
+     */
     private void handlePrintReleasedFavoriteMoviesOfAllTimeSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Nejoblíbenější filmy");
@@ -1337,6 +1486,10 @@ public class MoviesUI
         }
     }
     
+    /**
+     * Method for printing released favorite movies of all time as view/page.
+     * @param favoriteMovies list of favorite movies
+     */
     private void printReleasedFavoriteMoviesOfAllTime(List<Movie> favoriteMovies) 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, "NEJOBLÍBENĚJŠÍ FILMY");
@@ -1376,6 +1529,10 @@ public class MoviesUI
         System.out.println(dividingLine);        
     }
     
+    /**
+     * Method for handling printing released newest movies submenu
+     * ({@link displayPrintReleasedNewestMoviesSubmenu})
+     */
     private void handlePrintReleasedNewestMoviesSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Nejnovější již vydané filmy");
@@ -1419,6 +1576,10 @@ public class MoviesUI
         }
     }
     
+    /**
+     * Method for printing released newets movies as view/page.
+     * @param releasedNewestMovies list of released newest movies
+     */
     private void printReleasedNewestMovies(List<Movie> releasedNewestMovies) 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, "NEJNOVĚJŠÍ JIŽ VYDANÉ FILMY");
@@ -1461,6 +1622,10 @@ public class MoviesUI
         System.out.println(dividingLine);        
     }
     
+    /**
+     * Method for handling printing movies output files contents submenu
+     * ({@link displayPrintMoviesOutputFilesContentsSubmenu})
+     */
     private void handlePrintMoviesOutputFilesContentsSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Vypisování obsahů výstupních souborů filmů");
@@ -1500,7 +1665,13 @@ public class MoviesUI
             }
         }
     }
-       
+    
+    /**
+     * Method for handling displaying detail about chosen movie submenu
+     * ({@link displayDetailAboutMovieSubmenu})
+     * @param chosenMovies list of chosen movies from which chosen movie will
+     * be selected by movie order from printed movies view/list.
+     */
     private void handleDisplayDetailAboutMovieSubmenu(List<Movie> chosenMovies) 
     {
         try
@@ -1607,6 +1778,11 @@ public class MoviesUI
         }
     }
     
+    /**
+     * Method which prompts user for movie order number from printed movies view/list 
+     * and then returns it.
+     * @return int value representing movie order from movies view.
+     */
     private int loadChosenMovieFromUser() 
     {
         System.out.println();
@@ -1614,6 +1790,12 @@ public class MoviesUI
         return consoleUI.getScanner().nextInt();
     }
     
+    /**
+     * Method which prints detail informations about chosen movie as view/page.
+     * @param chosenMovie represents chosen movie from printed movies list/view.
+     * @param isInEditMode selects if movie informations are displayed in movie detail mode or edit mode
+     * ({@link displayDetailAboutMovieSubmenu}, {@link displayEditChosenMovieSubmenu})
+     */
     private void printMovieDetail(Movie chosenMovie, boolean isInEditMode) 
     {
         boolean wasReleased = false;
@@ -1670,6 +1852,13 @@ public class MoviesUI
         System.out.println(dividingLine);  
     }
     
+    /**
+     * Method which tries to delete chosen movie from database
+     * @param moviePrimaryKey represents chosen movie primary key
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed movies as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean deleteChosenMovie(PrimaryKey moviePrimaryKey) 
     {
         boolean returnToParentMenu = false;
@@ -1688,6 +1877,14 @@ public class MoviesUI
         return returnToParentMenu;
     }
     
+    /**
+     * Method for handling displaying editation of chosen movie submenu
+     * ({@link displayEditChosenMovieSubmenu})
+     * @param chosenMovie selected movie from printed movies list/view.
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed movies as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean handleDisplayEditChosenMovieSubmenu(Movie chosenMovie) 
     {
         boolean wasReleased = false;
@@ -1769,6 +1966,14 @@ public class MoviesUI
         return returnToMoviesListMenu;
     }
     
+    /**
+     * Method which tries to edit existing chosen movie by movies input file
+     * @param existingMoviePrimaryKey selected movie primary key
+     * @param fromBinary selects if input file will be binary or text
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed movies as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean editMovieFromInputFile(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) 
     {
         boolean returnToParentMenu = false;
@@ -1795,6 +2000,13 @@ public class MoviesUI
         return returnToParentMenu;
     }
     
+    /**
+     * Method which tries to rate existing chosen movie in percents (0 to 100)
+     * @param chosenMovie selected movie, which percentage rating is to be modified.
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed movies as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean rateMovie(Movie chosenMovie) 
     {
         boolean returnToParentMenu = false;
@@ -1837,13 +2049,22 @@ public class MoviesUI
         return returnToParentMenu;
     }
     
+    /**
+     * Method which prompts user for entering chosen movie percentage rating in procents (0 to 100)
+     * and then returns it.
+     * @return int value representing percentage rating 
+     */
     private int loadMoviePercentageRatingFromUser() 
     {
         System.out.println();
         System.out.println("Zadejte hodnocení filmu jako procenta od 0 až do 100: ");
         return consoleUI.getScanner().nextInt();
     }
-         
+    
+    /**
+     * Method which tries to delete chosen movies from database
+     * @param chosenMovies represents list of chosen movies to be deleted
+     */
     private void deleteChosenMovies(List<Movie> chosenMovies) 
     {        
         try 

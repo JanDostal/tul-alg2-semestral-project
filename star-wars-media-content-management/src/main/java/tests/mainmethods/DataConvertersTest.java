@@ -15,7 +15,7 @@ import utils.exceptions.DataConversionException;
 import utils.helpers.MovieDataConverter;
 
 /**
- * Represents a custom unit test class for testing data converter of helpers module
+ * Represents a custom unit test class for testing data converter of helpers module.
  * @author jan.dostal
  */
 public class DataConvertersTest 

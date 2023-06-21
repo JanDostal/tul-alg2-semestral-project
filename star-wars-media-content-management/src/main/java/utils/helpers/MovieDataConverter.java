@@ -14,10 +14,10 @@ import java.time.ZoneOffset;
 import utils.exceptions.DataConversionException;
 
 /**
- * Represents a Movie data converter for input, output and data model of movie
- * MovieDataConverter class is used when converting input file movie data to database movie data
- * MovieDataConverter class is used when converting database movie data to output file movie data
- * MovieDataConverter class is used when converting output file movie data to database movie data
+ * Represents a Movie data converter helper class for input, output and data model of movie.
+ * MovieDataConverter class is used when converting input file movie data to database movie data.
+ * MovieDataConverter class is used when converting database movie data to output file movie data.
+ * MovieDataConverter class is used when converting output file movie data to database movie data.
  * @author jan.dostal
  */
 public final class MovieDataConverter 
@@ -26,6 +26,12 @@ public final class MovieDataConverter
     {
     }
     
+    /**
+     * Method converts movie database model data into movie output model data 
+     * (from database to output files, writing into output files)
+     * @param data represents movie database model data
+     * @return converted data as movie output model data
+     */
     public static MovieOutput convertToOutputDataFrom(Movie data) 
     {
         int id = data.getPrimaryKey().getId();
@@ -63,6 +69,14 @@ public final class MovieDataConverter
                 hyperlink, content, epochSeconds, eraCodeDesignation);
     }
     
+    /**
+     * Method converts movie input model data into movie database model data 
+     * (from input file to database, parsing input file)
+     * @param inputData represents movie input model data
+     * @return converted data as movie database model data
+     * @throws utils.exceptions.DataConversionException if input data 
+     * release date in epoch seconds number is too big
+     */
     public static Movie convertToDataFrom(MovieInput inputData) throws DataConversionException
     {
         PrimaryKey placeholderKey = new PrimaryKey(0);
@@ -157,6 +171,14 @@ public final class MovieDataConverter
                 wasWatched, hyperlink, content, releaseDate, era);
     }
     
+    /**
+     * Method converts movie output model data into movie database model data 
+     * (from output file to database, parsing output file)
+     * @param outputData represents movie output model data
+     * @return converted data as movie database model data
+     * @throws utils.exceptions.DataConversionException if output data 
+     * release date in epoch seconds number is too big
+     */
     public static Movie convertToDataFrom(MovieOutput outputData) throws DataConversionException
     {
         PrimaryKey primaryKey = new PrimaryKey(outputData.getId());       

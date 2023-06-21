@@ -24,7 +24,7 @@ import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataTable;
 
 /**
- * Represents a custom unit test class for testing TVEpisodes controller of controllers module
+ * Represents a custom unit test class for testing TVEpisodes controller of controllers module.
  * @author jan.dostal
  */
 public class TVEpisodesControllerTest 

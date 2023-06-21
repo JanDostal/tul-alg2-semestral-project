@@ -22,7 +22,7 @@ import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
- * Represents a custom unit test class for testing email service of email sender module
+ * Represents a custom unit test class for testing email service of email sender module.
  * @author jan.dostal
  */
 public class EmailSenderTest 

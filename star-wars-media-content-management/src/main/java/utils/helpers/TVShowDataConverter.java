@@ -13,10 +13,10 @@ import java.time.ZoneOffset;
 import utils.exceptions.DataConversionException;
 
 /**
- * Represents a TV show data converter for input, output and data model of TV show
- * TVShowDataConverter class is used when converting input file tv show data to database tv show data
- * TVShowDataConverter class is used when converting database tv show data to output file tv show data
- * TVShowDataConverter class is used when converting output file tv show data to database tv show data
+ * Represents a TV show data converter helper class for input, output and data model of TV show.
+ * TVShowDataConverter class is used when converting input file tv show data to database tv show data.
+ * TVShowDataConverter class is used when converting database tv show data to output file tv show data.
+ * TVShowDataConverter class is used when converting output file tv show data to database tv show data.
  * @author jan.dostal
  */
 public final class TVShowDataConverter 
@@ -25,6 +25,12 @@ public final class TVShowDataConverter
     {
     }
     
+    /**
+     * Method converts tv show database model data into tv show output model data 
+     * (from database to output files, writing into output files)
+     * @param data represents tv show database data model
+     * @return converted data as tv show output model data
+     */
     public static TVShowOutput convertToOutputDataFrom(TVShow data) 
     {
         int id = data.getPrimaryKey().getId();
@@ -48,6 +54,14 @@ public final class TVShowDataConverter
         return new TVShowOutput(id, name, epochSeconds, eraCodeDesignation);
     }
     
+    /**
+     * Method converts tv show input model data into tv show database model data 
+     * (from input file to database, parsing input file)
+     * @param inputData represents tv show input model data
+     * @return converted data as tv show database model data
+     * @throws utils.exceptions.DataConversionException if input data 
+     * release date in epoch seconds number is too big
+     */
     public static TVShow convertToDataFrom(TVShowInput inputData) throws DataConversionException
     {
         PrimaryKey placeholderKey = new PrimaryKey(0);
@@ -96,6 +110,14 @@ public final class TVShowDataConverter
         return new TVShow(placeholderKey, name, releaseDate, era);
     }
     
+    /**
+     * Method converts tv show output model data into tv show database model data 
+     * (from output file to database, parsing output file)
+     * @param outputData represents tv show output model data
+     * @return converted data as tv show database model data
+     * @throws utils.exceptions.DataConversionException if output data 
+     * release date in epoch seconds number is too big
+     */
     public static TVShow convertToDataFrom(TVShowOutput outputData) throws DataConversionException
     {
         PrimaryKey primaryKey = new PrimaryKey(outputData.getId());       

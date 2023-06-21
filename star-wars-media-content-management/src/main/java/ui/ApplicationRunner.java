@@ -7,7 +7,7 @@ import app.logic.filemanager.FileManagerAccessor;
 import utils.emailsender.EmailSender;
 
 /**
- * Application for managing, reviewing and organizing star wars media content (movies, TV shows)
+ * Application for managing, reviewing and organizing star wars media content (movies, TV episodes).
  * @author jan.dostal
  * @version 1.0 06/20/23
  */

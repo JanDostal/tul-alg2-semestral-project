@@ -8,7 +8,7 @@ import ui.ConsoleUI;
 import utils.emailsender.EmailSender;
 
 /**
- * Represents a custom unit test class for testing ConsoleUI instances of UI module
+ * Represents a custom unit test class for testing ConsoleUI instances of UI module.
  * @author jan.dostal
  */
 public class ConsoleUITest 

@@ -3,9 +3,9 @@ package app.models.output;
 import java.util.Arrays;
 
 /**
- * Represents a output data model class for tv episode
- * TVEpisodeOutput class is used when writing into or pasing tv episodes output data files
- * TVEpisodeOutput class has attributes bytes sizes and character lengths to be able to write into output binary file
+ * Represents a output data model class for tv episode.
+ * TVEpisodeOutput class is used when writing into or parsing tv episodes output data files.
+ * TVEpisodeOutput class has attributes bytes sizes and character lengths to be able to write into output binary file.
  * @author jan.dostal
  */
 public class TVEpisodeOutput
@@ -42,6 +42,20 @@ public class TVEpisodeOutput
     
     private final int tvSeasonId;
     
+    
+    /**
+     * Creates a new instance representing tv episode output data model.
+     * If nullable attributes are null, they transform into empty String.
+     * String attributes values are extended into defined string attributes character lengths.
+     * @param id represents tv episode id/primary key as number (should be 1 or greater)
+     * @param runtimeInSeconds represents tv episode runtime/duration in seconds (positive number)
+     * @param name represents tv episode name
+     * @param percentageRating represents tv episode percentage rating (-infinity, 100)
+     * @param hyperlinkForContentWatch represents URL hyperlink to tv episode for watching
+     * @param shortContentSummary represents tv episode short summary of its content
+     * @param orderInTVShowSeason represents tv episode order int context of parent tv season (should be 1 or greater)
+     * @param tvSeasonId represents tv episode parent tv season id/primary key as number (should be 1 or greater)
+     */
     public TVEpisodeOutput(int id, long runtimeInSeconds, String name, 
             int percentageRating, String hyperlinkForContentWatch,
             String shortContentSummary, int orderInTVShowSeason, int tvSeasonId) 
@@ -66,41 +80,65 @@ public class TVEpisodeOutput
         this.tvSeasonId = tvSeasonId;
     }
     
+    /**
+     * @return tv episode instance id/primary key as number
+     */
     public int getId() 
     {
         return id;
     }
     
+    /**
+     * @return tv episode instance runtime in seconds
+     */
     public long getRuntimeInSeconds() 
     {
         return runtimeInSeconds;
     }
-
+    
+    /**
+     * @return tv episode instance name
+     */
     public String getName() 
     {
         return new String(name);
     }
-
+    
+    /**
+     * @return tv episode instance percentage rating
+     */
     public int getPercentageRating() 
     {
         return percentageRating;
     }
-
+    
+    /**
+     * @return tv episode instance URL hyperlink for content watch
+     */
     public String getHyperlinkForContentWatch() 
     {
         return new String(hyperlinkForContentWatch);
     }
-
+    
+    /**
+     * @return tv episode instance short content summary
+     */
     public String getShortContentSummary() 
     {
         return new String(shortContentSummary);
     }
-
+    
+    /**
+     * @return tv episode order in context of parent tv season as number
+     */
     public int getOrderInTVShowSeason() 
     {
         return orderInTVShowSeason;
     }
     
+    /**
+     * @return tv episode parent tv season primary key/id as number
+     */
     public int getTVSeasonId() 
     {
         return tvSeasonId;

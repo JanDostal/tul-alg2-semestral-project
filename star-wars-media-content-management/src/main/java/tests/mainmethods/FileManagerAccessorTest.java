@@ -19,7 +19,7 @@ import utils.exceptions.FileEmptyException;
 import utils.exceptions.FileParsingException;
 
 /**
- * Represents a custom unit test class for testing file manager service of file manager module
+ * Represents a custom unit test class for testing file manager service of file manager module.
  * @author jan.dostal
  */
 public class FileManagerAccessorTest 

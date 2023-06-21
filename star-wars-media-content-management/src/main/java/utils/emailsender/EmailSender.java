@@ -6,9 +6,10 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 
 /**
- * Represents an email service for usage of sending encoded HTML data through e-mail
- * EmailSender class uses SMTP protocol and google SMTP server
- * EmailSender class uses UTF-8 to encode charsets in HTML
+ * Represents an email service for usage of sending encoded HTML data through e-mail.
+ * EmailSender class uses SMTP protocol port number and google SMTP server.
+ * EmailSender class uses UTF-8 to encode charsets in HTML.
+ * EmailSender class uses autentification for google SMTP server
  * @author jan.dostal
  */
 public class EmailSender 
@@ -23,10 +24,17 @@ public class EmailSender
     
     private final String appId = "honzaswtor";
     
+    /**
+     * Creates singleton instance of EmailSender.
+     */
     private EmailSender() 
     {
     }
     
+    /**
+     * Represents a factory method for creating singleton instance.
+     * @return singleton instance of EmailSender
+     */
     public static EmailSender getInstance() 
     {
         if (emailSender == null) 
@@ -37,6 +45,14 @@ public class EmailSender
         return emailSender;
     }
     
+    /**
+     * Method sends HTML email with defined subject and message body to recipient email address.
+     * @param recipientEmailAddress represents recipient e-mail address entered from user
+     * @param subject represents e-mail heading/subject
+     * @param message represents e-mail HTML body message
+     * @throws org.apache.commons.mail.EmailException if network error occures or recipient
+     * email address is invalid.
+     */
     public void sendEmail(String recipientEmailAddress, String subject, StringBuilder message) throws EmailException
     {
         try 

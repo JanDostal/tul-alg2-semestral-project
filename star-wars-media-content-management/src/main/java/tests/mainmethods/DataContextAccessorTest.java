@@ -17,7 +17,7 @@ import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
- * Represents a custom unit test class for testing data context access layer service with data tables of data context module
+ * Represents a custom unit test class for testing data context access layer service with data tables of data context module.
  * @author jan.dostal
  */
 public class DataContextAccessorTest 

@@ -20,19 +20,31 @@ import org.apache.commons.mail.EmailException;
 import utils.exceptions.DatabaseException;
 
 /**
- * Represents a tv episodes UI module, which represents a UI section dealing with tv episodes, tv seasons and tv shows data
- * TVEpisodesUI is communicating with ConsoleUI to use common methods and use tv episodes controller
+ * Represents a tv episodes UI submodule, which represents a UI section dealing with tv shows,
+ * tv seasons and tv episodes.
+ * TVEpisodesUI is communicating with ConsoleUI to use common methods and access tv episodes controller 
+ * with scanner.
  * @author jan.dostal
  */
 public class TVEpisodesUI 
 {
     private final ConsoleUI consoleUI;
     
+    /**
+     * Creates a new instance of TVEpisodesUI.
+     * Uses dependency injection to inject consoleUI ui module.
+     * @param consoleUI existing instance of ConsoleUI. 
+     * Can be used for using common methods from {@link ConsoleUI} class or access
+     * tv episodes controller with scanner.
+     */
     protected TVEpisodesUI(ConsoleUI consoleUI) 
     {
         this.consoleUI = consoleUI;
     }
-        
+    
+    /**
+     * Method for starting this UI submodule (ConsoleUI class calls this method)
+     */
     protected void start() 
     {
         consoleUI.addBreadcrumbItem("Správa TV epizod");
@@ -91,6 +103,10 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method for displaying this ui submodule submenu with choices for managing tv episodes, tv seasons 
+     * and tv shows.
+     */
     private void displayTVEpisodesManagementSubmenu() 
     {
         String menuName = "PODMENU SPRÁVA TV EPIZOD";
@@ -112,6 +128,9 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for adding tv shows from tv shows input file
+     */
     private void displayLoadTVShowsFromInputFileSubmenu() 
     {
         String menuName = "PODMENU PŘIDÁVÁNÍ TV SERIÁLŮ ZE VSTUPNÍHO SOUBORU";
@@ -129,6 +148,9 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for found tv shows by their name
+     */
     private void displayPrintFoundTVShowsByNameSubmenu() 
     {
         String menuName = "PODMENU NALEZENÝCH TV SERIÁLŮ PODLE NÁZVU";
@@ -144,6 +166,9 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed star wars eras list with annnounced tv shows
+     */
     private void displayPrintErasWithAnnouncedTVShowsSubmenu() 
     {
         String menuName = "PODMENU ÉR S OZNÁMENÝMI TV SERIÁLY";
@@ -158,6 +183,11 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed announced tv shows, 
+     * sorted alphabetically by name, of selected star wars era.
+     * @param chosenEra selected star wars era for which to print announced tv shows
+     */
     private void displayPrintAnnouncedTVShowsInAlphabeticalOrderByEraSubmenu(Era chosenEra) 
     {
         String menuName = "PODMENU OZNÁMENÝCH TV SERIÁLŮ ÉRY " + chosenEra.getDisplayName().toUpperCase();
@@ -173,6 +203,9 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed star wars eras list with released tv shows
+     */
     private void displayPrintErasWithReleasedTVShowsSubmenu() 
     {
         String menuName = "PODMENU ÉR S VYDANÝMI TV SERIÁLY";
@@ -189,6 +222,10 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed released tv shows of selected star wars era
+     * @param chosenEra selected star wars era for which to print released tv shows
+     */
     private void displayPrintReleasedTVShowsByEraSubmenu(Era chosenEra) 
     {
         String menuName = "PODMENU VYDANÝCH TV SERIÁLŮ ÉRY " + chosenEra.getDisplayName().toUpperCase();
@@ -203,7 +240,11 @@ public class TVEpisodesUI
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
-      
+    
+    /**
+     * Method for displaying submenu with choices for printing detail about selected tv show
+     * @param chosenTVShow selected tv show for which to display detail informations
+     */
     private void displayDetailAboutTVShowSubmenu(TVShow chosenTVShow) 
     {
         boolean wasReleased = false;
@@ -235,6 +276,10 @@ public class TVEpisodesUI
     }
     
     
+    /**
+     * Method for displaying submenu with choices for editation of selected tv show
+     * @param chosenTVShow selected tv show for which to display this submenu
+     */
     private void displayEditChosenTVShowSubmenu(TVShow chosenTVShow) 
     {
         boolean wasReleased = false;
@@ -262,6 +307,10 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed tv seasons of selected tv show
+     * @param chosenTVShow selected tv show for which to print its tv seasons
+     */
     private void displayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow) 
     {
         String menuName = "PODMENU TV SEZÓN SERIÁLU " + chosenTVShow.getName().toUpperCase();
@@ -280,7 +329,10 @@ public class TVEpisodesUI
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
-     
+    
+    /**
+     * Method for displaying submenu with choices for adding tv seasons from tv seasons input file
+     */
     private void displayLoadTVSeasonsFromInputFileSubmenu() 
     {
         String menuName = "PODMENU PŘIDÁVÁNÍ TV SEZÓN ZE VSTUPNÍHO SOUBORU";
@@ -298,6 +350,9 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for sending tv episodes by e-mail
+     */
     private void displaySendTVEpisodesByEmailSubmenu() 
     {
         String menuName = "PODMENU POSÍLÁNÍ TV EPIZOD E-MAILEM";
@@ -312,6 +367,12 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printing sorted tv episodes from
+     * entire selected tv show
+     * @param chosenTVShow selected tv show for which to print tv episodes
+     * @param dataSorting sorting criteria which specifies how the printed tv episodes will be sorted
+     */
     private void displayPrintTVShowSortedTVEpisodesSubmenu(TVShow chosenTVShow, DataSorting dataSorting) 
     {
         String menuName = null;
@@ -348,6 +409,10 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printing detail about selected tv season
+     * @param chosenTVSeason selected tv season for which to display detail informations
+     */
     private void displayDetailAboutTVSeasonSubmenu(TVSeason chosenTVSeason) 
     {
         String menuName = "PODMENU DETAILU TV SEZÓNY " + chosenTVSeason.getOrderInTVShow();
@@ -364,6 +429,10 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for editation of selected tv season
+     * @param chosenTVSeason selected movie for which to display this submenu
+     */
     private void displayEditChosenTVSeasonSubmenu(TVSeason chosenTVSeason) 
     {
         String menuName = "PODMENU EDITACE TV SEZÓNY " + chosenTVSeason.getOrderInTVShow();
@@ -382,6 +451,11 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printing tv episodes from
+     * entire selected tv season
+     * @param chosenTVSeason selected tv season for which to print tv episodes
+     */
     private void displayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason) 
     {
         String menuName = "PODMENU TV EPIZOD SEZÓNY " + chosenTVSeason.getOrderInTVShow();
@@ -400,6 +474,9 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for adding tv episodes from tv episodes input file
+     */
     private void displayLoadTVEpisodesFromInputFileSubmenu() 
     {
         String menuName = "PODMENU PŘIDÁVÁNÍ TV EPIZOD ZE VSTUPNÍHO SOUBORU";
@@ -416,7 +493,13 @@ public class TVEpisodesUI
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
-        
+    
+    /**
+     * Method for displaying submenu with choices for printing sorted tv episodes from
+     * entire selected tv season
+     * @param chosenTVSeason selected tv season for which to print tv episodes
+     * @param dataSorting sorting criteria which specifies how the printed tv episodes will be sorted
+     */
     private void displayPrintTVSeasonSortedTVEpisodesSubmenu(TVSeason chosenTVSeason, DataSorting dataSorting) 
     {
         String menuName = null;
@@ -453,6 +536,11 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printing detail about selected tv episode
+     * @param chosenTVEpisode selected tv episode for which to display detail informations
+     * @param chosenTVEpisodeParentSeason selected tv episode parent season for which also display informations
+     */
     private void displayDetailAboutTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason) 
     {
         String menuName = chosenTVEpisode.getWasWatched() == true ? 
@@ -473,6 +561,11 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for editation of selected tv episode
+     * @param chosenTVEpisode selected tv episode for which to display this submenu
+     * @param chosenTVEpisodeParentSeason selected tv episode parent season for which display informations
+     */
     private void displayEditChosenTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason) 
     {
         String menuName = chosenTVEpisode.getWasWatched() == true ? 
@@ -495,6 +588,9 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printed released newest tv shows
+     */
     private void displayPrintReleasedNewestTVShowsSubmenu() 
     {
         String menuName = "PODMENU NEJNOVĚJŠÍCH JIŽ VYDANÝCH TV SERIÁLŮ";
@@ -510,6 +606,11 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for displaying submenu with choices for printing tv episodes, 
+     * tv seasons and tv shows output files contents
+     * @param dataType specifies for which data to display submenu and its choices
+     */
     private void displayPrintDataOutputFilesContentsSubmenu(DataType dataType) 
     {
         String menuName = null;
@@ -546,6 +647,10 @@ public class TVEpisodesUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method for handling loading tv shows from input file submenu 
+     * ({@link displayLoadTVShowsFromInputFileSubmenu})
+     */
     private void handleLoadTVShowsFromInputFileSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Přidávání TV seriálů ze vstupního souboru");
@@ -591,6 +696,10 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method which tries to load tv shows from tv shows input file
+     * @param fromBinary selects if input file is binary or text
+     */
     private void loadTVShowsFromInputFile(boolean fromBinary) 
     {        
         try 
@@ -604,6 +713,10 @@ public class TVEpisodesUI
         }        
     }
     
+    /**
+     * Method for handling printing found tv shows by name submenu
+     * ({@link displayPrintFoundTVShowsByNameSubmenu})
+     */
     private void handlePrintFoundTVShowsByNameSubmenu() 
     {
         try 
@@ -657,6 +770,10 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method which prompts user for entering tv show name and then returns it.
+     * @return string value representing tv show name
+     */
     private String loadTVShowNameFromUser() 
     {
         consoleUI.advanceToNextInput();
@@ -665,6 +782,11 @@ public class TVEpisodesUI
         return consoleUI.getScanner().nextLine();
     }
     
+    /**
+     * Method which prints found tv shows by name as view/page.
+     * @param foundTVShows list of found tv shows by name
+     * @param queriedName queried tv show name used for searching tv shows by name
+     */
     private void printFoundTVShowsByName(List<TVShow> foundTVShows, String queriedName) 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, "NALEZENÉ TV SERIÁLY PODLE NÁZVU");
@@ -700,6 +822,10 @@ public class TVEpisodesUI
         System.out.println(dividingLine);
     }
     
+    /**
+     * Method for handling printing star wars eras with annnounced tv shows submenu
+     * ({@link displayPrintErasWithAnnouncedTVShowsSubmenu})
+     */
     private void handlePrintErasWithAnnouncedTVShowsSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Éry s oznámenými TV seriály"); 
@@ -737,6 +863,9 @@ public class TVEpisodesUI
         }
     } 
     
+    /**
+     * Method for printing star wars eras with announced tv shows as view/page.
+     */
     private void printErasWithAnnouncedTVShows() 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
@@ -764,6 +893,10 @@ public class TVEpisodesUI
         System.out.println(dividingLine);
     }
     
+    /**
+     * Method for handling printing annnounced tv shows in alphabetical order by era submenu
+     * ({@link displayPrintAnnouncedTVShowsInAlphabeticalOrderByEraSubmenu})
+     */
     private void handlePrintAnnouncedTVShowsInAlphabeticalOrderByEraSubmenu() 
     {
         try 
@@ -824,6 +957,11 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method for printing annnounced tv shows in alphabetical order by selected era as view/page.
+     * @param announcedTVShowsByChosenEra list of announced tv shows in selected era
+     * @param chosenEra selected star wars era from eras list
+     */
     private void printAnnouncedTVShowsInAlphabeticalOrderByEra(List<TVShow> announcedTVShowsByChosenEra, Era chosenEra) 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
@@ -858,6 +996,11 @@ public class TVEpisodesUI
         System.out.println(dividingLine);        
     }
     
+    
+    /**
+     * Method for handling printing eras with released tv shows submenu
+     * ({@link displayPrintErasWithReleasedTVShowsSubmenu})
+     */
     private void handlePrintErasWithReleasedTVShowsSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Éry s vydanými TV seriály"); 
@@ -901,7 +1044,10 @@ public class TVEpisodesUI
         }
     }
      
-     private void printErasWithReleasedTVShows() 
+    /**
+     * Method for printing star wars eras with released tv shows as view/page.
+     */
+    private void printErasWithReleasedTVShows() 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
                 "ÉRY S VYDANÝMI TV SERIÁLY (začíná nejstarší érou)");
@@ -928,7 +1074,13 @@ public class TVEpisodesUI
         System.out.println();
         System.out.println(dividingLine);
     }
-     
+    
+    /**
+     * Method for handling printing released tv shows by selected era submenu
+     * ({@link displayPrintReleasedTVShowsByEraSubmenu})
+     * @param dataSorting chooses sorting criteria for released tv shows to specify
+     * how they should sort
+     */
     private void handlePrintReleasedTVShowsByEraSubmenu(DataSorting dataSorting) 
     {
         try 
@@ -1021,6 +1173,12 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method for printing released tv shows by selected star wars era as view/page.
+     * @param releasedTVShowsByChosenEra list of released tv shows by selected era
+     * @param chosenEra selected star wars era from eras list
+     * @param dataSorting specifies how the printed tv shows should be sorted
+     */
     private void printReleasedTVShowsByEra(List<TVShow> releasedTVShowsByChosenEra, Era chosenEra, DataSorting dataSorting) 
     {
         StringBuilder heading = null;
@@ -1130,6 +1288,12 @@ public class TVEpisodesUI
         System.out.println(dividingLine);        
     }
     
+    /**
+     * Method for handling displaying detail about chosen tv show submenu
+     * ({@link displayDetailAboutTVShowSubmenu})
+     * @param chosenTVShows list of chosen tv shows from which chosen tv show will
+     * be selected by tv show order from printed tv shows view/list.
+     */
     private void handleDisplayDetailAboutTVShowSubmenu(List<TVShow> chosenTVShows) 
     {
         try
@@ -1231,6 +1395,11 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method which prompts user for tv show order number from printed tv shows view/list 
+     * and then returns it.
+     * @return int value representing tv show order from tv shows view.
+     */
     private int loadChosenTVShowFromUser() 
     {
         System.out.println();
@@ -1238,6 +1407,12 @@ public class TVEpisodesUI
         return consoleUI.getScanner().nextInt();
     }
     
+    /**
+     * Method which prints detail informations about chosen tv show as view/page.
+     * @param chosenTVShow represents chosen tv show from printed tv shows list/view.
+     * @param isInEditMode selects if tv show informations are displayed in tv show detail mode or edit mode
+     * ({@link displayDetailAboutTVShowSubmenu}, {@link displayEditChosenTVShowSubmenu})
+     */
     private void printTVShowDetail(TVShow chosenTVShow, boolean isInEditMode) 
     {
         boolean wasReleased = false;
@@ -1274,6 +1449,14 @@ public class TVEpisodesUI
         System.out.println(dividingLine);  
     }
     
+    /**
+     * Method which tries to delete chosen tv show from database.
+     * Method will also delete chosen TV show seasons and episodes.
+     * @param tvShowPrimaryKey represents chosen tv show primary key
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed tv shows as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean deleteChosenTVShow(PrimaryKey tvShowPrimaryKey) 
     {
         boolean returnToParentMenu = false;
@@ -1292,6 +1475,14 @@ public class TVEpisodesUI
         return returnToParentMenu;
     }
     
+    /**
+     * Method for handling displaying editation of chosen tv show submenu
+     * ({@link displayEditChosenTVShowSubmenu})
+     * @param chosenTVShow selected tv show from printed tv shows list/view.
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed tv shows as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean handleDisplayEditChosenTVShowSubmenu(TVShow chosenTVShow) 
     {
         boolean wasReleased = false;
@@ -1373,6 +1564,14 @@ public class TVEpisodesUI
         return returnToTVShowsListMenu;
     }
     
+    /**
+     * Method which tries to edit existing chosen tv show by tv shows input file
+     * @param existingTVShowPrimaryKey selected tv show primary key
+     * @param fromBinary selects if input file will be binary or text
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed tv shows as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean editTVShowFromInputFile(PrimaryKey existingTVShowPrimaryKey, boolean fromBinary) 
     {
         boolean returnToParentMenu = false;
@@ -1399,6 +1598,11 @@ public class TVEpisodesUI
         return returnToParentMenu;
     }
     
+    /**
+     * Method for handling displaying printed tv seasons of entire chosen TV show submenu
+     * ({@link displayPrintChosenTVShowSeasonsSubmenu})
+     * @param chosenTVShow selected tv show from printed tv shows list/view.
+     */
     private void handleDisplayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow) 
     {        
         consoleUI.addBreadcrumbItem(String.format("TV sezóny seriálu %s", chosenTVShow.getName()));
@@ -1458,6 +1662,11 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method which prints tv seasons from entire chosen tv show as view/page.
+     * @param chosenTVShowSeasons list of tv seasons from selected tv show
+     * @param chosenTVShow selected tv show from printed tv shows list/view.
+     */
     private void printChosenTVShowSeasons(List<TVSeason> chosenTVShowSeasons, TVShow chosenTVShow) 
     {        
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
@@ -1621,6 +1830,11 @@ public class TVEpisodesUI
         System.out.println(dividingLine);        
     }
     
+    /**
+     * Method for handling loading tv seasons from input file submenu
+     * ({@link displayLoadTVSeasonsFromInputFileSubmenu})
+     * @param chosenTVShow selected tv show to which tv seasons will be added
+     */
     private void handleLoadTVSeasonsFromInputFileSubmenu(TVShow chosenTVShow) 
     {
         consoleUI.addBreadcrumbItem("Přidávání TV sezón ze vstupního souboru");
@@ -1666,6 +1880,11 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method which tries to load tv seasons from tv seasons input file
+     * @param fromBinary selects if input file is binary or text
+     * @param tvShowPrimaryKey primary key of selected tv show to which tv seasons will be added
+     */
     private void loadTVSeasonsFromInputFile(PrimaryKey tvShowPrimaryKey, boolean fromBinary) 
     {        
         try 
@@ -1679,6 +1898,11 @@ public class TVEpisodesUI
         }        
     }
     
+    /**
+     * Method which tries to delete chosen tv seasons from database
+     * Method will also delete chosen TV seasons episodes
+     * @param chosenTVSeasons represents list of chosen tv seasons to be deleted
+     */
     private void deleteChosenTVSeasons(List<TVSeason> chosenTVSeasons) 
     {        
         try 
@@ -1692,6 +1916,11 @@ public class TVEpisodesUI
         }   
     }
     
+    /**
+     * Method for handling sending tv episodes by email submenu
+     * ({@link displaySendTVEpisodesByEmailSubmenu})
+     * @param chosenTVShow selected tv Show, which TV episodes should be sent
+     */
     private void handleSendTVEpisodesByEmailSubmenu(TVShow chosenTVShow) 
     {
         consoleUI.addBreadcrumbItem("Posílání TV epizod e-mailem");
@@ -1728,6 +1957,10 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method which tries to send unwatched tv episodes of selected TV show by email
+     * @param tvShowPrimaryKey chosen tv show primary key, which tv episodes should be sent
+     */
     private void sendUnwatchedTVEpisodesInTVShowByEmail(PrimaryKey tvShowPrimaryKey) 
     {
         String email = consoleUI.loadEmailFromUser();
@@ -1743,6 +1976,12 @@ public class TVEpisodesUI
         }        
     }
     
+    /**
+     * Method for handling printed sorted tv episodes from entire selected tv show submenu
+     * ({@link displayPrintTVShowSortedTVEpisodesSubmenu}).
+     * @param chosenTVShow selected TV show, which sorted TV episodes should be printed
+     * @param dataSorting sorting criteria specifying how the TV episodes should be sorted
+     */
     private void handleDisplayPrintTVShowSortedTVEpisodesSubmenu(TVShow chosenTVShow, DataSorting dataSorting) 
     {
         switch (dataSorting) 
@@ -1806,6 +2045,12 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method prints sorted tv episodes from entire selected tv show as view/page.
+     * @param tvShowSortedTVEpisodes list of sorted tv episodes of selected tv show
+     * @param chosenTVShow selected TV show, which sorted TV episodes should be printed
+     * @param dataSorting sorting criteria specifying how the TV episodes should be sorted
+     */
     private void printTVShowSortedTVEpisodes(List<TVEpisode> tvShowSortedTVEpisodes, TVShow chosenTVShow, DataSorting dataSorting) 
     {
         StringBuilder heading = null;
@@ -1868,6 +2113,12 @@ public class TVEpisodesUI
         System.out.println(dividingLine);       
     }
     
+    /**
+     * Method for handling displaying detail about chosen tv season submenu
+     * ({@link displayDetailAboutTVSeasonSubmenu})
+     * @param chosenTVSeasons list of chosen tv seasons from which chosen tv season will
+     * be selected by tv season order from printed tv seasons view/list (not order in TV show).
+     */
     private void handleDisplayDetailAboutTVSeasonSubmenu(List<TVSeason> chosenTVSeasons) 
     {
         try 
@@ -1948,6 +2199,12 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method which prompts user for tv season order number from printed 
+     * tv seasons view/list (not order in TV show)
+     * and then returns it.
+     * @return int value representing tv season order from tv seasons view. (not order in TV show)
+     */
     private int loadChosenTVSeasonFromUser() 
     {
         System.out.println();
@@ -1955,6 +2212,12 @@ public class TVEpisodesUI
         return consoleUI.getScanner().nextInt();
     }
     
+    /**
+     * Method which prints detail informations about chosen tv season as view/page.
+     * @param chosenTVSeason represents chosen tv season from printed tv seasons list/view.
+     * @param isInEditMode selects if tv season informations are displayed in tv season detail mode or edit mode
+     * ({@link displayDetailAboutTVSeasonSubmenu}, {@link displayEditChosenTVSeasonSubmenu})
+     */
     private void printTVSeasonDetail(TVSeason chosenTVSeason, boolean isInEditMode) 
     {        
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
@@ -1978,6 +2241,14 @@ public class TVEpisodesUI
         System.out.println(dividingLine);  
     }
     
+    /**
+     * Method which tries to delete chosen tv season from database.
+     * Method will also delete chosen tv season episodes
+     * @param tvSeasonPrimaryKey represents chosen tv season primary key
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed tv seasons as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean deleteChosenTVSeason(PrimaryKey tvSeasonPrimaryKey) 
     {
         boolean returnToParentMenu = false;
@@ -1996,6 +2267,14 @@ public class TVEpisodesUI
         return returnToParentMenu;
     }
     
+    /**
+     * Method for handling displaying editation of chosen tv season submenu
+     * ({@link displayEditChosenTVSeasonSubmenu})
+     * @param chosenTVSeason selected tv season from printed tv seasons list/view.
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed tv season as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean handleDisplayEditChosenTVSeasonSubmenu(TVSeason chosenTVSeason) 
     {
         consoleUI.addBreadcrumbItem(String.format("Editace TV sezóny %d", 
@@ -2070,6 +2349,16 @@ public class TVEpisodesUI
         return returnToTVSeasonsListMenu;
     }
     
+    /**
+     * Method which tries to edit existing chosen tv season by tv seasons input file
+     * @param existingTVSeasonPrimaryKey selected tv season primary key
+     * @param existingTVShowPrimaryKey primary key of tv season parent show, 
+     * which will be used to link edited tv season from file to correct tv show
+     * @param fromBinary selects if input file will be binary or text
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed tv seasons as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean editTVSeasonFromInputFile(PrimaryKey existingTVSeasonPrimaryKey, PrimaryKey existingTVShowPrimaryKey ,boolean fromBinary) 
     {
         boolean returnToParentMenu = false;
@@ -2097,6 +2386,11 @@ public class TVEpisodesUI
         return returnToParentMenu;
     }
     
+    /**
+     * Method for handling displaying printed tv episodes of entire chosen TV season submenu
+     * ({@link displayPrintChosenTVSeasonEpisodesSubmenu})
+     * @param chosenTVSeason selected tv season from printed tv seasons list/view.
+     */
     private void handleDisplayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason) 
     {        
         consoleUI.addBreadcrumbItem(String.format("TV epizody sezóny %d", chosenTVSeason.getOrderInTVShow()));
@@ -2151,6 +2445,11 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method which prints tv episodes from entire chosen tv season as view/page.
+     * @param chosenTVSeasonEpisodes list of tv episodes from selected tv season.
+     * @param chosenTVSeason selected tv season from printed tv seasons list/view.
+     */
     private void printChosenTVSeasonEpisodes(List<TVEpisode> chosenTVSeasonEpisodes, TVSeason chosenTVSeason) 
     {        
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
@@ -2273,6 +2572,11 @@ public class TVEpisodesUI
         System.out.println(dividingLine);        
     }
     
+    /**
+     * Method for handling loading tv episodes from input file submenu
+     * ({@link displayLoadTVEpisodesFromInputFileSubmenu}).
+     * @param chosenTVSeason selected tv season to which tv episodes will be added
+     */
     private void handleLoadTVEpisodesFromInputFileSubmenu(TVSeason chosenTVSeason) 
     {
         consoleUI.addBreadcrumbItem("Přidávání TV epizod ze vstupního souboru");
@@ -2318,6 +2622,11 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method which tries to load tv episodes from tv episodes input file
+     * @param fromBinary selects if input file is binary or text
+     * @param tvSeasonPrimaryKey primary key of selected tv season to which tv episodes will be added
+     */
     private void loadTVEpisodesFromInputFile(PrimaryKey tvSeasonPrimaryKey, boolean fromBinary) 
     {        
         try 
@@ -2331,6 +2640,10 @@ public class TVEpisodesUI
         }        
     }
     
+    /**
+     * Method which tries to delete chosen tv episodes from database.
+     * @param chosenTVEpisodes list of chosen tv episodes
+     */
     private void deleteChosenTVEpisodes(List<TVEpisode> chosenTVEpisodes) 
     {        
         try 
@@ -2344,6 +2657,12 @@ public class TVEpisodesUI
         }   
     }
     
+    /**
+     * Method for handling printed sorted tv episodes from entire selected tv season submenu
+     * ({@link displayPrintTVSeasonSortedTVEpisodesSubmenu})
+     * @param chosenTVSeason selected TV season, which sorted TV episodes should be printed
+     * @param dataSorting sorting criteria specifying how the TV episodes should be sorted
+     */
     private void handleDisplayPrintTVSeasonSortedTVEpisodesSubmenu(TVSeason chosenTVSeason, DataSorting dataSorting) 
     {
         switch (dataSorting) 
@@ -2407,6 +2726,13 @@ public class TVEpisodesUI
         }
     }
     
+    
+    /**
+     * Method prints sorted tv episodes from entire selected tv season as view/page.
+     * @param tvSeasonSortedTVEpisodes list of sorted tv episodes of selected tv season
+     * @param chosenTVSeason selected TV season, which sorted TV episodes should be printed
+     * @param dataSorting sorting criteria specifying how the TV episodes should be sorted
+     */
     private void printTVSeasonSortedTVEpisodes(List<TVEpisode> tvSeasonSortedTVEpisodes, TVSeason chosenTVSeason, DataSorting dataSorting) 
     {
         StringBuilder heading = null;
@@ -2465,6 +2791,10 @@ public class TVEpisodesUI
         System.out.println(dividingLine);       
     }
     
+    /**
+     * Method for handling printing released newest tv shows submenu
+     * ({@link displayPrintReleasedNewestTVShowsSubmenu})
+     */
     private void handleDisplayPrintReleasedNewestTVShowsSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Nejnovější již vydané TV seriály");
@@ -2508,6 +2838,11 @@ public class TVEpisodesUI
         }
     }
     
+    
+    /**
+     * Method for printing released newest tv shows as view/page.
+     * @param releasedNewestTVShows list of released newest shows
+     */
     private void printReleasedNewestTVShows(List<TVShow> releasedNewestTVShows) 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, "NEJNOVĚJŠÍ JIŽ VYDANÉ TV SERIÁLY");
@@ -2597,6 +2932,11 @@ public class TVEpisodesUI
         System.out.println(dividingLine);        
     }
     
+    /**
+     * Method for handling printing tv episodes, tv seasons and tv shows output files contents submenu
+     * ({@link displayPrintDataOutputFilesContentsSubmenu})
+     * @param dataType specifies for which data to display submenu and its choices
+     */
     private void handlePrintDataOutputFilesContentsSubmenu(DataType dataType) 
     {
         String dataTextOutputFilename = null;
@@ -2657,6 +2997,12 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method for handling displaying detail about chosen tv episode submenu
+     * ({@link displayDetailAboutTVEpisodeSubmenu})
+     * @param chosenTVEpisodes list of chosen tv episodes from which chosen tv episode will
+     * be selected by tv episode order from printed tv episodes view/list (not order in TV season).
+     */
     private void handleDisplayDetailAboutTVEpisodeSubmenu(List<TVEpisode> chosenTVEpisodes) 
     {
         try 
@@ -2749,6 +3095,11 @@ public class TVEpisodesUI
         }
     }
     
+    /**
+     * Method which prompts user for tv episode order number from printed tv episodes view/list
+     * and then returns it. (not order in TV season)
+     * @return int value representing tv episode order from tv episodes view.
+     */
     private int loadChosenTVEpisodeFromUser() 
     {
         System.out.println();
@@ -2756,6 +3107,14 @@ public class TVEpisodesUI
         return consoleUI.getScanner().nextInt();
     }
     
+    /**
+     * Method which prints detail informations about chosen tv episode as view/page.
+     * @param chosenTVEpisode represents chosen tv episode from printed tv episodes list/view.
+     * @param chosenTVEpisodeParentSeason represents chosen tv episode parent season which
+     * will be used for displaying its informations in tv episode view/page.
+     * @param isInEditMode selects if tv episode informations are displayed in tv episode detail mode or 
+     * edit mode ({@link displayDetailAboutTVEpisodeSubmenu}, {@link displayEditChosenTVEpisodeSubmenu})
+     */
     private void printTVEpisodeDetail(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason, boolean isInEditMode) 
     {
         StringBuilder heading = consoleUI.createHeadingWithHorizontalLines(20, 
@@ -2801,6 +3160,13 @@ public class TVEpisodesUI
         System.out.println(dividingLine);  
     }
     
+    /**
+     * Method which tries to delete chosen tv episode from database
+     * @param tvEpisodePrimaryKey represents chosen tv episode primary key
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed tv episodes as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean deleteChosenTVEpisode(PrimaryKey tvEpisodePrimaryKey) 
     {
         boolean returnToParentMenu = false;
@@ -2819,6 +3185,16 @@ public class TVEpisodesUI
         return returnToParentMenu;
     }
     
+    /**
+     * Method for handling displaying editation of chosen tv episode submenu
+     * ({@link displayEditChosenTVEpisodeSubmenu})
+     * @param chosenTVEpisode selected tv episode from printed tv episodes list/view.
+     * @param chosenTVEpisodeParentSeason represents chosen tv episode parent season which
+     * will be used for displaying its informations in tv episode view/page.
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed tv episodes as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean handleDisplayEditChosenTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason) 
     {
         consoleUI.addBreadcrumbItem(String.format("Editace %s TV epizody %d v sezóně %d", 
@@ -2895,6 +3271,16 @@ public class TVEpisodesUI
         return returnToTVEpisodesListMenu;
     }
     
+    /**
+     * Method which tries to edit existing chosen tv episode by tv episodes input file
+     * @param existingTVEpisodePrimaryKey selected tv episode primary key
+     * @param existingTVSeasonPrimaryKey primary key of tv episode parent season, 
+     * which will be used to link edited tv episode from file to correct tv season
+     * @param fromBinary selects if input file will be binary or text
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed tv episodes as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean editTVEpisodeFromInputFile(PrimaryKey existingTVEpisodePrimaryKey, 
             PrimaryKey existingTVSeasonPrimaryKey ,boolean fromBinary) 
     {
@@ -2923,6 +3309,13 @@ public class TVEpisodesUI
         return returnToParentMenu;
     }
     
+    /**
+     * Method which tries to rate existing chosen tv episode in percents (0 to 100)
+     * @param chosenTVEpisode selected tv episode, which percentage rating is to be modified.
+     * @return logical value, if true, then current breadcrumb level 
+     * will return to parent level with printed tv episodes as view/page, 
+     * else nothing happens (will stay at current breadcrumb level)
+     */
     private boolean rateTVEpisode(TVEpisode chosenTVEpisode) 
     {
         boolean returnToParentMenu = false;
@@ -2965,6 +3358,11 @@ public class TVEpisodesUI
         return returnToParentMenu;
     }
     
+    /**
+     * Method which prompts user for entering chosen tv episode percentage rating in procents (0 to 100)
+     * and then returns it.
+     * @return int value representing percentage rating 
+     */
     private int loadTVEpisodePercentageRatingFromUser() 
     {
         System.out.println();
@@ -2972,6 +3370,11 @@ public class TVEpisodesUI
         return consoleUI.getScanner().nextInt();
     }
     
+    /**
+     * Method which tries to delete chosen tv shows from database.
+     * Method will also delete chosen TV shows seasons and episodes.
+     * @param chosenTVShows represents list of chosen tv shows to be deleted
+     */
     private void deleteChosenTVShows(List<TVShow> chosenTVShows) 
     {        
         try 

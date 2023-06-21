@@ -30,9 +30,9 @@ import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataFileManager;
 
 /**
- * Represents a tv shows file manager, which works specifically with TV shows data files
- * TV shows file manager works with tv show input and output data models and implements IDataFileManager interface
- * TV shows file manager is made available through accessor
+ * Represents a tv shows file manager, which works specifically with TV shows data files.
+ * TV shows file manager works with tv show input and output data models and implements IDataFileManager interface.
+ * TV shows file manager is made available through accessor.
  * @author jan.dostal
  */
 public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowOutput>
@@ -47,6 +47,16 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
     
     private final String inputFileAttributesSectionMarking;
     
+    
+    /**
+     * Creates singleton instance of TVShowsFileManager.
+     * Receives filenameSeparator, inputFileEndMarking, inputFileValuesSectionMarking 
+     * and inputFileAttributesSectionMarking parameters in constructor from {@link FileManagerAccessor} class.
+     * @param filenameSeparator file path separator dependent on application running operating system
+     * @param inputFileEndMarking control string for detecting file end
+     * @param inputFileValuesSectionMarking control string for detecting values section in file
+     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
+     */
     private TVShowsFileManager(String filenameSeparator, 
             String inputFileEndMarking, String inputFileValuesSectionMarking,
             String inputFileAttributesSectionMarking) 
@@ -57,6 +67,14 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         this.inputFileAttributesSectionMarking = inputFileAttributesSectionMarking;
     }
     
+    /**
+     * Represents a factory method for creating singleton instance.
+     * @param filenameSeparator file path separator dependent on application running operating system
+     * @param inputFileEndMarking control string for detecting file end
+     * @param inputFileValuesSectionMarking control string for detecting values section in file
+     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
+     * @return singleton instance of TVShowsFileManager as interface
+     */
     protected static IDataFileManager<TVShowInput, TVShowOutput> getInstance(String filenameSeparator, 
             String inputFileEndMarking, String inputFileValuesSectionMarking,
             String inputFileAttributesSectionMarking) 
@@ -789,6 +807,19 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         return parsedTVShows;
     }
     
+    
+    /**
+     * Represents a method which parses tv show input data (one record) from input binary or text 
+     * file when position in
+     * file reaches either end marking or reaches another attributes section marking.
+     * @param tvShowInputFieldsValues represents list of parsed tv show record values mapped to
+     * according tv show input model data attributes names.
+     * @param parsedTVShows represents a list of currently parsed tv shows
+     * @param tvShowInputFields represents tv show input model data attributes names, which are
+     * used for indexing particular fields values.
+     * @param inputTVShowOrder represents int value, which specifies tv show record loading 
+     * order from file (record on start of file - value 1, record after - value 2).
+     */
     private void parseInputData(Map<String, StringBuilder> tvShowInputFieldsValues,
             Map<Integer, TVShowInput> parsedTVShows, Field[] tvShowInputFields, int inputTVShowOrder)
     {
@@ -816,6 +847,16 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         }
     }
     
+    /**
+     * Represents a method which parses tv show output data (one record) from output text file when position in
+     * file reaches either end marking or reaches another attributes section marking.
+     * @param tvShowOutputFieldsValues represents list of parsed tv show record values mapped to
+     * according tv show output model data attributes names.
+     * @param parsedTVShows represents a list of currently parsed tv shows
+     * @param tvShowOutputFields represents tv show output model data attributes names, which are
+     * used for indexing particular fields values.
+     * @throws NumberFormatException when parsed tv show record number values cannot be converted to from String
+     */
     private void parseOutputData(Map<String, StringBuilder> tvShowOutputFieldsValues,
             List<TVShowOutput> parsedTVShows, Field[] tvShowOutputFields)
     {        
@@ -836,6 +877,12 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         }
     }
     
+    /**
+     * Represents a method which creates tv show output data (multiple records) text representation
+     * for output text file.
+     * @param newOutputTVShows represents list of tv show output models data from database
+     * @return text content to save into output text file
+     */
     private StringBuilder createOutputDataTextRepresentation(List<TVShowOutput> newOutputTVShows) 
     {
         Class<?> tvShowOutputClass = TVShowOutput.class;

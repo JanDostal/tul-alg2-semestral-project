@@ -30,11 +30,12 @@ import utils.exceptions.DatabaseException;
 import utils.exceptions.FileEmptyException;
 import utils.exceptions.FileParsingException;
 import utils.helpers.MovieDataConverter;
+import utils.interfaces.IDataFileManager;
 
 /**
- * Represents a movies controller for acting as business logic for application
- * Movies controller works with movie data type
- * Movies controller uses services like file manager, email service and database access layer
+ * Represents a movies controller for acting as business logic for application.
+ * Movies controller works with movie data type.
+ * Movies controller uses services like file manager, email service and database access layer.
  * @author jan.dostal
  */
 public class MoviesController 
@@ -49,6 +50,11 @@ public class MoviesController
     
     private final Collator czechCollator = DataStore.loadCzechCollator();
     
+    /**
+     * Compares two movies by their runtime attribute and sorts them from longest.
+     * Also if runtime attribute is null, still continues comparison.
+     * @return int value indicating if first movie runtime is greater or equal than second movie runtime
+     */
     private final Comparator<Movie> BY_LONGEST_DURATION_MOVIE = (Movie m1, Movie m2) -> 
     {
         if (m1.getRuntime() == null && m2.getRuntime() == null) 
@@ -66,10 +72,20 @@ public class MoviesController
         
         return m2.getRuntime().compareTo(m1.getRuntime());
     };
-
+    
+    /**
+     * Compares two movies by their name attribute and sorts them alphabetically.
+     * @return int value indicating if first movie name is alphabetically greater or equal than second movie name
+     */
     private final Comparator<Movie> BY_NAME_ALPHABETICALLY_MOVIE = (Movie m1, Movie m2) -> 
             czechCollator.compare(m1.getName(), m2.getName());
     
+    
+    /**
+     * Compares two movies by their date attribute and sorts them from newest.
+     * Also if date attribute is null, still continues comparison.
+     * @return int value indicating if first movie date is newer or equal than second movie date
+     */
     private final Comparator<Movie> BY_DATE_NEWEST_MOVIE = (Movie m1, Movie m2) -> 
     {
         if (m1.getReleaseDate() == null && m2.getReleaseDate() == null) 
@@ -88,6 +104,11 @@ public class MoviesController
         return m2.getReleaseDate().compareTo(m1.getReleaseDate());
     };
     
+    /**
+     * Compares two movies by their date attribute and sorts them from oldest.
+     * Also if date attribute is null, still continues comparison.
+     * @return int value indicating if first movie date is newer or equal than second movie date
+     */
     private final Comparator<Movie> BY_DATE_OLDEST_MOVIE = (Movie m1, Movie m2) -> 
     {
         if (m1.getReleaseDate() == null && m2.getReleaseDate() == null) 
@@ -106,11 +127,22 @@ public class MoviesController
         return m1.getReleaseDate().compareTo(m2.getReleaseDate());
     };
     
+    /**
+     * Compares two movies by their percentage rating attribute and sorts them from highest rating.
+     * @return int value indicating if first movie rating is greater or equal than second movie rating
+     */
     private final Comparator<Movie> BY_PERCENTAGE_RATING_HIGHEST_MOVIE = (Movie m1, Movie m2) -> 
     {        
         return m2.getPercentageRating() - m1.getPercentageRating();
     };
     
+    /**
+     * Creates singleton instance of MoviesController.
+     * Uses dependency injection to inject data context, email sender and file manager services.
+     * @param dbContext singleton instance of data context accessor 
+     * @param emailSender singleton instance of email sender 
+     * @param fileManagerAccessor singleton instance of file manager accessor 
+     */
     private MoviesController(DataContextAccessor dbContext, EmailSender emailSender, 
             FileManagerAccessor fileManagerAccessor) 
     {
@@ -119,6 +151,13 @@ public class MoviesController
         this.fileManagerAccessor = fileManagerAccessor;
     }
     
+    /**
+     * Represents a factory method for creating singleton instance.
+     * @param dbContext singleton instance of data context accessor 
+     * @param emailSender singleton instance of email sender 
+     * @param fileManagerAccessor singleton instance of file manager accessor 
+     * @return singleton instance of MoviesController class
+     */
     public static MoviesController getInstance(DataContextAccessor dbContext, EmailSender emailSender, 
             FileManagerAccessor fileManagerAccessor) 
     {
@@ -130,7 +169,12 @@ public class MoviesController
         return movieController;
     }
     
-    //email method
+    
+    /**
+     * Represents an email method for sending e-mail with HTML encoded unwatched movies with hyperlinks, sorted from oldest.
+     * @param recipientEmailAddress entered recipient e-mail address from user
+     * @throws org.apache.commons.mail.EmailException if recipientEmailAddress is invalid or network error occures
+     */
     public void sendUnwatchedOldestMoviesWithHyperlinksByEmail(String recipientEmailAddress) throws EmailException 
     {
         LocalDate currentDate = getCurrentDate();
@@ -195,7 +239,12 @@ public class MoviesController
         emailSender.sendEmail(recipientEmailAddress, subject, message);
     }
     
-    //email method
+    /**
+     * Represents an email method for sending e-mail with HTML encoded unwatched movies with hyperlinks, categorized
+     * into chronological eras.
+     * @param recipientEmailAddress entered recipient e-mail address from user
+     * @throws org.apache.commons.mail.EmailException if recipientEmailAddress is invalid or network error occures
+     */
     public void sendUnwatchedMoviesWithHyperlinksInChronologicalErasByEmail(String recipientEmailAddress) throws EmailException 
     {
         LocalDate currentDate = getCurrentDate();
@@ -269,7 +318,13 @@ public class MoviesController
         emailSender.sendEmail(recipientEmailAddress, subject, message);
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating total runtime of unwatched/watched
+     * movies in selected era.
+     * @param era chosen era in which to operate
+     * @param onlyWatched selects if movies filtered will be unwatched or watched
+     * @return total runtime of all watched/unwatched movies by era
+     */
     public Duration getTotalRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
     {
         Duration totalDuration = Duration.ZERO;
@@ -288,7 +343,13 @@ public class MoviesController
         return totalDuration;
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating average runtime of unwatched/watched
+     * movies in selected era.
+     * @param era chosen era in which to operate
+     * @param onlyWatched selects if movies filtered will be unwatched or watched
+     * @return average runtime of all unwatched/watched movies by era
+     */
     public Duration getAverageRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched)
     {
         long averageSeconds;
@@ -311,7 +372,12 @@ public class MoviesController
         return averageDuration;
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating average percentage rating (0 - 100) of watched
+     * movies in selected era.
+     * @param era chosen era in which to operate
+     * @return float value indicating calculated average rating in percents 
+     */
     public float getAverageRatingOfAllReleasedMoviesByEra(Era era)
     {
         float averageRating;
@@ -340,7 +406,12 @@ public class MoviesController
         return averageRating;
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating announced movies count
+     * in selected era.
+     * @param era chosen era in which to operate
+     * @return int value indicating total count of announced movies
+     */
     public int getAnnouncedMoviesCountByEra(Era era) 
     {
         List<Movie> filteredMovies = getAnnouncedMoviesInAlphabeticalOrderByEra(era);
@@ -348,7 +419,14 @@ public class MoviesController
         return filteredMovies.size();
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating a total count of unwatched/watched 
+     * movies, which have runtime attribute set (not null) in selected era.
+     * @param era chosen era in which to operate
+     * @param onlyWatched selects if movies filtered will be unwatched or watched
+     * @return int value indicating total count of watched/unwatched movies with runtime
+     * attribute set
+     */
     public int getReleasedMoviesWithRuntimeSetCountByEra(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
@@ -361,7 +439,13 @@ public class MoviesController
         return filteredMovies.size();
     }
     
-    //statistic method
+    /**
+     * Represents a statistic method for calculating a total count of unwatched/watched 
+     * movies in selected era.
+     * @param era chosen era in which to operate
+     * @param onlyWatched selects if movies filtered will be unwatched or watched
+     * @return int value indicating total count of watched/unwatched movies
+     */
     public int getReleasedMoviesCountByEra(Era era, boolean onlyWatched) 
     {        
         List<Movie> filteredMovies = getReleasedNewestMoviesByEra(era, onlyWatched);
@@ -369,6 +453,12 @@ public class MoviesController
         return filteredMovies.size();
     }
     
+    /**
+     * Represents a method for getting watched/unwatched longest movies in selected era
+     * @param era chosen era in which to operate.
+     * @param onlyWatched selects if movies filtered will be unwatched or watched
+     * @return list of filtered and sorted unwatched/watched movies
+     */
     public List<Movie> getReleasedLongestMoviesByEra(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
@@ -382,6 +472,13 @@ public class MoviesController
         return filteredMovies;
     }
     
+    /**
+     * Represents a method for getting watched/unwatched movies, sorted in alphabetical order,
+     * in selected era.
+     * @param era chosen era in which to operate
+     * @param onlyWatched selects if movies filtered will be unwatched or watched
+     * @return list of filtered and sorted unwatched/watched movies
+     */
     public List<Movie> getReleasedMoviesInAlphabeticalOrderByEra(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
@@ -396,6 +493,13 @@ public class MoviesController
         return filteredMovies;
     }
     
+    /**
+     * Represents a method for getting watched/unwatched newest movies
+     * in selected era.
+     * @param era chosen era in which to operate
+     * @param onlyWatched selects if movies filtered will be unwatched or watched
+     * @return list of filtered and sorted unwatched/watched movies
+     */
     public List<Movie> getReleasedNewestMoviesByEra(Era era, boolean onlyWatched) 
     {
         LocalDate currentDate = getCurrentDate();
@@ -410,6 +514,12 @@ public class MoviesController
         return filteredMovies;
     }
     
+    /**
+     * Represents a method for getting watched favorite movies
+     * in selected era.
+     * @param era chosen era in which to operate
+     * @return list of filtered and sorted released movies
+     */
     public List<Movie> getReleasedFavoriteMoviesByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
@@ -424,6 +534,12 @@ public class MoviesController
         return filteredMovies;
     }
     
+    /**
+     * Represents a method for getting announced movies, sorted in alphabetical order,
+     * in selected era.
+     * @param era chosen era in which to operate
+     * @return list of filtered and sorted announced movies
+     */
     public List<Movie> getAnnouncedMoviesInAlphabeticalOrderByEra(Era era) 
     {
         LocalDate currentDate = getCurrentDate();
@@ -437,6 +553,10 @@ public class MoviesController
         return filteredMovies;
     }
     
+    /**
+     * Represents a method for getting watched favorite movies from all eras.
+     * @return list of filtered and sorted watched movies
+     */
     public List<Movie> getReleasedFavoriteMoviesOfAllTime() 
     {
         LocalDate currentDate = getCurrentDate();
@@ -451,6 +571,10 @@ public class MoviesController
         return filteredMovies;
     }
     
+    /**
+     * Represents a method for getting released newest movies from all eras.
+     * @return list of filtered and sorted released movies
+     */
     public List<Movie> getReleasedNewestMovies()
     {
         LocalDate currentDate = getCurrentDate();
@@ -464,6 +588,15 @@ public class MoviesController
         return filteredMovies;
     }
     
+    /**
+     * Represents a method for rating a selected movie with new percentage rating.
+     * @param existingMovie movie data model instance which rating wants to be changed
+     * @param percentageRating percentage rating in range 0 - 100 indicating likability of movie
+     * @return logical value indicating if percentage rating changed or remained unchanged
+     * @throws utils.exceptions.DatabaseException if percentage rating value is invalid
+     * @throws java.io.IOException if updating movies output data files with new data failes
+     * @throws IllegalArgumentException if percentageRating is negative number
+     */
     public boolean rateMovie(Movie existingMovie, int percentageRating) throws DatabaseException, IOException
     {
         updateMoviesOutputFilesWithExistingData();
@@ -493,6 +626,13 @@ public class MoviesController
         return wasDataChanged;
     }
     
+    /**
+     * Represents a method for searching in movies data table by movie name.
+     * Searching uses regular expression to achieve it.
+     * @param name queried movie name entered from user
+     * @return list of zero to N movies which meet best with queried movie name
+     * @throws IllegalArgumentException if entered movie name is empty
+     */
     public List<Movie> searchForMovie(String name) 
     {
         if (name.isEmpty() || name.isBlank()) 
@@ -520,6 +660,14 @@ public class MoviesController
         return foundMovies;
     }
     
+    /**
+     * Represents a method for getting movies chosen file (binary/text, input/output) content.
+     * @param fileName name of the chosen file (not file path)
+     * @return stringbuilder which contains file content as string
+     * @throws java.io.IOException when reading from chosen file fails
+     * @throws java.io.FileNotFoundException when chosen file does not exist
+     * @throws utils.exceptions.FileEmptyException when chosen file content is empty
+     */
     public StringBuilder getMoviesChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
     {
         StringBuilder content = new StringBuilder();
@@ -543,7 +691,15 @@ public class MoviesController
         
         return content;
     }
-        
+    
+    /**
+     * Represents a method for parsing movies output data from binary or text file
+     * @param fromBinary selects if output file will be binary or text
+     * @throws java.io.IOException when reading from output file fails
+     * @throws utils.exceptions.FileParsingException when parsing from output file fails because of corrupted data
+     * @throws utils.exceptions.DataConversionException when parsed output data cannot be converted to database model data
+     * @throws utils.exceptions.DatabaseException when database model data have invalid data, duplicity etc.
+     */
     public void loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, 
             DataConversionException, DatabaseException, Exception 
     {
@@ -570,6 +726,15 @@ public class MoviesController
         }
     }
     
+    /**
+     * Represents a method for parsing movies input data from binary or text file
+     * @param fromBinary selects if input file will be binary or text
+     * @return stringbuilder which contains message log informing about occured errors and parsed movies
+     * @throws java.io.IOException when reading from input file fails
+     * @throws java.io.FileNotFoundException when input file does not exist
+     * @throws utils.exceptions.FileEmptyException when input file is empty
+     * @throws utils.exceptions.FileParsingException when nothing was parsed from not-empty input file
+     */
     public StringBuilder addMoviesFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
     {
         updateMoviesOutputFilesWithExistingData();
@@ -609,6 +774,12 @@ public class MoviesController
         return message;
     }
     
+    /**
+     * Represents a method for deleting chosen data model movie by its primary key
+     * @param moviePrimaryKey represents a movie identificator in database
+     * @throws java.io.IOException when updating movies output files with new data fails
+     * @throws utils.exceptions.DatabaseException when chosen movie does not exist
+     */
     public void deleteMovieBy(PrimaryKey moviePrimaryKey) throws IOException, DatabaseException
     {
         updateMoviesOutputFilesWithExistingData();
@@ -618,6 +789,11 @@ public class MoviesController
         updateMoviesOutputFilesWithNewChanges();
     }
     
+    /**
+     * Represents a method for deleting chosen list of movies
+     * @param chosenMovies represents a list of movies originating from database
+     * @throws java.io.IOException when updating movies output files with new data fails
+     */
     public void deleteMovies(List<Movie> chosenMovies) throws IOException
     {       
         updateMoviesOutputFilesWithExistingData();
@@ -636,6 +812,18 @@ public class MoviesController
         updateMoviesOutputFilesWithNewChanges();
     }
     
+    /**
+     * Represents a method for editing chosen movie by its primary key and using movies input file
+     * @param existingMoviePrimaryKey represents an existing movie identificator in database
+     * @param fromBinary selects if parsing of new data for existing movie will be from text or binary input file
+     * @return logical value indicating if existing movie data was changed or remained same
+     * @throws java.io.IOException if reading from movies input file fails
+     * @throws java.io.FileNotFoundException if input file is not found
+     * @throws utils.exceptions.FileEmptyException if input file is empty
+     * @throws utils.exceptions.DataConversionException if movie input data cannot be converted to movie database data model
+     * @throws utils.exceptions.DatabaseException if movie database data are invalid, duplicity etc.
+     * @throws utils.exceptions.FileParsingException when nothing was parsed from not-empty input file
+     */
     public boolean editMovieBy(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) throws IOException, FileNotFoundException, 
             FileEmptyException, DataConversionException, DatabaseException, FileParsingException 
     {
@@ -662,7 +850,11 @@ public class MoviesController
         
         return wasDataChanged;
     }
-        
+    
+    /**
+     * Represents a method for saving current movies table state into output files
+     * @throws java.io.IOException if saving movies table state into output files fails
+     */
     private void updateMoviesOutputFilesWithExistingData() throws IOException 
     {
         List<Movie> currentMovies = dbContext.getMoviesTable().getAll();
@@ -680,6 +872,26 @@ public class MoviesController
         fileManagerAccessor.getMoviesFileManager().saveOutputDataIntoFiles(outputMovies);
     }
     
+    /**
+     * Represents a method for saving updated movies table state into output files.
+     * <p>
+     * The correct usage of this method is to 
+     * call {@link IDataFileManager#transferBetweenOutputDataAndCopyFiles(boolean) 
+     * transferBetweenOutputDataAndCopyFiles} method to
+     * backup output files. Then call {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method to try to save output data.
+     * <p>
+     * If calling {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method fails, then transfer output data from copies back into
+     * output files by {@link IDataFileManager#transferBetweenOutputDataAndCopyFiles(boolean)
+     * transferBetweenOutputDataAndCopyFiles} and load them back into database.
+     * <p>
+     * After all of it, call {@link IDataFileManager#tryDeleteDataOutputFilesCopies() 
+     * tryDeleteDataOutputFilesCopies} method regardless if calling 
+     * {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
+     * saveOutputDataIntoFiles} method fails or not
+     * @throws java.io.IOException if saving movies table updated state into output files fails
+     */
     private void updateMoviesOutputFilesWithNewChanges() throws IOException
     {
         List<Movie> currentMovies = dbContext.getMoviesTable().getAll();
@@ -745,7 +957,12 @@ public class MoviesController
             fileManagerAccessor.getMoviesFileManager().tryDeleteDataOutputFilesCopies();
         }
     }
-        
+    
+    /**
+     * Represents a method for getting current date (present date as LocalDate).
+     * Timezone is determined from operating system running application
+     * @return instance of LocalDate, representing present date
+     */
     public static LocalDate getCurrentDate() 
     {
         return LocalDate.now(ZoneId.systemDefault());

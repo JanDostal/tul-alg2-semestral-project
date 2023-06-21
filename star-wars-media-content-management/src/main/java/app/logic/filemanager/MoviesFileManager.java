@@ -30,9 +30,9 @@ import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataFileManager;
 
 /**
- * Represents a movies file manager, which works specifically with movies data files
- * Movies file manager works with movie input and output data models and implements IDataFileManager interface
- * Movies file manager is made available through accessor
+ * Represents a movies file manager, which works specifically with movies data files.
+ * Movies file manager works with movie input and output data models and implements IDataFileManager interface.
+ * Movies file manager is made available through accessor.
  * @author jan.dostal
  */
 public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutput>
@@ -47,6 +47,16 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
     
     private final String inputFileAttributesSectionMarking;
     
+    
+    /**
+     * Creates singleton instance of MoviesFileManager.
+     * Receives filenameSeparator, inputFileEndMarking, inputFileValuesSectionMarking 
+     * and inputFileAttributesSectionMarking parameters in constructor from {@link FileManagerAccessor} class.
+     * @param filenameSeparator file path separator dependent on application running operating system
+     * @param inputFileEndMarking control string for detecting file end
+     * @param inputFileValuesSectionMarking control string for detecting values section in file
+     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
+     */
     private MoviesFileManager(String filenameSeparator, 
             String inputFileEndMarking, String inputFileValuesSectionMarking,
             String inputFileAttributesSectionMarking) 
@@ -57,6 +67,14 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         this.inputFileAttributesSectionMarking = inputFileAttributesSectionMarking;
     }
     
+    /**
+     * Represents a factory method for creating singleton instance.
+     * @param filenameSeparator file path separator dependent on application running operating system
+     * @param inputFileEndMarking control string for detecting file end
+     * @param inputFileValuesSectionMarking control string for detecting values section in file
+     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
+     * @return singleton instance of MoviesFileManager as interface
+     */
     protected static IDataFileManager<MovieInput, MovieOutput> getInstance(String filenameSeparator, 
             String inputFileEndMarking, String inputFileValuesSectionMarking,
             String inputFileAttributesSectionMarking) 
@@ -862,6 +880,19 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         return parsedMovies;
     }
      
+    
+    /**
+     * Represents a method which parses movie input data (one record) from input binary or text 
+     * file when position in
+     * file reaches either end marking or reaches another attributes section marking.
+     * @param movieInputFieldsValues represents list of parsed movie record values mapped to
+     * according movie input model data attributes names.
+     * @param parsedMovies represents a list of currently parsed movies
+     * @param movieInputFields represents movie input model data attributes names, which are
+     * used for indexing particular fields values.
+     * @param inputMovieOrder represents int value, which specifies movie record loading 
+     * order from file (record on start of file - value 1, record after - value 2).
+     */
     private void parseInputData(Map<String, StringBuilder> movieInputFieldsValues,
             Map<Integer, MovieInput> parsedMovies, Field[] movieInputFields, int inputMovieOrder) 
     {        
@@ -894,6 +925,16 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         }
     }
     
+    /**
+     * Represents a method which parses movie output data (one record) from output text file when position in
+     * file reaches either end marking or reaches another attributes section marking.
+     * @param movieOutputFieldsValues represents list of parsed movie record values mapped to
+     * according movie output model data attributes names.
+     * @param parsedMovies represents a list of currently parsed movies
+     * @param movieOutputFields represents movie output model data attributes names, which are
+     * used for indexing particular fields values.
+     * @throws NumberFormatException when parsed movie record number values cannot be converted to from String
+     */
     private void parseOutputData(Map<String, StringBuilder> movieOutputFieldsValues,
             List<MovieOutput> parsedMovies, Field[] movieOutputFields)
     {        
@@ -918,6 +959,13 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         }
     }
     
+    
+    /**
+     * Represents a method which creates movie output data (multiple records) text representation
+     * for output text file.
+     * @param newOutputMovies represents list of movie output models data from database
+     * @return text content to save into output text file
+     */
     private StringBuilder createOutputDataTextRepresentation(List<MovieOutput> newOutputMovies) 
     {
         Class<?> movieOutputClass = MovieOutput.class;

@@ -3,7 +3,7 @@ package tests.mainmethods;
 import app.models.output.*;
 
 /**
- * Represents a custom unit test class for testing Data output models of models output module
+ * Represents a custom unit test class for testing Data output models of models output module.
  * @author jan.dostal
  */
 public class OutputModelsTest 

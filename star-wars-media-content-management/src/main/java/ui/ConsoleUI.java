@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Represents a common UI module for all data UI modules
- * ConsoleUI class offers breadcrumb for easier navigation in UI
- * ConsoleUI class is communicating with business logic through Movies and TVEpisodes controllers 
+ * Represents a common UI module for all data UI submodules (submodules are at disposal in this class).
+ * ConsoleUI class offers breadcrumb for easier navigation in UI.
+ * ConsoleUI class is communicating with business logic through Movies and TVEpisodes controllers.
  * @author jan.dostal
  */
 public class ConsoleUI 
@@ -37,12 +37,22 @@ public class ConsoleUI
     
     private TVEpisodesUI tvEpisodesUI;
    
+    /**
+     * Creates a new instance of ConsoleUI.
+     * Uses dependency injection to inject data controllers.
+     * @param moviesController singleton instance of movies data controller.
+     * @param tvEpisodesController singleton instance of tv episodes data controller.
+     */
     public ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController) 
     {
         this.tvEpisodesController = tvEpisodesController;
         this.moviesController = moviesController;
     }
     
+    /**
+     * Initializes ConsoleUI after instance creation, 
+     * specifically loads all data UI submodules as new instances
+     */
     private void initializeConsoleUI() 
     {
         wasInitialized = true;
@@ -50,21 +60,43 @@ public class ConsoleUI
         this.tvEpisodesUI = new TVEpisodesUI(this);
     }
     
+    /**
+     * @return Scanner instance (usage in data UI submodules)
+     */
     protected Scanner getScanner() 
     {
         return scanner;
     }
     
+    /**
+     * @return Movies controller instance (usage in data UI submodules)
+     */
     protected MoviesController getMoviesController() 
     {
         return moviesController;
     }
     
+    /**
+     * @return TV episodes controller instance (usage in data UI submodules)
+     */
     protected TVEpisodesController getTVEpisodesController() 
     {
         return tvEpisodesController;
     }
     
+    /**
+     * starts UI in console.
+     * <p>
+     * If ConsoleUI instance was just created, 
+     * it will call {@link initializeConsoleUI} method on start of this method, after that it will not 
+     * call that method for this instance ever again.
+     * <p>
+     * If console was just started, 
+     * it will set data directory and load selected output data files into database.
+     * If console will be run by multiple ConsoleUI instances, it will skip set data directory 
+     * and load selected output data files into database stages after calling 
+     * this method on first ConsoleUI instance.
+     */
     public void start() 
     {
         if (wasInitialized == false) 
@@ -215,6 +247,10 @@ public class ConsoleUI
         displayInfoMessage("Děkujeme za použití aplikace. Ukončuji...");
     }
     
+    /**
+     * Displays menu with choices for set data directory stage
+     * (is skipped if multiple instances of ConsoleUI are run).
+     */
     private void displayDataDirectoryPathMenu()
     {
         String menuName = String.format("MENU NASTAVOVÁNÍ ADRESÁŘE %s", DataStore.getDataDirectoryName().toUpperCase());
@@ -229,6 +265,10 @@ public class ConsoleUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Displays menu with choices for load selected data output files into database stage
+     * (is skipped if multiple instances of ConsoleUI are run).
+     */
     private void displayLoadingOutputFilesMenu() 
     {
         String menuName = "MENU NAČÍTÁNÍ VÝSTUPNÍCH SOUBORŮ";
@@ -260,6 +300,9 @@ public class ConsoleUI
         System.out.println(horizontalLine);        
     }
     
+    /**
+     * Displays a welcoming introduction for users of this application
+     */
     private void displayIntroduction() 
     {
         String introductionHeading = String.format("VÍTEJTE V APLIKACI %s", DataStore.getAppName().toUpperCase());
@@ -270,6 +313,9 @@ public class ConsoleUI
         System.out.println(introductionWithHorizontalLines);
     }
     
+    /**
+     * Displays a main menu of application with choices
+     */
     private void displayMainMenu() 
     {
         String menuName = "HLAVNÍ MENU";
@@ -286,6 +332,12 @@ public class ConsoleUI
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Method creates and then returns horizontal line with same width as heading 
+     * (usage also in data UI submodules)
+     * @param heading represents a heading for particular page/view
+     * @return horizontal line made of '-' with width set as heading width
+     */
     protected StringBuilder createDividingHorizontalLineOf(String heading) 
     {
         StringBuilder horizontalLine = new StringBuilder();
@@ -298,6 +350,13 @@ public class ConsoleUI
         return horizontalLine;
     }
     
+    /**
+     * Method creates and then returns heading, which has horizontal lines on left and right sides
+     * (usage also in data UI submodules).
+     * @param size represents width of one horizontal line
+     * @param heading represents text heading for particular view/page
+     * @return heading with horizontal lines on left and right (made of #)
+     */
     protected StringBuilder createHeadingWithHorizontalLines(int size, String heading) 
     {
         StringBuilder headingWithHorizontalLines = new StringBuilder();
@@ -317,6 +376,13 @@ public class ConsoleUI
         return headingWithHorizontalLines;
     }
     
+    /**
+     * Method creates and then returns menu name, which has horizontal lines on left and right sides
+     * (usage also in data UI submodules).
+     * @param size represents width of one horizontal line
+     * @param menuName represents text menu name for particular navigation level
+     * @return heading with horizontal lines on left and right (made of =)
+     */
     protected StringBuilder createMenuNameWithHorizontalLines(int size, String menuName) 
     {
         StringBuilder menuNameWithHorizontalLines = new StringBuilder();
@@ -336,16 +402,31 @@ public class ConsoleUI
         return menuNameWithHorizontalLines;
     }
     
+    /**
+     * Method adds new navigation level (going into sublevel) 
+     * into breadcrumb (collection of navigation levels).
+     * Usage of this method is also in data UI submodules.
+     * @param title represents a title of particular navigation level
+     */
     protected void addBreadcrumbItem(String title) 
     {
         breadcrumbItems.add(title);
     }
     
+    /**
+     * Method removes last navigation level (returning to parent level) 
+     * from breadcrumb (collection of navigation levels).
+     * Usage of this method is also in data UI submodules.
+     */
     protected void removeLastBreadcrumbItem() 
     {
         breadcrumbItems.remove(breadcrumbItems.size() - 1);
     }
     
+    /**
+     * Method displays current breadcrumb (current hiearchy of levels).
+     * Usage of this method is also in data UI submodules.
+     */
     protected void displayBreadcrumb()
     {
         StringBuilder breadcrumb = new StringBuilder("Aktuální cesta v navigaci: ");
@@ -378,23 +459,43 @@ public class ConsoleUI
         
     }
     
+    /**
+     * Method displays message as error message (formatting)
+     * Usage of this method is also in data UI submodules.
+     * @param message error message to be formatted
+     */
     protected void displayErrorMessage(String message) 
     {
         System.out.println();
         System.out.println("Chybová zpráva: " + message);
     }
     
+    /**
+     * Method displays message as info message (formatting)
+     * Usage of this method is also in data UI submodules.
+     * @param message info message to be formatted
+     */
     protected void displayInfoMessage(String message) 
     {
         System.out.println();
         System.out.println("Informační zpráva: " + message);
     }
     
+    /**
+     * Method for skipping last input in scanner (when InputMismatchException occurs etc.)
+     * Usage of this method is also in data UI submodules.
+     */
     protected void advanceToNextInput() 
     {
         scanner.nextLine();
     }
     
+    /**
+     * Method which prompts user for star wars era order number from printed eras view/list 
+     * and then returns it.
+     * Usage of this method is also in data UI submodules.
+     * @return int value representing era order from view list
+     */
     protected int loadChosenEraOrderFromUser() 
     {
         System.out.println();
@@ -402,6 +503,11 @@ public class ConsoleUI
         return scanner.nextInt();
     }
     
+    /**
+     * Method which prompts user for email and then returns it.
+     * Usage of this method is also in data UI submodules.
+     * @return String value representing email
+     */
     protected String loadEmailFromUser() 
     {
         advanceToNextInput();
@@ -411,18 +517,32 @@ public class ConsoleUI
         return scanner.nextLine();
     }
     
+    /**
+     * Method which prompts user for entering choice number from current displayed submenu 
+     * and then returns it.
+     * Usage of this method is in data UI submodules.
+     * @return int value representing choice from submenu
+     */
     protected int loadChoiceFromSubmenu() 
     {
         System.out.println("Zadejte číslo volby z podmenu: ");
         return scanner.nextInt();
     }
     
+    /**
+     * Method which prompts user for entering choice number from current displayed menu
+     * and then returns it.
+     * @return int value representing choice from menu
+     */
     private int loadChoiceFromMenu () 
     {
         System.out.println("Zadejte číslo volby z menu: ");
         return scanner.nextInt();
     }
     
+    /**
+     * Method which tries to set data directory path to data directory (contains input files, output files)
+     */
     private void setDataDirectoryPath() 
     {       
         String dataDirectoryPath = loadDataDirectoryPath();
@@ -440,6 +560,11 @@ public class ConsoleUI
         }        
     }
     
+    /**
+     * Method which prompts user for entering path to data directory
+     * and then returns it.
+     * @return String values representing path to data directory
+     */
     private String loadDataDirectoryPath() 
     {
         advanceToNextInput();
@@ -448,6 +573,10 @@ public class ConsoleUI
         return scanner.nextLine();
     }
     
+    /**
+     * Method which tries to load all output data from output data files (text or binary) into database
+     * @param fromBinary selects if output data files will be binary or text
+     */
     private void loadAllOutputDataFrom(boolean fromBinary) 
     {        
         try 
@@ -464,6 +593,12 @@ public class ConsoleUI
         }
     }
     
+    /**
+     * Method which tries to display content of chosen data file as view/page.
+     * Usage of this method is also in data UI submodules.
+     * @param fileName specifies name of the chosen file (files names defined in {@link DataStore}).
+     * @param dataType specifies type of data of the chosen file (types of data defined in {@link DataType}).
+     */
     protected void displayDataChosenFileContent(String fileName, DataType dataType) 
     {   
         try 
@@ -503,7 +638,10 @@ public class ConsoleUI
             displayErrorMessage(ex.getMessage());
         }        
     }
-        
+    
+    /**
+     * Method for printing informations about Star Wars chronological eras as view/page.
+     */
     private void printInformationsAboutChronologicalEras() 
     {
         String heading = "CHRONOLOGICKÉ ÉRY STAR WARS UNIVERZA (začíná nejstarší érou)";

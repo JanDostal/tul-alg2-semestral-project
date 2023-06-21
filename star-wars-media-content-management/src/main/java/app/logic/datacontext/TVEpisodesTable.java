@@ -17,8 +17,11 @@ import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
- * Represents a tv episodes data table, which offers basic CRUD operations
- * TV episodes data table works with tv episode data type and implements IDataTable interface
+ * Represents a tv episodes data table, which offers basic CRUD operations.
+ * TV episodes data table works with tv episode data model and implements IDataTable interface.
+ * TV episodes data table is made available 
+ * through accessor and can communicate with other data tables through accessor 
+ * or use common methods of accessor.
  * @author jan.dostal
  */
 public class TVEpisodesTable implements IDataTable<TVEpisode>
@@ -31,6 +34,14 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
     
     private final Random primaryKeysGenerator;
     
+    
+    /**
+     * Creates singleton instance of TVEpisodesTable.
+     * Uses dependency injection to inject data context service.
+     * @param dbContext Singleton instance of data context accessor.
+     * Can be used for using common methods from {@link DataContextAccessor} class or
+     * communicating with other data tables.
+     */
     private TVEpisodesTable(DataContextAccessor dbContext) 
     {
         this.dbContext = dbContext;
@@ -38,6 +49,13 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
         primaryKeysGenerator = new Random();
     }
     
+    /**
+     * Represents a factory method for creating singleton instance.
+     * @param dbContext singleton instance of data context accessor.
+     * Can be used for using common methods from {@link DataContextAccessor} class or
+     * communicating with other data tables.
+     * @return singleton instance of TVEpisodesTable as interface
+     */
     protected static IDataTable<TVEpisode> getInstance(DataContextAccessor dbContext) 
     {
         if (tvEpisodesTable == null) 

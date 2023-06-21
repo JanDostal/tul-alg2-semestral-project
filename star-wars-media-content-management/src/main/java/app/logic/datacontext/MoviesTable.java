@@ -16,9 +16,10 @@ import utils.exceptions.DatabaseException;
 import utils.interfaces.IDataTable;
 
 /**
- * Represents a movies data table, which offers basic CRUD operations
- * Movies data table works with movie data type and implements IDataTable interface
- * Movies data table is made available through accessor and can communicate with other data tables through accessor
+ * Represents a movies data table, which offers basic CRUD operations.
+ * Movies data table works with movie data model and implements IDataTable interface.
+ * Movies data table is made available through accessor and 
+ * can communicate with other data tables through accessor or use common methods of accessor.
  * @author jan.dostal
  */
 public class MoviesTable implements IDataTable<Movie>
@@ -31,6 +32,13 @@ public class MoviesTable implements IDataTable<Movie>
     
     private final Random primaryKeysGenerator;
     
+    /**
+     * Creates singleton instance of MoviesTable.
+     * Uses dependency injection to inject data context service.
+     * @param dbContext Singleton instance of data context accessor. 
+     * Can be used for using common methods from {@link DataContextAccessor} class or
+     * communicating with other data tables.
+     */
     private MoviesTable(DataContextAccessor dbContext) 
     {
         this.dbContext = dbContext;
@@ -38,6 +46,13 @@ public class MoviesTable implements IDataTable<Movie>
         primaryKeysGenerator = new Random();
     }
     
+    /**
+     * Represents a factory method for creating singleton instance.
+     * @param dbContext singleton instance of data context accessor.
+     * Can be used for using common methods from {@link DataContextAccessor} class or
+     * communicating with other data tables.
+     * @return singleton instance of MoviesTable as interface
+     */
     protected static IDataTable<Movie> getInstance(DataContextAccessor dbContext) 
     {
         if (moviesTable == null) 

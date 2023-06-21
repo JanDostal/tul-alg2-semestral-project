@@ -13,9 +13,9 @@ import java.io.File;
 import utils.interfaces.IDataFileManager;
 
 /**
- * Represents a file manager access layer service for working with data files
- * File manager accessor data files managers are made available through accessor
- * File manager accessor data files managers are using UTF-8 to encode or decode text files
+ * Represents a file manager access layer service for working with data files.
+ * File manager accessor data files managers are made available through accessor.
+ * File manager accessor data files managers are using UTF-8 to encode or decode text files.
  * @author jan.dostal
  */
 public class FileManagerAccessor 
@@ -39,7 +39,12 @@ public class FileManagerAccessor
     private final String inputFileValuesSectionMarking = "\\[Values\\]";
     
     private final String inputFileAttributesSectionMarking = "\\[Attributes\\]";
-
+    
+    
+    /**
+     * Creates singleton instance of FileManagerAccessor.
+     * When creating instance, all data file managers are also loaded as singleton instances.
+     */
     private FileManagerAccessor() 
     {
         this.moviesFileManager = MoviesFileManager.getInstance(filenameSeparator,
@@ -52,6 +57,10 @@ public class FileManagerAccessor
             inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
     }
     
+    /**
+     * Represents a factory method for creating singleton instance.
+     * @return singleton instance of FileManagerAccessor class
+     */
     public static FileManagerAccessor getInstance() 
     {
         if (fileManagerAccessor == null) 
@@ -61,27 +70,44 @@ public class FileManagerAccessor
         
         return fileManagerAccessor;
     }
-
+    
+    /**
+     * @return tv seasons file manager instance as interface
+     */
     public IDataFileManager<TVSeasonInput, TVSeasonOutput> getTVSeasonsFileManager() 
     {
         return tvSeasonsFileManager;
     }
-
+    
+    /**
+     * @return tv shows file manager instance as interface
+     */
     public IDataFileManager<TVShowInput, TVShowOutput> getTVShowsFileManager() 
     {
         return tvShowsFileManager;
     }
     
+    /**
+     * @return tv episodes file manager instance as interface
+     */
     public IDataFileManager<TVEpisodeInput, TVEpisodeOutput> getTVEpisodesFileManager() 
     {
         return tvEpisodesFileManager;
     }
     
+    /**
+     * @return movies file manager instance as interface
+     */
     public IDataFileManager<MovieInput, MovieOutput> getMoviesFileManager() 
     {
         return moviesFileManager;
     }
     
+    /**
+     * Returns Data directory full path from File instance
+     * @return data directory absolute path
+     * @throws IllegalStateException when File instance was not yet set
+     */
     public static String getDataDirectoryPath()
     {
         if (dataDirectory == null) 
@@ -92,6 +118,13 @@ public class FileManagerAccessor
         return dataDirectory.getAbsolutePath();
     }
     
+    /**
+     * Sets data directory through specified file path
+     * @param directoryFullPath file path to existing data directory with data input and output files
+     * @throws IllegalStateException when File instance was already set
+     * @throws IllegalArgumentException when directory on 
+     * specified path does not exist, is not directory or is not named accordingly.
+     */
     public static void setDataDirectory(String directoryFullPath) 
     {
         if (dataDirectory == null) 
