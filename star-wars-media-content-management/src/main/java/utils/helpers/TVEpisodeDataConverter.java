@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package utils.helpers;
 
 import app.models.data.PrimaryKey;
@@ -11,8 +7,11 @@ import app.models.output.TVEpisodeOutput;
 import java.time.Duration;
 
 /**
- *
- * @author Admin
+ * Represents a TV episode data converter helper class for input, output and data model of TV episode.
+ * TVEpisodeDataConverter class is used when converting input file tv episode data to database tv episode data.
+ * TVEpisodeDataConverter class is used when converting database tv episode data to output file tv episode data.
+ * TVEpisodeDataConverter class is used when converting output file tv episode data to database tv episode data.
+ * @author jan.dostal
  */
 public final class TVEpisodeDataConverter 
 {
@@ -20,20 +19,17 @@ public final class TVEpisodeDataConverter
     {
     }
     
+    /**
+     * Method converts tv episode database model data into tv episode output model data 
+     * (from database to output files, writing into output files)
+     * @param data represents tv episode database model data
+     * @return converted data as tv episode output model data
+     */
     public static TVEpisodeOutput convertToOutputDataFrom(TVEpisode data) 
     {
         int id = data.getPrimaryKey().getId();
-        long runtime;
+        long runtime = data.getRuntime().toSeconds();
         
-        if (data.getRuntime() == null) 
-        {
-            runtime = -1;
-        }
-        else 
-        {
-            runtime = data.getRuntime().toSeconds();
-        }
-
         String name = data.getName();
         int percentage = data.getPercentageRating();
         String hyperlink = data.getHyperlinkForContentWatch();
@@ -46,6 +42,13 @@ public final class TVEpisodeDataConverter
                 hyperlink, content, orderInTVShowSeason, tvSeasonId);
     }
     
+    /**
+     * Method converts tv episode input model data into tv episode database model data 
+     * (from input file to database, parsing input file)
+     * @param inputData represents tv episode input data model
+     * @param tvSeasonForeignKey represents chosen parent tv season primary key, to which to link/bind input tv episode
+     * @return converted data as tv episode database model data
+     */
     public static TVEpisode convertToDataFrom(TVEpisodeInput inputData, PrimaryKey tvSeasonForeignKey)
     {
         PrimaryKey placeholderKey = new PrimaryKey(0);
@@ -112,6 +115,12 @@ public final class TVEpisodeDataConverter
                 wasWatched, hyperlink, content, orderInTVShowSeason, tvSeasonForeignKey);
     }
     
+    /**
+     * Method converts tv episode output model data into tv episode database model data 
+     * (from output file to database, parsing output file)
+     * @param outputData represents tv episode output data model
+     * @return converted data as tv episode database model data
+     */
     public static TVEpisode convertToDataFrom(TVEpisodeOutput outputData)
     {
         PrimaryKey primaryKey = new PrimaryKey(outputData.getId());       

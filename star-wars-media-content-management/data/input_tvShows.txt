@@ -1,31 +1,278 @@
+[Attributes]
 
- 
-    
-                      
- 
-   
-[Attributes]  
+Order: 1
 
 name 1
 releaseDateInEpochSeconds 2
-era 3
+eraCodeDesignation 3
 
-   [Values]   
-    
-Mařenka 1
-1232 2
+[Values]
+
+Star Wars: Clone Wars (2008 version) 1
+1222992000 2
 FALL_OF_THE_JEDI 3
 
-     [Attributes]
+[Attributes]
+
+Order: 2
 
 name 1
 releaseDateInEpochSeconds 2
-era 3
+eraCodeDesignation 3
 
-[Values]      
-    
-Karel 1
-1232 2
+[Values]
+
+Star Wars: Young Jedi Adventures 1
+1683158400 2
+THE_HIGH_REPUBLIC 3
+
+[Attributes]
+
+Order: 3
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Star Wars: Tales of the Jedi 1
+1666742400 2
 FALL_OF_THE_JEDI 3
+
+[Attributes]
+
+Order: 4
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Star Wars: Clone Wars (Tartakovsky 2003 version) 1
+1068163200 2
+FALL_OF_THE_JEDI 3
+
+[Attributes]
+
+Order: 5
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Star Wars: The Bad Batch 1
+1620086400 2
+REIGN_OF_THE_EMPIRE 3
+
+[Attributes]
+
+Order: 6
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Star Wars: Droids 1
+494899200 2
+REIGN_OF_THE_EMPIRE 3
+
+[Attributes]
+
+Order: 7
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Obi-Wan Kenobi 1
+1653609600 2
+REIGN_OF_THE_EMPIRE 3
+
+[Attributes]
+
+Order: 8
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Andor 1
+1663718400 2
+REIGN_OF_THE_EMPIRE 3
+
+[Attributes]
+
+Order: 9
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Andor 1
+1412294400 2
+REIGN_OF_THE_EMPIRE 3
+
+[Attributes]
+
+Order: 10
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Andor 1
+1663718400 2
+AGE_OF_REBELLION 3
+
+[Attributes]
+
+Order: 11
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+	   	 1
+1573516800 2
+THE_NEW_REPUBLIC 3
+
+[Attributes]
+
+Order: 12
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+The Book of Boba Fett 1
+999999999999999899 2
+THE_NEW_REPUBLIC 3
+
+[Attributes]
+
+Order: 13
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Star Wars: Resistance 1
+1538870400 2
+Ahoj 3
+
+[Attributes]
+
+Order: 14
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Star Wars: Visions 1
+ahoj 2
+AGE_OF_REBELLION 3
+
+[Attributes]
+
+Order: 15
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Lego Star Wars: Droid Tales 1
+THE_NEW_REPUBLIC 3
+
+[Attributes]
+
+Order: 16
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+1455494400 2
+THE_NEW_REPUBLIC 3
+
+[Attributes]
+
+Order: 17
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Lego Star Wars: The Freemaker Adventures 1
+1466380800 2
+
+[Attributes]
+
+Order: 18
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Ahsoka 1
+1692748800 2
+THE_NEW_REPUBLIC 3
+
+[Attributes]
+
+Order: 19
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+The Acolyte 1
+-1 2
+THE_HIGH_REPUBLIC 3
+
+[Attributes]
+
+Order: 20
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
+Skeleton Crew 1
+-1 2
+THE_NEW_REPUBLIC 3
 
 [End]

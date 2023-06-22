@@ -1,9 +1,7 @@
 [Attributes]
 
-      
-   
+Order: 1
 
-   
 runtimeInSeconds 1
 name 2
 percentageRating 3
@@ -12,20 +10,20 @@ shortContentSummary 5
 orderInTVShowSeason 6
 
 [Values]
-213212 1
-Mařenka 2
-50 3
-asdsaa ads aasasddasasd asdadas d ads asd a 4
-asdasda asdaas 2 asdasdas as asdas das dasas  5
-asdasdsa 2 5
-sadas 2 5
-asdasddas 2 5
-sadasddsasa 2 5
-sasadadsdas 2 5
-1232 6
+
+1260 1
+Ambush 2
+-1 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E01 4
+Yoda travels to a neutral coral moon of Rugosa to persuade King Katuunko to allow the building of a Republic supply base on Toydaria. 5
+ 5
+However, Asajj Ventress makes sure she arrives first to offer Katuungo a similar offer from the Separatist side. 5
+1 6
 
 [Attributes]
 
+Order: 2
+
 runtimeInSeconds 1
 name 2
 percentageRating 3
@@ -34,17 +32,392 @@ shortContentSummary 5
 orderInTVShowSeason 6
 
 [Values]
-    
-213212 1
-Mařenka 2
-50 3
-asdsaa ads  aasasddasasd asdadas d ads asd a 4
-asdasda asdaas asdasdas as asdas das dasas  5
-asdasdsa 5
-sadas 5
-asdasddas 5
-sadasddsasa 5
-sasadadsdas 5
-1232 6
+
+1320 1
+Rising Malevolence 2
+-1 3
+ 4
+General Grievous uses his latest weapon, the Malevolence, to destroy Plo Koon's fleet. 5
+Stuck in an escape pod with three clone troopers, Koon fends off more battle droids while Anakin and Ahsoka mount a rescue mission. 5
+2 6
+
+[Attributes]
+
+Order: 3
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+Shadow of Malevolence 2
+-1 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E03 4
+ 5
+3 6
+
+[Attributes]
+
+Order: 4
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+Destroy Malevolence 2
+-1 3
+ 4
+ 5
+4 6
+
+[Attributes]
+
+Order: 5
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+Rookies 2
+120 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E05 4
+A squad of rookie clone troopers manning a tracking station on the Rishi moon is attacked by a new model of commando droids. 5 
+Commander Cody and Captain Rex arrive just in time to aid the Shinies in taking back their base - the last outpost before their 'home' planet of Kamino. 5
+5 6
+
+[Attributes]
+
+Order: 6
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1200 1
+Downfall of a Droid 2
+66 3
+ 4
+When R2D2 goes missing in action during a skirmish in an asteroid belt Anakin insists on mounting a rescue mission. 5
+Although Obi-Wan is against wasting time on a droid, Anakin explains the R2's memory has never been wiped 5
+and thus carries all of the Republic's tactics and base locations. Meanwhile, 5
+the plucky Atromech has been picked up by Trandoshan scavenger Gha Nachkt in his freighter, Vulture's Claw. Nachkt plans to sell the droid to the highest bidder. 5
+6 6
+
+[Attributes]
+
+Order: 7
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1200 1
+Duel of the Droids 2
+53 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E07 4
+ 5
+7 6
+
+[Attributes]
+
+Order: 8
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+Bombad Jedi 2
+76 3
+ 4
+ 5
+8 6
+
+[Attributes]
+
+Order: 9
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+Cloak of Darkness 2
+93 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E09 4
+Luminara Unduli and Ahsoka Tano are transporting the captive Viceroy Nute Gunray to Coruscant to face trial. 5
+Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either recaptured or killed rather than have him spill Separatist secrets. 5
+8 6
+
+[Attributes]
+
+Order: 10
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+Lair of Grievous 2
+60 3
+10 6
+
+[Attributes]
+
+Order: 11
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+-1 1
+Dooku Captured 2
+43 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E11 4
+Obi-Wan and Anakin infiltrate Count Dooku's frigate in an attempt to capture him but all three end up crash-landing on 5
+the planet Vanqor instead. While the Jedi are busy fighting a mother Gundark, Dooku falls into the hands of a pirate gang led Hondo Ohnaka. 5
+The pirate chief then offers Dooku up for ransom to the Republic in exchange for a million credits worth of spice. 5
+11 6
+
+[Attributes]
+
+Order: 12
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+ 2
+89 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E12 4
+Obi-Wan and Anakin are now hostages along with Dooku at Hondo Ohnaka's stronghold on Florrum. 5
+Delegate Jar Jar Binks and Senator Kharrus arrive with the ransom and a battalion of troopers, 5
+only to find there is treason within the pirate ranks. 5
+12 6
+
+[Attributes]
+
+Order: 13
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+    			  2
+74 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E13 4
+General Skywalker is injured while rescuing fellow Jedi General Aayla Secura from Super Battle Droids equipped with rocket packs. 5
+Ahsoka Tano crash-lands their shuttle on the neutral planet of Maridun, where the native Lurmen villagers refuse to takes sides in the war. 5
+They are however willing to send a healer to help Anakin. 5
+13 6
+
+[Attributes]
+
+Order: 14
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+ahoj 1
+Defenders of Peace 2
+72 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E14 4
+A Separatist fleet led by Neimoidian Lok Durd arrives on Maridun to test their new defoliator weapon, which destroys organic life but leaves machines intact. 5
+Unknown to them, three Jedi and two Clone troopers are stuck nearby without a means of transport off-planet. When the Lurmen village becomes endangered by the test, 5
+the Jedi rush to defend it, despite the objections of village elder Tee Watt Kaa. 5
+14 6
+
+[Attributes]
+
+Order: 15
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+Trespass 2
+ahoj 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E15 4
+Obi-Wan, Anakin and a detachment of the 501st investigate the slaughter of a Republic outpost on Orto Plutonia. 5 
+They soon find a Separatist base destroyed by the same aggressors, who turn out to be a clan of native Talz that just want to be left alone. 5 
+Unfortunately Pantoran dignitary Chi Cho claims the planet to be under his people's jurisdiction and orders the unwanted aliens to be either removed or wiped out. 5
+As the Jedi cannot interfere, the only hope for a peaceful resolution lies with young senator Riyo Chuchi. 5
+15 6
+
+[Attributes]
+
+Order: 16
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+The Hidden Enemy 2
+27 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E16 4
+Anakin and Obi-Wan discover evidence of a traitor amongst their ranks while attempting to lead Republic forces to liberate Christophsis from a Separatist siege. 5
+ahoj 6
+
+[Attributes]
+
+Order: 17
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+Blue Shadow Virus 2
+https://serial.kukaj.io/star-wars-klonove-valky/S01E17 4
+Evil scientist Dr. Nuvo Vindi is recreating the dreaded Blue Shadow Virus in his secret underground lab on Naboo. 5
+When he captures Senator Amidala and Jar Jar Binks, Anakin and Obi-Wan mount a rescue operation. 5
+17 6
+
+[Attributes]
+
+Order: 18
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+Mystery of a Thousand Moons 2
+97 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E18 4
+The deadly Blue Shadow Virus is unleashed in Vindi's underground lab with Padmé, Ahsoka, 5
+Jar Jar and several Clone troopers stuck in it. Anakin and Obi-Wan have just 48 hours to find a cure. 5
+They travel to the moons of Iego but will have a hard time trying to get past the 'Ghost of Drol' in order to leave again. 5
+18 6
+
+[Attributes]
+
+Order: 19
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+Storm Over Ryloth 2
+32 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E18 4
+The Separatists have invaded the Twi'lek home planet of Ryloth. 5
+Anakin and Ahsoka lead a squadron of fighters against a Trade Federation battleship commanded by Neimoidian Captain Mar Tuuk. 5
+19 6
+
+[Attributes]
+
+Order: 20
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+orderInTVShowSeason 6
+
+[Values]
+
+1320 1
+Innocents of Ryloth 2
+12 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E20 4
+The deadly Blue Shadow Virus is unleashed in Vindi's underground lab with Padmé, Ahsoka, 5
+Jar Jar and several Clone troopers stuck in it. Anakin and Obi-Wan have just 48 hours to find a cure. 5
+They travel to the moons of Iego but will have a hard time trying to get past the 'Ghost of Drol' in order to leave again. 5
+20 6
 
 [End]

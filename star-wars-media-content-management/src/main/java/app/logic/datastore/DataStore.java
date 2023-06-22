@@ -1,14 +1,15 @@
 
 package app.logic.datastore;
 
+import app.models.data.Era;
 import java.text.Collator;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 /**
- *
- * @author Admin
+ * Represents a datastore, which accesses static data like files names, informations about app etc.
+ * @author jan.dostal
  */
 public final class DataStore 
 {
@@ -16,54 +17,56 @@ public final class DataStore
     {
     }
     
-    private static String appName = "Star Wars Media Content Management";
+    private static final String appName = "Star Wars Media Content Management";
     
-    private static String dataDirectoryName = "data";
+    private static final String appCreator = "honzaswtor@gmail.com";
     
-    private static String textInputMoviesFilename = "input_movies.txt";
-    
-    private static String textInputTVShowsFilename = "input_tvShows.txt";
-    
-    private static String textInputTVSeasonsFilename = "input_tvSeasons.txt";
-    
-    private static String textInputTVEpisodesFilename = "input_tvEpisodes.txt";
+    private static final String dataDirectoryName = "data";
     
     
-    private static String binaryInputMoviesFilename = "input_movies.bin";
+    private static final String textInputMoviesFilename = "input_movies.txt";
     
-    private static String binaryInputTVShowsFilename = "input_tvShows.bin";
+    private static final String textInputTVShowsFilename = "input_tvShows.txt";
     
-    private static String binaryInputTVSeasonsFilename = "input_tvSeasons.bin";
+    private static final String textInputTVSeasonsFilename = "input_tvSeasons.txt";
     
-    private static String binaryInputTVEpisodesFilename = "input_tvEpisodes.bin";
-    
-    
-    private static String textOutputMoviesFilename = "output_movies.txt";
-    
-    private static String textOutputTVShowsFilename = "output_tvShows.txt";
-    
-    private static String textOutputTVSeasonsFilename = "output_tvSeasons.txt";
-    
-    private static String textOutputTVEpisodesFilename = "output_tvEpisodes.txt";
+    private static final String textInputTVEpisodesFilename = "input_tvEpisodes.txt";
     
     
-    private static String binaryOutputMoviesFilename = "output_movies.bin";
+    private static final String binaryInputMoviesFilename = "input_movies.bin";
     
-    private static String binaryOutputTVShowsFilename = "output_tvShows.bin";
+    private static final String binaryInputTVShowsFilename = "input_tvShows.bin";
     
-    private static String binaryOutputTVSeasonsFilename = "output_tvSeasons.bin";
+    private static final String binaryInputTVSeasonsFilename = "input_tvSeasons.bin";
     
-    private static String binaryOutputTVEpisodesFilename = "output_tvEpisodes.bin";
+    private static final String binaryInputTVEpisodesFilename = "input_tvEpisodes.bin";
     
     
-    private static Collator czechCollator = Collator.getInstance(new Locale("cs", "CZ"));
+    private static final String textOutputMoviesFilename = "output_movies.txt";
     
-    private static Map<String, String> erasDescriptions;
+    private static final String textOutputTVShowsFilename = "output_tvShows.txt";
+    
+    private static final String textOutputTVSeasonsFilename = "output_tvSeasons.txt";
+    
+    private static final String textOutputTVEpisodesFilename = "output_tvEpisodes.txt";
+    
+    
+    private static final String binaryOutputMoviesFilename = "output_movies.bin";
+    
+    private static final String binaryOutputTVShowsFilename = "output_tvShows.bin";
+    
+    private static final String binaryOutputTVSeasonsFilename = "output_tvSeasons.bin";
+    
+    private static final String binaryOutputTVEpisodesFilename = "output_tvEpisodes.bin";
+    
+    private static final Collator czechCollator = Collator.getInstance(new Locale("cs", "CZ"));
+    
+    private static final Map<String, String> erasDescriptions;
     static 
     {
         erasDescriptions = new HashMap<>();
         
-        erasDescriptions.put("DAWN_OF_THE_JEDI", 
+        erasDescriptions.put(Era.DAWN_OF_THE_JEDI.toString(), 
                 """
                 Nejstarší období, odehrává se před obdobím Staré republiky.
     
@@ -73,7 +76,7 @@ public final class DataStore
                 """        
         );
         
-        erasDescriptions.put("THE_OLD_REPUBLIC", 
+        erasDescriptions.put(Era.THE_OLD_REPUBLIC.toString(), 
                 """
                 Období odehrávající se po období Úsvitu Jediů a 
                 před obdobím Vrcholné republiky.
@@ -86,7 +89,7 @@ public final class DataStore
                 """      
         );
         
-        erasDescriptions.put("THE_HIGH_REPUBLIC", 
+        erasDescriptions.put(Era.THE_HIGH_REPUBLIC.toString(), 
                 """
                 Období odehrávající se po období Staré republiky a před obdobím Pádu Jediů.
     
@@ -98,7 +101,7 @@ public final class DataStore
                 """    
         );
         
-        erasDescriptions.put("FALL_OF_THE_JEDI", 
+        erasDescriptions.put(Era.FALL_OF_THE_JEDI.toString(), 
                 """
                 Období odehrávající se po období Vrcholné republiky a 
                 před obdobím Vlády impéria.
@@ -109,7 +112,7 @@ public final class DataStore
                 """   
         );
         
-        erasDescriptions.put("REIGN_OF_THE_EMPIRE", 
+        erasDescriptions.put(Era.REIGN_OF_THE_EMPIRE.toString(), 
                 """
                 Období odehrávající se po období Pádů Jediů a před obdobím Věku povstání.
     
@@ -121,7 +124,7 @@ public final class DataStore
                 """  
         );
         
-        erasDescriptions.put("AGE_OF_THE_REBELLION", 
+        erasDescriptions.put(Era.AGE_OF_REBELLION.toString(), 
                 """
                 Období odehrávající se po období Vlády impéria a před obdobím Nové republiky.
     
@@ -132,7 +135,7 @@ public final class DataStore
                 """
         );
         
-        erasDescriptions.put("THE_NEW_REPUBLIC", 
+        erasDescriptions.put(Era.THE_NEW_REPUBLIC.toString(), 
                 """
                 Období odehrávající se po období Věku povstání a před 
                 obdobím Vzestupu Prvního řádu.
@@ -148,7 +151,7 @@ public final class DataStore
                 """
         );
         
-        erasDescriptions.put("RISE_OF_THE_FIRST_ORDER", 
+        erasDescriptions.put(Era.RISE_OF_THE_FIRST_ORDER.toString(), 
                 """
                 Období odehrávající se po období Nové republiky a 
                 před obdobím Nového řádu Jedi.
@@ -160,7 +163,7 @@ public final class DataStore
                 """
         );
         
-        erasDescriptions.put("NEW_JEDI_ORDER",
+        erasDescriptions.put(Era.NEW_JEDI_ORDER.toString(),
                 """
                 Nejnovější období odehrávající se po období Vzestupu Prvního řádu.
     
@@ -172,102 +175,173 @@ public final class DataStore
         );
     }
     
+    /**
+     * Loads era description from datastore for selected era
+     * @param era represents chosen era instance default name from Era enum type in models data package
+     * @return era description as string
+     */
     public static String loadEraDescription(String era) 
     {
         return erasDescriptions.get(era);
     }
     
+    /**
+     * Loads czech collator from datastore for usage in alphabetical sorting by czech rules
+     * @return Collator instance which offers relevant methods for sorting
+     */
     public static Collator loadCzechCollator() 
     {
         return czechCollator;
     }
     
+    /**
+     * @return application name from datastore
+     */
     public static String getAppName() 
     {
         return appName;
     }
-
+    
+    /**
+     * @return defined file name for movies text input file from datastore
+     */
     public static String getTextInputMoviesFilename() 
     {
         return textInputMoviesFilename;
     }
-
+    
+    /**
+     * @return defined file name for tv shows text input file from datastore
+     */
     public static String getTextInputTVShowsFilename() 
     {
         return textInputTVShowsFilename;
     }
-
+    
+    /**
+     * @return defined file name for tv seasons text input file from datastore
+     */
     public static String getTextInputTVSeasonsFilename() 
     {
         return textInputTVSeasonsFilename;
     }
 
+    /**
+     * @return defined file name for tv episodes text input file from datastore
+     */
     public static String getTextInputTVEpisodesFilename() 
     {
         return textInputTVEpisodesFilename;
     }
-
+    
+    /**
+     * @return defined file name for movies binary input file from datastore
+     */
     public static String getBinaryInputMoviesFilename() 
     {
         return binaryInputMoviesFilename;
     }
-
+    
+    /**
+     * @return defined file name for tv shows binary input file from datastore
+     */
     public static String getBinaryInputTVShowsFilename() {
         return binaryInputTVShowsFilename;
     }
-
+    
+    /**
+     * @return defined file name for tv seasons binary input file from datastore
+     */
     public static String getBinaryInputTVSeasonsFilename() 
     {
         return binaryInputTVSeasonsFilename;
     }
 
+    /**
+     * @return defined file name for tv episodes binary input file from datastore
+     */
     public static String getBinaryInputTVEpisodesFilename() 
     {
         return binaryInputTVEpisodesFilename;
     }
-
+    
+    /**
+     * @return defined file name for movies text output file from datastore
+     */
     public static String getTextOutputMoviesFilename() 
     {
         return textOutputMoviesFilename;
     }
-
-    public static String getTextOutputTVSeasonsFilename() 
-    {
-        return textOutputTVSeasonsFilename;
-    }
-
-    public static String getTextOutputTVEpisodesFilename() 
-    {
-        return textOutputTVEpisodesFilename;
-    }
-
-    public static String getBinaryOutputMoviesFilename() 
-    {
-        return binaryOutputMoviesFilename;
-    }
-
-    public static String getBinaryOutputTVShowsFilename() 
-    {
-        return binaryOutputTVShowsFilename;
-    }
-
-    public static String getBinaryOutputTVSeasonsFilename() 
-    {
-        return binaryOutputTVSeasonsFilename;
-    }
-
-    public static String getBinaryOutputTVEpisodesFilename() 
-    {
-        return binaryOutputTVEpisodesFilename;
-    }
     
+    /**
+     * @return defined file name for tv shows text output file from datastore
+     */
     public static String getTextOutputTVShowsFilename() 
     {
         return textOutputTVShowsFilename;
     }
     
+    /**
+     * @return defined file name for tv seasons text output file from datastore
+     */
+    public static String getTextOutputTVSeasonsFilename() 
+    {
+        return textOutputTVSeasonsFilename;
+    }
+    
+    /**
+     * @return defined file name for tv episodes text output file from datastore
+     */
+    public static String getTextOutputTVEpisodesFilename() 
+    {
+        return textOutputTVEpisodesFilename;
+    }
+    
+    /**
+     * @return defined file name for movies binary output file from datastore
+     */
+    public static String getBinaryOutputMoviesFilename() 
+    {
+        return binaryOutputMoviesFilename;
+    }
+    
+    /**
+     * @return defined file name for tv shows binary output file from datastore
+     */
+    public static String getBinaryOutputTVShowsFilename() 
+    {
+        return binaryOutputTVShowsFilename;
+    }
+    
+    /**
+     * @return defined file name for tv seasons binary output file from datastore
+     */
+    public static String getBinaryOutputTVSeasonsFilename() 
+    {
+        return binaryOutputTVSeasonsFilename;
+    }
+    
+    /**
+     * @return defined file name for tv episodes binary output file from datastore
+     */
+    public static String getBinaryOutputTVEpisodesFilename() 
+    {
+        return binaryOutputTVEpisodesFilename;
+    }
+    
+    /**
+     * @return defined data directory name (not file path)
+     */
     public static String getDataDirectoryName() 
     {
         return dataDirectoryName;
+    }
+    
+    /**
+     * @return application creator nickname
+     */
+    public static String getAppCreator() 
+    {
+        return appCreator;
     }
 }

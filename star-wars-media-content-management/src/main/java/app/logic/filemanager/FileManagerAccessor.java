@@ -1,4 +1,3 @@
-
 package app.logic.filemanager;
 
 import app.logic.datastore.DataStore;
@@ -10,20 +9,14 @@ import app.models.output.MovieOutput;
 import app.models.output.TVEpisodeOutput;
 import app.models.output.TVSeasonOutput;
 import app.models.output.TVShowOutput;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 import utils.interfaces.IDataFileManager;
 
 /**
- *
- * @author Admin
+ * Represents a file manager access layer service for working with data files.
+ * File manager accessor data files managers are made available through accessor.
+ * File manager accessor data files managers are using UTF-8 to encode or decode text files.
+ * @author jan.dostal
  */
 public class FileManagerAccessor 
 {
@@ -31,13 +24,13 @@ public class FileManagerAccessor
     
     private static File dataDirectory;
     
-    private IDataFileManager<MovieInput, MovieOutput> moviesFileManager;
+    private final IDataFileManager<MovieInput, MovieOutput> moviesFileManager;
     
-    private IDataFileManager<TVShowInput, TVShowOutput> tvShowsFileManager;
+    private final IDataFileManager<TVShowInput, TVShowOutput> tvShowsFileManager;
     
-    private IDataFileManager<TVSeasonInput, TVSeasonOutput> tvSeasonsFileManager;
+    private final IDataFileManager<TVSeasonInput, TVSeasonOutput> tvSeasonsFileManager;
     
-    private IDataFileManager<TVEpisodeInput, TVEpisodeOutput> tvEpisodesFileManager;
+    private final IDataFileManager<TVEpisodeInput, TVEpisodeOutput> tvEpisodesFileManager;
     
     private final String filenameSeparator = System.getProperty("file.separator");;
     
@@ -46,7 +39,12 @@ public class FileManagerAccessor
     private final String inputFileValuesSectionMarking = "\\[Values\\]";
     
     private final String inputFileAttributesSectionMarking = "\\[Attributes\\]";
-
+    
+    
+    /**
+     * Creates singleton instance of FileManagerAccessor.
+     * When creating instance, all data file managers are also loaded as singleton instances.
+     */
     private FileManagerAccessor() 
     {
         this.moviesFileManager = MoviesFileManager.getInstance(filenameSeparator,
@@ -59,7 +57,10 @@ public class FileManagerAccessor
             inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
     }
     
-        
+    /**
+     * Represents a factory method for creating singleton instance.
+     * @return singleton instance of FileManagerAccessor class
+     */
     public static FileManagerAccessor getInstance() 
     {
         if (fileManagerAccessor == null) 
@@ -69,37 +70,61 @@ public class FileManagerAccessor
         
         return fileManagerAccessor;
     }
-
+    
+    /**
+     * @return tv seasons file manager instance as interface
+     */
     public IDataFileManager<TVSeasonInput, TVSeasonOutput> getTVSeasonsFileManager() 
     {
         return tvSeasonsFileManager;
     }
-
+    
+    /**
+     * @return tv shows file manager instance as interface
+     */
     public IDataFileManager<TVShowInput, TVShowOutput> getTVShowsFileManager() 
     {
         return tvShowsFileManager;
     }
     
+    /**
+     * @return tv episodes file manager instance as interface
+     */
     public IDataFileManager<TVEpisodeInput, TVEpisodeOutput> getTVEpisodesFileManager() 
     {
         return tvEpisodesFileManager;
     }
     
+    /**
+     * @return movies file manager instance as interface
+     */
     public IDataFileManager<MovieInput, MovieOutput> getMoviesFileManager() 
     {
         return moviesFileManager;
     }
     
-    public static String getDataDirectoryPath() 
+    /**
+     * Returns Data directory full path from File instance
+     * @return data directory absolute path
+     * @throws IllegalStateException when File instance was not yet set
+     */
+    public static String getDataDirectoryPath()
     {
         if (dataDirectory == null) 
         {
-            throw new IllegalStateException("Cesta k data adresari jeste nebyla nastavena");
+            throw new IllegalStateException("Cesta k adresáři " + DataStore.getDataDirectoryName() + " ještě nebyla nastavena");
         }
         
         return dataDirectory.getAbsolutePath();
     }
     
+    /**
+     * Sets data directory through specified file path
+     * @param directoryFullPath file path to existing data directory with data input and output files
+     * @throws IllegalStateException when File instance was already set
+     * @throws IllegalArgumentException when directory on 
+     * specified path does not exist, is not directory or is not named accordingly.
+     */
     public static void setDataDirectory(String directoryFullPath) 
     {
         if (dataDirectory == null) 
@@ -109,17 +134,17 @@ public class FileManagerAccessor
            if (dataDirectory.exists() == false || dataDirectory.isDirectory() == false) 
            {
                dataDirectory = null;
-               throw new IllegalArgumentException("Dany adresar neexistuje nebo se jedna o soubor");
+               throw new IllegalArgumentException("Zadaný adresář neexistuje nebo se jedná o soubor");
            }
            else if (dataDirectory.getName().equals(DataStore.getDataDirectoryName()) == false) 
            {
                dataDirectory = null;
-               throw new IllegalArgumentException("Zadaný adresar neni pojmenovany jako data");
+               throw new IllegalArgumentException("Zadaný adresář není pojmenovaný jako " + DataStore.getDataDirectoryName());
            }
         }
         else 
         {
-            throw new IllegalStateException("Cesta k adresari data byla jiz zadana.");
+            throw new IllegalStateException("Cesta k adresáři " + DataStore.getDataDirectoryName() + " byla již zadána");
         }
     }
 }

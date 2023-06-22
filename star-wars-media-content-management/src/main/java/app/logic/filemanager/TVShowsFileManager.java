@@ -25,11 +25,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import utils.exceptions.FileEmptyException;
+import utils.exceptions.FileParsingException;
 import utils.interfaces.IDataFileManager;
 
 /**
- *
- * @author Admin
+ * Represents a tv shows file manager, which works specifically with TV shows data files.
+ * TV shows file manager works with tv show input and output data models and implements IDataFileManager interface.
+ * TV shows file manager is made available through accessor.
+ * @author jan.dostal
  */
 public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowOutput>
 {
@@ -43,6 +47,16 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
     
     private final String inputFileAttributesSectionMarking;
     
+    
+    /**
+     * Creates singleton instance of TVShowsFileManager.
+     * Receives filenameSeparator, inputFileEndMarking, inputFileValuesSectionMarking 
+     * and inputFileAttributesSectionMarking parameters in constructor from {@link FileManagerAccessor} class.
+     * @param filenameSeparator file path separator dependent on application running operating system
+     * @param inputFileEndMarking control string for detecting file end
+     * @param inputFileValuesSectionMarking control string for detecting values section in file
+     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
+     */
     private TVShowsFileManager(String filenameSeparator, 
             String inputFileEndMarking, String inputFileValuesSectionMarking,
             String inputFileAttributesSectionMarking) 
@@ -53,6 +67,14 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         this.inputFileAttributesSectionMarking = inputFileAttributesSectionMarking;
     }
     
+    /**
+     * Represents a factory method for creating singleton instance.
+     * @param filenameSeparator file path separator dependent on application running operating system
+     * @param inputFileEndMarking control string for detecting file end
+     * @param inputFileValuesSectionMarking control string for detecting values section in file
+     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
+     * @return singleton instance of TVShowsFileManager as interface
+     */
     protected static IDataFileManager<TVShowInput, TVShowOutput> getInstance(String filenameSeparator, 
             String inputFileEndMarking, String inputFileValuesSectionMarking,
             String inputFileAttributesSectionMarking) 
@@ -66,7 +88,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         return tvShowsFileManager;
     }
     
-    public @Override StringBuilder getTextOutputFileContent() throws FileNotFoundException, IOException 
+    public @Override StringBuilder getTextOutputFileContent() throws FileNotFoundException, IOException, FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
                 
@@ -84,32 +106,45 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                text.append(textPart);
             }
         }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getTextOutputTVShowsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getTextOutputTVShowsFilename());
+        }
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
             if (sc.hasNextLine() == false)
             {
                 sc.close();
-                //exception
+                throw new FileEmptyException("Soubor " + DataStore.getTextOutputTVShowsFilename() + " je prázdný");
             }
         }
         
         return text;
     }
 
-    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException 
+    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException, 
+            FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
+        String tvShowsDivider = "\n\n\n\n\n\n\n\n\n";
         
         try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputTVShowsFilename())))) 
         {
             boolean fileEndReached = false;
+            
             int tvShowId;
             char[] tvShowName;
-            long tvShowReleaseDate;
-            char[] tvShowEra;
+            long tvShowReleaseDateInEpochSeconds;
+            char[] tvShowEraCodeDesignation;
 
             while (fileEndReached == false) 
             {
@@ -124,18 +159,19 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                         tvShowName[i] = dataInputStream.readChar();
                     }
 
-                    tvShowReleaseDate = dataInputStream.readLong();
+                    tvShowReleaseDateInEpochSeconds = dataInputStream.readLong();
 
-                    tvShowEra = new char[TVShowOutput.ATTRIBUTE_ERA_LENGTH];
+                    tvShowEraCodeDesignation = new char[TVShowOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
 
-                    for (int i = 0; i < tvShowEra.length; i++) 
+                    for (int i = 0; i < tvShowEraCodeDesignation.length; i++) 
                     {
-                        tvShowEra[i] = dataInputStream.readChar();
+                        tvShowEraCodeDesignation[i] = dataInputStream.readChar();
                     }
                     
-                    text.append(tvShowId).append(" ").append(new String(tvShowName))
-                            .append(" ").append(tvShowReleaseDate).append(" ").append(new String(tvShowEra)).
-                            append("\n\n");
+                    text.append(String.format("%-38s%d", "Identifikátor:", tvShowId)).append("\n");
+                    text.append(String.format("%-38s%s", "Název:", new String(tvShowName))).append("\n");
+                    text.append(String.format("%-38s%d", "Datum uvedení v epoch sekundách:", tvShowReleaseDateInEpochSeconds)).append("\n");
+                    text.append(String.format("%-38s%s", "Chronologická éra:", new String(tvShowEraCodeDesignation))).append(tvShowsDivider);
                 } 
                 catch (EOFException e) 
                 {
@@ -143,20 +179,33 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 }
             }
         }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getBinaryOutputTVShowsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getBinaryOutputTVShowsFilename());
+        }
         
         File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
                 + DataStore.getBinaryOutputTVShowsFilename());
         
         if (binaryFile.length() == 0) 
         {
-            //exception
+            throw new FileEmptyException("Soubor " + DataStore.getBinaryOutputTVShowsFilename() + " je prázdný");
         }
+        
+        text.delete(text.length() - tvShowsDivider.length(), text.length());
         
         return text;
     }
 
 
-    public @Override StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException 
+    public @Override StringBuilder getTextInputFileContent() throws FileNotFoundException, IOException, 
+            FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
                 
@@ -174,20 +223,31 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                text.append(textPart);
             }
         }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getTextInputTVShowsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getTextInputTVShowsFilename());
+        }
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
             if (sc.hasNextLine() == false)
             {
                 sc.close();
-                //exception
+                throw new FileEmptyException("Soubor " + DataStore.getTextInputTVShowsFilename() + " je prázdný");
             }
         }
         
         return text;
     }
     
-    public @Override StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException 
+    public @Override StringBuilder getBinaryInputFileContent() throws FileNotFoundException, IOException, 
+            FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
         
@@ -205,24 +265,44 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 text.append(textPart);
             }
         }
+        catch (FileNotFoundException e) 
+        {
+            throw new FileNotFoundException("Soubor " + 
+                    DataStore.getBinaryInputTVShowsFilename() + " neexistuje");
+        }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při čtení souboru " + 
+                    DataStore.getBinaryInputTVShowsFilename());
+        }
         
         File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
                 + DataStore.getBinaryInputTVShowsFilename());
         
         if (binaryFile.length() == 0) 
         {
-            //exception
+            throw new FileEmptyException("Soubor " + DataStore.getBinaryInputTVShowsFilename() + " je prázdný");
         }
         
         return text;
     }
     
-    public @Override List<TVShowOutput> loadOutputDataFrom(boolean fromBinary) throws FileNotFoundException, IOException
+    public @Override List<TVShowOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException
     {
         List<TVShowOutput> parsedTVShows = new ArrayList<>();
         
+        File outputTVShowsText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getTextOutputTVShowsFilename());
+        File outputTVShowsBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getBinaryOutputTVShowsFilename());
+        
+        outputTVShowsText.createNewFile();
+        outputTVShowsBinary.createNewFile();
+        
         if (fromBinary == true) 
-        {
+        {            
+            String errorParsingMessage = "Soubor " + DataStore.getBinaryOutputTVShowsFilename()+ " má poškozená data";
+            
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryOutputTVShowsFilename())))) 
@@ -231,7 +311,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 int tvShowId;
                 char[] tvShowName;
                 long tvShowReleaseDate;
-                char[] tvShowEra;
+                char[] tvShowEraCodeDesignation;
                 
                 while (fileEndReached == false) 
                 {
@@ -248,15 +328,15 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
                         tvShowReleaseDate = dataInputStream.readLong();
 
-                        tvShowEra = new char[TVShowOutput.ATTRIBUTE_ERA_LENGTH];
+                        tvShowEraCodeDesignation = new char[TVShowOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
 
-                        for (int i = 0; i < tvShowEra.length; i++) 
+                        for (int i = 0; i < tvShowEraCodeDesignation.length; i++) 
                         {
-                            tvShowEra[i] = dataInputStream.readChar();
+                            tvShowEraCodeDesignation[i] = dataInputStream.readChar();
                         }
 
                         parsedTVShows.add(new TVShowOutput(tvShowId, new String(tvShowName), 
-                                tvShowReleaseDate, new String(tvShowEra)));
+                                tvShowReleaseDate, new String(tvShowEraCodeDesignation)));
                     }
                     catch (EOFException e) 
                     {
@@ -264,18 +344,20 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     }
                 }
             }
-            
-            File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
-                + DataStore.getBinaryOutputTVShowsFilename());
-        
-            if (binaryFile.length() == 0) 
+            catch (IOException e) 
             {
-                //exception
+                throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryOutputTVShowsFilename());
+            }
+            
+            if (outputTVShowsBinary.length() != 0 && parsedTVShows.isEmpty()) 
+            {
+                throw new FileParsingException(errorParsingMessage);
             }
         }
-        else 
+        else
         {
             StringBuilder text = new StringBuilder();
+            String errorParsingMessage = "Soubor " + DataStore.getTextOutputTVShowsFilename() + " má poškozená data";
             
             try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                     new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
@@ -290,6 +372,10 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     textPart = new String(buffer, 0, charsRead);
                     text.append(textPart);
                 }
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + DataStore.getTextOutputTVShowsFilename());
             }
 
             Class<?> tvShowOutputClass = TVShowOutput.class;
@@ -316,7 +402,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             try (Scanner sc = new Scanner(text.toString())) 
             {
                 String textLine;
-
+                
                 if (sc.hasNextLine() == true) 
                 {
                     isFileEmpty = false;
@@ -331,9 +417,16 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                         continue;
                     } 
                     else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking 
-                            + "[\\s\t]*$") && enteredSectionValues == true) 
+                            + "[\\s\t]*$") && enteredSectionValues == true)
                     {
-                        parseOutputData(tvShowOutputFieldsValues, parsedTVShows, tvShowOutputFields);
+                        try 
+                        {
+                            parseOutputData(tvShowOutputFieldsValues, parsedTVShows, tvShowOutputFields);
+                        }
+                        catch (NumberFormatException ex) 
+                        {
+                            throw new FileParsingException(errorParsingMessage);
+                        }
 
                         break;
                     } 
@@ -347,8 +440,15 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
                             + "[\\s\t]*$") && enteredSectionValues == true) 
                     {
-                        parseOutputData(tvShowOutputFieldsValues, parsedTVShows, tvShowOutputFields);
-
+                        try 
+                        {
+                            parseOutputData(tvShowOutputFieldsValues, parsedTVShows, tvShowOutputFields);
+                        }
+                        catch (NumberFormatException ex) 
+                        {
+                            throw new FileParsingException(errorParsingMessage);
+                        }
+                        
                         enteredSectionAttributes = true;
                         enteredSectionValues = false;
 
@@ -367,7 +467,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
                         if (parts.length != 2) 
                         {
-                            throw new IOException();
+                            throw new FileParsingException(errorParsingMessage);
                         }
 
                         int fieldId;
@@ -378,14 +478,14 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                         } 
                         catch (NumberFormatException ex) 
                         {
-                            throw new IOException();
+                            throw new FileParsingException(errorParsingMessage);
                         }
 
                         String fieldName = tvShowOutputFieldsIds.get(fieldId);
 
                         if (fieldName == null) 
                         {
-                            throw new IOException();
+                            throw new FileParsingException(errorParsingMessage);
                         }
 
                         StringBuilder fieldValue = tvShowOutputFieldsValues.get(fieldName);
@@ -395,9 +495,10 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     }
                 }
             }
-
-            if (isFileEmpty == true) {
-                //exception
+            
+            if (isFileEmpty == false && parsedTVShows.isEmpty()) 
+            {
+                throw new FileParsingException(errorParsingMessage);
             }
         }
                                 
@@ -415,21 +516,8 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         outputTVShowsTextCopy.delete();
         outputTVShowsBinaryCopy.delete();
     }
-    
-    public @Override void tryCreateDataOutputFiles() throws IOException 
-    {
-        File outputTVShowsText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getTextOutputTVShowsFilename());
-        
-        File outputTVShowsBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getBinaryOutputTVShowsFilename());
-        
-        outputTVShowsText.createNewFile();
-        outputTVShowsBinary.createNewFile();
-    }
-    
-    public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException, 
-            FileNotFoundException
+         
+    public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
     {
         File outputTVShowsTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
                 "copy_" + DataStore.getTextOutputTVShowsFilename());
@@ -486,10 +574,15 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 dataOutputStream.write(byteBuffer, 0, bytesRead);
             }
         }
+        catch (IOException e) 
+        {
+            outputTVShowsTextCopy.delete();
+            outputTVShowsBinaryCopy.delete();
+            throw new IOException("Chyba při kopírování mezi výstupními soubory seriálů a kopiemi");
+        }
     }
     
-    public @Override void saveOutputDataIntoFiles(List<TVShowOutput> newOutputData) throws IOException, 
-            FileNotFoundException
+    public @Override void saveOutputDataIntoFiles(List<TVShowOutput> newOutputData) throws IOException
     {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
@@ -512,7 +605,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 
                 dataOutputStream.writeLong(m.getReleaseDateInEpochSeconds());
                 
-                for (char c : m.getEra().toCharArray()) 
+                for (char c : m.getEraCodeDesignation().toCharArray()) 
                 {
                     dataOutputStream.writeChar(c);
                 }
@@ -520,9 +613,14 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
             bufferedWriter.write(generatedTVShowsTextRepresentations.toString());
         }
+        catch (IOException e) 
+        {
+            throw new IOException("Chyba při zápisu výstupních souborů seriálů");
+        }
     }
     
-    public @Override List<TVShowInput> loadInputDataFrom(boolean fromBinary) throws IOException, FileNotFoundException
+    public @Override Map<Integer, TVShowInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
+            FileEmptyException, FileNotFoundException, FileParsingException
     {
         StringBuilder text = new StringBuilder();
         
@@ -542,13 +640,23 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     text.append(textPart);
                 }
             }
+            catch (FileNotFoundException e) 
+            {
+                throw new FileNotFoundException("Soubor " + 
+                        DataStore.getBinaryInputTVShowsFilename() + " neexistuje");
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + 
+                        DataStore.getBinaryInputTVShowsFilename());
+            }
             
             File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
                 + DataStore.getBinaryInputTVShowsFilename());
         
             if (binaryFile.length() == 0) 
             {
-                //exception
+                throw new FileEmptyException("Soubor " + DataStore.getBinaryInputTVShowsFilename() + " je prázdný");
             }
         }
         else 
@@ -565,6 +673,25 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 {
                     textPart = new String(buffer, 0, charsRead);
                     text.append(textPart);
+                }
+            }
+            catch (FileNotFoundException e) 
+            {
+                throw new FileNotFoundException("Soubor " + 
+                        DataStore.getTextInputTVShowsFilename() + " neexistuje");
+            }
+            catch (IOException e) 
+            {
+                throw new IOException("Chyba při čtení souboru " + 
+                        DataStore.getTextInputTVShowsFilename());
+            }
+            
+            try (Scanner sc = new Scanner(text.toString())) 
+            {
+                if (sc.hasNextLine() == false)
+                {
+                    sc.close();
+                    throw new FileEmptyException("Soubor " + DataStore.getTextInputTVShowsFilename() + " je prázdný");
                 }
             }
         }
@@ -586,20 +713,15 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             }
         }
                 
-        List<TVShowInput> parsedTVShows = new ArrayList<>();
+        Map<Integer, TVShowInput> parsedTVShows = new LinkedHashMap<>();
+        int inputTVShowOrder = 0;
         boolean enteredSectionAttributes = false;
         boolean enteredSectionValues = false;
-        boolean isFileEmpty = true;
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
             String textLine;
-            
-            if (sc.hasNextLine() == true && fromBinary == false) 
-            {
-                isFileEmpty = false;
-            }
-            
+                        
             while (sc.hasNextLine() == true) 
             {
                 textLine = sc.nextLine();
@@ -611,7 +733,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    parseInputData(tvShowInputFieldsValues, parsedTVShows, tvShowInputFields);
+                    parseInputData(tvShowInputFieldsValues, parsedTVShows, tvShowInputFields, inputTVShowOrder);
                     
                     break; 
                 }
@@ -625,9 +747,9 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
-                    parseInputData(tvShowInputFieldsValues, parsedTVShows,
-                            tvShowInputFields);
+                    parseInputData(tvShowInputFieldsValues, parsedTVShows, tvShowInputFields, inputTVShowOrder);
                     
+                    inputTVShowOrder++;
                     enteredSectionAttributes = true;
                     enteredSectionValues = false;
                     
@@ -636,6 +758,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
                         "[\\s\t]*$") && enteredSectionAttributes == false) 
                 {
+                    inputTVShowOrder++;
                     enteredSectionAttributes = true;
                     continue;
                 }
@@ -675,23 +798,37 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             }
         }
         
-        if (isFileEmpty == true && fromBinary == false) 
+        if (parsedTVShows.isEmpty()) 
         {
-            //exception
+            throw new FileParsingException(String.format("Nic se nenahrálo ze souboru %s", fromBinary == true ? 
+                    DataStore.getBinaryInputTVShowsFilename() : DataStore.getTextInputTVShowsFilename()));
         }
 
         return parsedTVShows;
     }
     
+    
+    /**
+     * Represents a method which parses tv show input data (one record) from input binary or text 
+     * file when position in
+     * file reaches either end marking or reaches another attributes section marking.
+     * @param tvShowInputFieldsValues represents list of parsed tv show record values mapped to
+     * according tv show input model data attributes names.
+     * @param parsedTVShows represents a list of currently parsed tv shows
+     * @param tvShowInputFields represents tv show input model data attributes names, which are
+     * used for indexing particular fields values.
+     * @param inputTVShowOrder represents int value, which specifies tv show record loading 
+     * order from file (record on start of file - value 1, record after - value 2).
+     */
     private void parseInputData(Map<String, StringBuilder> tvShowInputFieldsValues,
-            List<TVShowInput> parsedTVShows, Field[] tvShowInputFields)
+            Map<Integer, TVShowInput> parsedTVShows, Field[] tvShowInputFields, int inputTVShowOrder)
     {
         try 
         {
             long epochSeconds = Long.parseLong(tvShowInputFieldsValues.get("releaseDateInEpochSeconds").toString());
                         
-            parsedTVShows.add(new TVShowInput(tvShowInputFieldsValues.get("name").toString(), epochSeconds, 
-                    tvShowInputFieldsValues.get("era").toString()));
+            parsedTVShows.put(inputTVShowOrder, new TVShowInput(tvShowInputFieldsValues.get("name").toString(), epochSeconds, 
+                    tvShowInputFieldsValues.get("eraCodeDesignation").toString()));
         }
         catch (NumberFormatException ex) 
         {   
@@ -710,33 +847,42 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         }
     }
     
+    /**
+     * Represents a method which parses tv show output data (one record) from output text file when position in
+     * file reaches either end marking or reaches another attributes section marking.
+     * @param tvShowOutputFieldsValues represents list of parsed tv show record values mapped to
+     * according tv show output model data attributes names.
+     * @param parsedTVShows represents a list of currently parsed tv shows
+     * @param tvShowOutputFields represents tv show output model data attributes names, which are
+     * used for indexing particular fields values.
+     * @throws NumberFormatException when parsed tv show record number values cannot be converted to from String
+     */
     private void parseOutputData(Map<String, StringBuilder> tvShowOutputFieldsValues,
-            List<TVShowOutput> parsedTVShows, Field[] tvShowOutputFields) throws IOException 
+            List<TVShowOutput> parsedTVShows, Field[] tvShowOutputFields)
     {        
-        try 
+        int id = Integer.parseInt(tvShowOutputFieldsValues.get("id").toString());
+        long epochSeconds = Long.parseLong(tvShowOutputFieldsValues.get("releaseDateInEpochSeconds").toString());
+
+        parsedTVShows.add(new TVShowOutput(id, tvShowOutputFieldsValues.get("name").toString(),
+                epochSeconds, tvShowOutputFieldsValues.get("eraCodeDesignation").toString()));
+
+        tvShowOutputFieldsValues.clear();
+
+        for (Field field : tvShowOutputFields) 
         {
-            int id = Integer.parseInt(tvShowOutputFieldsValues.get("id").toString());
-            long epochSeconds = Long.parseLong(tvShowOutputFieldsValues.get("releaseDateInEpochSeconds").toString());
-          
-            parsedTVShows.add(new TVShowOutput(id, tvShowOutputFieldsValues.get("name").toString(), 
-                    epochSeconds, tvShowOutputFieldsValues.get("era").toString()));
-            
-            tvShowOutputFieldsValues.clear();
-            
-            for (Field field : tvShowOutputFields) 
+            if (!Modifier.isStatic(field.getModifiers())) 
             {
-                if (!Modifier.isStatic(field.getModifiers())) 
-                {
-                    tvShowOutputFieldsValues.put(field.getName(), new StringBuilder());
-                }
+                tvShowOutputFieldsValues.put(field.getName(), new StringBuilder());
             }
-        }
-        catch (NumberFormatException ex) 
-        {
-            throw new IOException();
         }
     }
     
+    /**
+     * Represents a method which creates tv show output data (multiple records) text representation
+     * for output text file.
+     * @param newOutputTVShows represents list of tv show output models data from database
+     * @return text content to save into output text file
+     */
     private StringBuilder createOutputDataTextRepresentation(List<TVShowOutput> newOutputTVShows) 
     {
         Class<?> tvShowOutputClass = TVShowOutput.class;
@@ -763,6 +909,10 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         {
             attributesMarking = inputFileAttributesSectionMarking.replaceAll("\\\\", "");
             outputTextData.append(attributesMarking).append("\n");
+            outputTextData.append("\n");
+            
+            outputTextData.append("Identificator: ").append(m.getId()).append("\n");
+            
             outputTextData.append("\n");
 
             for (Map.Entry<String, Integer> entry : tvShowOutputFieldsIds.entrySet()) 
@@ -797,7 +947,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             
             changedStringField = new StringBuilder();
             
-            for (char c : m.getEra().toCharArray()) 
+            for (char c : m.getEraCodeDesignation().toCharArray()) 
             {
                 if (c != Character.MIN_VALUE) 
                 {
@@ -806,7 +956,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             }
             
             outputTextData.append(changedStringField.toString()).
-                    append(" ").append(tvShowOutputFieldsIds.get("era")).
+                    append(" ").append(tvShowOutputFieldsIds.get("eraCodeDesignation")).
                     append("\n").append("\n");
         }
 

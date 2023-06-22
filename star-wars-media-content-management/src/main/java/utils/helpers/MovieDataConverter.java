@@ -1,4 +1,3 @@
-
 package utils.helpers;
 
 import app.models.data.Era;
@@ -12,10 +11,14 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import utils.exceptions.DataConversionException;
 
 /**
- * meziclanek mezi databazi a soubory
- * @author Admin
+ * Represents a Movie data converter helper class for input, output and data model of movie.
+ * MovieDataConverter class is used when converting input file movie data to database movie data.
+ * MovieDataConverter class is used when converting database movie data to output file movie data.
+ * MovieDataConverter class is used when converting output file movie data to database movie data.
+ * @author jan.dostal
  */
 public final class MovieDataConverter 
 {
@@ -23,6 +26,12 @@ public final class MovieDataConverter
     {
     }
     
+    /**
+     * Method converts movie database model data into movie output model data 
+     * (from database to output files, writing into output files)
+     * @param data represents movie database model data
+     * @return converted data as movie output model data
+     */
     public static MovieOutput convertToOutputDataFrom(Movie data) 
     {
         int id = data.getPrimaryKey().getId();
@@ -54,13 +63,21 @@ public final class MovieDataConverter
             epochSeconds = releaseDataDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
         }
         
-        String era = data.getEra().toString();
+        String eraCodeDesignation = data.getEra().toString();
         
         return new MovieOutput(id, runtime, name, percentage, 
-                hyperlink, content, epochSeconds, era);
+                hyperlink, content, epochSeconds, eraCodeDesignation);
     }
     
-    public static Movie convertToDataFrom(MovieInput inputData) throws DateTimeException
+    /**
+     * Method converts movie input model data into movie database model data 
+     * (from input file to database, parsing input file)
+     * @param inputData represents movie input model data
+     * @return converted data as movie database model data
+     * @throws utils.exceptions.DataConversionException if input data 
+     * release date in epoch seconds number is too big
+     */
+    public static Movie convertToDataFrom(MovieInput inputData) throws DataConversionException
     {
         PrimaryKey placeholderKey = new PrimaryKey(0);
         Duration runtime;
@@ -120,7 +137,6 @@ public final class MovieDataConverter
             content = inputData.getShortContentSummary();
         }
         
-        //exception
         LocalDate releaseDate;
         
         if (inputData.getReleaseDateInEpochSeconds() < 0) 
@@ -129,16 +145,22 @@ public final class MovieDataConverter
         }
         else 
         {
-            releaseDate = Instant.ofEpochSecond(inputData.getReleaseDateInEpochSeconds()).
-                atZone(ZoneOffset.UTC).toLocalDate();
+            try 
+            {
+                releaseDate = Instant.ofEpochSecond(inputData.getReleaseDateInEpochSeconds()).
+                        atZone(ZoneOffset.UTC).toLocalDate();
+            }
+            catch (DateTimeException e) 
+            {
+                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení konvertovaného filmu");
+            }
         }
         
-        //exception
         Era era;
                 
         try 
         {
-            era = Era.valueOf(inputData.getEra());
+            era = Era.valueOf(inputData.getEraCodeDesignation());
         }
         catch (IllegalArgumentException ex) 
         {
@@ -149,7 +171,15 @@ public final class MovieDataConverter
                 wasWatched, hyperlink, content, releaseDate, era);
     }
     
-    public static Movie convertToDataFrom(MovieOutput outputData) throws DateTimeException
+    /**
+     * Method converts movie output model data into movie database model data 
+     * (from output file to database, parsing output file)
+     * @param outputData represents movie output model data
+     * @return converted data as movie database model data
+     * @throws utils.exceptions.DataConversionException if output data 
+     * release date in epoch seconds number is too big
+     */
+    public static Movie convertToDataFrom(MovieOutput outputData) throws DataConversionException
     {
         PrimaryKey primaryKey = new PrimaryKey(outputData.getId());       
         Duration runtime;
@@ -227,7 +257,6 @@ public final class MovieDataConverter
             stringContent = null;
         }
 
-        //exception
         LocalDate releaseDate;
         
         if (outputData.getReleaseDateInEpochSeconds() < 0) 
@@ -236,32 +265,38 @@ public final class MovieDataConverter
         }
         else 
         {
-            releaseDate = Instant.ofEpochSecond(outputData.getReleaseDateInEpochSeconds()).
-                atZone(ZoneOffset.UTC).toLocalDate();
-        }
-        
-        StringBuilder stringEra = new StringBuilder();
-        
-        for (char c : outputData.getEra().toCharArray()) 
-        {
-            if (c != Character.MIN_VALUE) 
+            try 
             {
-                stringEra.append(c);
+                releaseDate = Instant.ofEpochSecond(outputData.getReleaseDateInEpochSeconds()).
+                        atZone(ZoneOffset.UTC).toLocalDate();
+            }
+            catch (DateTimeException e) 
+            {
+                throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení "
+                        + "konvertovaného filmu s identifikátorem " + outputData.getId());
             }
         }
         
-        //exception
+        StringBuilder stringEraCodeDesignation = new StringBuilder();
+        
+        for (char c : outputData.getEraCodeDesignation().toCharArray()) 
+        {
+            if (c != Character.MIN_VALUE) 
+            {
+                stringEraCodeDesignation.append(c);
+            }
+        }
+        
         Era era;
                 
         try 
         {
-            era = Era.valueOf(stringEra.toString());
+            era = Era.valueOf(stringEraCodeDesignation.toString());
         }
         catch (IllegalArgumentException ex) 
         {
             era = null;
         }
-        
         
         return new Movie(primaryKey, runtime, stringName, percentage, wasWatched,
                 stringHyperlink, stringContent, releaseDate, era);
