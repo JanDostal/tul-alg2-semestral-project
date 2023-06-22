@@ -14,7 +14,7 @@ eraCodeDesignation 7
 
 8160 1
 Star Wars: Episode I - The Phantom Menace 2
-75 3
+-1 3
 https://film.kukaj.io/star-wars-epizoda-i-skryta-hrozba-1999 4
 The evil Trade Federation, led by Nute Gunray is planning to take over the peaceful world of Naboo. 5
 Jedi Knights Qui-Gon Jinn and Obi-Wan Kenobi are sent to confront the leaders. But not everything goes to plan. 5
@@ -42,9 +42,9 @@ eraCodeDesignation 7
 
 [Values]
 
-8520 1
+-1 1
 Star Wars: Episode II - Attack of the Clones 2
-67 3
+-1 3
 https://film.kukaj.io/star-wars-epizoda-ii-klony-utoci-2002 4
 A decade after the Naboo invasion, Senator Padme Amidala is returning to Corusant when she instantly discovers that someone has put a price on her head. 5
 At the same time, the Galactic Republic is under pressure due to a separatist movement which is forcing Chancellor Palpatine to create a clone army to keep them safe 5
@@ -71,8 +71,8 @@ eraCodeDesignation 7
 
 8400 1
 Star Wars: Episode III - Revenge of the Sith 2
-85 3
-https://film.kukaj.io/star-wars-epizoda-iii-pomsta-sithu 4
+-1 3
+ 4
 Nearly three years have passed since the beginning of the Clone Wars. The Republic, with the help of the Jedi, take 5
 on Count Dooku and the Separatists. With a new threat rising, the Jedi Council sends Obi-Wan Kenobi and Anakin Skywalker to aid the captured Chancellor. 5
 Anakin feels he is ready to be promoted to Jedi Master. Obi-Wan is hunting down the Separatist General, Grievous. 5
@@ -98,13 +98,9 @@ eraCodeDesignation 7
 
 7260 1
 Star Wars: Episode IV - A New Hope 2
-75 3
+-1 3
 https://film.kukaj.io/star-wars-episode-iv-a-new-hope 4
-Part IV in George Lucas' epic, this movie opens with a rebel ship being boarded by the tyrannical Darth Vader. 5
-The plot then follows the life of a simple farm boy, Luke Skywalker, as he and his newly met allies (Han Solo, Chewbacca, Obi-wan Kenobi, C-3PO, R2-D2) 5
-attempt to rescue a rebel leader, Princess Leia, from the clutches of the Empire. 5
  5
-The conclusion is culminated as the rebels, including Skywalker and flying ace Wedge Antilles make an attack on the Empire's most powerful and ominous weapon, the Death Star. 5
 233366400 6
 AGE_OF_REBELLION 7
 
@@ -124,14 +120,9 @@ eraCodeDesignation 7
 
 7440 1
 Star Wars: Episode V - The Empire Strikes Back 2
-95 3
-https://film.kukaj.io/star-wars-epizoda-v-imperium-vraci-uder-1980 4
-After receiving a vision from Obi-wan Kenobi and fleeing the ice world of Hoth with his friends after an Imperial attack, 5
-Luke Skywalker travels to the marsh planet of Dagobah, where he is instructed in the ways of the Force by the legendary Jedi Master Yoda. 5
+-1 3
+ 4
  5
-Meanwhile, Han Solo and Princess Leia make their way to planet Bespin, where they are greeted by Han's old friend, a shifty gambler named Lando Calrissian. 5
-Ambushed by the Empire shortly after their arrival, Han and his friends are imprisoned by Darth Vader. Luke leaves Dagobah to rescue his friends, 5
-and is met by Vader and a startling revelation. 5
 327369600 6
 AGE_OF_REBELLION 7
 
@@ -176,7 +167,7 @@ eraCodeDesignation 7
 
 [Values]
 
-8280 1
+-1 1
 Star Wars: Episode VII - The Force Awakens 2
 63 3
 https://film.kukaj.io/star-wars-sila-se-probouzi 4
@@ -205,7 +196,7 @@ eraCodeDesignation 7
 9120 1
 Star Wars: Episode VIII - The Last Jedi 2
 55 3
-https://film.kukaj.io/star-wars-the-last-jedi 4
+ 4
 Jedi Master-in-hiding Luke Skywalker unwillingly attempts to guide young hopeful Rey in the ways of the force, 5
 while Leia, former princess turned general, attempts to lead what is left of the Resistance away from the ruthless tyrannical grip of the First Order. 5
 1512777600 6
@@ -227,11 +218,9 @@ eraCodeDesignation 7
 
 8460 1
 Star Wars: Episode IX - The Rise of Skywalker 2
-65 3
+43 3
 https://film.kukaj.io/star-wars-the-rise-of-skywalker 4
-While the First Order continues to ravage the galaxy, Rey finalizes her training as a Jedi. But danger suddenly rises from the ashes as the evil 5
-Emperor Palpatine mysteriously returns from the dead. While working with Finn and Poe Dameron to fulfill a new mission, Rey will not only face Kylo Ren once more, 5
-but she will also finally discover the truth about her parents as well as a deadly secret that could determine her future and the fate of the ultimate final showdown that is to come. 5
+ 5
 1576454400 6
 RISE_OF_THE_FIRST_ORDER 7
 
@@ -251,15 +240,9 @@ eraCodeDesignation 7
 
 5880 1
 Star Wars: The Clone Wars 2
-75 3
-https://film.kukaj.io/star-wars-the-clone-wars 4
-As the Clone Wars sweep through the galaxy, the heroic Jedi Knights struggle to maintain order and restore peace. 5
-More and more systems are falling prey to the forces of the dark side as 5
-the Galactic Republic slips further and further under the sway of the Separatists and their never-ending droid army. 5
-Anakin Skywalker and his Padawan learner Ahsoka Tano find themselves on a mission with far-reaching consequences, 5
-one that brings them face-to-face with crime lord Jabba the Hutt. But Count Dooku and his sinister agents, including the nefarious Asajj Ventress, 5
-will stop at nothing to ensure that Anakin and Ahsoka fail at their quest. Meanwhile, on the front lines of the Clone Wars, 5
-Obi-Wan Kenobi and Master Yoda lead the massive clone army in a valiant effort to resist the forces of the dark side ... 5
+37 3
+ 4
+ 5
 1218326400 6
 FALL_OF_THE_JEDI 7
 
@@ -280,10 +263,6 @@ eraCodeDesignation 7
 8100 1
 Solo: A Star Wars Story 2
 78 3
-https://film.kukaj.io/solo-star-wars-story 4
-Before he crossed paths with The Rebellion, Han Solo was a former Imperial Militant who became a 5
-space pirate cruising around the Outer Rim alongside his fellow outlaw: the mighty Wookiee, Chewbacca. 5
-This is the story of how he came to be known as the galaxy's most notorious smuggler, and how the man became a legend. 5
 1525910400 6
 REIGN_OF_THE_EMPIRE 7
 
@@ -302,7 +281,7 @@ eraCodeDesignation 7
 [Values]
 
 7980 1
-Rogue One: Star Wars Story 2
+         	        2
 82 3
 https://film.kukaj.io/rogue-one-star-wars-story 4
 All looks lost for the Rebellion against the Empire as they learn of the existence of a new super weapon, the Death Star. 5
@@ -331,7 +310,7 @@ Lego Star Wars: The Padawan Menace 2
 https://film.kukaj.io/lego-star-wars-the-padawan-menace 4
 A young boy named Ian, Commander Cody, and Yoda must go to rescue secret battle plans. However, 5
 when substitute teacher C-3PO and a class of padawans go too, things become more complicated. 5
-1311292800 6
+999999999999999899 6
 FALL_OF_THE_JEDI 7
 
 [Attributes]
@@ -356,7 +335,7 @@ Luke Skywalker embarks on a mission to find and destroy an Imperial base on Nabo
 but is relentlessly chased by a group of fanatic girls, who think of him as a celebrity for destroying the Death Star. 5
 Meanwhile, Darth Vader engages a "sibling" rivalry with Darth Maul, in order to prove he's the best Sith Lord to Emperor Palpatine. 5
 1348617600 6
-AGE_OF_REBELLION 7
+Ahoj 7
 
 [Attributes]
 
@@ -372,7 +351,7 @@ eraCodeDesignation 7
 
 [Values]
 
-2640 1
+sad 1
 The Lego Star Wars Holiday Special 2
 69 3
 https://film.kukaj.io/the-lego-star-wars-holiday-special 4
@@ -397,7 +376,7 @@ eraCodeDesignation 7
 
 2640 1
 Lego Star Wars Terrifying Tales 2
-72 3
+sad 3
 https://film.kukaj.io/lego-star-wars-hrozostrasne-historky 4
 After the events of Star Wars: The Rise of Skywalker, Poe Dameron and BB-8 must make an emergency landing on the volcanic planet Mustafar 5
 where they meet the greedy and conniving Graballa the Hutt. 5
@@ -424,7 +403,7 @@ eraCodeDesignation 7
 2700 1
 LEGO Star Wars Summer Vacation 2
 75 3
-https://film.kukaj.io/lego-star-wars-summer-vacation 4
+https://film.kukaj.io/lego-star-wars-summer-vacationasjdadijdkssadjsajdsjadkjakajkdjkasjjkasdsadjakdsakasdjkdskdsadjasdsadlsakjsdakjdsakjdsjadksajkdskdaskjsdajkdsajdsakjdsakjsjkadasd 4
 Follows the events of Star Wars: The Rise of Skywalker, with Rose, Rey, Finn, Poe, 5
 and Chewbacca looking to relax in the summer sun after their fateful battle with Emperor Palpatine. 5
 The galaxy's heroes need a vacation badly, but, as many family vacations often turn out, things don't go according to plan. 5

@@ -1,30 +1,6 @@
-﻿
 [Attributes]
-    			   
-runtimeInSeconds 1
-name 2
-percentageRating 3
-hyperlinkForContentWatch 4
-shortContentSummary 5
-releaseDateInEpochSeconds 6
-era 7
 
-[Values]
-
-213212 1
-Mařenka 2
-50 3
-asdsaa ads  aasasddasasd asdadas d ads asd a 4
-asdasda asdaas asdasdas as asdas das dasas  5
-asdasdsa 5
-sadas 5
-asdasddas 5
-sadasddsasa 5
-sasadadsdas 5
-1232 6
-asdasd 7
-
-[Attributes]
+Order: 1
 
 runtimeInSeconds 1
 name 2
@@ -32,21 +8,470 @@ percentageRating 3
 hyperlinkForContentWatch 4
 shortContentSummary 5
 releaseDateInEpochSeconds 6
-era 7
+eraCodeDesignation 7
 
 [Values]
-    
-213212 1
-Jeníček 2
-50 3
-asdsaa ads  aasasddasasd asdadas d ads asd a 4
-asdasda asdaas asdasdas as asdas das dasas  5
-asdasdsa 5
-sadas 5
-asdasddas 5
-sadasddsasa 5
-sasadadsdas 5
-1232 6
+
+8160 1
+Star Wars: Episode I - The Phantom Menace 2
+-1 3
+https://film.kukaj.io/star-wars-epizoda-i-skryta-hrozba-1999 4
+The evil Trade Federation, led by Nute Gunray is planning to take over the peaceful world of Naboo. 5
+Jedi Knights Qui-Gon Jinn and Obi-Wan Kenobi are sent to confront the leaders. But not everything goes to plan. 5
+The two Jedi escape, and along with their new Gungan friend, Jar Jar Binks head to Naboo to warn Queen Amidala, but 5
+droids have already started to capture Naboo and the Queen is not safe there. 5
+ 5
+Eventually, they land on Tatooine, where 5
+they become friends with a young boy known as Anakin Skywalker. Qui-Gon is curious about the boy, and sees a bright future for him. 5
+The group must now find a way of getting to Coruscant and to finally solve this trade dispute, but there is someone else hiding in the shadows. 5
+Are the Sith really extinct? Is the Queen really who she says she is? And what's so special about this young boy? 5
+927072000 6
 FALL_OF_THE_JEDI 7
+
+[Attributes]
+
+Order: 2
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+-1 1
+Star Wars: Episode II - Attack of the Clones 2
+-1 3
+https://film.kukaj.io/star-wars-epizoda-ii-klony-utoci-2002 4
+A decade after the Naboo invasion, Senator Padme Amidala is returning to Corusant when she instantly discovers that someone has put a price on her head. 5
+At the same time, the Galactic Republic is under pressure due to a separatist movement which is forcing Chancellor Palpatine to create a clone army to keep them safe 5
+from the growing threat. The Jedi Council dispatch Obi-Wan Kenobi to launch an investigation in who's behind Senator Amidala's assassination while his apprentice, a now 5
+grown Anakin Skywalker is assigned to keep watch over Amidala, while falling into a secret romance with her which goes against his vows as a Jedi. 5
+ 5
+Meanwhile, renegade Jedi Count Dooku is preparing to go to war against the Jedi with a united droid army that could bring the Republic to it's knees. 5
+1021161600 6
+FALL_OF_THE_JEDI 7
+
+[Attributes]
+
+Order: 3
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+8400 1
+Star Wars: Episode III - Revenge of the Sith 2
+-1 3
+ 4
+Nearly three years have passed since the beginning of the Clone Wars. The Republic, with the help of the Jedi, take 5
+on Count Dooku and the Separatists. With a new threat rising, the Jedi Council sends Obi-Wan Kenobi and Anakin Skywalker to aid the captured Chancellor. 5
+Anakin feels he is ready to be promoted to Jedi Master. Obi-Wan is hunting down the Separatist General, Grievous. 5
+ 5
+When Anakin has future visions of pain and suffering coming Padmé's way, he sees Master Yoda for counsel. When Darth Sidious executes Order 66, it 5
+destroys most of all the Jedi have built. Experience the birth of Darth Vader. Feel the betrayal that leads to hatred between two brothers. And witness the power of hope. 5
+1115856000 6
+FALL_OF_THE_JEDI 7
+
+[Attributes]
+
+Order: 4
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+7260 1
+Star Wars: Episode IV - A New Hope 2
+-1 3
+https://film.kukaj.io/star-wars-episode-iv-a-new-hope 4
+ 5
+233366400 6
+AGE_OF_REBELLION 7
+
+[Attributes]
+
+Order: 5
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+7440 1
+Star Wars: Episode V - The Empire Strikes Back 2
+-1 3
+ 4
+ 5
+327369600 6
+AGE_OF_REBELLION 7
+
+[Attributes]
+
+Order: 6
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+7860 1
+Star Wars: Episode VI - Return of the Jedi 2
+88 3
+https://film.kukaj.io/star-wars-epizoda-vi-navrat-jediho-1983 4
+As the evil Emperor Palpatine oversees the construction of the new Death Star by Darth Vader and the Galactic Empire, 5
+smuggler Han Solo is rescued from the clutches of the vile gangster Jabba the Hutt by his friends, Luke Skywalker, 5
+Princess Leia, Lando Calrissian, and Chewbacca. 5
+ 5
+Leaving Luke Skywalker Jedi training with Master Yoda, 5
+Solo returns to the Rebel fleet to prepare to complete his battle with the Empire. During the ensuing fighting, the newly returned Luke Skywalker is captured by Darth Vader. 5
+422496000 6
+AGE_OF_REBELLION 7
+
+[Attributes]
+
+Order: 7
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+-1 1
+Star Wars: Episode VII - The Force Awakens 2
+63 3
+https://film.kukaj.io/star-wars-sila-se-probouzi 4
+30 years after the defeat of Darth Vader and the Empire, Rey, a scavenger from the planet Jakku, 5
+finds a BB-8 droid that knows the whereabouts of the long lost Luke Skywalker. 
+ 5
+Rey, as well as a rogue stormtrooper and two smugglers, 5
+are thrown into the middle of a battle between the Resistance and the daunting legions of the First Order. 5
+1450051200 6
+RISE_OF_THE_FIRST_ORDER 7
+
+[Attributes]
+
+Order: 8
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+9120 1
+Star Wars: Episode VIII - The Last Jedi 2
+55 3
+ 4
+Jedi Master-in-hiding Luke Skywalker unwillingly attempts to guide young hopeful Rey in the ways of the force, 5
+while Leia, former princess turned general, attempts to lead what is left of the Resistance away from the ruthless tyrannical grip of the First Order. 5
+1512777600 6
+RISE_OF_THE_FIRST_ORDER 7
+
+[Attributes]
+
+Order: 9
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+8460 1
+Star Wars: Episode IX - The Rise of Skywalker 2
+43 3
+https://film.kukaj.io/star-wars-the-rise-of-skywalker 4
+ 5
+1576454400 6
+RISE_OF_THE_FIRST_ORDER 7
+
+[Attributes]
+
+Order: 10
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+5880 1
+Star Wars: The Clone Wars 2
+37 3
+ 4
+ 5
+1218326400 6
+FALL_OF_THE_JEDI 7
+
+[Attributes]
+
+Order: 11
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+8100 1
+Solo: A Star Wars Story 2
+78 3
+1525910400 6
+REIGN_OF_THE_EMPIRE 7
+
+[Attributes]
+
+Order: 12
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+7980 1
+         	        2
+82 3
+https://film.kukaj.io/rogue-one-star-wars-story 4
+All looks lost for the Rebellion against the Empire as they learn of the existence of a new super weapon, the Death Star. 5
+Once a possible weakness in its construction is uncovered, the Rebel Alliance must set out on a desperate mission to steal the plans for the Death Star. 5
+The future of the entire galaxy now rests upon its success. 5
+1481328000 6
+REIGN_OF_THE_EMPIRE 7
+
+[Attributes]
+
+Order: 13
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+1320 1
+Lego Star Wars: The Padawan Menace 2
+71 3
+https://film.kukaj.io/lego-star-wars-the-padawan-menace 4
+A young boy named Ian, Commander Cody, and Yoda must go to rescue secret battle plans. However, 5
+when substitute teacher C-3PO and a class of padawans go too, things become more complicated. 5
+999999999999999899 6
+FALL_OF_THE_JEDI 7
+
+[Attributes]
+
+Order: 14
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+1320 1
+Lego Star Wars: The Empire Strikes Out 2
+76 3
+https://www.youtube.com/watch?v=TiAPvuMDB0c&ab_channel=AvidCartoonFanatic 4
+Luke Skywalker embarks on a mission to find and destroy an Imperial base on Naboo, 5
+but is relentlessly chased by a group of fanatic girls, who think of him as a celebrity for destroying the Death Star. 5
+Meanwhile, Darth Vader engages a "sibling" rivalry with Darth Maul, in order to prove he's the best Sith Lord to Emperor Palpatine. 5
+1348617600 6
+Ahoj 7
+
+[Attributes]
+
+Order: 15
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+sad 1
+The Lego Star Wars Holiday Special 2
+69 3
+https://film.kukaj.io/the-lego-star-wars-holiday-special 4
+Rey leaves her friends to prepare for Life Day as she sets off on an adventure to gain a deeper knowledge of the Force. 5
+At a mysterious temple, she is hurled into a cross-timeline adventure. Will she make it back in time for Life Day? 5
+1605571200 6
+NEW_JEDI_ORDER 7
+
+[Attributes]
+
+Order: 16
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+2640 1
+Lego Star Wars Terrifying Tales 2
+sad 3
+https://film.kukaj.io/lego-star-wars-hrozostrasne-historky 4
+After the events of Star Wars: The Rise of Skywalker, Poe Dameron and BB-8 must make an emergency landing on the volcanic planet Mustafar 5
+where they meet the greedy and conniving Graballa the Hutt. 5
+The crime boss has purchased Darth Vader's castle and is renovating it into the galaxy's first all-inclusive Sith-inspired luxury hotel. 5
+While waiting for his X-Wing to be repaired, Poe, BB-8, Graballa, 5
+and Dean (a plucky and courageous young boy who works as Graballa's mechanic) venture deep into the mysterious castle with Vader's loyal servant, Vaneé. 5
+1633046400 6
+NEW_JEDI_ORDER 7
+
+[Attributes]
+
+Order: 17
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+2700 1
+LEGO Star Wars Summer Vacation 2
+75 3
+https://film.kukaj.io/lego-star-wars-summer-vacationasjdadijdkssadjsajdsjadkjakajkdjkasjjkasdsadjakdsakasdjkdskdsadjasdsadlsakjsdakjdsakjdsjadksajkdskdaskjsdajkdsajdsakjdsakjsjkadasd 4
+Follows the events of Star Wars: The Rise of Skywalker, with Rose, Rey, Finn, Poe, 5
+and Chewbacca looking to relax in the summer sun after their fateful battle with Emperor Palpatine. 5
+The galaxy's heroes need a vacation badly, but, as many family vacations often turn out, things don't go according to plan. 5
+1659657600 6
+NEW_JEDI_ORDER 7
+
+[Attributes]
+
+Order: 18
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+-1 1
+Star Wars: New Jedi Order 2
+-1 3
+ 4
+ 5
+1829001600 6
+NEW_JEDI_ORDER 7
+
+[Attributes]
+
+Order: 19
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+-1 1
+Untitled Dave Filoni Star Wars Project 2
+-1 3
+-1 6
+THE_NEW_REPUBLIC 7
+
+[Attributes]
+
+Order: 20
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+-1 1
+Star Wars: Dawn of the Jedi 2
+-1 3
+ 4
+ 5
+-1 6
+DAWN_OF_THE_JEDI 7
 
 [End]

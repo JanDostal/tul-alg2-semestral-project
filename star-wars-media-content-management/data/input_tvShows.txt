@@ -8,13 +8,27 @@ eraCodeDesignation 3
 
 [Values]
 
+Star Wars: Clone Wars (2008 version) 1
+1222992000 2
+FALL_OF_THE_JEDI 3
+
+[Attributes]
+
+Order: 2
+
+name 1
+releaseDateInEpochSeconds 2
+eraCodeDesignation 3
+
+[Values]
+
 Star Wars: Young Jedi Adventures 1
 1683158400 2
 THE_HIGH_REPUBLIC 3
 
 [Attributes]
 
-Order: 2
+Order: 3
 
 name 1
 releaseDateInEpochSeconds 2
@@ -28,7 +42,7 @@ FALL_OF_THE_JEDI 3
 
 [Attributes]
 
-Order: 3
+Order: 4
 
 name 1
 releaseDateInEpochSeconds 2
@@ -38,20 +52,6 @@ eraCodeDesignation 3
 
 Star Wars: Clone Wars (Tartakovsky 2003 version) 1
 1068163200 2
-FALL_OF_THE_JEDI 3
-
-[Attributes]
-
-Order: 4
-
-name 1
-releaseDateInEpochSeconds 2
-eraCodeDesignation 3
-
-[Values]
-
-Star Wars: Clone Wars (2008 version) 1
-1222992000 2
 FALL_OF_THE_JEDI 3
 
 [Attributes]
@@ -120,7 +120,7 @@ eraCodeDesignation 3
 
 [Values]
 
-Star Wars: Rebels 1
+Andor 1
 1412294400 2
 REIGN_OF_THE_EMPIRE 3
 
@@ -134,8 +134,8 @@ eraCodeDesignation 3
 
 [Values]
 
-Ewoks 1
-494899200 2
+Andor 1
+1663718400 2
 AGE_OF_REBELLION 3
 
 [Attributes]
@@ -148,7 +148,7 @@ eraCodeDesignation 3
 
 [Values]
 
-The Mandalorian 1
+	   	 1
 1573516800 2
 THE_NEW_REPUBLIC 3
 
@@ -163,7 +163,7 @@ eraCodeDesignation 3
 [Values]
 
 The Book of Boba Fett 1
-1640736000 2
+999999999999999899 2
 THE_NEW_REPUBLIC 3
 
 [Attributes]
@@ -178,7 +178,7 @@ eraCodeDesignation 3
 
 Star Wars: Resistance 1
 1538870400 2
-RISE_OF_THE_FIRST_ORDER 3
+Ahoj 3
 
 [Attributes]
 
@@ -191,7 +191,7 @@ eraCodeDesignation 3
 [Values]
 
 Star Wars: Visions 1
-1632268800 2
+ahoj 2
 AGE_OF_REBELLION 3
 
 [Attributes]
@@ -205,7 +205,6 @@ eraCodeDesignation 3
 [Values]
 
 Lego Star Wars: Droid Tales 1
-1436140800 2
 THE_NEW_REPUBLIC 3
 
 [Attributes]
@@ -218,7 +217,6 @@ eraCodeDesignation 3
 
 [Values]
 
-LEGO Star Wars: The Resistance Rises 1
 1455494400 2
 THE_NEW_REPUBLIC 3
 
@@ -234,7 +232,6 @@ eraCodeDesignation 3
 
 Lego Star Wars: The Freemaker Adventures 1
 1466380800 2
-AGE_OF_REBELLION 3
 
 [Attributes]
 

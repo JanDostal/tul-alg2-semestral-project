@@ -13,7 +13,7 @@ orderInTVShowSeason 6
 
 1260 1
 Ambush 2
-60 3
+-1 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E01 4
 Yoda travels to a neutral coral moon of Rugosa to persuade King Katuunko to allow the building of a Republic supply base on Toydaria. 5
  5
@@ -35,8 +35,8 @@ orderInTVShowSeason 6
 
 1320 1
 Rising Malevolence 2
-60 3
-https://serial.kukaj.io/star-wars-klonove-valky/S01E02 4
+-1 3
+ 4
 General Grievous uses his latest weapon, the Malevolence, to destroy Plo Koon's fleet. 5
 Stuck in an escape pod with three clone troopers, Koon fends off more battle droids while Anakin and Ahsoka mount a rescue mission. 5
 2 6
@@ -56,9 +56,9 @@ orderInTVShowSeason 6
 
 1320 1
 Shadow of Malevolence 2
-60 3
+-1 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E03 4
-The Malevolence has been revealed to the Republic. Anakin and Shadow Squad, accompanied by Ahsoka and Master Koon, launch an attack in their new long-range Y-wing bombers. 5
+ 5
 3 6
 
 [Attributes]
@@ -76,10 +76,9 @@ orderInTVShowSeason 6
 
 1320 1
 Destroy Malevolence 2
-60 3
-https://serial.kukaj.io/star-wars-klonove-valky/S01E04 4
-Padmé Amidala and C-3PO fly into a trap and are taken hostage by General Grievous aboard the Malevolence. 5
-Anakin and Obi-Wan, who were already in pursuit of Grievous, now have to board the ship in order to rescue the senator and her protocol droid. 5
+-1 3
+ 4
+ 5
 4 6
 
 [Attributes]
@@ -97,7 +96,7 @@ orderInTVShowSeason 6
 
 1320 1
 Rookies 2
-60 3
+120 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E05 4
 A squad of rookie clone troopers manning a tracking station on the Rishi moon is attacked by a new model of commando droids. 5 
 Commander Cody and Captain Rex arrive just in time to aid the Shinies in taking back their base - the last outpost before their 'home' planet of Kamino. 5
@@ -118,8 +117,8 @@ orderInTVShowSeason 6
 
 1200 1
 Downfall of a Droid 2
-60 3
-https://serial.kukaj.io/star-wars-klonove-valky/S01E06 4
+66 3
+ 4
 When R2D2 goes missing in action during a skirmish in an asteroid belt Anakin insists on mounting a rescue mission. 5
 Although Obi-Wan is against wasting time on a droid, Anakin explains the R2's memory has never been wiped 5
 and thus carries all of the Republic's tactics and base locations. Meanwhile, 5
@@ -141,11 +140,9 @@ orderInTVShowSeason 6
 
 1200 1
 Duel of the Droids 2
-60 3
+53 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E07 4
-Anakin and Ahsoka are ordered to destroy General Grievous' secret enemy listening post. Against Obi-Wan's wishes, 5
-Anakin makes use of the opportunity to mount a one man rescue mission to find R2-D2. Meanwhile, 5
-R2's replacement R3-S6 seems to be working against Ahsoka and Rex's squad as much as helping them. 5
+ 5
 7 6
 
 [Attributes]
@@ -163,10 +160,9 @@ orderInTVShowSeason 6
 
 1320 1
 Bombad Jedi 2
-60 3
-https://serial.kukaj.io/star-wars-klonove-valky/S01E08 4
-Padmé travels to Rodia to meet with old family friend Onaconda Farr about the lack of food rations. 5
-Unfortunately Farr has just made a deal with the Separatists. Padmé is imprisoned, leaving it up to Jar Jar Binks and C-3PO to rescue her. 5
+76 3
+ 4
+ 5
 8 6
 
 [Attributes]
@@ -184,11 +180,11 @@ orderInTVShowSeason 6
 
 1320 1
 Cloak of Darkness 2
-60 3
+93 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E09 4
 Luminara Unduli and Ahsoka Tano are transporting the captive Viceroy Nute Gunray to Coruscant to face trial. 5
 Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either recaptured or killed rather than have him spill Separatist secrets. 5
-9 6
+8 6
 
 [Attributes]
 
@@ -206,10 +202,6 @@ orderInTVShowSeason 6
 1320 1
 Lair of Grievous 2
 60 3
-https://serial.kukaj.io/star-wars-klonove-valky/S01E10 4
-Kit Fisto is on the trail of the recently escaped Nute Gunray and joins up with 5
-his former Padawan Nahdar Vebb on the remote planet of Vassek. Unknown to them, they are entering the lair of General Grievous, 5
-who is being tested in his abilities by Count Dooku after a series of disappointments in battle. 5
 10 6
 
 [Attributes]
@@ -225,9 +217,9 @@ orderInTVShowSeason 6
 
 [Values]
 
-1320 1
+-1 1
 Dooku Captured 2
-60 3
+43 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E11 4
 Obi-Wan and Anakin infiltrate Count Dooku's frigate in an attempt to capture him but all three end up crash-landing on 5
 the planet Vanqor instead. While the Jedi are busy fighting a mother Gundark, Dooku falls into the hands of a pirate gang led Hondo Ohnaka. 5
@@ -248,8 +240,8 @@ orderInTVShowSeason 6
 [Values]
 
 1320 1
-The Gungan General 2
-60 3
+ 2
+89 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E12 4
 Obi-Wan and Anakin are now hostages along with Dooku at Hondo Ohnaka's stronghold on Florrum. 5
 Delegate Jar Jar Binks and Senator Kharrus arrive with the ransom and a battalion of troopers, 5
@@ -270,8 +262,8 @@ orderInTVShowSeason 6
 [Values]
 
 1320 1
-Jedi Crash 2
-60 3
+    			  2
+74 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E13 4
 General Skywalker is injured while rescuing fellow Jedi General Aayla Secura from Super Battle Droids equipped with rocket packs. 5
 Ahsoka Tano crash-lands their shuttle on the neutral planet of Maridun, where the native Lurmen villagers refuse to takes sides in the war. 5
@@ -291,9 +283,9 @@ orderInTVShowSeason 6
 
 [Values]
 
-1320 1
+ahoj 1
 Defenders of Peace 2
-60 3
+72 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E14 4
 A Separatist fleet led by Neimoidian Lok Durd arrives on Maridun to test their new defoliator weapon, which destroys organic life but leaves machines intact. 5
 Unknown to them, three Jedi and two Clone troopers are stuck nearby without a means of transport off-planet. When the Lurmen village becomes endangered by the test, 5
@@ -315,7 +307,7 @@ orderInTVShowSeason 6
 
 1320 1
 Trespass 2
-60 3
+ahoj 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E15 4
 Obi-Wan, Anakin and a detachment of the 501st investigate the slaughter of a Republic outpost on Orto Plutonia. 5 
 They soon find a Separatist base destroyed by the same aggressors, who turn out to be a clan of native Talz that just want to be left alone. 5 
@@ -338,10 +330,10 @@ orderInTVShowSeason 6
 
 1320 1
 The Hidden Enemy 2
-60 3
+27 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E16 4
 Anakin and Obi-Wan discover evidence of a traitor amongst their ranks while attempting to lead Republic forces to liberate Christophsis from a Separatist siege. 5
-16 6
+ahoj 6
 
 [Attributes]
 
@@ -358,7 +350,6 @@ orderInTVShowSeason 6
 
 1320 1
 Blue Shadow Virus 2
-60 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E17 4
 Evil scientist Dr. Nuvo Vindi is recreating the dreaded Blue Shadow Virus in his secret underground lab on Naboo. 5
 When he captures Senator Amidala and Jar Jar Binks, Anakin and Obi-Wan mount a rescue operation. 5
@@ -379,7 +370,7 @@ orderInTVShowSeason 6
 
 1320 1
 Mystery of a Thousand Moons 2
-60 3
+97 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E18 4
 The deadly Blue Shadow Virus is unleashed in Vindi's underground lab with Padmé, Ahsoka, 5
 Jar Jar and several Clone troopers stuck in it. Anakin and Obi-Wan have just 48 hours to find a cure. 5
@@ -401,8 +392,8 @@ orderInTVShowSeason 6
 
 1320 1
 Storm Over Ryloth 2
-60 3
-https://serial.kukaj.io/star-wars-klonove-valky/S01E19 4
+32 3
+https://serial.kukaj.io/star-wars-klonove-valky/S01E18 4
 The Separatists have invaded the Twi'lek home planet of Ryloth. 5
 Anakin and Ahsoka lead a squadron of fighters against a Trade Federation battleship commanded by Neimoidian Captain Mar Tuuk. 5
 19 6
@@ -422,10 +413,11 @@ orderInTVShowSeason 6
 
 1320 1
 Innocents of Ryloth 2
-60 3
+12 3
 https://serial.kukaj.io/star-wars-klonove-valky/S01E20 4
-During the battle for Ryloth, Obi-Wan, Commander Cody and his 212th Attack Battalion set out to free the occupied Twi'lek village of Nabat. 5
-Two troopers, Waxer and Boil find a young girl named Numa who becomes instrumental in Obi-Wan's plan. 5
+The deadly Blue Shadow Virus is unleashed in Vindi's underground lab with Padmé, Ahsoka, 5
+Jar Jar and several Clone troopers stuck in it. Anakin and Obi-Wan have just 48 hours to find a cure. 5
+They travel to the moons of Iego but will have a hard time trying to get past the 'Ghost of Drol' in order to leave again. 5
 20 6
 
 [End]
