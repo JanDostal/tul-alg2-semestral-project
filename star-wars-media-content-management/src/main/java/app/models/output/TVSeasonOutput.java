@@ -3,7 +3,8 @@ package app.models.output;
 /**
  * Represents a output data model class for tv season.
  * TVSeasonOutput class is used when writing into or parsing tv seasons output data files.
- * TVSeasonOutput class has attributes bytes sizes and character lengths to be able to write into output binary file.
+ * TVSeasonOutput class has attributes bytes sizes and character lengths to be able to 
+ * write into and read from output binary file.
  * @author jan.dostal
  */
 public class TVSeasonOutput 

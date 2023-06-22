@@ -5,7 +5,8 @@ import java.util.Arrays;
 /**
  * Represents a output data model class for tv episode.
  * TVEpisodeOutput class is used when writing into or parsing tv episodes output data files.
- * TVEpisodeOutput class has attributes bytes sizes and character lengths to be able to write into output binary file.
+ * TVEpisodeOutput class has attributes bytes sizes and character lengths to be able to 
+ * write into and read from output binary file.
  * @author jan.dostal
  */
 public class TVEpisodeOutput
