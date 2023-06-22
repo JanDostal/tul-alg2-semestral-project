@@ -1,6 +1,6 @@
 [Attributes]
 
-Identificator: 281470422
+Identificator: 2312123
 
 id 1
 runtimeInSeconds 2
@@ -13,47 +13,13 @@ eraCodeDesignation 8
 
 [Values]
 
-281470422 1
-213212 2
-Skrytá Hrozba2 3
-23 4
-asdsaa ads  aasasddasasd asdadas d ads asd asollllllllllllllllllllllllllllllllllllllllllll 5
-asdasda asdaas asdasdas as asdas das dasas.  6
-      asdasdsas 6
-  .sadas 6
-	asdasddas 6
-	sadasddsasa 6
-	sasadadsdas 6
-1684281600 7
-FALL_OF_THE_JEDI 8
-
-[Attributes]
-
-Identificator: 590303595
-
-id 1
-runtimeInSeconds 2
-name 3
-percentageRating 4
-hyperlinkForContentWatch 5
-shortContentSummary 6
-releaseDateInEpochSeconds 7
-eraCodeDesignation 8
-
-[Values]
-
-590303595 1
-7860 2
-Star Wars: Episode I - The Phantom Menace 3
-75 4
-https://film.kukaj.io/star-wars-epizoda-i-skryta-hrozba-1999 5
-Disagreements are growing in the Galactic Republic over the taxation of trade routes to outlying star systems. 6
-The greedy Trade Federation hopes to settle the matter with its battle droid army, which will completely blockade the peaceful planet of Naboo. 6
-While Congress is having lengthy discussions about these dramatic events, the High Office secretly sends two Jedi Knights to defuse the conflict. 6
-Master Qui-Gon Jinn and his young protégé Obi-Wan Kenobi set out to help those in danger. 6
+2312123 1
+-1 2
+movieOla 3
+2 4
+ 5
  6
-After rescuing the young Queen Amsidala, the msen are shsipwrecked on the desolate planet of Tatooine. 6
-0 7
-FALL_OF_THE_JEDI 8
+-1 7
+THE_OLD_REPUBLIC 8
 
 [End]

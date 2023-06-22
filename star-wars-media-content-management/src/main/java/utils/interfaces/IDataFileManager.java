@@ -106,6 +106,9 @@ public interface IDataFileManager<T, S>
      * saving updated database state into output files method, defined in data
      * controller, and before calling 
      * {@link #saveOutputDataIntoFiles(java.util.List) saveOutputDataIntoFiles} method.
+     * <p>
+     * When transfering output data between output text file and copy text file, ensure the
+     * encoding of content will be UTF-8.
      * @param fromCopyFiles selects if output data will be transfered from 
      * output files or their copies.
      * @throws java.io.IOException if transfer fails.
@@ -121,6 +124,9 @@ public interface IDataFileManager<T, S>
      * When saving output data into output binary file, ensure output data 
      * string values will have fixed length so reading/parsing from output
      * binary file will be possible (more informations in output models classes).
+     * <p>
+     * When saving output data into output text file, ensure the encoding of
+     * content will be UTF-8.
      * @param newOutputData list of new output data from database
      * @throws java.io.IOException if saving output data fails.
      */
@@ -131,7 +137,7 @@ public interface IDataFileManager<T, S>
      * (file names defined in {@link DataStore}).
      * <p>
      * Because binary input file can be from external source, recommended way is
-     * to convert text input file into binary input file. You can use this link
+     * to convert text input file into binary input file. You can use this
      * <a href="https://www.rapidtables.com/convert/number/ascii-to-binary.html">Text to binary converter</a> 
      * to do it and please set character encoding as UTF-8.
      * <p>

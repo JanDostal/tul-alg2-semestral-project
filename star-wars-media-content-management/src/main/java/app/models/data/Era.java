@@ -4,7 +4,12 @@ import app.logic.datastore.DataStore;
 
 /**
  * Represents an enum type for specifying various Star wars chronological eras.
+ * <p>
  * Chronological eras are used to classify data (movies and TV shows).
+ * <p>
+ * Chronological eras originate from this
+ * <a href="https://www.screengeek.net/2023/04/07/star-wars-timeline-eras/">source</a>.
+ * <p>
  * Each era has default name for usage in data files and display name with description for usage in UI.
  * @author jan.dostal
  */
