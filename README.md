@@ -29,6 +29,18 @@ Cílem aplikace je fanouškovi umožnit:
 
 ## Funkční specifikace
 
+Aplikace je z hlediska uživatelských funkcí rozdělena na tyto tři fáze:
+
+### 1. fáze
+
+- Zobrazuje se na začátku běhu aplikace, potom již ne
+- Slouží k nastavení/konfiguraci cesty k adresáři **data** (obsahuje datové vstupní a výstupní soubory specifikované [zde](#popis-fungování-externí-knihovny))
+
+- Zde je uveden seznam funkcí, které jsou dostupné v rámci uživatelského menu
+- Menu je víceúrovňové, takže funkce jsou odsazeny podle hiearchické úrovně, ve které se nacházejí
+
+
+
 ## Popis struktury vstupních a výstupních souborů
 
 ## Class diagram
