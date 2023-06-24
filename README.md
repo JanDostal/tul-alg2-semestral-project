@@ -400,7 +400,7 @@ Samotné uživatelské funkce vypadají následovně:
                 </ol>
               </li>
               <li>
-                Vypsat TV sezóny <strong><i>V tomto případě je uživatelská funkce dostupná pouze tehdy, pokud se jedná o vydaný TV seriál</i></strong>
+                Vypsat TV sezóny <strong><i>V tomto případě je uživatelská funkce dostupná pouze pro vydaný TV seriál</i></strong>
                 <ol type="1">
                   <li>
                     Přidat TV sezóny ze vstupního souboru
