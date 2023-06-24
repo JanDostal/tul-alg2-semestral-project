@@ -24,3 +24,15 @@ Cílem aplikace je fanouškovi umožnit:
 -	Organizovat evidovaný obsah do chronologických období v rámci Star Wars univerza
 -	Umožnit hodnotit zhlédnutý obsah, pro účely opakovaného zhlédnutí
 -	Poskytovat souhrnné/statistické údaje na základě evidovaného obsahu
+
+# Řešení
+
+## Funkční specifikace
+
+## Popis struktury vstupních a výstupních souborů
+
+## Class diagram
+
+# Testování
+
+# Popis fungování externí knihovny
