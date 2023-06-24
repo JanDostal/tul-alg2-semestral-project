@@ -1026,9 +1026,7 @@ Samotné uživatelské funkce vypadají následovně:
 
 - Pro získávání jednotlivých vstupních dat je možné použít tuto databázi mediálního obsahu https://www.imdb.com/
 
-### Datové soubory filmů
-
-#### Vstupní textový soubor
+### Vstupní textový soubor s filmy
 
 Požadavky:
 - Název souboru musí být **input_movies.txt**
@@ -1091,7 +1089,7 @@ AGE_OF_REBELLION 7
     - Pokud bude nějaký text za ***\[End\]***, bude ignorován
         - Tento mechanismus je možné použít při **editaci/úpravě** dat nějakého existujícího filmu, kdy v souboru může být třeba 20 filmů a znak ***\[End\]*** se umístí mezi 1. a 2. film, takže dojde k přečtení pouze 1. fimu, zbytek se bude ignorovat
 
-#### Vstupní binární soubor
+### Vstupní binární soubor s filmy
 
 Požadavky:
 - Název souboru musí být **input_movies.bin**
@@ -1099,26 +1097,24 @@ Požadavky:
     - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
     - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
 
-#### Výstupní textový soubor
+### Výstupní textový soubor s filmy
 
 Požadavky:
 - Název souboru musí být **output_movies.txt**
 - Kódování souboru musí být **UTF-8**
 
-#### Výstupní binární soubor
+### Výstupní binární soubor s filmy
 
 Požadavky:
 - Název souboru musí být **output_movies.bin**
 
-### Datové soubory TV seriálů
-
-#### Vstupní textový soubor
+### Vstupní textový soubor s TV seriály
 
 Požadavky:
 - Název souboru musí být **input_tvShows.txt**
 - Kódování souboru musí být **UTF-8**
 
-#### Vstupní binární soubor
+### Vstupní binární soubor s TV seriály
 
 Požadavky:
 - Název souboru musí být **input_tvShows.bin**
@@ -1126,26 +1122,24 @@ Požadavky:
     - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
     - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
 
-#### Výstupní textový soubor
+### Výstupní textový soubor s TV seriály
 
 Požadavky:
 - Název souboru musí být **output_tvShows.txt**
 - Kódování souboru musí být **UTF-8**
 
-#### Výstupní binární soubor
+### Výstupní binární soubor s TV seriály
 
 Požadavky:
 - Název souboru musí být **output_tvShows.bin**
 
-### Datové soubory TV sezón
-
-#### Vstupní textový soubor
+### Vstupní textový soubor s TV sezónami
 
 Požadavky:
 - Název souboru musí být **input_tvSeasons.txt**
 - Kódování souboru musí být **UTF-8**
 
-#### Vstupní binární soubor
+### Vstupní binární soubor s TV sezónami
 
 Požadavky:
 - Název souboru musí být **input_tvSeasons.bin**
@@ -1153,26 +1147,24 @@ Požadavky:
     - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
     - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
 
-#### Výstupní textový soubor
+### Výstupní textový soubor s TV sezónami
 
 Požadavky:
 - Název souboru musí být **output_tvSeasons.txt**
 - Kódování souboru musí být **UTF-8**
 
-#### Výstupní binární soubor
+### Výstupní binární soubor s TV sezónami
 
 Požadavky:
 - Název souboru musí být **output_tvSeasons.bin**
 
-### Datové soubory TV epizod
-
-#### Vstupní textový soubor
+### Vstupní textový soubor s TV epizodami
 
 Požadavky:
 - Název souboru musí být **input_tvEpisodes.txt**
 - Kódování souboru musí být **UTF-8**
 
-#### Vstupní binární soubor
+### Vstupní binární soubor s TV epizodami
 
 Požadavky:
 - Název souboru musí být **input_tvEpisodes.bin**
@@ -1180,13 +1172,13 @@ Požadavky:
     - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
     - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
 
-#### Výstupní textový soubor
+### Výstupní textový soubor s TV epizodami
 
 Požadavky:
 - Název souboru musí být **output_tvEpisodes.txt**
 - Kódování souboru musí být **UTF-8**
 
-#### Výstupní binární soubor
+### Výstupní binární soubor s TV epizodami
 
 Požadavky:
 - Název souboru musí být **output_tvEpisodes.bin**
