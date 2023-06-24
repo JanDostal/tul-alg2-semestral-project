@@ -21,9 +21,9 @@ Aplikace je určena pro uživatele, kteří jsou pokročilí fanoušci Star Wars
 
 Cílem aplikace je fanouškovi umožnit:
 - Zjednodušit naplánování si filmového či seriálového maratonu nezhlédnutého obsahu dle různých kritérií
--	Organizovat evidovaný obsah do chronologických období v rámci Star Wars univerza
--	Umožnit hodnotit zhlédnutý obsah, pro účely opakovaného zhlédnutí
--	Poskytovat souhrnné/statistické údaje na základě evidovaného obsahu
+- Organizovat evidovaný obsah do chronologických období v rámci Star Wars univerza
+- Umožnit hodnotit zhlédnutý obsah, pro účely opakovaného zhlédnutí
+- Poskytovat souhrnné/statistické údaje na základě evidovaného obsahu
 
 # Řešení
 
@@ -1018,10 +1018,178 @@ Samotné uživatelské funkce vypadají následovně:
   </li>
 </ol>
 
+
 ---
 
 
 ## Popis struktury vstupních a výstupních souborů
+
+- Pro získávání jednotlivých vstupních dat je možné použít tuto databázi mediálního obsahu https://www.imdb.com/
+
+### Datové soubory filmů
+
+#### Vstupní textový soubor
+
+Požadavky:
+- Název souboru musí být **input_movies.txt**
+- Kódování souboru musí být **UTF-8**
+
+Popis struktury dat souboru:
+
+
+Popis struktury souboru:
+- Soubor by měl vypadat nějak takto pro jeden film:
+```
+[Attributes]
+
+Order: 1
+
+runtimeInSeconds 1
+name 2
+percentageRating 3
+hyperlinkForContentWatch 4
+shortContentSummary 5
+releaseDateInEpochSeconds 6
+eraCodeDesignation 7
+
+[Values]
+
+7860 1
+Star Wars: Episode VI - Return of the Jedi 2
+88 3
+https://film.kukaj.io/star-wars-epizoda-vi-navrat-jediho-1983 4
+As the evil Emperor Palpatine oversees the construction of the new Death Star by Darth Vader and the Galactic Empire, 5
+smuggler Han Solo is rescued from the clutches of the vile gangster Jabba the Hutt by his friends, Luke Skywalker, 5
+Princess Leia, Lando Calrissian, and Chewbacca. 5
+ 5
+Leaving Luke Skywalker Jedi training with Master Yoda, 5
+Solo returns to the Rebel fleet to prepare to complete his battle with the Empire. During the ensuing fighting, the newly returned Luke Skywalker is captured by Darth Vader. 5
+422496000 6
+AGE_OF_REBELLION 7
+
+[End]
+```
+- V souboru může být **více než jeden film**
+    - Stačí **za sekci *\[Values\]*** předcházejícího filmu **umístit zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]***
+    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
+- ***\[Attributes\]*** vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat a propojovacími čísly
+    - **Musí být v souboru**
+    - ***Order:*** vyjadřuje pořadí filmu z hlediska umístění v souboru
+        - **Nemusí být v souboru**, pouze informační účel
+    - **Jednotlivé názvy dat s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní data filmu
+        - **Nemusí být v souboru**, pouze informační účel
+        - Samotné názvy dat s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují data v sekci *\[Values\]***, tedy:
+            - **Název data:** řádek souboru začíná hodnotou konkrétního data
+            - **Mezera:** vyjadřuje oddělovač mezi hodnotou data a propojovacím číslem
+            - **Propojovací číslo:** vyjadřuje spojení, k jakému konkrétnímu datu má být přiražena daná hodnota
+- ***\[Values\]*** vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat a propojovacími čísly
+    - **Musí být v souboru**
+    - Oddělení hodnot dat s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
+    - Hodnotu s propojovacím číslem je možné zapsat na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
+        - Vyjímkou je hodnota atributu ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků**
+- ***\[End\]*** vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
+    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
+        - Tento mechanismus je možné použít při **editaci/úpravě** dat nějakého existujícího filmu, kdy v souboru může být třeba 20 filmů a znak ***\[End\]*** se umístí mezi 1. a 2. film, takže dojde k přečtení pouze 1. fimu, zbytek se bude ignorovat
+
+#### Vstupní binární soubor
+
+Požadavky:
+- Název souboru musí být **input_movies.bin**
+- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem z [vstupního textového souboru](#vstupní-textový-soubor)
+    - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
+    - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
+
+#### Výstupní textový soubor
+
+Požadavky:
+- Název souboru musí být **output_movies.txt**
+- Kódování souboru musí být **UTF-8**
+
+#### Výstupní binární soubor
+
+Požadavky:
+- Název souboru musí být **output_movies.bin**
+
+### Datové soubory TV seriálů
+
+#### Vstupní textový soubor
+
+Požadavky:
+- Název souboru musí být **input_tvShows.txt**
+- Kódování souboru musí být **UTF-8**
+
+#### Vstupní binární soubor
+
+Požadavky:
+- Název souboru musí být **input_tvShows.bin**
+- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem z [vstupního textového souboru](#vstupní-textový-soubor-1)
+    - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
+    - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
+
+#### Výstupní textový soubor
+
+Požadavky:
+- Název souboru musí být **output_tvShows.txt**
+- Kódování souboru musí být **UTF-8**
+
+#### Výstupní binární soubor
+
+Požadavky:
+- Název souboru musí být **output_tvShows.bin**
+
+### Datové soubory TV sezón
+
+#### Vstupní textový soubor
+
+Požadavky:
+- Název souboru musí být **input_tvSeasons.txt**
+- Kódování souboru musí být **UTF-8**
+
+#### Vstupní binární soubor
+
+Požadavky:
+- Název souboru musí být **input_tvSeasons.bin**
+- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem z [vstupního textového souboru](#vstupní-textový-soubor-2)
+    - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
+    - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
+
+#### Výstupní textový soubor
+
+Požadavky:
+- Název souboru musí být **output_tvSeasons.txt**
+- Kódování souboru musí být **UTF-8**
+
+#### Výstupní binární soubor
+
+Požadavky:
+- Název souboru musí být **output_tvSeasons.bin**
+
+### Datové soubory TV epizod
+
+#### Vstupní textový soubor
+
+Požadavky:
+- Název souboru musí být **input_tvEpisodes.txt**
+- Kódování souboru musí být **UTF-8**
+
+#### Vstupní binární soubor
+
+Požadavky:
+- Název souboru musí být **input_tvEpisodes.bin**
+- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem z [vstupního textového souboru](#vstupní-textový-soubor-3)
+    - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
+    - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
+
+#### Výstupní textový soubor
+
+Požadavky:
+- Název souboru musí být **output_tvEpisodes.txt**
+- Kódování souboru musí být **UTF-8**
+
+#### Výstupní binární soubor
+
+Požadavky:
+- Název souboru musí být **output_tvEpisodes.bin**
 
 ## Class diagram
 
