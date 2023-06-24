@@ -115,7 +115,7 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
                 </ol>
               </li>
-              <li>Ohodnotit film <strong><i>V tomto případě je uživatelská funkce dostupná pouze tehdy, pokud se jedná o vydaný film</i></strong></li>
+              <li>Ohodnotit film <strong><i>V tomto případě je uživatelská funkce dostupná pouze při rozpoznání jako vydaný film</i></strong></li>
             </ol>
           </li>
         </ol>
