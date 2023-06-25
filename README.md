@@ -1090,7 +1090,7 @@ public class MovieInput
         - Maximální počet znaků shrnutí je **1000**
     - ***releaseDateInEpochSeconds*** - Vyjadřuje datum vydání/uvedení filmu, vyjádřeného v epoch sekundách
         - Jedná se o datový typ **long**, tedy **celé číslo** 
-        - **Není povinný**,
+        - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být menší než 0**
                 - Při nezadání se film identifikuje jako **oznámený** 
             - Pokud **je zadán**, hodnota **musí být v rozsahu 0 a více**
@@ -1261,7 +1261,7 @@ public class MovieOutput
             - Pokud **nebyl zadán**, hodnota **by měla být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
     - ***releaseDateInEpochSeconds*** - Vyjadřuje datum vydání/uvedení filmu, vyjádřeného v epoch sekundách
         - Jedná se o datový typ **long**, tedy **celé číslo** 
-        - **Není povinný**,
+        - **Není povinný**
             - Pokud **nebyl zadán**, hodnota **by měla být menší než 0**
                 - Film se identifikuje jako **oznámený** 
             - Pokud **byl zadán**, hodnota **by měla být v rozsahu 0 a více**
@@ -1420,7 +1420,7 @@ public class TVShowInput
         - Maximální počet znaků jména je **60**
     - ***releaseDateInEpochSeconds*** - Vyjadřuje datum vydání/uvedení TV seriálu, vyjádřeného v epoch sekundách
         - Jedná se o datový typ **long**, tedy **celé číslo** 
-        - **Není povinný**,
+        - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být menší než 0**
                 - Při nezadání se TV seriál identifikuje jako **oznámený** 
             - Pokud **je zadán**, hodnota **musí být v rozsahu 0 a více**
@@ -1548,7 +1548,7 @@ public class TVShowOutput
             - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
     - ***releaseDateInEpochSeconds*** - Vyjadřuje datum vydání/uvedení TV seriálu, vyjádřeného v epoch sekundách
         - Jedná se o datový typ **long**, tedy **celé číslo** 
-        - **Není povinný**,
+        - **Není povinný**
             - Pokud **nebyl zadán**, hodnota **by měla být menší než 0**
                 - TV seriál se identifikuje jako **oznámený** 
             - Pokud **byl zadán**, hodnota **by měla být v rozsahu 0 a více**
