@@ -1029,11 +1029,14 @@ Pro získávání jednotlivých vstupních dat je možné použít tuto databáz
 ### Vstupní textový soubor s filmy
 
 #### Požadavky
+
 - Název souboru musí být **input_movies.txt**
 - Kódování souboru musí být **UTF-8**
 
 #### Popis struktury dat souboru
+
 - Data **jednoho vstupního filmu** vypadají takto:
+
 ```java
 public class MovieInput
 {
@@ -1052,6 +1055,7 @@ public class MovieInput
     private final String eraCodeDesignation;
 }
 ```
+
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru)
 - Popisy jednotlivých názvů dat/atributů jsou následující:
     - ***runtimeInSeconds*** - Vyjadřuje délku/trvání filmu v sekundách
@@ -1106,9 +1110,10 @@ public class MovieInput
 - Není možné, aby existovaly dva filmy, které mají **stejný název filmu a zároveň stejné datum vydání**
 - Není možné, aby existovaly dva filmy, které mají **stejný URL odkaz ke zhlédnutí nebo stejné shrnutí obsahu**
 
-
 #### Popis struktury souboru
+
 - Soubor by měl vypadat nějak takto pro **jeden vstupní film**:
+
 ```
 [Attributes]
 
@@ -1139,6 +1144,7 @@ AGE_OF_REBELLION 7
 
 [End]
 ```
+
 - V souboru může být **více než jeden vstupní film**
     - Stačí **za sekci *\[Values\]* předcházejícího filmu** umístit **zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]***
     - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
@@ -1165,11 +1171,19 @@ AGE_OF_REBELLION 7
 
 ### Vstupní binární soubor s filmy
 
-Požadavky:
+#### Požadavky
 - Název souboru musí být **input_movies.bin**
 - Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem ze [vstupního textového souboru s filmy](#vstupní-textový-soubor-s-filmy)
     - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
     - Na převod je možné použít tento konverter https://www.rapidtables.com/convert/number/ascii-to-binary.html
+
+#### Popis struktury dat souboru
+
+- Struktura je úplně totožná jako u [popisu struktury dat vstupního textového souboru s filmy](#popis-struktury-dat-souboru)
+
+#### Popis struktury souboru
+
+- Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s filmy](#popis-struktury-souboru)
 
 ### Výstupní textový soubor s filmy
 
