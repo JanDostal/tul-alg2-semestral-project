@@ -15,7 +15,7 @@ Tedy shrnutím. Star Wars je můj special interest a přišlo mi jako dobrý ná
 
 ## Popis problému
 
-Aplikace by měla sloužit jako evidence mediálního obsahu (seriály, filmy) v rámci výhradně Star Wars univerza.
+Aplikace *Star Wars Content Media Management* by měla sloužit jako evidence mediálního obsahu (seriály, filmy) v rámci výhradně Star Wars univerza.
 
 Aplikace je určena pro uživatele, kteří jsou pokročilí fanoušci Star Wars (geekové), ale hodí se i pro začínající fanoušky. Pro laika je tato aplikace bezpředmětná.
 
@@ -2168,6 +2168,456 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 - Toto pořadí se v případě vícero TV epizod bude opakovat
 
 ## Class diagram
+
+- Zde je objektový návrh pro tuto aplikaci
+
+```mermaid
+
+---
+title: Class diagram aplikace Star Wars Media Content Management
+---
+
+classDiagram
+
+note for MovieInput "Součást package app.models.input"
+note for TVEpisodeInput "Součást package app.models.input"
+note for TVSeasonInput "Součást package app.models.input"
+note for TVShowInput "Součást package app.models.input"
+
+    class MovieInput{
+        -long runtimeInSeconds
+        -String name
+        -int percentageRating
+        -String hyperlinkForContentWatch
+        -String shortContentSummary
+        -long releaseDateInEpochSeconds
+        -String eraCodeDesignation
+        +MovieInput(long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, long releaseDateInEpochSeconds, String eraCodeDesignation)
+        +toString() String
+    }
+    class TVEpisodeInput{
+        -long runtimeInSeconds
+        -String name
+        -int percentageRating
+        -String hyperlinkForContentWatch
+        -String shortContentSummary
+        -int orderInTVShowSeason
+        +TVEpisodeInput(long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, int orderInTVShowSeason)
+        +toString() String
+    }
+    class TVSeasonInput{
+        -int orderInTVShow
+        +TVSeasonInput(int orderInTVShow)
+        +toString() String
+    }
+    class TVShowInput{
+        -String name
+        -long releaseDateInEpochSeconds
+        -String eraCodeDesignation
+        +TVShowInput(String name, long releaseDateInEpochSeconds, String eraCodeDesignation)
+        +toString() String
+    }
+
+note for MovieOutput "Součást package app.models.output"
+note for TVEpisodeOutput "Součást package app.models.output"
+note for TVSeasonOutput "Součást package app.models.output"
+note for TVShowOutput "Součást package app.models.output"
+
+    class MovieOutput{
+        +int ATTRIBUTE_NAME_LENGTH$
+        +int ATTRIBUTE_HYPERLINK_LENGTH$
+        +int ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH$
+        +int ATTRIBUTE_SUMMARY_LENGTH$
+        -int ATTRIBUTE_ID_BYTES$
+        -int ATTRIBUTE_RUNTIME_BYTES$
+        -int ATTRIBUTE_RATING_BYTES$
+        -int ATTRIBUTE_RELEASEDATE_BYTES$
+        +int MOVIE_RECORD_SIZE$
+        -int id
+        -long runtimeInSeconds
+        -char[] name
+        -int percentageRating
+        -char[] hyperlinkForContentWatch
+        -char[] shortContentSummary
+        -long releaseDateInEpochSeconds
+        -char[] eraCodeDesignation
+        +MovieOutput(int id, long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, long releaseDateInEpochSeconds, String eraCodeDesignation)
+        +getName() String
+        +getHyperlinkForContentWatch() String
+        +getShortContentSummary() String
+        +getEraCodeDesignation() String
+        +toString() String
+    }
+    class TVEpisodeOutput{
+        +int ATTRIBUTE_NAME_LENGTH$
+        +int ATTRIBUTE_HYPERLINK_LENGTH$
+        +int ATTRIBUTE_SUMMARY_LENGTH$
+        -int ATTRIBUTE_ID_BYTES$
+        -int ATTRIBUTE_RUNTIME_BYTES$
+        -int ATTRIBUTE_RATING_BYTES$
+        -int ATTRIBUTE_ORDERTVSEASON_BYTES$
+        -int ATTRIBUTE_TVSEASONID_BYTES$
+        +int TV_EPISODE_RECORD_SIZE$
+        -int id
+        -long runtimeInSeconds
+        -char[] name
+        -int percentageRating
+        -char[] hyperlinkForContentWatch
+        -char[] shortContentSummary
+        -int orderInTVShowSeason
+        -int tvSeasonId
+        +TVEpisodeOutput(int id, long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, int orderInTVShowSeason, int tvSeasonId)
+        +getName() String
+        +getHyperlinkForContentWatch() String
+        +getShortContentSummary() String
+        +toString() String
+    }
+    class TVSeasonOutput{
+        -int ATTRIBUTE_ID_BYTES$
+        -int ATTRIBUTE_ORDERTVSHOW_BYTES$
+        -int ATTRIBUTE_TVSHOWID_BYTES$
+        +int TV_SEASON_RECORD_SIZE$
+        -int id
+        -int orderInTVShow
+        -int tvShowId
+        +TVSeasonOutput(int id, int orderInTVShow, int tvShowId)
+        +toString() String
+    }
+    class TVShowOutput{
+        +int ATTRIBUTE_NAME_LENGTH$
+        +int ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH$
+        -int ATTRIBUTE_ID_BYTES$
+        -int ATTRIBUTE_RELEASEDATE_BYTES$
+        +int TV_SHOW_RECORD_SIZE$
+        -int id
+        -char[] name
+        -long releaseDateInEpochSeconds
+        -char[] eraCodeDesignation
+        +TVShowOutput(int id, String name, long releaseDateInEpochSeconds, String eraCodeDesignation)
+        +getName() String
+        +getEraCodeDesignation() String
+        +toString() String
+    }
+
+note for PrimaryKey "Součást package app.models.data"
+note for DatabaseRecord "Součást package app.models.data"
+note for MediaContent "Součást package app.models.data"
+note for Movie "Součást package app.models.data"
+note for TVEpisode "SSoučást package app.models.data"
+note for TVSeason "Součást package app.models.data"
+note for TVShow "Součást package app.models.data"
+note for Era "Součást package app.models.data"
+
+DatabaseRecord "1" --> "1" PrimaryKey : Has
+MediaContent --|> DatabaseRecord : Extends
+TVEpisode --|> MediaContent : Extends
+Movie --|> MediaContent : Extends
+TVSeason --|> DatabaseRecord : Extends
+TVShow --|> DatabaseRecord : Extends
+
+TVShow "1..1" o-- "0..n" TVSeason
+TVSeason "1..1" o-- "0..n" TVEpisode
+
+    class PrimaryKey{
+        -int id
+        +PrimaryKey(int id)
+        +equals(Object obj) boolean
+        +hashCode() int
+        +toString() String
+    }
+    class DatabaseRecord{
+        <<Abstract>>
+        -PrimaryKey primaryKey
+        #DatabaseRecord(PrimaryKey primaryKey)
+        +equals(Object obj) boolean
+        +hashCode() int
+        +compareTo(DatabaseRecord o) int
+        +toString() String
+    }
+    class MediaContent{
+        <<Abstract>>
+        -Duration runtime
+        -String name
+        -int percentageRating
+        -boolean wasWatched
+        -String hyperlinkForContentWatch
+        -String shortContentSummary
+        #MediaContent(PrimaryKey primaryKey, Duration runtime, String name, int percentageRating, boolean wasWatched, String hyperlinkForContentWatch, String shortContentSummary)
+    }
+    class Movie{
+        -LocalDate releaseDate
+        -Era era
+        +Movie(PrimaryKey primaryKey, Duration runtime, String name, int percentageRating, boolean wasWatched, String hyperlinkForContentWatch, String shortContentSummary, LocalDate releaseDate, Era era)
+    }
+    class TVEpisode{
+        -int orderInTVShowSeason
+        -PrimaryKey tvSeasonForeignKey
+        +TVEpisode(PrimaryKey primaryKey, Duration runtime, String name, int percentageRating, boolean wasWatched, String hyperlinkForContentWatch, String shortContentSummary, int orderInTVShowSeason, PrimaryKey tvSeasonForeignKey)
+    }
+    class TVSeason{
+        -int orderInTVShow
+        -PrimaryKey tvShowForeignKey
+        +TVSeason(PrimaryKey primaryKey, int orderInTVShow, PrimaryKey tvShowForeignKey)
+    }
+    class TVShow{
+        -String name
+        -LocalDate releaseDate
+        -Era era
+        +TVShow(PrimaryKey primaryKey, String name, LocalDate releaseDate, Era era)
+    }
+    class Era{
+        <<Enumeration>>
+        -String displayName
+        -String description
+        -Era(String displayName)
+        DAWN_OF_THE_JEDI
+        THE_OLD_REPUBLIC
+        THE_HIGH_REPUBLIC
+        FALL_OF_THE_JEDI
+        REIGN_OF_THE_EMPIRE
+        AGE_OF_REBELLION
+        THE_NEW_REPUBLIC
+        RISE_OF_THE_FIRST_ORDER
+        NEW_JEDI_ORDER
+    }
+
+note for DataConversionException "Součást package utils.exceptions (kontrolované výjimky)"
+note for DatabaseException "Součást package utils.exceptions (kontrolované výjimky)"
+note for FileEmptyException "Součást package utils.exceptions (kontrolované výjimky)"
+note for FileParsingException "Součást package utils.exceptions (kontrolované výjimky)"
+
+    class DataConversionException{
+        +DataConversionException(String message)
+        +DataConversionException()
+    }
+    class DatabaseException{
+        +DatabaseException(String message)
+        +DatabaseException()
+    }
+    class FileEmptyException{
+        +FileEmptyException(String message)
+        +FileEmptyException()
+    }
+    class FileParsingException{
+        +FileParsingException(String message)
+        +FileParsingException()
+    }
+
+note for MovieDataConverter "Součást package utils.helpers"
+note for TVEpisodeDataConverter "Součást package utils.helpers"
+note for TVSeasonDataConverter "Součást package utils.helpers"
+note for TVShowDataConverter "Součást package utils.helpers"
+
+    class MovieDataConverter{
+        -MovieDataConverter()
+        +convertToOutputDataFrom(Movie data)$ MovieOutput
+        +convertToDataFrom(MovieInput inputData)$ Movie throws DataConversionException
+        +convertToDataFrom(MovieOutput outputData)$ Movie throws DataConversionException
+    }
+    class TVEpisodeDataConverter{
+        -TVEpisodeDataConverter()
+        +convertToOutputDataFrom(TVEpisode data)$ TVEpisodeOutput
+        +convertToDataFrom(TVEpisodeOutput outputData)$ TVEpisode
+        +convertToDataFrom(TVEpisodeInput inputData, PrimaryKey tvSeasonForeignKey)$ TVEpisode
+    }
+    class TVSeasonDataConverter{
+        -TVSeasonDataConverter()
+        +convertToOutputDataFrom(TVSeason data)$ TVSeasonOutput
+        +convertToDataFrom(TVSeasonInput inputData, PrimaryKey tvShowForeignKey)$ TVSeason
+        +convertToDataFrom(TVSeasonOutput outputData)$ TVSeason
+    }
+    class TVShowDataConverter{
+        -TVShowDataConverter()
+        +convertToOutputDataFrom(TVShow data)$ TVShowOutput
+        +convertToDataFrom(TVShowInput inputData)$ TVShow throws DataConversionException
+        +convertToDataFrom(TVShowOutput outputData)$ TVShow throws DataConversionException
+    }
+
+note for IDataTable "Součást package utils.interfaces"
+note for DataStore "Součást package app.logic.datastore (datová vrstva)"
+note for DataContextAccessor "Součást package app.logic.datacontext (datová vrstva)"
+note for MoviesTable "Součást package app.logic.datacontext (datová vrstva)"
+note for TVEpisodesTable "Součást package app.logic.datacontext (datová vrstva)"
+note for TVSeasonsTable "Součást package app.logic.datacontext (datová vrstva)"
+note for TVShowsTable "Součást package app.logic.datacontext (datová vrstva)"
+
+MoviesTable --|> IDataTable : Implements
+TVEpisodesTable --|> IDataTable : Implements
+TVSeasonsTable --|> IDataTable : Implements
+TVShowsTable --|> IDataTable : Implements
+
+DataContextAccessor --* MoviesTable : Contains
+DataContextAccessor --* TVEpisodesTable : Contains
+DataContextAccessor --* TVSeasonsTable : Contains
+DataContextAccessor --* TVShowsTable : Contains
+
+MoviesTable --* DataContextAccessor : Is part of
+TVEpisodesTable --* DataContextAccessor : Is part of
+TVSeasonsTable --* DataContextAccessor : Is part of
+TVShowsTable --* DataContextAccessor : Is part of
+
+    class DataStore{
+        <<Service>>
+        -DataStore()
+        -String appName$
+        -String appCreator$
+        -String dataDirectoryName$
+        -String textInputMoviesFilename$
+        -String textInputTVShowsFilename$
+        -String textInputTVSeasonsFilename$
+        -String textInputTVEpisodesFilename$
+        -String binaryInputMoviesFilename$
+        -String binaryInputTVShowsFilename$
+        -String binaryInputTVSeasonsFilename$
+        -String binaryInputTVEpisodesFilename$
+        -String textOutputMoviesFilename$
+        -String textOutputTVShowsFilename$
+        -String textOutputTVSeasonsFilename$
+        -String textOutputTVEpisodesFilename$
+        -String binaryOutputMoviesFilename$
+        -String binaryOutputTVShowsFilename$
+        -String binaryOutputTVSeasonsFilename$
+        -String binaryOutputTVEpisodesFilename$
+        -Collator czechCollator$
+        -Map~String_String~ erasDescriptions$
+        +loadEraDescription(String era)$ String
+    }
+    class IDataTable~T extends DatabaseRecord~{
+        <<Interface>>
+        +addFrom(T inputData) throws DatabaseException
+        +loadFrom(T outputData) throws DatabaseException
+        +deleteBy(PrimaryKey primaryKey) throws DatabaseException
+        +editBy(PrimaryKey primaryKey, T editedExistingData) boolean throws DatabaseException
+        +getBy(PrimaryKey primaryKey) T
+        +getAll() List~T~
+        +filterBy(Predicate~T~ condition) List~T~
+        +sortBy(Comparator~T~ comparator, List~T~ sourceList)
+        +sortByPrimaryKey(List~T~ sourceList)
+        +clearData()
+    }
+    class DataContextAccessor{
+        <<Service>>
+        -DataContextAccessor dataContextAccessor$
+        -IDataTable~TVSeason~ tvSeasonsTable
+        -IDataTable~TVShow~ tvShowsTable
+        -IDataTable~TVEpisode~ tvEpisodesTable
+        -IDataTable~Movie~ moviesTable
+        -DataContextAccessor()
+        +getInstance()$ DataContextAccessor
+        -initializeDataContextAccessor()
+        #generatePrimaryKey(IDataTable dataTable, Random dataTablePrimaryKeysGenerator) PrimaryKey
+    }
+    class MoviesTable{
+        -IDataTable~Movie~ moviesTable$
+        -List~Movie~ moviesData
+        -DataContextAccessor dbContext
+        -Random primaryKeysGenerator
+        -MoviesTable(DataContextAccessor dbContext)
+        #getInstance(DataContextAccessor dbContext)$ IDataTable~Movie~
+    }
+    class TVEpisodesTable{
+        -IDataTable~TVEpisode~ tvEpisodesTable$
+        -List~TVEpisode~ tvEpisodesData
+        -DataContextAccessor dbContext
+        -Random primaryKeysGenerator
+        -TVEpisodesTable(DataContextAccessor dbContext)
+        #getInstance(DataContextAccessor dbContext)$ IDataTable~TVEpisode~
+    }
+    class TVSeasonsTable{
+        -IDataTable~TVSeason~ tvSeasonsTable$
+        -List~TVSeason~ tvSeasonsData
+        -DataContextAccessor dbContext
+        -Random primaryKeysGenerator
+        -TVSeasonsTable(DataContextAccessor dbContext)
+        #getInstance(DataContextAccessor dbContext)$ IDataTable~TVSeason~
+    }
+    class TVShowsTable{
+        -IDataTable~TVShow~ tvShowsTable$
+        -List~TVShow~ tvShowsData
+        -DataContextAccessor dbContext
+        -Random primaryKeysGenerator
+        -TVShowsTable(DataContextAccessor dbContext)
+        #getInstance(DataContextAccessor dbContext)$ IDataTable~TVShow~
+    }
+
+note for EmailSender "Součást package utils.emailsender (externí knihovna)"
+note for IDataFileManager "Součást package utils.interfaces"
+
+    class EmailSender{
+        <<Service>>
+        -EmailSender emailSender$
+        -int smtpPort
+        -String hostName
+        -String randomGeneratedAppToken
+        -String appId
+        -EmailSender()
+        +getInstance()$ EmailSender
+        +sendEmail(String recipientEmailAddress, String subject, StringBuilder message) throws EmailException
+    }
+    class IDataFileManager~T_S~{
+        <<Interface>>
+        +getTextOutputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
+        +getBinaryOutputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
+        +getTextInputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
+        +getBinaryInputFileContent() StringBuilder throws throws FileNotFoundException, IOException, FileEmptyException
+        +loadOutputDataFrom(boolean fromBinary) List~S~ throws IOException, FileParsingException
+        +tryDeleteDataOutputFilesCopies()
+        +transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
+        +saveOutputDataIntoFiles(List~S~ newOutputData) throws IOException
+        +loadInputDataFrom(boolean fromBinary) Map~Integer_T~ throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
+    }
+    class FileManagerAccessor{
+        <<Service>>
+        -FileManagerAccessor fileManagerAccessor$
+        -File dataDirectory$
+        -IDataFileManager~MovieInput_MovieOutput~ moviesFileManager
+        -IDataFileManager~TVShowInput_TVShowOutput~ tvShowsFileManager
+        -IDataFileManager~TVSeasonInput_TVSeasonOutput~ tvSeasonsFileManager
+        -IDataFileManager~TVEpisodeInput_TVEpisodeOutput~ tvEpisodesFileManager
+        -String filenameSeparator
+        -String inputFileEndMarking
+        -String inputFileValuesSectionMarking
+        -String inputFileAttributesSectionMarking
+        -FileManagerAccessor()
+        +getInstance()$ FileManagerAccessor
+        +getDataDirectoryPath()$ String
+        +setDataDirectory(String directoryFullPath)$
+    }
+    class MoviesFileManager{
+        -IDataFileManager~MovieInput_MovieOutput~ moviesFileManager$
+        -String filenameSeparator
+        -String inputFileEndMarking
+        -String inputFileValuesSectionMarking
+        -String inputFileAttributesSectionMarking
+        -MoviesFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
+        #getInstance(DataContextAccessor dbContext)$ IDataTable~Movie~
+    }
+    class TVEpisodesTable{
+        -IDataTable~TVEpisode~ tvEpisodesTable$
+        -List~TVEpisode~ tvEpisodesData
+        -DataContextAccessor dbContext
+        -Random primaryKeysGenerator
+        -TVEpisodesTable(DataContextAccessor dbContext)
+        #getInstance(DataContextAccessor dbContext)$ IDataTable~TVEpisode~
+    }
+    class TVSeasonsTable{
+        -IDataTable~TVSeason~ tvSeasonsTable$
+        -List~TVSeason~ tvSeasonsData
+        -DataContextAccessor dbContext
+        -Random primaryKeysGenerator
+        -TVSeasonsTable(DataContextAccessor dbContext)
+        #getInstance(DataContextAccessor dbContext)$ IDataTable~TVSeason~
+    }
+    class TVShowsTable{
+        -IDataTable~TVShow~ tvShowsTable$
+        -List~TVShow~ tvShowsData
+        -DataContextAccessor dbContext
+        -Random primaryKeysGenerator
+        -TVShowsTable(DataContextAccessor dbContext)
+        #getInstance(DataContextAccessor dbContext)$ IDataTable~TVShow~
+    }
+
+```
 
 # Testování
 
