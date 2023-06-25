@@ -48,7 +48,7 @@ Samotné uživatelské funkce vypadají následovně:
 
 ### Menu načítání výstupních souborů
 
-- Zobrazuje se po [Menu nastavování adresáře data](#menu-nastavování-adresáře-data), potom již ne
+- Zobrazuje se po [menu nastavování adresáře data](#menu-nastavování-adresáře-data), potom již ne
 - Slouží k načtení existujících/evidovaných dat do aplikace z výstupních souborů
 - Účelem je to, že aplikace průběžně ukládá svá nová data do výstupních souborů, aby se dala při příštím spuštění aplikace snadno obnovit a nevkládat je znova
 - Je umožněno ukončit aplikaci pomocí **funkce s číslem 0**
@@ -72,7 +72,7 @@ Samotné uživatelské funkce vypadají následovně:
 
 ### Hlavní menu
 
-- Zobrazuje se po [Menu načítání výstupních souborů](#menu-načítání-výstupních-souborů) a opakovaně během běhu aplikace
+- Zobrazuje se po [menu načítání výstupních souborů](#menu-načítání-výstupních-souborů) a opakovaně během běhu aplikace
 - Hlavní Menu je víceúrovňové, takže funkce v seznamu jsou odsazeny podle hiearchické úrovně, ve které se nacházejí
 - Podúrovně/podmenu hlavního menu se též zobrazují opakovaně
 - V hlavním menu je umožněno ukončit aplikaci pomocí **funkce s číslem 0**
@@ -1024,19 +1024,91 @@ Samotné uživatelské funkce vypadají následovně:
 
 ## Popis struktury vstupních a výstupních souborů
 
-- Pro získávání jednotlivých vstupních dat je možné použít tuto databázi mediálního obsahu https://www.imdb.com/
+Pro získávání jednotlivých vstupních dat je možné použít tuto databázi mediálního obsahu https://www.imdb.com/
 
 ### Vstupní textový soubor s filmy
 
-Požadavky:
+#### Požadavky
 - Název souboru musí být **input_movies.txt**
 - Kódování souboru musí být **UTF-8**
 
-Popis struktury dat souboru:
+#### Popis struktury dat souboru
+- Data **jednoho vstupního filmu** vypadají takto:
+```java
+public class MovieInput
+{
+    private final long runtimeInSeconds;
+    
+    private final String name;
+    
+    private final int percentageRating;
+    
+    private final String hyperlinkForContentWatch;
+    
+    private final String shortContentSummary;
+    
+    private final long releaseDateInEpochSeconds;
+    
+    private final String eraCodeDesignation;
+}
+```
+- Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru)
+- Popisy jednotlivých názvů dat/atributů jsou následující:
+    - ***runtimeInSeconds*** - Vyjadřuje délku/trvání filmu v sekundách
+        - Jedná se o datový typ **long**, tedy **celé číslo**
+        - **Není povinný**
+            - Pokud **nemá být zadán**, hodnota *runtimeInSeconds* **musí být rovno nebo menší než 0**
+            - Pokud **je zadán**, hodnota **musí být v rozsahu 1 a více**
+    - ***name*** - Vyjadřuje název filmu
+        - Jedná se o datový typ **String**, tedy **text** 
+        - **Je povinný**
+        - Maximální počet znaků jména je **60**
+    - ***percentageRating*** - Vyjadřuje procentuální hodnocení filmu
+        - Jedná se o datový typ **int**, tedy **celé číslo** 
+        - **Není povinný**
+            - Pokud **nemá být zadán**, hodnota *percentageRating* **musí být menší než 0**
+                - Při nezadání se film identifikuje jako **nezhlédnutý**
+            - Pokud **je zadán**, hodnota **musí být v rozsahu 0 až 100**
+                - Při zadání se film identifikuje jako **zhlédnutý** 
+    - ***hyperlinkForContentWatch*** - Vyjadřuje URL odkaz ke zhlédnutí filmu
+        - Jedná se o datový typ **String**, tedy **text** 
+        - **Není povinný**
+            - Pokud **nemá být zadán**, hodnota *hyperlinkForContentWatch* **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
+        - Maximální počet znaků URL odkazu je **180**
+    - ***shortContentSummary*** - Vyjadřuje krátké shrnutí obsahu filmu
+        - Jedná se o datový typ **String**, tedy **text** 
+        - **Není povinný**
+            - Pokud **nemá být zadán**, hodnota *shortContentSummary* **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
+        - Maximální počet znaků shrnutí je **1000**
+    - ***releaseDateInEpochSeconds*** - Vyjadřuje datum vydání/uvedení filmu, vyjádřeného v epoch sekundách
+        - Jedná se o datový typ **long**, tedy **celé číslo** 
+        - **Není povinný**,
+            - Pokud **nemá být zadán**, hodnota *shortContentSummary* **musí být menší než 0**
+                - Při nezadání se film identifikuje jako **oznámený** 
+            - Pokud **je zadán**, hodnota **musí být v rozsahu 0 a více**
+                - Při zadání se film identifikuje jako **vydaný** 
+        - Pro převod datumu na epoch sekundy a opačně je možné použít tento konverter https://www.epochconverter.com/
+            - Při převodu je požadováno zvolit jako časovou zónu **GMT/UTC**
+    - ***eraCodeDesignation*** - Vyjadřuje kódové označení vybrané chronologické star wars éry pro daný film
+        - Jedná se o datový typ **String**, tedy **text** 
+        - **Je povinný**
+        - Hodnota **musí nabývat** jednoho z těchto kódových označení:
+            - DAWN_OF_THE_JEDI
+            - THE_OLD_REPUBLIC
+            - THE_HIGH_REPUBLIC
+            - FALL_OF_THE_JEDI
+            - REIGN_OF_THE_EMPIRE
+            - AGE_OF_REBELLION
+            - THE_NEW_REPUBLIC
+            - RISE_OF_THE_FIRST_ORDER
+            - NEW_JEDI_ORDER
+        - Chronologické éry jsou více popsaný přímo **ve formě uživatelské funkce v aplikaci** nebo na těchto webových stránkách https://www.screengeek.net/2023/04/07/star-wars-timeline-eras
+- Není možné, aby existovaly dva filmy, které mají **stejný název filmu a zároveň stejné datum vydání**
+- Není možné, aby existovaly dva filmy, které mají **stejný URL odkaz ke zhlédnutí nebo stejné shrnutí obsahu**
 
 
-Popis struktury souboru:
-- Soubor by měl vypadat nějak takto pro jeden film:
+#### Popis struktury souboru
+- Soubor by měl vypadat nějak takto pro **jeden vstupní film**:
 ```
 [Attributes]
 
@@ -1067,25 +1139,27 @@ AGE_OF_REBELLION 7
 
 [End]
 ```
-- V souboru může být **více než jeden film**
-    - Stačí **za sekci *\[Values\]*** předcházejícího filmu **umístit zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]***
+- V souboru může být **více než jeden vstupní film**
+    - Stačí **za sekci *\[Values\]* předcházejícího filmu** umístit **zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]***
     - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat a propojovacími čísly
+- ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
     - **Musí být v souboru**
-    - ***Order:*** vyjadřuje pořadí filmu z hlediska umístění v souboru
+    - ***Order:*** - Vyjadřuje pořadí filmu z hlediska umístění v souboru
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní data filmu
+    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní data filmu
         - **Nemusí být v souboru**, pouze informační účel
-        - Samotné názvy dat s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují data v sekci *\[Values\]***, tedy:
-            - **Název data:** řádek souboru začíná hodnotou konkrétního data
-            - **Mezera:** vyjadřuje oddělovač mezi hodnotou data a propojovacím číslem
-            - **Propojovací číslo:** vyjadřuje spojení, k jakému konkrétnímu datu má být přiražena daná hodnota
-- ***\[Values\]*** vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat a propojovacími čísly
+        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru)
+        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
+            - **Název data/atributu** - Řádek souboru začíná hodnotou konkrétního data/atributu
+            - **Mezera** - Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
+            - **Propojovací číslo** - Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
+- ***\[Values\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
     - **Musí být v souboru**
-    - Oddělení hodnot dat s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
+    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
+    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru)
     - Hodnotu s propojovacím číslem je možné zapsat na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-        - Vyjímkou je hodnota atributu ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků**
-- ***\[End\]*** vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
+        - Vyjímkou je hodnota atributu/data ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků**
+- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
     - Pokud bude nějaký text za ***\[End\]***, bude ignorován
         - Tento mechanismus je možné použít při **editaci/úpravě** dat nějakého existujícího filmu, kdy v souboru může být třeba 20 filmů a znak ***\[End\]*** se umístí mezi 1. a 2. film, takže dojde k přečtení pouze 1. fimu, zbytek se bude ignorovat
 
@@ -1093,9 +1167,9 @@ AGE_OF_REBELLION 7
 
 Požadavky:
 - Název souboru musí být **input_movies.bin**
-- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem z [vstupního textového souboru](#vstupní-textový-soubor)
+- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem ze [vstupního textového souboru s filmy](#vstupní-textový-soubor-s-filmy)
     - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
-    - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
+    - Na převod je možné použít tento konverter https://www.rapidtables.com/convert/number/ascii-to-binary.html
 
 ### Výstupní textový soubor s filmy
 
@@ -1118,9 +1192,9 @@ Požadavky:
 
 Požadavky:
 - Název souboru musí být **input_tvShows.bin**
-- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem z [vstupního textového souboru](#vstupní-textový-soubor-1)
+- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem ze [vstupního textového souboru s TV seriály](#vstupní-textový-soubor-s-tv-seriály)
     - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
-    - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
+    - Na převod je možné použít tento konverter https://www.rapidtables.com/convert/number/ascii-to-binary.html
 
 ### Výstupní textový soubor s TV seriály
 
@@ -1143,9 +1217,9 @@ Požadavky:
 
 Požadavky:
 - Název souboru musí být **input_tvSeasons.bin**
-- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem z [vstupního textového souboru](#vstupní-textový-soubor-2)
+- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem ze [vstupního textového souboru s TV sezónami](#vstupní-textový-soubor-s-tv-sezónami)
     - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
-    - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
+    - Na převod je možné použít tento konverter https://www.rapidtables.com/convert/number/ascii-to-binary.html
 
 ### Výstupní textový soubor s TV sezónami
 
@@ -1168,9 +1242,9 @@ Požadavky:
 
 Požadavky:
 - Název souboru musí být **input_tvEpisodes.bin**
-- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem z [vstupního textového souboru](#vstupní-textový-soubor-3)
+- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem ze [vstupního textového souboru s TV epizodami](#vstupní-textový-soubor-s-tv-epizodami)
     - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
-    - Na převod je možné použít tento [konverter](https://www.rapidtables.com/convert/number/ascii-to-binary.html)
+    - Na převod je možné použít tento konverter https://www.rapidtables.com/convert/number/ascii-to-binary.html
 
 ### Výstupní textový soubor s TV epizodami
 
