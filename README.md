@@ -2170,6 +2170,7 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 ## Class diagram
 
 - Zde je objektový návrh pro tuto aplikaci
+- Objektový návrh byl vytvořen pomocí nástroje *Mermaid*, dostupného na webové stránce https://mermaid.js.org/
 
 ```mermaid
 
@@ -2178,6 +2179,8 @@ title: Class diagram aplikace Star Wars Media Content Management
 ---
 
 classDiagram
+
+direction RL
 
 note for MovieInput "Součást package app.models.input"
 note for TVEpisodeInput "Součást package app.models.input"
@@ -2974,5 +2977,170 @@ TVEpisodesUI --* ConsoleUI : Is part of
 ```
 
 # Testování
+
+- Testování je rozděleno na dvě části, **unit testy** a **akceptační testy**
+
+## Unit testy
+
+- V průběhu vývoje aplikace se průběžně prováděly testy jednotlivých částí/modulů  aplikace
+- Samotné testy se nacházejí v následujících třídách v aplikaci:
+    - [ConsoleUITest](/star-wars-media-content-management/src/main/java/tests/mainmethods/ConsoleUITest.java)
+    - [DataContextAccessorTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/DataContextAccessorTest.java)
+    - [DataConvertersTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/DataConvertersTest.java)
+    - [DataModelsTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/DataModelsTest.java)
+    - [EmailSenderTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/EmailSenderTest.java)
+    - [FileManagerAccessorTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/FileManagerAccessorTest.java)
+    - [MoviesControllerTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/MoviesControllerTest.java)
+    - [OutputModelsTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/OutputModelsTest.java)
+    - [TVEpisodesControllerTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/TVEpisodesControllerTest.java)
+
+## Akceptační testy
+
+- V repozitáři jsou předpřipravené vstupní soubory s testovacími daty v [adresáři data](/star-wars-media-content-management/data/)
+- Jsou k dispozici výsledky akceptačních testů ve formě **tabulek** a ve formě **konzolových výstupů uživatelských funkcí pro přidávání nových dat v aplikaci**
+
+### Vstupní soubor s filmy
+
+- Představuje textový soubor [input_movies.txt](/star-wars-media-content-management/data/input_movies.txt)
+- Binární soubor [input_movies.bin](/star-wars-media-content-management/data/input_movies.bin) má úplně totožný obsah jako textový soubor
+- Zde je uvedena tabulka pro filmy:
+
+| **Pořadí filmu v souboru** | **Typ testu** | **Očekávaný výsledek** | **Skutečný výsledek** | **Prošel (ano/ne)** |
+|:---:|:---:|:---:|:---:|:---:|
+| 1 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 2 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 3 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 4 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 5 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 6 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 7 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 8 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 9 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 10 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 11 | Limitní stav | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 12 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu filmu | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu filmu | ano |
+| 13 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli příliš  velkému počtu epoch sekund u datumu vydání filmu | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli příliš  velkému počtu epoch sekund u datumu vydání filmu | ano |
+| 14 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | ano |
+| 15 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli délce filmu v sekundách,  která není zadána jako celé číslo | Neúspěšné nahrání ze souboru  kvůli délce filmu v sekundách,  která není zadána jako celé číslo | ano |
+| 16 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli procentuálnímu hodnocení,  která není zadáné jako celé číslo | Neúspěšné nahrání ze souboru  kvůli procentuálnímu hodnocení,  která není zadáné jako celé číslo | ano |
+| 17 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  překročení limit počtu znaků  pro URL odkaz ke zhlédnutí filmu  | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  překročení limit počtu znaků  pro URL odkaz ke zhlédnutí filmu  | ano |
+| 18 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 19 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 20 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+
+- Zde je konzolový výstup uživatelské funkce pro přidávání nových filmů:
+
+```
+Informační zpráva: Celkově se podařilo nahrát 14 filmů do databáze a naopak se nepodařilo nahrát 4 filmů
+Chybový stav filmu s pořadím 12 v souboru input_movies.txt: Přidaný film musí mít název
+Chybový stav filmu s pořadím 13 v souboru input_movies.txt: Příliš velký počet epoch sekund jako datum uvedení konvertovaného filmu
+Chybový stav filmu s pořadím 14 v souboru input_movies.txt: Chronologické období přidaného filmu musí být vybráno
+Chybový stav filmu s pořadím 17 v souboru input_movies.txt: Odkaz ke zhlédnutí přidaného filmu nesmí mít délku větší než 180 znaků
+```
+
+### Vstupní soubor s TV seriály
+
+- Představuje textový soubor [input_tvShows.txt](/star-wars-media-content-management/data/input_tvShows.txt)
+- Binární soubor [input_tvShows.bin](/star-wars-media-content-management/data/input_tvShows.bin) má úplně totožný obsah jako textový soubor
+- Zde je uvedena tabulka pro TV seriály:
+
+| **Pořadí TV seriálu v souboru** | **Typ testu** | **Očekávaný výsledek** | **Skutečný výsledek** | **Prošel (ano/ne)** |
+|:---:|:---:|:---:|:---:|:---:|
+| 1 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 2 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 3 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 4 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 5 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 6 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 7 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 8 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 9 | Limitní stav | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 10 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejný název a stejné  datum vydání jako u TV  seriálu s pořadím 8) | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejný název a stejné  datum vydání jako u TV  seriálu s pořadím 8) | ano |
+| 11 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu TV seriálu | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu TV seriálu | ano |
+| 12 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli příliš  velkému počtu epoch sekund u datumu vydání TV seriálu | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli příliš  velkému počtu epoch sekund u datumu vydání TV seriálu | ano |
+| 13 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | ano |
+| 14 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli datumu vydání  v epoch sekundách,  které není zadáno jako celé číslo | Neúspěšné nahrání ze souboru  kvůli datumu vydání  v epoch sekundách,  které není zadáno jako celé číslo | ano |
+| 15 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli datumu vydání  v epoch sekundách,  které není zadáno jako celé číslo, protože chybí | Neúspěšné nahrání ze souboru  kvůli datumu vydání  v epoch sekundách,  které není zadáno jako celé číslo, protože chybí | ano |
+| 16 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu TV seriálu | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu TV seriálu | ano |
+| 17 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | ano |
+| 18 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 19 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 20 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+
+- Zde je konzolový výstup uživatelské funkce pro přidávání nových TV seriálů:
+
+```
+Informační zpráva: Celkově se podařilo nahrát 12 seriálů do databáze a naopak se nepodařilo nahrát 6 seriálů
+Chybový stav seriálu s pořadím 10 v souboru input_tvShows.txt: Data přidaného seriálu jsou duplicitní
+Chybový stav seriálu s pořadím 11 v souboru input_tvShows.txt: Přidaný seriál musí mít název
+Chybový stav seriálu s pořadím 12 v souboru input_tvShows.txt: Příliš velký počet epoch sekund jako datum uvedení konvertovaného seriálu
+Chybový stav seriálu s pořadím 13 v souboru input_tvShows.txt: Chronologické období přidaného seriálu musí být vybráno
+Chybový stav seriálu s pořadím 16 v souboru input_tvShows.txt: Přidaný seriál musí mít název
+Chybový stav seriálu s pořadím 17 v souboru input_tvShows.txt: Chronologické období přidaného seriálu musí být vybráno
+```
+
+### Vstupní soubor s TV sezónami
+
+- Představuje textový soubor [input_tvSeasons.txt](/star-wars-media-content-management/data/input_tvSeasons.txt)
+- Binární soubor [input_tvSeasons.bin](/star-wars-media-content-management/data/input_tvSeasons.bin) má úplně totožný obsah jako textový soubor
+- Zde je uvedena tabulka pro TV sezóny:
+
+| **Pořadí TV sezóny v souboru** | **Typ testu** | **Očekávaný výsledek** | **Skutečný výsledek** | **Prošel (ano/ne)** |
+|:---:|:---:|:---:|:---:|:---:|
+| 1 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 2 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 3 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 4 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 5 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejné pořadí TV sezóny v rámci  TV seriálu  jako TV sezóny s pořadím 4 v souboru) | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejné pořadí TV sezóny v rámci  TV seriálu  jako TV sezóny s pořadím 4 v souboru) | ano |
+| 6 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli neplatnému zápornému nebo nulovému pořadí | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli neplatnému zápornému nebo nulovému pořadí | ano |
+| 7 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli pořadí TV sezóny v rámci TV seriálu,  které není zadáno jako celé číslo | Neúspěšné nahrání ze souboru  kvůli pořadí TV sezóny v rámci TV seriálu,  které není zadáno jako celé číslo | ano |
+
+- Zde je konzolový výstup uživatelské funkce pro přidávání nových TV sezón pro vybraný TV seriál:
+
+```
+Informační zpráva: Celkově se podařilo nahrát 4 sezón vybraného seriálu do databáze a naopak se nepodařilo nahrát 2 sezón vybraného seriálu
+Chybový stav sezóny vybraného seriálu s pořadím 5 v souboru input_tvSeasons.txt: Data přidané sezóny seriálu jsou duplicitní
+Chybový stav sezóny vybraného seriálu s pořadím 6 v souboru input_tvSeasons.txt: Pořadí přidané sezóny seriálu musí být větší než nula
+```
+
+### Vstupní soubor s TV epizodami
+
+- Představuje textový soubor [input_tvEpisodes.txt](/star-wars-media-content-management/data/input_tvEpisodes.txt)
+- Binární [input_tvEpisodes.bin](/star-wars-media-content-management/data/input_tvEpisodes.bin) má úplně totožný obsah jako textový soubor
+- Zde je uvedena tabulka pro TV epizody:
+
+| **Pořadí TV sezóny v souboru** | **Typ testu** | **Očekávaný výsledek** | **Skutečný výsledek** | **Prošel (ano/ne)** |
+|:---:|:---:|:---:|:---:|:---:|
+| 1 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 2 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 3 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 4 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 5 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  procentuálnímu hodnocení TV epizody, které překračuje hranici 100 | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  procentuálnímu hodnocení TV epizody, které překračuje hranici 100 | ano |
+| 6 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 7 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 8 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 9 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejné pořadí TV epizody v rámci TV sezóny jako u TV  epizody s pořadím 8 v souboru) | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejný název a stejné  datum vydání jako u TV  seriálu s pořadím 8) | ano |
+| 10 | Limitní stav | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 11 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli délce TV epizody v sekundách,  která je záporná, přičemž  zadání délky je povinné | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli délce TV epizody v sekundách,  která je záporná, přičemž  zadání délky je povinné | ano |
+| 12 | Limitní stav | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 13 | Limitní stav | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 14 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli délce TV epizody v sekundách,  které není zadána jako celé číslo | Neúspěšné nahrání ze souboru  kvůli délce TV epizody v sekundách,  které není zadána jako celé číslo | ano |
+| 15 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli procentuálnímu hodnocení TV epizody,  které není zadáno jako celé číslo | Neúspěšné nahrání ze souboru  kvůli procentuálnímu hodnocení TV epizody,  které není zadáno jako celé číslo | ano |
+| 16 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli pořadí TV epizody v rámci TV sezóny,  které není zadáno jako celé číslo | Neúspěšné nahrání ze souboru  kvůli pořadí TV epizody v rámci TV sezóny,  které není zadáno jako celé číslo | ano |
+| 17 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli pořadí TV epizody v rámci TV sezóny,  které není zadáno | Neúspěšné nahrání ze souboru  kvůli pořadí TV epizody v rámci TV sezóny,  které není zadáno | ano |
+| 18 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 19 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (tato TV epizoda má duplicitní URL odkaz ke zhlédnutí jako  TV epizoda s pořadím 18 v souboru) | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (tato TV epizoda má duplicitní URL odkaz ke zhlédnutí jako  TV epizoda s pořadím 18 v souboru) | ano |
+| 20 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (tato TV epizoda má duplicitní krátké shrnutí obsahu jako  TV epizoda s pořadím 18 v souboru) | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (tato TV epizoda má duplicitní krátké shrnutí obsahu jako  TV epizoda s pořadím 18 v souboru) | ano |
+
+- Zde je konzolový výstup uživatelské funkce pro přidávání nových TV epizod pro vybranou TV sezónu:
+
+```
+Informační zpráva: Celkově se podařilo nahrát 11 epizod vybrané sezóny do databáze a naopak se nepodařilo nahrát 5 epizod vybrané sezóny
+Chybový stav epizody vybrané sezóny s pořadím 5 v souboru input_tvEpisodes.txt: Procentuální hodnocení zhlédnuté přidané epizody sezóny musí být v rozsahu 0 - 100
+Chybový stav epizody vybrané sezóny s pořadím 9 v souboru input_tvEpisodes.txt: Data přidané epizody sezóny jsou duplicitní
+Chybový stav epizody vybrané sezóny s pořadím 11 v souboru input_tvEpisodes.txt: Přidaná epizoda sezóny musí mít délku trvání
+Chybový stav epizody vybrané sezóny s pořadím 19 v souboru input_tvEpisodes.txt: Data přidané epizody sezóny jsou duplicitní
+Chybový stav epizody vybrané sezóny s pořadím 20 v souboru input_tvEpisodes.txt: Data přidané epizody sezóny jsou duplicitní
+```
 
 # Popis fungování externí knihovny
