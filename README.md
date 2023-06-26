@@ -3144,3 +3144,90 @@ Chybový stav epizody vybrané sezóny s pořadím 20 v souboru input_tvEpisodes
 ```
 
 # Popis fungování externí knihovny
+
+- Jedná se o knihovnu *Apache Commons Email*
+- Umožňuje následující věci:
+    - Zjednodušuje existující *Java Mail API*
+    - Autentifikovat se k *SMTP* serveru, pokud je to potřeba
+    - Pro komunikaci přes *SMTP* protokol umožňuje vybrat mezi *SSL* a *STARTTLS* šifrovacími protokoly na základě čísla portu
+    - Nastavení kódování obsahu e-mailu
+    - Nastavení příjemce, předmětu a obsahu e-mailu
+    - Nastavení e-mailu, na který se budou posílat nedoručitelné e-maily
+    - Posílání jednoduchých textových e-mailů
+    - Posílání e-mailů formátovaných v *HTML*
+    - Posílání e-mailů s přílohami
+    - Posílání *HTML* e-mailů s inline obrázky (data obrázku z externího *URL* odkazu se stáhnou a vloží přímo do e-mailu)
+- V aplikaci se knihovna používá pro odesílání dat z databáze pomocí *HTML* e-mailu a to ze tří důvodů:
+    - Lepší formátovaný výpis
+    - Možnost v e-mailovém klientovi různě filtrovat a řadit doručené e-maily, protože mají nastavený standardizovaný předmět zprávy
+    - Umožnit data s URL odkazem mít uložený přímo v e-mailu např. jako seznam nezhlédnutých filmů
+- V aplikaci je knihovna implementovaná ve třídě [EmailSender](/star-wars-media-content-management/src/main/java/utils/emailsender/EmailSender.java)
+
+## Detaily implementace knihovny ve třídě EmailSender
+
+1. Nejdříve je potřeba nastavit konfigurační údaje:
+
+```java
+public class EmailSender 
+{   
+    private final int smtpPort = 465;
+    
+    private final String hostName = "smtp.googlemail.com";
+    
+    private final String randomGeneratedAppToken = "qnaadtxcznjyvzln";
+    
+    private final String appId = "honzaswtor";
+}
+```
+
+- ***smtpPort*** - Vyjadřuje číslo portu SMTP protokolu v rámci transportní vrstvy
+    - Hodnota byla nastavena na ***465***, aby bylo umožněno později v implementaci použít šifrovací protokol ***SSL***
+- ***hostName*** - Vyjadřuje *SMTP* server, který bude zodpovědný za odesílání e-mailů
+    - V závislosti na zvoleném *SMTP* serveru existuje možnost, že se bude potřeba autentifikovat
+    - Konkrétní způsob přihlašování si specifikuje každý *SMTP* server individuálně
+    - V případě zvoleného **Google SMTP serveru** byly použity autentifikační údaje zapsané v atributech *appId* a *randomGeneratedAppToken*
+        - K autentifikaci se používá **G-mail účet** 
+        - Vysvětlení způsobu přihlašování k Google SMTP serveru a popis autentifikačních údajů není z bezpečnostního důvodu uveden
+
+2. Poté je potřeba sestavit e-mail:
+
+```java
+public void sendEmail(String recipientEmailAddress, String subject, StringBuilder message) throws EmailException
+{
+    try 
+    {
+        HtmlEmail email = new HtmlEmail();
+        email.setHostName(hostName);
+        email.setCharset(org.apache.commons.mail.EmailConstants.UTF_8);
+        email.setSmtpPort(smtpPort);
+        email.setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken));
+        email.setSSLOnConnect(true);
+        email.setFrom(DataStore.getAppCreator());
+        email.setSubject(subject);
+        email.addTo(recipientEmailAddress);
+        email.setHtmlMsg(message.toString());
+        email.send();  
+    }
+    catch (EmailException ex) 
+    {
+        throw new EmailException("Chyba při odesílání přes internet nebo evidentně neplatná e-mailová adresa příjemce");
+    }
+}
+```
+
+- ***HtmlEmail*** - Vyjadřuje instanci, která podporuje formátování e-mailu jako **HTML**
+- ***setHostName(hostName)*** - Nastaví odesílací SMTP server specifikovaný v **1. kroku implementace s konfiguračními údaji**
+- ***setCharset(org.apache.commons.mail.EmailConstants.UTF_8)*** - Nastaví kódování HTML obsahu zprávy jako UTF-8, aby **data s diaktritikou se správně vypisovala**
+- ***setSmtpPort(smtpPort)*** - Nastaví číslo portu specifikované v **1. kroku implementace s konfiguračními údaji**
+    - Číslo určí i podporovaný šifrovací protokol
+- ***setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken))*** - Nastaví autentifikační údaje specifikované v **1. kroku implementace s konfiguračními údaji** pro daný SMTP server
+- ***setSSLOnConnect(true)*** - Nastaví šifrovací protokol **SSL**
+    - SSL je nastavováno, protože číslo portu bylo specifikováno jako **465**, takže bez šifrování by posílání e-mailů bylo nebezpečné
+- ***setFrom(DataStore.getAppCreator())*** - Nastaví odesílatele e-mailu jako tvůrce aplikace, což je **honzaswtor@gmail.com**
+    - Pokud se odesílatel specifikuje jako **neplatný e-mail**, tak se pouzije **e-mail autentifikovaného účtu k SMTP serveru**
+- ***setSubject(subject)*** - Nastaví předmět zprávy
+- ***addTo(recipientEmailAddress)*** - Nastaví příjemce zprávy
+    - Pokud nastane chyba v síti při odesílání e-mailu nebo e-mail příjemce je neplatný, tak se vyhodí výjimka **EmailException**
+    - Výjimka pochází z **externí knihovny**
+- ***setHtmlMsg(message.toString())*** - Nastaví obsah zprávy e-mailu a bude ho interpretovat jako **HTML**
+- ***send()*** - Odešle sestavenou zprávu
