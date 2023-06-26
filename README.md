@@ -2433,8 +2433,9 @@ note for TVShowDataConverter "Součást package utils.helpers"
         +convertToDataFrom(TVShowOutput outputData)$ TVShow throws DataConversionException
     }
 
-note for IDataTable "Součást package utils.interfaces"
 note for DataStore "Součást package app.logic.datastore (datová vrstva)"
+
+note for IDataTable "Součást package utils.interfaces"
 note for DataContextAccessor "Součást package app.logic.datacontext (datová vrstva)"
 note for MoviesTable "Součást package app.logic.datacontext (datová vrstva)"
 note for TVEpisodesTable "Součást package app.logic.datacontext (datová vrstva)"
@@ -2541,7 +2542,23 @@ TVShowsTable --* DataContextAccessor : Is part of
     }
 
 note for EmailSender "Součást package utils.emailsender (externí knihovna)"
+
 note for IDataFileManager "Součást package utils.interfaces"
+note for FileManagerAccessor "Součást package app.logic.filemanager"
+note for MoviesFileManager "Součást package app.logic.filemanager"
+note for TVEpisodesFileManager "Součást package app.logic.filemanager"
+note for TVSeasonsFileManager "Součást package app.logic.filemanager"
+note for TVShowsFileManager "Součást package app.logic.filemanager"
+
+MoviesFileManager --|> IDataFileManager : Implements
+TVEpisodesFileManager --|> IDataFileManager : Implements
+TVSeasonsFileManager --|> IDataFileManager : Implements
+TVShowsFileManager --|> IDataFileManager : Implements
+
+FileManagerAccessor --* MoviesFileManager : Contains
+FileManagerAccessor --* TVEpisodesFileManager : Contains
+FileManagerAccessor --* TVSeasonsFileManager : Contains
+FileManagerAccessor --* TVShowsFileManager : Contains
 
     class EmailSender{
         <<Service>>
@@ -2590,31 +2607,368 @@ note for IDataFileManager "Součást package utils.interfaces"
         -String inputFileValuesSectionMarking
         -String inputFileAttributesSectionMarking
         -MoviesFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
-        #getInstance(DataContextAccessor dbContext)$ IDataTable~Movie~
+        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~MovieInput_MovieOutput~
+        -parseInputData(Map~String_StringBuilder~ movieInputFieldsValues, Map~Integer_MovieInput~ parsedMovies, Field[] movieInputFields, int inputMovieOrder)
+        -parseOutputData(Map~String_StringBuilder~ movieOutputFieldsValues, List~MovieOutput~ parsedMovies, Field[] movieOutputFields)
+        -createOutputDataTextRepresentation(List~MovieOutput~ newOutputMovies) StringBuilder
     }
-    class TVEpisodesTable{
-        -IDataTable~TVEpisode~ tvEpisodesTable$
-        -List~TVEpisode~ tvEpisodesData
-        -DataContextAccessor dbContext
-        -Random primaryKeysGenerator
-        -TVEpisodesTable(DataContextAccessor dbContext)
-        #getInstance(DataContextAccessor dbContext)$ IDataTable~TVEpisode~
+    class TVEpisodesFileManager{
+        -IDataFileManager~TVEpisodeInput_TVEpisodeOutput~ tvEpisodesFileManager$
+        -String filenameSeparator
+        -String inputFileEndMarking
+        -String inputFileValuesSectionMarking
+        -String inputFileAttributesSectionMarking
+        -TVEpisodesFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
+        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~TVEpisodeInput_TVEpisodeOutput~
+        -parseInputData(Map~String_StringBuilder~ tvEpisodeInputFieldsValues, Map~Integer_TVEpisodeInput~ parsedTVEpisodes, Field[] tvEpisodeInputFields, int inputTVEpisodeOrder) 
+        -parseOutputData(Map~String_StringBuilder~ tvEpisodeOutputFieldsValues, List~TVEpisodeOutput~ parsedTVEpisodes, Field[] tvEpisodeOutputFields)
+        -createOutputDataTextRepresentation(List~TVEpisodeOutput~ newOutputTVEpisodes) StringBuilder
     }
-    class TVSeasonsTable{
-        -IDataTable~TVSeason~ tvSeasonsTable$
-        -List~TVSeason~ tvSeasonsData
-        -DataContextAccessor dbContext
-        -Random primaryKeysGenerator
-        -TVSeasonsTable(DataContextAccessor dbContext)
-        #getInstance(DataContextAccessor dbContext)$ IDataTable~TVSeason~
+    class TVSeasonsFileManager{
+        -IDataFileManager~TVSeasonInput_TVSeasonOutput~ tvSeasonsFileManager$
+        -String filenameSeparator
+        -String inputFileEndMarking
+        -String inputFileValuesSectionMarking
+        -String inputFileAttributesSectionMarking
+        -TVSeasonsFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
+        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~TVSeasonInput_TVSeasonOutput~
+        -parseInputData(Map~String_StringBuilder~ tvSeasonInputFieldsValues, Map~Integer_TVSeasonInput~ parsedTVSeasons, Field[] tvSeasonInputFields, int inputTVSeasonOrder) 
+        -parseOutputData(Map~String_StringBuilder~ tvSeasonOutputFieldsValues, List~TVSeasonOutput~ parsedTVSeasons, Field[] tvSeasonOutputFields)
+        -createOutputDataTextRepresentation(List~TVSeasonOutput~ newOutputTVSeasons) StringBuilder
     }
-    class TVShowsTable{
-        -IDataTable~TVShow~ tvShowsTable$
-        -List~TVShow~ tvShowsData
+    class TVShowsFileManager{
+        -IDataFileManager~TVShowInput_TVShowOutput~ tvShowsFileManager$
+        -String filenameSeparator
+        -String inputFileEndMarking
+        -String inputFileValuesSectionMarking
+        -String inputFileAttributesSectionMarking
+        -TVShowsFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
+        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~TVShowInput_TVShowOutput~
+        -parseInputData(Map~String_StringBuilder~ tvShowInputFieldsValues, Map~Integer_TVShowInput~ parsedTVShows, Field[] tvShowInputFields, int inputTVShowOrder) 
+        -parseOutputData(Map~String_StringBuilder~ tvShowOutputFieldsValues, List~TVShowOutput~ parsedTVShows, Field[] tvShowOutputFields)
+        -createOutputDataTextRepresentation(List~TVShowOutput~ newOutputTVShows) StringBuilder
+    }
+
+note for DataSorting "Součást package app.logic.controllers"
+note for DataType "Součást package app.logic.controllers"
+note for MoviesController "Součást package app.logic.controllers (business logika)"
+note for TVEpisodesController "Součást package app.logic.controllers (business logika)"
+
+MoviesController ..> DataContextAccessor : Depends on
+MoviesController ..> EmailSender : Depends on
+MoviesController ..> FileManagerAccessor : Depends on
+
+TVEpisodesController ..> DataContextAccessor : Depends on
+TVEpisodesController ..> EmailSender : Depends on
+TVEpisodesController ..> FileManagerAccessor : Depends on
+    
+    class DataSorting{
+        <<Enumeration>>
+        LONGEST
+        NEWEST
+        BY_NAME
+        FAVORITE
+    }
+    class DataType{
+        <<Enumeration>>
+        MOVIE
+        TV_SHOW
+        TV_SEASON
+        TV_EPISODE
+    }
+    class MoviesController{
+        -MoviesController movieController$
         -DataContextAccessor dbContext
-        -Random primaryKeysGenerator
-        -TVShowsTable(DataContextAccessor dbContext)
-        #getInstance(DataContextAccessor dbContext)$ IDataTable~TVShow~
+        -EmailSender emailSender
+        -FileManagerAccessor fileManagerAccessor
+        -Collator czechCollator
+        -Comparator~Movie~ BY_LONGEST_DURATION_MOVIE
+        -Comparator~Movie~ BY_NAME_ALPHABETICALLY_MOVIE
+        -Comparator~Movie~ BY_DATE_NEWEST_MOVIE
+        -Comparator~Movie~ BY_DATE_OLDEST_MOVIE
+        -Comparator~Movie~ BY_PERCENTAGE_RATING_HIGHEST_MOVIE
+        -MoviesController(DataContextAccessor dbContext, EmailSender emailSender, FileManagerAccessor fileManagerAccessor)
+        +getInstance(DataContextAccessor dbContext, EmailSender emailSender, FileManagerAccessor fileManagerAccessor)$ MoviesController
+        +sendUnwatchedOldestMoviesWithHyperlinksByEmail(String recipientEmailAddress) throws EmailException
+        +sendUnwatchedMoviesWithHyperlinksInChronologicalErasByEmail(String recipientEmailAddress) throws EmailException
+        +getTotalRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched) Duration
+        +getAverageRuntimeOfAllReleasedMoviesByEra(Era era, boolean onlyWatched) Duration
+        +getAverageRatingOfAllReleasedMoviesByEra(Era era) float
+        +getAnnouncedMoviesCountByEra(Era era) int
+        +getReleasedMoviesWithRuntimeSetCountByEra(Era era, boolean onlyWatched) int
+        +getReleasedMoviesCountByEra(Era era, boolean onlyWatched) int
+        +getReleasedLongestMoviesByEra(Era era, boolean onlyWatched) List~Movie~
+        +getReleasedMoviesInAlphabeticalOrderByEra(Era era, boolean onlyWatched) List~Movie~
+        +getReleasedNewestMoviesByEra(Era era, boolean onlyWatched) List~Movie~
+        +getReleasedFavoriteMoviesByEra(Era era) List~Movie~
+        +getAnnouncedMoviesInAlphabeticalOrderByEra(Era era) List~Movie~
+        +getReleasedFavoriteMoviesOfAllTime() List~Movie~
+        +getReleasedNewestMovies() List~Movie~
+        +rateMovie(Movie existingMovie, int percentageRating) boolean throws DatabaseException, IOException
+        +searchForMovie(String name) List~Movie~
+        +getMoviesChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
+        +addMoviesFrom(boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
+        +deleteMovieBy(PrimaryKey moviePrimaryKey) throws IOException, DatabaseException
+        +deleteMovies(List~Movie~ chosenMovies) throws IOException
+        +editMovieBy(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DataConversionException, DatabaseException, FileParsingException
+        -updateMoviesOutputFilesWithExistingData() throws IOException
+        -updateMoviesOutputFilesWithNewChanges() throws IOException
+        +getCurrentDate()$ LocalDate
+    }
+    class TVEpisodesController{
+        -TVEpisodesController tvEpisodesController$
+        -DataContextAccessor dbContext
+        -EmailSender emailSender
+        -FileManagerAccessor fileManagerAccessor
+        -Collator czechCollator
+        -Comparator~TVEpisode~ BY_LONGEST_DURATION_EPISODE
+        -Comparator~TVShow~ BY_NAME_ALPHABETICALLY_SHOW
+        -Comparator~TVEpisode~ BY_PERCENTAGE_RATING_HIGHEST_EPISODE
+        -Comparator~TVEpisode~ BY_ORDER_ASCENDING_EPISODE
+        -Comparator~TVSeason~ BY_ORDER_ASCENDING_SEASON
+        -Comparator~TVShow~ BY_DATE_NEWEST_SHOW
+        -TVEpisodesController(DataContextAccessor dbContext, EmailSender emailSender, FileManagerAccessor fileManagerAccessor)
+        +getInstance(DataContextAccessor dbContext, EmailSender emailSender, FileManagerAccessor fileManagerAccessor)$ TVEpisodesController
+        +sendUnwatchedEpisodesWithHyperlinksInTVShowByEmail(String recipientEmailAddress, PrimaryKey tvShowPrimaryKey) throws EmailException, DatabaseException
+        +getTotalRuntimeOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) Duration
+        +getTotalRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) Duration
+        +getAverageRuntimeOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) Duration
+        +getAverageRuntimeOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) Duration
+        +getAverageRatingOfAllReleasedEpisodesInTVShow(PrimaryKey tvShowPrimaryKey) float
+        +getAverageRatingOfAllReleasedEpisodesInTVShowSeason(PrimaryKey tvShowSeasonPrimaryKey) float
+        +getAnnouncedTVShowsCountByEra(Era era) int
+        +getReleasedTVShowsCountByEra(Era era) int
+        +getReleasedTVShowEpisodesCount(PrimaryKey tvShowPrimaryKey, boolean onlyWatched) int
+        +getReleasedTVShowSeasonEpisodesCount(PrimaryKey tvShowSeasonPrimaryKey, boolean onlyWatched) int
+        +getReleasedTVShowsInAlphabeticalOrderByEra(Era era) List~TVShow~
+        +getReleasedNewestTVShowsByEra(Era era) List~TVShow~
+        +getReleasedLongestTVShowsByEra(Era era) List~TVShow~
+        +getReleasedTVShowLongestEpisodes(PrimaryKey tvShowPrimaryKey) List~TVEpisode~
+        +getReleasedTVShowSeasonLongestEpisodes(PrimaryKey tvShowSeasonPrimaryKey) List~TVEpisode~
+        +getReleasedTVShowFavoriteTVEpisodes(PrimaryKey tvShowPrimaryKey) List~TVEpisode~
+        +getReleasedTVShowSeasonFavoriteTVEpisodes(PrimaryKey tvShowSeasonPrimaryKey) List~TVEpisode~
+        +getReleasedTVShowSeasonsByOrder(PrimaryKey tvShowPrimaryKey) List~TVSeason~
+        +getReleasedTVShowSeasonEpisodesByOrder(PrimaryKey tvShowSeasonPrimaryKey) List~TVEpisode~
+        +getTVSeasonDetail(PrimaryKey chosenTVSeasonPrimaryKey) TVSeason
+        +getAnnouncedTVShowsInAlphabeticalOrderByEra(Era era) List~TVShow~
+        +getReleasedNewestTVShows() List~TVShow~
+        +rateTVEpisode(TVEpisode existingEpisode, int percentageRating) boolean throws DatabaseException, IOException
+        +searchForTVShow(String name) List~TVShow~
+        +getTVShowsChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +getTVSeasonsChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +getTVEpisodesChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
+        +addTVShowsFrom(boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
+        +addTVSeasonsFrom(PrimaryKey chosenTVShowPrimaryKey, boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
+        +addTVEpisodesFrom(PrimaryKey chosenTVSeasonPrimaryKey, boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
+        +deleteTVShowBy(PrimaryKey tvShowPrimaryKey) throws IOException, DatabaseException
+        +deleteTVSeasonBy(PrimaryKey tvSeasonPrimaryKey) throws IOException, DatabaseException
+        +deleteTVEpisodeBy(PrimaryKey tvEpisodePrimaryKey) throws IOException, DatabaseException
+        +deleteTVShows(List~TVShow~ chosenTVShows) throws IOException
+        +deleteTVSeasons(List~TVSeason~ chosenTVSeasons) throws IOException
+        +deleteTVEpisodes(List~TVEpisode~ chosenTVEpisodes) throws IOException
+        +editTVShowBy(PrimaryKey existingTVShowPrimaryKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DataConversionException, DatabaseException, FileParsingException
+        +editTVSeasonBy(PrimaryKey existingTVSeasonPrimaryKey, PrimaryKey tvShowForeignKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DatabaseException, FileParsingException
+        +editTVEpisodeBy(PrimaryKey existingTVEpisodePrimaryKey, PrimaryKey tvSeasonForeignKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DatabaseException, FileParsingException
+        -updateTVShowsOutputFilesWithExistingData() throws IOException
+        -updateTVShowsOutputFilesWithNewChanges() throws IOException
+        -updateTVSeasonsOutputFilesWithExistingData() throws IOException
+        -updateTVSeasonsOutputFilesWithNewChanges() throws IOException
+        -updateTVEpisodesOutputFilesWithExistingData() throws IOException
+        -updateTVEpisodesOutputFilesWithNewChanges() throws IOException
+        +getCurrentDate()$ LocalDate
+    }
+
+note for ApplicationRunner "Součást package ui"
+note for ConsoleUI "Součást package ui (prezentační vrstva)"
+note for MoviesUI "Součást package ui (prezentační vrstva)"
+note for TVEpisodesUI "Součást package ui (prezentační vrstva)"
+
+ConsoleUI ..> MoviesController : Depends on
+ConsoleUI ..> TVEpisodesController : Depends on
+
+ConsoleUI --* MoviesUI : Contains
+ConsoleUI --* TVEpisodesUI : Contains
+
+MoviesUI --* ConsoleUI : Is part of
+TVEpisodesUI --* ConsoleUI : Is part of
+
+    class ApplicationRunner{
+        +main(String[] args)$
+    }
+    class ConsoleUI{
+        -boolean isDataDirectorySet$
+        -boolean isDatabaseFromFilesLoaded$
+        -Scanner scanner
+        -boolean wasInitialized
+        -List~String~ breadcrumbItems
+        -TVEpisodesController tvEpisodesController
+        -MoviesController moviesController
+        -MoviesUI moviesUI
+        -TVEpisodesUI tvEpisodesUI
+        +ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController)
+        -initializeConsoleUI()
+        #getScanner() Scanner
+        #getMoviesController() MoviesController
+        #getTVEpisodesController() TVEpisodesController
+        +start()
+        -displayDataDirectoryPathMenu()
+        -displayLoadingOutputFilesMenu()
+        -displayIntroduction()
+        -displayMainMenu()
+        #createDividingHorizontalLineOf(String heading) StringBuilder
+        #createHeadingWithHorizontalLines(int size, String heading) StringBuilder
+        #createMenuNameWithHorizontalLines(int size, String menuName) StringBuilder
+        #addBreadcrumbItem(String title)
+        #removeLastBreadcrumbItem()
+        #displayBreadcrumb()
+        #displayErrorMessage(String message)
+        #displayInfoMessage(String message)
+        #advanceToNextInput()
+        #loadChosenEraOrderFromUser() int
+        #loadEmailFromUser() String
+        #loadChoiceFromSubmenu() int
+        -loadChoiceFromMenu() int
+        -setDataDirectoryPath()
+        -loadDataDirectoryPath() String
+        -loadAllOutputDataFrom(boolean fromBinary)
+        #displayDataChosenFileContent(String fileName, DataType dataType)
+        -printInformationsAboutChronologicalEras()
+    }
+    class MoviesUI{
+        -ConsoleUI consoleUI
+        #MoviesUI(ConsoleUI consoleUI)
+        #start()
+        -displayMoviesManagementSubmenu()
+        -displayLoadMoviesFromInputFileSubmenu()
+        -displayPrintFoundMoviesByNameSubmenu()
+        -displaySendMoviesByEmailSubmenu()
+        -displayPrintErasWithAnnouncedMoviesSubmenu()
+        -displayPrintAnnouncedMoviesInAlphabeticalOrderByEraSubmenu(Era chosenEra)
+        -displayPrintErasWithUnwatchedMoviesSubmenu()
+        -displayPrintUnwatchedMoviesByEraSubmenu(Era chosenEra)
+        -displayPrintErasWithWatchedMoviesSubmenu()
+        -displayPrintWatchedMoviesByEraSubmenu(Era chosenEra)
+        -displayPrintReleasedFavoriteMoviesOfAllTimeSubmenu()
+        -displayPrintReleasedNewestMoviesSubmenu()
+        -displayPrintMoviesOutputFilesContentsSubmenu()
+        -displayDetailAboutMovieSubmenu(Movie chosenMovie)
+        -displayEditChosenMovieSubmenu(Movie chosenMovie)
+        -handleLoadMoviesFromInputFileSubmenu()
+        -loadMoviesFromInputFile(boolean fromBinary)
+        -handlePrintFoundMoviesByNameSubmenu()
+        -loadMovieNameFromUser() String
+        -printFoundMoviesByName(List~Movie~ foundMovies, String queriedName)
+        -handleSendMoviesByEmailSubmenu()
+        -sendUnwatchedMoviesFromOldestByEmail()
+        -sendUnwatchedMoviesInChronologicalErasByEmail()
+        -handlePrintErasWithAnnouncedMoviesSubmenu()
+        -printErasWithAnnouncedMovies()
+        -handlePrintAnnouncedMoviesInAlphabeticalOrderByEraSubmenu()
+        -printAnnouncedMoviesInAlphabeticalOrderByEra(List~Movie~ announcedMoviesByChosenEra, Era chosenEra)
+        -handlePrintErasWithUnwatchedMoviesSubmenu()
+        -printErasWithUnwatchedMovies()
+        -handlePrintUnwatchedMoviesByEraSubmenu(DataSorting dataSorting)
+        -printUnwatchedMoviesByEra(List~Movie~ unwatchedMoviesByChosenEra, Era chosenEra, DataSorting dataSorting)
+        -handlePrintErasWithWatchedMoviesSubmenu()
+        -printErasWithWatchedMovies()
+        -handlePrintWatchedMoviesByEraSubmenu(DataSorting dataSorting)
+        -printWatchedMoviesByEra(List~Movie~ watchedMoviesByChosenEra, Era chosenEra, DataSorting dataSorting)
+        -handlePrintReleasedFavoriteMoviesOfAllTimeSubmenu()
+        -printReleasedFavoriteMoviesOfAllTime(List~Movie~ favoriteMovies)
+        -handlePrintReleasedNewestMoviesSubmenu()
+        -printReleasedNewestMovies(List~Movie~ releasedNewestMovies)
+        -handlePrintMoviesOutputFilesContentsSubmenu()
+        -handleDisplayDetailAboutMovieSubmenu(List~Movie~ chosenMovies)
+        -loadChosenMovieFromUser() int
+        -printMovieDetail(Movie chosenMovie, boolean isInEditMode)
+        -deleteChosenMovie(PrimaryKey moviePrimaryKey) boolean
+        -handleDisplayEditChosenMovieSubmenu(Movie chosenMovie) boolean
+        -editMovieFromInputFile(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) boolean
+        -rateMovie(Movie chosenMovie) boolean
+        -loadMoviePercentageRatingFromUser() int
+        -deleteChosenMovies(List~Movie~ chosenMovies)
+    }
+    class TVEpisodesUI{
+        -ConsoleUI consoleUI
+        #TVEpisodesUI(ConsoleUI consoleUI)
+        #start()
+        -displayTVEpisodesManagementSubmenu()
+        -displayLoadTVShowsFromInputFileSubmenu()
+        -displayPrintFoundTVShowsByNameSubmenu()
+        -displayPrintErasWithAnnouncedTVShowsSubmenu()
+        -displayPrintAnnouncedTVShowsInAlphabeticalOrderByEraSubmenu(Era chosenEra)
+        -displayPrintErasWithReleasedTVShowsSubmenu()
+        -displayPrintReleasedTVShowsByEraSubmenu(Era chosenEra)
+        -displayDetailAboutTVShowSubmenu(TVShow chosenTVShow)
+        -displayEditChosenTVShowSubmenu(TVShow chosenTVShow)
+        -displayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow)
+        -displayLoadTVSeasonsFromInputFileSubmenu()
+        -displaySendTVEpisodesByEmailSubmenu()
+        -displayPrintTVShowSortedTVEpisodesSubmenu(TVShow chosenTVShow, DataSorting dataSorting)
+        -displayDetailAboutTVSeasonSubmenu(TVSeason chosenTVSeason)
+        -displayEditChosenTVSeasonSubmenu(TVSeason chosenTVSeason)
+        -displayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason)
+        -displayLoadTVEpisodesFromInputFileSubmenu()
+        -displayPrintTVSeasonSortedTVEpisodesSubmenu(TVSeason chosenTVSeason, DataSorting dataSorting)
+        -displayDetailAboutTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason)
+        -displayEditChosenTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason)
+        -displayPrintReleasedNewestTVShowsSubmenu()
+        -displayPrintDataOutputFilesContentsSubmenu(DataType dataType)
+        -handleLoadTVShowsFromInputFileSubmenu()
+        -loadTVShowsFromInputFile(boolean fromBinary)
+        -handlePrintFoundTVShowsByNameSubmenu()
+        -loadTVShowNameFromUser() String
+        -printFoundTVShowsByName(List~TVShow~ foundTVShows, String queriedName)
+        -handlePrintErasWithAnnouncedTVShowsSubmenu()
+        -printErasWithAnnouncedTVShows()
+        -handlePrintAnnouncedTVShowsInAlphabeticalOrderByEraSubmenu()
+        -printAnnouncedTVShowsInAlphabeticalOrderByEra(List~TVShow~ announcedTVShowsByChosenEra, Era chosenEra)
+        -handlePrintErasWithReleasedTVShowsSubmenu()
+        -printErasWithReleasedTVShows()
+        -handlePrintReleasedTVShowsByEraSubmenu(DataSorting dataSorting)
+        -printReleasedTVShowsByEra(List~TVShow~ releasedTVShowsByChosenEra, Era chosenEra, DataSorting dataSorting)
+        -handleDisplayDetailAboutTVShowSubmenu(List~TVShow~ chosenTVShows)
+        -loadChosenTVShowFromUser() int
+        -printTVShowDetail(TVShow chosenTVShow, boolean isInEditMode)
+        -deleteChosenTVShow(PrimaryKey tvShowPrimaryKey) boolean
+        -handleDisplayEditChosenTVShowSubmenu(TVShow chosenTVShow) boolean
+        -editTVShowFromInputFile(PrimaryKey existingTVShowPrimaryKey, boolean fromBinary) boolean
+        -handleDisplayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow)
+        -printChosenTVShowSeasons(List~TVSeason~ chosenTVShowSeasons, TVShow chosenTVShow)
+        -handleLoadTVSeasonsFromInputFileSubmenu(TVShow chosenTVShow)
+        -loadTVSeasonsFromInputFile(PrimaryKey tvShowPrimaryKey, boolean fromBinary)
+        -deleteChosenTVSeasons(List~TVSeason~ chosenTVSeasons)
+        -handleSendTVEpisodesByEmailSubmenu(TVShow chosenTVShow)
+        -sendUnwatchedTVEpisodesInTVShowByEmail(PrimaryKey tvShowPrimaryKey)
+        -handleDisplayPrintTVShowSortedTVEpisodesSubmenu(TVShow chosenTVShow, DataSorting dataSorting)
+        -printTVShowSortedTVEpisodes(List~TVEpisode~ tvShowSortedTVEpisodes, TVShow chosenTVShow, DataSorting dataSorting)
+        -handleDisplayDetailAboutTVSeasonSubmenu(List~TVSeason~ chosenTVSeasons)
+        -loadChosenTVSeasonFromUser() int
+        -printTVSeasonDetail(TVSeason chosenTVSeason, boolean isInEditMode)
+        -deleteChosenTVSeason(PrimaryKey tvSeasonPrimaryKey) boolean
+        -handleDisplayEditChosenTVSeasonSubmenu(TVSeason chosenTVSeason) boolean
+        -editTVSeasonFromInputFile(PrimaryKey existingTVSeasonPrimaryKey, PrimaryKey existingTVShowPrimaryKey ,boolean fromBinary) boolean
+        -handleDisplayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason)
+        -printChosenTVSeasonEpisodes(List~TVEpisode~ chosenTVSeasonEpisodes, TVSeason chosenTVSeason)
+        -handleLoadTVEpisodesFromInputFileSubmenu(TVSeason chosenTVSeason)
+        -loadTVEpisodesFromInputFile(PrimaryKey tvSeasonPrimaryKey, boolean fromBinary)
+        -deleteChosenTVEpisodes(List~TVEpisode~ chosenTVEpisodes)
+        -handleDisplayPrintTVSeasonSortedTVEpisodesSubmenu(TVSeason chosenTVSeason, DataSorting dataSorting)
+        -printTVSeasonSortedTVEpisodes(List~TVEpisode~ tvSeasonSortedTVEpisodes, TVSeason chosenTVSeason, DataSorting dataSorting)
+        -handleDisplayPrintReleasedNewestTVShowsSubmenu()
+        -printReleasedNewestTVShows(List~TVShow~ releasedNewestTVShows)
+        -handlePrintDataOutputFilesContentsSubmenu(DataType dataType)
+        -handleDisplayDetailAboutTVEpisodeSubmenu(List~TVEpisode~ chosenTVEpisodes)
+        -loadChosenTVEpisodeFromUser() int
+        -printTVEpisodeDetail(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason, boolean isInEditMode)
+        -deleteChosenTVEpisode(PrimaryKey tvEpisodePrimaryKey) boolean
+        -handleDisplayEditChosenTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason) boolean
+        -editTVEpisodeFromInputFile(PrimaryKey existingTVEpisodePrimaryKey, PrimaryKey existingTVSeasonPrimaryKey, boolean fromBinary) boolean
+        -rateTVEpisode(TVEpisode chosenTVEpisode) boolean
+        -loadTVEpisodePercentageRatingFromUser() int
+        -deleteChosenTVShows(List~TVShow~ chosenTVShows)
     }
 
 ```
