@@ -72,7 +72,7 @@ Samotné uživatelské funkce vypadají následovně:
 
 ### Hlavní menu
 
-- Zobrazuje se po [menu načítání výstupních souborů](#menu-načítání-výstupních-souborů) a opakovaně během běhu aplikace
+- Zobrazuje se po [menu načítání výstupních souborů](#menu-načítání-vstupníchvýstupních-souborů) a opakovaně během běhu aplikace
 - Hlavní Menu je víceúrovňové, takže funkce v seznamu jsou odsazeny podle hiearchické úrovně, ve které se nacházejí
 - Podúrovně/podmenu hlavního menu se též zobrazují opakovaně
 - V hlavním menu je umožněno ukončit aplikaci pomocí **funkce s číslem 0**
