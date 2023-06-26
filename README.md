@@ -46,7 +46,7 @@ Samotné uživatelské funkce vypadají následovně:
 
 ---
 
-### Menu načítání výstupních souborů
+### Menu načítání vstupních/výstupních souborů
 
 - Zobrazuje se po [menu nastavování adresáře data](#menu-nastavování-adresáře-data), potom již ne
 - Slouží k načtení existujících/evidovaných dat do aplikace z výstupních souborů
