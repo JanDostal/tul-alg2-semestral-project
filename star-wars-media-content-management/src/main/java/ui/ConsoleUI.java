@@ -92,9 +92,9 @@ public class ConsoleUI
      * call that method for this instance ever again.
      * <p>
      * If console was just started, 
-     * it will set data directory and load selected output data files into database.
-     * If console will be run by multiple ConsoleUI instances, it will skip set data directory 
-     * and load selected output data files into database stages after calling 
+     * it will set data directory and load selected input/output data files into database.
+     * If console will be run by multiple ConsoleUI instances, it will skip "set data directory" 
+     * and "load selected input/output data files into database" stages after calling 
      * this method on first ConsoleUI instance.
      */
     public void start() 
@@ -109,7 +109,7 @@ public class ConsoleUI
   
         while (isDataDirectorySet == false && isConsoleRunning == true) 
         {
-            displayInfoMessage(String.format("Nejdříve prosím zadejte cestu k adresáři %s (bude obsahovat vstupní a výstupní soubory)", 
+            displayInfoMessage(String.format("Nejdříve prosím zadejte cestu k adresáři %s (bude obsahovat vstupní a vstupní/výstupní soubory)", 
                     DataStore.getDataDirectoryName()));
             
             displayDataDirectoryPathMenu();
@@ -139,16 +139,10 @@ public class ConsoleUI
         
         while (isDatabaseFromFilesLoaded == false && isConsoleRunning == true) 
         {
-            displayInfoMessage("Dále prosím vyberte typ výstupních souborů a to buďto\n" + 
-                    String.format("textové (%s, %s, %s, %s)%n", DataStore.getTextOutputMoviesFilename(), 
-                            DataStore.getTextOutputTVShowsFilename(), DataStore.getTextOutputTVSeasonsFilename(), 
-                            DataStore.getTextOutputTVEpisodesFilename()) +
-                    String.format("nebo binární (%s, %s, %s, %s)%n", DataStore.getBinaryOutputMoviesFilename(), 
-                            DataStore.getBinaryOutputTVShowsFilename(), DataStore.getBinaryOutputTVSeasonsFilename(), 
-                            DataStore.getBinaryOutputTVEpisodesFilename())
-                    + "pro načtení existujících dat z daných souborů");
+            displayInfoMessage("Dále prosím vyberte typ vstupních/výstupních souborů a to buďto\n" + 
+                    "textové\nnebo binární\npro načtení existujících dat z daných souborů");
             
-            displayLoadingOutputFilesMenu();
+            displayLoadingInputOutputFilesMenu();
             
             try 
             {
@@ -157,34 +151,34 @@ public class ConsoleUI
                 switch (choice) 
                 {
                     case 1:
-                        loadAllOutputDataFrom(false);
+                        loadAllInputOutputDataFrom(false);
                         break;
                     case 2:
-                        loadAllOutputDataFrom(true);
+                        loadAllInputOutputDataFrom(true);
                         break;
                     case 3:
-                        displayDataChosenFileContent(DataStore.getTextOutputMoviesFilename(), DataType.MOVIE);
+                        displayChosenDataFileContent(DataStore.getTextOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 4:
-                        displayDataChosenFileContent(DataStore.getTextOutputTVShowsFilename(), DataType.TV_SHOW);
+                        displayChosenDataFileContent(DataStore.getTextOutputTVShowsFilename(), DataType.TV_SHOW);
                         break;
                     case 5:
-                        displayDataChosenFileContent(DataStore.getTextOutputTVSeasonsFilename(), DataType.TV_SEASON);
+                        displayChosenDataFileContent(DataStore.getTextOutputTVSeasonsFilename(), DataType.TV_SEASON);
                         break;
                     case 6:
-                        displayDataChosenFileContent(DataStore.getTextOutputTVEpisodesFilename(), DataType.TV_EPISODE);
+                        displayChosenDataFileContent(DataStore.getTextOutputTVEpisodesFilename(), DataType.TV_EPISODE);
                         break;
                     case 7:
-                        displayDataChosenFileContent(DataStore.getBinaryOutputMoviesFilename(), DataType.MOVIE);
+                        displayChosenDataFileContent(DataStore.getBinaryOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 8:
-                        displayDataChosenFileContent(DataStore.getBinaryOutputTVShowsFilename(), DataType.TV_SHOW);
+                        displayChosenDataFileContent(DataStore.getBinaryOutputTVShowsFilename(), DataType.TV_SHOW);
                         break;
                     case 9:
-                        displayDataChosenFileContent(DataStore.getBinaryOutputTVSeasonsFilename(), DataType.TV_SEASON);
+                        displayChosenDataFileContent(DataStore.getBinaryOutputTVSeasonsFilename(), DataType.TV_SEASON);
                         break;
                     case 10:
-                        displayDataChosenFileContent(DataStore.getTextOutputTVEpisodesFilename(), DataType.TV_EPISODE);
+                        displayChosenDataFileContent(DataStore.getBinaryOutputTVEpisodesFilename(), DataType.TV_EPISODE);
                         break;
                     case 0:
                         isConsoleRunning = false;
@@ -203,7 +197,7 @@ public class ConsoleUI
         if (isConsoleRunning == true) 
         {
             displayIntroduction();
-            displayInfoMessage("Tato aplikace slouží jako evidence mediálního obsahu (seriály, filmy)" 
+            displayInfoMessage("Tato aplikace slouží jako evidence mediálního obsahu (TV seriály, filmy)" 
                     + " v rámci výhradně Star Wars univerza. Nechť vás provází síla.");
         
             addBreadcrumbItem("Hlavní menu");
@@ -248,7 +242,7 @@ public class ConsoleUI
     }
     
     /**
-     * Displays menu with choices for set data directory stage
+     * Displays menu with choices for "set data directory" stage
      * (is skipped if multiple instances of ConsoleUI are run).
      */
     private void displayDataDirectoryPathMenu()
@@ -266,12 +260,12 @@ public class ConsoleUI
     }
     
     /**
-     * Displays menu with choices for load selected data output files into database stage
+     * Displays menu with choices for "load selected data input/output files into database" stage
      * (is skipped if multiple instances of ConsoleUI are run).
      */
-    private void displayLoadingOutputFilesMenu() 
+    private void displayLoadingInputOutputFilesMenu() 
     {
-        String menuName = "MENU NAČÍTÁNÍ VÝSTUPNÍCH SOUBORŮ";
+        String menuName = "MENU NAČÍTÁNÍ VSTUPNÍCH/VÝSTUPNÍCH SOUBORŮ";
         
         StringBuilder menuNameWithHorizontalLines = createMenuNameWithHorizontalLines(30, menuName);
         StringBuilder horizontalLine = createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
@@ -281,21 +275,21 @@ public class ConsoleUI
         System.out.println(String.format("%-4s Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)", "1."));
         System.out.println(String.format("%-4s Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)", "2."));
         System.out.println(String.format("%-4s Vypsat obsah textového souboru %s (diagnostika chyby při načítání)", "3.", 
-                DataStore.getTextOutputMoviesFilename()));
+                "s filmy"));
         System.out.println(String.format("%-4s Vypsat obsah textového souboru %s (diagnostika chyby při načítání)", "4.",
-                DataStore.getTextOutputTVShowsFilename()));
+                "s TV seriály"));
         System.out.println(String.format("%-4s Vypsat obsah textového souboru %s (diagnostika chyby při načítání)", "5.",
-                DataStore.getTextOutputTVSeasonsFilename()));
+                "s TV sezónami"));
         System.out.println(String.format("%-4s Vypsat obsah textového souboru %s (ddiagnostika chyby při načítání)", "6.",
-                DataStore.getTextOutputTVEpisodesFilename()));
+                "s TV epizodami"));
         System.out.println(String.format("%-4s Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", "7.",
-                DataStore.getBinaryOutputMoviesFilename()));
+                "s filmy"));
         System.out.println(String.format("%-4s Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", "8.",
-                DataStore.getBinaryOutputTVShowsFilename()));
+                "s TV seriály"));
         System.out.println(String.format("%-4s Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", "9.",
-                DataStore.getBinaryOutputTVSeasonsFilename()));
+                "s TV sezónami"));
         System.out.println(String.format("%-4s Vypsat obsah binárního souboru %s (diagnostika chyby při načítání)", "10.",
-                DataStore.getBinaryOutputTVEpisodesFilename()));
+                "s TV epizodami"));
         System.out.println(String.format("%-4s Ukončit aplikaci", "0."));
         System.out.println(horizontalLine);        
     }
@@ -541,7 +535,7 @@ public class ConsoleUI
     }
     
     /**
-     * Method which tries to set data directory path to data directory (contains input files, output files)
+     * Method which tries to set data directory path to data directory (contains input files, input/output files)
      */
     private void setDataDirectoryPath() 
     {       
@@ -574,18 +568,18 @@ public class ConsoleUI
     }
     
     /**
-     * Method which tries to load all output data from output data files (text or binary) into database
-     * @param fromBinary selects if output data files will be binary or text
+     * Method which tries to load all input/output data from input/output data files (text or binary) into database
+     * @param fromBinary selects if input/output data files will be binary or text
      */
-    private void loadAllOutputDataFrom(boolean fromBinary) 
+    private void loadAllInputOutputDataFrom(boolean fromBinary) 
     {        
         try 
         {
-            moviesController.loadAllOutputDataFrom(fromBinary);
-            tvEpisodesController.loadAllOutputDataFrom(fromBinary);
+            moviesController.loadAllInputOutputDataFrom(fromBinary);
+            tvEpisodesController.loadAllInputOutputDataFrom(fromBinary);
             isDatabaseFromFilesLoaded = true;
             displayInfoMessage("Existující data z " + (fromBinary == true ? 
-                    "binárních" : "textových") + " výstupních souborů úspěšně načtena");
+                    "binárních" : "textových") + " vstupních/výstupních souborů úspěšně načtena");
         }
         catch (Exception ex) 
         {
@@ -599,7 +593,7 @@ public class ConsoleUI
      * @param fileName specifies name of the chosen file (files names defined in {@link DataStore}).
      * @param dataType specifies type of data of the chosen file (types of data defined in {@link DataType}).
      */
-    protected void displayDataChosenFileContent(String fileName, DataType dataType) 
+    protected void displayChosenDataFileContent(String fileName, DataType dataType) 
     {   
         try 
         {
@@ -653,7 +647,7 @@ public class ConsoleUI
         System.out.println(headingWithHorizontalLines);
         
         displayInfoMessage("Kódová označení se používají jako hodnoty atributu eraCodeDesignation "
-                + "ve vstupních a výstupních souborech filmů a TV seriálů");
+                + "ve vstupních a vstupních/výstupních souborech filmů a TV seriálů");
         
         System.out.println(horizontalLine);
                 

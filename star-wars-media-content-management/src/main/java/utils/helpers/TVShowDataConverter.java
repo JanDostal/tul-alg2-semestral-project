@@ -13,10 +13,10 @@ import java.time.ZoneOffset;
 import utils.exceptions.DataConversionException;
 
 /**
- * Represents a TV show data converter helper class for input, output and data model of TV show.
+ * Represents a TV show data converter helper class for input, input/output and data model of TV show.
  * TVShowDataConverter class is used when converting input file tv show data to database tv show data.
- * TVShowDataConverter class is used when converting database tv show data to output file tv show data.
- * TVShowDataConverter class is used when converting output file tv show data to database tv show data.
+ * TVShowDataConverter class is used when converting database tv show data to input/output file tv show data.
+ * TVShowDataConverter class is used when converting input/output file tv show data to database tv show data.
  * @author jan.dostal
  */
 public final class TVShowDataConverter 
@@ -26,12 +26,12 @@ public final class TVShowDataConverter
     }
     
     /**
-     * Method converts tv show database model data into tv show output model data 
-     * (from database to output files, writing into output files)
+     * Method converts tv show database model data into tv show input/output model data 
+     * (from database to input/output files, writing into input/output files)
      * @param data represents tv show database data model
-     * @return converted data as tv show output model data
+     * @return converted data as tv show input/output model data
      */
-    public static TVShowOutput convertToOutputDataFrom(TVShow data) 
+    public static TVShowOutput convertToInputOutputDataFrom(TVShow data) 
     {
         int id = data.getPrimaryKey().getId();
         
@@ -45,8 +45,8 @@ public final class TVShowDataConverter
         }
         else 
         {
-            LocalDateTime releaseDataDateTime = data.getReleaseDate().atStartOfDay();
-            epochSeconds = releaseDataDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+            LocalDateTime ReleaseDate = data.getReleaseDate().atStartOfDay();
+            epochSeconds = ReleaseDate.atZone(ZoneOffset.UTC).toEpochSecond();
         }
         
         String eraCodeDesignation = data.getEra().toString();
@@ -111,20 +111,20 @@ public final class TVShowDataConverter
     }
     
     /**
-     * Method converts tv show output model data into tv show database model data 
-     * (from output file to database, parsing output file)
-     * @param outputData represents tv show output model data
+     * Method converts tv show input/output model data into tv show database model data 
+     * (from input/output file to database, parsing input/output file)
+     * @param inputOutputData represents tv show input/output model data
      * @return converted data as tv show database model data
-     * @throws utils.exceptions.DataConversionException if output data 
+     * @throws utils.exceptions.DataConversionException if input/output data 
      * release date in epoch seconds number is too big
      */
-    public static TVShow convertToDataFrom(TVShowOutput outputData) throws DataConversionException
+    public static TVShow convertToDataFrom(TVShowOutput inputOutputData) throws DataConversionException
     {
-        PrimaryKey primaryKey = new PrimaryKey(outputData.getId());       
+        PrimaryKey primaryKey = new PrimaryKey(inputOutputData.getId());       
                
         StringBuilder name = new StringBuilder();
         
-        for (char c : outputData.getName().toCharArray()) 
+        for (char c : inputOutputData.getName().toCharArray()) 
         {
             if (c != Character.MIN_VALUE) 
             {
@@ -141,7 +141,7 @@ public final class TVShowDataConverter
 
         LocalDate releaseDate;
         
-        if (outputData.getReleaseDateInEpochSeconds() < 0) 
+        if (inputOutputData.getReleaseDateInEpochSeconds() < 0) 
         {
             releaseDate = null;
         }
@@ -149,19 +149,19 @@ public final class TVShowDataConverter
         {
             try 
             {
-                releaseDate = Instant.ofEpochSecond(outputData.getReleaseDateInEpochSeconds()).
+                releaseDate = Instant.ofEpochSecond(inputOutputData.getReleaseDateInEpochSeconds()).
                         atZone(ZoneOffset.UTC).toLocalDate();
             }
             catch (DateTimeException e) 
             {
                 throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení "
-                        + "konvertovaného seriálu s identifikátorem " + outputData.getId());
+                        + "konvertovaného seriálu s identifikátorem " + inputOutputData.getId());
             }
         }
         
         StringBuilder stringEraCodeDesignation = new StringBuilder();
         
-        for (char c : outputData.getEraCodeDesignation().toCharArray()) 
+        for (char c : inputOutputData.getEraCodeDesignation().toCharArray()) 
         {
             if (c != Character.MIN_VALUE) 
             {

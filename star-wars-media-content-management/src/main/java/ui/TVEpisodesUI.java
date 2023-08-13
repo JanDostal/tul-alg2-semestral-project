@@ -79,13 +79,13 @@ public class TVEpisodesUI
                         handleDisplayPrintReleasedNewestTVShowsSubmenu();
                         break;
                     case 6:
-                        handlePrintDataOutputFilesContentsSubmenu(DataType.TV_EPISODE);
+                        handlePrintDataInputOutputFilesContentsSubmenu(DataType.TV_EPISODE);
                         break;
                     case 7:
-                        handlePrintDataOutputFilesContentsSubmenu(DataType.TV_SEASON);
+                        handlePrintDataInputOutputFilesContentsSubmenu(DataType.TV_SEASON);
                         break;
                     case 8:
-                        handlePrintDataOutputFilesContentsSubmenu(DataType.TV_SHOW);
+                        handlePrintDataInputOutputFilesContentsSubmenu(DataType.TV_SHOW);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -608,31 +608,31 @@ public class TVEpisodesUI
     
     /**
      * Method for displaying submenu with choices for printing tv episodes, 
-     * tv seasons and tv shows output files contents
+     * tv seasons and tv shows input/output files contents
      * @param dataType specifies for which data to display submenu and its choices
      */
-    private void displayPrintDataOutputFilesContentsSubmenu(DataType dataType) 
+    private void displayPrintDataInputOutputFilesContentsSubmenu(DataType dataType) 
     {
         String menuName = null;
-        String dataTextOutputFilename = null;
-        String dataBinaryOutputFilename = null;
+        String dataTextInputOutputFilename = null;
+        String dataBinaryInputOutputFilename = null;
         
         switch (dataType) 
         {
             case TV_EPISODE:
-                menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VÝSTUPNÍCH SOUBORŮ TV EPIZOD";
-                dataTextOutputFilename = DataStore.getTextOutputTVEpisodesFilename();
-                dataBinaryOutputFilename = DataStore.getBinaryOutputTVEpisodesFilename();
+                menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VSTUPNÍCH/VÝSTUPNÍCH SOUBORŮ TV EPIZOD";
+                dataTextInputOutputFilename = DataStore.getTextOutputTVEpisodesFilename();
+                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVEpisodesFilename();
                 break;
             case TV_SEASON:
-                menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VÝSTUPNÍCH SOUBORŮ TV SEZÓN";
-                dataTextOutputFilename = DataStore.getTextOutputTVSeasonsFilename();
-                dataBinaryOutputFilename = DataStore.getBinaryOutputTVSeasonsFilename();
+                menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VSTUPNÍCH/VÝSTUPNÍCH SOUBORŮ TV SEZÓN";
+                dataTextInputOutputFilename = DataStore.getTextOutputTVSeasonsFilename();
+                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVSeasonsFilename();
                 break;
             case TV_SHOW:
-                menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VÝSTUPNÍCH SOUBORŮ TV SERIÁLŮ";
-                dataTextOutputFilename = DataStore.getTextOutputTVShowsFilename();
-                dataBinaryOutputFilename = DataStore.getBinaryOutputTVShowsFilename();
+                menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VSTUPNÍCH/VÝSTUPNÍCH SOUBORŮ TV SERIÁLŮ";
+                dataTextInputOutputFilename = DataStore.getTextOutputTVShowsFilename();
+                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVShowsFilename();
                 break;
         }
                 
@@ -641,8 +641,8 @@ public class TVEpisodesUI
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println(String.format("1. Vypsat obsah textového souboru %s", dataTextOutputFilename));
-        System.out.println(String.format("2. Vypsat obsah binárního souboru %s", dataBinaryOutputFilename));
+        System.out.println(String.format("1. Vypsat obsah textového souboru %s", dataTextInputOutputFilename));
+        System.out.println(String.format("2. Vypsat obsah binárního souboru %s", dataBinaryInputOutputFilename));
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
@@ -675,10 +675,10 @@ public class TVEpisodesUI
                         loadTVShowsFromInputFile(true);
                         break;
                     case 3:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputTVShowsFilename(), DataType.TV_SHOW);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputTVShowsFilename(), DataType.TV_SHOW);
                         break;
                     case 4:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputTVShowsFilename(), DataType.TV_SHOW);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputTVShowsFilename(), DataType.TV_SHOW);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -1541,10 +1541,10 @@ public class TVEpisodesUI
 
                         break;
                     case 3:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputTVShowsFilename(), DataType.TV_SHOW);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputTVShowsFilename(), DataType.TV_SHOW);
                         break;
                     case 4:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputTVShowsFilename(), DataType.TV_SHOW);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputTVShowsFilename(), DataType.TV_SHOW);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -1859,10 +1859,10 @@ public class TVEpisodesUI
                         loadTVSeasonsFromInputFile(chosenTVShow.getPrimaryKey(), true);
                         break;
                     case 3:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputTVSeasonsFilename(), DataType.TV_SEASON);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputTVSeasonsFilename(), DataType.TV_SEASON);
                         break;
                     case 4:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputTVSeasonsFilename(), DataType.TV_SEASON);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputTVSeasonsFilename(), DataType.TV_SEASON);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -2326,10 +2326,10 @@ public class TVEpisodesUI
 
                         break;
                     case 3:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputTVSeasonsFilename(), DataType.TV_SEASON);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputTVSeasonsFilename(), DataType.TV_SEASON);
                         break;
                     case 4:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputTVSeasonsFilename(), DataType.TV_SEASON);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputTVSeasonsFilename(), DataType.TV_SEASON);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -2601,10 +2601,10 @@ public class TVEpisodesUI
                         loadTVEpisodesFromInputFile(chosenTVSeason.getPrimaryKey(), true);
                         break;
                     case 3:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputTVEpisodesFilename(), DataType.TV_EPISODE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputTVEpisodesFilename(), DataType.TV_EPISODE);
                         break;
                     case 4:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputTVEpisodesFilename(), DataType.TV_EPISODE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputTVEpisodesFilename(), DataType.TV_EPISODE);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -2933,31 +2933,31 @@ public class TVEpisodesUI
     }
     
     /**
-     * Method for handling printing tv episodes, tv seasons and tv shows output files contents submenu
-     * ({@link displayPrintDataOutputFilesContentsSubmenu})
+     * Method for handling printing tv episodes, tv seasons and tv shows input/output files contents submenu
+     * ({@link displayPrintDataInputOutputFilesContentsSubmenu})
      * @param dataType specifies for which data to display submenu and its choices
      */
-    private void handlePrintDataOutputFilesContentsSubmenu(DataType dataType) 
+    private void handlePrintDataInputOutputFilesContentsSubmenu(DataType dataType) 
     {
-        String dataTextOutputFilename = null;
-        String dataBinaryOutputFilename = null;
+        String dataTextInputOutputFilename = null;
+        String dataBinaryInputOutputFilename = null;
         
         switch (dataType) 
         {
             case TV_EPISODE:
-                consoleUI.addBreadcrumbItem("Vypisování obsahů výstupních souborů TV epizod");
-                dataTextOutputFilename = DataStore.getTextOutputTVEpisodesFilename();
-                dataBinaryOutputFilename = DataStore.getBinaryOutputTVEpisodesFilename();
+                consoleUI.addBreadcrumbItem("Vypisování obsahů vstupních/výstupních souborů TV epizod");
+                dataTextInputOutputFilename = DataStore.getTextOutputTVEpisodesFilename();
+                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVEpisodesFilename();
                 break;
             case TV_SEASON:
-                consoleUI.addBreadcrumbItem("Vypisování obsahů výstupních souborů TV sezón");
-                dataTextOutputFilename = DataStore.getTextOutputTVSeasonsFilename();
-                dataBinaryOutputFilename = DataStore.getBinaryOutputTVSeasonsFilename();
+                consoleUI.addBreadcrumbItem("Vypisování obsahů vstupních/výstupních souborů TV sezón");
+                dataTextInputOutputFilename = DataStore.getTextOutputTVSeasonsFilename();
+                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVSeasonsFilename();
                 break;
             case TV_SHOW:
-                consoleUI.addBreadcrumbItem("Vypisování obsahů výstupních souborů TV seriálů");
-                dataTextOutputFilename = DataStore.getTextOutputTVShowsFilename();
-                dataBinaryOutputFilename = DataStore.getBinaryOutputTVShowsFilename();
+                consoleUI.addBreadcrumbItem("Vypisování obsahů vstupních/výstupních souborů TV seriálů");
+                dataTextInputOutputFilename = DataStore.getTextOutputTVShowsFilename();
+                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVShowsFilename();
                 break;
         }
         
@@ -2967,7 +2967,7 @@ public class TVEpisodesUI
         while (returnToParentMenu == false) 
         {
             consoleUI.displayBreadcrumb();
-            displayPrintDataOutputFilesContentsSubmenu(dataType);
+            displayPrintDataInputOutputFilesContentsSubmenu(dataType);
             
             try 
             {
@@ -2976,10 +2976,10 @@ public class TVEpisodesUI
                 switch (choice) 
                 {
                     case 1:
-                        consoleUI.displayDataChosenFileContent(dataTextOutputFilename, dataType);
+                        consoleUI.displayChosenDataFileContent(dataTextInputOutputFilename, dataType);
                         break;
                     case 2:
-                        consoleUI.displayDataChosenFileContent(dataBinaryOutputFilename, dataType);
+                        consoleUI.displayChosenDataFileContent(dataBinaryInputOutputFilename, dataType);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -3248,10 +3248,10 @@ public class TVEpisodesUI
 
                         break;
                     case 3:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputTVEpisodesFilename(), DataType.TV_EPISODE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputTVEpisodesFilename(), DataType.TV_EPISODE);
                         break;
                     case 4:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputTVEpisodesFilename(), DataType.TV_EPISODE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputTVEpisodesFilename(), DataType.TV_EPISODE);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();

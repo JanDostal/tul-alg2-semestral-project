@@ -14,10 +14,10 @@ import java.time.ZoneOffset;
 import utils.exceptions.DataConversionException;
 
 /**
- * Represents a Movie data converter helper class for input, output and data model of movie.
+ * Represents a Movie data converter helper class for input, input/output and data model of movie.
  * MovieDataConverter class is used when converting input file movie data to database movie data.
- * MovieDataConverter class is used when converting database movie data to output file movie data.
- * MovieDataConverter class is used when converting output file movie data to database movie data.
+ * MovieDataConverter class is used when converting database movie data to input/output file movie data.
+ * MovieDataConverter class is used when converting input/output file movie data to database movie data.
  * @author jan.dostal
  */
 public final class MovieDataConverter 
@@ -27,12 +27,12 @@ public final class MovieDataConverter
     }
     
     /**
-     * Method converts movie database model data into movie output model data 
-     * (from database to output files, writing into output files)
+     * Method converts movie database model data into movie input/output model data 
+     * (from database to input/output files, writing into input/output files)
      * @param data represents movie database model data
-     * @return converted data as movie output model data
+     * @return converted data as movie input/output model data
      */
-    public static MovieOutput convertToOutputDataFrom(Movie data) 
+    public static MovieOutput convertToInputOutputDataFrom(Movie data) 
     {
         int id = data.getPrimaryKey().getId();
         long runtime;
@@ -59,8 +59,8 @@ public final class MovieDataConverter
         }
         else 
         {
-            LocalDateTime releaseDataDateTime = data.getReleaseDate().atStartOfDay();
-            epochSeconds = releaseDataDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+            LocalDateTime releaseDate = data.getReleaseDate().atStartOfDay();
+            epochSeconds = releaseDate.atZone(ZoneOffset.UTC).toEpochSecond();
         }
         
         String eraCodeDesignation = data.getEra().toString();
@@ -172,30 +172,30 @@ public final class MovieDataConverter
     }
     
     /**
-     * Method converts movie output model data into movie database model data 
-     * (from output file to database, parsing output file)
-     * @param outputData represents movie output model data
+     * Method converts movie input/output model data into movie database model data 
+     * (from input/output file to database, parsing input/output file)
+     * @param inputOutputData represents movie input/output model data
      * @return converted data as movie database model data
-     * @throws utils.exceptions.DataConversionException if output data 
+     * @throws utils.exceptions.DataConversionException if input/output data 
      * release date in epoch seconds number is too big
      */
-    public static Movie convertToDataFrom(MovieOutput outputData) throws DataConversionException
+    public static Movie convertToDataFrom(MovieOutput inputOutputData) throws DataConversionException
     {
-        PrimaryKey primaryKey = new PrimaryKey(outputData.getId());       
+        PrimaryKey primaryKey = new PrimaryKey(inputOutputData.getId());       
         Duration runtime;
         
-        if (outputData.getRuntimeInSeconds() <= 0) 
+        if (inputOutputData.getRuntimeInSeconds() <= 0) 
         {
             runtime = null;
         }
         else 
         {
-            runtime = Duration.ofSeconds(outputData.getRuntimeInSeconds());
+            runtime = Duration.ofSeconds(inputOutputData.getRuntimeInSeconds());
         }
                
         StringBuilder name = new StringBuilder();
         
-        for (char c : outputData.getName().toCharArray()) 
+        for (char c : inputOutputData.getName().toCharArray()) 
         {
             if (c != Character.MIN_VALUE) 
             {
@@ -210,7 +210,7 @@ public final class MovieDataConverter
             stringName = null;
         }
         
-        int percentage = outputData.getPercentageRating();
+        int percentage = inputOutputData.getPercentageRating();
         boolean wasWatched;
         
         if (percentage < 0) 
@@ -224,7 +224,7 @@ public final class MovieDataConverter
                 
         StringBuilder hyperlink = new StringBuilder();
         
-        for (char c : outputData.getHyperlinkForContentWatch().toCharArray()) 
+        for (char c : inputOutputData.getHyperlinkForContentWatch().toCharArray()) 
         {
             if (c != Character.MIN_VALUE) 
             {
@@ -242,7 +242,7 @@ public final class MovieDataConverter
         
         StringBuilder content = new StringBuilder();
         
-        for (char c : outputData.getShortContentSummary().toCharArray()) 
+        for (char c : inputOutputData.getShortContentSummary().toCharArray()) 
         {
             if (c != Character.MIN_VALUE) 
             {
@@ -259,7 +259,7 @@ public final class MovieDataConverter
 
         LocalDate releaseDate;
         
-        if (outputData.getReleaseDateInEpochSeconds() < 0) 
+        if (inputOutputData.getReleaseDateInEpochSeconds() < 0) 
         {
             releaseDate = null;
         }
@@ -267,19 +267,19 @@ public final class MovieDataConverter
         {
             try 
             {
-                releaseDate = Instant.ofEpochSecond(outputData.getReleaseDateInEpochSeconds()).
+                releaseDate = Instant.ofEpochSecond(inputOutputData.getReleaseDateInEpochSeconds()).
                         atZone(ZoneOffset.UTC).toLocalDate();
             }
             catch (DateTimeException e) 
             {
                 throw new DataConversionException("Příliš velký počet epoch sekund jako datum uvedení "
-                        + "konvertovaného filmu s identifikátorem " + outputData.getId());
+                        + "konvertovaného filmu s identifikátorem " + inputOutputData.getId());
             }
         }
         
         StringBuilder stringEraCodeDesignation = new StringBuilder();
         
-        for (char c : outputData.getEraCodeDesignation().toCharArray()) 
+        for (char c : inputOutputData.getEraCodeDesignation().toCharArray()) 
         {
             if (c != Character.MIN_VALUE) 
             {

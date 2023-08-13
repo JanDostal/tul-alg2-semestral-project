@@ -41,12 +41,12 @@ public interface IDataTable<T extends DatabaseRecord>
      * Method checks data for validity, duplicity, 
      * valid foreign key and primary key, primary key duplicity etc.
      * Method does not generate primary key.
-     * @param outputData database data model with primary key, 
-     * converted to from output data model
+     * @param inputOutputData database data model with primary key, 
+     * converted to from input/output data model
      * @throws utils.exceptions.DatabaseException if data validity, data duplicity, foreign 
      * key or primary key problem occurs
      */
-    void loadFrom(T outputData) throws DatabaseException;
+    void loadFrom(T inputOutputData) throws DatabaseException;
     
     /**
      * Represents a method for deleting chosen database data in data table

@@ -81,7 +81,7 @@ public class MoviesUI
                         handlePrintReleasedNewestMoviesSubmenu();
                         break;
                     case 9:
-                        handlePrintMoviesOutputFilesContentsSubmenu();
+                        handlePrintMoviesInputOutputFilesContentsSubmenu();
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -331,11 +331,11 @@ public class MoviesUI
     }
     
     /**
-     * Method for displaying submenu with choices for printing movies output files contents
+     * Method for displaying submenu with choices for printing movies input/output files contents
      */
-    private void displayPrintMoviesOutputFilesContentsSubmenu() 
+    private void displayPrintMoviesInputOutputFilesContentsSubmenu() 
     {
-        String menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VÝSTUPNÍCH SOUBORŮ FILMŮ";
+        String menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VSTUPNÍCH/VÝSTUPNÍCH SOUBORŮ FILMŮ";
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
         StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
@@ -442,10 +442,10 @@ public class MoviesUI
                         loadMoviesFromInputFile(true);
                         break;
                     case 3:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 4:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -1623,12 +1623,12 @@ public class MoviesUI
     }
     
     /**
-     * Method for handling printing movies output files contents submenu
-     * ({@link displayPrintMoviesOutputFilesContentsSubmenu})
+     * Method for handling printing movies input/output files contents submenu
+     * ({@link displayPrintMoviesInputOutputFilesContentsSubmenu})
      */
-    private void handlePrintMoviesOutputFilesContentsSubmenu() 
+    private void handlePrintMoviesInputOutputFilesContentsSubmenu() 
     {
-        consoleUI.addBreadcrumbItem("Vypisování obsahů výstupních souborů filmů");
+        consoleUI.addBreadcrumbItem("Vypisování obsahů vstupních/výstupních souborů filmů");
         
         boolean returnToParentMenu = false;
         int choice;
@@ -1636,7 +1636,7 @@ public class MoviesUI
         while (returnToParentMenu == false) 
         {
             consoleUI.displayBreadcrumb();
-            displayPrintMoviesOutputFilesContentsSubmenu();
+            displayPrintMoviesInputOutputFilesContentsSubmenu();
             
             try 
             {
@@ -1645,10 +1645,10 @@ public class MoviesUI
                 switch (choice) 
                 {
                     case 1:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextOutputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 2:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryOutputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -1943,10 +1943,10 @@ public class MoviesUI
 
                         break;
                     case 3:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 4:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
