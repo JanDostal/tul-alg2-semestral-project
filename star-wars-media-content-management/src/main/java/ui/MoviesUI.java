@@ -7,7 +7,7 @@ import app.logic.datastore.DataStore;
 import app.models.data.Era;
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
-import app.models.output.MovieOutput;
+import app.models.inputoutput.MovieInputOutput;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
@@ -136,10 +136,10 @@ public class MoviesUI
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println(String.format("1. Načíst z textového souboru %s", DataStore.getTextInputMoviesFilename()));
-        System.out.println(String.format("2. Načíst z binárního souboru %s", DataStore.getBinaryInputMoviesFilename()));
-        System.out.println(String.format("3. Vypsat obsah textového souboru %s", DataStore.getTextInputMoviesFilename()));
-        System.out.println(String.format("4. Vypsat obsah binárního souboru %s", DataStore.getBinaryInputMoviesFilename()));
+        System.out.println("1. Načíst z textového souboru");
+        System.out.println("2. Načíst z binárního souboru");
+        System.out.println("3. Vypsat obsah textového souboru");
+        System.out.println("4. Vypsat obsah binárního souboru");
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
@@ -342,8 +342,8 @@ public class MoviesUI
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println(String.format("1. Vypsat obsah textového souboru %s", DataStore.getTextOutputMoviesFilename()));
-        System.out.println(String.format("2. Vypsat obsah binárního souboru %s", DataStore.getBinaryOutputMoviesFilename()));
+        System.out.println("1. Vypsat obsah textového souboru");
+        System.out.println("2. Vypsat obsah binárního souboru");
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
@@ -405,10 +405,10 @@ public class MoviesUI
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Upravit film pomocí vstupního textového souboru " + DataStore.getTextInputMoviesFilename());
-        System.out.println("2. Upravit film pomocí vstupního binárního souboru " + DataStore.getBinaryInputMoviesFilename());
-        System.out.println("3. Vypsat obsah vstupního textového souboru " + DataStore.getTextInputMoviesFilename());
-        System.out.println("4. Vypsat obsah vstupního binárního souboru " + DataStore.getBinaryInputMoviesFilename());
+        System.out.println("1. Upravit film pomocí vstupního textového souboru");
+        System.out.println("2. Upravit film pomocí vstupního binárního souboru");
+        System.out.println("3. Vypsat obsah vstupního textového souboru");
+        System.out.println("4. Vypsat obsah vstupního binárního souboru");
                 
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
@@ -571,7 +571,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         String percentageRatingText;
         String releaseDateText;
@@ -834,7 +834,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 5;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 5;
         
         for (Movie movie : announcedMoviesByChosenEra) 
         {
@@ -1108,7 +1108,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         
         for (Movie movie : unwatchedMoviesByChosenEra) 
@@ -1416,7 +1416,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         
         for (Movie movie : watchedMoviesByChosenEra) 
@@ -1506,7 +1506,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         
         for (Movie movie : favoriteMovies) 
@@ -1596,7 +1596,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         String percentageRatingText;
         
@@ -1645,10 +1645,10 @@ public class MoviesUI
                 switch (choice) 
                 {
                     case 1:
-                        consoleUI.displayChosenDataFileContent(DataStore.getTextOutputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 2:
-                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryOutputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();

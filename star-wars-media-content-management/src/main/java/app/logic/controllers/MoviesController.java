@@ -7,7 +7,7 @@ import app.models.data.Era;
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
 import app.models.input.MovieInput;
-import app.models.output.MovieOutput;
+import app.models.inputoutput.MovieInputOutput;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.Collator;
@@ -676,7 +676,7 @@ public class MoviesController
         {
             content = fileManagerAccessor.getMoviesFileManager().getBinaryInputFileContent();
         }
-        else if (fileName.equals(DataStore.getBinaryOutputMoviesFilename())) 
+        else if (fileName.equals(DataStore.getBinaryInputOutputMoviesFilename())) 
         {
             content = fileManagerAccessor.getMoviesFileManager().getBinaryInputOutputFileContent();
         }
@@ -684,7 +684,7 @@ public class MoviesController
         {
             content = fileManagerAccessor.getMoviesFileManager().getTextInputFileContent();
         }
-        else if (fileName.equals(DataStore.getTextOutputMoviesFilename())) 
+        else if (fileName.equals(DataStore.getTextInputOutputMoviesFilename())) 
         {
             content = fileManagerAccessor.getMoviesFileManager().getTextInputOutputFileContent();
         }
@@ -705,12 +705,12 @@ public class MoviesController
     {
         try 
         {
-            List<MovieOutput> inputOutputMovies = fileManagerAccessor.getMoviesFileManager().
+            List<MovieInputOutput> inputOutputMovies = fileManagerAccessor.getMoviesFileManager().
                     loadInputOutputDataFrom(fromBinary);
         
             Movie convertedInputOutputMovie;
         
-            for (MovieOutput m : inputOutputMovies) 
+            for (MovieInputOutput m : inputOutputMovies) 
             {
                 convertedInputOutputMovie = MovieDataConverter.convertToDataFrom(m);
                 dbContext.getMoviesTable().loadFrom(convertedInputOutputMovie);
@@ -860,8 +860,8 @@ public class MoviesController
         List<Movie> currentMovies = dbContext.getMoviesTable().getAll();
         dbContext.getMoviesTable().sortByPrimaryKey(currentMovies);
         
-        List<MovieOutput> inputOutputMovies = new ArrayList<>();
-        MovieOutput inputOutputMovie;
+        List<MovieInputOutput> inputOutputMovies = new ArrayList<>();
+        MovieInputOutput inputOutputMovie;
         
         for (Movie m : currentMovies) 
         {
@@ -897,8 +897,8 @@ public class MoviesController
         List<Movie> currentMovies = dbContext.getMoviesTable().getAll();
         dbContext.getMoviesTable().sortByPrimaryKey(currentMovies);
         
-        List<MovieOutput> inputOutputMovies = new ArrayList<>();
-        MovieOutput inputOutputMovie;
+        List<MovieInputOutput> inputOutputMovies = new ArrayList<>();
+        MovieInputOutput inputOutputMovie;
 
         for (Movie m : currentMovies) 
         {
@@ -932,7 +932,7 @@ public class MoviesController
             
             try 
             {
-                for (MovieOutput m : inputOutputMovies) 
+                for (MovieInputOutput m : inputOutputMovies) 
                 {
                     convertedInputOutputMovie = MovieDataConverter.convertToDataFrom(m);
                     dbContext.getMoviesTable().loadFrom(convertedInputOutputMovie);

@@ -9,8 +9,8 @@ import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
-import app.models.output.TVEpisodeOutput;
-import app.models.output.TVShowOutput;
+import app.models.inputoutput.TVEpisodeInputOutput;
+import app.models.inputoutput.TVShowInputOutput;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
@@ -140,10 +140,10 @@ public class TVEpisodesUI
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println(String.format("1. Načíst z textového souboru %s", DataStore.getTextInputTVShowsFilename()));
-        System.out.println(String.format("2. Načíst z binárního souboru %s", DataStore.getBinaryInputTVShowsFilename()));
-        System.out.println(String.format("3. Vypsat obsah textového souboru %s", DataStore.getTextInputTVShowsFilename()));
-        System.out.println(String.format("4. Vypsat obsah binárního souboru %s", DataStore.getBinaryInputTVShowsFilename()));
+        System.out.println("1. Načíst z textového souboru");
+        System.out.println("2. Načíst z binárního souboru");
+        System.out.println("3. Vypsat obsah textového souboru");
+        System.out.println("4. Vypsat obsah binárního souboru");
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
@@ -298,10 +298,10 @@ public class TVEpisodesUI
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Upravit TV seriál pomocí vstupního textového souboru " + DataStore.getTextInputTVShowsFilename());
-        System.out.println("2. Upravit TV seriál pomocí vstupního binárního souboru " + DataStore.getBinaryInputTVShowsFilename());
-        System.out.println("3. Vypsat obsah vstupního textového souboru " + DataStore.getTextInputTVShowsFilename());
-        System.out.println("4. Vypsat obsah vstupního binárního souboru " + DataStore.getBinaryInputTVShowsFilename());
+        System.out.println("1. Upravit TV seriál pomocí vstupního textového souboru");
+        System.out.println("2. Upravit TV seriál pomocí vstupního binárního souboru");
+        System.out.println("3. Vypsat obsah vstupního textového souboru");
+        System.out.println("4. Vypsat obsah vstupního binárního souboru");
                 
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
@@ -342,10 +342,10 @@ public class TVEpisodesUI
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println(String.format("1. Načíst z textového souboru %s", DataStore.getTextInputTVSeasonsFilename()));
-        System.out.println(String.format("2. Načíst z binárního souboru %s", DataStore.getBinaryInputTVSeasonsFilename()));
-        System.out.println(String.format("3. Vypsat obsah textového souboru %s", DataStore.getTextInputTVSeasonsFilename()));
-        System.out.println(String.format("4. Vypsat obsah binárního souboru %s", DataStore.getBinaryInputTVSeasonsFilename()));
+        System.out.println("1. Načíst z textového souboru");
+        System.out.println("2. Načíst z binárního souboru");
+        System.out.println("3. Vypsat obsah textového souboru");
+        System.out.println("4. Vypsat obsah binárního souboru");
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
@@ -442,10 +442,10 @@ public class TVEpisodesUI
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Upravit TV sezónu pomocí vstupního textového souboru " + DataStore.getTextInputTVSeasonsFilename());
-        System.out.println("2. Upravit TV sezónu pomocí vstupního binárního souboru " + DataStore.getBinaryInputTVSeasonsFilename());
-        System.out.println("3. Vypsat obsah vstupního textového souboru " + DataStore.getTextInputTVSeasonsFilename());
-        System.out.println("4. Vypsat obsah vstupního binárního souboru " + DataStore.getBinaryInputTVSeasonsFilename());
+        System.out.println("1. Upravit TV sezónu pomocí vstupního textového souboru");
+        System.out.println("2. Upravit TV sezónu pomocí vstupního binárního souboru");
+        System.out.println("3. Vypsat obsah vstupního textového souboru");
+        System.out.println("4. Vypsat obsah vstupního binárního souboru");
                 
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
@@ -486,10 +486,10 @@ public class TVEpisodesUI
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println(String.format("1. Načíst z textového souboru %s", DataStore.getTextInputTVEpisodesFilename()));
-        System.out.println(String.format("2. Načíst z binárního souboru %s", DataStore.getBinaryInputTVEpisodesFilename()));
-        System.out.println(String.format("3. Vypsat obsah textového souboru %s", DataStore.getTextInputTVEpisodesFilename()));
-        System.out.println(String.format("4. Vypsat obsah binárního souboru %s", DataStore.getBinaryInputTVEpisodesFilename()));
+        System.out.println("1. Načíst z textového souboru");
+        System.out.println("2. Načíst z binárního souboru");
+        System.out.println("3. Vypsat obsah textového souboru");
+        System.out.println("4. Vypsat obsah binárního souboru");
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
@@ -579,10 +579,10 @@ public class TVEpisodesUI
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Upravit TV epizodu pomocí vstupního textového souboru " + DataStore.getTextInputTVEpisodesFilename());
-        System.out.println("2. Upravit TV epizodu pomocí vstupního binárního souboru " + DataStore.getBinaryInputTVEpisodesFilename());
-        System.out.println("3. Vypsat obsah vstupního textového souboru " + DataStore.getTextInputTVEpisodesFilename());
-        System.out.println("4. Vypsat obsah vstupního binárního souboru " + DataStore.getBinaryInputTVEpisodesFilename());
+        System.out.println("1. Upravit TV epizodu pomocí vstupního textového souboru");
+        System.out.println("2. Upravit TV epizodu pomocí vstupního binárního souboru");
+        System.out.println("3. Vypsat obsah vstupního textového souboru");
+        System.out.println("4. Vypsat obsah vstupního binárního souboru");
                 
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
@@ -614,25 +614,17 @@ public class TVEpisodesUI
     private void displayPrintDataInputOutputFilesContentsSubmenu(DataType dataType) 
     {
         String menuName = null;
-        String dataTextInputOutputFilename = null;
-        String dataBinaryInputOutputFilename = null;
         
         switch (dataType) 
         {
             case TV_EPISODE:
                 menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VSTUPNÍCH/VÝSTUPNÍCH SOUBORŮ TV EPIZOD";
-                dataTextInputOutputFilename = DataStore.getTextOutputTVEpisodesFilename();
-                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVEpisodesFilename();
                 break;
             case TV_SEASON:
                 menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VSTUPNÍCH/VÝSTUPNÍCH SOUBORŮ TV SEZÓN";
-                dataTextInputOutputFilename = DataStore.getTextOutputTVSeasonsFilename();
-                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVSeasonsFilename();
                 break;
             case TV_SHOW:
                 menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VSTUPNÍCH/VÝSTUPNÍCH SOUBORŮ TV SERIÁLŮ";
-                dataTextInputOutputFilename = DataStore.getTextOutputTVShowsFilename();
-                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVShowsFilename();
                 break;
         }
                 
@@ -641,8 +633,8 @@ public class TVEpisodesUI
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println(String.format("1. Vypsat obsah textového souboru %s", dataTextInputOutputFilename));
-        System.out.println(String.format("2. Vypsat obsah binárního souboru %s", dataBinaryInputOutputFilename));
+        System.out.println("1. Vypsat obsah textového souboru");
+        System.out.println("2. Vypsat obsah binárního souboru");
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
@@ -805,7 +797,7 @@ public class TVEpisodesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = TVShowOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = TVShowInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         
         for (TVShow show : foundTVShows) 
         {
@@ -979,7 +971,7 @@ public class TVEpisodesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = TVShowOutput.ATTRIBUTE_NAME_LENGTH + 5;
+        int nameMaxLength = TVShowInputOutput.ATTRIBUTE_NAME_LENGTH + 5;
         
         for (TVShow tvShow : announcedTVShowsByChosenEra) 
         {
@@ -1217,7 +1209,7 @@ public class TVEpisodesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = TVShowOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = TVShowInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         int statisticInformationsIndentationWidth = nameMaxLength + 28;
         
         int showWatchedEpisodesCount;
@@ -2076,7 +2068,7 @@ public class TVEpisodesUI
         System.out.println();
         System.out.println(dividingLine);
         
-        int nameMaxLength = TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = TVEpisodeInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         String nameText;
         String percentageRatingText;
@@ -2539,7 +2531,7 @@ public class TVEpisodesUI
         System.out.println();
         System.out.println(dividingLine);
         
-        int nameMaxLength = TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = TVEpisodeInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         String nameText;
         String percentageRatingText;
@@ -2758,7 +2750,7 @@ public class TVEpisodesUI
         System.out.println();
         System.out.println(dividingLine);
         
-        int nameMaxLength = TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = TVEpisodeInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         String nameText;
         String percentageRatingText;
@@ -2863,7 +2855,7 @@ public class TVEpisodesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = TVShowOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = TVShowInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         int statisticInformationsIndentationWidth = nameMaxLength + 28;
         
         int showWatchedEpisodesCount;
@@ -2946,18 +2938,18 @@ public class TVEpisodesUI
         {
             case TV_EPISODE:
                 consoleUI.addBreadcrumbItem("Vypisování obsahů vstupních/výstupních souborů TV epizod");
-                dataTextInputOutputFilename = DataStore.getTextOutputTVEpisodesFilename();
-                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVEpisodesFilename();
+                dataTextInputOutputFilename = DataStore.getTextInputOutputTVEpisodesFilename();
+                dataBinaryInputOutputFilename = DataStore.getBinaryInputOutputTVEpisodesFilename();
                 break;
             case TV_SEASON:
                 consoleUI.addBreadcrumbItem("Vypisování obsahů vstupních/výstupních souborů TV sezón");
-                dataTextInputOutputFilename = DataStore.getTextOutputTVSeasonsFilename();
-                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVSeasonsFilename();
+                dataTextInputOutputFilename = DataStore.getTextInputOutputTVSeasonsFilename();
+                dataBinaryInputOutputFilename = DataStore.getBinaryInputOutputTVSeasonsFilename();
                 break;
             case TV_SHOW:
                 consoleUI.addBreadcrumbItem("Vypisování obsahů vstupních/výstupních souborů TV seriálů");
-                dataTextInputOutputFilename = DataStore.getTextOutputTVShowsFilename();
-                dataBinaryInputOutputFilename = DataStore.getBinaryOutputTVShowsFilename();
+                dataTextInputOutputFilename = DataStore.getTextInputOutputTVShowsFilename();
+                dataBinaryInputOutputFilename = DataStore.getBinaryInputOutputTVShowsFilename();
                 break;
         }
         

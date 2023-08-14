@@ -157,28 +157,28 @@ public class ConsoleUI
                         loadAllInputOutputDataFrom(true);
                         break;
                     case 3:
-                        displayChosenDataFileContent(DataStore.getTextOutputMoviesFilename(), DataType.MOVIE);
+                        displayChosenDataFileContent(DataStore.getTextInputOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 4:
-                        displayChosenDataFileContent(DataStore.getTextOutputTVShowsFilename(), DataType.TV_SHOW);
+                        displayChosenDataFileContent(DataStore.getTextInputOutputTVShowsFilename(), DataType.TV_SHOW);
                         break;
                     case 5:
-                        displayChosenDataFileContent(DataStore.getTextOutputTVSeasonsFilename(), DataType.TV_SEASON);
+                        displayChosenDataFileContent(DataStore.getTextInputOutputTVSeasonsFilename(), DataType.TV_SEASON);
                         break;
                     case 6:
-                        displayChosenDataFileContent(DataStore.getTextOutputTVEpisodesFilename(), DataType.TV_EPISODE);
+                        displayChosenDataFileContent(DataStore.getTextInputOutputTVEpisodesFilename(), DataType.TV_EPISODE);
                         break;
                     case 7:
-                        displayChosenDataFileContent(DataStore.getBinaryOutputMoviesFilename(), DataType.MOVIE);
+                        displayChosenDataFileContent(DataStore.getBinaryInputOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 8:
-                        displayChosenDataFileContent(DataStore.getBinaryOutputTVShowsFilename(), DataType.TV_SHOW);
+                        displayChosenDataFileContent(DataStore.getBinaryInputOutputTVShowsFilename(), DataType.TV_SHOW);
                         break;
                     case 9:
-                        displayChosenDataFileContent(DataStore.getBinaryOutputTVSeasonsFilename(), DataType.TV_SEASON);
+                        displayChosenDataFileContent(DataStore.getBinaryInputOutputTVSeasonsFilename(), DataType.TV_SEASON);
                         break;
                     case 10:
-                        displayChosenDataFileContent(DataStore.getBinaryOutputTVEpisodesFilename(), DataType.TV_EPISODE);
+                        displayChosenDataFileContent(DataStore.getBinaryInputOutputTVEpisodesFilename(), DataType.TV_EPISODE);
                         break;
                     case 0:
                         isConsoleRunning = false;

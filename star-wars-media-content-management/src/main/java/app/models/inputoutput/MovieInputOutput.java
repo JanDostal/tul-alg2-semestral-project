@@ -1,15 +1,15 @@
-package app.models.output;
+package app.models.inputoutput;
 
 import java.util.Arrays;
 
 /**
- * Represents a output data model class for movie.
- * MovieOutput class is used when writing into or parsing movies output data files.
- * MovieOutput class has attributes bytes sizes and character lengths to be able to 
- * write into and read from output binary file.
+ * Represents a input/output data model class for movie.
+ * MovieInputOutput class is used when writing into or parsing movies input/output data files.
+ * MovieInputOutput class has attributes bytes sizes and character lengths to be able to 
+ * write into and read from input/output binary file.
  * @author jan.dostal
  */
-public class MovieOutput
+public class MovieInputOutput
 {
     public static final int ATTRIBUTE_NAME_LENGTH = 60;
     public static final int ATTRIBUTE_HYPERLINK_LENGTH = 180;
@@ -46,7 +46,7 @@ public class MovieOutput
     
     
     /**
-     * Creates a new instance representing movie output data model.
+     * Creates a new instance representing movie input/output data model.
      * If nullable attributes are null, they transform into empty String.
      * String attributes values are extended into defined string attributes character lengths.
      * @param id represents movie id/primary key as number (should be 1 or greater)
@@ -58,7 +58,7 @@ public class MovieOutput
      * @param releaseDateInEpochSeconds represents movie release date in epoch seconds (GMT/UTC) (-infinity, positive number)
      * @param eraCodeDesignation represents movie chosen chronological star wars era code designation
      */
-    public MovieOutput(int id, long runtimeInSeconds, String name, 
+    public MovieInputOutput(int id, long runtimeInSeconds, String name, 
             int percentageRating, String hyperlinkForContentWatch,
             String shortContentSummary, long releaseDateInEpochSeconds, String eraCodeDesignation) 
     {

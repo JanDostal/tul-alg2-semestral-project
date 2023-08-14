@@ -3,7 +3,7 @@ package app.logic.datacontext;
 import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
-import app.models.output.TVEpisodeOutput;
+import app.models.inputoutput.TVEpisodeInputOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -93,24 +93,24 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
             throw new DatabaseException("Přidaná epizoda sezóny musí mít délku trvání");
         }
         
-        if (inputData.getName() != null && inputData.getName().length() > TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH) 
+        if (inputData.getName() != null && inputData.getName().length() > TVEpisodeInputOutput.ATTRIBUTE_NAME_LENGTH) 
         {
             throw new DatabaseException("Název přidané epizody sezóny nesmí mít délku větší než " + 
-                    TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH + " znaků");
+                    TVEpisodeInputOutput.ATTRIBUTE_NAME_LENGTH + " znaků");
         }
         
         if (inputData.getHyperlinkForContentWatch() != null && 
-                inputData.getHyperlinkForContentWatch().length() > TVEpisodeOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
+                inputData.getHyperlinkForContentWatch().length() > TVEpisodeInputOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
         {
             throw new DatabaseException("Odkaz ke zhlédnutí přidané epizody sezóny nesmí mít délku větší než " + 
-                    TVEpisodeOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
+                    TVEpisodeInputOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
         }
         
         if (inputData.getShortContentSummary() != null && 
-                inputData.getShortContentSummary().length() > TVEpisodeOutput.ATTRIBUTE_SUMMARY_LENGTH) 
+                inputData.getShortContentSummary().length() > TVEpisodeInputOutput.ATTRIBUTE_SUMMARY_LENGTH) 
         {
             throw new DatabaseException("Krátké shrnutí obsahu přidané epizody sezóny nesmí mít délku větší než " + 
-                    TVEpisodeOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
+                    TVEpisodeInputOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
         }
         
         TVSeason existingTVSeason = dbContext.getTVSeasonsTable().getBy(inputData.getTVSeasonForeignKey());
@@ -142,68 +142,68 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
         tvEpisodesData.add(newData);        
     }
 
-    public @Override void loadFrom(TVEpisode outputData) throws DatabaseException
+    public @Override void loadFrom(TVEpisode inputOutputData) throws DatabaseException
     {
-        if (outputData == null) 
+        if (inputOutputData == null) 
         {
             throw new DatabaseException("Existující data epizody sezóny jsou prázdná");
         }
         
-        if (outputData.getPrimaryKey().getId() <= 0) 
+        if (inputOutputData.getPrimaryKey().getId() <= 0) 
         {
-            throw new DatabaseException("Identifikátor " + outputData.getPrimaryKey().getId() 
+            throw new DatabaseException("Identifikátor " + inputOutputData.getPrimaryKey().getId() 
                     + " existující epizody sezóny musí být větší než nula");
         }
         
-        if (outputData.getPercentageRating() > 100) 
+        if (inputOutputData.getPercentageRating() > 100) 
         {
             throw new DatabaseException("Procentuální hodnocení zhlédnuté existující epizody sezóny s identifikátorem " 
-                    + outputData.getPrimaryKey().getId() + " musí být v rozsahu 0 - 100");
+                    + inputOutputData.getPrimaryKey().getId() + " musí být v rozsahu 0 - 100");
         }
         
-        if (outputData.getOrderInTVShowSeason() <= 0)
+        if (inputOutputData.getOrderInTVShowSeason() <= 0)
         {
             throw new DatabaseException("Pořadí existující epizody sezóny s identifikátorem " 
-                    + outputData.getPrimaryKey().getId() + " musí být větší než nula");
+                    + inputOutputData.getPrimaryKey().getId() + " musí být větší než nula");
         }
         
-        if (outputData.getTVSeasonForeignKey().getId() <= 0) 
+        if (inputOutputData.getTVSeasonForeignKey().getId() <= 0) 
         {
             throw new DatabaseException("Identifikátor sezóny pro existující epizodu s identifikátorem " 
-                    + outputData.getPrimaryKey().getId() + " musí být větší než nula");
+                    + inputOutputData.getPrimaryKey().getId() + " musí být větší než nula");
         }
         
-        if (outputData.getRuntime() == null) 
+        if (inputOutputData.getRuntime() == null) 
         {
             throw new DatabaseException("Délka trvání existující epizody sezóny s identifikátorem "
-                    + outputData.getPrimaryKey().getId() + " musí být nastavena");
+                    + inputOutputData.getPrimaryKey().getId() + " musí být nastavena");
         }
         
-        TVEpisode tvEpisodeWithDuplicateKey = getBy(outputData.getPrimaryKey());
+        TVEpisode tvEpisodeWithDuplicateKey = getBy(inputOutputData.getPrimaryKey());
         
         if (tvEpisodeWithDuplicateKey != null) 
         {
-            throw new DatabaseException("Identifikátor " + outputData.getPrimaryKey().getId() 
+            throw new DatabaseException("Identifikátor " + inputOutputData.getPrimaryKey().getId() 
                     + " existující epizody sezóny je duplicitní");
         }
         
-        TVSeason existingTVSeason = dbContext.getTVSeasonsTable().getBy(outputData.getTVSeasonForeignKey());
+        TVSeason existingTVSeason = dbContext.getTVSeasonsTable().getBy(inputOutputData.getTVSeasonForeignKey());
             
         if (existingTVSeason == null) 
         {
             throw new DatabaseException("Identifikátor sezóny pro existující epizodu s identifikátorem " 
-                    + outputData.getPrimaryKey().getId() + " neodkazuje na žádnou sezónu");
+                    + inputOutputData.getPrimaryKey().getId() + " neodkazuje na žádnou sezónu");
         }
         
-        List<TVEpisode> tvEpisodeWithDuplicateData = filterBy(episode -> episode.equals(outputData));
+        List<TVEpisode> tvEpisodeWithDuplicateData = filterBy(episode -> episode.equals(inputOutputData));
         
         if (tvEpisodeWithDuplicateData.isEmpty() == false) 
         {
             throw new DatabaseException("Data existující epizody sezóny s identifikátorem " 
-                    + outputData.getPrimaryKey().getId() + " jsou duplicitní");
+                    + inputOutputData.getPrimaryKey().getId() + " jsou duplicitní");
         }
         
-        tvEpisodesData.add(outputData);
+        tvEpisodesData.add(inputOutputData);
     }
 
     public @Override void deleteBy(PrimaryKey primaryKey) throws DatabaseException
@@ -252,24 +252,24 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
             throw new DatabaseException("Editovaná epizoda sezóny musí mít délku trvání");
         }
         
-        if (editedExistingData.getName() != null && editedExistingData.getName().length() > TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH) 
+        if (editedExistingData.getName() != null && editedExistingData.getName().length() > TVEpisodeInputOutput.ATTRIBUTE_NAME_LENGTH) 
         {
             throw new DatabaseException("Název editované epizody sezóny nesmí mít délku větší než " + 
-                    TVEpisodeOutput.ATTRIBUTE_NAME_LENGTH + " znaků");
+                    TVEpisodeInputOutput.ATTRIBUTE_NAME_LENGTH + " znaků");
         }
         
         if (editedExistingData.getHyperlinkForContentWatch() != null && 
-                editedExistingData.getHyperlinkForContentWatch().length() > TVEpisodeOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
+                editedExistingData.getHyperlinkForContentWatch().length() > TVEpisodeInputOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
         {
             throw new DatabaseException("Odkaz ke zhlédnutí editované epizody sezóny nesmí mít délku větší než " + 
-                    TVEpisodeOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
+                    TVEpisodeInputOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
         }
         
         if (editedExistingData.getShortContentSummary() != null && 
-                editedExistingData.getShortContentSummary().length() > TVEpisodeOutput.ATTRIBUTE_SUMMARY_LENGTH) 
+                editedExistingData.getShortContentSummary().length() > TVEpisodeInputOutput.ATTRIBUTE_SUMMARY_LENGTH) 
         {
             throw new DatabaseException("Krátké shrnutí obsahu editované epizody sezóny nesmí mít délku větší než " + 
-                    TVEpisodeOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
+                    TVEpisodeInputOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
         }
         
         boolean wasDataChanged = false;

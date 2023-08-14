@@ -4,7 +4,7 @@ import app.models.data.Era;
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
 import app.models.input.MovieInput;
-import app.models.output.MovieOutput;
+import app.models.inputoutput.MovieInputOutput;
 import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.Instant;
@@ -32,7 +32,7 @@ public final class MovieDataConverter
      * @param data represents movie database model data
      * @return converted data as movie input/output model data
      */
-    public static MovieOutput convertToInputOutputDataFrom(Movie data) 
+    public static MovieInputOutput convertToInputOutputDataFrom(Movie data) 
     {
         int id = data.getPrimaryKey().getId();
         long runtime;
@@ -65,7 +65,7 @@ public final class MovieDataConverter
         
         String eraCodeDesignation = data.getEra().toString();
         
-        return new MovieOutput(id, runtime, name, percentage, 
+        return new MovieInputOutput(id, runtime, name, percentage, 
                 hyperlink, content, epochSeconds, eraCodeDesignation);
     }
     
@@ -179,7 +179,7 @@ public final class MovieDataConverter
      * @throws utils.exceptions.DataConversionException if input/output data 
      * release date in epoch seconds number is too big
      */
-    public static Movie convertToDataFrom(MovieOutput inputOutputData) throws DataConversionException
+    public static Movie convertToDataFrom(MovieInputOutput inputOutputData) throws DataConversionException
     {
         PrimaryKey primaryKey = new PrimaryKey(inputOutputData.getId());       
         Duration runtime;

@@ -3,7 +3,7 @@ package utils.helpers;
 import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.input.TVEpisodeInput;
-import app.models.output.TVEpisodeOutput;
+import app.models.inputoutput.TVEpisodeInputOutput;
 import java.time.Duration;
 
 /**
@@ -25,7 +25,7 @@ public final class TVEpisodeDataConverter
      * @param data represents tv episode database model data
      * @return converted data as tv episode input/output model data
      */
-    public static TVEpisodeOutput convertToInputOutputDataFrom(TVEpisode data) 
+    public static TVEpisodeInputOutput convertToInputOutputDataFrom(TVEpisode data) 
     {
         int id = data.getPrimaryKey().getId();
         long runtime = data.getRuntime().toSeconds();
@@ -38,7 +38,7 @@ public final class TVEpisodeDataConverter
         int orderInTVShowSeason = data.getOrderInTVShowSeason();
         int tvSeasonId = data.getTVSeasonForeignKey().getId();
         
-        return new TVEpisodeOutput(id, runtime, name, percentage, 
+        return new TVEpisodeInputOutput(id, runtime, name, percentage, 
                 hyperlink, content, orderInTVShowSeason, tvSeasonId);
     }
     
@@ -121,7 +121,7 @@ public final class TVEpisodeDataConverter
      * @param inputOutputData represents tv episode input/output data model
      * @return converted data as tv episode database model data
      */
-    public static TVEpisode convertToDataFrom(TVEpisodeOutput inputOutputData)
+    public static TVEpisode convertToDataFrom(TVEpisodeInputOutput inputOutputData)
     {
         PrimaryKey primaryKey = new PrimaryKey(inputOutputData.getId());       
         Duration runtime;

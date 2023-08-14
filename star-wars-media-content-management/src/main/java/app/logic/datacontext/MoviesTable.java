@@ -2,7 +2,7 @@ package app.logic.datacontext;
 
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
-import app.models.output.MovieOutput;
+import app.models.inputoutput.MovieInputOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -85,24 +85,24 @@ public class MoviesTable implements IDataTable<Movie>
             throw new DatabaseException("Přidaný film musí mít název");
         }
         
-        if (inputData.getName().length() > MovieOutput.ATTRIBUTE_NAME_LENGTH) 
+        if (inputData.getName().length() > MovieInputOutput.ATTRIBUTE_NAME_LENGTH) 
         {
-            throw new DatabaseException("Název přidaného filmu nesmí mít délku větší než " + MovieOutput.ATTRIBUTE_NAME_LENGTH + 
+            throw new DatabaseException("Název přidaného filmu nesmí mít délku větší než " + MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 
                     " znaků");
         }
         
         if (inputData.getHyperlinkForContentWatch() != null && 
-                inputData.getHyperlinkForContentWatch().length() > MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
+                inputData.getHyperlinkForContentWatch().length() > MovieInputOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
         {
             throw new DatabaseException("Odkaz ke zhlédnutí přidaného filmu nesmí mít délku větší než " + 
-                    MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
+                    MovieInputOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
         }
         
         if (inputData.getShortContentSummary() != null && 
-                inputData.getShortContentSummary().length() > MovieOutput.ATTRIBUTE_SUMMARY_LENGTH) 
+                inputData.getShortContentSummary().length() > MovieInputOutput.ATTRIBUTE_SUMMARY_LENGTH) 
         {
             throw new DatabaseException("Krátké shrnutí obsahu přidaného filmu nesmí mít délku větší než " + 
-                    MovieOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
+                    MovieInputOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
         }
             
         List<Movie> movieWithDuplicateData = filterBy(movie -> movie.equals(inputData));
@@ -127,54 +127,54 @@ public class MoviesTable implements IDataTable<Movie>
         moviesData.add(newData);
     }
 
-    public @Override void loadFrom(Movie outputData) throws DatabaseException
+    public @Override void loadFrom(Movie inputOutputData) throws DatabaseException
     {
-        if (outputData == null) 
+        if (inputOutputData == null) 
         {
             throw new DatabaseException("Existující data filmu jsou prázdná");
         }
         
-        if (outputData.getPrimaryKey().getId() <= 0) 
+        if (inputOutputData.getPrimaryKey().getId() <= 0) 
         {
-            throw new DatabaseException("Identifikátor " + outputData.getPrimaryKey().getId() 
+            throw new DatabaseException("Identifikátor " + inputOutputData.getPrimaryKey().getId() 
                     + " existujícího filmu musí být větší než nula");
         }
         
-        if (outputData.getPercentageRating() > 100) 
+        if (inputOutputData.getPercentageRating() > 100) 
         {
             throw new DatabaseException("Procentuální hodnocení zhlédnutého existujícího filmu s identifikátorem " 
-                    + outputData.getPrimaryKey().getId() + " musí být v rozsahu 0 - 100");
+                    + inputOutputData.getPrimaryKey().getId() + " musí být v rozsahu 0 - 100");
         }
         
-        if (outputData.getEra() == null) 
+        if (inputOutputData.getEra() == null) 
         {
             throw new DatabaseException("Chronologické období existujícího filmu s identifikátorem " 
-                    + outputData.getPrimaryKey().getId() + " musí být vybráno");
+                    + inputOutputData.getPrimaryKey().getId() + " musí být vybráno");
         }
         
-        if (outputData.getName() == null) 
+        if (inputOutputData.getName() == null) 
         {
             throw new DatabaseException("Existující film s identifikátorem " 
-                    + outputData.getPrimaryKey().getId() + " musí mít název");
+                    + inputOutputData.getPrimaryKey().getId() + " musí mít název");
         }
         
-        Movie movieWithDuplicateKey = getBy(outputData.getPrimaryKey());
+        Movie movieWithDuplicateKey = getBy(inputOutputData.getPrimaryKey());
         
         if (movieWithDuplicateKey != null) 
         {
             throw new DatabaseException("Identifikátor " 
-                    + outputData.getPrimaryKey().getId() + " existujícího filmu je duplicitní");
+                    + inputOutputData.getPrimaryKey().getId() + " existujícího filmu je duplicitní");
         }
         
-        List<Movie> movieWithDuplicateData = filterBy(movie -> movie.equals(outputData));
+        List<Movie> movieWithDuplicateData = filterBy(movie -> movie.equals(inputOutputData));
         
         if (movieWithDuplicateData.isEmpty() == false) 
         {
             throw new DatabaseException("Data existujícího filmu s identifikátorem " 
-                    + outputData.getPrimaryKey().getId() + " jsou duplicitní");
+                    + inputOutputData.getPrimaryKey().getId() + " jsou duplicitní");
         }
         
-        moviesData.add(outputData);
+        moviesData.add(inputOutputData);
     }
 
     public @Override void deleteBy(PrimaryKey primaryKey) throws DatabaseException
@@ -218,24 +218,24 @@ public class MoviesTable implements IDataTable<Movie>
             throw new DatabaseException("Editovaný film musí mít název");
         }
         
-        if (editedExistingData.getName().length() > MovieOutput.ATTRIBUTE_NAME_LENGTH) 
+        if (editedExistingData.getName().length() > MovieInputOutput.ATTRIBUTE_NAME_LENGTH) 
         {
-            throw new DatabaseException("Název editovaného filmu nesmí mít délku větší než " + MovieOutput.ATTRIBUTE_NAME_LENGTH + 
+            throw new DatabaseException("Název editovaného filmu nesmí mít délku větší než " + MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 
                     " znaků");
         }
         
         if (editedExistingData.getHyperlinkForContentWatch() != null && 
-                editedExistingData.getHyperlinkForContentWatch().length() > MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
+                editedExistingData.getHyperlinkForContentWatch().length() > MovieInputOutput.ATTRIBUTE_HYPERLINK_LENGTH) 
         {
             throw new DatabaseException("Odkaz ke zhlédnutí editovaného filmu nesmí mít délku větší než " + 
-                    MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
+                    MovieInputOutput.ATTRIBUTE_HYPERLINK_LENGTH + " znaků");
         }
         
         if (editedExistingData.getShortContentSummary() != null && 
-                editedExistingData.getShortContentSummary().length() > MovieOutput.ATTRIBUTE_SUMMARY_LENGTH) 
+                editedExistingData.getShortContentSummary().length() > MovieInputOutput.ATTRIBUTE_SUMMARY_LENGTH) 
         {
             throw new DatabaseException("Krátké shrnutí obsahu editovaného filmu nesmí mít délku větší než " + 
-                    MovieOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
+                    MovieInputOutput.ATTRIBUTE_SUMMARY_LENGTH + " znaků");
         }
         
         boolean wasDataChanged = false;

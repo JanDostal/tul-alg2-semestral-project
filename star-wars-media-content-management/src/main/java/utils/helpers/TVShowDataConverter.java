@@ -4,7 +4,7 @@ import app.models.data.Era;
 import app.models.data.PrimaryKey;
 import app.models.data.TVShow;
 import app.models.input.TVShowInput;
-import app.models.output.TVShowOutput;
+import app.models.inputoutput.TVShowInputOutput;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -31,7 +31,7 @@ public final class TVShowDataConverter
      * @param data represents tv show database data model
      * @return converted data as tv show input/output model data
      */
-    public static TVShowOutput convertToInputOutputDataFrom(TVShow data) 
+    public static TVShowInputOutput convertToInputOutputDataFrom(TVShow data) 
     {
         int id = data.getPrimaryKey().getId();
         
@@ -51,7 +51,7 @@ public final class TVShowDataConverter
         
         String eraCodeDesignation = data.getEra().toString();
         
-        return new TVShowOutput(id, name, epochSeconds, eraCodeDesignation);
+        return new TVShowInputOutput(id, name, epochSeconds, eraCodeDesignation);
     }
     
     /**
@@ -118,7 +118,7 @@ public final class TVShowDataConverter
      * @throws utils.exceptions.DataConversionException if input/output data 
      * release date in epoch seconds number is too big
      */
-    public static TVShow convertToDataFrom(TVShowOutput inputOutputData) throws DataConversionException
+    public static TVShow convertToDataFrom(TVShowInputOutput inputOutputData) throws DataConversionException
     {
         PrimaryKey primaryKey = new PrimaryKey(inputOutputData.getId());       
                

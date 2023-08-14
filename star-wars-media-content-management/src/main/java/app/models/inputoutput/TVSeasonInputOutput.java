@@ -1,13 +1,13 @@
-package app.models.output;
+package app.models.inputoutput;
 
 /**
- * Represents a output data model class for tv season.
- * TVSeasonOutput class is used when writing into or parsing tv seasons output data files.
- * TVSeasonOutput class has attributes bytes sizes and character lengths to be able to 
- * write into and read from output binary file.
+ * Represents a input/output data model class for tv season.
+ * TVSeasonInputOutput class is used when writing into or parsing tv seasons input/output data files.
+ * TVSeasonInputOutput class has attributes bytes sizes and character lengths to be able to 
+ * write into and read from input/output binary file.
  * @author jan.dostal
  */
-public class TVSeasonOutput 
+public class TVSeasonInputOutput 
 {
     private static final int ATTRIBUTE_ID_BYTES = Integer.BYTES;
     private static final int ATTRIBUTE_ORDERTVSHOW_BYTES = Integer.BYTES;
@@ -23,12 +23,12 @@ public class TVSeasonOutput
     private final int tvShowId;
     
     /**
-     * Creates a new instance representing tv season output data model.
+     * Creates a new instance representing tv season input/output data model.
      * @param id represents tv season id/primary key as number (should be 1 or greater)
      * @param orderInTVShow represents tv season order in context of parent tv show (should be 1 or greater)
      * @param tvShowId represents tv season parent tv show primary key/id as number (should be 1 or greater)
      */
-    public TVSeasonOutput(int id, int orderInTVShow, int tvShowId) 
+    public TVSeasonInputOutput(int id, int orderInTVShow, int tvShowId) 
     {
         this.id = id;
         this.orderInTVShow = orderInTVShow;

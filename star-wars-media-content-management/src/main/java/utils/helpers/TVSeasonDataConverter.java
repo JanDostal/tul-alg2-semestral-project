@@ -3,7 +3,7 @@ package utils.helpers;
 import app.models.data.PrimaryKey;
 import app.models.data.TVSeason;
 import app.models.input.TVSeasonInput;
-import app.models.output.TVSeasonOutput;
+import app.models.inputoutput.TVSeasonInputOutput;
 
 /**
  * Represents a TV season data converter helper class for input, input/output and data model of TV season.
@@ -24,7 +24,7 @@ public final class TVSeasonDataConverter
      * @param data represents tv season database data model
      * @return converted data as tv season input/output model data
      */
-    public static TVSeasonOutput convertToInputOutputDataFrom(TVSeason data) 
+    public static TVSeasonInputOutput convertToInputOutputDataFrom(TVSeason data) 
     {
         int id = data.getPrimaryKey().getId();
         
@@ -32,7 +32,7 @@ public final class TVSeasonDataConverter
         
         int tvShowId = data.getTVShowForeignKey().getId();
         
-        return new TVSeasonOutput(id, orderInTVShow, tvShowId);
+        return new TVSeasonInputOutput(id, orderInTVShow, tvShowId);
     }
     
     /**
@@ -57,7 +57,7 @@ public final class TVSeasonDataConverter
      * @param inputOutputData represents tv season input/output data model
      * @return converted data as tv season database model data
      */
-    public static TVSeason convertToDataFrom(TVSeasonOutput inputOutputData)
+    public static TVSeason convertToDataFrom(TVSeasonInputOutput inputOutputData)
     {
         PrimaryKey primaryKey = new PrimaryKey(inputOutputData.getId());       
         

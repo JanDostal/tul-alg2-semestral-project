@@ -2,7 +2,7 @@ package app.logic.filemanager;
 
 import app.logic.datastore.DataStore;
 import app.models.input.MovieInput;
-import app.models.output.MovieOutput;
+import app.models.inputoutput.MovieInputOutput;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -31,13 +31,13 @@ import utils.interfaces.IDataFileManager;
 
 /**
  * Represents a movies file manager, which works specifically with movies data files.
- * Movies file manager works with movie input and output data models and implements IDataFileManager interface.
+ * Movies file manager works with movie input and input/output data models and implements IDataFileManager interface.
  * Movies file manager is made available through accessor.
  * @author jan.dostal
  */
-public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutput>
+public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInputOutput>
 {
-    private static IDataFileManager<MovieInput, MovieOutput> moviesFileManager;
+    private static IDataFileManager<MovieInput, MovieInputOutput> moviesFileManager;
         
     private final String filenameSeparator;
     
@@ -46,7 +46,6 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
     private final String inputFileValuesSectionMarking;
     
     private final String inputFileAttributesSectionMarking;
-    
     
     /**
      * Creates singleton instance of MoviesFileManager.
@@ -75,7 +74,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
      * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
      * @return singleton instance of MoviesFileManager as interface
      */
-    protected static IDataFileManager<MovieInput, MovieOutput> getInstance(String filenameSeparator, 
+    protected static IDataFileManager<MovieInput, MovieInputOutput> getInstance(String filenameSeparator, 
             String inputFileEndMarking, String inputFileValuesSectionMarking,
             String inputFileAttributesSectionMarking) 
     {
@@ -88,13 +87,13 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         return moviesFileManager;
     }
     
-    public @Override StringBuilder getTextOutputFileContent() throws FileNotFoundException, IOException, FileEmptyException 
+    public @Override StringBuilder getTextInputOutputFileContent() throws FileNotFoundException, IOException, FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                 new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                        DataStore.getTextOutputMoviesFilename()), StandardCharsets.UTF_8))) 
+                        DataStore.getTextInputOutputMoviesFilename()), StandardCharsets.UTF_8))) 
         {
             char[] buffer = new char[1024];
             int charsRead;
@@ -109,12 +108,12 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         catch (FileNotFoundException e) 
         {
             throw new FileNotFoundException("Soubor " + 
-                    DataStore.getTextOutputMoviesFilename() + " neexistuje");
+                    DataStore.getTextInputOutputMoviesFilename() + " neexistuje");
         }
         catch (IOException e) 
         {
             throw new IOException("Chyba při čtení souboru " + 
-                    DataStore.getTextOutputMoviesFilename());
+                    DataStore.getTextInputOutputMoviesFilename());
         }
         
         try (Scanner sc = new Scanner(text.toString())) 
@@ -122,14 +121,14 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             if (sc.hasNextLine() == false)
             {
                 sc.close();
-                throw new FileEmptyException("Soubor " + DataStore.getTextOutputMoviesFilename() + " je prázdný");
+                throw new FileEmptyException("Soubor " + DataStore.getTextInputOutputMoviesFilename() + " je prázdný");
             }
         }
         
         return text;
     }
 
-    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException, 
+    public @Override StringBuilder getBinaryInputOutputFileContent() throws FileNotFoundException, IOException, 
             FileEmptyException
     {
         StringBuilder text = new StringBuilder();
@@ -137,7 +136,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         
         try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryOutputMoviesFilename())))) 
+                filenameSeparator + DataStore.getBinaryInputOutputMoviesFilename())))) 
         {
             boolean fileEndReached = false;
             
@@ -157,7 +156,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                     movieId = dataInputStream.readInt();
                     movieRuntimeInSeconds = dataInputStream.readLong();
 
-                    movieName = new char[MovieOutput.ATTRIBUTE_NAME_LENGTH];
+                    movieName = new char[MovieInputOutput.ATTRIBUTE_NAME_LENGTH];
 
                     for (int i = 0; i < movieName.length; i++) 
                     {
@@ -166,14 +165,14 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
 
                     moviePercentageRating = dataInputStream.readInt();
 
-                    movieHyperlink = new char[MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH];
+                    movieHyperlink = new char[MovieInputOutput.ATTRIBUTE_HYPERLINK_LENGTH];
 
                     for (int i = 0; i < movieHyperlink.length; i++) 
                     {
                         movieHyperlink[i] = dataInputStream.readChar();
                     }
 
-                    movieContent = new char[MovieOutput.ATTRIBUTE_SUMMARY_LENGTH];
+                    movieContent = new char[MovieInputOutput.ATTRIBUTE_SUMMARY_LENGTH];
 
                     for (int i = 0; i < movieContent.length; i++) 
                     {
@@ -182,7 +181,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
 
                     movieReleaseDateInEpochSeconds = dataInputStream.readLong();
 
-                    movieEraCodeDesignation = new char[MovieOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
+                    movieEraCodeDesignation = new char[MovieInputOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
 
                     for (int i = 0; i < movieEraCodeDesignation.length; i++) 
                     {
@@ -212,20 +211,20 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         catch (FileNotFoundException e) 
         {
             throw new FileNotFoundException("Soubor " + 
-                    DataStore.getBinaryOutputMoviesFilename() + " neexistuje");
+                    DataStore.getBinaryInputOutputMoviesFilename() + " neexistuje");
         }
         catch (IOException e) 
         {
             throw new IOException("Chyba při čtení souboru " + 
-                    DataStore.getBinaryOutputMoviesFilename());
+                    DataStore.getBinaryInputOutputMoviesFilename());
         }
         
         File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
-                + DataStore.getBinaryOutputMoviesFilename());
+                + DataStore.getBinaryInputOutputMoviesFilename());
         
         if (binaryFile.length() == 0) 
         {
-            throw new FileEmptyException("Soubor " + DataStore.getBinaryOutputMoviesFilename() + " je prázdný");
+            throw new FileEmptyException("Soubor " + DataStore.getBinaryInputOutputMoviesFilename() + " je prázdný");
         }
         
         text.delete(text.length() - moviesDivider.length(), text.length());
@@ -316,24 +315,24 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         return text;
     }
     
-    public @Override List<MovieOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException
+    public @Override List<MovieInputOutput> loadInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException
     {
-        List<MovieOutput> parsedMovies = new ArrayList<>();
-        File outputMoviesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getBinaryOutputMoviesFilename());
-        File outputMoviesText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                DataStore.getTextOutputMoviesFilename());
+        List<MovieInputOutput> parsedMovies = new ArrayList<>();
+        File inputOutputMoviesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                DataStore.getBinaryInputOutputMoviesFilename());
+        File inputOutputMoviesText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                DataStore.getTextInputOutputMoviesFilename());
         
-        outputMoviesBinary.createNewFile();
-        outputMoviesText.createNewFile();
+        inputOutputMoviesBinary.createNewFile();
+        inputOutputMoviesText.createNewFile();
         
         if (fromBinary == true) 
         {
-            String errorParsingMessage = "Soubor " + DataStore.getBinaryOutputMoviesFilename()+ " má poškozená data";
+            String errorParsingMessage = "Soubor " + DataStore.getBinaryInputOutputMoviesFilename()+ " má poškozená data";
             
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryOutputMoviesFilename())))) 
+                filenameSeparator + DataStore.getBinaryInputOutputMoviesFilename())))) 
             {
                 boolean fileEndReached = false;
                 int movieId;
@@ -352,7 +351,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                         movieId = dataInputStream.readInt();
                         movieRuntime = dataInputStream.readLong();
 
-                        movieName = new char[MovieOutput.ATTRIBUTE_NAME_LENGTH];
+                        movieName = new char[MovieInputOutput.ATTRIBUTE_NAME_LENGTH];
 
                         for (int i = 0; i < movieName.length; i++) 
                         {
@@ -361,14 +360,14 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
 
                         moviePercentageRating = dataInputStream.readInt();
 
-                        movieHyperlink = new char[MovieOutput.ATTRIBUTE_HYPERLINK_LENGTH];
+                        movieHyperlink = new char[MovieInputOutput.ATTRIBUTE_HYPERLINK_LENGTH];
 
                         for (int i = 0; i < movieHyperlink.length; i++) 
                         {
                             movieHyperlink[i] = dataInputStream.readChar();
                         }
 
-                        movieContent = new char[MovieOutput.ATTRIBUTE_SUMMARY_LENGTH];
+                        movieContent = new char[MovieInputOutput.ATTRIBUTE_SUMMARY_LENGTH];
 
                         for (int i = 0; i < movieContent.length; i++) 
                         {
@@ -377,14 +376,14 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
 
                         movieReleaseDate = dataInputStream.readLong();
 
-                        movieEraCodeDesignation = new char[MovieOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
+                        movieEraCodeDesignation = new char[MovieInputOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
 
                         for (int i = 0; i < movieEraCodeDesignation.length; i++) 
                         {
                             movieEraCodeDesignation[i] = dataInputStream.readChar();
                         }
                         
-                        parsedMovies.add(new MovieOutput(movieId, movieRuntime, new String(movieName), 
+                        parsedMovies.add(new MovieInputOutput(movieId, movieRuntime, new String(movieName), 
                                 moviePercentageRating, new String(movieHyperlink), new String(movieContent), 
                                 movieReleaseDate, new String(movieEraCodeDesignation)));
                     }
@@ -396,10 +395,10 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             }
             catch (IOException e) 
             {
-                throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryOutputMoviesFilename());
+                throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryInputOutputMoviesFilename());
             }
             
-            if (outputMoviesBinary.length() != 0 && parsedMovies.isEmpty()) 
+            if (inputOutputMoviesBinary.length() != 0 && parsedMovies.isEmpty()) 
             {
                 throw new FileParsingException(errorParsingMessage);
             }
@@ -407,11 +406,11 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         else 
         {            
             StringBuilder text = new StringBuilder();
-            String errorParsingMessage = "Soubor " + DataStore.getTextOutputMoviesFilename() + " má poškozená data";
+            String errorParsingMessage = "Soubor " + DataStore.getTextInputOutputMoviesFilename() + " má poškozená data";
             
             try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                     new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                    DataStore.getTextOutputMoviesFilename()), StandardCharsets.UTF_8))) 
+                    DataStore.getTextInputOutputMoviesFilename()), StandardCharsets.UTF_8))) 
             {
                 char[] buffer = new char[1024];
                 int charsRead;
@@ -425,22 +424,22 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             }
             catch (IOException e) 
             {
-                throw new IOException("Chyba při čtení souboru " + DataStore.getTextOutputMoviesFilename());
+                throw new IOException("Chyba při čtení souboru " + DataStore.getTextInputOutputMoviesFilename());
             }
 
-            Class<?> movieOutputClass = MovieOutput.class;
-            Field[] movieOutputFields = movieOutputClass.getDeclaredFields();
-            Map<String, StringBuilder> movieOutputFieldsValues = new LinkedHashMap<>();
-            Map<Integer, String> movieOutputFieldsIds = new LinkedHashMap<>();
+            Class<?> movieInputOutputClass = MovieInputOutput.class;
+            Field[] movieInputOutputFields = movieInputOutputClass.getDeclaredFields();
+            Map<String, StringBuilder> movieInputOutputFieldsValues = new LinkedHashMap<>();
+            Map<Integer, String> movieInputOutputFieldsIds = new LinkedHashMap<>();
 
             int k = 0;
 
-            for (Field field : movieOutputFields) 
+            for (Field field : movieInputOutputFields) 
             {
                 if (!Modifier.isStatic(field.getModifiers())) 
                 {
-                    movieOutputFieldsIds.put(k + 1, field.getName());
-                    movieOutputFieldsValues.put(field.getName(), new StringBuilder());
+                    movieInputOutputFieldsIds.put(k + 1, field.getName());
+                    movieInputOutputFieldsValues.put(field.getName(), new StringBuilder());
                     k++;
                 }
             }
@@ -452,6 +451,11 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
             try (Scanner sc = new Scanner(text.toString())) 
             {
                 String textLine;
+                String[] fieldParts;
+                int fieldId;
+                String fieldName;
+                StringBuilder fieldValue;
+                StringBuilder newFieldValue;
                 
                 if (sc.hasNextLine() == true) 
                 {
@@ -471,7 +475,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                     {
                         try
                         {
-                            parseOutputData(movieOutputFieldsValues, parsedMovies, movieOutputFields);
+                            parseInputOutputData(movieInputOutputFieldsValues, parsedMovies, movieInputOutputFields);
                         }
                         catch (NumberFormatException ex) 
                         {
@@ -492,7 +496,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                     {
                         try 
                         {
-                            parseOutputData(movieOutputFieldsValues, parsedMovies, movieOutputFields);
+                            parseInputOutputData(movieInputOutputFieldsValues, parsedMovies, movieInputOutputFields);
                         }
                         catch (NumberFormatException ex) 
                         {
@@ -513,40 +517,38 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
 
                     if (enteredSectionValues == true)
                     {
-                        String[] parts = textLine.split(" (?=[^ ]+$)");
+                        fieldParts = textLine.split(" (?=[^ ]+$)");
 
-                        if (parts.length != 2) 
+                        if (fieldParts.length != 2) 
                         {
                             throw new FileParsingException(errorParsingMessage);
                         }
 
-                        int fieldId;
-
                         try 
                         {
-                            fieldId = Integer.parseInt(parts[1]);
+                            fieldId = Integer.parseInt(fieldParts[1]);
                         } 
                         catch (NumberFormatException ex) 
                         {
                             throw new FileParsingException(errorParsingMessage);
                         }
 
-                        String fieldName = movieOutputFieldsIds.get(fieldId);
+                        fieldName = movieInputOutputFieldsIds.get(fieldId);
 
                         if (fieldName == null) 
                         {
                             throw new FileParsingException(errorParsingMessage);
                         }
 
-                        StringBuilder fieldValue = movieOutputFieldsValues.get(fieldName);
-                        StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                        fieldValue = movieInputOutputFieldsValues.get(fieldName);
+                        newFieldValue = fieldValue.append(fieldParts[0]);
 
                         if (fieldName.equals("shortContentSummary")) 
                         {
                             newFieldValue.append("\n");
                         }
 
-                        movieOutputFieldsValues.put(fieldName, newFieldValue);
+                        movieInputOutputFieldsValues.put(fieldName, newFieldValue);
                     }
                 }
             }
@@ -560,25 +562,25 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         return parsedMovies;
     }
     
-    public @Override void tryDeleteDataOutputFilesCopies() 
+    public @Override void tryDeleteDataInputOutputFilesCopies() 
     {
-        File outputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getTextOutputMoviesFilename());
+        File inputOutputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getTextInputOutputMoviesFilename());
         
-        File outputMoviesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getBinaryOutputMoviesFilename());
+        File inputOutputMoviesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getBinaryInputOutputMoviesFilename());
         
-        outputMoviesTextCopy.delete();
-        outputMoviesBinaryCopy.delete();
+        inputOutputMoviesTextCopy.delete();
+        inputOutputMoviesBinaryCopy.delete();
     }
     
-    public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
+    public @Override void transferBetweenInputOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
     {
-        File outputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getTextOutputMoviesFilename());
+        File inputOutputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getTextInputOutputMoviesFilename());
         
-        File outputMoviesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getBinaryOutputMoviesFilename());
+        File inputOutputMoviesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                "copy_" + DataStore.getBinaryInputOutputMoviesFilename());
                 
         String sourceTextFile;
         String sourceBinaryFile;
@@ -587,17 +589,17 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         
         if (fromCopyFiles == true) 
         {
-            sourceTextFile = outputMoviesTextCopy.getName();
-            sourceBinaryFile = outputMoviesBinaryCopy.getName();
-            destinationBinaryFile = DataStore.getBinaryOutputMoviesFilename();
-            destinationTextFile = DataStore.getTextOutputMoviesFilename();
+            sourceTextFile = inputOutputMoviesTextCopy.getName();
+            sourceBinaryFile = inputOutputMoviesBinaryCopy.getName();
+            destinationBinaryFile = DataStore.getBinaryInputOutputMoviesFilename();
+            destinationTextFile = DataStore.getTextInputOutputMoviesFilename();
         }
         else 
         {
-            sourceTextFile = DataStore.getTextOutputMoviesFilename();
-            sourceBinaryFile = DataStore.getBinaryOutputMoviesFilename();
-            destinationBinaryFile = outputMoviesBinaryCopy.getName();
-            destinationTextFile = outputMoviesTextCopy.getName();
+            sourceTextFile = DataStore.getTextInputOutputMoviesFilename();
+            sourceBinaryFile = DataStore.getBinaryInputOutputMoviesFilename();
+            destinationBinaryFile = inputOutputMoviesBinaryCopy.getName();
+            destinationTextFile = inputOutputMoviesTextCopy.getName();
         }
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
@@ -631,25 +633,25 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         }
         catch (IOException e) 
         {
-            outputMoviesTextCopy.delete();
-            outputMoviesBinaryCopy.delete();
+            inputOutputMoviesTextCopy.delete();
+            inputOutputMoviesBinaryCopy.delete();
             throw new IOException("Chyba při kopírování mezi výstupními soubory filmů a kopiemi");
         }
     }
         
-    public @Override void saveOutputDataIntoFiles(List<MovieOutput> newOutputData) throws IOException
+    public @Override void saveInputOutputDataIntoFiles(List<MovieInputOutput> newInputOutputData) throws IOException
     {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                DataStore.getTextOutputMoviesFilename(), false), StandardCharsets.UTF_8));
+                DataStore.getTextInputOutputMoviesFilename(), false), StandardCharsets.UTF_8));
              DataOutputStream dataOutputStream = new DataOutputStream(
                 new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryOutputMoviesFilename(), false)))) 
+                filenameSeparator + DataStore.getBinaryInputOutputMoviesFilename(), false)))) 
         {
             StringBuilder generatedMoviesTextRepresentations = 
-                    createOutputDataTextRepresentation(newOutputData);
+                    createInputOutputDataTextRepresentation(newInputOutputData);
             
-            for (MovieOutput m : newOutputData) 
+            for (MovieInputOutput m : newInputOutputData) 
             {
                 dataOutputStream.writeInt(m.getId());
                 dataOutputStream.writeLong(m.getRuntimeInSeconds());
@@ -789,7 +791,12 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
         try (Scanner sc = new Scanner(text.toString())) 
         {
             String textLine;
-           
+            String[] fieldParts;
+            int fieldId;
+            String fieldName;
+            StringBuilder fieldValue;
+            StringBuilder newFieldValue;
+            
             while (sc.hasNextLine() == true) 
             {
                 textLine = sc.nextLine();
@@ -833,33 +840,31 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 
                 if (enteredSectionValues == true)
                 {
-                    String[] parts = textLine.split(" (?=[^ ]+$)");
+                    fieldParts = textLine.split(" (?=[^ ]+$)");
                     
-                    if (parts.length != 2)
+                    if (fieldParts.length != 2)
                     {
                         continue;
                     }
-                    
-                    int fieldId;
-                    
+                                        
                     try
                     {
-                        fieldId = Integer.parseInt(parts[1]);
+                        fieldId = Integer.parseInt(fieldParts[1]);
                     }
                     catch (NumberFormatException ex)
                     {
                         continue;
                     }
                     
-                    String fieldName = movieInputFieldsIds.get(fieldId);
+                    fieldName = movieInputFieldsIds.get(fieldId);
                     
                     if (fieldName == null)
                     {
                         continue;
                     }
                     
-                    StringBuilder fieldValue = movieInputFieldsValues.get(fieldName);
-                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                    fieldValue = movieInputFieldsValues.get(fieldName);
+                    newFieldValue = fieldValue.append(fieldParts[0]);
                     
                     if (fieldName.equals("shortContentSummary"))
                     {
@@ -926,93 +931,94 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
     }
     
     /**
-     * Represents a method which parses movie output data (one record) from output text file when position in
+     * Represents a method which parses movie input/output data (one record) from input/output text file when position in
      * file reaches either end marking or reaches another attributes section marking.
-     * @param movieOutputFieldsValues represents list of parsed movie record values mapped to
-     * according movie output model data attributes names.
+     * @param movieInputOutputFieldsValues represents list of parsed movie record values mapped to
+     * according movie input/output model data attributes names.
      * @param parsedMovies represents a list of currently parsed movies
-     * @param movieOutputFields represents movie output model data attributes names, which are
+     * @param movieInputOutputFields represents movie input/output model data attributes names, which are
      * used for indexing particular fields values.
      * @throws NumberFormatException when parsed movie record number values cannot be converted to from String
      */
-    private void parseOutputData(Map<String, StringBuilder> movieOutputFieldsValues,
-            List<MovieOutput> parsedMovies, Field[] movieOutputFields)
+    private void parseInputOutputData(Map<String, StringBuilder> movieInputOutputFieldsValues,
+            List<MovieInputOutput> parsedMovies, Field[] movieInputOutputFields)
     {        
-        int id = Integer.parseInt(movieOutputFieldsValues.get("id").toString());
-        long runtime = Long.parseLong(movieOutputFieldsValues.get("runtimeInSeconds").toString());
-        int percentage = Integer.parseInt(movieOutputFieldsValues.get("percentageRating").toString());
-        long epochSeconds = Long.parseLong(movieOutputFieldsValues.get("releaseDateInEpochSeconds").toString());
+        int id = Integer.parseInt(movieInputOutputFieldsValues.get("id").toString());
+        long runtime = Long.parseLong(movieInputOutputFieldsValues.get("runtimeInSeconds").toString());
+        int percentage = Integer.parseInt(movieInputOutputFieldsValues.get("percentageRating").toString());
+        long epochSeconds = Long.parseLong(movieInputOutputFieldsValues.get("releaseDateInEpochSeconds").toString());
 
-        parsedMovies.add(new MovieOutput(id, runtime, movieOutputFieldsValues.get("name").toString(),
-                percentage, movieOutputFieldsValues.get("hyperlinkForContentWatch").toString(),
-                movieOutputFieldsValues.get("shortContentSummary").toString(),
-                epochSeconds, movieOutputFieldsValues.get("eraCodeDesignation").toString()));
+        parsedMovies.add(new MovieInputOutput(id, runtime, movieInputOutputFieldsValues.get("name").toString(),
+                percentage, movieInputOutputFieldsValues.get("hyperlinkForContentWatch").toString(),
+                movieInputOutputFieldsValues.get("shortContentSummary").toString(),
+                epochSeconds, movieInputOutputFieldsValues.get("eraCodeDesignation").toString()));
 
-        movieOutputFieldsValues.clear();
+        movieInputOutputFieldsValues.clear();
 
-        for (Field field : movieOutputFields) 
+        for (Field field : movieInputOutputFields) 
         {
             if (!Modifier.isStatic(field.getModifiers())) 
             {
-                movieOutputFieldsValues.put(field.getName(), new StringBuilder());
+                movieInputOutputFieldsValues.put(field.getName(), new StringBuilder());
             }
         }
     }
     
     
     /**
-     * Represents a method which creates movie output data (multiple records) text representation
-     * for output text file.
-     * @param newOutputMovies represents list of movie output models data from database
-     * @return text content to save into output text file
+     * Represents a method which creates movie input/output data (multiple records) text representation
+     * for input/output text file.
+     * @param newInputOutputMovies represents list of movie input/output models data from database
+     * @return text content to save into input/output text file
      */
-    private StringBuilder createOutputDataTextRepresentation(List<MovieOutput> newOutputMovies) 
+    private StringBuilder createInputOutputDataTextRepresentation(List<MovieInputOutput> newInputOutputMovies) 
     {
-        Class<?> movieOutputClass = MovieOutput.class;
-        Field[] movieOutputFields = movieOutputClass.getDeclaredFields();
-        Map<String, Integer> movieOutputFieldsIds = new LinkedHashMap<>();
+        Class<?> movieInputOutputClass = MovieInputOutput.class;
+        Field[] movieInputOutputFields = movieInputOutputClass.getDeclaredFields();
+        Map<String, Integer> movieInputOutputFieldsIds = new LinkedHashMap<>();
         
         int k = 0;
         
-        for (Field field : movieOutputFields) 
+        for (Field field : movieInputOutputFields) 
         {
             if (!Modifier.isStatic(field.getModifiers())) 
             {
-                movieOutputFieldsIds.put(field.getName(), k + 1);
+                movieInputOutputFieldsIds.put(field.getName(), k + 1);
                 k++;
             }
         }
 
-        StringBuilder outputTextData = new StringBuilder();
+        StringBuilder inputOutputTextData = new StringBuilder();
         String attributesMarking;
         String valuesMarking;
         StringBuilder changedStringField;
+        String[] shortContentSummaryLines;
 
-        for (MovieOutput m : newOutputMovies) 
+        for (MovieInputOutput m : newInputOutputMovies) 
         {
             attributesMarking = inputFileAttributesSectionMarking.replaceAll("\\\\", "");
-            outputTextData.append(attributesMarking).append("\n");
-            outputTextData.append("\n");
+            inputOutputTextData.append(attributesMarking).append("\n");
+            inputOutputTextData.append("\n");
             
-            outputTextData.append("Identificator: ").append(m.getId()).append("\n");
+            inputOutputTextData.append("Identificator: ").append(m.getId()).append("\n");
             
-            outputTextData.append("\n");
+            inputOutputTextData.append("\n");
 
-            for (Map.Entry<String, Integer> entry : movieOutputFieldsIds.entrySet()) 
+            for (Map.Entry<String, Integer> entry : movieInputOutputFieldsIds.entrySet()) 
             {
-                outputTextData.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
+                inputOutputTextData.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
             }
 
             valuesMarking = inputFileValuesSectionMarking.replaceAll("\\\\", "");
-            outputTextData.append("\n");
-            outputTextData.append(valuesMarking).append("\n");
-            outputTextData.append("\n");
+            inputOutputTextData.append("\n");
+            inputOutputTextData.append(valuesMarking).append("\n");
+            inputOutputTextData.append("\n");
 
-            outputTextData.append(m.getId()).append(" ").
-                    append(movieOutputFieldsIds.get("id")).
+            inputOutputTextData.append(m.getId()).append(" ").
+                    append(movieInputOutputFieldsIds.get("id")).
                     append("\n");
-            outputTextData.append(m.getRuntimeInSeconds()).
-                    append(" ").append(movieOutputFieldsIds.get("runtimeInSeconds")).
+            inputOutputTextData.append(m.getRuntimeInSeconds()).
+                    append(" ").append(movieInputOutputFieldsIds.get("runtimeInSeconds")).
                     append("\n");
             
             changedStringField = new StringBuilder();
@@ -1025,10 +1031,10 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 }
             }
             
-            outputTextData.append(changedStringField.toString()).append(" ").
-                    append(movieOutputFieldsIds.get("name")).append("\n");
-            outputTextData.append(m.getPercentageRating()).
-                    append(" ").append(movieOutputFieldsIds.get("percentageRating")).
+            inputOutputTextData.append(changedStringField.toString()).append(" ").
+                    append(movieInputOutputFieldsIds.get("name")).append("\n");
+            inputOutputTextData.append(m.getPercentageRating()).
+                    append(" ").append(movieInputOutputFieldsIds.get("percentageRating")).
                     append("\n");
             
             changedStringField = new StringBuilder();
@@ -1041,8 +1047,8 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 }
             }
             
-            outputTextData.append(changedStringField.toString()).
-                    append(" ").append(movieOutputFieldsIds.get("hyperlinkForContentWatch")).
+            inputOutputTextData.append(changedStringField.toString()).
+                    append(" ").append(movieInputOutputFieldsIds.get("hyperlinkForContentWatch")).
                     append("\n");
             
             changedStringField = new StringBuilder();
@@ -1055,16 +1061,16 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 }
             }
 
-            String[] shortContentSummaryLines = changedStringField.toString().split("\n");
+            shortContentSummaryLines = changedStringField.toString().split("\n");
 
             for (int i = 0; i < shortContentSummaryLines.length; i++) 
             {
-                outputTextData.append(shortContentSummaryLines[i]).append(" ").
-                        append(movieOutputFieldsIds.get("shortContentSummary")).append("\n");
+                inputOutputTextData.append(shortContentSummaryLines[i]).append(" ").
+                        append(movieInputOutputFieldsIds.get("shortContentSummary")).append("\n");
             }
 
-            outputTextData.append(m.getReleaseDateInEpochSeconds()).
-                    append(" ").append(movieOutputFieldsIds.get("releaseDateInEpochSeconds")).
+            inputOutputTextData.append(m.getReleaseDateInEpochSeconds()).
+                    append(" ").append(movieInputOutputFieldsIds.get("releaseDateInEpochSeconds")).
                     append("\n");
             
             changedStringField = new StringBuilder();
@@ -1077,17 +1083,17 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieOutp
                 }
             }
             
-            outputTextData.append(changedStringField.toString()).
-                    append(" ").append(movieOutputFieldsIds.get("eraCodeDesignation")).
+            inputOutputTextData.append(changedStringField.toString()).
+                    append(" ").append(movieInputOutputFieldsIds.get("eraCodeDesignation")).
                     append("\n").append("\n");
         }
         
-        if (newOutputMovies.isEmpty() == false) 
+        if (newInputOutputMovies.isEmpty() == false) 
         {
             String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
-            outputTextData.append(endMarking).append("\n");
+            inputOutputTextData.append(endMarking).append("\n");
         }
         
-        return outputTextData;
+        return inputOutputTextData;
     }
 }
