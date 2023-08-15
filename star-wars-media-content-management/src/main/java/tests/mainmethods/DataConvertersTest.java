@@ -37,8 +37,8 @@ public class DataConvertersTest
         long epochSeconds = localDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
         LocalDate date = Instant.ofEpochSecond(1336780800).atZone(ZoneOffset.UTC).toLocalDate();
         
-        Movie movie = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "filmA", 
-                50, true, "https://www.example01.com", "Velmi krásný film", 
+        Movie movie = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "movieA", 
+                50, true, "https://www.example01.com", "very pretty movie", 
                 LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
         System.out.println(movie);
@@ -51,8 +51,8 @@ public class DataConvertersTest
         System.out.println("convertToDataFrom (inputOutputData)");
         System.out.println();
         
-        MovieInputOutput movieInputOutput = new MovieInputOutput(1, 45, "filmA", 
-                50, "https://www.example02.com", "Velmi krásný film", 11111111L, "FALL_OF_THE_JEDI");
+        MovieInputOutput movieInputOutput = new MovieInputOutput(1, 45, "movieA", 
+                50, "https://www.example02.com", "very pretty movie", 11111111L, "FALL_OF_THE_JEDI");
         
         System.out.println(movieInputOutput);
         
@@ -71,13 +71,12 @@ public class DataConvertersTest
         System.out.println("convertToDataFrom (inputData)");
         System.out.println();
         
-        MovieInput movieInput = new MovieInput(45, "filmA", 
-                50, "https://www.example01.com", "Velmi krásný film", 
+        MovieInput movieInput = new MovieInput(45, "movieA", 
+                50, "https://www.example01.com", "very pretty movie", 
                 1111111111L, "FALL_OF_THE_JEDI");
         
         System.out.println(movieInput);
         
-
         try 
         {
             convertedMovie = MovieDataConverter.convertToDataFrom(movieInput);

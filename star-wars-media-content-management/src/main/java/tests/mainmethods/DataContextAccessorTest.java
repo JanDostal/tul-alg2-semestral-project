@@ -35,7 +35,7 @@ public class DataContextAccessorTest
 
             //addFrom method
             Movie movieAdd = new Movie(null, Duration.ofMinutes(45), "Star Wars: The New Dawn",
-                    75, true, "https://www.example01.com", "Velmi krásný film",
+                    75, true, "https://www.example01.com", "very pretty movie",
                     LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
 
             moviesTable.addFrom(movieAdd);
@@ -56,7 +56,7 @@ public class DataContextAccessorTest
             List<TVSeason> seasons = seasonsTable.getAll();
 
             TVEpisode episodeAdd = new TVEpisode(null, Duration.ofMinutes(45), "Twin suns",
-                    0, false, "https://www.example02.com", "Velmi krásná epizoda",
+                    0, false, "https://www.example02.com", "very pretty episode",
                     1, seasons.get(0).getPrimaryKey());
 
             episodesTable.addFrom(episodeAdd);
@@ -77,9 +77,9 @@ public class DataContextAccessorTest
             System.out.println("getAll method");
             System.out.println();
 
-            System.out.println("Stav tabulek po použití addFrom:");
+            System.out.println("State of data tables after using addFrom:");
             System.out.println();
-            System.out.println("Filmy:");
+            System.out.println("Movies:");
             System.out.println();
 
             for (Movie m : movies) 
@@ -88,7 +88,7 @@ public class DataContextAccessorTest
             }
 
             System.out.println();
-            System.out.println("Seriály:");
+            System.out.println("TV shows:");
             System.out.println();
 
             for (TVShow s : shows) 
@@ -97,7 +97,7 @@ public class DataContextAccessorTest
             }
 
             System.out.println();
-            System.out.println("Sezóny:");
+            System.out.println("TV seasons:");
             System.out.println();
 
             for (TVSeason s : seasons) 
@@ -106,7 +106,7 @@ public class DataContextAccessorTest
             }
 
             System.out.println();
-            System.out.println("Epizody:");
+            System.out.println("TV episodes:");
             System.out.println();
 
             for (TVEpisode e : episodes) 
@@ -127,9 +127,9 @@ public class DataContextAccessorTest
             moviesTable.deleteBy(movies.get(0).getPrimaryKey());
             movies = moviesTable.getAll();
 
-            System.out.println("Stav tabulek po použití deleteBy:");
+            System.out.println("State of data tables after using deleteBy:");
             System.out.println();
-            System.out.println("Filmy:");
+            System.out.println("Movies:");
             System.out.println();
 
             for (Movie m : movies) 
@@ -138,7 +138,7 @@ public class DataContextAccessorTest
             }
 
             System.out.println();
-            System.out.println("Seriály:");
+            System.out.println("TV shows:");
             System.out.println();
 
             for (TVShow s : shows) 
@@ -147,7 +147,7 @@ public class DataContextAccessorTest
             }
 
             System.out.println();
-            System.out.println("Sezóny:");
+            System.out.println("TV seasons:");
             System.out.println();
 
             for (TVSeason s : seasons) 
@@ -156,10 +156,11 @@ public class DataContextAccessorTest
             }
 
             System.out.println();
-            System.out.println("Epizody:");
+            System.out.println("TV episodes:");
             System.out.println();
 
-            for (TVEpisode e : episodes) {
+            for (TVEpisode e : episodes) 
+            {
                 System.out.println(e);
             }
 
@@ -173,11 +174,11 @@ public class DataContextAccessorTest
 
             seasonsTable.loadFrom(new TVSeason(new PrimaryKey(232), 2, new PrimaryKey(23)));
             episodesTable.loadFrom(new TVEpisode(new PrimaryKey(232), Duration.ofMinutes(45), "Star Wars: The New Dawn",
-                    75, true, "https://www.example01.com", "Velmi krásný film",
+                    75, true, "https://www.example01.com", "very pretty movie",
                     2, new PrimaryKey(232)));
 
             moviesTable.loadFrom(new Movie(new PrimaryKey(21313), Duration.ofMinutes(45), "Star Wars: The New Dawn",
-                    75, true, "https://www.example01.com", "Velmi krásný film",
+                    75, true, "https://www.example01.com", "very pretty movie",
                     LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI));
 
             episodes = episodesTable.getAll();
@@ -185,9 +186,9 @@ public class DataContextAccessorTest
             shows = showsTable.getAll();
             movies = moviesTable.getAll();
 
-            System.out.println("Stav tabulek po použití loadFrom:");
+            System.out.println("State of data tables after using loadFrom:");
             System.out.println();
-            System.out.println("Filmy:");
+            System.out.println("Movies:");
             System.out.println();
 
             for (Movie m : movies) 
@@ -196,7 +197,7 @@ public class DataContextAccessorTest
             }
 
             System.out.println();
-            System.out.println("Seriály:");
+            System.out.println("TV shows:");
             System.out.println();
 
             for (TVShow s : shows) 
@@ -205,7 +206,7 @@ public class DataContextAccessorTest
             }
 
             System.out.println();
-            System.out.println("Sezóny:");
+            System.out.println("TV seasons:");
             System.out.println();
 
             for (TVSeason s : seasons) 
@@ -214,7 +215,7 @@ public class DataContextAccessorTest
             }
 
             System.out.println();
-            System.out.println("Epizody:");
+            System.out.println("TV episodes:");
             System.out.println();
 
             for (TVEpisode e : episodes) 
@@ -232,7 +233,7 @@ public class DataContextAccessorTest
                     DateTimeFormatter.ISO_LOCAL_DATE), Era.REIGN_OF_THE_EMPIRE));
 
             showAdd = showsTable.getBy(shows.get(0).getPrimaryKey());
-            System.out.println("Došlo ke změně dat:" + wasDataChanged);
+            System.out.println("Data change occured:" + wasDataChanged);
             System.out.println(showAdd);
 
             //filterBy method
@@ -240,12 +241,12 @@ public class DataContextAccessorTest
             System.out.println("filterBy method");
             System.out.println();
 
-            showsTable.addFrom(new TVShow(null, "Ahoj", LocalDate.parse("2023-05-20",
+            showsTable.addFrom(new TVShow(null, "Hello", LocalDate.parse("2023-05-20",
                     DateTimeFormatter.ISO_LOCAL_DATE), Era.RISE_OF_THE_FIRST_ORDER));
 
-            //bez filtru
+            //without filter
             System.out.println();
-            System.out.println("bez filtru");
+            System.out.println("without filter");
             System.out.println();
 
             shows = showsTable.getAll();
@@ -254,9 +255,9 @@ public class DataContextAccessorTest
                 System.out.println(s);
             }
 
-            //s filtrem
+            //with filter
             System.out.println();
-            System.out.println("s filtrem");
+            System.out.println("with filter");
             System.out.println();
 
             shows = showsTable.filterBy(o -> o.getEra() == Era.RISE_OF_THE_FIRST_ORDER);
@@ -270,9 +271,9 @@ public class DataContextAccessorTest
             System.out.println("sortBy method");
             System.out.println();
 
-            //bez řazení
+            //without sorting
             System.out.println();
-            System.out.println("bez řazení");
+            System.out.println("without sorting");
             System.out.println();
 
             shows = showsTable.getAll();
@@ -281,9 +282,9 @@ public class DataContextAccessorTest
                 System.out.println(s);
             }
 
-            //s řazením podle jména
+            //with sorting by name
             System.out.println();
-            System.out.println("s řazením podle jména");
+            System.out.println("with sorting by name");
             System.out.println();
 
             showsTable.sortBy((TVShow s1, TVShow s2) -> s1.getName().compareTo(s2.getName()), shows);
@@ -297,9 +298,9 @@ public class DataContextAccessorTest
             System.out.println("sortByPrimaryKey method");
             System.out.println();
 
-            //bez řazení
+            //without sorting
             System.out.println();
-            System.out.println("bez řazení");
+            System.out.println("without sorting");
             System.out.println();
 
             for (TVShow s : shows) 
@@ -307,9 +308,9 @@ public class DataContextAccessorTest
                 System.out.println(s);
             }
 
-            //s řazením podle primary key
+            //with sorting by primary key
             System.out.println();
-            System.out.println("s řazením podle primaryKey");
+            System.out.println("with sorting by primaryKey");
             System.out.println();
 
             showsTable.sortByPrimaryKey(shows);
@@ -318,9 +319,9 @@ public class DataContextAccessorTest
                 System.out.println(s);
             }
 
-            //s řazením podle primary key s null hodnotami
+            //with sorting by primary key with null values
             System.out.println();
-            System.out.println("s řazením podle primary key s null hodnotami");
+            System.out.println("with sorting by primary key with null values");
             System.out.println();
 
             List<TVShow> test = new ArrayList<>();

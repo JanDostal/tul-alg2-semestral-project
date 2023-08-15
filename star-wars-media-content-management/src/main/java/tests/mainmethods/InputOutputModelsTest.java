@@ -20,25 +20,25 @@ public class InputOutputModelsTest
         System.out.println("movie test");
         System.out.println();
         
-        System.out.println("Movie record size: " + MovieInputOutput.MOVIE_RECORD_SIZE + " B");
+        System.out.println("Movie record size: " + MovieInputOutput.MOVIE_RECORD_SIZE + " Bytes");
         
         //tv episode test
         System.out.println();
         System.out.println("tv episode test");
         System.out.println();
-        System.out.println("TV episode record size: " + TVEpisodeInputOutput.TV_EPISODE_RECORD_SIZE + " B");
+        System.out.println("TV episode record size: " + TVEpisodeInputOutput.TV_EPISODE_RECORD_SIZE + " Bytes");
         
         //tv season test
         System.out.println();
         System.out.println("tv season test");
         System.out.println();
-        System.out.println("TV season record size: " + TVSeasonInputOutput.TV_SEASON_RECORD_SIZE + " B");
+        System.out.println("TV season record size: " + TVSeasonInputOutput.TV_SEASON_RECORD_SIZE + " Bytes");
         
         //tv show test
         System.out.println();
         System.out.println("tv show test");
         System.out.println();
-        System.out.println("TV show record size: " + TVShowInputOutput.TV_SHOW_RECORD_SIZE + " B");
+        System.out.println("TV show record size: " + TVShowInputOutput.TV_SHOW_RECORD_SIZE + " Bytes");
         
         // null data attributes test
         System.out.println();

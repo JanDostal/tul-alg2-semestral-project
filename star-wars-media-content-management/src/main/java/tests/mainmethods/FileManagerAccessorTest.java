@@ -36,14 +36,14 @@ public class FileManagerAccessorTest
             
             //getDataDirectoryPath method
             System.out.println();
-            System.out.println("getDataDirectoryPath method (celá úplná cesta):");
+            System.out.println("getDataDirectoryPath method (entire/full path to directory):");
             System.out.println();
                         
             System.out.println(path);
             
             //getBinaryFileContent method
             System.out.println();
-            System.out.println("getBinaryFileContent method (obsah " + 
+            System.out.println("getBinaryFileContent method (content " + 
                     DataStore.getBinaryInputMoviesFilename() + "):");
             System.out.println();
             
@@ -53,7 +53,7 @@ public class FileManagerAccessorTest
             
             //getTextFileContent method
             System.out.println();
-            System.out.println("getTextFileContent method (obsah " + 
+            System.out.println("getTextFileContent method (content " + 
                     DataStore.getTextInputMoviesFilename() + "):");
             System.out.println();
             
@@ -74,7 +74,7 @@ public class FileManagerAccessorTest
         
             for (Map.Entry<Integer, MovieInput> m : a.entrySet()) 
             {
-                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
             }
                         
             //loadInputDataFrom method
@@ -85,7 +85,7 @@ public class FileManagerAccessorTest
         
             for (Map.Entry<Integer, MovieInput> m : b.entrySet()) 
             {
-                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
             }
             
             //saveInputOutputDataIntoFiles method
@@ -93,10 +93,10 @@ public class FileManagerAccessorTest
             System.out.println("saveInputOutputDataIntoFiles method:");
             System.out.println();
             
-            MovieInputOutput movie1 = new MovieInputOutput(2, 222, "Jeníček", 40, 
-                    "https://example2.com", "ahíj\náahoj", 2222, "DAWN_OF_THE_JEDI");
-            MovieInputOutput movie2 = new MovieInputOutput(1, 222, "Mařenka", 100, 
-                    "https://example.com", "ahoj\nahoj", 2222222, "DAWN_OF_THE_JEDI");
+            MovieInputOutput movie1 = new MovieInputOutput(2, 222, "John", 40, 
+                    "https://example2.com", "hellohellohello\nhellohello", 2222, "DAWN_OF_THE_JEDI");
+            MovieInputOutput movie2 = new MovieInputOutput(1, 222, "Marry", 100, 
+                    "https://example.com", "hello\nhello", 2222222, "DAWN_OF_THE_JEDI");
             
             List<MovieInputOutput> list = new ArrayList<>();
             list.add(movie2);
@@ -108,13 +108,13 @@ public class FileManagerAccessorTest
             StringBuilder textTest = fileManager.getMoviesFileManager().getTextInputOutputFileContent();
             
             System.out.println();
-            System.out.println("Vypis " + DataStore.getTextInputOutputMoviesFilename());
+            System.out.println("Printed content of " + DataStore.getTextInputOutputMoviesFilename());
             System.out.println();
             
             System.out.println(textTest);
             
             System.out.println();
-            System.out.println("Vypis " + DataStore.getBinaryInputOutputMoviesFilename());
+            System.out.println("Printed content of " + DataStore.getBinaryInputOutputMoviesFilename());
             System.out.println();
             
             System.out.println(binaryTest);
@@ -177,7 +177,7 @@ public class FileManagerAccessorTest
         
             for (Map.Entry<Integer, TVEpisodeInput> m : ooo.entrySet()) 
             {
-                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
             }
                         
             //loadInputDataFrom method
@@ -188,7 +188,7 @@ public class FileManagerAccessorTest
         
             for (Map.Entry<Integer, TVEpisodeInput> m : ooo2.entrySet()) 
             {
-                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
             }
             
             //saveInputOutputDataIntoFiles method
@@ -196,10 +196,10 @@ public class FileManagerAccessorTest
             System.out.println("saveInputOutputDataIntoFiles method:");
             System.out.println();
             
-            TVEpisodeInputOutput tvEpisode1 = new TVEpisodeInputOutput(2, 222, "Jeníček", 40, 
-                    "https://example2.com", "ahíj\náahoj", 1, 1);
-            TVEpisodeInputOutput tvEpisode2 = new TVEpisodeInputOutput(1, 222, "Mařenka", 100, 
-                    "https://example.com", "ahoj\nahoj", 2, 1);
+            TVEpisodeInputOutput tvEpisode1 = new TVEpisodeInputOutput(2, 222, "John", 40, 
+                    "https://example2.com", "hellohellohello\nhellohello", 1, 1);
+            TVEpisodeInputOutput tvEpisode2 = new TVEpisodeInputOutput(1, 222, "Marry", 100, 
+                    "https://example.com", "hello\nhello", 2, 1);
             
             List<TVEpisodeInputOutput> listEpisodes = new ArrayList<>();
             listEpisodes.add(tvEpisode1);
@@ -211,13 +211,13 @@ public class FileManagerAccessorTest
             textTest = fileManager.getTVEpisodesFileManager().getTextInputOutputFileContent();
             
             System.out.println();
-            System.out.println("Vypis " + DataStore.getTextInputOutputTVEpisodesFilename());
+            System.out.println("Printed content of " + DataStore.getTextInputOutputTVEpisodesFilename());
             System.out.println();
             
             System.out.println(textTest);
             
             System.out.println();
-            System.out.println("Vypis " + DataStore.getBinaryInputOutputTVEpisodesFilename());
+            System.out.println("Printed content of " + DataStore.getBinaryInputOutputTVEpisodesFilename());
             System.out.println();
             
             System.out.println(binaryTest);
@@ -280,7 +280,7 @@ public class FileManagerAccessorTest
         
             for (Map.Entry<Integer, TVSeasonInput> m : ooo3.entrySet()) 
             {
-                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
             }
                         
             //loadInputDataFrom method
@@ -291,7 +291,7 @@ public class FileManagerAccessorTest
         
             for (Map.Entry<Integer, TVSeasonInput> m : ooo4.entrySet()) 
             {
-                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
             }
             
             //saveInputOutputDataIntoFiles method
@@ -312,13 +312,13 @@ public class FileManagerAccessorTest
             textTest = fileManager.getTVSeasonsFileManager().getTextInputOutputFileContent();
             
             System.out.println();
-            System.out.println("Vypis " + DataStore.getTextInputOutputTVSeasonsFilename());
+            System.out.println("Printed content of " + DataStore.getTextInputOutputTVSeasonsFilename());
             System.out.println();
             
             System.out.println(textTest);
             
             System.out.println();
-            System.out.println("Vypis " + DataStore.getBinaryInputOutputTVSeasonsFilename());
+            System.out.println("Printed content of " + DataStore.getBinaryInputOutputTVSeasonsFilename());
             System.out.println();
             
             System.out.println(binaryTest);
@@ -381,7 +381,7 @@ public class FileManagerAccessorTest
         
             for (Map.Entry<Integer, TVShowInput> m : ooo5.entrySet()) 
             {
-                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
             }
                         
             //loadInputDataFrom method
@@ -392,7 +392,7 @@ public class FileManagerAccessorTest
         
             for (Map.Entry<Integer, TVShowInput> m : ooo6.entrySet()) 
             {
-                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
             }
             
             //saveInputOutputDataIntoFiles method
@@ -400,8 +400,8 @@ public class FileManagerAccessorTest
             System.out.println("saveInputOutputDataIntoFiles method:");
             System.out.println();
             
-            TVShowInputOutput tvShow1 = new TVShowInputOutput(2, "Jeníček", 2, "FALL_OF_THE_JEDI");
-            TVShowInputOutput tvShow2 = new TVShowInputOutput(1, "Mařenka", 5, "FALL_OF_THE_JEDI");
+            TVShowInputOutput tvShow1 = new TVShowInputOutput(2, "John", 2, "FALL_OF_THE_JEDI");
+            TVShowInputOutput tvShow2 = new TVShowInputOutput(1, "Marry", 5, "FALL_OF_THE_JEDI");
             
             List<TVShowInputOutput> listShows = new ArrayList<>();
             listShows.add(tvShow1);
@@ -413,13 +413,13 @@ public class FileManagerAccessorTest
             textTest = fileManager.getTVShowsFileManager().getTextInputOutputFileContent();
             
             System.out.println();
-            System.out.println("Vypis " + DataStore.getTextInputOutputTVShowsFilename());
+            System.out.println("Printed content of " + DataStore.getTextInputOutputTVShowsFilename());
             System.out.println();
             
             System.out.println(textTest);
             
             System.out.println();
-            System.out.println("Vypis " + DataStore.getBinaryInputOutputTVShowsFilename());
+            System.out.println("Printed content of " + DataStore.getBinaryInputOutputTVShowsFilename());
             System.out.println();
             
             System.out.println(binaryTest);

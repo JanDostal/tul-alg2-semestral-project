@@ -20,18 +20,18 @@ public class DataModelsTest
         System.out.println("movie test");
         System.out.println();
         
-        MediaContent filmA = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "filmA", 
-                50, false, "https://www.example01.com", "Velmi krásný film", 
+        MediaContent movieA = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "movieA", 
+                50, false, "https://www.example01.com", "very pretty movie", 
                 LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
-        Movie filmB = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "filmB", 
-                60, true, "https://www.example02.com", "Velmi špatný film", 
+        Movie movieB = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "movieB", 
+                60, true, "https://www.example02.com", "very bad movie", 
                 LocalDate.parse("2023-05-13", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
                 
-        System.out.println(filmA);
-        System.out.println("filmB.releaseDate (should be 2023-05-13): " + filmB.getReleaseDate());
-        System.out.println("filmB.era (should be THE_NEW_REPUBLIC): " + filmB.getEra());
-        System.out.println(filmB);
+        System.out.println(movieA);
+        System.out.println("movieB.releaseDate (should be 2023-05-13): " + movieB.getReleaseDate());
+        System.out.println("movieB.era (should be THE_NEW_REPUBLIC): " + movieB.getEra());
+        System.out.println(movieB);
         
         //era test
         System.out.println();
@@ -40,10 +40,10 @@ public class DataModelsTest
         
         System.out.println("defaultName (should be FALL_OF_THE_JEDI): " + Era.FALL_OF_THE_JEDI);
         System.out.println("displayName (should be Pád Jediů): " + Era.FALL_OF_THE_JEDI.getDisplayName());
-        System.out.println("description (mělo by se umět vypsat víceřádkově): \n" +
+        System.out.println("description (should be able to print on multiple lines): \n" +
                 Era.FALL_OF_THE_JEDI.getDescription());
         
-        System.out.println("era list (nejstarší DAWN_OF_THE_JEDI, nejnovější NEW_JEDI_ORDER)");
+        System.out.println("era list (oldest DAWN_OF_THE_JEDI, latest NEW_JEDI_ORDER)");
         
         for (Era era : Era.values()) 
         {
@@ -73,11 +73,11 @@ public class DataModelsTest
         System.out.println();
         
         MediaContent episodeA = new TVEpisode(new PrimaryKey(2), Duration.ofMinutes(45), "episodeA", 
-                50, false, "https://www.example01.com", "Velmi krásná epizoda", 
+                50, false, "https://www.example01.com", "very pretty episode", 
                 4, season.getTVShowForeignKey());
         
         TVEpisode episodeB = new TVEpisode(new PrimaryKey(3), Duration.ofMinutes(50), "episodeB", 
-                60, true, "https://www.example02.com", "Velmi špatná epizoda", 3, season.getTVShowForeignKey());
+                60, true, "https://www.example02.com", "very bad episode", 3, season.getTVShowForeignKey());
                 
         System.out.println(episodeA);
         System.out.println("episodeB.orderIntTVShowSeason (should be 3): " + episodeB.getOrderInTVShowSeason());
@@ -117,8 +117,8 @@ public class DataModelsTest
                 + show01_test.equals(show02_test));
         
         //instances originating from same class
-        Movie movie01_test = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "filmA", 
-                50, false, "https://www.example01.com", "Velmi krásný film", 
+        Movie movie01_test = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "movieA", 
+                50, false, "https://www.example01.com", "very pretty movie", 
                 LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
         System.out.println("are instances from same class (should be false): show01_test == movie01_test: " 
@@ -155,8 +155,8 @@ public class DataModelsTest
                 + primaryKey01_test.equals(primaryKey02_test));
         
         //instances originating from same class
-        Movie movie02_test = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "filmA", 
-                50, false, "https://www.example01.com", "Velmi krásný film", 
+        Movie movie02_test = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "movieA", 
+                50, false, "https://www.example01.com", "very pretty movie", 
                 LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
         System.out.println("are instances from same class (should be false): primaryKey01_test == movie02_test: " 
@@ -212,8 +212,8 @@ public class DataModelsTest
                 + episode01_test.equals(episode02_test));
         
         //instances originating from same class
-        Movie movie03_test = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "filmA", 
-                50, false, "https://www.example01.com", "Velmi krásný film", 
+        Movie movie03_test = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "movieA", 
+                50, false, "https://www.example01.com", "very pretty movie", 
                 LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
         
         System.out.println("are instances from same class (should be false): episode01_test == movie03_test: " 
@@ -221,13 +221,13 @@ public class DataModelsTest
         
         //same data
         TVEpisode episode03_test = new TVEpisode(new PrimaryKey(2), Duration.ofMinutes(45), "episodeA", 
-                50, false, "https://www.example01.com", "Ahoj3", 
+                50, false, "https://www.example01.com", "Hello3", 
                 4, referenceTVSeason_test.getTVShowForeignKey());
         TVEpisode episode04_test = new TVEpisode(new PrimaryKey(2), Duration.ofMinutes(45), "episodeA", 
-                50, false, "https://www.example01.com", "Ahoj2", 
+                50, false, "https://www.example01.com", "Hello2", 
                 4, referenceTVSeason_test.getTVShowForeignKey());
         TVEpisode episode05_test = new TVEpisode(new PrimaryKey(2), Duration.ofMinutes(45), "episodeA", 
-                50, false, "https://www.example02.com", "Ahoj3", 
+                50, false, "https://www.example02.com", "Hello3", 
                 4, referenceTVSeason_test.getTVShowForeignKey());
         TVEpisode episode06_test = new TVEpisode(new PrimaryKey(2), Duration.ofMinutes(45), "episodeA", 
                 50, false, null, null, 
@@ -258,7 +258,7 @@ public class DataModelsTest
         System.out.println();
         
         //same reference
-        Movie movie04_test = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "filmB", 
+        Movie movie04_test = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "movieB", 
                 60, true, null, null, 
                 LocalDate.parse("2023-05-13", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
         
@@ -276,16 +276,16 @@ public class DataModelsTest
                 + movie04_test.equals(episode09_test));
         
         //same data
-        Movie movie06_test = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "filmB", 
-                60, true, "https://www.example01.com", "Ahoj1", 
+        Movie movie06_test = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "movieB", 
+                60, true, "https://www.example01.com", "Hello1", 
                 LocalDate.parse("2023-05-13", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
-        Movie movie07_test = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "filmB", 
-                60, true,  "https://www.example01.com", "Ahoj2", 
+        Movie movie07_test = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "movieB", 
+                60, true,  "https://www.example01.com", "Hello2", 
                 LocalDate.parse("2023-05-13", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
-        Movie movie08_test = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "filmB", 
-                60, true, "https://www.example02.com", "Ahoj1", 
+        Movie movie08_test = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "movieB", 
+                60, true, "https://www.example02.com", "Hello1", 
                 LocalDate.parse("2023-05-13", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
-        Movie movie09_test = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "filmB", 
+        Movie movie09_test = new Movie(new PrimaryKey(3), Duration.ofMinutes(50), "movieB", 
                 60, true, null, null, 
                 LocalDate.parse("2023-05-13", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
         
