@@ -99,7 +99,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
             
             while((textLine = bufferedReader.readLine()) != null) 
             {
-               text.append(textLine);
+               text.append(textLine).append("\n");
             }
         }
         catch (FileNotFoundException e) 
@@ -242,7 +242,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
             
             while((textLine = bufferedReader.readLine()) != null) 
             {
-               text.append(textLine);
+               text.append(textLine).append("\n");
             }
         }
         catch (FileNotFoundException e) 
@@ -410,7 +410,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
             
                 while((textLine = bufferedReader.readLine()) != null) 
                 {
-                    text.append(textLine);
+                    text.append(textLine).append("\n");
                 }
             }
             catch (IOException e) 
@@ -614,6 +614,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
             while ((textLine = bufferedReader.readLine()) != null) 
             {
                 bufferedWriter.write(textLine);
+                bufferedWriter.write("\n");
             }
             
             while ((bytesRead = dataInputStream.read(byteBuffer)) != -1) 
@@ -729,7 +730,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
             
                 while((textLine = bufferedReader.readLine()) != null) 
                 {
-                    text.append(textLine);
+                    text.append(textLine).append("\n");
                 }
             }
             catch (FileNotFoundException e) 
