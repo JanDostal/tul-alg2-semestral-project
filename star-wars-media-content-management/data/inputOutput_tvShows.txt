@@ -1,0 +1,193 @@
+[Attributes]
+
+Identificator: 89766915
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+89766915 1
+Ahsoka 2
+1692748800 3
+THE_NEW_REPUBLIC 4
+
+[Attributes]
+
+Identificator: 144683746
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+144683746 1
+Obi-Wan Kenobi 2
+1653609600 3
+REIGN_OF_THE_EMPIRE 4
+
+[Attributes]
+
+Identificator: 325965893
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+325965893 1
+Star Wars: The Bad Batch 2
+1620086400 3
+REIGN_OF_THE_EMPIRE 4
+
+[Attributes]
+
+Identificator: 428717659
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+428717659 1
+Star Wars: Young Jedi Adventures 2
+1683158400 3
+THE_HIGH_REPUBLIC 4
+
+[Attributes]
+
+Identificator: 551406760
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+551406760 1
+Andor 2
+1412294400 3
+REIGN_OF_THE_EMPIRE 4
+
+[Attributes]
+
+Identificator: 640027308
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+640027308 1
+Star Wars: Tales of the Jedi 2
+1666742400 3
+FALL_OF_THE_JEDI 4
+
+[Attributes]
+
+Identificator: 790718063
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+790718063 1
+The Acolyte 2
+-1 3
+THE_HIGH_REPUBLIC 4
+
+[Attributes]
+
+Identificator: 873779107
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+873779107 1
+Star Wars: Clone Wars (2008 version) 2
+1222992000 3
+FALL_OF_THE_JEDI 4
+
+[Attributes]
+
+Identificator: 878759855
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+878759855 1
+Star Wars: Droids 2
+494899200 3
+REIGN_OF_THE_EMPIRE 4
+
+[Attributes]
+
+Identificator: 1143492190
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+1143492190 1
+Star Wars: Clone Wars (Tartakovsky 2003 version) 2
+1068163200 3
+FALL_OF_THE_JEDI 4
+
+[Attributes]
+
+Identificator: 1555232819
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+1555232819 1
+Andor 2
+1663718400 3
+REIGN_OF_THE_EMPIRE 4
+
+[Attributes]
+
+Identificator: 1731002053
+
+id 1
+name 2
+releaseDateInEpochSeconds 3
+eraCodeDesignation 4
+
+[Values]
+
+1731002053 1
+Skeleton Crew 2
+-1 3
+THE_NEW_REPUBLIC 4
+
+[End]

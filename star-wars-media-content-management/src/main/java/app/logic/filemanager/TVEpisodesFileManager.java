@@ -95,14 +95,11 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
                         DataStore.getTextInputOutputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
         {
-            char[] buffer = new char[1024];
-            int charsRead;
-            String textPart;
+            String textLine;
             
-            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            while((textLine = bufferedReader.readLine()) != null) 
             {
-               textPart = new String(buffer, 0, charsRead);
-               text.append(textPart);
+               text.append(textLine);
             }
         }
         catch (FileNotFoundException e) 
@@ -236,14 +233,11 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
                         DataStore.getTextInputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
         {
-            char[] buffer = new char[1024];
-            int charsRead;
-            String textPart;
+            String textLine;
             
-            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            while((textLine = bufferedReader.readLine()) != null) 
             {
-               textPart = new String(buffer, 0, charsRead);
-               text.append(textPart);
+               text.append(textLine);
             }
         }
         catch (FileNotFoundException e) 
@@ -278,7 +272,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
                         DataStore.getBinaryInputTVEpisodesFilename()))) 
         {
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[8192];
             int bytesRead;
             String textPart;
 
@@ -402,14 +396,11 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
                     DataStore.getTextInputOutputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
             {
-                char[] buffer = new char[1024];
-                int charsRead;
-                String textPart;
+                String textLine;
             
-                while((charsRead = bufferedReader.read(buffer)) != -1) 
+                while((textLine = bufferedReader.readLine()) != null) 
                 {
-                    textPart = new String(buffer, 0, charsRead);
-                    text.append(textPart);
+                    text.append(textLine);
                 }
             }
             catch (IOException e) 
@@ -606,14 +597,13 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 filenameSeparator + destinationBinaryFile, false)))
              )
         {
-            char[] buffer = new char[1024];
-            byte[] byteBuffer = new byte[1024];
-            int charsRead;
+            byte[] byteBuffer = new byte[8192];
             int bytesRead;
+            String textLine;
             
-            while ((charsRead = bufferedReader.read(buffer)) != -1) {
+            while ((textLine = bufferedReader.readLine()) != null) {
                 
-                bufferedWriter.write(buffer, 0, charsRead);
+                bufferedWriter.write(textLine);
             }
             
             while ((bytesRead = dataInputStream.read(byteBuffer)) != -1) 
@@ -687,7 +677,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
                             DataStore.getBinaryInputTVEpisodesFilename()))) 
             {
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[8192];
                 int bytesRead;
                 String textPart;
 
@@ -722,14 +712,11 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
                     DataStore.getTextInputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
             {
-                char[] buffer = new char[1024];
-                int charsRead;
-                String textPart;
+                String textLine;
             
-                while((charsRead = bufferedReader.read(buffer)) != -1) 
+                while((textLine = bufferedReader.readLine()) != null) 
                 {
-                    textPart = new String(buffer, 0, charsRead);
-                    text.append(textPart);
+                    text.append(textLine);
                 }
             }
             catch (FileNotFoundException e) 

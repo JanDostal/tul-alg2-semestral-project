@@ -140,7 +140,7 @@ public class ConsoleUI
         while (isDatabaseFromFilesLoaded == false && isConsoleRunning == true) 
         {
             displayInfoMessage("Dále prosím vyberte typ vstupních/výstupních souborů a to buďto\n" + 
-                    "textové\nnebo binární\npro načtení existujících dat z daných souborů");
+                    "textové nebo binární\npro načtení existujících dat z daných souborů");
             
             displayLoadingInputOutputFilesMenu();
             

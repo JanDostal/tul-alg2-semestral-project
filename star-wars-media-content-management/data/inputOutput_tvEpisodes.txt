@@ -1,0 +1,277 @@
+[Attributes]
+
+Identificator: 11785267
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+orderInTVShowSeason 7
+tvSeasonId 8
+
+[Values]
+
+11785267 1
+1200 2
+Downfall of a Droid 3
+66 4
+ 5
+When R2D2 goes missing in action during a skirmish in an asteroid belt Anakin insists on mounting a rescue mission. 6
+Although Obi-Wan is against wasting time on a droid, Anakin explains the R2's memory has never been wiped 6
+and thus carries all of the Republic's tactics and base locations. Meanwhile, 6
+the plucky Atromech has been picked up by Trandoshan scavenger Gha Nachkt in his freighter, Vulture's Claw. Nachkt plans to sell the droid to the highest bidder. 6
+6 7
+1430026055 8
+
+[Attributes]
+
+Identificator: 557939417
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+orderInTVShowSeason 7
+tvSeasonId 8
+
+[Values]
+
+557939417 1
+1320 2
+Lair of Grievous 3
+60 4
+ 5
+ 6
+10 7
+1430026055 8
+
+[Attributes]
+
+Identificator: 573993202
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+orderInTVShowSeason 7
+tvSeasonId 8
+
+[Values]
+
+573993202 1
+1260 2
+Ambush 3
+-1 4
+https://serial.kukaj.io/star-wars-klonove-valky/S01E01 5
+Yoda travels to a neutral coral moon of Rugosa to persuade King Katuunko to allow the building of a Republic supply base on Toydaria. 6
+ 6
+However, Asajj Ventress makes sure she arrives first to offer Katuungo a similar offer from the Separatist side. 6
+1 7
+1430026055 8
+
+[Attributes]
+
+Identificator: 717915336
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+orderInTVShowSeason 7
+tvSeasonId 8
+
+[Values]
+
+717915336 1
+1320 2
+ 3
+89 4
+https://serial.kukaj.io/star-wars-klonove-valky/S01E12 5
+Obi-Wan and Anakin are now hostages along with Dooku at Hondo Ohnaka's stronghold on Florrum. 6
+Delegate Jar Jar Binks and Senator Kharrus arrive with the ransom and a battalion of troopers, 6
+only to find there is treason within the pirate ranks. 6
+12 7
+1430026055 8
+
+[Attributes]
+
+Identificator: 1224964683
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+orderInTVShowSeason 7
+tvSeasonId 8
+
+[Values]
+
+1224964683 1
+1320 2
+Mystery of a Thousand Moons 3
+97 4
+https://serial.kukaj.io/star-wars-klonove-valky/S01E18 5
+The deadly Blue Shadow Virus is unleashed in Vindi's underground lab with Padmé, Ahsoka, 6
+Jar Jar and several Clone troopers stuck in it. Anakin and Obi-Wan have just 48 hours to find a cure. 6
+They travel to the moons of Iego but will have a hard time trying to get past the 'Ghost of Drol' in order to leave again. 6
+18 7
+1430026055 8
+
+[Attributes]
+
+Identificator: 1325136138
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+orderInTVShowSeason 7
+tvSeasonId 8
+
+[Values]
+
+1325136138 1
+1320 2
+Rising Malevolence 3
+-1 4
+ 5
+General Grievous uses his latest weapon, the Malevolence, to destroy Plo Koon's fleet. 6
+Stuck in an escape pod with three clone troopers, Koon fends off more battle droids while Anakin and Ahsoka mount a rescue mission. 6
+2 7
+1430026055 8
+
+[Attributes]
+
+Identificator: 1525772321
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+orderInTVShowSeason 7
+tvSeasonId 8
+
+[Values]
+
+1525772321 1
+1320 2
+ 3
+74 4
+https://serial.kukaj.io/star-wars-klonove-valky/S01E13 5
+General Skywalker is injured while rescuing fellow Jedi General Aayla Secura from Super Battle Droids equipped with rocket packs. 6
+Ahsoka Tano crash-lands their shuttle on the neutral planet of Maridun, where the native Lurmen villagers refuse to takes sides in the war. 6
+They are however willing to send a healer to help Anakin. 6
+13 7
+1430026055 8
+
+[Attributes]
+
+Identificator: 1565336190
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+orderInTVShowSeason 7
+tvSeasonId 8
+
+[Values]
+
+1565336190 1
+1200 2
+Duel of the Droids 3
+53 4
+https://serial.kukaj.io/star-wars-klonove-valky/S01E07 5
+ 6
+7 7
+1430026055 8
+
+[Attributes]
+
+Identificator: 1635420813
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+orderInTVShowSeason 7
+tvSeasonId 8
+
+[Values]
+
+1635420813 1
+1320 2
+Bombad Jedi 3
+76 4
+ 5
+ 6
+8 7
+1430026055 8
+
+[Attributes]
+
+Identificator: 1679311136
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+orderInTVShowSeason 7
+tvSeasonId 8
+
+[Values]
+
+1679311136 1
+1320 2
+Destroy Malevolence 3
+-1 4
+ 5
+ 6
+4 7
+1430026055 8
+
+[Attributes]
+
+Identificator: 1714743706
+
+id 1
+runtimeInSeconds 2
+name 3
+percentageRating 4
+hyperlinkForContentWatch 5
+shortContentSummary 6
+orderInTVShowSeason 7
+tvSeasonId 8
+
+[Values]
+
+1714743706 1
+1320 2
+Shadow of Malevolence 3
+-1 4
+https://serial.kukaj.io/star-wars-klonove-valky/S01E03 5
+ 6
+3 7
+1430026055 8
+
+[End]
