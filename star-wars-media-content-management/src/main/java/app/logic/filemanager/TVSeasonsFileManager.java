@@ -101,8 +101,6 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             {
                text.append(textLine).append("\n");
             }
-            
-            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -124,6 +122,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputOutputTVSeasonsFilename() + " je prázdný");
             }
         }
+        
+        text.deleteCharAt(text.length() - 1);
         
         return text;
     }
@@ -201,8 +201,6 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             {
                text.append(textLine).append("\n");
             }
-            
-            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -223,6 +221,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputTVSeasonsFilename() + " je prázdný");
             }
         }
+        
+        text.deleteCharAt(text.length() - 1);
         
         return text;
     }
@@ -281,13 +281,14 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         
         if (fromBinary == true) 
         {            
-            String errorParsingMessage = "Soubor " + DataStore.getBinaryInputOutputTVSeasonsFilename()+ " má poškozená data";
+            String errorParsingMessage = "Soubor " + DataStore.getBinaryInputOutputTVSeasonsFilename() + " má poškozená data";
             
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryInputOutputTVSeasonsFilename())))) 
             {
                 boolean fileEndReached = false;
+                
                 int tvSeasonId;
                 int tvSeasonOrderInTVShow;
                 int tvSeasonTVShowId;
@@ -514,7 +515,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 text.append(textLine).append("\n");
             }
             
-            text.deleteCharAt(text.length() - 1);
+            if (text.length() != 0) text.deleteCharAt(text.length() - 1);
+
             bufferedWriter.write(text.toString());
             
             while ((bytesRead = dataInputStream.read(byteBuffer)) != -1) 

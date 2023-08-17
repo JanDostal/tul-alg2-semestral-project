@@ -101,8 +101,6 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
             {
                text.append(textLine).append("\n");
             }
-            
-            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -123,6 +121,8 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputOutputTVEpisodesFilename() + " je prázdný");
             }
         }
+        
+        text.deleteCharAt(text.length() - 1);
         
         return text;
     }
@@ -241,8 +241,6 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
             {
                text.append(textLine).append("\n");
             }
-            
-            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -263,6 +261,8 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputTVEpisodesFilename() + " je prázdný");
             }
         }
+        
+        text.deleteCharAt(text.length() - 1);
         
         return text;
     }
@@ -321,13 +321,14 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         
         if (fromBinary == true) 
         {
-            String errorParsingMessage = "Soubor " + DataStore.getBinaryInputOutputTVEpisodesFilename()+ " má poškozená data";
+            String errorParsingMessage = "Soubor " + DataStore.getBinaryInputOutputTVEpisodesFilename() + " má poškozená data";
             
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryInputOutputTVEpisodesFilename())))) 
             {
                 boolean fileEndReached = false;
+                
                 int tvEpisodeId;
                 long tvEpisodeRuntime;
                 char[] tvEpisodeName;
@@ -589,7 +590,8 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 text.append(textLine).append("\n");
             }
             
-            text.deleteCharAt(text.length() - 1);
+            if (text.length() != 0) text.deleteCharAt(text.length() - 1);
+            
             bufferedWriter.write(text.toString());
             
             while ((bytesRead = dataInputStream.read(byteBuffer)) != -1) 

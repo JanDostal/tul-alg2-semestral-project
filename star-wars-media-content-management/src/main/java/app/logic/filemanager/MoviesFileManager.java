@@ -101,8 +101,6 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
             {
                text.append(textLine).append("\n");
             }
-            
-            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -123,6 +121,8 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputOutputMoviesFilename() + " je prázdný");
             }
         }
+        
+        text.deleteCharAt(text.length() - 1);
         
         return text;
     }
@@ -246,8 +246,6 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
             {
                text.append(textLine).append("\n");
             }
-            
-            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -268,6 +266,8 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputMoviesFilename() + " je prázdný");
             }
         }
+        
+        text.deleteCharAt(text.length() - 1);
         
         return text;
     }
@@ -326,13 +326,14 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         
         if (fromBinary == true) 
         {
-            String errorParsingMessage = "Soubor " + DataStore.getBinaryInputOutputMoviesFilename()+ " má poškozená data";
+            String errorParsingMessage = "Soubor " + DataStore.getBinaryInputOutputMoviesFilename() + " má poškozená data";
             
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
                 filenameSeparator + DataStore.getBinaryInputOutputMoviesFilename())))) 
             {
                 boolean fileEndReached = false;
+                
                 int movieId;
                 long movieRuntime;
                 char[] movieName;
@@ -599,7 +600,8 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
                 text.append(textLine).append("\n");
             }
             
-            text.deleteCharAt(text.length() - 1);
+            if (text.length() != 0) text.deleteCharAt(text.length() - 1);
+
             bufferedWriter.write(text.toString());
             
             while ((bytesRead = dataInputStream.read(byteBuffer)) != -1) 

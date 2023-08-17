@@ -101,8 +101,6 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowI
             {
                text.append(textLine).append("\n");
             }
-            
-            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -123,6 +121,8 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowI
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputOutputTVShowsFilename() + " je prázdný");
             }
         }
+        
+        text.deleteCharAt(text.length() - 1);
         
         return text;
     }
@@ -217,8 +217,6 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowI
             {
                text.append(textLine).append("\n");
             }
-            
-            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -239,6 +237,8 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowI
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputTVShowsFilename() + " je prázdný");
             }
         }
+        
+        text.deleteCharAt(text.length() - 1);
         
         return text;
     }
@@ -298,7 +298,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowI
         
         if (fromBinary == true) 
         {            
-            String errorParsingMessage = "Soubor " + DataStore.getBinaryInputOutputTVShowsFilename()+ " má poškozená data";
+            String errorParsingMessage = "Soubor " + DataStore.getBinaryInputOutputTVShowsFilename() + " má poškozená data";
             
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
@@ -547,7 +547,8 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowI
                 text.append(textLine).append("\n");
             }
             
-            text.deleteCharAt(text.length() - 1);
+            if (text.length() != 0) text.deleteCharAt(text.length() - 1);
+
             bufferedWriter.write(text.toString());
             
             while ((bytesRead = dataInputStream.read(byteBuffer)) != -1) 
