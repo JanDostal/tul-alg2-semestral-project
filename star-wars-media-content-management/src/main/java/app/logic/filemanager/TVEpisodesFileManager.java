@@ -101,6 +101,8 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
             {
                text.append(textLine).append("\n");
             }
+            
+            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -239,6 +241,8 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
             {
                text.append(textLine).append("\n");
             }
+            
+            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -382,30 +386,20 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryInputOutputTVEpisodesFilename());
             }
             
-            if (inputOutputTVEpisodesBinary.length() != 0 && parsedTVEpisodes.isEmpty()) 
-            {
-                throw new FileParsingException(errorParsingMessage);
-            }
+            if (inputOutputTVEpisodesBinary.length() != 0 && parsedTVEpisodes.isEmpty()) throw new FileParsingException(errorParsingMessage);
         }
         else 
         {
-            StringBuilder text = new StringBuilder();
             String errorParsingMessage = "Soubor " + DataStore.getTextInputOutputTVEpisodesFilename() + " má poškozená data";
+            StringBuilder text;
             
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                    DataStore.getTextInputOutputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
+            try 
             {
-                String textLine;
-            
-                while((textLine = bufferedReader.readLine()) != null) 
-                {
-                    text.append(textLine).append("\n");
-                }
+                text = getTextInputOutputFileContent();
             }
-            catch (IOException e) 
+            catch (FileEmptyException ex) 
             {
-                throw new IOException("Chyba při čtení souboru " + DataStore.getTextInputOutputTVEpisodesFilename());
+                text = new StringBuilder();
             }
 
             Class<?> tvEpisodeInputOutputClass = TVEpisodeInputOutput.class;
@@ -438,10 +432,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 StringBuilder fieldValue;
                 StringBuilder newFieldValue;
                 
-                if (sc.hasNextLine() == true) 
-                {
-                    isFileEmpty = false;
-                }
+                if (sc.hasNextLine() == true) isFileEmpty = false;
 
                 while (sc.hasNextLine() == true) 
                 {
@@ -456,7 +447,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     {
                         try 
                         {
-                            parseInputOutputData(tvEpisodeInputOutputFieldsValues, parsedTVEpisodes, tvEpisodeInputOutputFields);
+                            parseInputOutputDataFromTextFile(tvEpisodeInputOutputFieldsValues, parsedTVEpisodes, tvEpisodeInputOutputFields);
                         }
                         catch (NumberFormatException ex) 
                         {
@@ -477,7 +468,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     {
                         try 
                         {
-                            parseInputOutputData(tvEpisodeInputOutputFieldsValues, parsedTVEpisodes, tvEpisodeInputOutputFields);
+                            parseInputOutputDataFromTextFile(tvEpisodeInputOutputFieldsValues, parsedTVEpisodes, tvEpisodeInputOutputFields);
                         }
                         catch (NumberFormatException ex) 
                         {
@@ -500,10 +491,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     {
                         fieldParts = textLine.split(" (?=[^ ]+$)");
 
-                        if (fieldParts.length != 2) 
-                        {
-                            throw new FileParsingException(errorParsingMessage);
-                        }
+                        if (fieldParts.length != 2) throw new FileParsingException(errorParsingMessage);
 
                         try 
                         {
@@ -516,18 +504,12 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
 
                         fieldName = tvEpisodeInputOutputFieldsIds.get(fieldId);
 
-                        if (fieldName == null) 
-                        {
-                            throw new FileParsingException(errorParsingMessage);
-                        }
+                        if (fieldName == null) throw new FileParsingException(errorParsingMessage);
 
                         fieldValue = tvEpisodeInputOutputFieldsValues.get(fieldName);
                         newFieldValue = fieldValue.append(fieldParts[0]);
 
-                        if (fieldName.equals("shortContentSummary")) 
-                        {
-                            newFieldValue.append("\n");
-                        }
+                        if (fieldName.equals("shortContentSummary")) newFieldValue.append("\n");
 
                         tvEpisodeInputOutputFieldsValues.put(fieldName, newFieldValue);
                     }
@@ -599,13 +581,16 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         {
             byte[] byteBuffer = new byte[8192];
             int bytesRead;
+            StringBuilder text = new StringBuilder();
             String textLine;
             
-            while ((textLine = bufferedReader.readLine()) != null) {
-                
-                bufferedWriter.write(textLine);
-                bufferedWriter.write("\n");
+            while ((textLine = bufferedReader.readLine()) != null) 
+            {
+                text.append(textLine).append("\n");
             }
+            
+            text.deleteCharAt(text.length() - 1);
+            bufferedWriter.write(text.toString());
             
             while ((bytesRead = dataInputStream.read(byteBuffer)) != -1) 
             {
@@ -670,77 +655,8 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
     public @Override Map<Integer, TVEpisodeInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
             FileEmptyException, FileNotFoundException, FileParsingException
     {
-        StringBuilder text = new StringBuilder();
-        
-        if (fromBinary == true) 
-        {
-            try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
-                    FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                            DataStore.getBinaryInputTVEpisodesFilename()))) 
-            {
-                byte[] buffer = new byte[8192];
-                int bytesRead;
-                String textPart;
-
-                while ((bytesRead = bufferedInputStream.read(buffer)) != -1) 
-                {
-                    textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
-                    text.append(textPart);
-                }
-            }
-            catch (FileNotFoundException e) 
-            {
-                throw new FileNotFoundException("Soubor " + 
-                        DataStore.getBinaryInputTVEpisodesFilename() + " neexistuje");
-            }
-            catch (IOException e) 
-            {
-                throw new IOException("Chyba při čtení souboru " + 
-                        DataStore.getBinaryInputTVEpisodesFilename());
-            }
-            
-            File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
-                + DataStore.getBinaryInputTVEpisodesFilename());
-        
-            if (binaryFile.length() == 0) 
-            {
-                throw new FileEmptyException("Soubor " + DataStore.getBinaryInputTVEpisodesFilename() + " je prázdný");
-            }
-        }
-        else 
-        {
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                    DataStore.getTextInputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
-            {
-                String textLine;
-            
-                while((textLine = bufferedReader.readLine()) != null) 
-                {
-                    text.append(textLine).append("\n");
-                }
-            }
-            catch (FileNotFoundException e) 
-            {
-                throw new FileNotFoundException("Soubor " + 
-                        DataStore.getTextInputTVEpisodesFilename() + " neexistuje");
-            }
-            catch (IOException e) 
-            {
-                throw new IOException("Chyba při čtení souboru " + 
-                        DataStore.getTextInputTVEpisodesFilename());
-            }
-            
-            try (Scanner sc = new Scanner(text.toString())) 
-            {
-                if (sc.hasNextLine() == false)
-                {
-                    sc.close();
-                    throw new FileEmptyException("Soubor " + DataStore.getTextInputTVEpisodesFilename() + " je prázdný");
-                }
-            }
-        }
-                                
+        StringBuilder text = fromBinary == true ? getBinaryInputFileContent() : getTextInputFileContent();
+                   
         Class<?> tvEpisodeInputClass = TVEpisodeInput.class;
         Field[] tvEpisodeInputFields = tvEpisodeInputClass.getDeclaredFields();
         Map<String, StringBuilder> tvEpisodeInputFieldsValues = new LinkedHashMap<>();
@@ -817,10 +733,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 {
                     fieldParts = textLine.split(" (?=[^ ]+$)");
                     
-                    if (fieldParts.length != 2)
-                    {
-                        continue;
-                    }
+                    if (fieldParts.length != 2) continue;
                                         
                     try
                     {
@@ -833,18 +746,12 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     
                     fieldName = tvEpisodeInputFieldsIds.get(fieldId);
                     
-                    if (fieldName == null)
-                    {
-                        continue;
-                    }
+                    if (fieldName == null) continue;
                     
                     fieldValue = tvEpisodeInputFieldsValues.get(fieldName);
                     newFieldValue = fieldValue.append(fieldParts[0]);
                     
-                    if (fieldName.equals("shortContentSummary"))
-                    {
-                        newFieldValue.append("\n");
-                    }
+                    if (fieldName.equals("shortContentSummary")) newFieldValue.append("\n");
                     
                     tvEpisodeInputFieldsValues.put(fieldName, newFieldValue);
                 }
@@ -859,7 +766,6 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         
         return parsedTVEpisodes;
     }
-    
     
     /**
      * Represents a method which parses tv episode input data (one record) from input binary or text 
@@ -914,7 +820,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
      * used for indexing particular fields values.
      * @throws NumberFormatException when parsed tv episode record number values cannot be converted to from String
      */
-    private void parseInputOutputData(Map<String, StringBuilder> tvEpisodeInputOutputFieldsValues,
+    private void parseInputOutputDataFromTextFile(Map<String, StringBuilder> tvEpisodeInputOutputFieldsValues,
             List<TVEpisodeInputOutput> parsedTVEpisodes, Field[] tvEpisodeInputOutputFields) 
     {        
         int id = Integer.parseInt(tvEpisodeInputOutputFieldsValues.get("id").toString());

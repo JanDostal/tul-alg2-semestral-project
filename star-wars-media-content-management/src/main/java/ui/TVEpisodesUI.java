@@ -121,9 +121,9 @@ public class TVEpisodesUI
         System.out.println("3. Vypsat oznámené TV seriály v jednotlivých érách");
         System.out.println("4. Vypsat vydané TV seriály v jednotlivých érách");
         System.out.println("5. Vypsat nejnovější již vydané TV seriály");
-        System.out.println("6. Vypsat obsahy výstupních souborů TV epizod");
-        System.out.println("7. Vypsat obsahy výstupních souborů TV sezón");
-        System.out.println("8. Vypsat obsahy výstupních souborů TV seriálů");
+        System.out.println("6. Vypsat obsahy vstupních/výstupních souborů TV epizod");
+        System.out.println("7. Vypsat obsahy vstupních/výstupních souborů TV sezón");
+        System.out.println("8. Vypsat obsahy vstupních/výstupních souborů TV seriálů");
         System.out.println("0. Vrátit se zpět do hlavního menu");
         System.out.println(horizontalLine);
     }

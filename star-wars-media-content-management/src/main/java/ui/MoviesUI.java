@@ -119,7 +119,7 @@ public class MoviesUI
         System.out.println("6. Vypsat vydané zhlédnuté filmy v jednotlivých érách");
         System.out.println("7. Vypsat nejoblíbenější filmy");
         System.out.println("8. Vypsat nejnovější již vydané filmy");
-        System.out.println("9. Vypsat obsahy výstupních souborů filmů");
+        System.out.println("9. Vypsat obsahy vstupních/výstupních souborů filmů");
         System.out.println("0. Vrátit se zpět do hlavního menu");
         System.out.println(horizontalLine);
     }

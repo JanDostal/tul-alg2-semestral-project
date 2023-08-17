@@ -101,6 +101,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             {
                text.append(textLine).append("\n");
             }
+            
+            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -199,6 +201,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
             {
                text.append(textLine).append("\n");
             }
+            
+            text.deleteCharAt(text.length() - 1);
         }
         catch (FileNotFoundException e) 
         {
@@ -309,30 +313,20 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryInputOutputTVSeasonsFilename());
             }
             
-            if (inputOutputTVSeasonsBinary.length() != 0 && parsedTVSeasons.isEmpty()) 
-            {
-                throw new FileParsingException(errorParsingMessage);
-            }
+            if (inputOutputTVSeasonsBinary.length() != 0 && parsedTVSeasons.isEmpty()) throw new FileParsingException(errorParsingMessage);
         }
         else 
         {            
-            StringBuilder text = new StringBuilder();
             String errorParsingMessage = "Soubor " + DataStore.getTextInputOutputTVSeasonsFilename() + " má poškozená data";
+            StringBuilder text;
             
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                    DataStore.getTextInputOutputTVSeasonsFilename()), StandardCharsets.UTF_8))) 
+            try 
             {
-                String textLine;
-            
-                while((textLine = bufferedReader.readLine()) != null) 
-                {
-                    text.append(textLine).append("\n");
-                }
+                text = getTextInputOutputFileContent();
             }
-            catch (IOException e) 
+            catch (FileEmptyException ex) 
             {
-                throw new IOException("Chyba při čtení souboru " + DataStore.getTextInputOutputTVSeasonsFilename());
+                text = new StringBuilder();
             }
 
             Class<?> tvSeasonInputOutputClass = TVSeasonInputOutput.class;
@@ -365,10 +359,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 StringBuilder fieldValue;
                 StringBuilder newFieldValue;
                 
-                if (sc.hasNextLine() == true) 
-                {
-                    isFileEmpty = false;
-                }
+                if (sc.hasNextLine() == true) isFileEmpty = false;
 
                 while (sc.hasNextLine() == true) 
                 {
@@ -383,7 +374,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     {
                         try 
                         {
-                            parseInputOutputData(tvSeasonInputOutputFieldsValues, parsedTVSeasons, tvSeasonInputOutputFields);
+                            parseInputOutputDataFromTextFile(tvSeasonInputOutputFieldsValues, parsedTVSeasons, tvSeasonInputOutputFields);
                         }
                         catch (NumberFormatException ex) 
                         {
@@ -404,7 +395,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     {
                         try 
                         {
-                            parseInputOutputData(tvSeasonInputOutputFieldsValues, parsedTVSeasons, tvSeasonInputOutputFields);
+                            parseInputOutputDataFromTextFile(tvSeasonInputOutputFieldsValues, parsedTVSeasons, tvSeasonInputOutputFields);
                         }
                         catch (NumberFormatException ex) 
                         {
@@ -427,10 +418,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     {
                         fieldParts = textLine.split(" (?=[^ ]+$)");
 
-                        if (fieldParts.length != 2) 
-                        {
-                            throw new FileParsingException(errorParsingMessage);
-                        }
+                        if (fieldParts.length != 2) throw new FileParsingException(errorParsingMessage);
 
                         try 
                         {
@@ -443,10 +431,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
 
                         fieldName = tvSeasonInputOutputFieldsIds.get(fieldId);
 
-                        if (fieldName == null) 
-                        {
-                            throw new FileParsingException(errorParsingMessage);
-                        }
+                        if (fieldName == null) throw new FileParsingException(errorParsingMessage);
 
                         fieldValue = tvSeasonInputOutputFieldsValues.get(fieldName);
                         newFieldValue = fieldValue.append(fieldParts[0]);
@@ -521,13 +506,16 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         {
             byte[] byteBuffer = new byte[8192];
             int bytesRead;
+            StringBuilder text = new StringBuilder();
             String textLine;
             
-            while ((textLine = bufferedReader.readLine()) != null) {
-                
-                bufferedWriter.write(textLine);
-                bufferedWriter.write("\n");
+            while ((textLine = bufferedReader.readLine()) != null) 
+            {
+                text.append(textLine).append("\n");
             }
+            
+            text.deleteCharAt(text.length() - 1);
+            bufferedWriter.write(text.toString());
             
             while ((bytesRead = dataInputStream.read(byteBuffer)) != -1) 
             {
@@ -572,77 +560,8 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
     public @Override Map<Integer, TVSeasonInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
             FileEmptyException, FileNotFoundException, FileParsingException
     {
-        StringBuilder text = new StringBuilder();
-        
-        if (fromBinary == true) 
-        {
-            try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
-                    FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                            DataStore.getBinaryInputTVSeasonsFilename()))) 
-            {
-                byte[] buffer = new byte[8192];
-                int bytesRead;
-                String textPart;
-
-                while ((bytesRead = bufferedInputStream.read(buffer)) != -1) 
-                {
-                    textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
-                    text.append(textPart);
-                }
-            }
-            catch (FileNotFoundException e) 
-            {
-                throw new FileNotFoundException("Soubor " + 
-                        DataStore.getBinaryInputTVSeasonsFilename() + " neexistuje");
-            }
-            catch (IOException e) 
-            {
-                throw new IOException("Chyba při čtení souboru " + 
-                        DataStore.getBinaryInputTVSeasonsFilename());
-            }
-            
-            File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
-                + DataStore.getBinaryInputTVSeasonsFilename());
-        
-            if (binaryFile.length() == 0) 
-            {
-                throw new FileEmptyException("Soubor " + DataStore.getBinaryInputTVSeasonsFilename() + " je prázdný");
-            }
-        }
-        else 
-        {
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                    DataStore.getTextInputTVSeasonsFilename()), StandardCharsets.UTF_8))) 
-            {
-                String textLine;
-            
-                while((textLine = bufferedReader.readLine()) != null) 
-                {
-                    text.append(textLine).append("\n");
-                }
-            }
-            catch (FileNotFoundException e) 
-            {
-                throw new FileNotFoundException("Soubor " + 
-                        DataStore.getTextInputTVSeasonsFilename() + " neexistuje");
-            }
-            catch (IOException e) 
-            {
-                throw new IOException("Chyba při čtení souboru " + 
-                        DataStore.getTextInputTVSeasonsFilename());
-            }
-            
-            try (Scanner sc = new Scanner(text.toString())) 
-            {
-                if (sc.hasNextLine() == false)
-                {
-                    sc.close();
-                    throw new FileEmptyException("Soubor " + DataStore.getTextInputTVSeasonsFilename() + " je prázdný");
-                }
-            }
-        }
-                                
+        StringBuilder text = fromBinary == true ? getBinaryInputFileContent() : getTextInputFileContent();
+                             
         Class<?> tvSeasonInputClass = TVSeasonInput.class;
         Field[] tvSeasonInputFields = tvSeasonInputClass.getDeclaredFields();
         Map<String, StringBuilder> tvSeasonInputFieldsValues = new LinkedHashMap<>();
@@ -719,10 +638,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                 {
                     fieldParts = textLine.split(" (?=[^ ]+$)");
                     
-                    if (fieldParts.length != 2)
-                    {
-                        continue;
-                    }
+                    if (fieldParts.length != 2) continue;
                                         
                     try
                     {
@@ -735,10 +651,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
                     
                     fieldName = tvSeasonInputFieldsIds.get(fieldId);
                     
-                    if (fieldName == null)
-                    {
-                        continue;
-                    }
+                    if (fieldName == null) continue;
                     
                     fieldValue = tvSeasonInputFieldsValues.get(fieldName);
                     newFieldValue = fieldValue.append(fieldParts[0]);
@@ -807,7 +720,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
      * used for indexing particular fields values.
      * @throws NumberFormatException when parsed tv season record number values cannot be converted to from String
      */
-    private void parseInputOutputData(Map<String, StringBuilder> tvSeasonInputOutputFieldsValues,
+    private void parseInputOutputDataFromTextFile(Map<String, StringBuilder> tvSeasonInputOutputFieldsValues,
             List<TVSeasonInputOutput> parsedTVSeasons, Field[] tvSeasonInputOutputFields) 
     {        
         int id = Integer.parseInt(tvSeasonInputOutputFieldsValues.get("id").toString());
