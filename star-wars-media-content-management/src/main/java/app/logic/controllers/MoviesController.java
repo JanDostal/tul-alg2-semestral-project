@@ -169,7 +169,6 @@ public class MoviesController
         return movieController;
     }
     
-    
     /**
      * Represents an email method for sending e-mail with HTML encoded unwatched movies with hyperlinks, sorted from oldest.
      * @param recipientEmailAddress entered recipient e-mail address from user

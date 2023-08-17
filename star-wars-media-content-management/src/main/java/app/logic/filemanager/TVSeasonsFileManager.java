@@ -528,7 +528,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         {
             inputOutputTVSeasonsTextCopy.delete();
             inputOutputTVSeasonsBinaryCopy.delete();
-            throw new IOException("Chyba při kopírování mezi výstupními soubory sezón seriálů a kopiemi");
+            throw new IOException("Chyba při kopírování mezi vstupními/výstupními soubory sezón seriálů a kopiemi");
         }
     }
     
@@ -555,7 +555,7 @@ public class TVSeasonsFileManager implements IDataFileManager<TVSeasonInput, TVS
         }
         catch (IOException e) 
         {
-            throw new IOException("Chyba při zápisu výstupních souborů sezón seriálů");
+            throw new IOException("Chyba při zápisu vstupních/výstupních souborů sezón seriálů");
         }
     }
     

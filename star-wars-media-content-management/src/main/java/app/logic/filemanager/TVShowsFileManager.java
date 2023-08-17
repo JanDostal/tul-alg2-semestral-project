@@ -560,7 +560,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowI
         {
             inputOutputTVShowsTextCopy.delete();
             inputOutputTVShowsBinaryCopy.delete();
-            throw new IOException("Chyba při kopírování mezi výstupními soubory seriálů a kopiemi");
+            throw new IOException("Chyba při kopírování mezi vstupními/výstupními soubory seriálů a kopiemi");
         }
     }
     
@@ -597,7 +597,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowI
         }
         catch (IOException e) 
         {
-            throw new IOException("Chyba při zápisu výstupních souborů seriálů");
+            throw new IOException("Chyba při zápisu vstupních/výstupních souborů seriálů");
         }
     }
     

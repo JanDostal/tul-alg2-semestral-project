@@ -35,7 +35,6 @@ public class TVShowsTable implements IDataTable<TVShow>
     
     private final Random primaryKeysGenerator;
     
-    
     /**
      * Creates singleton instance of TVShowsTable.
      * Uses dependency injection to inject data context service.

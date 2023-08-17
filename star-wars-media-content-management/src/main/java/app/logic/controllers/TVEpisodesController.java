@@ -182,7 +182,7 @@ public class TVEpisodesController
         
         if (foundTVShow.getReleaseDate() == null || foundTVShow.getReleaseDate().compareTo(currentDate) > 0)
         {
-                throw new DatabaseException("Seriál vybraný pro odeslání e-mailu ještě nebyl vydán");
+            throw new DatabaseException("Seriál vybraný pro odeslání e-mailu ještě nebyl vydán");
         }
         
         List<TVEpisode> seasonEpisodes;

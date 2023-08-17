@@ -34,7 +34,6 @@ public class TVEpisodesTable implements IDataTable<TVEpisode>
     
     private final Random primaryKeysGenerator;
     
-    
     /**
      * Creates singleton instance of TVEpisodesTable.
      * Uses dependency injection to inject data context service.

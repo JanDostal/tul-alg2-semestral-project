@@ -613,7 +613,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         {
             inputOutputMoviesTextCopy.delete();
             inputOutputMoviesBinaryCopy.delete();
-            throw new IOException("Chyba při kopírování mezi výstupními soubory filmů a kopiemi");
+            throw new IOException("Chyba při kopírování mezi vstupními/výstupními soubory filmů a kopiemi");
         }
     }
         
@@ -663,7 +663,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         }
         catch (IOException e) 
         {
-            throw new IOException("Chyba při zápisu výstupních souborů filmů");
+            throw new IOException("Chyba při zápisu vstupních/výstupních souborů filmů");
         }
     }
     
