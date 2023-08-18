@@ -33,9 +33,13 @@ public class ConsoleUI
     
     private final MoviesController moviesController;
     
-    private MoviesUI moviesUI;
+    private MoviesSubUI moviesSubUI;
     
-    private TVEpisodesUI tvEpisodesUI;
+    private TVEpisodesSubUI tvEpisodesSubUI;
+    
+    private TVSeasonsSubUI tvSeasonsSubUI;
+    
+    private TVShowsSubUI tvShowsSubUI;
    
     /**
      * Creates a new instance of ConsoleUI.
@@ -56,8 +60,10 @@ public class ConsoleUI
     private void initializeConsoleUI() 
     {
         wasInitialized = true;
-        this.moviesUI = new MoviesUI(this);
-        this.tvEpisodesUI = new TVEpisodesUI(this);
+        this.moviesSubUI = new MoviesSubUI(this);
+        this.tvEpisodesSubUI = new TVEpisodesSubUI(this);
+        this.tvSeasonsSubUI = new TVSeasonsSubUI(this);
+        this.tvShowsSubUI = new TVShowsSubUI(this);
     }
     
     /**
@@ -82,6 +88,22 @@ public class ConsoleUI
     protected TVEpisodesController getTVEpisodesController() 
     {
         return tvEpisodesController;
+    }
+    
+    /**
+     * @return TV seasons UI submodule instance (usage in tv shows UI submodule)
+     */
+    protected TVSeasonsSubUI getTVSeasonsSubUI() 
+    {
+        return tvSeasonsSubUI;
+    }
+    
+    /**
+     * @return TV episodes UI submodule instance (usage in tv seasons UI submodule)
+     */
+    protected TVEpisodesSubUI getTVEpisodesSubUI() 
+    {
+        return tvEpisodesSubUI;
     }
     
     /**
@@ -218,10 +240,10 @@ public class ConsoleUI
                         printInformationsAboutChronologicalEras();
                         break;
                     case 2:
-                        moviesUI.start();
+                        moviesSubUI.handleDisplayMoviesManagementSubmenu();
                         break;
                     case 3:
-                        tvEpisodesUI.start();
+                        tvShowsSubUI.handleDisplayTVShowsManagementSubmenu();
                         break;
                     case 0:
                         isConsoleRunning = false;
@@ -321,7 +343,7 @@ public class ConsoleUI
         System.out.println(menuNameWithHorizontalLines);
         System.out.println("1. Vypsat informace o chronologických érách");
         System.out.println("2. Spravovat filmy");
-        System.out.println("3. Spravovat TV epizody");
+        System.out.println("3. Spravovat TV seriály");
         System.out.println("0. Ukončit aplikaci");
         System.out.println(horizontalLine);
     }

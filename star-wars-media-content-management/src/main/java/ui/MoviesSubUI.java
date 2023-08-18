@@ -17,29 +17,30 @@ import org.apache.commons.mail.EmailException;
 
 /**
  * Represents a movies UI submodule, which represents a UI section dealing with movies data.
- * MoviesUI is communicating with ConsoleUI to use common methods and access movies controller with scanner.
+ * MoviesSubUI is communicating with ConsoleUI to use common methods and access movies controller with scanner.
  * @author jan.dostal
  */
-public class MoviesUI 
+public class MoviesSubUI 
 {
     private final ConsoleUI consoleUI;
     
     /**
-     * Creates a new instance of MoviesUI.
+     * Creates a new instance of MoviesSubUI.
      * Uses dependency injection to inject consoleUI ui module.
      * @param consoleUI existing instance of ConsoleUI. 
      * Can be used for using common methods from {@link ConsoleUI} class or access
      * movies controller with scanner.
      */
-    protected MoviesUI(ConsoleUI consoleUI) 
+    protected MoviesSubUI(ConsoleUI consoleUI) 
     {
         this.consoleUI = consoleUI;
     }
-    
+        
     /**
-     * Method for starting this UI submodule (ConsoleUI class calls this method)
+     * Method for handling displaying movies management submenu
+     * ({@link displayMoviesManagementSubmenu}). ConsoleUI class calls this method.
      */
-    protected void start() 
+    protected void handleDisplayMoviesManagementSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Správa filmů");
         boolean returnToMainMenu = false;
@@ -100,7 +101,7 @@ public class MoviesUI
     }
     
     /**
-     * Method for displaying this ui submodule submenu with choices for managing movies
+     * Method for displaying submenu with choices for managing movies
      */
     private void displayMoviesManagementSubmenu() 
     {
