@@ -2221,12 +2221,12 @@ note for TVShowInput "Součást package app.models.input"
         +toString() String
     }
 
-note for MovieOutput "Součást package app.models.output"
-note for TVEpisodeOutput "Součást package app.models.output"
-note for TVSeasonOutput "Součást package app.models.output"
-note for TVShowOutput "Součást package app.models.output"
+note for MovieInputOutput "Součást package app.models.inputoutput"
+note for TVEpisodeInputOutput "Součást package app.models.inputoutput"
+note for TVSeasonInputOutput "Součást package app.models.inputoutput"
+note for TVShowInputOutput "Součást package app.models.inputoutput"
 
-    class MovieOutput{
+    class MovieInputOutput{
         +int ATTRIBUTE_NAME_LENGTH$
         +int ATTRIBUTE_HYPERLINK_LENGTH$
         +int ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH$
@@ -2244,14 +2244,14 @@ note for TVShowOutput "Součást package app.models.output"
         -char[] shortContentSummary
         -long releaseDateInEpochSeconds
         -char[] eraCodeDesignation
-        +MovieOutput(int id, long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, long releaseDateInEpochSeconds, String eraCodeDesignation)
+        +MovieInputOutput(int id, long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, long releaseDateInEpochSeconds, String eraCodeDesignation)
         +getName() String
         +getHyperlinkForContentWatch() String
         +getShortContentSummary() String
         +getEraCodeDesignation() String
         +toString() String
     }
-    class TVEpisodeOutput{
+    class TVEpisodeInputOutput{
         +int ATTRIBUTE_NAME_LENGTH$
         +int ATTRIBUTE_HYPERLINK_LENGTH$
         +int ATTRIBUTE_SUMMARY_LENGTH$
@@ -2269,13 +2269,13 @@ note for TVShowOutput "Součást package app.models.output"
         -char[] shortContentSummary
         -int orderInTVShowSeason
         -int tvSeasonId
-        +TVEpisodeOutput(int id, long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, int orderInTVShowSeason, int tvSeasonId)
+        +TVEpisodeInputOutput(int id, long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, int orderInTVShowSeason, int tvSeasonId)
         +getName() String
         +getHyperlinkForContentWatch() String
         +getShortContentSummary() String
         +toString() String
     }
-    class TVSeasonOutput{
+    class TVSeasonInputOutput{
         -int ATTRIBUTE_ID_BYTES$
         -int ATTRIBUTE_ORDERTVSHOW_BYTES$
         -int ATTRIBUTE_TVSHOWID_BYTES$
@@ -2283,10 +2283,10 @@ note for TVShowOutput "Součást package app.models.output"
         -int id
         -int orderInTVShow
         -int tvShowId
-        +TVSeasonOutput(int id, int orderInTVShow, int tvShowId)
+        +TVSeasonInputOutput(int id, int orderInTVShow, int tvShowId)
         +toString() String
     }
-    class TVShowOutput{
+    class TVShowInputOutput{
         +int ATTRIBUTE_NAME_LENGTH$
         +int ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH$
         -int ATTRIBUTE_ID_BYTES$
@@ -2296,7 +2296,7 @@ note for TVShowOutput "Součást package app.models.output"
         -char[] name
         -long releaseDateInEpochSeconds
         -char[] eraCodeDesignation
-        +TVShowOutput(int id, String name, long releaseDateInEpochSeconds, String eraCodeDesignation)
+        +TVShowInputOutput(int id, String name, long releaseDateInEpochSeconds, String eraCodeDesignation)
         +getName() String
         +getEraCodeDesignation() String
         +toString() String
@@ -2306,7 +2306,7 @@ note for PrimaryKey "Součást package app.models.data"
 note for DatabaseRecord "Součást package app.models.data"
 note for MediaContent "Součást package app.models.data"
 note for Movie "Součást package app.models.data"
-note for TVEpisode "SSoučást package app.models.data"
+note for TVEpisode "Součást package app.models.data"
 note for TVSeason "Součást package app.models.data"
 note for TVShow "Součást package app.models.data"
 note for Era "Součást package app.models.data"
@@ -2413,27 +2413,27 @@ note for TVShowDataConverter "Součást package utils.helpers"
 
     class MovieDataConverter{
         -MovieDataConverter()
-        +convertToOutputDataFrom(Movie data)$ MovieOutput
+        +convertToInputOutputDataFrom(Movie data)$ MovieOutput
         +convertToDataFrom(MovieInput inputData)$ Movie throws DataConversionException
-        +convertToDataFrom(MovieOutput outputData)$ Movie throws DataConversionException
+        +convertToDataFrom(MovieInputOutput inputOutputData)$ Movie throws DataConversionException
     }
     class TVEpisodeDataConverter{
         -TVEpisodeDataConverter()
-        +convertToOutputDataFrom(TVEpisode data)$ TVEpisodeOutput
-        +convertToDataFrom(TVEpisodeOutput outputData)$ TVEpisode
+        +convertToInputOutputDataFrom(TVEpisode data)$ TVEpisodeOutput
         +convertToDataFrom(TVEpisodeInput inputData, PrimaryKey tvSeasonForeignKey)$ TVEpisode
+        +convertToDataFrom(TVEpisodeInputOutput inputOutputData)$ TVEpisode
     }
     class TVSeasonDataConverter{
         -TVSeasonDataConverter()
-        +convertToOutputDataFrom(TVSeason data)$ TVSeasonOutput
+        +convertToInputOutputDataFrom(TVSeason data)$ TVSeasonOutput
         +convertToDataFrom(TVSeasonInput inputData, PrimaryKey tvShowForeignKey)$ TVSeason
-        +convertToDataFrom(TVSeasonOutput outputData)$ TVSeason
+        +convertToDataFrom(TVSeasonInputOutput inputOutputData)$ TVSeason
     }
     class TVShowDataConverter{
         -TVShowDataConverter()
-        +convertToOutputDataFrom(TVShow data)$ TVShowOutput
+        +convertToInputOutputDataFrom(TVShow data)$ TVShowOutput
         +convertToDataFrom(TVShowInput inputData)$ TVShow throws DataConversionException
-        +convertToDataFrom(TVShowOutput outputData)$ TVShow throws DataConversionException
+        +convertToDataFrom(TVShowInputOutput inputOutputData)$ TVShow throws DataConversionException
     }
 
 note for DataStore "Součást package app.logic.datastore (datová vrstva)"
@@ -2474,14 +2474,14 @@ TVShowsTable --* DataContextAccessor : Is part of
         -String binaryInputTVShowsFilename$
         -String binaryInputTVSeasonsFilename$
         -String binaryInputTVEpisodesFilename$
-        -String textOutputMoviesFilename$
-        -String textOutputTVShowsFilename$
-        -String textOutputTVSeasonsFilename$
-        -String textOutputTVEpisodesFilename$
-        -String binaryOutputMoviesFilename$
-        -String binaryOutputTVShowsFilename$
-        -String binaryOutputTVSeasonsFilename$
-        -String binaryOutputTVEpisodesFilename$
+        -String textInputOutputMoviesFilename$
+        -String textInputOutputTVShowsFilename$
+        -String textInputOutputTVSeasonsFilename$
+        -String textInputOutputTVEpisodesFilename$
+        -String binaryInputOutputMoviesFilename$
+        -String binaryInputOutputTVShowsFilename$
+        -String binaryInputOutputTVSeasonsFilename$
+        -String binaryInputOutputTVEpisodesFilename$
         -Collator czechCollator$
         -Map~String_String~ erasDescriptions$
         +loadEraDescription(String era)$ String
@@ -2489,7 +2489,7 @@ TVShowsTable --* DataContextAccessor : Is part of
     class IDataTable~T extends DatabaseRecord~{
         <<Interface>>
         +addFrom(T inputData) throws DatabaseException
-        +loadFrom(T outputData) throws DatabaseException
+        +loadFrom(T inputOutputData) throws DatabaseException
         +deleteBy(PrimaryKey primaryKey) throws DatabaseException
         +editBy(PrimaryKey primaryKey, T editedExistingData) boolean throws DatabaseException
         +getBy(PrimaryKey primaryKey) T
@@ -2576,80 +2576,68 @@ FileManagerAccessor --* TVShowsFileManager : Contains
     }
     class IDataFileManager~T_S~{
         <<Interface>>
-        +getTextOutputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
-        +getBinaryOutputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
+        +getTextInputOutputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
+        +getBinaryInputOutputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
         +getTextInputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
         +getBinaryInputFileContent() StringBuilder throws throws FileNotFoundException, IOException, FileEmptyException
-        +loadOutputDataFrom(boolean fromBinary) List~S~ throws IOException, FileParsingException
-        +tryDeleteDataOutputFilesCopies()
-        +transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
-        +saveOutputDataIntoFiles(List~S~ newOutputData) throws IOException
+        +loadInputOutputDataFrom(boolean fromBinary) List~S~ throws IOException, FileParsingException
+        +tryDeleteInputOutputDataFilesCopies()
+        +transferBetweenInputOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
+        +saveInputOutputDataIntoFiles(List~S~ newInputOutputData) throws IOException
         +loadInputDataFrom(boolean fromBinary) Map~Integer_T~ throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
     }
     class FileManagerAccessor{
         <<Service>>
+        -String fileSeparator$
+        -String textFileEndMarking$
+        -String textFileValuesSectionMarking$
+        -String textFileAttributesSectionMarking$
         -FileManagerAccessor fileManagerAccessor$
         -File dataDirectory$
-        -IDataFileManager~MovieInput_MovieOutput~ moviesFileManager
-        -IDataFileManager~TVShowInput_TVShowOutput~ tvShowsFileManager
-        -IDataFileManager~TVSeasonInput_TVSeasonOutput~ tvSeasonsFileManager
-        -IDataFileManager~TVEpisodeInput_TVEpisodeOutput~ tvEpisodesFileManager
-        -String filenameSeparator
-        -String inputFileEndMarking
-        -String inputFileValuesSectionMarking
-        -String inputFileAttributesSectionMarking
+        -IDataFileManager~MovieInput_MovieInputOutput~ moviesFileManager
+        -IDataFileManager~TVShowInput_TVShowInputOutput~ tvShowsFileManager
+        -IDataFileManager~TVSeasonInput_TVSeasonInputOutput~ tvSeasonsFileManager
+        -IDataFileManager~TVEpisodeInput_TVEpisodeInputOutput~ tvEpisodesFileManager
         -FileManagerAccessor()
         +getInstance()$ FileManagerAccessor
+        #getFileSeparator()$ String
+        #getTextFileEndMarking()$ String
+        #getTextFileValuesSectionMarking()$ String
+        #getTextFileAttributesSectionMarking()$ String
         +getDataDirectoryPath()$ String
         +setDataDirectory(String directoryFullPath)$
     }
     class MoviesFileManager{
-        -IDataFileManager~MovieInput_MovieOutput~ moviesFileManager$
-        -String filenameSeparator
-        -String inputFileEndMarking
-        -String inputFileValuesSectionMarking
-        -String inputFileAttributesSectionMarking
-        -MoviesFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
-        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~MovieInput_MovieOutput~
+        -IDataFileManager~MovieInput_MovieInputOutput~ moviesFileManager$
+        -MoviesFileManager()
+        #getInstance()$ IDataFileManager~MovieInput_MovieInputOutput~
         -parseInputData(Map~String_StringBuilder~ movieInputFieldsValues, Map~Integer_MovieInput~ parsedMovies, Field[] movieInputFields, int inputMovieOrder)
-        -parseOutputData(Map~String_StringBuilder~ movieOutputFieldsValues, List~MovieOutput~ parsedMovies, Field[] movieOutputFields)
-        -createOutputDataTextRepresentation(List~MovieOutput~ newOutputMovies) StringBuilder
+        -parseInputOutputDataFromTextFile(Map~String_StringBuilder~ movieInputOutputFieldsValues, List~MovieInputOutput~ parsedMovies, Field[] movieInputOutputFields)
+        -createInputOutputDataTextRepresentation(List~MovieInputOutput~ newInputOutputMovies) StringBuilder
     }
     class TVEpisodesFileManager{
-        -IDataFileManager~TVEpisodeInput_TVEpisodeOutput~ tvEpisodesFileManager$
-        -String filenameSeparator
-        -String inputFileEndMarking
-        -String inputFileValuesSectionMarking
-        -String inputFileAttributesSectionMarking
-        -TVEpisodesFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
-        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~TVEpisodeInput_TVEpisodeOutput~
+        -IDataFileManager~TVEpisodeInput_TVEpisodeInputOutput~ tvEpisodesFileManager$
+        -TVEpisodesFileManager()
+        #getInstance()$ IDataFileManager~TVEpisodeInput_TVEpisodeInputOutput~
         -parseInputData(Map~String_StringBuilder~ tvEpisodeInputFieldsValues, Map~Integer_TVEpisodeInput~ parsedTVEpisodes, Field[] tvEpisodeInputFields, int inputTVEpisodeOrder) 
-        -parseOutputData(Map~String_StringBuilder~ tvEpisodeOutputFieldsValues, List~TVEpisodeOutput~ parsedTVEpisodes, Field[] tvEpisodeOutputFields)
-        -createOutputDataTextRepresentation(List~TVEpisodeOutput~ newOutputTVEpisodes) StringBuilder
+        -parseInputOutputDataFromTextFile(Map~String_StringBuilder~ tvEpisodeInputOutputFieldsValues, List~TVEpisodeInputOutput~ parsedTVEpisodes, Field[] tvEpisodeInputOutputFields)
+        -createInputOutputDataTextRepresentation(List~TVEpisodeInputOutput~ newInputOutputTVEpisodes) StringBuilder
     }
     class TVSeasonsFileManager{
-        -IDataFileManager~TVSeasonInput_TVSeasonOutput~ tvSeasonsFileManager$
-        -String filenameSeparator
-        -String inputFileEndMarking
-        -String inputFileValuesSectionMarking
-        -String inputFileAttributesSectionMarking
-        -TVSeasonsFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
-        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~TVSeasonInput_TVSeasonOutput~
+        -IDataFileManager~TVSeasonInput_TVSeasonInputOutput~ tvSeasonsFileManager$
+        -TVSeasonsFileManager()
+        #getInstance()$ IDataFileManager~TVSeasonInput_TVSeasonInputOutput~
         -parseInputData(Map~String_StringBuilder~ tvSeasonInputFieldsValues, Map~Integer_TVSeasonInput~ parsedTVSeasons, Field[] tvSeasonInputFields, int inputTVSeasonOrder) 
-        -parseOutputData(Map~String_StringBuilder~ tvSeasonOutputFieldsValues, List~TVSeasonOutput~ parsedTVSeasons, Field[] tvSeasonOutputFields)
-        -createOutputDataTextRepresentation(List~TVSeasonOutput~ newOutputTVSeasons) StringBuilder
+        -parseInputOutputDataFromTextFile(Map~String_StringBuilder~ tvSeasonInputOutputFieldsValues, List~TVSeasonInputOutput~ parsedTVSeasons, Field[] tvSeasonInputOutputFields)
+        -createInputOutputDataTextRepresentation(List~TVSeasonInputOutput~ newInputOutputTVSeasons) StringBuilder
     }
     class TVShowsFileManager{
-        -IDataFileManager~TVShowInput_TVShowOutput~ tvShowsFileManager$
-        -String filenameSeparator
-        -String inputFileEndMarking
-        -String inputFileValuesSectionMarking
-        -String inputFileAttributesSectionMarking
-        -TVShowsFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
-        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~TVShowInput_TVShowOutput~
+        -IDataFileManager~TVShowInput_TVShowInputOutput~ tvShowsFileManager$
+        -TVShowsFileManager()
+        #getInstance()$ IDataFileManager~TVShowInput_TVShowInputOutput~
         -parseInputData(Map~String_StringBuilder~ tvShowInputFieldsValues, Map~Integer_TVShowInput~ parsedTVShows, Field[] tvShowInputFields, int inputTVShowOrder) 
-        -parseOutputData(Map~String_StringBuilder~ tvShowOutputFieldsValues, List~TVShowOutput~ parsedTVShows, Field[] tvShowOutputFields)
-        -createOutputDataTextRepresentation(List~TVShowOutput~ newOutputTVShows) StringBuilder
+        -parseInputOutputDataFromTextFile(Map~String_StringBuilder~ tvShowInputOutputFieldsValues, List~TVShowInputOutput~ parsedTVShows, Field[] tvShowInputOutputFields)
+        -createInputOutputDataTextRepresentation(List~TVShowInputOutput~ newInputOutputTVShows) StringBuilder
     }
 
 note for DataSorting "Součást package app.logic.controllers"
@@ -2709,14 +2697,14 @@ TVEpisodesController ..> FileManagerAccessor : Depends on
         +getReleasedNewestMovies() List~Movie~
         +rateMovie(Movie existingMovie, int percentageRating) boolean throws DatabaseException, IOException
         +searchForMovie(String name) List~Movie~
-        +getMoviesChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
-        +loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
+        +getChosenMoviesFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
         +addMoviesFrom(boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
         +deleteMovieBy(PrimaryKey moviePrimaryKey) throws IOException, DatabaseException
         +deleteMovies(List~Movie~ chosenMovies) throws IOException
         +editMovieBy(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DataConversionException, DatabaseException, FileParsingException
-        -updateMoviesOutputFilesWithExistingData() throws IOException
-        -updateMoviesOutputFilesWithNewChanges() throws IOException
+        -updateMoviesInputOutputFilesWithExistingData() throws IOException
+        -updateMoviesInputOutputFilesWithNewChanges() throws IOException
         +getCurrentDate()$ LocalDate
     }
     class TVEpisodesController{
@@ -2758,10 +2746,10 @@ TVEpisodesController ..> FileManagerAccessor : Depends on
         +getReleasedNewestTVShows() List~TVShow~
         +rateTVEpisode(TVEpisode existingEpisode, int percentageRating) boolean throws DatabaseException, IOException
         +searchForTVShow(String name) List~TVShow~
-        +getTVShowsChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
-        +getTVSeasonsChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
-        +getTVEpisodesChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
-        +loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
+        +getChosenTVShowsFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +getChosenTVSeasonsFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +getChosenTVEpisodesFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
         +addTVShowsFrom(boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
         +addTVSeasonsFrom(PrimaryKey chosenTVShowPrimaryKey, boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
         +addTVEpisodesFrom(PrimaryKey chosenTVSeasonPrimaryKey, boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
@@ -2774,12 +2762,12 @@ TVEpisodesController ..> FileManagerAccessor : Depends on
         +editTVShowBy(PrimaryKey existingTVShowPrimaryKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DataConversionException, DatabaseException, FileParsingException
         +editTVSeasonBy(PrimaryKey existingTVSeasonPrimaryKey, PrimaryKey tvShowForeignKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DatabaseException, FileParsingException
         +editTVEpisodeBy(PrimaryKey existingTVEpisodePrimaryKey, PrimaryKey tvSeasonForeignKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DatabaseException, FileParsingException
-        -updateTVShowsOutputFilesWithExistingData() throws IOException
-        -updateTVShowsOutputFilesWithNewChanges() throws IOException
-        -updateTVSeasonsOutputFilesWithExistingData() throws IOException
-        -updateTVSeasonsOutputFilesWithNewChanges() throws IOException
-        -updateTVEpisodesOutputFilesWithExistingData() throws IOException
-        -updateTVEpisodesOutputFilesWithNewChanges() throws IOException
+        -updateTVShowsInputOutputFilesWithExistingData() throws IOException
+        -updateTVShowsInputOutputFilesWithNewChanges() throws IOException
+        -updateTVSeasonsInputOutputFilesWithExistingData() throws IOException
+        -updateTVSeasonsInputOutputFilesWithNewChanges() throws IOException
+        -updateTVEpisodesInputOutputFilesWithExistingData() throws IOException
+        -updateTVEpisodesInputOutputFilesWithNewChanges() throws IOException
         +getCurrentDate()$ LocalDate
     }
 
