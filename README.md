@@ -2991,7 +2991,7 @@ TVEpisodesUI --* ConsoleUI : Is part of
     - [EmailSenderTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/EmailSenderTest.java)
     - [FileManagerAccessorTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/FileManagerAccessorTest.java)
     - [MoviesControllerTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/MoviesControllerTest.java)
-    - [OutputModelsTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/OutputModelsTest.java)
+    - [InputOutputModelsTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/InputOutputModelsTest.java)
     - [TVEpisodesControllerTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/TVEpisodesControllerTest.java)
 
 ## Akceptační testy
