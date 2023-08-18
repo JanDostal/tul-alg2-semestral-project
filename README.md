@@ -35,7 +35,7 @@ Aplikace je z hlediska uživatelských funkcí rozdělena na tyto tři části/m
 
 - Zobrazuje se na začátku běhu aplikace, potom již ne
 - Slouží k nastavení/konfiguraci cesty k adresáři **data** umístěném na disku 
-    - Adresář obsahuje datové vstupní a výstupní soubory specifikované [zde](#popis-struktury-vstupních-a-výstupních-souborů)
+    - Adresář obsahuje datové vstupní a vstupní/výstupní soubory specifikované [zde](#popis-struktury-vstupních-a-výstupních-souborů)
 - Je umožněno ukončit aplikaci pomocí **funkce s číslem 0**
 
 Samotné uživatelské funkce vypadají následovně:
@@ -49,8 +49,8 @@ Samotné uživatelské funkce vypadají následovně:
 ### Menu načítání vstupních/výstupních souborů
 
 - Zobrazuje se po [menu nastavování adresáře data](#menu-nastavování-adresáře-data), potom již ne
-- Slouží k načtení existujících/evidovaných dat do aplikace z výstupních souborů
-- Účelem je to, že aplikace průběžně ukládá svá nová data do výstupních souborů, aby se dala při příštím spuštění aplikace snadno obnovit a nevkládat je znova
+- Slouží k načtení existujících/evidovaných dat do aplikace z vstupních/výstupních souborů
+- Účelem je to, že aplikace průběžně ukládá svá nová data do vstupních/výstupních souborů, aby se dala při příštím spuštění aplikace snadno obnovit a nevkládat je znova
 - Je umožněno ukončit aplikaci pomocí **funkce s číslem 0**
 
 Samotné uživatelské funkce vypadají následovně:
@@ -59,14 +59,14 @@ Samotné uživatelské funkce vypadají následovně:
 
 1. Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)
 2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)
-3. Vypsat obsah textového souboru output_movies.txt (diagnostika chyby při načítání)
-4. Vypsat obsah textového souboru output_tvShows.txt (diagnostika chyby při načítání)
-5. Vypsat obsah textového souboru output_tvSeasons.txt (diagnostika chyby při načítání)
-6. Vypsat obsah textového souboru output_tvEpisodes.txt (ddiagnostika chyby při načítání)
-7. Vypsat obsah binárního souboru output_movies.bin (diagnostika chyby při načítání)
-8. Vypsat obsah binárního souboru output_tvShows.bin (diagnostika chyby při načítání)
-9. Vypsat obsah binárního souboru output_tvSeasons.bin (diagnostika chyby při načítání)
-10. Vypsat obsah binárního souboru output_tvEpisodes.bin (diagnostika chyby při načítání)
+3. Vypsat obsah textového souboru s filmy (diagnostika chyby při načítání)
+4. Vypsat obsah textového souboru s TV seriály (diagnostika chyby při načítání)
+5. Vypsat obsah textového souboru s TV sezónami (diagnostika chyby při načítání)
+6. Vypsat obsah textového souboru s TV epizodami (ddiagnostika chyby při načítání)
+7. Vypsat obsah binárního souboru s filmy (diagnostika chyby při načítání)
+8. Vypsat obsah binárního souboru s TV seriály (diagnostika chyby při načítání)
+9. Vypsat obsah binárního souboru s TV sezónami (diagnostika chyby při načítání)
+10. Vypsat obsah binárního souboru s TV epizodami (diagnostika chyby při načítání)
 
 ---
 
@@ -92,10 +92,10 @@ Samotné uživatelské funkce vypadají následovně:
       <li>
         Přidat filmy ze vstupního souboru
         <ol type="1">
-          <li>Načíst z textového souboru input_movies.txt</li>
-          <li>Načíst z binárního souboru input_movies.bin</li>
-          <li>Vypsat obsah textového souboru input_movies.txt</li>
-          <li>Vypsat obsah binárního souboru input_movies.bin</li>
+          <li>Načíst z textového souboru</li>
+          <li>Načíst z binárního souboru</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
       <li>
@@ -109,10 +109,10 @@ Samotné uživatelské funkce vypadají následovně:
               <li>
                 Upravit film
                 <ol type="1">
-                  <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                  <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                  <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                  <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                  <li>Upravit film pomocí vstupního textového souboru</li>
+                  <li>Upravit film pomocí vstupního binárního souboru</li>
+                  <li>Vypsat obsah vstupního textového souboru</li>
+                  <li>Vypsat obsah vstupního binárního souboru</li>
                 </ol>
               </li>
               <li>Ohodnotit film <strong><i>V tomto případě je uživatelská funkce dostupná pouze pro vydaný film</i></strong></li>
@@ -141,10 +141,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                 </ol>
@@ -167,10 +167,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -189,10 +189,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -211,10 +211,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -238,10 +238,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -260,10 +260,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -282,10 +282,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -304,10 +304,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -328,10 +328,10 @@ Samotné uživatelské funkce vypadají následovně:
               <li>
                 Upravit film
                 <ol type="1">
-                  <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                  <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                  <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                  <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                  <li>Upravit film pomocí vstupního textového souboru</li>
+                  <li>Upravit film pomocí vstupního binárního souboru</li>
+                  <li>Vypsat obsah vstupního textového souboru</li>
+                  <li>Vypsat obsah vstupního binárního souboru</li>
                 </ol>
               </li>
               <li>Ohodnotit film</li>
@@ -350,10 +350,10 @@ Samotné uživatelské funkce vypadají následovně:
               <li>
                 Upravit film
                 <ol type="1">
-                  <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                  <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                  <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                  <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                  <li>Upravit film pomocí vstupního textového souboru</li>
+                  <li>Upravit film pomocí vstupního binárního souboru</li>
+                  <li>Vypsat obsah vstupního textového souboru</li>
+                  <li>Vypsat obsah vstupního binárního souboru</li>
                 </ol>
               </li>
               <li>Ohodnotit film</li>
@@ -362,24 +362,24 @@ Samotné uživatelské funkce vypadají následovně:
         </ol>
       </li>
       <li>
-        Vypsat obsahy výstupních souborů filmů
+        Vypsat obsahy vstupních/výstupních souborů filmů
         <ol type="1">
-          <li>Vypsat obsah textového souboru output_movies.txt</li>
-          <li>Vypsat obsah binárního souboru output_movies.bin</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
     </ol>
   </li>
   <li>
-    Spravovat TV epizody
+    Spravovat TV seriály
     <ol type="1">
       <li>
         Přidat TV seriály ze vstupního souboru
         <ol type="1">
-          <li>Načíst z textového souboru input_tvShows.txt</li>
-          <li>Načíst z binárního souboru input_tvShows.bin</li>
-          <li>Vypsat obsah textového souboru input_tvShows.txt</li>
-          <li>Vypsat obsah binárního souboru input_tvShows.bin</li>
+          <li>Načíst z textového souboru</li>
+          <li>Načíst z binárního souboru</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
       <li>
@@ -393,10 +393,10 @@ Samotné uživatelské funkce vypadají následovně:
               <li>
                 Upravit TV seriál
                 <ol type="1">
-                  <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                  <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                  <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                  <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                  <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                  <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                  <li>Vypsat obsah vstupního textového souboru</li>
+                  <li>Vypsat obsah vstupního binárního souboru</li>
                 </ol>
               </li>
               <li>
@@ -405,10 +405,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Přidat TV sezóny ze vstupního souboru
                     <ol type="1">
-                      <li>Načíst z textového souboru input_tvSeasons.txt</li>
-                      <li>Načíst z binárního souboru input_tvSeasons.bin</li>
-                      <li>Vypsat obsah textového souboru input_tvSeasons.txt</li>
-                      <li>Vypsat obsah binárního souboru input_tvSeasons.bin</li>
+                      <li>Načíst z textového souboru</li>
+                      <li>Načíst z binárního souboru</li>
+                      <li>Vypsat obsah textového souboru</li>
+                      <li>Vypsat obsah binárního souboru</li>
                     </ol>
                   </li>
                   <li>Smazat aktuálně vypsané TV sezóny</li>
@@ -439,10 +439,10 @@ Samotné uživatelské funkce vypadají následovně:
                       <li>
                         Upravit TV sezónu
                         <ol type="1">
-                          <li>Upravit TV sezónu pomocí vstupního textového souboru input_tvSeasons.txt</li>
-                          <li>Upravit TV sezónu pomocí vstupního binárního souboru input_tvSeasons.bin</li>
-                          <li>Vypsat obsah vstupního textového souboru input_tvSeasons.txt</li>
-                          <li>Vypsat obsah vstupního binárního souboru input_tvSeasons.bin</li>
+                          <li>Upravit TV sezónu pomocí vstupního textového souboru</li>
+                          <li>Upravit TV sezónu pomocí vstupního binárního souboru</li>
+                          <li>Vypsat obsah vstupního textového souboru</li>
+                          <li>Vypsat obsah vstupního binárního souboru</li>
                         </ol>
                       </li>
                       <li>
@@ -451,10 +451,10 @@ Samotné uživatelské funkce vypadají následovně:
                           <li>
                             Přidat TV epizody ze vstupního souboru
                             <ol type="1">
-                              <li>Načíst z textového souboru input_tvEpisodes.txt</li>
-                              <li>Načíst z binárního souboru input_tvEpisodes.bin</li>
-                              <li>Vypsat obsah textového souboru input_tvEpisodes.txt</li>
-                              <li>Vypsat obsah binárního souboru input_tvEpisodes.bin</li>
+                              <li>Načíst z textového souboru</li>
+                              <li>Načíst z binárního souboru</li>
+                              <li>Vypsat obsah textového souboru</li>
+                              <li>Vypsat obsah binárního souboru</li>
                             </ol>
                           </li>
                           <li>Smazat aktuálně vypsané TV epizody</li>
@@ -479,10 +479,10 @@ Samotné uživatelské funkce vypadají následovně:
                               <li>
                                 Upravit TV epizodu
                                 <ol type="1">
-                                  <li>Upravit TV epizodu pomocí vstupního textového souboru input_tvEpisodes.txt</li>
-                                  <li>Upravit TV epizodu pomocí vstupního binárního souboru input_tvEpisodes.bin</li>
-                                  <li>Vypsat obsah vstupního textového souboru input_tvEpisodes.txt</li>
-                                  <li>Vypsat obsah vstupního binárního souboru input_tvEpisodes.bin</li>
+                                  <li>Upravit TV epizodu pomocí vstupního textového souboru</li>
+                                  <li>Upravit TV epizodu pomocí vstupního binárního souboru</li>
+                                  <li>Vypsat obsah vstupního textového souboru</li>
+                                  <li>Vypsat obsah vstupního binárního souboru</li>
                                 </ol>
                               </li>
                               <li>Ohodnotit TV epizodu</li>
@@ -512,10 +512,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit TV seriál
                     <ol type="1">
-                      <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                      <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                      <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                      <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                 </ol>
@@ -538,10 +538,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit TV seriál
                     <ol type="1">
-                      <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                      <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                      <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                      <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>
@@ -550,10 +550,10 @@ Samotné uživatelské funkce vypadají následovně:
                       <li>
                         Přidat TV sezóny ze vstupního souboru
                         <ol type="1">
-                          <li>Načíst z textového souboru input_tvSeasons.txt</li>
-                          <li>Načíst z binárního souboru input_tvSeasons.bin</li>
-                          <li>Vypsat obsah textového souboru input_tvSeasons.txt</li>
-                          <li>Vypsat obsah binárního souboru input_tvSeasons.bin</li>
+                          <li>Načíst z textového souboru</li>
+                          <li>Načíst z binárního souboru</li>
+                          <li>Vypsat obsah textového souboru</li>
+                          <li>Vypsat obsah binárního souboru</li>
                         </ol>
                       </li>
                       <li>Smazat aktuálně vypsané TV sezóny</li>
@@ -584,10 +584,10 @@ Samotné uživatelské funkce vypadají následovně:
                           <li>
                             Upravit TV sezónu
                             <ol type="1">
-                              <li>Upravit TV sezónu pomocí vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Upravit TV sezónu pomocí vstupního binárního souboru input_tvSeasons.bin</li>
-                              <li>Vypsat obsah vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Vypsat obsah vstupního binárního souboru input_tvSeasons.bin</li>
+                              <li>Upravit TV sezónu pomocí vstupního textového souboru</li>
+                              <li>Upravit TV sezónu pomocí vstupního binárního souboru</li>
+                              <li>Vypsat obsah vstupního textového souboru</li>
+                              <li>Vypsat obsah vstupního binárního souboru</li>
                             </ol>
                           </li>
                           <li>
@@ -596,10 +596,10 @@ Samotné uživatelské funkce vypadají následovně:
                               <li>
                                 Přidat TV epizody ze vstupního souboru
                                 <ol type="1">
-                                  <li>Načíst z textového souboru input_tvEpisodes.txt</li>
-                                  <li>Načíst z binárního souboru input_tvEpisodes.bin</li>
-                                  <li>Vypsat obsah textového souboru input_tvEpisodes.txt</li>
-                                  <li>Vypsat obsah binárního souboru input_tvEpisodes.bin</li>
+                                  <li>Načíst z textového souboru</li>
+                                  <li>Načíst z binárního souboru</li>
+                                  <li>Vypsat obsah textového souboru</li>
+                                  <li>Vypsat obsah binárního souboru</li>
                                 </ol>
                               </li>
                               <li>Smazat aktuálně vypsané TV epizody</li>
@@ -624,10 +624,10 @@ Samotné uživatelské funkce vypadají následovně:
                                   <li>
                                     Upravit TV epizodu
                                     <ol type="1">
-                                      <li>Upravit TV epizodu pomocí vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru input_tvEpisodes.bin</li>
-                                      <li>Vypsat obsah vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Vypsat obsah vstupního binárního souboru input_tvEpisodes.bin</li>
+                                      <li>Upravit TV epizodu pomocí vstupního textového souboru</li>
+                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru</li>
+                                      <li>Vypsat obsah vstupního textového souboru</li>
+                                      <li>Vypsat obsah vstupního binárního souboru</li>
                                     </ol>
                                   </li>
                                   <li>Ohodnotit TV epizodu</li>
@@ -654,10 +654,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit TV seriál
                     <ol type="1">
-                      <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                      <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                      <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                      <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>
@@ -666,10 +666,10 @@ Samotné uživatelské funkce vypadají následovně:
                       <li>
                         Přidat TV sezóny ze vstupního souboru
                         <ol type="1">
-                          <li>Načíst z textového souboru input_tvSeasons.txt</li>
-                          <li>Načíst z binárního souboru input_tvSeasons.bin</li>
-                          <li>Vypsat obsah textového souboru input_tvSeasons.txt</li>
-                          <li>Vypsat obsah binárního souboru input_tvSeasons.bin</li>
+                          <li>Načíst z textového souboru</li>
+                          <li>Načíst z binárního souboru</li>
+                          <li>Vypsat obsah textového souboru</li>
+                          <li>Vypsat obsah binárního souboru</li>
                         </ol>
                       </li>
                       <li>Smazat aktuálně vypsané TV sezóny</li>
@@ -700,10 +700,10 @@ Samotné uživatelské funkce vypadají následovně:
                           <li>
                             Upravit TV sezónu
                             <ol type="1">
-                              <li>Upravit TV sezónu pomocí vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Upravit TV sezónu pomocí vstupního binárního souboru input_tvSeasons.bin</li>
-                              <li>Vypsat obsah vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Vypsat obsah vstupního binárního souboru input_tvSeasons.bin</li>
+                              <li>Upravit TV sezónu pomocí vstupního textového souboru</li>
+                              <li>Upravit TV sezónu pomocí vstupního binárního souboru</li>
+                              <li>Vypsat obsah vstupního textového souboru</li>
+                              <li>Vypsat obsah vstupního binárního souboru</li>
                             </ol>
                           </li>
                           <li>
@@ -712,10 +712,10 @@ Samotné uživatelské funkce vypadají následovně:
                               <li>
                                 Přidat TV epizody ze vstupního souboru
                                 <ol type="1">
-                                  <li>Načíst z textového souboru input_tvEpisodes.txt</li>
-                                  <li>Načíst z binárního souboru input_tvEpisodes.bin</li>
-                                  <li>Vypsat obsah textového souboru input_tvEpisodes.txt</li>
-                                  <li>Vypsat obsah binárního souboru input_tvEpisodes.bin</li>
+                                  <li>Načíst z textového souboru</li>
+                                  <li>Načíst z binárního souboru</li>
+                                  <li>Vypsat obsah textového souboru</li>
+                                  <li>Vypsat obsah binárního souboru</li>
                                 </ol>
                               </li>
                               <li>Smazat aktuálně vypsané TV epizody</li>
@@ -740,10 +740,10 @@ Samotné uživatelské funkce vypadají následovně:
                                   <li>
                                     Upravit TV epizodu
                                     <ol type="1">
-                                      <li>Upravit TV epizodu pomocí vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru input_tvEpisodes.bin</li>
-                                      <li>Vypsat obsah vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Vypsat obsah vstupního binárního souboru input_tvEpisodes.bin</li>
+                                      <li>Upravit TV epizodu pomocí vstupního textového souboru</li>
+                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru</li>
+                                      <li>Vypsat obsah vstupního textového souboru</li>
+                                      <li>Vypsat obsah vstupního binárního souboru</li>
                                     </ol>
                                   </li>
                                   <li>Ohodnotit TV epizodu</li>
@@ -770,10 +770,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit TV seriál
                     <ol type="1">
-                      <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                      <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                      <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                      <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>
@@ -782,10 +782,10 @@ Samotné uživatelské funkce vypadají následovně:
                       <li>
                         Přidat TV sezóny ze vstupního souboru
                         <ol type="1">
-                          <li>Načíst z textového souboru input_tvSeasons.txt</li>
-                          <li>Načíst z binárního souboru input_tvSeasons.bin</li>
-                          <li>Vypsat obsah textového souboru input_tvSeasons.txt</li>
-                          <li>Vypsat obsah binárního souboru input_tvSeasons.bin</li>
+                          <li>Načíst z textového souboru</li>
+                          <li>Načíst z binárního souboru</li>
+                          <li>Vypsat obsah textového souboru</li>
+                          <li>Vypsat obsah binárního souboru</li>
                         </ol>
                       </li>
                       <li>Smazat aktuálně vypsané TV sezóny</li>
@@ -816,10 +816,10 @@ Samotné uživatelské funkce vypadají následovně:
                           <li>
                             Upravit TV sezónu
                             <ol type="1">
-                              <li>Upravit TV sezónu pomocí vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Upravit TV sezónu pomocí vstupního binárního souboru input_tvSeasons.bin</li>
-                              <li>Vypsat obsah vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Vypsat obsah vstupního binárního souboru input_tvSeasons.bin</li>
+                              <li>Upravit TV sezónu pomocí vstupního textového souboru</li>
+                              <li>Upravit TV sezónu pomocí vstupního binárního souboru</li>
+                              <li>Vypsat obsah vstupního textového souboru</li>
+                              <li>Vypsat obsah vstupního binárního souboru</li>
                             </ol>
                           </li>
                           <li>
@@ -828,10 +828,10 @@ Samotné uživatelské funkce vypadají následovně:
                               <li>
                                 Přidat TV epizody ze vstupního souboru
                                 <ol type="1">
-                                  <li>Načíst z textového souboru input_tvEpisodes.txt</li>
-                                  <li>Načíst z binárního souboru input_tvEpisodes.bin</li>
-                                  <li>Vypsat obsah textového souboru input_tvEpisodes.txt</li>
-                                  <li>Vypsat obsah binárního souboru input_tvEpisodes.bin</li>
+                                  <li>Načíst z textového souboru</li>
+                                  <li>Načíst z binárního souboru</li>
+                                  <li>Vypsat obsah textového souboru</li>
+                                  <li>Vypsat obsah binárního souboru</li>
                                 </ol>
                               </li>
                               <li>Smazat aktuálně vypsané TV epizody</li>
@@ -856,10 +856,10 @@ Samotné uživatelské funkce vypadají následovně:
                                   <li>
                                     Upravit TV epizodu
                                     <ol type="1">
-                                      <li>Upravit TV epizodu pomocí vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru input_tvEpisodes.bin</li>
-                                      <li>Vypsat obsah vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Vypsat obsah vstupního binárního souboru input_tvEpisodes.bin</li>
+                                      <li>Upravit TV epizodu pomocí vstupního textového souboru</li>
+                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru</li>
+                                      <li>Vypsat obsah vstupního textového souboru</li>
+                                      <li>Vypsat obsah vstupního binárního souboru</li>
                                     </ol>
                                   </li>
                                   <li>Ohodnotit TV epizodu</li>
@@ -888,10 +888,10 @@ Samotné uživatelské funkce vypadají následovně:
               <li>
                 Upravit TV seriál
                 <ol type="1">
-                  <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                  <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                  <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                  <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                  <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                  <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                  <li>Vypsat obsah vstupního textového souboru</li>
+                  <li>Vypsat obsah vstupního binárního souboru</li>
                 </ol>
               </li>
               <li>
@@ -900,10 +900,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Přidat TV sezóny ze vstupního souboru
                     <ol type="1">
-                      <li>Načíst z textového souboru input_tvSeasons.txt</li>
-                      <li>Načíst z binárního souboru input_tvSeasons.bin</li>
-                      <li>Vypsat obsah textového souboru input_tvSeasons.txt</li>
-                      <li>Vypsat obsah binárního souboru input_tvSeasons.bin</li>
+                      <li>Načíst z textového souboru</li>
+                      <li>Načíst z binárního souboru</li>
+                      <li>Vypsat obsah textového souboru</li>
+                      <li>Vypsat obsah binárního souboru</li>
                     </ol>
                   </li>
                   <li>Smazat aktuálně vypsané TV sezóny</li>
@@ -934,10 +934,10 @@ Samotné uživatelské funkce vypadají následovně:
                       <li>
                         Upravit TV sezónu
                         <ol type="1">
-                          <li>Upravit TV sezónu pomocí vstupního textového souboru input_tvSeasons.txt</li>
-                          <li>Upravit TV sezónu pomocí vstupního binárního souboru input_tvSeasons.bin</li>
-                          <li>Vypsat obsah vstupního textového souboru input_tvSeasons.txt</li>
-                          <li>Vypsat obsah vstupního binárního souboru input_tvSeasons.bin</li>
+                          <li>Upravit TV sezónu pomocí vstupního textového souboru</li>
+                          <li>Upravit TV sezónu pomocí vstupního binárního souboru</li>
+                          <li>Vypsat obsah vstupního textového souboru</li>
+                          <li>Vypsat obsah vstupního binárního souboru</li>
                         </ol>
                       </li>
                       <li>
@@ -946,10 +946,10 @@ Samotné uživatelské funkce vypadají následovně:
                           <li>
                             Přidat TV epizody ze vstupního souboru
                             <ol type="1">
-                              <li>Načíst z textového souboru input_tvEpisodes.txt</li>
-                              <li>Načíst z binárního souboru input_tvEpisodes.bin</li>
-                              <li>Vypsat obsah textového souboru input_tvEpisodes.txt</li>
-                              <li>Vypsat obsah binárního souboru input_tvEpisodes.bin</li>
+                              <li>Načíst z textového souboru</li>
+                              <li>Načíst z binárního souboru</li>
+                              <li>Vypsat obsah textového souboru</li>
+                              <li>Vypsat obsah binárního souboru</li>
                             </ol>
                           </li>
                           <li>Smazat aktuálně vypsané TV epizody</li>
@@ -974,10 +974,10 @@ Samotné uživatelské funkce vypadají následovně:
                               <li>
                                 Upravit TV epizodu
                                 <ol type="1">
-                                  <li>Upravit TV epizodu pomocí vstupního textového souboru input_tvEpisodes.txt</li>
-                                  <li>Upravit TV epizodu pomocí vstupního binárního souboru input_tvEpisodes.bin</li>
-                                  <li>Vypsat obsah vstupního textového souboru input_tvEpisodes.txt</li>
-                                  <li>Vypsat obsah vstupního binárního souboru input_tvEpisodes.bin</li>
+                                  <li>Upravit TV epizodu pomocí vstupního textového souboru</li>
+                                  <li>Upravit TV epizodu pomocí vstupního binárního souboru</li>
+                                  <li>Vypsat obsah vstupního textového souboru</li>
+                                  <li>Vypsat obsah vstupního binárního souboru</li>
                                 </ol>
                               </li>
                               <li>Ohodnotit TV epizodu</li>
@@ -994,24 +994,24 @@ Samotné uživatelské funkce vypadají následovně:
         </ol>
       </li>
       <li>
-        Vypsat obsahy výstupních souborů TV epizod
+        Vypsat obsahy vstupních/výstupních souborů TV epizod
         <ol type="1">
-          <li>Vypsat obsah textového souboru output_tvEpisodes.txt</li>
-          <li>Vypsat obsah binárního souboru output_tvEpisodes.bin</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
       <li>
-        Vypsat obsahy výstupních souborů TV sezón
+        Vypsat obsahy vstupních/výstupních souborů TV sezón
         <ol type="1">
-          <li>Vypsat obsah textového souboru output_tvSeasons.txt</li>
-          <li>Vypsat obsah binárního souboru output_tvSeasons.bin</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
       <li>
-        Vypsat obsahy výstupních souborů TV seriálů
+        Vypsat obsahy vstupních/výstupních souborů TV seriálů
         <ol type="1">
-          <li>Vypsat obsah textového souboru output_tvShows.txt</li>
-          <li>Vypsat obsah binárního souboru output_tvShows.bin</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
     </ol>
