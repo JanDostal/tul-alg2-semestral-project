@@ -1194,22 +1194,22 @@ AGE_OF_REBELLION 7
 
 - Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s filmy](#popis-struktury-souboru)
 
-### Výstupní textový soubor s filmy
+### Vstupní/výstupní textový soubor s filmy
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných filmů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_movies.txt**
+- Název souboru musí být **inputOutput_movies.txt**
 - Kódování souboru musí být **UTF-8**
 
 #### Popis struktury dat souboru
 
-- Data **jednoho výstupního filmu** vypadají takto:
+- Data **jednoho vstupního/výstupního filmu** vypadají takto:
 
 ```java
-public class MovieOutput
+public class MovieInputOutput
 {
     private final int id;
     
@@ -1289,7 +1289,7 @@ public class MovieOutput
 
 #### Popis struktury souboru
 
-- Soubor by měl vypadat nějak takto pro **jeden výstupní film**:
+- Soubor by měl vypadat nějak takto pro **jeden vstupní/výstupní film**:
 
 ```
 [Attributes]
@@ -1324,14 +1324,14 @@ AGE_OF_REBELLION 8
 [End]
 ```
 
-- V souboru může být **více než jeden výstupní film**
+- V souboru může být **více než jeden vstupní/výstupní film**
     - **Za sekcí *\[Values\]* předcházejícího filmu** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následujícího filmu**
     - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
 - ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
     - **Musí být v souboru**
     - ***Identificator:*** - Vyjadřuje identifikátor filmu v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují výstupní data filmu
+    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní/výstupní data filmu
         - **Nemusí být v souboru**, pouze informační účel
         - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-2)
         - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
@@ -1344,22 +1344,22 @@ AGE_OF_REBELLION 8
     - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-2)
     - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
         - Vyjímkou je hodnota atributu/data ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků**
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení výstupních dat
+- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení vstupních/výstupních dat
     - Pokud bude nějaký text za ***\[End\]***, bude ignorován
 - Filmy v souboru jsou **řazeny vzestupně na základě identifikátoru**
 
-### Výstupní binární soubor s filmy
+### Vstupní/výstupní binární soubor s filmy
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných filmů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_movies.bin**
+- Název souboru musí být **inputOutput_movies.bin**
 
 #### Popis struktury dat souboru
 
-- Struktura je úplně totožná jako u [popisu struktury dat výstupního textového souboru s filmy](#popis-struktury-dat-souboru-2)
+- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s filmy](#popis-struktury-dat-souboru-2)
 - Aby bylo možné číst textové/řetězcové hodnoty atributů filmu z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
     -  ***name*** - 60 znaků
     -  ***hyperlinkForContentWatch*** - 180 znaků
@@ -1509,22 +1509,22 @@ FALL_OF_THE_JEDI 3
 
 - Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s TV seriály](#popis-struktury-souboru-4)
 
-### Výstupní textový soubor s TV seriály
+### Vstupní/výstupní textový soubor s TV seriály
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV seriálů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvShows.txt**
+- Název souboru musí být **inputOutput_tvShows.txt**
 - Kódování souboru musí být **UTF-8**
 
 #### Popis struktury dat souboru
 
-- Data **jednoho výstupního TV seriálu** vypadají takto:
+- Data **jednoho vstupního/výstupního TV seriálu** vypadají takto:
 
 ```java
-public class TVShowOutput
+public class TVShowInputOutput
 {
     private final int id;
     
@@ -1575,7 +1575,7 @@ public class TVShowOutput
 
 #### Popis struktury souboru
 
-- Soubor by měl vypadat nějak takto pro **jeden výstupní TV seriál**:
+- Soubor by měl vypadat nějak takto pro **jeden vstupní/výstupní TV seriál**:
 
 ```
 [Attributes]
@@ -1597,14 +1597,14 @@ FALL_OF_THE_JEDI 4
 [End]
 ```
 
-- V souboru může být **více než jeden výstupní TV seriál**
+- V souboru může být **více než jeden vstupní/výstupní TV seriál**
     - **Za sekcí *\[Values\]* předcházejícího TV seriálu** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následujícího TV seriálu**
     - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
 - ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
     - **Musí být v souboru**
     - ***Identificator:*** - Vyjadřuje identifikátor TV seriálu v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují výstupní data TV seriálu
+    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní/výstupní data TV seriálu
         - **Nemusí být v souboru**, pouze informační účel
         - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-6)
         - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
@@ -1616,22 +1616,22 @@ FALL_OF_THE_JEDI 4
     - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
     - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-6)
     - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení výstupních dat
+- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení vstupních/výstupních dat
     - Pokud bude nějaký text za ***\[End\]***, bude ignorován
 - TV seriály v souboru jsou **řazeny vzestupně na základě identifikátoru**
 
-### Výstupní binární soubor s TV seriály
+### Vstupní/výstupní binární soubor s TV seriály
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV seriálů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvShows.bin**
+- Název souboru musí být **inputOutput_tvShows.bin**
 
 #### Popis struktury dat souboru
 
-- Struktura je úplně totožná jako u [popisu struktury dat výstupního textového souboru s TV seriály](#popis-struktury-dat-souboru-6)
+- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s TV seriály](#popis-struktury-dat-souboru-6)
 - Aby bylo možné číst textové/řetězcové hodnoty atributů TV seriálu z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
     -  ***name*** - 60 znaků
     -  ***eraCodeDesignation*** - 60 znaků
@@ -1742,22 +1742,22 @@ orderInTVShow 1
 
 - Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s TV sezónami](#popis-struktury-souboru-8)
 
-### Výstupní textový soubor s TV sezónami
+### Vstupní/výstupní textový soubor s TV sezónami
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV sezón z různých TV seriálů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvSeasons.txt**
+- Název souboru musí být **inputOutput_tvSeasons.txt**
 - Kódování souboru musí být **UTF-8**
 
 #### Popis struktury dat souboru
 
-- Data **jedné výstupní TV sezóny** vypadají takto:
+- Data **jedné vstupní/výstupní TV sezóny** vypadají takto:
 
 ```java
-public class TVSeasonOutput 
+public class TVSeasonInputOutput
 {    
     private final int id;
     
@@ -1787,7 +1787,7 @@ public class TVSeasonOutput
 
 #### Popis struktury souboru
 
-- Soubor by měl vypadat nějak takto pro **jednu výstupní TV sezónu**:
+- Soubor by měl vypadat nějak takto pro **jednu vstupní/výstupní TV sezónu**:
 
 ```
 [Attributes]
@@ -1807,14 +1807,14 @@ tvShowId 3
 [End]
 ```
 
-- V souboru může být **více než jedna výstupní TV sezóna**
+- V souboru může být **více než jedna vstupní/výstupní TV sezóna**
     - **Za sekcí *\[Values\]* předcházející TV sezóny** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následující TV sezóny**
     - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
 - ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
     - **Musí být v souboru**
     - ***Identificator:*** - Vyjadřuje identifikátor TV sezóny v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují výstupní data TV sezóny
+    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní/výstupní data TV sezóny
         - **Nemusí být v souboru**, pouze informační účel
         - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-10)
         - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
@@ -1826,22 +1826,22 @@ tvShowId 3
     - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
     - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-10)
     - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení výstupních dat
+- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení vstupních/výstupních dat
     - Pokud bude nějaký text za ***\[End\]***, bude ignorován
 - TV sezóny v souboru jsou **řazeny vzestupně na základě identifikátoru TV sezóny**
 
-### Výstupní binární soubor s TV sezónami
+### Vstupní/výstupní binární soubor s TV sezónami
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV sezón z různých TV seriálů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvSeasons.bin**
+- Název souboru musí být **inputOutput_tvSeasons.bin**
 
 #### Popis struktury dat souboru
 
-- Struktura je úplně totožná jako u [popisu struktury dat výstupního textového souboru s TV sezónami](#popis-struktury-dat-souboru-10)
+- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s TV sezónami](#popis-struktury-dat-souboru-10)
 
 #### Popis struktury souboru
 
@@ -1996,22 +1996,22 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 
 - Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s TV epizodami](#popis-struktury-souboru-12)
 
-### Výstupní textový soubor s TV epizodami
+### Vstupní/výstupní textový soubor s TV epizodami
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV epizod z různých TV sezón pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvEpisodes.txt**
+- Název souboru musí být **inputOutput_tvEpisodes.txt**
 - Kódování souboru musí být **UTF-8**
 
 #### Popis struktury dat souboru
 
-- Data **jedné výstupní TV epizody** vypadají takto:
+- Data **jedné vstupní/výstupní TV epizody** vypadají takto:
 
 ```java
-public class TVEpisodeOutput
+public class TVEpisodeInputOutput
 { 
     private final int id;
     
@@ -2075,7 +2075,7 @@ public class TVEpisodeOutput
 
 #### Popis struktury souboru
 
-- Soubor by měl vypadat nějak takto pro **jednu výstupní TV epizodu**:
+- Soubor by měl vypadat nějak takto pro **jednu vstupní/výstupní TV epizodu**:
 
 ```
 [Attributes]
@@ -2106,14 +2106,14 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 [End]
 ```
 
-- V souboru může být **více než jedna výstupní TV epizoda**
+- V souboru může být **více než jedna vstupní/výstupní TV epizoda**
     - **Za sekcí *\[Values\]* předcházející TV epizody** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následující TV epizody**
     - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
 - ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
     - **Musí být v souboru**
     - ***Identificator:*** - Vyjadřuje identifikátor TV epizody v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují výstupní data TV epizody
+    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní/výstupní data TV epizody
         - **Nemusí být v souboru**, pouze informační účel
         - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-14)
         - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
@@ -2126,22 +2126,22 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
     - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-14)
     - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
         - Vyjímkou je hodnota atributu/data ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků** 
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení výstupních dat
+- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení vstupních/výstupních dat
     - Pokud bude nějaký text za ***\[End\]***, bude ignorován
 - TV epizody v souboru jsou **řazeny vzestupně na základě identifikátoru TV epizody**
 
-### Výstupní binární soubor s TV epizodami
+### Vstupní/výstupní binární soubor s TV epizodami
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV epizod z různých TV sezón pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvEpisodes.bin**
+- Název souboru musí být **inputOutput_tvEpisodes.bin**
 
 #### Popis struktury dat souboru
 
-- Struktura je úplně totožná jako u [popisu struktury dat výstupního textového souboru s TV epizodami](#popis-struktury-dat-souboru-14)
+- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s TV epizodami](#popis-struktury-dat-souboru-14)
 - Aby bylo možné číst textové/řetězcové hodnoty atributů TV epizody z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
     -  ***name*** - 60 znaků
     -  ***hyperlinkForContentWatch*** - 180 znaků
