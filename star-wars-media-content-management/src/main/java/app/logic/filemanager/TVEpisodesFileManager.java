@@ -39,49 +39,22 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
 {
     private static IDataFileManager<TVEpisodeInput, TVEpisodeInputOutput> tvEpisodesFileManager;
     
-    private final String filenameSeparator;
-    
-    private final String inputFileEndMarking;
-    
-    private final String inputFileValuesSectionMarking;
-    
-    private final String inputFileAttributesSectionMarking;
-    
     /**
      * Creates singleton instance of TVEpisodesFileManager.
-     * Receives filenameSeparator, inputFileEndMarking, inputFileValuesSectionMarking 
-     * and inputFileAttributesSectionMarking parameters in constructor from {@link FileManagerAccessor} class.
-     * @param filenameSeparator file path separator dependent on application running operating system
-     * @param inputFileEndMarking control string for detecting file end
-     * @param inputFileValuesSectionMarking control string for detecting values section in file
-     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
      */
-    private TVEpisodesFileManager(String filenameSeparator, 
-            String inputFileEndMarking, String inputFileValuesSectionMarking,
-            String inputFileAttributesSectionMarking) 
+    private TVEpisodesFileManager() 
     {
-        this.filenameSeparator = filenameSeparator;
-        this.inputFileEndMarking = inputFileEndMarking;
-        this.inputFileValuesSectionMarking = inputFileValuesSectionMarking;
-        this.inputFileAttributesSectionMarking = inputFileAttributesSectionMarking;
     }
     
     /**
      * Represents a factory method for creating singleton instance.
-     * @param filenameSeparator file path separator dependent on application running operating system
-     * @param inputFileEndMarking control string for detecting file end
-     * @param inputFileValuesSectionMarking control string for detecting values section in file
-     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
      * @return singleton instance of TVEpisodesFileManager as interface
      */
-    protected static IDataFileManager<TVEpisodeInput, TVEpisodeInputOutput> getInstance(String filenameSeparator, 
-            String inputFileEndMarking, String inputFileValuesSectionMarking,
-            String inputFileAttributesSectionMarking) 
+    protected static IDataFileManager<TVEpisodeInput, TVEpisodeInputOutput> getInstance() 
     {
         if (tvEpisodesFileManager == null) 
         {
-            tvEpisodesFileManager = new TVEpisodesFileManager(filenameSeparator,
-            inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
+            tvEpisodesFileManager = new TVEpisodesFileManager();
         }
         
         return tvEpisodesFileManager;
@@ -92,7 +65,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         StringBuilder text = new StringBuilder();
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                         DataStore.getTextInputOutputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
         {
             String textLine;
@@ -117,7 +90,6 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         {
             if (sc.hasNextLine() == false)
             {
-                sc.close();
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputOutputTVEpisodesFilename() + " je prázdný");
             }
         }
@@ -135,7 +107,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         
         try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryInputOutputTVEpisodesFilename())))) 
+                FileManagerAccessor.getFileSeparator() + DataStore.getBinaryInputOutputTVEpisodesFilename())))) 
         {
             boolean fileEndReached = false;
             
@@ -213,7 +185,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     DataStore.getBinaryInputOutputTVEpisodesFilename());
         }
         
-        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() 
                 + DataStore.getBinaryInputOutputTVEpisodesFilename());
         
         if (binaryFile.length() == 0) 
@@ -232,7 +204,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         StringBuilder text = new StringBuilder();
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                         DataStore.getTextInputTVEpisodesFilename()), StandardCharsets.UTF_8))) 
         {
             String textLine;
@@ -257,7 +229,6 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         {
             if (sc.hasNextLine() == false)
             {
-                sc.close();
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputTVEpisodesFilename() + " je prázdný");
             }
         }
@@ -273,7 +244,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         StringBuilder text = new StringBuilder();
         
         try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
-                FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                         DataStore.getBinaryInputTVEpisodesFilename()))) 
         {
             byte[] buffer = new byte[8192];
@@ -297,7 +268,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     DataStore.getBinaryInputTVEpisodesFilename());
         }
         
-        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator()
                 + DataStore.getBinaryInputTVEpisodesFilename());
         
         if (binaryFile.length() == 0) 
@@ -311,9 +282,9 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
     public @Override List<TVEpisodeInputOutput> loadInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException 
     {
         List<TVEpisodeInputOutput> parsedTVEpisodes = new ArrayList<>();
-        File inputOutputTVEpisodesText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+        File inputOutputTVEpisodesText = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                 DataStore.getTextInputOutputTVEpisodesFilename());
-        File inputOutputTVEpisodesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File inputOutputTVEpisodesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 DataStore.getBinaryInputOutputTVEpisodesFilename());
         
         inputOutputTVEpisodesBinary.createNewFile();
@@ -325,7 +296,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
             
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryInputOutputTVEpisodesFilename())))) 
+                FileManagerAccessor.getFileSeparator() + DataStore.getBinaryInputOutputTVEpisodesFilename())))) 
             {
                 boolean fileEndReached = false;
                 
@@ -443,7 +414,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     {
                         continue;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking 
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileEndMarking()
                             + "[\\s\t]*$") && enteredSectionValues == true) 
                     {
                         try 
@@ -457,14 +428,14 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                         
                         break;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileValuesSectionMarking()
                             + "[\\s\t]*$") && enteredSectionAttributes == true) 
                     {
                         enteredSectionValues = true;
 
                         continue;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking()
                             + "[\\s\t]*$") && enteredSectionValues == true) 
                     {
                         try 
@@ -481,7 +452,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
 
                         continue;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking()
                             + "[\\s\t]*$") && enteredSectionAttributes == false) 
                     {
                         enteredSectionAttributes = true;
@@ -526,12 +497,12 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         return parsedTVEpisodes;
     }
     
-    public @Override void tryDeleteDataInputOutputFilesCopies() 
+    public @Override void tryDeleteInputOutputDataFilesCopies() 
     {
-        File inputOutputTVEpisodesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File inputOutputTVEpisodesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 "copy_" + DataStore.getTextInputOutputTVEpisodesFilename());
         
-        File inputOutputTVEpisodesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File inputOutputTVEpisodesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 "copy_" + DataStore.getBinaryInputOutputTVEpisodesFilename());
         
         inputOutputTVEpisodesTextCopy.delete();
@@ -540,10 +511,10 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
     
     public @Override void transferBetweenInputOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
     {
-        File inputOutputTVEpisodesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File inputOutputTVEpisodesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 "copy_" + DataStore.getTextInputOutputTVEpisodesFilename());
         
-        File inputOutputTVEpisodesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File inputOutputTVEpisodesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 "copy_" + DataStore.getBinaryInputOutputTVEpisodesFilename());
         
         String sourceTextFile;
@@ -567,17 +538,17 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         }
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 sourceTextFile), StandardCharsets.UTF_8));
              DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new 
-                FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                 sourceBinaryFile)));
              BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                 destinationTextFile, false), StandardCharsets.UTF_8));
              DataOutputStream dataOutputStream = new DataOutputStream(
                 new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + destinationBinaryFile, false)))
+                FileManagerAccessor.getFileSeparator() + destinationBinaryFile, false)))
              )
         {
             byte[] byteBuffer = new byte[8192];
@@ -610,11 +581,11 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
     public @Override void saveInputOutputDataIntoFiles(List<TVEpisodeInputOutput> newInputOutputData) throws IOException
     {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                 DataStore.getTextInputOutputTVEpisodesFilename(), false), StandardCharsets.UTF_8));
              DataOutputStream dataOutputStream = new DataOutputStream(
                 new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryInputOutputTVEpisodesFilename(), false)))) 
+                FileManagerAccessor.getFileSeparator() + DataStore.getBinaryInputOutputTVEpisodesFilename(), false)))) 
         {
             StringBuilder generatedTVEpisodesTextRepresentations = 
                     createInputOutputDataTextRepresentation(newInputOutputData);
@@ -698,21 +669,21 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 {
                     continue;
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileEndMarking() +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
                     parseInputData(tvEpisodeInputFieldsValues, parsedTVEpisodes, tvEpisodeInputFields, inputTVEpisodeOrder);
                     
                     break; 
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileValuesSectionMarking() +
                         "[\\s\t]*$") && enteredSectionAttributes == true)
                 {
                     enteredSectionValues = true;
                     
                     continue;
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking() +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
                     parseInputData(tvEpisodeInputFieldsValues, parsedTVEpisodes, tvEpisodeInputFields, inputTVEpisodeOrder);
@@ -723,7 +694,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                     
                     continue;
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking() +
                         "[\\s\t]*$") && enteredSectionAttributes == false) 
                 {
                     inputTVEpisodeOrder++;
@@ -877,7 +848,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
 
         for (TVEpisodeInputOutput m : newInputOutputTVEpisodes) 
         {
-            attributesMarking = inputFileAttributesSectionMarking.replaceAll("\\\\", "");
+            attributesMarking = FileManagerAccessor.getTextFileAttributesSectionMarking().replaceAll("\\\\", "");
             inputOutputTextData.append(attributesMarking).append("\n");
             inputOutputTextData.append("\n");
             
@@ -890,7 +861,7 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
                 inputOutputTextData.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
             }
 
-            valuesMarking = inputFileValuesSectionMarking.replaceAll("\\\\", "");
+            valuesMarking = FileManagerAccessor.getTextFileValuesSectionMarking().replaceAll("\\\\", "");
             inputOutputTextData.append("\n");
             inputOutputTextData.append(valuesMarking).append("\n");
             inputOutputTextData.append("\n");
@@ -961,8 +932,8 @@ public class TVEpisodesFileManager implements IDataFileManager<TVEpisodeInput, T
         
         if (newInputOutputTVEpisodes.isEmpty() == false) 
         {
-            String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
-            inputOutputTextData.append(endMarking).append("\n");
+            String endMarking = FileManagerAccessor.getTextFileEndMarking().replaceAll("\\\\", "");
+            inputOutputTextData.append(endMarking);
         }
         
         return inputOutputTextData;
