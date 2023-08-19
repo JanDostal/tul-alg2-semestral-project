@@ -95,7 +95,7 @@ public interface IDataFileManager<T, S>
      * calling this method should happen regardless if calling 
      * {@link #saveInputOutputDataIntoFiles(java.util.List) saveInputOutputDataIntoFiles} method fails or not.
      */
-    void tryDeleteDataInputOutputFilesCopies();
+    void tryDeleteInputOutputDataFilesCopies();
     
     /**
      * Represents a method for transfering input/output data between input/output files and copies acting 
