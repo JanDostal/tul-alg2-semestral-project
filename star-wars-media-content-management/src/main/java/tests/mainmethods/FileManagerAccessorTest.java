@@ -133,12 +133,12 @@ public class FileManagerAccessorTest
             
             fileManager.getMoviesFileManager().transferBetweenInputOutputDataAndCopyFiles(true);
             
-            //tryDeleteDataInputOutputFilesCopies method
+            //tryDeleteInputOutputDataFilesCopies method
             System.out.println();
-            System.out.println("tryDeleteDataInputOutputFilesCopies method:");
+            System.out.println("tryDeleteInputOutputDataFilesCopies method:");
             System.out.println();
             
-            fileManager.getMoviesFileManager().tryDeleteDataInputOutputFilesCopies();
+            fileManager.getMoviesFileManager().tryDeleteInputOutputDataFilesCopies();
             
             //loadInputOutputDataFrom method
             System.out.println();
@@ -236,12 +236,12 @@ public class FileManagerAccessorTest
             
             fileManager.getTVEpisodesFileManager().transferBetweenInputOutputDataAndCopyFiles(true);
             
-            //tryDeleteDataInputOutputFilesCopies method
+            //tryDeleteInputOutputDataFilesCopies method
             System.out.println();
-            System.out.println("tryDeleteDataInputOutputFilesCopies method:");
+            System.out.println("tryDeleteInputOutputDataFilesCopies method:");
             System.out.println();
             
-            fileManager.getTVEpisodesFileManager().tryDeleteDataInputOutputFilesCopies();
+            fileManager.getTVEpisodesFileManager().tryDeleteInputOutputDataFilesCopies();
                         
             //loadInputOutputDataFrom method
             System.out.println();
@@ -337,12 +337,12 @@ public class FileManagerAccessorTest
             
             fileManager.getTVSeasonsFileManager().transferBetweenInputOutputDataAndCopyFiles(true);
             
-            //tryDeleteDataInputOutputFilesCopies method
+            //tryDeleteInputOutputDataFilesCopies method
             System.out.println();
-            System.out.println("tryDeleteDataInputOutputFilesCopies method:");
+            System.out.println("tryDeleteInputOutputDataFilesCopies method:");
             System.out.println();
             
-            fileManager.getTVSeasonsFileManager().tryDeleteDataInputOutputFilesCopies();
+            fileManager.getTVSeasonsFileManager().tryDeleteInputOutputDataFilesCopies();
             
             //loadInputOutputDataFrom method
             System.out.println();
@@ -438,12 +438,12 @@ public class FileManagerAccessorTest
             
             fileManager.getTVShowsFileManager().transferBetweenInputOutputDataAndCopyFiles(true);
             
-            //tryDeleteDataInputOutputFilesCopies method
+            //tryDeleteInputOutputDataFilesCopies method
             System.out.println();
-            System.out.println("tryDeleteDataInputOutputFilesCopies method:");
+            System.out.println("tryDeleteInputOutputDataFilesCopies method:");
             System.out.println();
             
-            fileManager.getTVShowsFileManager().tryDeleteDataInputOutputFilesCopies();
+            fileManager.getTVShowsFileManager().tryDeleteInputOutputDataFilesCopies();
             
             //loadInputOutputDataFrom method
             System.out.println();
