@@ -25,8 +25,6 @@ public class ConsoleUI
     
     private final Scanner scanner = new Scanner(System.in);
     
-    private boolean wasInitialized = false;
-    
     private final List<String> breadcrumbItems = new ArrayList<>(); 
     
     private final TVEpisodesController tvEpisodesController;
@@ -47,23 +45,25 @@ public class ConsoleUI
      * @param moviesController singleton instance of movies data controller.
      * @param tvEpisodesController singleton instance of tv episodes data controller.
      */
-    public ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController) 
+    private ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController) 
     {
         this.tvEpisodesController = tvEpisodesController;
         this.moviesController = moviesController;
     }
     
     /**
-     * Initializes ConsoleUI after instance creation, 
-     * specifically loads all data UI submodules as new instances
+     * Represents a factory method for creating new instance.
+     * @param moviesController singleton instance of movies data controller.
+     * @param tvEpisodesController singleton instance of tv episodes data controller.
+     * @return new instance of ConsoleUI class
      */
-    private void initializeConsoleUI() 
+    public static ConsoleUI getInstance(MoviesController moviesController, TVEpisodesController tvEpisodesController) 
     {
-        wasInitialized = true;
-        this.moviesSubUI = new MoviesSubUI(this);
-        this.tvEpisodesSubUI = new TVEpisodesSubUI(this);
-        this.tvSeasonsSubUI = new TVSeasonsSubUI(this);
-        this.tvShowsSubUI = new TVShowsSubUI(this);
+        ConsoleUI ui = new ConsoleUI(moviesController, tvEpisodesController);
+        
+        ui.initializeConsoleUI();
+        
+        return ui;
     }
     
     /**
@@ -107,11 +107,19 @@ public class ConsoleUI
     }
     
     /**
+     * Initializes ConsoleUI after instance creation, 
+     * specifically loads all data UI submodules as new instances
+     */
+    private void initializeConsoleUI() 
+    {
+        this.moviesSubUI = new MoviesSubUI(this);
+        this.tvEpisodesSubUI = new TVEpisodesSubUI(this);
+        this.tvSeasonsSubUI = new TVSeasonsSubUI(this);
+        this.tvShowsSubUI = new TVShowsSubUI(this);
+    }
+    
+    /**
      * starts UI in console.
-     * <p>
-     * If ConsoleUI instance was just created, 
-     * it will call {@link initializeConsoleUI} method on start of this method, after that it will not 
-     * call that method for this instance ever again.
      * <p>
      * If console was just started, 
      * it will set data directory and load selected input/output data files into database.
@@ -120,12 +128,7 @@ public class ConsoleUI
      * this method on first ConsoleUI instance.
      */
     public void start() 
-    {
-        if (wasInitialized == false) 
-        {
-            initializeConsoleUI();
-        }
-        
+    {        
         boolean isConsoleRunning = true;
         int choice;
   
@@ -624,16 +627,16 @@ public class ConsoleUI
             switch (dataType) 
             {
                 case MOVIE:
-                    fileContent = getMoviesController().getMoviesChosenFileContent(fileName);
+                    fileContent = getMoviesController().getChosenMoviesFileContent(fileName);
                     break;
                 case TV_SHOW:
-                    fileContent = getTVEpisodesController().getTVShowsChosenFileContent(fileName);
+                    fileContent = getTVEpisodesController().getChosenTVShowsFileContent(fileName);
                     break;
                 case TV_SEASON:
-                    fileContent = getTVEpisodesController().getTVSeasonsChosenFileContent(fileName);
+                    fileContent = getTVEpisodesController().getChosenTVSeasonsFileContent(fileName);
                     break;
                 case TV_EPISODE:
-                    fileContent = getTVEpisodesController().getTVEpisodesChosenFileContent(fileName);
+                    fileContent = getTVEpisodesController().getChosenTVEpisodesFileContent(fileName);
                     break; 
             }
             
