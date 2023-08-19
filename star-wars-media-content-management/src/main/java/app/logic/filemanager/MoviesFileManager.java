@@ -38,50 +38,23 @@ import utils.interfaces.IDataFileManager;
 public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInputOutput>
 {
     private static IDataFileManager<MovieInput, MovieInputOutput> moviesFileManager;
-        
-    private final String filenameSeparator;
-    
-    private final String inputFileEndMarking;
-    
-    private final String inputFileValuesSectionMarking;
-    
-    private final String inputFileAttributesSectionMarking;
-    
+            
     /**
      * Creates singleton instance of MoviesFileManager.
-     * Receives filenameSeparator, inputFileEndMarking, inputFileValuesSectionMarking 
-     * and inputFileAttributesSectionMarking parameters in constructor from {@link FileManagerAccessor} class.
-     * @param filenameSeparator file path separator dependent on application running operating system
-     * @param inputFileEndMarking control string for detecting file end
-     * @param inputFileValuesSectionMarking control string for detecting values section in file
-     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
      */
-    private MoviesFileManager(String filenameSeparator, 
-            String inputFileEndMarking, String inputFileValuesSectionMarking,
-            String inputFileAttributesSectionMarking) 
+    private MoviesFileManager() 
     {
-        this.filenameSeparator = filenameSeparator;
-        this.inputFileEndMarking = inputFileEndMarking;
-        this.inputFileValuesSectionMarking = inputFileValuesSectionMarking;
-        this.inputFileAttributesSectionMarking = inputFileAttributesSectionMarking;
     }
     
     /**
      * Represents a factory method for creating singleton instance.
-     * @param filenameSeparator file path separator dependent on application running operating system
-     * @param inputFileEndMarking control string for detecting file end
-     * @param inputFileValuesSectionMarking control string for detecting values section in file
-     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
      * @return singleton instance of MoviesFileManager as interface
      */
-    protected static IDataFileManager<MovieInput, MovieInputOutput> getInstance(String filenameSeparator, 
-            String inputFileEndMarking, String inputFileValuesSectionMarking,
-            String inputFileAttributesSectionMarking) 
+    protected static IDataFileManager<MovieInput, MovieInputOutput> getInstance() 
     {
         if (moviesFileManager == null) 
         {
-            moviesFileManager = new MoviesFileManager(filenameSeparator,
-            inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
+            moviesFileManager = new MoviesFileManager();
         }
         
         return moviesFileManager;
@@ -92,7 +65,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         StringBuilder text = new StringBuilder();
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                         DataStore.getTextInputOutputMoviesFilename()), StandardCharsets.UTF_8))) 
         {
             String textLine;
@@ -117,7 +90,6 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         {
             if (sc.hasNextLine() == false)
             {
-                sc.close();
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputOutputMoviesFilename() + " je prázdný");
             }
         }
@@ -135,7 +107,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         
         try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryInputOutputMoviesFilename())))) 
+                FileManagerAccessor.getFileSeparator() + DataStore.getBinaryInputOutputMoviesFilename())))) 
         {
             boolean fileEndReached = false;
             
@@ -200,7 +172,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
                     
                     text.append(String.format("%-38s%d", "Datum uvedení v epoch sekundách:", movieReleaseDateInEpochSeconds)).append("\n");
                     text.append(String.format("%-38s%s", "Chronologická éra:", new String(movieEraCodeDesignation))).append(moviesDivider);
-                } 
+                }
                 catch (EOFException e) 
                 {
                     fileEndReached = true;
@@ -218,7 +190,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
                     DataStore.getBinaryInputOutputMoviesFilename());
         }
         
-        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator()
                 + DataStore.getBinaryInputOutputMoviesFilename());
         
         if (binaryFile.length() == 0) 
@@ -237,7 +209,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         StringBuilder text = new StringBuilder();
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                         DataStore.getTextInputMoviesFilename()), StandardCharsets.UTF_8))) 
         {
             String textLine;
@@ -262,7 +234,6 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         {
             if (sc.hasNextLine() == false)
             {
-                sc.close();
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputMoviesFilename() + " je prázdný");
             }
         }
@@ -278,7 +249,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         StringBuilder text = new StringBuilder();
         
         try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
-                FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                         DataStore.getBinaryInputMoviesFilename()))) 
         {
             byte[] buffer = new byte[8192];
@@ -302,7 +273,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
                     DataStore.getBinaryInputMoviesFilename());
         }
         
-        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator()
                 + DataStore.getBinaryInputMoviesFilename());
         
         if (binaryFile.length() == 0) 
@@ -316,9 +287,9 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
     public @Override List<MovieInputOutput> loadInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException
     {
         List<MovieInputOutput> parsedMovies = new ArrayList<>();
-        File inputOutputMoviesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File inputOutputMoviesBinary = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 DataStore.getBinaryInputOutputMoviesFilename());
-        File inputOutputMoviesText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+        File inputOutputMoviesText = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                 DataStore.getTextInputOutputMoviesFilename());
         
         inputOutputMoviesBinary.createNewFile();
@@ -330,7 +301,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
             
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryInputOutputMoviesFilename())))) 
+                FileManagerAccessor.getFileSeparator() + DataStore.getBinaryInputOutputMoviesFilename())))) 
             {
                 boolean fileEndReached = false;
                 
@@ -453,7 +424,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
                     {
                         continue;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking 
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileEndMarking()
                             + "[\\s\t]*$") && enteredSectionValues == true) 
                     {
                         try
@@ -467,14 +438,14 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
 
                         break;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileValuesSectionMarking()
                             + "[\\s\t]*$") && enteredSectionAttributes == true) 
                     {
                         enteredSectionValues = true;
 
                         continue;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking()
                             + "[\\s\t]*$") && enteredSectionValues == true) 
                     {
                         try 
@@ -491,7 +462,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
 
                         continue;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking()
                             + "[\\s\t]*$") && enteredSectionAttributes == false) 
                     {
                         enteredSectionAttributes = true;
@@ -536,12 +507,12 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         return parsedMovies;
     }
     
-    public @Override void tryDeleteDataInputOutputFilesCopies() 
+    public @Override void tryDeleteInputOutputDataFilesCopies() 
     {
-        File inputOutputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File inputOutputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 "copy_" + DataStore.getTextInputOutputMoviesFilename());
         
-        File inputOutputMoviesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File inputOutputMoviesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 "copy_" + DataStore.getBinaryInputOutputMoviesFilename());
         
         inputOutputMoviesTextCopy.delete();
@@ -550,10 +521,10 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
     
     public @Override void transferBetweenInputOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
     {
-        File inputOutputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File inputOutputMoviesTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 "copy_" + DataStore.getTextInputOutputMoviesFilename());
         
-        File inputOutputMoviesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+        File inputOutputMoviesBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 "copy_" + DataStore.getBinaryInputOutputMoviesFilename());
                 
         String sourceTextFile;
@@ -577,17 +548,17 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         }
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 sourceTextFile), StandardCharsets.UTF_8));
              DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new 
-                FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                 sourceBinaryFile)));
              BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                 destinationTextFile, false), StandardCharsets.UTF_8));
              DataOutputStream dataOutputStream = new DataOutputStream(
                 new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + destinationBinaryFile, false)))
+                FileManagerAccessor.getFileSeparator() + destinationBinaryFile, false)))
              )
         {
             byte[] byteBuffer = new byte[8192];
@@ -620,11 +591,11 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
     public @Override void saveInputOutputDataIntoFiles(List<MovieInputOutput> newInputOutputData) throws IOException
     {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                 DataStore.getTextInputOutputMoviesFilename(), false), StandardCharsets.UTF_8));
              DataOutputStream dataOutputStream = new DataOutputStream(
                 new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryInputOutputMoviesFilename(), false)))) 
+                FileManagerAccessor.getFileSeparator() + DataStore.getBinaryInputOutputMoviesFilename(), false)))) 
         {
             StringBuilder generatedMoviesTextRepresentations = 
                     createInputOutputDataTextRepresentation(newInputOutputData);
@@ -711,21 +682,21 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
                 {
                     continue;
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileEndMarking() +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
                     parseInputData(movieInputFieldsValues, parsedMovies, movieInputFields, inputMovieOrder);
                     
                     break; 
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileValuesSectionMarking() +
                         "[\\s\t]*$") && enteredSectionAttributes == true)
                 {
                     enteredSectionValues = true;
                     
                     continue;
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking() +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
                     parseInputData(movieInputFieldsValues, parsedMovies, movieInputFields, inputMovieOrder);
@@ -736,7 +707,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
                     
                     continue;
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking() +
                         "[\\s\t]*$") && enteredSectionAttributes == false) 
                 {
                     inputMovieOrder++;
@@ -892,7 +863,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
 
         for (MovieInputOutput m : newInputOutputMovies) 
         {
-            attributesMarking = inputFileAttributesSectionMarking.replaceAll("\\\\", "");
+            attributesMarking = FileManagerAccessor.getTextFileAttributesSectionMarking().replaceAll("\\\\", "");
             inputOutputTextData.append(attributesMarking).append("\n");
             inputOutputTextData.append("\n");
             
@@ -905,7 +876,7 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
                 inputOutputTextData.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
             }
 
-            valuesMarking = inputFileValuesSectionMarking.replaceAll("\\\\", "");
+            valuesMarking = FileManagerAccessor.getTextFileValuesSectionMarking().replaceAll("\\\\", "");
             inputOutputTextData.append("\n");
             inputOutputTextData.append(valuesMarking).append("\n");
             inputOutputTextData.append("\n");
@@ -986,8 +957,8 @@ public class MoviesFileManager implements IDataFileManager<MovieInput, MovieInpu
         
         if (newInputOutputMovies.isEmpty() == false) 
         {
-            String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
-            inputOutputTextData.append(endMarking).append("\n");
+            String endMarking = FileManagerAccessor.getTextFileEndMarking().replaceAll("\\\\", "");
+            inputOutputTextData.append(endMarking);
         }
         
         return inputOutputTextData;
