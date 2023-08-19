@@ -20,6 +20,14 @@ import utils.interfaces.IDataFileManager;
  */
 public class FileManagerAccessor 
 {
+    private static final String fileSeparator = System.getProperty("file.separator");;
+    
+    private static final String textFileEndMarking = "\\[End\\]";
+    
+    private static final String textFileValuesSectionMarking = "\\[Values\\]";
+    
+    private static final String textFileAttributesSectionMarking = "\\[Attributes\\]";
+    
     private static FileManagerAccessor fileManagerAccessor;
     
     private static File dataDirectory;
@@ -32,28 +40,16 @@ public class FileManagerAccessor
     
     private final IDataFileManager<TVEpisodeInput, TVEpisodeInputOutput> tvEpisodesFileManager;
     
-    private final String filenameSeparator = System.getProperty("file.separator");;
-    
-    private final String inputFileEndMarking = "\\[End\\]";
-    
-    private final String inputFileValuesSectionMarking = "\\[Values\\]";
-    
-    private final String inputFileAttributesSectionMarking = "\\[Attributes\\]";
-    
     /**
      * Creates singleton instance of FileManagerAccessor.
      * When creating instance, all data file managers are also loaded as singleton instances.
      */
     private FileManagerAccessor() 
     {
-        this.moviesFileManager = MoviesFileManager.getInstance(filenameSeparator,
-            inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
-        this.tvShowsFileManager = TVShowsFileManager.getInstance(filenameSeparator,
-            inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
-        this.tvSeasonsFileManager = TVSeasonsFileManager.getInstance(filenameSeparator,
-            inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking); 
-        this.tvEpisodesFileManager = TVEpisodesFileManager.getInstance(filenameSeparator,
-            inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
+        this.moviesFileManager = MoviesFileManager.getInstance();
+        this.tvShowsFileManager = TVShowsFileManager.getInstance();
+        this.tvSeasonsFileManager = TVSeasonsFileManager.getInstance(); 
+        this.tvEpisodesFileManager = TVEpisodesFileManager.getInstance();
     }
     
     /**
@@ -103,9 +99,41 @@ public class FileManagerAccessor
     }
     
     /**
+     * @return file path separator dependent on application running operating system (usage in data files managers)
+     */
+    protected static String getFileSeparator() 
+    {
+        return fileSeparator;
+    }
+    
+    /**
+     * @return control string for detecting file end (usage in data files managers)
+     */
+    protected static String getTextFileEndMarking() 
+    {
+        return textFileEndMarking;
+    }
+    
+    /**
+     * @return control string for detecting values section in file (usage in data files managers)
+     */
+    protected static String getTextFileValuesSectionMarking() 
+    {
+        return textFileValuesSectionMarking;
+    }
+    
+    /**
+     * @return control string for detecting attributes section in file (usage in data files managers)
+     */
+    protected static String getTextFileAttributesSectionMarking() 
+    {
+        return textFileAttributesSectionMarking;
+    }
+    
+    /**
      * Returns Data directory full path from File instance
      * @return data directory absolute path
-     * @throws IllegalStateException when File instance was not yet set
+     * @throws IllegalStateException when File instance was not yet set (data directory should be set before usage of data files managers methods)
      */
     public static String getDataDirectoryPath()
     {
@@ -118,7 +146,7 @@ public class FileManagerAccessor
     }
     
     /**
-     * Sets data directory through specified file path
+     * Sets data directory through specified file path (data directory should be set before usage of data files managers methods)
      * @param directoryFullPath file path to existing data directory with data input and input/output files
      * @throws IllegalStateException when File instance was already set
      * @throws IllegalArgumentException when directory on 
