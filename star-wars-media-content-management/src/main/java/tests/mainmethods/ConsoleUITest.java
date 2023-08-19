@@ -25,12 +25,12 @@ public class ConsoleUITest
         TVEpisodesController tvEpisodesController = TVEpisodesController.getInstance(DataContextAccessor.getInstance(), 
                 EmailSender.getInstance(), FileManagerAccessor.getInstance());
         
-        ConsoleUI ui = new ConsoleUI(moviesController, tvEpisodesController);
-        ConsoleUI ui2 = new ConsoleUI(moviesController, tvEpisodesController);
-        ConsoleUI ui3 = new ConsoleUI(moviesController, tvEpisodesController);
+        ConsoleUI consoleTerminal = ConsoleUI.getInstance(moviesController, tvEpisodesController);
+        ConsoleUI consoleTerminal2 = ConsoleUI.getInstance(moviesController, tvEpisodesController);
+        ConsoleUI consoleTerminal3 = ConsoleUI.getInstance(moviesController, tvEpisodesController);
         
-        ui.start();
-        ui2.start();
-        ui3.start();
+        consoleTerminal.start();
+        consoleTerminal2.start();
+        consoleTerminal3.start();
     }
 }
