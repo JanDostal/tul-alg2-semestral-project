@@ -660,14 +660,14 @@ public class MoviesController
     }
     
     /**
-     * Represents a method for getting movies chosen file (binary or text, input or input/output) content.
+     * Represents a method for getting chosen movies file (binary or text, input or input/output) content.
      * @param fileName name of the chosen file (not file path)
      * @return stringbuilder which contains file content as string
      * @throws java.io.IOException when reading from chosen file fails
      * @throws java.io.FileNotFoundException when chosen file does not exist
      * @throws utils.exceptions.FileEmptyException when chosen file content is empty
      */
-    public StringBuilder getMoviesChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
+    public StringBuilder getChosenMoviesFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
     {
         StringBuilder content = new StringBuilder();
         
@@ -885,8 +885,8 @@ public class MoviesController
      * input/output files by {@link IDataFileManager#transferBetweenInputOutputDataAndCopyFiles(boolean)
      * transferBetweenInputOutputDataAndCopyFiles} and load them back into database.
      * <p>
-     * After all of it, call {@link IDataFileManager#tryDeleteDataInputOutputFilesCopies() 
-     * tryDeleteDataInputOutputFilesCopies} method regardless if calling 
+     * After all of it, call {@link IDataFileManager#tryDeleteInputOutputDataFilesCopies() 
+     * tryDeleteInputOutputDataFilesCopies} method regardless if calling 
      * {@link IDataFileManager#saveInputOutputDataIntoFiles(java.util.List)
      * saveInputOutputDataIntoFiles} method fails or not
      * @throws java.io.IOException if saving movies table updated state into input/output files fails
@@ -921,7 +921,7 @@ public class MoviesController
             }
             catch (IOException | FileParsingException f) 
             {
-                fileManagerAccessor.getMoviesFileManager().tryDeleteDataInputOutputFilesCopies();
+                fileManagerAccessor.getMoviesFileManager().tryDeleteInputOutputDataFilesCopies();
                 throw new IOException(f.getMessage());
             }
                        
@@ -948,12 +948,12 @@ public class MoviesController
                     catch (DatabaseException h) 
                     {
                     }
-                } 
+                }
             }
         } 
         finally 
         {
-            fileManagerAccessor.getMoviesFileManager().tryDeleteDataInputOutputFilesCopies();
+            fileManagerAccessor.getMoviesFileManager().tryDeleteInputOutputDataFilesCopies();
         }
     }
     
