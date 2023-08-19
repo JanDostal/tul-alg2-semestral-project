@@ -2450,15 +2450,10 @@ TVEpisodesTable --|> IDataTable : Implements
 TVSeasonsTable --|> IDataTable : Implements
 TVShowsTable --|> IDataTable : Implements
 
-DataContextAccessor --* MoviesTable : Contains
-DataContextAccessor --* TVEpisodesTable : Contains
-DataContextAccessor --* TVSeasonsTable : Contains
-DataContextAccessor --* TVShowsTable : Contains
-
-MoviesTable --* DataContextAccessor : Is part of
-TVEpisodesTable --* DataContextAccessor : Is part of
-TVSeasonsTable --* DataContextAccessor : Is part of
-TVShowsTable --* DataContextAccessor : Is part of
+DataContextAccessor "Is part of" *--* "Contains" MoviesTable
+DataContextAccessor "Is part of" *--* "Contains" TVEpisodesTable
+DataContextAccessor "Is part of" *--* "Contains" TVSeasonsTable
+DataContextAccessor "Is part of" *--* "Contains" TVShowsTable
 
     class DataStore{
         <<Service>>
@@ -2773,17 +2768,18 @@ TVEpisodesController ..> FileManagerAccessor : Depends on
 
 note for ApplicationRunner "Součást package ui"
 note for ConsoleUI "Součást package ui (prezentační vrstva)"
-note for MoviesUI "Součást package ui (prezentační vrstva)"
-note for TVEpisodesUI "Součást package ui (prezentační vrstva)"
+note for MoviesSubUI "Součást package ui (prezentační vrstva)"
+note for TVShowsSubUI "Součást package ui (prezentační vrstva)"
+note for TVSeasonsSubUI "Součást package ui (prezentační vrstva)"
+note for TVEpisodesSubUI "Součást package ui (prezentační vrstva)"
 
 ConsoleUI ..> MoviesController : Depends on
 ConsoleUI ..> TVEpisodesController : Depends on
 
-ConsoleUI --* MoviesUI : Contains
-ConsoleUI --* TVEpisodesUI : Contains
-
-MoviesUI --* ConsoleUI : Is part of
-TVEpisodesUI --* ConsoleUI : Is part of
+ConsoleUI "Is part of" *--* "Contains" MoviesSubUI
+ConsoleUI "Is part of" *--* "Contains" TVShowsSubUI
+ConsoleUI "Is part of" *--* "Contains" TVSeasonsSubUI
+ConsoleUI "Is part of" *--* "Contains" TVEpisodesSubUI
 
     class ApplicationRunner{
         +main(String[] args)$
@@ -2792,20 +2788,24 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -boolean isDataDirectorySet$
         -boolean isDatabaseFromFilesLoaded$
         -Scanner scanner
-        -boolean wasInitialized
         -List~String~ breadcrumbItems
         -TVEpisodesController tvEpisodesController
         -MoviesController moviesController
-        -MoviesUI moviesUI
-        -TVEpisodesUI tvEpisodesUI
-        +ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController)
-        -initializeConsoleUI()
+        -MoviesSubUI moviesSubUI
+        -TVEpisodesSubUI tvEpisodesSubUI
+        -TVSeasonsSubUI tvSeasonsSubUI
+        -TVShowsSubUI tvShowsSubUI
+        -ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController)
+        +getInstance(MoviesController moviesController, TVEpisodesController tvEpisodesController)$ ConsoleUI
         #getScanner() Scanner
         #getMoviesController() MoviesController
         #getTVEpisodesController() TVEpisodesController
+        #getTVSeasonsSubUI() TVSeasonsSubUI
+        #getTVEpisodesSubUI() TVEpisodesSubUI
+        -initializeConsoleUI()
         +start()
         -displayDataDirectoryPathMenu()
-        -displayLoadingOutputFilesMenu()
+        -displayLoadingInputOutputFilesMenu()
         -displayIntroduction()
         -displayMainMenu()
         #createDividingHorizontalLineOf(String heading) StringBuilder
@@ -2823,14 +2823,14 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -loadChoiceFromMenu() int
         -setDataDirectoryPath()
         -loadDataDirectoryPath() String
-        -loadAllOutputDataFrom(boolean fromBinary)
-        #displayDataChosenFileContent(String fileName, DataType dataType)
+        -loadAllInputOutputDataFrom(boolean fromBinary)
+        #displayChosenDataFileContent(String fileName, DataType dataType)
         -printInformationsAboutChronologicalEras()
     }
-    class MoviesUI{
+    class MoviesSubUI{
         -ConsoleUI consoleUI
-        #MoviesUI(ConsoleUI consoleUI)
-        #start()
+        #MoviesSubUI(ConsoleUI consoleUI)
+        #handleDisplayMoviesManagementSubmenu()
         -displayMoviesManagementSubmenu()
         -displayLoadMoviesFromInputFileSubmenu()
         -displayPrintFoundMoviesByNameSubmenu()
@@ -2843,7 +2843,7 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -displayPrintWatchedMoviesByEraSubmenu(Era chosenEra)
         -displayPrintReleasedFavoriteMoviesOfAllTimeSubmenu()
         -displayPrintReleasedNewestMoviesSubmenu()
-        -displayPrintMoviesOutputFilesContentsSubmenu()
+        -displayPrintMoviesInputOutputFilesContentsSubmenu()
         -displayDetailAboutMovieSubmenu(Movie chosenMovie)
         -displayEditChosenMovieSubmenu(Movie chosenMovie)
         -handleLoadMoviesFromInputFileSubmenu()
@@ -2870,7 +2870,7 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -printReleasedFavoriteMoviesOfAllTime(List~Movie~ favoriteMovies)
         -handlePrintReleasedNewestMoviesSubmenu()
         -printReleasedNewestMovies(List~Movie~ releasedNewestMovies)
-        -handlePrintMoviesOutputFilesContentsSubmenu()
+        -handlePrintMoviesInputOutputFilesContentsSubmenu()
         -handleDisplayDetailAboutMovieSubmenu(List~Movie~ chosenMovies)
         -loadChosenMovieFromUser() int
         -printMovieDetail(Movie chosenMovie, boolean isInEditMode)
@@ -2881,11 +2881,11 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -loadMoviePercentageRatingFromUser() int
         -deleteChosenMovies(List~Movie~ chosenMovies)
     }
-    class TVEpisodesUI{
+    class TVShowsSubUI{
         -ConsoleUI consoleUI
-        #TVEpisodesUI(ConsoleUI consoleUI)
-        #start()
-        -displayTVEpisodesManagementSubmenu()
+        #TVShowsSubUI(ConsoleUI consoleUI)
+        #handleDisplayTVShowsManagementSubmenu()
+        -displayTVShowsManagementSubmenu()
         -displayLoadTVShowsFromInputFileSubmenu()
         -displayPrintFoundTVShowsByNameSubmenu()
         -displayPrintErasWithAnnouncedTVShowsSubmenu()
@@ -2894,19 +2894,8 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -displayPrintReleasedTVShowsByEraSubmenu(Era chosenEra)
         -displayDetailAboutTVShowSubmenu(TVShow chosenTVShow)
         -displayEditChosenTVShowSubmenu(TVShow chosenTVShow)
-        -displayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow)
-        -displayLoadTVSeasonsFromInputFileSubmenu()
-        -displaySendTVEpisodesByEmailSubmenu()
-        -displayPrintTVShowSortedTVEpisodesSubmenu(TVShow chosenTVShow, DataSorting dataSorting)
-        -displayDetailAboutTVSeasonSubmenu(TVSeason chosenTVSeason)
-        -displayEditChosenTVSeasonSubmenu(TVSeason chosenTVSeason)
-        -displayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason)
-        -displayLoadTVEpisodesFromInputFileSubmenu()
-        -displayPrintTVSeasonSortedTVEpisodesSubmenu(TVSeason chosenTVSeason, DataSorting dataSorting)
-        -displayDetailAboutTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason)
-        -displayEditChosenTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason)
         -displayPrintReleasedNewestTVShowsSubmenu()
-        -displayPrintDataOutputFilesContentsSubmenu(DataType dataType)
+        -displayPrintDataInputOutputFilesContentsSubmenu(DataType dataType)
         -handleLoadTVShowsFromInputFileSubmenu()
         -loadTVShowsFromInputFile(boolean fromBinary)
         -handlePrintFoundTVShowsByNameSubmenu()
@@ -2926,7 +2915,21 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -deleteChosenTVShow(PrimaryKey tvShowPrimaryKey) boolean
         -handleDisplayEditChosenTVShowSubmenu(TVShow chosenTVShow) boolean
         -editTVShowFromInputFile(PrimaryKey existingTVShowPrimaryKey, boolean fromBinary) boolean
-        -handleDisplayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow)
+        -handleDisplayPrintReleasedNewestTVShowsSubmenu()
+        -printReleasedNewestTVShows(List~TVShow~ releasedNewestTVShows)
+        -handlePrintDataInputOutputFilesContentsSubmenu(DataType dataType)
+        -deleteChosenTVShows(List~TVShow~ chosenTVShows)
+    }
+    class TVSeasonsSubUI{
+        -ConsoleUI consoleUI
+        #TVSeasonsSubUI(ConsoleUI consoleUI)
+        #handleDisplayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow)
+        -displayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow)
+        -displayLoadTVSeasonsFromInputFileSubmenu()
+        -displaySendTVEpisodesByEmailSubmenu()
+        -displayPrintTVShowSortedTVEpisodesSubmenu(TVShow chosenTVShow, DataSorting dataSorting)
+        -displayDetailAboutTVSeasonSubmenu(TVSeason chosenTVSeason)
+        -displayEditChosenTVSeasonSubmenu(TVSeason chosenTVSeason)
         -printChosenTVShowSeasons(List~TVSeason~ chosenTVShowSeasons, TVShow chosenTVShow)
         -handleLoadTVSeasonsFromInputFileSubmenu(TVShow chosenTVShow)
         -loadTVSeasonsFromInputFile(PrimaryKey tvShowPrimaryKey, boolean fromBinary)
@@ -2941,17 +2944,23 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -deleteChosenTVSeason(PrimaryKey tvSeasonPrimaryKey) boolean
         -handleDisplayEditChosenTVSeasonSubmenu(TVSeason chosenTVSeason) boolean
         -editTVSeasonFromInputFile(PrimaryKey existingTVSeasonPrimaryKey, PrimaryKey existingTVShowPrimaryKey ,boolean fromBinary) boolean
-        -handleDisplayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason)
+    }
+    class TVEpisodesSubUI{
+        -ConsoleUI consoleUI
+        #TVEpisodesSubUI(ConsoleUI consoleUI)
+        #handleDisplayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason)
+        -displayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason)
+        -displayLoadTVEpisodesFromInputFileSubmenu()
+        -displayPrintTVSeasonSortedTVEpisodesSubmenu(TVSeason chosenTVSeason, DataSorting dataSorting)
+        -displayDetailAboutTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason)
+        -displayEditChosenTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason)
         -printChosenTVSeasonEpisodes(List~TVEpisode~ chosenTVSeasonEpisodes, TVSeason chosenTVSeason)
         -handleLoadTVEpisodesFromInputFileSubmenu(TVSeason chosenTVSeason)
         -loadTVEpisodesFromInputFile(PrimaryKey tvSeasonPrimaryKey, boolean fromBinary)
-        -deleteChosenTVEpisodes(List~TVEpisode~ chosenTVEpisodes)
+        #deleteChosenTVEpisodes(List~TVEpisode~ chosenTVEpisodes)
         -handleDisplayPrintTVSeasonSortedTVEpisodesSubmenu(TVSeason chosenTVSeason, DataSorting dataSorting)
         -printTVSeasonSortedTVEpisodes(List~TVEpisode~ tvSeasonSortedTVEpisodes, TVSeason chosenTVSeason, DataSorting dataSorting)
-        -handleDisplayPrintReleasedNewestTVShowsSubmenu()
-        -printReleasedNewestTVShows(List~TVShow~ releasedNewestTVShows)
-        -handlePrintDataOutputFilesContentsSubmenu(DataType dataType)
-        -handleDisplayDetailAboutTVEpisodeSubmenu(List~TVEpisode~ chosenTVEpisodes)
+        #handleDisplayDetailAboutTVEpisodeSubmenu(List~TVEpisode~ chosenTVEpisodes)
         -loadChosenTVEpisodeFromUser() int
         -printTVEpisodeDetail(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason, boolean isInEditMode)
         -deleteChosenTVEpisode(PrimaryKey tvEpisodePrimaryKey) boolean
@@ -2959,7 +2968,6 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -editTVEpisodeFromInputFile(PrimaryKey existingTVEpisodePrimaryKey, PrimaryKey existingTVSeasonPrimaryKey, boolean fromBinary) boolean
         -rateTVEpisode(TVEpisode chosenTVEpisode) boolean
         -loadTVEpisodePercentageRatingFromUser() int
-        -deleteChosenTVShows(List~TVShow~ chosenTVShows)
     }
 
 ```
