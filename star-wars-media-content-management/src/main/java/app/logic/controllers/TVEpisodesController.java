@@ -872,7 +872,7 @@ public class TVEpisodesController
      * @throws java.io.FileNotFoundException when chosen file does not exist
      * @throws utils.exceptions.FileEmptyException when chosen file content is empty
      */
-    public StringBuilder getTVShowsChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
+    public StringBuilder getChosenTVShowsFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
     {
         StringBuilder content = new StringBuilder();
         
@@ -897,14 +897,14 @@ public class TVEpisodesController
     }
     
     /**
-     * Represents a method for getting tv seasons chosen file (binary or text, input or input/output) content.
+     * Represents a method for getting chosen tv seasons file (binary or text, input or input/output) content.
      * @param fileName name of the chosen file (not file path)
      * @return stringbuilder which contains file content as string
      * @throws java.io.IOException when reading from chosen file fails
      * @throws java.io.FileNotFoundException when chosen file does not exist
      * @throws utils.exceptions.FileEmptyException when chosen file content is empty
      */
-    public StringBuilder getTVSeasonsChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
+    public StringBuilder getChosenTVSeasonsFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
     {
         StringBuilder content = new StringBuilder();
         
@@ -929,14 +929,14 @@ public class TVEpisodesController
     }
     
     /**
-     * Represents a method for getting tv episodes chosen file (binary or text, input or input/output) content.
+     * Represents a method for getting chosen tv episodes file (binary or text, input or input/output) content.
      * @param fileName name of the chosen file (not file path)
      * @return stringbuilder which contains file content as string
      * @throws java.io.IOException when reading from chosen file fails
      * @throws java.io.FileNotFoundException when chosen file does not exist
      * @throws utils.exceptions.FileEmptyException when chosen file content is empty
      */
-    public StringBuilder getTVEpisodesChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
+    public StringBuilder getChosenTVEpisodesFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
     {
         StringBuilder content = new StringBuilder();
         
@@ -1441,8 +1441,8 @@ public class TVEpisodesController
      * input/output files by {@link IDataFileManager#transferBetweenInputOutputDataAndCopyFiles(boolean)
      * transferBetweenInputOutputDataAndCopyFiles} and load them back into database.
      * <p>
-     * After all of it, call {@link IDataFileManager#tryDeleteDataInputOutputFilesCopies() 
-     * tryDeleteDataInputOutputFilesCopies} method regardless if calling 
+     * After all of it, call {@link IDataFileManager#tryDeleteInputOutputDataFilesCopies() 
+     * tryDeleteInputOutputDataFilesCopies} method regardless if calling 
      * {@link IDataFileManager#saveInputOutputDataIntoFiles(java.util.List)
      * saveInputOutputDataIntoFiles} method fails or not
      * @throws java.io.IOException if saving tv shows table updated state into input/output files fails
@@ -1477,7 +1477,7 @@ public class TVEpisodesController
             }
             catch (IOException | FileParsingException f) 
             {
-                fileManagerAccessor.getTVShowsFileManager().tryDeleteDataInputOutputFilesCopies();
+                fileManagerAccessor.getTVShowsFileManager().tryDeleteInputOutputDataFilesCopies();
                 throw new IOException(f.getMessage());
             }
                                    
@@ -1509,7 +1509,7 @@ public class TVEpisodesController
         } 
         finally 
         {
-            fileManagerAccessor.getTVShowsFileManager().tryDeleteDataInputOutputFilesCopies();
+            fileManagerAccessor.getTVShowsFileManager().tryDeleteInputOutputDataFilesCopies();
         }
     }
     
@@ -1548,8 +1548,8 @@ public class TVEpisodesController
      * input/output files by {@link IDataFileManager#transferBetweenInputOutputDataAndCopyFiles(boolean)
      * transferBetweenInputOutputDataAndCopyFiles} and load them back into database.
      * <p>
-     * After all of it, call {@link IDataFileManager#tryDeleteDataInputOutputFilesCopies() 
-     * tryDeleteDataInputOutputFilesCopies} method regardless if calling 
+     * After all of it, call {@link IDataFileManager#tryDeleteInputOutputDataFilesCopies() 
+     * tryDeleteInputOutputDataFilesCopies} method regardless if calling 
      * {@link IDataFileManager#saveInputOutputDataIntoFiles(java.util.List)
      * saveInputOutputDataIntoFiles} method fails or not
      * @throws java.io.IOException if saving tv seasons table updated state into input/output files fails
@@ -1584,7 +1584,7 @@ public class TVEpisodesController
             }
             catch (IOException | FileParsingException f) 
             {
-                fileManagerAccessor.getTVSeasonsFileManager().tryDeleteDataInputOutputFilesCopies();
+                fileManagerAccessor.getTVSeasonsFileManager().tryDeleteInputOutputDataFilesCopies();
                 throw new IOException(f.getMessage());
             }
                                    
@@ -1616,7 +1616,7 @@ public class TVEpisodesController
         } 
         finally 
         {
-            fileManagerAccessor.getTVSeasonsFileManager().tryDeleteDataInputOutputFilesCopies();
+            fileManagerAccessor.getTVSeasonsFileManager().tryDeleteInputOutputDataFilesCopies();
         }
     }
     
@@ -1655,8 +1655,8 @@ public class TVEpisodesController
      * input/output files by {@link IDataFileManager#transferBetweenInputOutputDataAndCopyFiles(boolean)
      * transferBetweenInputOutputDataAndCopyFiles} and load them back into database.
      * <p>
-     * After all of it, call {@link IDataFileManager#tryDeleteDataInputOutputFilesCopies() 
-     * tryDeleteDataInputOutputFilesCopies} method regardless if calling 
+     * After all of it, call {@link IDataFileManager#tryDeleteInputOutputDataFilesCopies() 
+     * tryDeleteInputOutputDataFilesCopies} method regardless if calling 
      * {@link IDataFileManager#saveInputOutputDataIntoFiles(java.util.List)
      * saveInputOutputDataIntoFiles} method fails or not
      * @throws java.io.IOException if saving tv episodes table updated state into input/output files fails
@@ -1691,7 +1691,7 @@ public class TVEpisodesController
             }
             catch (IOException | FileParsingException f) 
             {
-                fileManagerAccessor.getTVEpisodesFileManager().tryDeleteDataInputOutputFilesCopies();
+                fileManagerAccessor.getTVEpisodesFileManager().tryDeleteInputOutputDataFilesCopies();
                 throw new IOException(f.getMessage());
             }
                                    
@@ -1723,7 +1723,7 @@ public class TVEpisodesController
         } 
         finally 
         {
-            fileManagerAccessor.getTVEpisodesFileManager().tryDeleteDataInputOutputFilesCopies();
+            fileManagerAccessor.getTVEpisodesFileManager().tryDeleteInputOutputDataFilesCopies();
         }
     }
     
