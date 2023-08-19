@@ -16,21 +16,21 @@ public class ConsoleUITest
     //testing main
     public static void main(String[] args) 
     {
-        /* testing multi console terminals functionality, specifically
-           only one-time request for entering data folder location and
-           loading existing data from input/output files
-        */        
-        MoviesController moviesController = MoviesController.getInstance(DataContextAccessor.getInstance(), 
-                EmailSender.getInstance(), FileManagerAccessor.getInstance());
-        TVEpisodesController tvEpisodesController = TVEpisodesController.getInstance(DataContextAccessor.getInstance(), 
-                EmailSender.getInstance(), FileManagerAccessor.getInstance());
-        
-        ConsoleUI consoleTerminal = ConsoleUI.getInstance(moviesController, tvEpisodesController);
-        ConsoleUI consoleTerminal2 = ConsoleUI.getInstance(moviesController, tvEpisodesController);
-        ConsoleUI consoleTerminal3 = ConsoleUI.getInstance(moviesController, tvEpisodesController);
-        
-        consoleTerminal.start();
-        consoleTerminal2.start();
-        consoleTerminal3.start();
+//        /* testing multi console terminals functionality, specifically
+//           only one-time request for entering data folder location and
+//           loading existing data from input/output files
+//        */        
+//        MoviesController moviesController = MoviesController.getInstance(DataContextAccessor.getInstance(), 
+//                EmailSender.getInstance(), FileManagerAccessor.getInstance());
+//        TVEpisodesController tvEpisodesController = TVEpisodesController.getInstance(DataContextAccessor.getInstance(), 
+//                EmailSender.getInstance(), FileManagerAccessor.getInstance());
+//        
+//        ConsoleUI consoleTerminal = ConsoleUI.getInstance(moviesController, tvEpisodesController);
+//        ConsoleUI consoleTerminal2 = ConsoleUI.getInstance(moviesController, tvEpisodesController);
+//        ConsoleUI consoleTerminal3 = ConsoleUI.getInstance(moviesController, tvEpisodesController);
+//        
+//        consoleTerminal.start();
+//        consoleTerminal2.start();
+//        consoleTerminal3.start();
     }
 }
