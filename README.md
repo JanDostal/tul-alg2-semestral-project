@@ -42,8 +42,9 @@ Cílem aplikace je fanouškovi umožnit:
     - Průměrná délka trvání mediálního obsahu 
         - Dělení na celková, zhlédnutá a nezhlédnutá průměrná délka
 - Zjednodušit a naplánovat si **filmový či seriálový maraton nezhlédnutého mediálního obsahu** dle různých kritérií:
-    - Opakovatelné poslání e-mailu obsahujícího nezhlédnutý mediální obsah **s hypertextovými odkazy ke zhlédnutí konkrétního mediálního obsahu**
-        - U filmů umožněno seřazení **od nejstaršího datumu uvedení filmu** nebo **podle chronologických období**
+    - Opakovatelné poslání e-mailu **obsahujícího formátovaný výpis** nezhlédnutého mediálního obsahu **s hypertextovými odkazy určenými ke zhlédnutí konkrétního mediálního obsahu**
+        - Umožněno poslání e-mailu s filmy seřazenými **od nejstaršího datumu uvedení** nebo **podle chronologických období** 
+        - Předmět e-mailu je **standardizovaný**
     - Umožnění nechat si vypsat **seřazeně** mediální obsah **ve vybrané chronologické éře** podle:
         - Abecedně podle názvu
         - Od nejnovějšího datumu uvedení
@@ -3035,7 +3036,7 @@ Chybový stav epizody vybrané sezóny s pořadím 20 v souboru input_tvEpisodes
 - V aplikaci se knihovna používá pro odesílání dat z databáze pomocí *HTML* e-mailu a to ze tří důvodů:
     - Lepší formátovaný výpis
     - Možnost v e-mailovém klientovi různě filtrovat a řadit doručené e-maily, protože mají nastavený standardizovaný předmět zprávy
-    - Umožnit data s URL odkazem mít uložený přímo v e-mailu např. jako seznam nezhlédnutých filmů
+    - Umožnit data s URL odkazem mít uložená přímo v e-mailu např. jako seznam nezhlédnutých filmů
 - V aplikaci je knihovna implementovaná ve třídě [EmailSender](/star-wars-media-content-management/src/main/java/utils/emailsender/EmailSender.java)
 
 ## Detaily implementace knihovny ve třídě EmailSender
