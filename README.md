@@ -15,15 +15,45 @@ Tedy shrnutím. Star Wars je můj special interest a přišlo mi jako dobrý ná
 
 ## Popis problému
 
-Aplikace *Star Wars Content Media Management* by měla sloužit jako evidence mediálního obsahu (seriály, filmy) v rámci výhradně Star Wars univerza.
+Aplikace *Star Wars Content Media Management* by měla sloužit jako **evidence mediálního obsahu (seriály, filmy) v rámci výhradně Star Wars univerza**.
 
-Aplikace je určena pro uživatele, kteří jsou pokročilí fanoušci Star Wars (geekové), ale hodí se i pro začínající fanoušky. Pro laika je tato aplikace bezpředmětná.
+Aplikace je určena pro uživatele, kteří jsou **pokročilí fanoušci Star Wars (geekové)**, ale hodí se **i pro začínající fanoušky**. **Pro laika je** tato aplikace **bezpředmětná**.
 
 Cílem aplikace je fanouškovi umožnit:
-- Zjednodušit naplánování si filmového či seriálového maratonu nezhlédnutého obsahu dle různých kritérií
-- Organizovat evidovaný obsah do chronologických období v rámci Star Wars univerza
-- Umožnit hodnotit zhlédnutý obsah, pro účely opakovaného zhlédnutí
-- Poskytovat souhrnné/statistické údaje na základě evidovaného obsahu
+- Organizovat evidovaný mediální obsah do **chronologických období v rámci Star Wars univerza**
+- Organizovat evidovaný mediální obsah podle toho, jestli je **zhlédnutý**, **nezhlédnutý** nebo **oznámený**
+- Ukládat evidovaný mediální obsah do **vstupních/výstupních souborů**, které představují **databázi**, pro **načtení dat ze souborů při příštím spuštění aplikace**
+- Provádět manipulační operace s evidovaným mediálním obsahem jako:
+    - Hromadné i jednotlivé přidávání evidovaného mediálního obsahu přes **vstupní soubory**
+    - Hromadné i jednotlivé mazání evidovaného mediálního obsahu
+    - Editace **jednoho** vybraného evidovaného mediálního obsahu pomocí **vstupního souboru**
+    - Vypsání si detailu jednoho vybraného evidovaného mediálního obsahu
+    - Hodnocení evidovaného mediálního obsahu, **i opakovaně**
+- Provádět manipulační operace s datovými soubory jako:
+    - Vypsání si obsahů vstupních/výstupních souborů v aplikaci
+    - Vypsání si obsahů vstupních souborů v aplikaci
+    - Vybrání si režimu práce s textovými nebo s binárními soubory v aplikaci
+- Poskytovat souhrnné/statistické údaje na základě evidovaného mediálního obsahu **v jednotlivých chronologických obdobích** nebo **v jednotlivých TV seriálech** jako:
+    - Počet mediálního obsahu
+        - Dělení na celkový, zhlédnutý a nezhlédnutý počet 
+    - Délka trvání mediálního obsahu
+        - Dělení na celkovou, zhlédnutou a nezhlédnutou délku
+    - Průměrné hodnocení mediálního obsahu
+    - Průměrná délka trvání mediálního obsahu 
+        - Dělení na celková, zhlédnutá a nezhlédnutá průměrná délka
+- Zjednodušit a naplánovat si **filmový či seriálový maraton nezhlédnutého mediálního obsahu** dle různých kritérií:
+    - Opakovatelné poslání e-mailu obsahujícího nezhlédnutý mediální obsah **s hypertextovými odkazy ke zhlédnutí konkrétního mediálního obsahu**
+        - U filmů umožněno seřazení **od nejstaršího datumu uvedení filmu** nebo **podle chronologických období**
+    - Umožnění nechat si vypsat **seřazeně** mediální obsah **ve vybrané chronologické éře** podle:
+        - Abecedně podle názvu
+        - Od nejnovějšího datumu uvedení
+        - Od nejdelší délky trvání
+    - Poskytnutí statistických údajů **ke každé chronologické éře** nebo **ke každému TV seriálu** pro **lepší vizualizaci postupu v maratonu**
+- Vyhledat evidovaný mediální obsah **podle názvu**
+- Vypsat mediální obsah podle **žebříčků** jako:
+    - Nejoblíbenější
+    - Nejdelší
+    - Nejnovější
 
 # Řešení
 
