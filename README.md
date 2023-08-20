@@ -1230,62 +1230,16 @@ public class MovieInputOutput
 ```
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-2)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***id*** – Vyjadřuje identifikátor filmu v rámci databáze
+- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s filmy](#popis-struktury-dat-souboru)
+- Ale jsou zde následující rozdíly:
+    - Data/atributy datového typu **String** **jsou změněna** na **char[]**, ale **pořád se jedná o text**
+    - **Nově** limity na maximální počet znaků u vybraných atributů již **neexistují**
+    - **Nově** je zde atribut ***id***
+        - Vyjadřuje identifikátor filmu v rámci databáze
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***runtimeInSeconds*** – Vyjadřuje délku/trvání filmu v sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo**
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být rovno nebo menší než 0**
-            - Pokud **byl zadán**, hodnota **by měla být v rozsahu 1 a více**
-    - ***name*** – Vyjadřuje název filmu
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-    - ***percentageRating*** – Vyjadřuje procentuální hodnocení filmu
-        - Jedná se o datový typ **int**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být menší než 0**
-                - Film se identifikuje jako **nezhlédnutý**
-            - Pokud **byl zadán**, hodnota **by měla být v rozsahu 0 až 100**
-                - Film se identifikuje jako **zhlédnutý** 
-    - ***hyperlinkForContentWatch*** – Vyjadřuje URL odkaz ke zhlédnutí filmu
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-    - ***shortContentSummary*** – Vyjadřuje krátké shrnutí obsahu filmu
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-    - ***releaseDateInEpochSeconds*** – Vyjadřuje datum vydání/uvedení filmu, vyjádřeného v epoch sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být menší než 0**
-                - Film se identifikuje jako **oznámený** 
-            - Pokud **byl zadán**, hodnota **by měla být v rozsahu 0 a více**
-                - Film se identifikuje jako **vydaný** 
-        - Pro převod datumu na epoch sekundy a opačně je možné použít tento konverter https://www.epochconverter.com/
-            - Při převodu je požadováno zvolit jako časovou zónu **GMT/UTC**
-    - ***eraCodeDesignation*** – Vyjadřuje kódové označení vybrané chronologické star wars éry pro daný film
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-        - Hodnota **by měla nabývat** jednoho z těchto kódových označení:
-            - DAWN_OF_THE_JEDI
-            - THE_OLD_REPUBLIC
-            - THE_HIGH_REPUBLIC
-            - FALL_OF_THE_JEDI
-            - REIGN_OF_THE_EMPIRE
-            - AGE_OF_REBELLION
-            - THE_NEW_REPUBLIC
-            - RISE_OF_THE_FIRST_ORDER
-            - NEW_JEDI_ORDER
-        - Chronologické éry jsou více popsaný přímo **ve formě uživatelské funkce v aplikaci** nebo na těchto webových stránkách https://www.screengeek.net/2023/04/07/star-wars-timeline-eras
-- Není možné, aby existovaly dva filmy, které mají **stejný název a zároveň stejné datum vydání**
-- Není možné, aby existovaly dva filmy, které mají **stejný URL odkaz ke zhlédnutí nebo stejné shrnutí obsahu**
-- Není možné, aby existovaly dva filmy, které mají **stejný identifikátor**
+    - **Nově** platí pravidlo, že není možné, aby existovaly dva filmy, které mají **stejný identifikátor**
 
 #### Popis struktury souboru
 
@@ -1324,29 +1278,15 @@ AGE_OF_REBELLION 8
 [End]
 ```
 
-- V souboru může být **více než jeden vstupní/výstupní film**
-    - **Za sekcí *\[Values\]* předcházejícího filmu** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následujícího filmu**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Identificator:*** – Vyjadřuje identifikátor filmu v databázi
+- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s filmy](#popis-struktury-souboru)
+- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-2)
+- Ale jsou zde následující rozdíly:
+    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
+        - Ten vyjadřuje identifikátor filmu v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní/výstupní data filmu
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-2)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** – Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** – Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** – Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-2)
-    - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-        - Vyjímkou je hodnota atributu/data ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků**
-- ***\[End\]*** – Vyjadřuje kontrolní znak pro detekci konce čtení vstupních/výstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-- Filmy v souboru jsou **řazeny vzestupně na základě identifikátoru**
+    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějakého jednoho existujícího filmu
+        - Vstupní textový soubor s filmy slouží právě k **editaci** 
+    - **Nově** jsou filmy v souboru **řazeny vzestupně na základě identifikátoru**
 
 ### Vstupní/výstupní binární soubor s filmy
 
@@ -1361,10 +1301,10 @@ AGE_OF_REBELLION 8
 
 - Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s filmy](#popis-struktury-dat-souboru-2)
 - Aby bylo možné číst textové/řetězcové hodnoty atributů filmu z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
-    -  ***name*** – 60 znaků
-    -  ***hyperlinkForContentWatch*** – 180 znaků
-    -  ***shortContentSummary*** – 1000 znaků
-    -  ***eraCodeDesignation*** – 60 znaků
+    - ***name*** – 60 znaků
+    - ***hyperlinkForContentWatch*** – 180 znaků
+    - ***shortContentSummary*** – 1000 znaků
+    - ***eraCodeDesignation*** – 60 znaků
 
 #### Popis struktury souboru
 
@@ -1537,41 +1477,16 @@ public class TVShowInputOutput
 ```
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-6)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***id*** – Vyjadřuje identifikátor TV seriálu v rámci databáze
+- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s TV seriály](#popis-struktury-dat-souboru-4)
+- Ale jsou zde následující rozdíly:
+    - Data/atributy datového typu **String** **jsou změněna** na **char[]**, ale **pořád se jedná o text**
+    - **Nově** limity na maximální počet znaků u vybraných atributů již **neexistují**
+    - **Nově** je zde atribut ***id***
+        - Vyjadřuje identifikátor TV seriálu v rámci databáze
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***name*** – Vyjadřuje název TV seriálu
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-    - ***releaseDateInEpochSeconds*** – Vyjadřuje datum vydání/uvedení TV seriálu, vyjádřeného v epoch sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být menší než 0**
-                - TV seriál se identifikuje jako **oznámený** 
-            - Pokud **byl zadán**, hodnota **by měla být v rozsahu 0 a více**
-                - TV seriál se identifikuje jako **vydaný** 
-        - Pro převod datumu na epoch sekundy a opačně je možné použít tento konverter https://www.epochconverter.com/
-            - Při převodu je požadováno zvolit jako časovou zónu **GMT/UTC**
-    - ***eraCodeDesignation*** – Vyjadřuje kódové označení vybrané chronologické star wars éry pro daný TV seriál
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-        - Hodnota **by měla nabývat** jednoho z těchto kódových označení:
-            - DAWN_OF_THE_JEDI
-            - THE_OLD_REPUBLIC
-            - THE_HIGH_REPUBLIC
-            - FALL_OF_THE_JEDI
-            - REIGN_OF_THE_EMPIRE
-            - AGE_OF_REBELLION
-            - THE_NEW_REPUBLIC
-            - RISE_OF_THE_FIRST_ORDER
-            - NEW_JEDI_ORDER
-        - Chronologické éry jsou více popsaný přímo **ve formě uživatelské funkce v aplikaci** nebo na těchto webových stránkách https://www.screengeek.net/2023/04/07/star-wars-timeline-eras
-- Není možné, aby existovaly dva TV seriály, které mají **stejný název a zároveň stejné datum vydání**
-- Není možné, aby existovaly dva TV seriály, které mají **stejný identifikátor**
+    - **Nově** platí pravidlo, že není možné, aby existovaly dva TV seriály, které mají **stejný identifikátor**
 
 #### Popis struktury souboru
 
@@ -1597,28 +1512,15 @@ FALL_OF_THE_JEDI 4
 [End]
 ```
 
-- V souboru může být **více než jeden vstupní/výstupní TV seriál**
-    - **Za sekcí *\[Values\]* předcházejícího TV seriálu** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následujícího TV seriálu**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Identificator:*** – Vyjadřuje identifikátor TV seriálu v databázi
+- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s TV seriály](#popis-struktury-souboru-4)
+- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-6)
+- Ale jsou zde následující rozdíly:
+    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
+        - Ten vyjadřuje identifikátor TV seriálu v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní/výstupní data TV seriálu
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-6)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** – Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** – Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** – Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-6)
-    - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-- ***\[End\]*** – Vyjadřuje kontrolní znak pro detekci konce čtení vstupních/výstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-- TV seriály v souboru jsou **řazeny vzestupně na základě identifikátoru**
+    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějakého jednoho existujícího TV seriálu
+        - Vstupní textový soubor s TV seriály slouží právě k **editaci** 
+    - **Nově** jsou TV seriály v souboru **řazeny vzestupně na základě identifikátoru**
 
 ### Vstupní/výstupní binární soubor s TV seriály
 
@@ -1633,8 +1535,8 @@ FALL_OF_THE_JEDI 4
 
 - Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s TV seriály](#popis-struktury-dat-souboru-6)
 - Aby bylo možné číst textové/řetězcové hodnoty atributů TV seriálu z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
-    -  ***name*** – 60 znaků
-    -  ***eraCodeDesignation*** – 60 znaků
+    - ***name*** – 60 znaků
+    - ***eraCodeDesignation*** – 60 znaků
 
 #### Popis struktury souboru
 
@@ -1768,22 +1670,20 @@ public class TVSeasonInputOutput
 ```
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-10)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***id*** – Vyjadřuje identifikátor TV sezóny v rámci databáze
+- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s TV sezónami](#popis-struktury-dat-souboru-8)
+- Ale jsou zde následující rozdíly:
+    - **Nově** je zde atribut ***id***
+        - Vyjadřuje identifikátor TV sezóny v rámci databáze
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***orderInTVShow*** – Vyjadřuje pořadí TV sezóny v rámci příslušného TV seriálu
+    - **Nově** je zde atribut ***tvShowId***
+        - Vyjadřuje identifikátor příslušného TV seriálu pro danou TV sezónu
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***tvShowId*** – Vyjadřuje identifikátor příslušného TV seriálu pro danou TV sezónu
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-- Není možné, aby existovaly dvě TV sezóny v rámci stejného TV seriálu, které mají **stejné pořadí**
-- Není možné, aby existovaly dvě TV sezóny, které mají **stejný identifikátor**
-- Není možné, aby existovala TV sezóna, jejíž **identifikátor TV seriálu neodkazuje na žádný existující TV seriál**
+    - **Nově** platí pravidlo, že není možné, aby existovaly dvě TV sezóny, které mají **stejný identifikátor**
+    - **Nově** platí pravidlo, že mení možné, aby existovala TV sezóna, jejíž **identifikátor TV seriálu neodkazuje na žádný existující TV seriál**
 
 #### Popis struktury souboru
 
@@ -1807,28 +1707,15 @@ tvShowId 3
 [End]
 ```
 
-- V souboru může být **více než jedna vstupní/výstupní TV sezóna**
-    - **Za sekcí *\[Values\]* předcházející TV sezóny** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následující TV sezóny**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Identificator:*** – Vyjadřuje identifikátor TV sezóny v databázi
+- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s TV sezónami](#popis-struktury-souboru-8)
+- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-10)
+- Ale jsou zde následující rozdíly:
+    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
+        - Ten vyjadřuje identifikátor TV sezóny v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní/výstupní data TV sezóny
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-10)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** – Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** – Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** – Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-10)
-    - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-- ***\[End\]*** – Vyjadřuje kontrolní znak pro detekci konce čtení vstupních/výstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-- TV sezóny v souboru jsou **řazeny vzestupně na základě identifikátoru TV sezóny**
+    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějaké jedné existující TV sezóny
+        - Vstupní textový soubor s TV sezónami slouží právě k **editaci** 
+    - **Nově** jsou TV sezóny v souboru **řazeny vzestupně na základě identifikátoru TV sezóny**
 
 ### Vstupní/výstupní binární soubor s TV sezónami
 
@@ -2032,46 +1919,22 @@ public class TVEpisodeInputOutput
 ```
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-14)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***id*** –⁠ Vyjadřuje identifikátor TV epizody v rámci databáze
+- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s TV epizodami](#popis-struktury-dat-souboru-12)
+- Ale jsou zde následující rozdíly:
+    - Data/atributy datového typu **String** **jsou změněna** na **char[]**, ale **pořád se jedná o text**
+    - **Nově** limity na maximální počet znaků u vybraných atributů již **neexistují**
+    - **Nově** je zde atribut ***id***
+        - Vyjadřuje identifikátor TV epizody v rámci databáze
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***runtimeInSeconds*** –⁠ Vyjadřuje délku/trvání TV epizody v sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-    - ***name*** –⁠ Vyjadřuje název TV epizody
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-    - ***percentageRating*** –⁠ Vyjadřuje procentuální hodnocení TV epizody
-        - Jedná se o datový typ **int**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být menší než 0**
-                - TV epizoda se identifikuje jako **nezhlédnutá**
-            - Pokud **byl zadán**, hodnota **by měla být v rozsahu 0 až 100**
-                - TV epizoda se identifikuje jako **zhlédnutá** 
-    - ***hyperlinkForContentWatch*** –⁠ Vyjadřuje URL odkaz ke zhlédnutí TV epizody
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-    - ***shortContentSummary*** –⁠ Vyjadřuje krátké shrnutí obsahu TV epizody
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-    - ***orderInTVShowSeason*** –⁠ Vyjadřuje pořadí TV epizody v rámci příslušné TV sezóny
+    - **Nově** je zde atribut ***tvSeasonId***
+        - Vyjadřuje identifikátor příslušné TV sezóny pro danou TV epizodu
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***tvSeasonId*** –⁠ Vyjadřuje identifikátor příslušné TV sezóny pro danou TV epizodu
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-- Není možné, aby existovaly dvě TV epizody v rámci stejné TV sezóny, které mají **stejné pořadí**
-- Není možné, aby existovaly dvě TV epizody, které mají **stejný identifikátor**
-- Není možné, aby existovaly dvě TV epizody, které mají **stejný URL odkaz ke zhlédnutí nebo stejné shrnutí obsahu**
-- Není možné, aby existovala TV epizoda, jejíž **identifikátor TV sezóny neodkazuje na žádnou existující TV sezónu**
+    - **Nově** platí pravidlo, že není možné, aby existovaly dvě TV epizody, které mají **stejný identifikátor**
+    - **Nově** platí pravidlo, že není možné, aby existovala TV epizoda, jejíž **identifikátor TV sezóny neodkazuje na žádnou existující TV sezónu**
 
 #### Popis struktury souboru
 
@@ -2106,29 +1969,15 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 [End]
 ```
 
-- V souboru může být **více než jedna vstupní/výstupní TV epizoda**
-    - **Za sekcí *\[Values\]* předcházející TV epizody** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následující TV epizody**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** –⁠ Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Identificator:*** –⁠ Vyjadřuje identifikátor TV epizody v databázi
+- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s TV epizodami](#popis-struktury-souboru-12)
+- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-14)
+- Ale jsou zde následující rozdíly:
+    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
+        - Ten vyjadřuje identifikátor TV epizody v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní/výstupní data TV epizody
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-14)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** –⁠ Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** –⁠ Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** –⁠ Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** –⁠ Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-14)
-    - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-        - Vyjímkou je hodnota atributu/data ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků** 
-- ***\[End\]*** –⁠ Vyjadřuje kontrolní znak pro detekci konce čtení vstupních/výstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-- TV epizody v souboru jsou **řazeny vzestupně na základě identifikátoru TV epizody**
+    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějaké jedné existující TV epizody
+        - Vstupní textový soubor s TV epizodami slouží právě k **editaci**
+    - **Nově** jsou TV seriály v souboru **řazeny vzestupně na základě identifikátoru TV epizody**
 
 ### Vstupní/výstupní binární soubor s TV epizodami
 
@@ -2143,9 +1992,9 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 
 - Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s TV epizodami](#popis-struktury-dat-souboru-14)
 - Aby bylo možné číst textové/řetězcové hodnoty atributů TV epizody z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
-    -  ***name*** –⁠ 60 znaků
-    -  ***hyperlinkForContentWatch*** –⁠ 180 znaků
-    -  ***shortContentSummary*** –⁠ 1000 znaků
+    - ***name*** –⁠ 60 znaků
+    - ***hyperlinkForContentWatch*** –⁠ 180 znaků
+    - ***shortContentSummary*** –⁠ 1000 znaků
 
 #### Popis struktury souboru
 
