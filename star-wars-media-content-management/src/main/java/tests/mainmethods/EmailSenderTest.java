@@ -42,7 +42,7 @@ public class EmailSenderTest
 //            email.setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken));
 //            email.setSSLOnConnect(true);
 //            email.setFrom(DataStore.getAppCreator());
-//            email.setSubject(String.format("%s - Test Email", DataStore.getAppName()));
+//            email.setSubject(String.format("%s –⁠ Test Email", DataStore.getAppName()));
 //            email.addTo(recipientEmailAddress);
 //            email.setHtmlMsg("sad");
 //            email.send();  

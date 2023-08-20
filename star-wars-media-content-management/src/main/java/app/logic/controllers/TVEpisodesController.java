@@ -194,7 +194,7 @@ public class TVEpisodesController
         
         DateTimeFormatter emailDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.forLanguageTag("cs-CZ"));
         
-        String subject = String.format("%s - Nezhlédnuté epizody - Seriál %s - Období %s - Datum uvedení seriálu %s", 
+        String subject = String.format("%s –⁠ Nezhlédnuté epizody –⁠ Seriál %s –⁠ Období %s –⁠ Datum uvedení seriálu %s", 
                 DataStore.getAppName(), foundTVShow.getName(), foundTVShow.getEra().getDisplayName(), 
                 foundTVShow.getReleaseDate().format(emailDateFormatter));
         

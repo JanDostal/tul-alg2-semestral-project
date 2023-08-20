@@ -186,7 +186,7 @@ public class MoviesController
         
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
-        String subject = String.format("%s - Nezhlédnuté filmy - Seřazené podle data uvedení", DataStore.getAppName());
+        String subject = String.format("%s –⁠ Nezhlédnuté filmy –⁠ Seřazené podle data uvedení", DataStore.getAppName());
         
         StringBuilder message = new StringBuilder();
         String durationText;
@@ -251,7 +251,7 @@ public class MoviesController
         
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
-        String subject = String.format("%s - Nezhlédnuté filmy - Seřazené podle chronologických období", 
+        String subject = String.format("%s –⁠ Nezhlédnuté filmy –⁠ Seřazené podle chronologických období", 
                 DataStore.getAppName());
         
         StringBuilder message = new StringBuilder();
