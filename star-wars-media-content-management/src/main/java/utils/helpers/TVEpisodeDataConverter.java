@@ -3,14 +3,14 @@ package utils.helpers;
 import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.input.TVEpisodeInput;
-import app.models.output.TVEpisodeOutput;
+import app.models.inputoutput.TVEpisodeInputOutput;
 import java.time.Duration;
 
 /**
- * Represents a TV episode data converter helper class for input, output and data model of TV episode.
+ * Represents a TV episode data converter helper class for input, input/output and data model of TV episode.
  * TVEpisodeDataConverter class is used when converting input file tv episode data to database tv episode data.
- * TVEpisodeDataConverter class is used when converting database tv episode data to output file tv episode data.
- * TVEpisodeDataConverter class is used when converting output file tv episode data to database tv episode data.
+ * TVEpisodeDataConverter class is used when converting database tv episode data to input/output file tv episode data.
+ * TVEpisodeDataConverter class is used when converting input/output file tv episode data to database tv episode data.
  * @author jan.dostal
  */
 public final class TVEpisodeDataConverter 
@@ -20,12 +20,12 @@ public final class TVEpisodeDataConverter
     }
     
     /**
-     * Method converts tv episode database model data into tv episode output model data 
-     * (from database to output files, writing into output files)
+     * Method converts tv episode database model data into tv episode input/output model data 
+     * (from database to input/output files, writing into input/output files)
      * @param data represents tv episode database model data
-     * @return converted data as tv episode output model data
+     * @return converted data as tv episode input/output model data
      */
-    public static TVEpisodeOutput convertToOutputDataFrom(TVEpisode data) 
+    public static TVEpisodeInputOutput convertToInputOutputDataFrom(TVEpisode data) 
     {
         int id = data.getPrimaryKey().getId();
         long runtime = data.getRuntime().toSeconds();
@@ -38,7 +38,7 @@ public final class TVEpisodeDataConverter
         int orderInTVShowSeason = data.getOrderInTVShowSeason();
         int tvSeasonId = data.getTVSeasonForeignKey().getId();
         
-        return new TVEpisodeOutput(id, runtime, name, percentage, 
+        return new TVEpisodeInputOutput(id, runtime, name, percentage, 
                 hyperlink, content, orderInTVShowSeason, tvSeasonId);
     }
     
@@ -116,28 +116,28 @@ public final class TVEpisodeDataConverter
     }
     
     /**
-     * Method converts tv episode output model data into tv episode database model data 
-     * (from output file to database, parsing output file)
-     * @param outputData represents tv episode output data model
+     * Method converts tv episode input/output model data into tv episode database model data 
+     * (from input/output file to database, parsing input/output file)
+     * @param inputOutputData represents tv episode input/output data model
      * @return converted data as tv episode database model data
      */
-    public static TVEpisode convertToDataFrom(TVEpisodeOutput outputData)
+    public static TVEpisode convertToDataFrom(TVEpisodeInputOutput inputOutputData)
     {
-        PrimaryKey primaryKey = new PrimaryKey(outputData.getId());       
+        PrimaryKey primaryKey = new PrimaryKey(inputOutputData.getId());       
         Duration runtime;
         
-        if (outputData.getRuntimeInSeconds() <= 0) 
+        if (inputOutputData.getRuntimeInSeconds() <= 0) 
         {
             runtime = null;
         }
         else 
         {
-            runtime = Duration.ofSeconds(outputData.getRuntimeInSeconds());
+            runtime = Duration.ofSeconds(inputOutputData.getRuntimeInSeconds());
         }
                
         StringBuilder name = new StringBuilder();
         
-        for (char c : outputData.getName().toCharArray()) 
+        for (char c : inputOutputData.getName().toCharArray()) 
         {
             if (c != Character.MIN_VALUE) 
             {
@@ -152,7 +152,7 @@ public final class TVEpisodeDataConverter
             stringName = null;
         }
         
-        int percentage = outputData.getPercentageRating();
+        int percentage = inputOutputData.getPercentageRating();
         boolean wasWatched;
         
         if (percentage < 0) 
@@ -166,7 +166,7 @@ public final class TVEpisodeDataConverter
                 
         StringBuilder hyperlink = new StringBuilder();
         
-        for (char c : outputData.getHyperlinkForContentWatch().toCharArray()) 
+        for (char c : inputOutputData.getHyperlinkForContentWatch().toCharArray()) 
         {
             if (c != Character.MIN_VALUE) 
             {
@@ -184,7 +184,7 @@ public final class TVEpisodeDataConverter
         
         StringBuilder content = new StringBuilder();
         
-        for (char c : outputData.getShortContentSummary().toCharArray()) 
+        for (char c : inputOutputData.getShortContentSummary().toCharArray()) 
         {
             if (c != Character.MIN_VALUE) 
             {
@@ -199,8 +199,8 @@ public final class TVEpisodeDataConverter
             stringContent = null;
         }
 
-        int orderInTVShowSeason = outputData.getOrderInTVShowSeason();
-        PrimaryKey tvSeasonForeignKey = new PrimaryKey(outputData.getTVSeasonId());
+        int orderInTVShowSeason = inputOutputData.getOrderInTVShowSeason();
+        PrimaryKey tvSeasonForeignKey = new PrimaryKey(inputOutputData.getTVSeasonId());
         
         return new TVEpisode(primaryKey, runtime, stringName, percentage, wasWatched,
                 stringHyperlink, stringContent, orderInTVShowSeason, tvSeasonForeignKey);

@@ -2,7 +2,7 @@ package app.logic.filemanager;
 
 import app.logic.datastore.DataStore;
 import app.models.input.TVShowInput;
-import app.models.output.TVShowOutput;
+import app.models.inputoutput.TVShowInputOutput;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -31,105 +31,75 @@ import utils.interfaces.IDataFileManager;
 
 /**
  * Represents a tv shows file manager, which works specifically with TV shows data files.
- * TV shows file manager works with tv show input and output data models and implements IDataFileManager interface.
+ * TV shows file manager works with tv show input and input/output data models and implements IDataFileManager interface.
  * TV shows file manager is made available through accessor.
  * @author jan.dostal
  */
-public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowOutput>
+public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowInputOutput>
 {
-    private static IDataFileManager<TVShowInput, TVShowOutput> tvShowsFileManager;
-    
-    private final String filenameSeparator;
-    
-    private final String inputFileEndMarking;
-    
-    private final String inputFileValuesSectionMarking;
-    
-    private final String inputFileAttributesSectionMarking;
-    
-    
+    private static IDataFileManager<TVShowInput, TVShowInputOutput> tvShowsFileManager;
+        
     /**
      * Creates singleton instance of TVShowsFileManager.
-     * Receives filenameSeparator, inputFileEndMarking, inputFileValuesSectionMarking 
-     * and inputFileAttributesSectionMarking parameters in constructor from {@link FileManagerAccessor} class.
-     * @param filenameSeparator file path separator dependent on application running operating system
-     * @param inputFileEndMarking control string for detecting file end
-     * @param inputFileValuesSectionMarking control string for detecting values section in file
-     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
      */
-    private TVShowsFileManager(String filenameSeparator, 
-            String inputFileEndMarking, String inputFileValuesSectionMarking,
-            String inputFileAttributesSectionMarking) 
+    private TVShowsFileManager() 
     {
-        this.filenameSeparator = filenameSeparator;
-        this.inputFileEndMarking = inputFileEndMarking;
-        this.inputFileValuesSectionMarking = inputFileValuesSectionMarking;
-        this.inputFileAttributesSectionMarking = inputFileAttributesSectionMarking;
     }
     
     /**
      * Represents a factory method for creating singleton instance.
-     * @param filenameSeparator file path separator dependent on application running operating system
-     * @param inputFileEndMarking control string for detecting file end
-     * @param inputFileValuesSectionMarking control string for detecting values section in file
-     * @param inputFileAttributesSectionMarking control string for detecting attributes section in file
      * @return singleton instance of TVShowsFileManager as interface
      */
-    protected static IDataFileManager<TVShowInput, TVShowOutput> getInstance(String filenameSeparator, 
-            String inputFileEndMarking, String inputFileValuesSectionMarking,
-            String inputFileAttributesSectionMarking) 
+    protected static IDataFileManager<TVShowInput, TVShowInputOutput> getInstance() 
     {
         if (tvShowsFileManager == null) 
         {
-            tvShowsFileManager = new TVShowsFileManager(filenameSeparator,
-            inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
+            tvShowsFileManager = new TVShowsFileManager();
         }
         
         return tvShowsFileManager;
     }
     
-    public @Override StringBuilder getTextOutputFileContent() throws FileNotFoundException, IOException, FileEmptyException 
+    public @Override StringBuilder getTextInputOutputFileContent() throws FileNotFoundException, IOException, FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                        DataStore.getTextOutputTVShowsFilename()), StandardCharsets.UTF_8))) 
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
+                        DataStore.getTextInputOutputTVShowsFilename()), StandardCharsets.UTF_8))) 
         {
-            char[] buffer = new char[1024];
-            int charsRead;
-            String textPart;
+            String textLine;
             
-            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            while((textLine = bufferedReader.readLine()) != null) 
             {
-               textPart = new String(buffer, 0, charsRead);
-               text.append(textPart);
+               text.append(textLine).append("\n");
             }
         }
         catch (FileNotFoundException e) 
         {
             throw new FileNotFoundException("Soubor " + 
-                    DataStore.getTextOutputTVShowsFilename() + " neexistuje");
+                    DataStore.getTextInputOutputTVShowsFilename() + " neexistuje");
         }
         catch (IOException e) 
         {
             throw new IOException("Chyba při čtení souboru " + 
-                    DataStore.getTextOutputTVShowsFilename());
+                    DataStore.getTextInputOutputTVShowsFilename());
         }
         
         try (Scanner sc = new Scanner(text.toString())) 
         {
             if (sc.hasNextLine() == false)
             {
-                sc.close();
-                throw new FileEmptyException("Soubor " + DataStore.getTextOutputTVShowsFilename() + " je prázdný");
+                throw new FileEmptyException("Soubor " + DataStore.getTextInputOutputTVShowsFilename() + " je prázdný");
             }
         }
+        
+        text.deleteCharAt(text.length() - 1);
         
         return text;
     }
 
-    public @Override StringBuilder getBinaryOutputFileContent() throws FileNotFoundException, IOException, 
+    public @Override StringBuilder getBinaryInputOutputFileContent() throws FileNotFoundException, IOException, 
             FileEmptyException 
     {
         StringBuilder text = new StringBuilder();
@@ -137,7 +107,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         
         try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryOutputTVShowsFilename())))) 
+                FileManagerAccessor.getFileSeparator() + DataStore.getBinaryInputOutputTVShowsFilename())))) 
         {
             boolean fileEndReached = false;
             
@@ -152,7 +122,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 {
                     tvShowId = dataInputStream.readInt();
 
-                    tvShowName = new char[TVShowOutput.ATTRIBUTE_NAME_LENGTH];
+                    tvShowName = new char[TVShowInputOutput.ATTRIBUTE_NAME_LENGTH];
 
                     for (int i = 0; i < tvShowName.length; i++) 
                     {
@@ -161,7 +131,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
                     tvShowReleaseDateInEpochSeconds = dataInputStream.readLong();
 
-                    tvShowEraCodeDesignation = new char[TVShowOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
+                    tvShowEraCodeDesignation = new char[TVShowInputOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
 
                     for (int i = 0; i < tvShowEraCodeDesignation.length; i++) 
                     {
@@ -182,20 +152,20 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         catch (FileNotFoundException e) 
         {
             throw new FileNotFoundException("Soubor " + 
-                    DataStore.getBinaryOutputTVShowsFilename() + " neexistuje");
+                    DataStore.getBinaryInputOutputTVShowsFilename() + " neexistuje");
         }
         catch (IOException e) 
         {
             throw new IOException("Chyba při čtení souboru " + 
-                    DataStore.getBinaryOutputTVShowsFilename());
+                    DataStore.getBinaryInputOutputTVShowsFilename());
         }
         
-        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator 
-                + DataStore.getBinaryOutputTVShowsFilename());
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator()
+                + DataStore.getBinaryInputOutputTVShowsFilename());
         
         if (binaryFile.length() == 0) 
         {
-            throw new FileEmptyException("Soubor " + DataStore.getBinaryOutputTVShowsFilename() + " je prázdný");
+            throw new FileEmptyException("Soubor " + DataStore.getBinaryInputOutputTVShowsFilename() + " je prázdný");
         }
         
         text.delete(text.length() - tvShowsDivider.length(), text.length());
@@ -210,17 +180,14 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         StringBuilder text = new StringBuilder();
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                         DataStore.getTextInputTVShowsFilename()), StandardCharsets.UTF_8))) 
         {
-            char[] buffer = new char[1024];
-            int charsRead;
-            String textPart;
+            String textLine;
             
-            while((charsRead = bufferedReader.read(buffer)) != -1) 
+            while((textLine = bufferedReader.readLine()) != null) 
             {
-               textPart = new String(buffer, 0, charsRead);
-               text.append(textPart);
+               text.append(textLine).append("\n");
             }
         }
         catch (FileNotFoundException e) 
@@ -238,10 +205,11 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         {
             if (sc.hasNextLine() == false)
             {
-                sc.close();
                 throw new FileEmptyException("Soubor " + DataStore.getTextInputTVShowsFilename() + " je prázdný");
             }
         }
+        
+        text.deleteCharAt(text.length() - 1);
         
         return text;
     }
@@ -252,10 +220,10 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         StringBuilder text = new StringBuilder();
         
         try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
-                FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                         DataStore.getBinaryInputTVShowsFilename()))) 
         {
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[8192];
             int bytesRead;
             String textPart;
 
@@ -276,7 +244,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     DataStore.getBinaryInputTVShowsFilename());
         }
         
-        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
+        File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator()
                 + DataStore.getBinaryInputTVShowsFilename());
         
         if (binaryFile.length() == 0) 
@@ -287,25 +255,25 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         return text;
     }
     
-    public @Override List<TVShowOutput> loadOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException
+    public @Override List<TVShowInputOutput> loadInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException
     {
-        List<TVShowOutput> parsedTVShows = new ArrayList<>();
+        List<TVShowInputOutput> parsedTVShows = new ArrayList<>();
         
-        File outputTVShowsText = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getTextOutputTVShowsFilename());
-        File outputTVShowsBinary = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                DataStore.getBinaryOutputTVShowsFilename());
+        File inputOutputTVShowsText = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
+                DataStore.getTextInputOutputTVShowsFilename());
+        File inputOutputTVShowsBinary = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
+                DataStore.getBinaryInputOutputTVShowsFilename());
         
-        outputTVShowsText.createNewFile();
-        outputTVShowsBinary.createNewFile();
+        inputOutputTVShowsText.createNewFile();
+        inputOutputTVShowsBinary.createNewFile();
         
         if (fromBinary == true) 
         {            
-            String errorParsingMessage = "Soubor " + DataStore.getBinaryOutputTVShowsFilename()+ " má poškozená data";
+            String errorParsingMessage = "Soubor " + DataStore.getBinaryInputOutputTVShowsFilename() + " má poškozená data";
             
             try (DataInputStream dataInputStream = new DataInputStream(
                 new BufferedInputStream(new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryOutputTVShowsFilename())))) 
+                FileManagerAccessor.getFileSeparator() + DataStore.getBinaryInputOutputTVShowsFilename())))) 
             {
                 boolean fileEndReached = false;
                 int tvShowId;
@@ -319,7 +287,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     {
                         tvShowId = dataInputStream.readInt();
 
-                        tvShowName = new char[TVShowOutput.ATTRIBUTE_NAME_LENGTH];
+                        tvShowName = new char[TVShowInputOutput.ATTRIBUTE_NAME_LENGTH];
 
                         for (int i = 0; i < tvShowName.length; i++) 
                         {
@@ -328,14 +296,14 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
                         tvShowReleaseDate = dataInputStream.readLong();
 
-                        tvShowEraCodeDesignation = new char[TVShowOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
+                        tvShowEraCodeDesignation = new char[TVShowInputOutput.ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH];
 
                         for (int i = 0; i < tvShowEraCodeDesignation.length; i++) 
                         {
                             tvShowEraCodeDesignation[i] = dataInputStream.readChar();
                         }
 
-                        parsedTVShows.add(new TVShowOutput(tvShowId, new String(tvShowName), 
+                        parsedTVShows.add(new TVShowInputOutput(tvShowId, new String(tvShowName), 
                                 tvShowReleaseDate, new String(tvShowEraCodeDesignation)));
                     }
                     catch (EOFException e) 
@@ -346,51 +314,38 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             }
             catch (IOException e) 
             {
-                throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryOutputTVShowsFilename());
+                throw new IOException("Chyba při čtení souboru " + DataStore.getBinaryInputOutputTVShowsFilename());
             }
             
-            if (outputTVShowsBinary.length() != 0 && parsedTVShows.isEmpty()) 
-            {
-                throw new FileParsingException(errorParsingMessage);
-            }
+            if (inputOutputTVShowsBinary.length() != 0 && parsedTVShows.isEmpty()) throw new FileParsingException(errorParsingMessage);
         }
         else
         {
-            StringBuilder text = new StringBuilder();
-            String errorParsingMessage = "Soubor " + DataStore.getTextOutputTVShowsFilename() + " má poškozená data";
+            String errorParsingMessage = "Soubor " + DataStore.getTextInputOutputTVShowsFilename() + " má poškozená data";
+            StringBuilder text;
             
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                    DataStore.getTextOutputTVShowsFilename()), StandardCharsets.UTF_8))) 
+            try 
             {
-                char[] buffer = new char[1024];
-                int charsRead;
-                String textPart;
-            
-                while((charsRead = bufferedReader.read(buffer)) != -1) 
-                {
-                    textPart = new String(buffer, 0, charsRead);
-                    text.append(textPart);
-                }
+                text = getTextInputOutputFileContent();
             }
-            catch (IOException e) 
+            catch (FileEmptyException ex) 
             {
-                throw new IOException("Chyba při čtení souboru " + DataStore.getTextOutputTVShowsFilename());
+                text = new StringBuilder();
             }
-
-            Class<?> tvShowOutputClass = TVShowOutput.class;
-            Field[] tvShowOutputFields = tvShowOutputClass.getDeclaredFields();
-            Map<String, StringBuilder> tvShowOutputFieldsValues = new LinkedHashMap<>();
-            Map<Integer, String> tvShowOutputFieldsIds = new LinkedHashMap<>();
+                        
+            Class<?> tvShowInputOutputClass = TVShowInputOutput.class;
+            Field[] tvShowInputOutputFields = tvShowInputOutputClass.getDeclaredFields();
+            Map<String, StringBuilder> tvShowInputOutputFieldsValues = new LinkedHashMap<>();
+            Map<Integer, String> tvShowInputOutputFieldsIds = new LinkedHashMap<>();
 
             int k = 0;
 
-            for (Field field : tvShowOutputFields) 
+            for (Field field : tvShowInputOutputFields) 
             {
                 if (!Modifier.isStatic(field.getModifiers())) 
                 {
-                    tvShowOutputFieldsIds.put(k + 1, field.getName());
-                    tvShowOutputFieldsValues.put(field.getName(), new StringBuilder());
+                    tvShowInputOutputFieldsIds.put(k + 1, field.getName());
+                    tvShowInputOutputFieldsValues.put(field.getName(), new StringBuilder());
                     k++;
                 }
             }
@@ -402,11 +357,13 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
             try (Scanner sc = new Scanner(text.toString())) 
             {
                 String textLine;
+                String[] fieldParts;
+                int fieldId;
+                String fieldName;
+                StringBuilder fieldValue;
+                StringBuilder newFieldValue;
                 
-                if (sc.hasNextLine() == true) 
-                {
-                    isFileEmpty = false;
-                }
+                if (sc.hasNextLine() == true) isFileEmpty = false;
 
                 while (sc.hasNextLine() == true) 
                 {
@@ -416,12 +373,12 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     {
                         continue;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking 
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileEndMarking()
                             + "[\\s\t]*$") && enteredSectionValues == true)
                     {
                         try 
                         {
-                            parseOutputData(tvShowOutputFieldsValues, parsedTVShows, tvShowOutputFields);
+                            parseInputOutputDataFromTextFile(tvShowInputOutputFieldsValues, parsedTVShows, tvShowInputOutputFields);
                         }
                         catch (NumberFormatException ex) 
                         {
@@ -430,19 +387,19 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
                         break;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileValuesSectionMarking()
                             + "[\\s\t]*$") && enteredSectionAttributes == true) 
                     {
                         enteredSectionValues = true;
 
                         continue;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking()
                             + "[\\s\t]*$") && enteredSectionValues == true) 
                     {
                         try 
                         {
-                            parseOutputData(tvShowOutputFieldsValues, parsedTVShows, tvShowOutputFields);
+                            parseInputOutputDataFromTextFile(tvShowInputOutputFieldsValues, parsedTVShows, tvShowInputOutputFields);
                         }
                         catch (NumberFormatException ex) 
                         {
@@ -454,7 +411,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
                         continue;
                     } 
-                    else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking
+                    else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking()
                             + "[\\s\t]*$") && enteredSectionAttributes == false) 
                     {
                         enteredSectionAttributes = true;
@@ -463,35 +420,27 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
 
                     if (enteredSectionValues == true)
                     {
-                        String[] parts = textLine.split(" (?=[^ ]+$)");
+                        fieldParts = textLine.split(" (?=[^ ]+$)");
 
-                        if (parts.length != 2) 
-                        {
-                            throw new FileParsingException(errorParsingMessage);
-                        }
-
-                        int fieldId;
+                        if (fieldParts.length != 2) throw new FileParsingException(errorParsingMessage);
 
                         try 
                         {
-                            fieldId = Integer.parseInt(parts[1]);
+                            fieldId = Integer.parseInt(fieldParts[1]);
                         } 
                         catch (NumberFormatException ex) 
                         {
                             throw new FileParsingException(errorParsingMessage);
                         }
 
-                        String fieldName = tvShowOutputFieldsIds.get(fieldId);
+                        fieldName = tvShowInputOutputFieldsIds.get(fieldId);
 
-                        if (fieldName == null) 
-                        {
-                            throw new FileParsingException(errorParsingMessage);
-                        }
+                        if (fieldName == null) throw new FileParsingException(errorParsingMessage);
 
-                        StringBuilder fieldValue = tvShowOutputFieldsValues.get(fieldName);
-                        StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                        fieldValue = tvShowInputOutputFieldsValues.get(fieldName);
+                        newFieldValue = fieldValue.append(fieldParts[0]);
 
-                        tvShowOutputFieldsValues.put(fieldName, newFieldValue);
+                        tvShowInputOutputFieldsValues.put(fieldName, newFieldValue);
                     }
                 }
             }
@@ -505,25 +454,25 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         return parsedTVShows;
     }
     
-    public @Override void tryDeleteDataOutputFilesCopies() 
+    public @Override void tryDeleteInputOutputDataFilesCopies() 
     {
-        File outputTVShowsTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getTextOutputTVShowsFilename());
+        File inputOutputTVShowsTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
+                "copy_" + DataStore.getTextInputOutputTVShowsFilename());
         
-        File outputTVShowsBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getBinaryOutputTVShowsFilename());
+        File inputOutputTVShowsBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
+                "copy_" + DataStore.getBinaryInputOutputTVShowsFilename());
         
-        outputTVShowsTextCopy.delete();
-        outputTVShowsBinaryCopy.delete();
+        inputOutputTVShowsTextCopy.delete();
+        inputOutputTVShowsBinaryCopy.delete();
     }
          
-    public @Override void transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
+    public @Override void transferBetweenInputOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
     {
-        File outputTVShowsTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getTextOutputTVShowsFilename());
+        File inputOutputTVShowsTextCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
+                "copy_" + DataStore.getTextInputOutputTVShowsFilename());
         
-        File outputTVShowsBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
-                "copy_" + DataStore.getBinaryOutputTVShowsFilename());
+        File inputOutputTVShowsBinaryCopy = new File(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
+                "copy_" + DataStore.getBinaryInputOutputTVShowsFilename());
         
         String sourceTextFile;
         String sourceBinaryFile;
@@ -532,42 +481,46 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         
         if (fromCopyFiles == true) 
         {
-            sourceTextFile = outputTVShowsTextCopy.getName();
-            sourceBinaryFile = outputTVShowsBinaryCopy.getName();
-            destinationBinaryFile = DataStore.getBinaryOutputTVShowsFilename();
-            destinationTextFile = DataStore.getTextOutputTVShowsFilename();
+            sourceTextFile = inputOutputTVShowsTextCopy.getName();
+            sourceBinaryFile = inputOutputTVShowsBinaryCopy.getName();
+            destinationBinaryFile = DataStore.getBinaryInputOutputTVShowsFilename();
+            destinationTextFile = DataStore.getTextInputOutputTVShowsFilename();
         }
         else 
         {
-            sourceTextFile = DataStore.getTextOutputTVShowsFilename();
-            sourceBinaryFile = DataStore.getBinaryOutputTVShowsFilename();
-            destinationBinaryFile = outputTVShowsBinaryCopy.getName();
-            destinationTextFile = outputTVShowsTextCopy.getName();
+            sourceTextFile = DataStore.getTextInputOutputTVShowsFilename();
+            sourceBinaryFile = DataStore.getBinaryInputOutputTVShowsFilename();
+            destinationBinaryFile = inputOutputTVShowsBinaryCopy.getName();
+            destinationTextFile = inputOutputTVShowsTextCopy.getName();
         }
                 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator +
+                new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() +
                 sourceTextFile), StandardCharsets.UTF_8));
              DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new 
-                FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                FileInputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                 sourceBinaryFile)));
              BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
+                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
                 destinationTextFile, false), StandardCharsets.UTF_8));
              DataOutputStream dataOutputStream = new DataOutputStream(
                 new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + destinationBinaryFile, false)))
+                FileManagerAccessor.getFileSeparator() + destinationBinaryFile, false)))
              )
         {
-            char[] buffer = new char[1024];
-            byte[] byteBuffer = new byte[1024];
-            int charsRead;
+            byte[] byteBuffer = new byte[8192];
             int bytesRead;
+            StringBuilder text = new StringBuilder();
+            String textLine;
             
-            while ((charsRead = bufferedReader.read(buffer)) != -1) {
-                
-                bufferedWriter.write(buffer, 0, charsRead);
+            while ((textLine = bufferedReader.readLine()) != null) 
+            {
+                text.append(textLine).append("\n");
             }
+            
+            if (text.length() != 0) text.deleteCharAt(text.length() - 1);
+
+            bufferedWriter.write(text.toString());
             
             while ((bytesRead = dataInputStream.read(byteBuffer)) != -1) 
             {
@@ -576,25 +529,25 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         }
         catch (IOException e) 
         {
-            outputTVShowsTextCopy.delete();
-            outputTVShowsBinaryCopy.delete();
-            throw new IOException("Chyba při kopírování mezi výstupními soubory seriálů a kopiemi");
+            inputOutputTVShowsTextCopy.delete();
+            inputOutputTVShowsBinaryCopy.delete();
+            throw new IOException("Chyba při kopírování mezi vstupními/výstupními soubory seriálů a kopiemi");
         }
     }
     
-    public @Override void saveOutputDataIntoFiles(List<TVShowOutput> newOutputData) throws IOException
+    public @Override void saveInputOutputDataIntoFiles(List<TVShowInputOutput> newInputOutputData) throws IOException
     {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                DataStore.getTextOutputTVShowsFilename(), false), StandardCharsets.UTF_8));
+                new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + FileManagerAccessor.getFileSeparator() + 
+                DataStore.getTextInputOutputTVShowsFilename(), false), StandardCharsets.UTF_8));
              DataOutputStream dataOutputStream = new DataOutputStream(
                 new BufferedOutputStream(new FileOutputStream(FileManagerAccessor.getDataDirectoryPath() + 
-                filenameSeparator + DataStore.getBinaryOutputTVShowsFilename(), false)))) 
+                FileManagerAccessor.getFileSeparator() + DataStore.getBinaryInputOutputTVShowsFilename(), false)))) 
         {
             StringBuilder generatedTVShowsTextRepresentations = 
-                    createOutputDataTextRepresentation(newOutputData);
+                    createInputOutputDataTextRepresentation(newInputOutputData);
             
-            for (TVShowOutput m : newOutputData) 
+            for (TVShowInputOutput m : newInputOutputData) 
             {
                 dataOutputStream.writeInt(m.getId());
                 
@@ -615,87 +568,15 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         }
         catch (IOException e) 
         {
-            throw new IOException("Chyba při zápisu výstupních souborů seriálů");
+            throw new IOException("Chyba při zápisu vstupních/výstupních souborů seriálů");
         }
     }
     
     public @Override Map<Integer, TVShowInput> loadInputDataFrom(boolean fromBinary) throws IOException, 
             FileEmptyException, FileNotFoundException, FileParsingException
     {
-        StringBuilder text = new StringBuilder();
-        
-        if (fromBinary == true) 
-        {
-            try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(
-                    FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                            DataStore.getBinaryInputTVShowsFilename()))) 
-            {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                String textPart;
-
-                while ((bytesRead = bufferedInputStream.read(buffer)) != -1) 
-                {
-                    textPart = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
-                    text.append(textPart);
-                }
-            }
-            catch (FileNotFoundException e) 
-            {
-                throw new FileNotFoundException("Soubor " + 
-                        DataStore.getBinaryInputTVShowsFilename() + " neexistuje");
-            }
-            catch (IOException e) 
-            {
-                throw new IOException("Chyba při čtení souboru " + 
-                        DataStore.getBinaryInputTVShowsFilename());
-            }
-            
-            File binaryFile = new File(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator
-                + DataStore.getBinaryInputTVShowsFilename());
-        
-            if (binaryFile.length() == 0) 
-            {
-                throw new FileEmptyException("Soubor " + DataStore.getBinaryInputTVShowsFilename() + " je prázdný");
-            }
-        }
-        else 
-        {
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(FileManagerAccessor.getDataDirectoryPath() + filenameSeparator + 
-                    DataStore.getTextInputTVShowsFilename()), StandardCharsets.UTF_8))) 
-            {
-                char[] buffer = new char[1024];
-                int charsRead;
-                String textPart;
-            
-                while((charsRead = bufferedReader.read(buffer)) != -1) 
-                {
-                    textPart = new String(buffer, 0, charsRead);
-                    text.append(textPart);
-                }
-            }
-            catch (FileNotFoundException e) 
-            {
-                throw new FileNotFoundException("Soubor " + 
-                        DataStore.getTextInputTVShowsFilename() + " neexistuje");
-            }
-            catch (IOException e) 
-            {
-                throw new IOException("Chyba při čtení souboru " + 
-                        DataStore.getTextInputTVShowsFilename());
-            }
-            
-            try (Scanner sc = new Scanner(text.toString())) 
-            {
-                if (sc.hasNextLine() == false)
-                {
-                    sc.close();
-                    throw new FileEmptyException("Soubor " + DataStore.getTextInputTVShowsFilename() + " je prázdný");
-                }
-            }
-        }
-                                
+        StringBuilder text = fromBinary == true ? getBinaryInputFileContent() : getTextInputFileContent();
+                                        
         Class<?> tvShowInputClass = TVShowInput.class;
         Field[] tvShowInputFields = tvShowInputClass.getDeclaredFields();
         Map<String, StringBuilder> tvShowInputFieldsValues = new LinkedHashMap<>();
@@ -721,7 +602,12 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
         try (Scanner sc = new Scanner(text.toString())) 
         {
             String textLine;
-                        
+            String[] fieldParts;
+            int fieldId;
+            String fieldName;
+            StringBuilder fieldValue;
+            StringBuilder newFieldValue;
+                 
             while (sc.hasNextLine() == true) 
             {
                 textLine = sc.nextLine();
@@ -730,21 +616,21 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 {
                     continue;
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileEndMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileEndMarking() +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
                     parseInputData(tvShowInputFieldsValues, parsedTVShows, tvShowInputFields, inputTVShowOrder);
                     
                     break; 
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileValuesSectionMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileValuesSectionMarking() +
                         "[\\s\t]*$") && enteredSectionAttributes == true)
                 {
                     enteredSectionValues = true;
                     
                     continue;
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking() +
                         "[\\s\t]*$") && enteredSectionValues == true) 
                 {
                     parseInputData(tvShowInputFieldsValues, parsedTVShows, tvShowInputFields, inputTVShowOrder);
@@ -755,7 +641,7 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                     
                     continue;
                 }
-                else if (textLine.matches("^[\\s\t]*" + inputFileAttributesSectionMarking +
+                else if (textLine.matches("^[\\s\t]*" + FileManagerAccessor.getTextFileAttributesSectionMarking() +
                         "[\\s\t]*$") && enteredSectionAttributes == false) 
                 {
                     inputTVShowOrder++;
@@ -765,33 +651,25 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 
                 if (enteredSectionValues == true)
                 {
-                    String[] parts = textLine.split(" (?=[^ ]+$)");
+                    fieldParts = textLine.split(" (?=[^ ]+$)");
                     
-                    if (parts.length != 2)
-                    {
-                        continue;
-                    }
-                    
-                    int fieldId;
-                    
+                    if (fieldParts.length != 2) continue;
+                                        
                     try
                     {
-                        fieldId = Integer.parseInt(parts[1]);
+                        fieldId = Integer.parseInt(fieldParts[1]);
                     }
                     catch (NumberFormatException ex)
                     {
                         continue;
                     }
                     
-                    String fieldName = tvShowInputFieldsIds.get(fieldId);
+                    fieldName = tvShowInputFieldsIds.get(fieldId);
                     
-                    if (fieldName == null)
-                    {
-                        continue;
-                    }
+                    if (fieldName == null) continue;
                     
-                    StringBuilder fieldValue = tvShowInputFieldsValues.get(fieldName);
-                    StringBuilder newFieldValue = fieldValue.append(parts[0]);
+                    fieldValue = tvShowInputFieldsValues.get(fieldName);
+                    newFieldValue = fieldValue.append(fieldParts[0]);
                                         
                     tvShowInputFieldsValues.put(fieldName, newFieldValue);
                 }
@@ -848,85 +726,85 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
     }
     
     /**
-     * Represents a method which parses tv show output data (one record) from output text file when position in
+     * Represents a method which parses tv show input/output data (one record) from input/output text file when position in
      * file reaches either end marking or reaches another attributes section marking.
-     * @param tvShowOutputFieldsValues represents list of parsed tv show record values mapped to
-     * according tv show output model data attributes names.
+     * @param tvShowInputOutputFieldsValues represents list of parsed tv show record values mapped to
+     * according tv show input/output model data attributes names.
      * @param parsedTVShows represents a list of currently parsed tv shows
-     * @param tvShowOutputFields represents tv show output model data attributes names, which are
+     * @param tvShowInputOutputFields represents tv show input/output model data attributes names, which are
      * used for indexing particular fields values.
      * @throws NumberFormatException when parsed tv show record number values cannot be converted to from String
      */
-    private void parseOutputData(Map<String, StringBuilder> tvShowOutputFieldsValues,
-            List<TVShowOutput> parsedTVShows, Field[] tvShowOutputFields)
+    private void parseInputOutputDataFromTextFile(Map<String, StringBuilder> tvShowInputOutputFieldsValues,
+            List<TVShowInputOutput> parsedTVShows, Field[] tvShowInputOutputFields)
     {        
-        int id = Integer.parseInt(tvShowOutputFieldsValues.get("id").toString());
-        long epochSeconds = Long.parseLong(tvShowOutputFieldsValues.get("releaseDateInEpochSeconds").toString());
+        int id = Integer.parseInt(tvShowInputOutputFieldsValues.get("id").toString());
+        long epochSeconds = Long.parseLong(tvShowInputOutputFieldsValues.get("releaseDateInEpochSeconds").toString());
 
-        parsedTVShows.add(new TVShowOutput(id, tvShowOutputFieldsValues.get("name").toString(),
-                epochSeconds, tvShowOutputFieldsValues.get("eraCodeDesignation").toString()));
+        parsedTVShows.add(new TVShowInputOutput(id, tvShowInputOutputFieldsValues.get("name").toString(),
+                epochSeconds, tvShowInputOutputFieldsValues.get("eraCodeDesignation").toString()));
 
-        tvShowOutputFieldsValues.clear();
+        tvShowInputOutputFieldsValues.clear();
 
-        for (Field field : tvShowOutputFields) 
+        for (Field field : tvShowInputOutputFields) 
         {
             if (!Modifier.isStatic(field.getModifiers())) 
             {
-                tvShowOutputFieldsValues.put(field.getName(), new StringBuilder());
+                tvShowInputOutputFieldsValues.put(field.getName(), new StringBuilder());
             }
         }
     }
-    
+        
     /**
-     * Represents a method which creates tv show output data (multiple records) text representation
-     * for output text file.
-     * @param newOutputTVShows represents list of tv show output models data from database
-     * @return text content to save into output text file
+     * Represents a method which creates tv show input/output data (multiple records) text representation
+     * for input/output text file.
+     * @param newInputOutputTVShows represents list of tv show input/output models data from database
+     * @return text content to save into input/output text file
      */
-    private StringBuilder createOutputDataTextRepresentation(List<TVShowOutput> newOutputTVShows) 
+    private StringBuilder createInputOutputDataTextRepresentation(List<TVShowInputOutput> newInputOutputTVShows) 
     {
-        Class<?> tvShowOutputClass = TVShowOutput.class;
-        Field[] tvShowOutputFields = tvShowOutputClass.getDeclaredFields();
-        Map<String, Integer> tvShowOutputFieldsIds = new LinkedHashMap<>();
+        Class<?> tvShowInputOutputClass = TVShowInputOutput.class;
+        Field[] tvShowInputOutputFields = tvShowInputOutputClass.getDeclaredFields();
+        Map<String, Integer> tvShowInputOutputFieldsIds = new LinkedHashMap<>();
         
         int k = 0;
         
-        for (Field field : tvShowOutputFields) 
+        for (Field field : tvShowInputOutputFields) 
         {
             if (!Modifier.isStatic(field.getModifiers())) 
             {
-                tvShowOutputFieldsIds.put(field.getName(), k + 1);
+                tvShowInputOutputFieldsIds.put(field.getName(), k + 1);
                 k++;
             }
         }
 
-        StringBuilder outputTextData = new StringBuilder();
+        StringBuilder inputOutputTextData = new StringBuilder();
         String attributesMarking;
         String valuesMarking;
         StringBuilder changedStringField;
 
-        for (TVShowOutput m : newOutputTVShows) 
+        for (TVShowInputOutput m : newInputOutputTVShows) 
         {
-            attributesMarking = inputFileAttributesSectionMarking.replaceAll("\\\\", "");
-            outputTextData.append(attributesMarking).append("\n");
-            outputTextData.append("\n");
+            attributesMarking = FileManagerAccessor.getTextFileAttributesSectionMarking().replaceAll("\\\\", "");
+            inputOutputTextData.append(attributesMarking).append("\n");
+            inputOutputTextData.append("\n");
             
-            outputTextData.append("Identificator: ").append(m.getId()).append("\n");
+            inputOutputTextData.append("Identificator: ").append(m.getId()).append("\n");
             
-            outputTextData.append("\n");
+            inputOutputTextData.append("\n");
 
-            for (Map.Entry<String, Integer> entry : tvShowOutputFieldsIds.entrySet()) 
+            for (Map.Entry<String, Integer> entry : tvShowInputOutputFieldsIds.entrySet()) 
             {
-                outputTextData.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
+                inputOutputTextData.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
             }
 
-            valuesMarking = inputFileValuesSectionMarking.replaceAll("\\\\", "");
-            outputTextData.append("\n");
-            outputTextData.append(valuesMarking).append("\n");
-            outputTextData.append("\n");
+            valuesMarking = FileManagerAccessor.getTextFileValuesSectionMarking().replaceAll("\\\\", "");
+            inputOutputTextData.append("\n");
+            inputOutputTextData.append(valuesMarking).append("\n");
+            inputOutputTextData.append("\n");
 
-            outputTextData.append(m.getId()).append(" ").
-                    append(tvShowOutputFieldsIds.get("id")).
+            inputOutputTextData.append(m.getId()).append(" ").
+                    append(tvShowInputOutputFieldsIds.get("id")).
                     append("\n");
             
             changedStringField = new StringBuilder();
@@ -939,10 +817,10 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 }
             }
             
-            outputTextData.append(changedStringField.toString()).append(" ").
-                    append(tvShowOutputFieldsIds.get("name")).append("\n");
-            outputTextData.append(m.getReleaseDateInEpochSeconds()).
-                    append(" ").append(tvShowOutputFieldsIds.get("releaseDateInEpochSeconds")).
+            inputOutputTextData.append(changedStringField.toString()).append(" ").
+                    append(tvShowInputOutputFieldsIds.get("name")).append("\n");
+            inputOutputTextData.append(m.getReleaseDateInEpochSeconds()).
+                    append(" ").append(tvShowInputOutputFieldsIds.get("releaseDateInEpochSeconds")).
                     append("\n");
             
             changedStringField = new StringBuilder();
@@ -955,17 +833,17 @@ public class TVShowsFileManager implements IDataFileManager<TVShowInput, TVShowO
                 }
             }
             
-            outputTextData.append(changedStringField.toString()).
-                    append(" ").append(tvShowOutputFieldsIds.get("eraCodeDesignation")).
+            inputOutputTextData.append(changedStringField.toString()).
+                    append(" ").append(tvShowInputOutputFieldsIds.get("eraCodeDesignation")).
                     append("\n").append("\n");
         }
 
-        if (newOutputTVShows.isEmpty() == false) 
+        if (newInputOutputTVShows.isEmpty() == false) 
         {
-            String endMarking = inputFileEndMarking.replaceAll("\\\\", "");
-            outputTextData.append(endMarking).append("\n");
+            String endMarking = FileManagerAccessor.getTextFileEndMarking().replaceAll("\\\\", "");
+            inputOutputTextData.append(endMarking);
         }
         
-        return outputTextData;
+        return inputOutputTextData;
     }
 }

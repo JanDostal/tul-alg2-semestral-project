@@ -42,18 +42,18 @@ public class EmailSenderTest
 //            email.setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken));
 //            email.setSSLOnConnect(true);
 //            email.setFrom(DataStore.getAppCreator());
-//            email.setSubject(String.format("%s - Test Email", DataStore.getAppName()));
+//            email.setSubject(String.format("%s –⁠ Test Email", DataStore.getAppName()));
 //            email.addTo(recipientEmailAddress);
 //            email.setHtmlMsg("sad");
 //            email.send();  
 //       }
 //       catch (EmailException ex) 
 //       {
-//            System.out.println("Chyba sítě nebo evidentně neplatná zadaná emailová adresa prijemce nebo prazdne telo emailu");
+//            System.out.println("Network error or clearly invalidly entered email address of recipient or empty email body");
 //       }
 //       catch (NullPointerException ex) 
 //       {
-//            System.out.println("Zadana emailova adresa prijemce ma hodnotu null");
+//            System.out.println("Entered email address of recipient has value null");
 //       }
 //        
 //       try 
@@ -70,11 +70,11 @@ public class EmailSenderTest
 //                   60, true, "https://www.novinky.cz/?amp=1", "A",
 //                   LocalDate.parse("2023-05-18", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
 //
-//           Movie movieB = new Movie(new PrimaryKey(4), null, "Poslední z Jediů",
+//           Movie movieB = new Movie(new PrimaryKey(4), null, "Last Jedi",
 //                   40, false, null, "B",
 //                   LocalDate.parse("2023-05-15", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
 //
-//           Movie movieC = new Movie(new PrimaryKey(5), Duration.ofMinutes(200), "Klony Útočí",
+//           Movie movieC = new Movie(new PrimaryKey(5), Duration.ofMinutes(200), "Attack of the clones",
 //                   40, false, "https://cs.wikipedia.org/wiki/Praha_čárka", "C",
 //                   LocalDate.parse("2023-05-13", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
 //
@@ -85,16 +85,16 @@ public class EmailSenderTest
 //           TVSeason season2 = new TVSeason(new PrimaryKey(2), 1, show.getPrimaryKey());
 //
 //           TVEpisode episodeB = new TVEpisode(new PrimaryKey(3), Duration.ofMinutes(50), null,
-//                   60, false, null, "Velmi špatná epizoda", 2, season1.getPrimaryKey());
+//                   60, false, null, "very bad episode", 2, season1.getPrimaryKey());
 //
 //           TVEpisode episodeC = new TVEpisode(new PrimaryKey(4), Duration.ofMinutes(50), "episodeA",
-//                   60, false, "https://www.example03.com", "Velmi špatná epizoda navždy", 1, season1.getPrimaryKey());
+//                   60, false, "https://www.example03.com", "very bad episode forever", 1, season1.getPrimaryKey());
 //
 //           TVEpisode episodeD = new TVEpisode(new PrimaryKey(5), Duration.ofMinutes(50), "episodeE",
-//                   60, false, "https://www.example04.com", "Velmi špatná epizoda a", 2, season2.getPrimaryKey());
+//                   60, false, "https://www.example04.com", "very bad episode a", 2, season2.getPrimaryKey());
 //
 //           TVEpisode episodeE = new TVEpisode(new PrimaryKey(6), Duration.ofMinutes(50), "episodeD",
-//                   60, false, "https://www.example05.com", "Velmi špatná epizoda navždy asd", 1, season2.getPrimaryKey());
+//                   60, false, "https://www.example05.com", "very bad episode forever ever after", 1, season2.getPrimaryKey());
 //
 //           dbContext.getTVShowsTable().loadFrom(show);
 //           dbContext.getTVSeasonsTable().loadFrom(season1);
@@ -133,7 +133,7 @@ public class EmailSenderTest
 //       } 
 //       catch (NullPointerException ex) 
 //       {
-//            System.out.println("Zadana emailova adresa prijemce ma hodnotu null");
+//            System.out.println("Entered email address of recipient has value null");
 //       } 
 //       catch (DatabaseException | EmailException e) 
 //       {

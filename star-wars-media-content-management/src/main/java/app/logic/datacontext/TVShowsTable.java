@@ -4,7 +4,7 @@ import app.models.data.PrimaryKey;
 import app.models.data.TVEpisode;
 import app.models.data.TVSeason;
 import app.models.data.TVShow;
-import app.models.output.TVShowOutput;
+import app.models.inputoutput.TVShowInputOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,7 +34,6 @@ public class TVShowsTable implements IDataTable<TVShow>
     private final DataContextAccessor dbContext;
     
     private final Random primaryKeysGenerator;
-    
     
     /**
      * Creates singleton instance of TVShowsTable.
@@ -84,9 +83,9 @@ public class TVShowsTable implements IDataTable<TVShow>
             throw new DatabaseException("Přidaný seriál musí mít název");
         }
         
-        if (inputData.getName().length() > TVShowOutput.ATTRIBUTE_NAME_LENGTH) 
+        if (inputData.getName().length() > TVShowInputOutput.ATTRIBUTE_NAME_LENGTH) 
         {
-            throw new DatabaseException("Název přidaného seriálu nesmí mít délku větší než " + TVShowOutput.ATTRIBUTE_NAME_LENGTH + 
+            throw new DatabaseException("Název přidaného seriálu nesmí mít délku větší než " + TVShowInputOutput.ATTRIBUTE_NAME_LENGTH + 
                     " znaků");
         }
                 
@@ -104,48 +103,48 @@ public class TVShowsTable implements IDataTable<TVShow>
         tvShowsData.add(newData);        
     }
 
-    public @Override void loadFrom(TVShow outputData) throws DatabaseException
+    public @Override void loadFrom(TVShow inputOutputData) throws DatabaseException
     {
-        if (outputData == null) 
+        if (inputOutputData == null) 
         {
             throw new DatabaseException("Existující data seriálu jsou prázdná");
         }
         
-        if (outputData.getPrimaryKey().getId() <= 0) 
+        if (inputOutputData.getPrimaryKey().getId() <= 0) 
         {
-            throw new DatabaseException("Identifikátor " + outputData.getPrimaryKey().getId() + 
+            throw new DatabaseException("Identifikátor " + inputOutputData.getPrimaryKey().getId() + 
                     " existujícího seriálu musí být větší než nula");
         }
         
-        if (outputData.getEra() == null) 
+        if (inputOutputData.getEra() == null) 
         {
             throw new DatabaseException("Chronologické období existujícího seriálu s identifikátorem " + 
-                    outputData.getPrimaryKey().getId() + " musí být vybráno");
+                    inputOutputData.getPrimaryKey().getId() + " musí být vybráno");
         }
         
-        if (outputData.getName() == null) 
+        if (inputOutputData.getName() == null) 
         {
             throw new DatabaseException("Existující seriál s identifikátorem " + 
-                    outputData.getPrimaryKey().getId() + " musí mít název");
+                    inputOutputData.getPrimaryKey().getId() + " musí mít název");
         }
         
-        TVShow tvShowWithDuplicateKey = getBy(outputData.getPrimaryKey());
+        TVShow tvShowWithDuplicateKey = getBy(inputOutputData.getPrimaryKey());
         
         if (tvShowWithDuplicateKey != null) 
         {
-            throw new DatabaseException("Identifikátor " + outputData.getPrimaryKey().getId() + 
+            throw new DatabaseException("Identifikátor " + inputOutputData.getPrimaryKey().getId() + 
                     " existujícího seriálu je duplicitní");
         }
         
-        List<TVShow> tvShowWithDuplicateData = filterBy(show -> show.equals(outputData));
+        List<TVShow> tvShowWithDuplicateData = filterBy(show -> show.equals(inputOutputData));
         
         if (tvShowWithDuplicateData.isEmpty() == false) 
         {
             throw new DatabaseException("Data existujícího seriálu s identifikátorem " + 
-                    outputData.getPrimaryKey().getId() + " jsou duplicitní");
+                    inputOutputData.getPrimaryKey().getId() + " jsou duplicitní");
         }
         
-        tvShowsData.add(outputData);
+        tvShowsData.add(inputOutputData);
     }
 
     public @Override void deleteBy(PrimaryKey primaryKey) throws DatabaseException
@@ -213,9 +212,9 @@ public class TVShowsTable implements IDataTable<TVShow>
             throw new DatabaseException("Editovaný seriál musí mít název");
         }
         
-        if (editedExistingData.getName().length() > TVShowOutput.ATTRIBUTE_NAME_LENGTH) 
+        if (editedExistingData.getName().length() > TVShowInputOutput.ATTRIBUTE_NAME_LENGTH) 
         {
-            throw new DatabaseException("Název editovaného seriálu nesmí mít délku větší než " + TVShowOutput.ATTRIBUTE_NAME_LENGTH + 
+            throw new DatabaseException("Název editovaného seriálu nesmí mít délku větší než " + TVShowInputOutput.ATTRIBUTE_NAME_LENGTH + 
                     " znaků");
         }
         

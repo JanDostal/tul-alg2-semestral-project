@@ -42,22 +42,22 @@ public final class DataStore
     private static final String binaryInputTVEpisodesFilename = "input_tvEpisodes.bin";
     
     
-    private static final String textOutputMoviesFilename = "output_movies.txt";
+    private static final String textInputOutputMoviesFilename = "inputOutput_movies.txt";
     
-    private static final String textOutputTVShowsFilename = "output_tvShows.txt";
+    private static final String textInputOutputTVShowsFilename = "inputOutput_tvShows.txt";
     
-    private static final String textOutputTVSeasonsFilename = "output_tvSeasons.txt";
+    private static final String textInputOutputTVSeasonsFilename = "inputOutput_tvSeasons.txt";
     
-    private static final String textOutputTVEpisodesFilename = "output_tvEpisodes.txt";
+    private static final String textInputOutputTVEpisodesFilename = "inputOutput_tvEpisodes.txt";
     
     
-    private static final String binaryOutputMoviesFilename = "output_movies.bin";
+    private static final String binaryInputOutputMoviesFilename = "inputOutput_movies.bin";
     
-    private static final String binaryOutputTVShowsFilename = "output_tvShows.bin";
+    private static final String binaryInputOutputTVShowsFilename = "inputOutput_tvShows.bin";
     
-    private static final String binaryOutputTVSeasonsFilename = "output_tvSeasons.bin";
+    private static final String binaryInputOutputTVSeasonsFilename = "inputOutput_tvSeasons.bin";
     
-    private static final String binaryOutputTVEpisodesFilename = "output_tvEpisodes.bin";
+    private static final String binaryInputOutputTVEpisodesFilename = "inputOutput_tvEpisodes.bin";
     
     private static final Collator czechCollator = Collator.getInstance(new Locale("cs", "CZ"));
     
@@ -266,67 +266,67 @@ public final class DataStore
     }
     
     /**
-     * @return defined file name for movies text output file from datastore
+     * @return defined file name for movies text input/output file from datastore
      */
-    public static String getTextOutputMoviesFilename() 
+    public static String getTextInputOutputMoviesFilename() 
     {
-        return textOutputMoviesFilename;
+        return textInputOutputMoviesFilename;
     }
     
     /**
-     * @return defined file name for tv shows text output file from datastore
+     * @return defined file name for tv shows text input/output file from datastore
      */
-    public static String getTextOutputTVShowsFilename() 
+    public static String getTextInputOutputTVShowsFilename() 
     {
-        return textOutputTVShowsFilename;
+        return textInputOutputTVShowsFilename;
     }
     
     /**
-     * @return defined file name for tv seasons text output file from datastore
+     * @return defined file name for tv seasons text input/output file from datastore
      */
-    public static String getTextOutputTVSeasonsFilename() 
+    public static String getTextInputOutputTVSeasonsFilename() 
     {
-        return textOutputTVSeasonsFilename;
+        return textInputOutputTVSeasonsFilename;
     }
     
     /**
-     * @return defined file name for tv episodes text output file from datastore
+     * @return defined file name for tv episodes text input/output file from datastore
      */
-    public static String getTextOutputTVEpisodesFilename() 
+    public static String getTextInputOutputTVEpisodesFilename() 
     {
-        return textOutputTVEpisodesFilename;
+        return textInputOutputTVEpisodesFilename;
     }
     
     /**
-     * @return defined file name for movies binary output file from datastore
+     * @return defined file name for movies binary input/output file from datastore
      */
-    public static String getBinaryOutputMoviesFilename() 
+    public static String getBinaryInputOutputMoviesFilename() 
     {
-        return binaryOutputMoviesFilename;
+        return binaryInputOutputMoviesFilename;
     }
     
     /**
-     * @return defined file name for tv shows binary output file from datastore
+     * @return defined file name for tv shows binary input/output file from datastore
      */
-    public static String getBinaryOutputTVShowsFilename() 
+    public static String getBinaryInputOutputTVShowsFilename() 
     {
-        return binaryOutputTVShowsFilename;
+        return binaryInputOutputTVShowsFilename;
     }
     
     /**
-     * @return defined file name for tv seasons binary output file from datastore
+     * @return defined file name for tv seasons binary input/output file from datastore
      */
-    public static String getBinaryOutputTVSeasonsFilename() 
+    public static String getBinaryInputOutputTVSeasonsFilename() 
     {
-        return binaryOutputTVSeasonsFilename;
+        return binaryInputOutputTVSeasonsFilename;
     }
     
     /**
-     * @return defined file name for tv episodes binary output file from datastore
+     * @return defined file name for tv episodes binary input/output file from datastore
      */
-    public static String getBinaryOutputTVEpisodesFilename() 
+    public static String getBinaryInputOutputTVEpisodesFilename() 
     {
-        return binaryOutputTVEpisodesFilename;
+        return binaryInputOutputTVEpisodesFilename;
     }
     
     /**

@@ -7,7 +7,7 @@ import app.logic.datastore.DataStore;
 import app.models.data.Era;
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
-import app.models.output.MovieOutput;
+import app.models.inputoutput.MovieInputOutput;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
@@ -17,29 +17,30 @@ import org.apache.commons.mail.EmailException;
 
 /**
  * Represents a movies UI submodule, which represents a UI section dealing with movies data.
- * MoviesUI is communicating with ConsoleUI to use common methods and access movies controller with scanner.
+ * MoviesSubUI is communicating with ConsoleUI to use common methods and access movies controller with scanner.
  * @author jan.dostal
  */
-public class MoviesUI 
+public class MoviesSubUI 
 {
     private final ConsoleUI consoleUI;
     
     /**
-     * Creates a new instance of MoviesUI.
+     * Creates a new instance of MoviesSubUI.
      * Uses dependency injection to inject consoleUI ui module.
      * @param consoleUI existing instance of ConsoleUI. 
      * Can be used for using common methods from {@link ConsoleUI} class or access
      * movies controller with scanner.
      */
-    protected MoviesUI(ConsoleUI consoleUI) 
+    protected MoviesSubUI(ConsoleUI consoleUI) 
     {
         this.consoleUI = consoleUI;
     }
-    
+        
     /**
-     * Method for starting this UI submodule (ConsoleUI class calls this method)
+     * Method for handling displaying movies management submenu
+     * ({@link displayMoviesManagementSubmenu}). ConsoleUI class calls this method.
      */
-    protected void start() 
+    protected void handleDisplayMoviesManagementSubmenu() 
     {
         consoleUI.addBreadcrumbItem("Správa filmů");
         boolean returnToMainMenu = false;
@@ -81,7 +82,7 @@ public class MoviesUI
                         handlePrintReleasedNewestMoviesSubmenu();
                         break;
                     case 9:
-                        handlePrintMoviesOutputFilesContentsSubmenu();
+                        handlePrintMoviesInputOutputFilesContentsSubmenu();
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -100,7 +101,7 @@ public class MoviesUI
     }
     
     /**
-     * Method for displaying this ui submodule submenu with choices for managing movies
+     * Method for displaying submenu with choices for managing movies
      */
     private void displayMoviesManagementSubmenu() 
     {
@@ -119,7 +120,7 @@ public class MoviesUI
         System.out.println("6. Vypsat vydané zhlédnuté filmy v jednotlivých érách");
         System.out.println("7. Vypsat nejoblíbenější filmy");
         System.out.println("8. Vypsat nejnovější již vydané filmy");
-        System.out.println("9. Vypsat obsahy výstupních souborů filmů");
+        System.out.println("9. Vypsat obsahy vstupních/výstupních souborů filmů");
         System.out.println("0. Vrátit se zpět do hlavního menu");
         System.out.println(horizontalLine);
     }
@@ -136,10 +137,10 @@ public class MoviesUI
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println(String.format("1. Načíst z textového souboru %s", DataStore.getTextInputMoviesFilename()));
-        System.out.println(String.format("2. Načíst z binárního souboru %s", DataStore.getBinaryInputMoviesFilename()));
-        System.out.println(String.format("3. Vypsat obsah textového souboru %s", DataStore.getTextInputMoviesFilename()));
-        System.out.println(String.format("4. Vypsat obsah binárního souboru %s", DataStore.getBinaryInputMoviesFilename()));
+        System.out.println("1. Načíst z textového souboru");
+        System.out.println("2. Načíst z binárního souboru");
+        System.out.println("3. Vypsat obsah textového souboru");
+        System.out.println("4. Vypsat obsah binárního souboru");
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
@@ -331,19 +332,19 @@ public class MoviesUI
     }
     
     /**
-     * Method for displaying submenu with choices for printing movies output files contents
+     * Method for displaying submenu with choices for printing movies input/output files contents
      */
-    private void displayPrintMoviesOutputFilesContentsSubmenu() 
+    private void displayPrintMoviesInputOutputFilesContentsSubmenu() 
     {
-        String menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VÝSTUPNÍCH SOUBORŮ FILMŮ";
+        String menuName = "PODMENU VYPISOVÁNÍ OBSAHŮ VSTUPNÍCH/VÝSTUPNÍCH SOUBORŮ FILMŮ";
         
         StringBuilder menuNameWithHorizontalLines = consoleUI.createMenuNameWithHorizontalLines(30, menuName);
         StringBuilder horizontalLine = consoleUI.createDividingHorizontalLineOf(menuNameWithHorizontalLines.toString());
                 
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println(String.format("1. Vypsat obsah textového souboru %s", DataStore.getTextOutputMoviesFilename()));
-        System.out.println(String.format("2. Vypsat obsah binárního souboru %s", DataStore.getBinaryOutputMoviesFilename()));
+        System.out.println("1. Vypsat obsah textového souboru");
+        System.out.println("2. Vypsat obsah binárního souboru");
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
     }
@@ -405,10 +406,10 @@ public class MoviesUI
         
         System.out.println();
         System.out.println(menuNameWithHorizontalLines);
-        System.out.println("1. Upravit film pomocí vstupního textového souboru " + DataStore.getTextInputMoviesFilename());
-        System.out.println("2. Upravit film pomocí vstupního binárního souboru " + DataStore.getBinaryInputMoviesFilename());
-        System.out.println("3. Vypsat obsah vstupního textového souboru " + DataStore.getTextInputMoviesFilename());
-        System.out.println("4. Vypsat obsah vstupního binárního souboru " + DataStore.getBinaryInputMoviesFilename());
+        System.out.println("1. Upravit film pomocí vstupního textového souboru");
+        System.out.println("2. Upravit film pomocí vstupního binárního souboru");
+        System.out.println("3. Vypsat obsah vstupního textového souboru");
+        System.out.println("4. Vypsat obsah vstupního binárního souboru");
                 
         System.out.println("0. Vrátit se zpět do nadřazeného menu");
         System.out.println(horizontalLine);
@@ -442,10 +443,10 @@ public class MoviesUI
                         loadMoviesFromInputFile(true);
                         break;
                     case 3:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 4:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -571,7 +572,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         String percentageRatingText;
         String releaseDateText;
@@ -834,7 +835,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 5;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 5;
         
         for (Movie movie : announcedMoviesByChosenEra) 
         {
@@ -1108,7 +1109,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         
         for (Movie movie : unwatchedMoviesByChosenEra) 
@@ -1416,7 +1417,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         
         for (Movie movie : watchedMoviesByChosenEra) 
@@ -1506,7 +1507,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         
         for (Movie movie : favoriteMovies) 
@@ -1596,7 +1597,7 @@ public class MoviesUI
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.forLanguageTag("cs-CZ"));
         
         int counter = 0;
-        int nameMaxLength = MovieOutput.ATTRIBUTE_NAME_LENGTH + 3;
+        int nameMaxLength = MovieInputOutput.ATTRIBUTE_NAME_LENGTH + 3;
         String durationText;
         String percentageRatingText;
         
@@ -1623,12 +1624,12 @@ public class MoviesUI
     }
     
     /**
-     * Method for handling printing movies output files contents submenu
-     * ({@link displayPrintMoviesOutputFilesContentsSubmenu})
+     * Method for handling printing movies input/output files contents submenu
+     * ({@link displayPrintMoviesInputOutputFilesContentsSubmenu})
      */
-    private void handlePrintMoviesOutputFilesContentsSubmenu() 
+    private void handlePrintMoviesInputOutputFilesContentsSubmenu() 
     {
-        consoleUI.addBreadcrumbItem("Vypisování obsahů výstupních souborů filmů");
+        consoleUI.addBreadcrumbItem("Vypisování obsahů vstupních/výstupních souborů filmů");
         
         boolean returnToParentMenu = false;
         int choice;
@@ -1636,7 +1637,7 @@ public class MoviesUI
         while (returnToParentMenu == false) 
         {
             consoleUI.displayBreadcrumb();
-            displayPrintMoviesOutputFilesContentsSubmenu();
+            displayPrintMoviesInputOutputFilesContentsSubmenu();
             
             try 
             {
@@ -1645,10 +1646,10 @@ public class MoviesUI
                 switch (choice) 
                 {
                     case 1:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextOutputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 2:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryOutputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputOutputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();
@@ -1943,10 +1944,10 @@ public class MoviesUI
 
                         break;
                     case 3:
-                        consoleUI.displayDataChosenFileContent(DataStore.getTextInputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getTextInputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 4:
-                        consoleUI.displayDataChosenFileContent(DataStore.getBinaryInputMoviesFilename(), DataType.MOVIE);
+                        consoleUI.displayChosenDataFileContent(DataStore.getBinaryInputMoviesFilename(), DataType.MOVIE);
                         break;
                     case 0:
                         consoleUI.removeLastBreadcrumbItem();

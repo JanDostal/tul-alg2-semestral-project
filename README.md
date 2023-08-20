@@ -15,15 +15,46 @@ Tedy shrnutím. Star Wars je můj special interest a přišlo mi jako dobrý ná
 
 ## Popis problému
 
-Aplikace *Star Wars Content Media Management* by měla sloužit jako evidence mediálního obsahu (seriály, filmy) v rámci výhradně Star Wars univerza.
+Aplikace *Star Wars Content Media Management* by měla sloužit jako **evidence mediálního obsahu (seriály, filmy) v rámci výhradně Star Wars univerza**.
 
-Aplikace je určena pro uživatele, kteří jsou pokročilí fanoušci Star Wars (geekové), ale hodí se i pro začínající fanoušky. Pro laika je tato aplikace bezpředmětná.
+Aplikace je určena pro uživatele, kteří jsou **pokročilí fanoušci Star Wars (geekové)**, ale hodí se **i pro začínající fanoušky**. **Pro laika je** tato aplikace **bezpředmětná**.
 
 Cílem aplikace je fanouškovi umožnit:
-- Zjednodušit naplánování si filmového či seriálového maratonu nezhlédnutého obsahu dle různých kritérií
-- Organizovat evidovaný obsah do chronologických období v rámci Star Wars univerza
-- Umožnit hodnotit zhlédnutý obsah, pro účely opakovaného zhlédnutí
-- Poskytovat souhrnné/statistické údaje na základě evidovaného obsahu
+- Organizovat evidovaný mediální obsah do **chronologických období v rámci Star Wars univerza**
+- Organizovat evidovaný mediální obsah podle toho, jestli je **zhlédnutý**, **nezhlédnutý** nebo **oznámený**
+- Ukládat evidovaný mediální obsah do **vstupních/výstupních souborů**, které představují **databázi**, pro **načtení dat ze souborů při příštím spuštění aplikace**
+- Provádět manipulační operace s evidovaným mediálním obsahem jako:
+    - Hromadné i jednotlivé přidávání evidovaného mediálního obsahu přes **vstupní soubory**
+    - Hromadné i jednotlivé mazání evidovaného mediálního obsahu
+    - Editace **jednoho** vybraného evidovaného mediálního obsahu pomocí **vstupního souboru**
+    - Vypsání si detailu jednoho vybraného evidovaného mediálního obsahu
+    - Hodnocení evidovaného mediálního obsahu, **i opakovaně**
+- Provádět manipulační operace s datovými soubory jako:
+    - Vypsání si obsahů vstupních/výstupních souborů v aplikaci
+    - Vypsání si obsahů vstupních souborů v aplikaci
+    - Vybrání si režimu práce s textovými nebo s binárními soubory v aplikaci
+- Poskytovat souhrnné/statistické údaje na základě evidovaného mediálního obsahu **v jednotlivých chronologických obdobích** nebo **v jednotlivých TV seriálech** jako:
+    - Počet mediálního obsahu
+        - Dělení na celkový, zhlédnutý a nezhlédnutý počet 
+    - Délka trvání mediálního obsahu
+        - Dělení na celkovou, zhlédnutou a nezhlédnutou délku
+    - Průměrné hodnocení mediálního obsahu
+    - Průměrná délka trvání mediálního obsahu 
+        - Dělení na celková, zhlédnutá a nezhlédnutá průměrná délka
+- Zjednodušit a naplánovat si **filmový či seriálový maraton nezhlédnutého mediálního obsahu** dle různých kritérií:
+    - Opakovatelné poslání e-mailu **obsahujícího formátovaný výpis** nezhlédnutého mediálního obsahu **s hypertextovými odkazy určenými ke zhlédnutí konkrétního mediálního obsahu**
+        - Umožněno poslání e-mailu s filmy seřazenými **od nejstaršího datumu uvedení** nebo **podle chronologických období** 
+        - Předmět e-mailu je **standardizovaný**
+    - Umožnění nechat si vypsat **seřazeně** mediální obsah **ve vybrané chronologické éře** podle:
+        - Abecedně podle názvu
+        - Od nejnovějšího datumu uvedení
+        - Od nejdelší délky trvání
+    - Poskytnutí statistických údajů **ke každé chronologické éře** nebo **ke každému TV seriálu** pro **lepší vizualizaci postupu v maratonu**
+- Vyhledat evidovaný mediální obsah **podle názvu**
+- Vypsat mediální obsah podle **žebříčků** jako:
+    - Nejoblíbenější
+    - Nejdelší
+    - Nejnovější
 
 # Řešení
 
@@ -35,7 +66,7 @@ Aplikace je z hlediska uživatelských funkcí rozdělena na tyto tři části/m
 
 - Zobrazuje se na začátku běhu aplikace, potom již ne
 - Slouží k nastavení/konfiguraci cesty k adresáři **data** umístěném na disku 
-    - Adresář obsahuje datové vstupní a výstupní soubory specifikované [zde](#popis-struktury-vstupních-a-výstupních-souborů)
+    - Adresář obsahuje datové vstupní a vstupní/výstupní soubory specifikované [zde](#popis-struktury-vstupních-a-výstupních-souborů)
 - Je umožněno ukončit aplikaci pomocí **funkce s číslem 0**
 
 Samotné uživatelské funkce vypadají následovně:
@@ -49,8 +80,8 @@ Samotné uživatelské funkce vypadají následovně:
 ### Menu načítání vstupních/výstupních souborů
 
 - Zobrazuje se po [menu nastavování adresáře data](#menu-nastavování-adresáře-data), potom již ne
-- Slouží k načtení existujících/evidovaných dat do aplikace z výstupních souborů
-- Účelem je to, že aplikace průběžně ukládá svá nová data do výstupních souborů, aby se dala při příštím spuštění aplikace snadno obnovit a nevkládat je znova
+- Slouží k načtení existujících/evidovaných dat do aplikace z vstupních/výstupních souborů
+- Účelem je to, že aplikace průběžně ukládá svá nová data do vstupních/výstupních souborů, aby se dala při příštím spuštění aplikace snadno obnovit a nevkládat je znova
 - Je umožněno ukončit aplikaci pomocí **funkce s číslem 0**
 
 Samotné uživatelské funkce vypadají následovně:
@@ -59,14 +90,14 @@ Samotné uživatelské funkce vypadají následovně:
 
 1. Načíst z textových souborů (dojde případně k automatickému vytvoření daných souborů)
 2. Načíst z binárních souborů (dojde případně k automatickému vytvoření daných souborů)
-3. Vypsat obsah textového souboru output_movies.txt (diagnostika chyby při načítání)
-4. Vypsat obsah textového souboru output_tvShows.txt (diagnostika chyby při načítání)
-5. Vypsat obsah textového souboru output_tvSeasons.txt (diagnostika chyby při načítání)
-6. Vypsat obsah textového souboru output_tvEpisodes.txt (ddiagnostika chyby při načítání)
-7. Vypsat obsah binárního souboru output_movies.bin (diagnostika chyby při načítání)
-8. Vypsat obsah binárního souboru output_tvShows.bin (diagnostika chyby při načítání)
-9. Vypsat obsah binárního souboru output_tvSeasons.bin (diagnostika chyby při načítání)
-10. Vypsat obsah binárního souboru output_tvEpisodes.bin (diagnostika chyby při načítání)
+3. Vypsat obsah textového souboru s filmy (diagnostika chyby při načítání)
+4. Vypsat obsah textového souboru s TV seriály (diagnostika chyby při načítání)
+5. Vypsat obsah textového souboru s TV sezónami (diagnostika chyby při načítání)
+6. Vypsat obsah textového souboru s TV epizodami (ddiagnostika chyby při načítání)
+7. Vypsat obsah binárního souboru s filmy (diagnostika chyby při načítání)
+8. Vypsat obsah binárního souboru s TV seriály (diagnostika chyby při načítání)
+9. Vypsat obsah binárního souboru s TV sezónami (diagnostika chyby při načítání)
+10. Vypsat obsah binárního souboru s TV epizodami (diagnostika chyby při načítání)
 
 ---
 
@@ -92,10 +123,10 @@ Samotné uživatelské funkce vypadají následovně:
       <li>
         Přidat filmy ze vstupního souboru
         <ol type="1">
-          <li>Načíst z textového souboru input_movies.txt</li>
-          <li>Načíst z binárního souboru input_movies.bin</li>
-          <li>Vypsat obsah textového souboru input_movies.txt</li>
-          <li>Vypsat obsah binárního souboru input_movies.bin</li>
+          <li>Načíst z textového souboru</li>
+          <li>Načíst z binárního souboru</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
       <li>
@@ -109,10 +140,10 @@ Samotné uživatelské funkce vypadají následovně:
               <li>
                 Upravit film
                 <ol type="1">
-                  <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                  <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                  <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                  <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                  <li>Upravit film pomocí vstupního textového souboru</li>
+                  <li>Upravit film pomocí vstupního binárního souboru</li>
+                  <li>Vypsat obsah vstupního textového souboru</li>
+                  <li>Vypsat obsah vstupního binárního souboru</li>
                 </ol>
               </li>
               <li>Ohodnotit film <strong><i>V tomto případě je uživatelská funkce dostupná pouze pro vydaný film</i></strong></li>
@@ -141,10 +172,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                 </ol>
@@ -167,10 +198,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -189,10 +220,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -211,10 +242,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -238,10 +269,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -260,10 +291,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -282,10 +313,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -304,10 +335,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit film
                     <ol type="1">
-                      <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                      <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                      <li>Upravit film pomocí vstupního textového souboru</li>
+                      <li>Upravit film pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>Ohodnotit film</li>
@@ -328,10 +359,10 @@ Samotné uživatelské funkce vypadají následovně:
               <li>
                 Upravit film
                 <ol type="1">
-                  <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                  <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                  <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                  <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                  <li>Upravit film pomocí vstupního textového souboru</li>
+                  <li>Upravit film pomocí vstupního binárního souboru</li>
+                  <li>Vypsat obsah vstupního textového souboru</li>
+                  <li>Vypsat obsah vstupního binárního souboru</li>
                 </ol>
               </li>
               <li>Ohodnotit film</li>
@@ -350,10 +381,10 @@ Samotné uživatelské funkce vypadají následovně:
               <li>
                 Upravit film
                 <ol type="1">
-                  <li>Upravit film pomocí vstupního textového souboru input_movies.txt</li>
-                  <li>Upravit film pomocí vstupního binárního souboru input_movies.bin</li>
-                  <li>Vypsat obsah vstupního textového souboru input_movies.txt</li>
-                  <li>Vypsat obsah vstupního binárního souboru input_movies.bin</li>
+                  <li>Upravit film pomocí vstupního textového souboru</li>
+                  <li>Upravit film pomocí vstupního binárního souboru</li>
+                  <li>Vypsat obsah vstupního textového souboru</li>
+                  <li>Vypsat obsah vstupního binárního souboru</li>
                 </ol>
               </li>
               <li>Ohodnotit film</li>
@@ -362,24 +393,24 @@ Samotné uživatelské funkce vypadají následovně:
         </ol>
       </li>
       <li>
-        Vypsat obsahy výstupních souborů filmů
+        Vypsat obsahy vstupních/výstupních souborů filmů
         <ol type="1">
-          <li>Vypsat obsah textového souboru output_movies.txt</li>
-          <li>Vypsat obsah binárního souboru output_movies.bin</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
     </ol>
   </li>
   <li>
-    Spravovat TV epizody
+    Spravovat TV seriály
     <ol type="1">
       <li>
         Přidat TV seriály ze vstupního souboru
         <ol type="1">
-          <li>Načíst z textového souboru input_tvShows.txt</li>
-          <li>Načíst z binárního souboru input_tvShows.bin</li>
-          <li>Vypsat obsah textového souboru input_tvShows.txt</li>
-          <li>Vypsat obsah binárního souboru input_tvShows.bin</li>
+          <li>Načíst z textového souboru</li>
+          <li>Načíst z binárního souboru</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
       <li>
@@ -393,10 +424,10 @@ Samotné uživatelské funkce vypadají následovně:
               <li>
                 Upravit TV seriál
                 <ol type="1">
-                  <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                  <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                  <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                  <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                  <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                  <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                  <li>Vypsat obsah vstupního textového souboru</li>
+                  <li>Vypsat obsah vstupního binárního souboru</li>
                 </ol>
               </li>
               <li>
@@ -405,10 +436,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Přidat TV sezóny ze vstupního souboru
                     <ol type="1">
-                      <li>Načíst z textového souboru input_tvSeasons.txt</li>
-                      <li>Načíst z binárního souboru input_tvSeasons.bin</li>
-                      <li>Vypsat obsah textového souboru input_tvSeasons.txt</li>
-                      <li>Vypsat obsah binárního souboru input_tvSeasons.bin</li>
+                      <li>Načíst z textového souboru</li>
+                      <li>Načíst z binárního souboru</li>
+                      <li>Vypsat obsah textového souboru</li>
+                      <li>Vypsat obsah binárního souboru</li>
                     </ol>
                   </li>
                   <li>Smazat aktuálně vypsané TV sezóny</li>
@@ -439,10 +470,10 @@ Samotné uživatelské funkce vypadají následovně:
                       <li>
                         Upravit TV sezónu
                         <ol type="1">
-                          <li>Upravit TV sezónu pomocí vstupního textového souboru input_tvSeasons.txt</li>
-                          <li>Upravit TV sezónu pomocí vstupního binárního souboru input_tvSeasons.bin</li>
-                          <li>Vypsat obsah vstupního textového souboru input_tvSeasons.txt</li>
-                          <li>Vypsat obsah vstupního binárního souboru input_tvSeasons.bin</li>
+                          <li>Upravit TV sezónu pomocí vstupního textového souboru</li>
+                          <li>Upravit TV sezónu pomocí vstupního binárního souboru</li>
+                          <li>Vypsat obsah vstupního textového souboru</li>
+                          <li>Vypsat obsah vstupního binárního souboru</li>
                         </ol>
                       </li>
                       <li>
@@ -451,10 +482,10 @@ Samotné uživatelské funkce vypadají následovně:
                           <li>
                             Přidat TV epizody ze vstupního souboru
                             <ol type="1">
-                              <li>Načíst z textového souboru input_tvEpisodes.txt</li>
-                              <li>Načíst z binárního souboru input_tvEpisodes.bin</li>
-                              <li>Vypsat obsah textového souboru input_tvEpisodes.txt</li>
-                              <li>Vypsat obsah binárního souboru input_tvEpisodes.bin</li>
+                              <li>Načíst z textového souboru</li>
+                              <li>Načíst z binárního souboru</li>
+                              <li>Vypsat obsah textového souboru</li>
+                              <li>Vypsat obsah binárního souboru</li>
                             </ol>
                           </li>
                           <li>Smazat aktuálně vypsané TV epizody</li>
@@ -479,10 +510,10 @@ Samotné uživatelské funkce vypadají následovně:
                               <li>
                                 Upravit TV epizodu
                                 <ol type="1">
-                                  <li>Upravit TV epizodu pomocí vstupního textového souboru input_tvEpisodes.txt</li>
-                                  <li>Upravit TV epizodu pomocí vstupního binárního souboru input_tvEpisodes.bin</li>
-                                  <li>Vypsat obsah vstupního textového souboru input_tvEpisodes.txt</li>
-                                  <li>Vypsat obsah vstupního binárního souboru input_tvEpisodes.bin</li>
+                                  <li>Upravit TV epizodu pomocí vstupního textového souboru</li>
+                                  <li>Upravit TV epizodu pomocí vstupního binárního souboru</li>
+                                  <li>Vypsat obsah vstupního textového souboru</li>
+                                  <li>Vypsat obsah vstupního binárního souboru</li>
                                 </ol>
                               </li>
                               <li>Ohodnotit TV epizodu</li>
@@ -512,10 +543,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit TV seriál
                     <ol type="1">
-                      <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                      <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                      <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                      <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                 </ol>
@@ -538,10 +569,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit TV seriál
                     <ol type="1">
-                      <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                      <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                      <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                      <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>
@@ -550,10 +581,10 @@ Samotné uživatelské funkce vypadají následovně:
                       <li>
                         Přidat TV sezóny ze vstupního souboru
                         <ol type="1">
-                          <li>Načíst z textového souboru input_tvSeasons.txt</li>
-                          <li>Načíst z binárního souboru input_tvSeasons.bin</li>
-                          <li>Vypsat obsah textového souboru input_tvSeasons.txt</li>
-                          <li>Vypsat obsah binárního souboru input_tvSeasons.bin</li>
+                          <li>Načíst z textového souboru</li>
+                          <li>Načíst z binárního souboru</li>
+                          <li>Vypsat obsah textového souboru</li>
+                          <li>Vypsat obsah binárního souboru</li>
                         </ol>
                       </li>
                       <li>Smazat aktuálně vypsané TV sezóny</li>
@@ -584,10 +615,10 @@ Samotné uživatelské funkce vypadají následovně:
                           <li>
                             Upravit TV sezónu
                             <ol type="1">
-                              <li>Upravit TV sezónu pomocí vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Upravit TV sezónu pomocí vstupního binárního souboru input_tvSeasons.bin</li>
-                              <li>Vypsat obsah vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Vypsat obsah vstupního binárního souboru input_tvSeasons.bin</li>
+                              <li>Upravit TV sezónu pomocí vstupního textového souboru</li>
+                              <li>Upravit TV sezónu pomocí vstupního binárního souboru</li>
+                              <li>Vypsat obsah vstupního textového souboru</li>
+                              <li>Vypsat obsah vstupního binárního souboru</li>
                             </ol>
                           </li>
                           <li>
@@ -596,10 +627,10 @@ Samotné uživatelské funkce vypadají následovně:
                               <li>
                                 Přidat TV epizody ze vstupního souboru
                                 <ol type="1">
-                                  <li>Načíst z textového souboru input_tvEpisodes.txt</li>
-                                  <li>Načíst z binárního souboru input_tvEpisodes.bin</li>
-                                  <li>Vypsat obsah textového souboru input_tvEpisodes.txt</li>
-                                  <li>Vypsat obsah binárního souboru input_tvEpisodes.bin</li>
+                                  <li>Načíst z textového souboru</li>
+                                  <li>Načíst z binárního souboru</li>
+                                  <li>Vypsat obsah textového souboru</li>
+                                  <li>Vypsat obsah binárního souboru</li>
                                 </ol>
                               </li>
                               <li>Smazat aktuálně vypsané TV epizody</li>
@@ -624,10 +655,10 @@ Samotné uživatelské funkce vypadají následovně:
                                   <li>
                                     Upravit TV epizodu
                                     <ol type="1">
-                                      <li>Upravit TV epizodu pomocí vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru input_tvEpisodes.bin</li>
-                                      <li>Vypsat obsah vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Vypsat obsah vstupního binárního souboru input_tvEpisodes.bin</li>
+                                      <li>Upravit TV epizodu pomocí vstupního textového souboru</li>
+                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru</li>
+                                      <li>Vypsat obsah vstupního textového souboru</li>
+                                      <li>Vypsat obsah vstupního binárního souboru</li>
                                     </ol>
                                   </li>
                                   <li>Ohodnotit TV epizodu</li>
@@ -654,10 +685,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit TV seriál
                     <ol type="1">
-                      <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                      <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                      <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                      <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>
@@ -666,10 +697,10 @@ Samotné uživatelské funkce vypadají následovně:
                       <li>
                         Přidat TV sezóny ze vstupního souboru
                         <ol type="1">
-                          <li>Načíst z textového souboru input_tvSeasons.txt</li>
-                          <li>Načíst z binárního souboru input_tvSeasons.bin</li>
-                          <li>Vypsat obsah textového souboru input_tvSeasons.txt</li>
-                          <li>Vypsat obsah binárního souboru input_tvSeasons.bin</li>
+                          <li>Načíst z textového souboru</li>
+                          <li>Načíst z binárního souboru</li>
+                          <li>Vypsat obsah textového souboru</li>
+                          <li>Vypsat obsah binárního souboru</li>
                         </ol>
                       </li>
                       <li>Smazat aktuálně vypsané TV sezóny</li>
@@ -700,10 +731,10 @@ Samotné uživatelské funkce vypadají následovně:
                           <li>
                             Upravit TV sezónu
                             <ol type="1">
-                              <li>Upravit TV sezónu pomocí vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Upravit TV sezónu pomocí vstupního binárního souboru input_tvSeasons.bin</li>
-                              <li>Vypsat obsah vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Vypsat obsah vstupního binárního souboru input_tvSeasons.bin</li>
+                              <li>Upravit TV sezónu pomocí vstupního textového souboru</li>
+                              <li>Upravit TV sezónu pomocí vstupního binárního souboru</li>
+                              <li>Vypsat obsah vstupního textového souboru</li>
+                              <li>Vypsat obsah vstupního binárního souboru</li>
                             </ol>
                           </li>
                           <li>
@@ -712,10 +743,10 @@ Samotné uživatelské funkce vypadají následovně:
                               <li>
                                 Přidat TV epizody ze vstupního souboru
                                 <ol type="1">
-                                  <li>Načíst z textového souboru input_tvEpisodes.txt</li>
-                                  <li>Načíst z binárního souboru input_tvEpisodes.bin</li>
-                                  <li>Vypsat obsah textového souboru input_tvEpisodes.txt</li>
-                                  <li>Vypsat obsah binárního souboru input_tvEpisodes.bin</li>
+                                  <li>Načíst z textového souboru</li>
+                                  <li>Načíst z binárního souboru</li>
+                                  <li>Vypsat obsah textového souboru</li>
+                                  <li>Vypsat obsah binárního souboru</li>
                                 </ol>
                               </li>
                               <li>Smazat aktuálně vypsané TV epizody</li>
@@ -740,10 +771,10 @@ Samotné uživatelské funkce vypadají následovně:
                                   <li>
                                     Upravit TV epizodu
                                     <ol type="1">
-                                      <li>Upravit TV epizodu pomocí vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru input_tvEpisodes.bin</li>
-                                      <li>Vypsat obsah vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Vypsat obsah vstupního binárního souboru input_tvEpisodes.bin</li>
+                                      <li>Upravit TV epizodu pomocí vstupního textového souboru</li>
+                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru</li>
+                                      <li>Vypsat obsah vstupního textového souboru</li>
+                                      <li>Vypsat obsah vstupního binárního souboru</li>
                                     </ol>
                                   </li>
                                   <li>Ohodnotit TV epizodu</li>
@@ -770,10 +801,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Upravit TV seriál
                     <ol type="1">
-                      <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                      <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                      <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                      <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                      <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                      <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                      <li>Vypsat obsah vstupního textového souboru</li>
+                      <li>Vypsat obsah vstupního binárního souboru</li>
                     </ol>
                   </li>
                   <li>
@@ -782,10 +813,10 @@ Samotné uživatelské funkce vypadají následovně:
                       <li>
                         Přidat TV sezóny ze vstupního souboru
                         <ol type="1">
-                          <li>Načíst z textového souboru input_tvSeasons.txt</li>
-                          <li>Načíst z binárního souboru input_tvSeasons.bin</li>
-                          <li>Vypsat obsah textového souboru input_tvSeasons.txt</li>
-                          <li>Vypsat obsah binárního souboru input_tvSeasons.bin</li>
+                          <li>Načíst z textového souboru</li>
+                          <li>Načíst z binárního souboru</li>
+                          <li>Vypsat obsah textového souboru</li>
+                          <li>Vypsat obsah binárního souboru</li>
                         </ol>
                       </li>
                       <li>Smazat aktuálně vypsané TV sezóny</li>
@@ -816,10 +847,10 @@ Samotné uživatelské funkce vypadají následovně:
                           <li>
                             Upravit TV sezónu
                             <ol type="1">
-                              <li>Upravit TV sezónu pomocí vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Upravit TV sezónu pomocí vstupního binárního souboru input_tvSeasons.bin</li>
-                              <li>Vypsat obsah vstupního textového souboru input_tvSeasons.txt</li>
-                              <li>Vypsat obsah vstupního binárního souboru input_tvSeasons.bin</li>
+                              <li>Upravit TV sezónu pomocí vstupního textového souboru</li>
+                              <li>Upravit TV sezónu pomocí vstupního binárního souboru</li>
+                              <li>Vypsat obsah vstupního textového souboru</li>
+                              <li>Vypsat obsah vstupního binárního souboru</li>
                             </ol>
                           </li>
                           <li>
@@ -828,10 +859,10 @@ Samotné uživatelské funkce vypadají následovně:
                               <li>
                                 Přidat TV epizody ze vstupního souboru
                                 <ol type="1">
-                                  <li>Načíst z textového souboru input_tvEpisodes.txt</li>
-                                  <li>Načíst z binárního souboru input_tvEpisodes.bin</li>
-                                  <li>Vypsat obsah textového souboru input_tvEpisodes.txt</li>
-                                  <li>Vypsat obsah binárního souboru input_tvEpisodes.bin</li>
+                                  <li>Načíst z textového souboru</li>
+                                  <li>Načíst z binárního souboru</li>
+                                  <li>Vypsat obsah textového souboru</li>
+                                  <li>Vypsat obsah binárního souboru</li>
                                 </ol>
                               </li>
                               <li>Smazat aktuálně vypsané TV epizody</li>
@@ -856,10 +887,10 @@ Samotné uživatelské funkce vypadají následovně:
                                   <li>
                                     Upravit TV epizodu
                                     <ol type="1">
-                                      <li>Upravit TV epizodu pomocí vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru input_tvEpisodes.bin</li>
-                                      <li>Vypsat obsah vstupního textového souboru input_tvEpisodes.txt</li>
-                                      <li>Vypsat obsah vstupního binárního souboru input_tvEpisodes.bin</li>
+                                      <li>Upravit TV epizodu pomocí vstupního textového souboru</li>
+                                      <li>Upravit TV epizodu pomocí vstupního binárního souboru</li>
+                                      <li>Vypsat obsah vstupního textového souboru</li>
+                                      <li>Vypsat obsah vstupního binárního souboru</li>
                                     </ol>
                                   </li>
                                   <li>Ohodnotit TV epizodu</li>
@@ -888,10 +919,10 @@ Samotné uživatelské funkce vypadají následovně:
               <li>
                 Upravit TV seriál
                 <ol type="1">
-                  <li>Upravit TV seriál pomocí vstupního textového souboru input_tvShows.txt</li>
-                  <li>Upravit TV seriál pomocí vstupního binárního souboru input_tvShows.bin</li>
-                  <li>Vypsat obsah vstupního textového souboru input_tvShows.txt</li>
-                  <li>Vypsat obsah vstupního binárního souboru input_tvShows.bin</li>
+                  <li>Upravit TV seriál pomocí vstupního textového souboru</li>
+                  <li>Upravit TV seriál pomocí vstupního binárního souboru</li>
+                  <li>Vypsat obsah vstupního textového souboru</li>
+                  <li>Vypsat obsah vstupního binárního souboru</li>
                 </ol>
               </li>
               <li>
@@ -900,10 +931,10 @@ Samotné uživatelské funkce vypadají následovně:
                   <li>
                     Přidat TV sezóny ze vstupního souboru
                     <ol type="1">
-                      <li>Načíst z textového souboru input_tvSeasons.txt</li>
-                      <li>Načíst z binárního souboru input_tvSeasons.bin</li>
-                      <li>Vypsat obsah textového souboru input_tvSeasons.txt</li>
-                      <li>Vypsat obsah binárního souboru input_tvSeasons.bin</li>
+                      <li>Načíst z textového souboru</li>
+                      <li>Načíst z binárního souboru</li>
+                      <li>Vypsat obsah textového souboru</li>
+                      <li>Vypsat obsah binárního souboru</li>
                     </ol>
                   </li>
                   <li>Smazat aktuálně vypsané TV sezóny</li>
@@ -934,10 +965,10 @@ Samotné uživatelské funkce vypadají následovně:
                       <li>
                         Upravit TV sezónu
                         <ol type="1">
-                          <li>Upravit TV sezónu pomocí vstupního textového souboru input_tvSeasons.txt</li>
-                          <li>Upravit TV sezónu pomocí vstupního binárního souboru input_tvSeasons.bin</li>
-                          <li>Vypsat obsah vstupního textového souboru input_tvSeasons.txt</li>
-                          <li>Vypsat obsah vstupního binárního souboru input_tvSeasons.bin</li>
+                          <li>Upravit TV sezónu pomocí vstupního textového souboru</li>
+                          <li>Upravit TV sezónu pomocí vstupního binárního souboru</li>
+                          <li>Vypsat obsah vstupního textového souboru</li>
+                          <li>Vypsat obsah vstupního binárního souboru</li>
                         </ol>
                       </li>
                       <li>
@@ -946,10 +977,10 @@ Samotné uživatelské funkce vypadají následovně:
                           <li>
                             Přidat TV epizody ze vstupního souboru
                             <ol type="1">
-                              <li>Načíst z textového souboru input_tvEpisodes.txt</li>
-                              <li>Načíst z binárního souboru input_tvEpisodes.bin</li>
-                              <li>Vypsat obsah textového souboru input_tvEpisodes.txt</li>
-                              <li>Vypsat obsah binárního souboru input_tvEpisodes.bin</li>
+                              <li>Načíst z textového souboru</li>
+                              <li>Načíst z binárního souboru</li>
+                              <li>Vypsat obsah textového souboru</li>
+                              <li>Vypsat obsah binárního souboru</li>
                             </ol>
                           </li>
                           <li>Smazat aktuálně vypsané TV epizody</li>
@@ -974,10 +1005,10 @@ Samotné uživatelské funkce vypadají následovně:
                               <li>
                                 Upravit TV epizodu
                                 <ol type="1">
-                                  <li>Upravit TV epizodu pomocí vstupního textového souboru input_tvEpisodes.txt</li>
-                                  <li>Upravit TV epizodu pomocí vstupního binárního souboru input_tvEpisodes.bin</li>
-                                  <li>Vypsat obsah vstupního textového souboru input_tvEpisodes.txt</li>
-                                  <li>Vypsat obsah vstupního binárního souboru input_tvEpisodes.bin</li>
+                                  <li>Upravit TV epizodu pomocí vstupního textového souboru</li>
+                                  <li>Upravit TV epizodu pomocí vstupního binárního souboru</li>
+                                  <li>Vypsat obsah vstupního textového souboru</li>
+                                  <li>Vypsat obsah vstupního binárního souboru</li>
                                 </ol>
                               </li>
                               <li>Ohodnotit TV epizodu</li>
@@ -994,24 +1025,24 @@ Samotné uživatelské funkce vypadají následovně:
         </ol>
       </li>
       <li>
-        Vypsat obsahy výstupních souborů TV epizod
+        Vypsat obsahy vstupních/výstupních souborů TV epizod
         <ol type="1">
-          <li>Vypsat obsah textového souboru output_tvEpisodes.txt</li>
-          <li>Vypsat obsah binárního souboru output_tvEpisodes.bin</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
       <li>
-        Vypsat obsahy výstupních souborů TV sezón
+        Vypsat obsahy vstupních/výstupních souborů TV sezón
         <ol type="1">
-          <li>Vypsat obsah textového souboru output_tvSeasons.txt</li>
-          <li>Vypsat obsah binárního souboru output_tvSeasons.bin</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
       <li>
-        Vypsat obsahy výstupních souborů TV seriálů
+        Vypsat obsahy vstupních/výstupních souborů TV seriálů
         <ol type="1">
-          <li>Vypsat obsah textového souboru output_tvShows.txt</li>
-          <li>Vypsat obsah binárního souboru output_tvShows.bin</li>
+          <li>Vypsat obsah textového souboru</li>
+          <li>Vypsat obsah binárního souboru</li>
         </ol>
       </li>
     </ol>
@@ -1061,34 +1092,34 @@ public class MovieInput
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru)
 - Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***runtimeInSeconds*** - Vyjadřuje délku/trvání filmu v sekundách
+    - ***runtimeInSeconds*** – Vyjadřuje délku/trvání filmu v sekundách
         - Jedná se o datový typ **long**, tedy **celé číslo**
         - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být rovno nebo menší než 0**
             - Pokud **je zadán**, hodnota **musí být v rozsahu 1 a více**
-    - ***name*** - Vyjadřuje název filmu
+    - ***name*** – Vyjadřuje název filmu
         - Jedná se o datový typ **String**, tedy **text** 
         - **Je povinný**
             - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
         - Maximální počet znaků jména je **60**
-    - ***percentageRating*** - Vyjadřuje procentuální hodnocení filmu
+    - ***percentageRating*** – Vyjadřuje procentuální hodnocení filmu
         - Jedná se o datový typ **int**, tedy **celé číslo** 
         - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být menší než 0**
                 - Při nezadání se film identifikuje jako **nezhlédnutý**
             - Pokud **je zadán**, hodnota **musí být v rozsahu 0 až 100**
                 - Při zadání se film identifikuje jako **zhlédnutý** 
-    - ***hyperlinkForContentWatch*** - Vyjadřuje URL odkaz ke zhlédnutí filmu
+    - ***hyperlinkForContentWatch*** – Vyjadřuje URL odkaz ke zhlédnutí filmu
         - Jedná se o datový typ **String**, tedy **text** 
         - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
         - Maximální počet znaků URL odkazu je **180**
-    - ***shortContentSummary*** - Vyjadřuje krátké shrnutí obsahu filmu
+    - ***shortContentSummary*** – Vyjadřuje krátké shrnutí obsahu filmu
         - Jedná se o datový typ **String**, tedy **text** 
         - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
         - Maximální počet znaků shrnutí je **1000**
-    - ***releaseDateInEpochSeconds*** - Vyjadřuje datum vydání/uvedení filmu, vyjádřeného v epoch sekundách
+    - ***releaseDateInEpochSeconds*** – Vyjadřuje datum vydání/uvedení filmu, vyjádřeného v epoch sekundách
         - Jedná se o datový typ **long**, tedy **celé číslo** 
         - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být menší než 0**
@@ -1097,7 +1128,7 @@ public class MovieInput
                 - Při zadání se film identifikuje jako **vydaný** 
         - Pro převod datumu na epoch sekundy a opačně je možné použít tento konverter https://www.epochconverter.com/
             - Při převodu je požadováno zvolit jako časovou zónu **GMT/UTC**
-    - ***eraCodeDesignation*** - Vyjadřuje kódové označení vybrané chronologické star wars éry pro daný film
+    - ***eraCodeDesignation*** – Vyjadřuje kódové označení vybrané chronologické star wars éry pro daný film
         - Jedná se o datový typ **String**, tedy **text** 
         - **Je povinný**
             - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
@@ -1153,24 +1184,24 @@ AGE_OF_REBELLION 7
 - V souboru může být **více než jeden vstupní film**
     - Stačí **za sekci *\[Values\]* předcházejícího filmu** umístit **zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]* následujícího filmu**
     - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
+- ***\[Attributes\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
     - **Musí být v souboru**
-    - ***Order:*** - Vyjadřuje pořadí filmu z hlediska umístění v souboru
+    - ***Order:*** – Vyjadřuje pořadí filmu z hlediska umístění v souboru
         - **Nemusí být v souboru**, pouze informační účel
     - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní data filmu
         - **Nemusí být v souboru**, pouze informační účel
         - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru)
         - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** - Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** - Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** - Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
+            - **Název data/atributu** – Řádek souboru začíná hodnotou konkrétního data/atributu
+            - **Mezera** – Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
+            - **Propojovací číslo** – Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
+- ***\[Values\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
     - **Musí být v souboru**
     - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
     - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru)
     - Hodnotu s propojovacím číslem je možné zapsat na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
         - Vyjímkou je hodnota atributu/data ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků**
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
+- ***\[End\]*** – Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
     - Pokud bude nějaký text za ***\[End\]***, bude ignorován
         - Tento mechanismus je možné použít při **editaci/úpravě** dat nějakého existujícího filmu, kdy v souboru může být třeba 20 filmů a znak ***\[End\]*** se umístí mezi 1. a 2. film, takže dojde k přečtení pouze 1. filmu, zbytek se bude ignorovat
 
@@ -1194,22 +1225,22 @@ AGE_OF_REBELLION 7
 
 - Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s filmy](#popis-struktury-souboru)
 
-### Výstupní textový soubor s filmy
+### Vstupní/výstupní textový soubor s filmy
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných filmů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_movies.txt**
+- Název souboru musí být **inputOutput_movies.txt**
 - Kódování souboru musí být **UTF-8**
 
 #### Popis struktury dat souboru
 
-- Data **jednoho výstupního filmu** vypadají takto:
+- Data **jednoho vstupního/výstupního filmu** vypadají takto:
 
 ```java
-public class MovieOutput
+public class MovieInputOutput
 {
     private final int id;
     
@@ -1230,66 +1261,20 @@ public class MovieOutput
 ```
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-2)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***id*** - Vyjadřuje identifikátor filmu v rámci databáze
+- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s filmy](#popis-struktury-dat-souboru)
+- Ale jsou zde následující rozdíly:
+    - Data/atributy datového typu **String** **jsou změněna** na **char[]**, ale **pořád se jedná o text**
+    - **Nově** limity na maximální počet znaků u vybraných atributů již **neexistují**
+    - **Nově** je zde atribut ***id***
+        - Vyjadřuje identifikátor filmu v rámci databáze
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***runtimeInSeconds*** - Vyjadřuje délku/trvání filmu v sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo**
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být rovno nebo menší než 0**
-            - Pokud **byl zadán**, hodnota **by měla být v rozsahu 1 a více**
-    - ***name*** - Vyjadřuje název filmu
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-    - ***percentageRating*** - Vyjadřuje procentuální hodnocení filmu
-        - Jedná se o datový typ **int**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být menší než 0**
-                - Film se identifikuje jako **nezhlédnutý**
-            - Pokud **byl zadán**, hodnota **by měla být v rozsahu 0 až 100**
-                - Film se identifikuje jako **zhlédnutý** 
-    - ***hyperlinkForContentWatch*** - Vyjadřuje URL odkaz ke zhlédnutí filmu
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-    - ***shortContentSummary*** - Vyjadřuje krátké shrnutí obsahu filmu
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-    - ***releaseDateInEpochSeconds*** - Vyjadřuje datum vydání/uvedení filmu, vyjádřeného v epoch sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být menší než 0**
-                - Film se identifikuje jako **oznámený** 
-            - Pokud **byl zadán**, hodnota **by měla být v rozsahu 0 a více**
-                - Film se identifikuje jako **vydaný** 
-        - Pro převod datumu na epoch sekundy a opačně je možné použít tento konverter https://www.epochconverter.com/
-            - Při převodu je požadováno zvolit jako časovou zónu **GMT/UTC**
-    - ***eraCodeDesignation*** - Vyjadřuje kódové označení vybrané chronologické star wars éry pro daný film
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-        - Hodnota **by měla nabývat** jednoho z těchto kódových označení:
-            - DAWN_OF_THE_JEDI
-            - THE_OLD_REPUBLIC
-            - THE_HIGH_REPUBLIC
-            - FALL_OF_THE_JEDI
-            - REIGN_OF_THE_EMPIRE
-            - AGE_OF_REBELLION
-            - THE_NEW_REPUBLIC
-            - RISE_OF_THE_FIRST_ORDER
-            - NEW_JEDI_ORDER
-        - Chronologické éry jsou více popsaný přímo **ve formě uživatelské funkce v aplikaci** nebo na těchto webových stránkách https://www.screengeek.net/2023/04/07/star-wars-timeline-eras
-- Není možné, aby existovaly dva filmy, které mají **stejný název a zároveň stejné datum vydání**
-- Není možné, aby existovaly dva filmy, které mají **stejný URL odkaz ke zhlédnutí nebo stejné shrnutí obsahu**
-- Není možné, aby existovaly dva filmy, které mají **stejný identifikátor**
+    - **Nově** platí pravidlo, že není možné, aby existovaly dva filmy, které mají **stejný identifikátor**
 
 #### Popis struktury souboru
 
-- Soubor by měl vypadat nějak takto pro **jeden výstupní film**:
+- Soubor by měl vypadat nějak takto pro **jeden vstupní/výstupní film**:
 
 ```
 [Attributes]
@@ -1324,47 +1309,33 @@ AGE_OF_REBELLION 8
 [End]
 ```
 
-- V souboru může být **více než jeden výstupní film**
-    - **Za sekcí *\[Values\]* předcházejícího filmu** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následujícího filmu**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Identificator:*** - Vyjadřuje identifikátor filmu v databázi
+- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s filmy](#popis-struktury-souboru)
+- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-2)
+- Ale jsou zde následující rozdíly:
+    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
+        - Ten vyjadřuje identifikátor filmu v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují výstupní data filmu
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-2)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** - Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** - Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** - Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-2)
-    - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-        - Vyjímkou je hodnota atributu/data ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků**
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení výstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-- Filmy v souboru jsou **řazeny vzestupně na základě identifikátoru**
+    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějakého jednoho existujícího filmu
+        - Vstupní textový soubor s filmy slouží právě k **editaci** 
+    - **Nově** jsou filmy v souboru **řazeny vzestupně na základě identifikátoru**
 
-### Výstupní binární soubor s filmy
+### Vstupní/výstupní binární soubor s filmy
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných filmů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_movies.bin**
+- Název souboru musí být **inputOutput_movies.bin**
 
 #### Popis struktury dat souboru
 
-- Struktura je úplně totožná jako u [popisu struktury dat výstupního textového souboru s filmy](#popis-struktury-dat-souboru-2)
+- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s filmy](#popis-struktury-dat-souboru-2)
 - Aby bylo možné číst textové/řetězcové hodnoty atributů filmu z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
-    -  ***name*** - 60 znaků
-    -  ***hyperlinkForContentWatch*** - 180 znaků
-    -  ***shortContentSummary*** - 1000 znaků
-    -  ***eraCodeDesignation*** - 60 znaků
+    - ***name*** – 60 znaků
+    - ***hyperlinkForContentWatch*** – 180 znaků
+    - ***shortContentSummary*** – 1000 znaků
+    - ***eraCodeDesignation*** – 60 znaků
 
 #### Popis struktury souboru
 
@@ -1413,12 +1384,12 @@ public class TVShowInput
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-4)
 - Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***name*** - Vyjadřuje název TV seriálu
+    - ***name*** – Vyjadřuje název TV seriálu
         - Jedná se o datový typ **String**, tedy **text** 
         - **Je povinný**
             - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
         - Maximální počet znaků jména je **60**
-    - ***releaseDateInEpochSeconds*** - Vyjadřuje datum vydání/uvedení TV seriálu, vyjádřeného v epoch sekundách
+    - ***releaseDateInEpochSeconds*** – Vyjadřuje datum vydání/uvedení TV seriálu, vyjádřeného v epoch sekundách
         - Jedná se o datový typ **long**, tedy **celé číslo** 
         - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být menší než 0**
@@ -1427,7 +1398,7 @@ public class TVShowInput
                 - Při zadání se TV seriál identifikuje jako **vydaný** 
         - Pro převod datumu na epoch sekundy a opačně je možné použít tento konverter https://www.epochconverter.com/
             - Při převodu je požadováno zvolit jako časovou zónu **GMT/UTC**
-    - ***eraCodeDesignation*** - Vyjadřuje kódové označení vybrané chronologické star wars éry pro daný TV seriál
+    - ***eraCodeDesignation*** – Vyjadřuje kódové označení vybrané chronologické star wars éry pro daný TV seriál
         - Jedná se o datový typ **String**, tedy **text** 
         - **Je povinný**
             - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
@@ -1469,23 +1440,23 @@ FALL_OF_THE_JEDI 3
 - V souboru může být **více než jeden vstupní TV seriál**
     - Stačí **za sekci *\[Values\]* předcházejícího TV seriálu** umístit **zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]* následujícího TV seriálu**
     - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
+- ***\[Attributes\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
     - **Musí být v souboru**
-    - ***Order:*** - Vyjadřuje pořadí TV seriálu z hlediska umístění v souboru
+    - ***Order:*** – Vyjadřuje pořadí TV seriálu z hlediska umístění v souboru
         - **Nemusí být v souboru**, pouze informační účel
     - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní data TV seriálu
         - **Nemusí být v souboru**, pouze informační účel
         - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-4)
         - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** - Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** - Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** - Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
+            - **Název data/atributu** – Řádek souboru začíná hodnotou konkrétního data/atributu
+            - **Mezera** – Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
+            - **Propojovací číslo** – Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
+- ***\[Values\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
     - **Musí být v souboru**
     - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
     - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-4)
     - Hodnotu s propojovacím číslem je možné zapsat na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
+- ***\[End\]*** – Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
     - Pokud bude nějaký text za ***\[End\]***, bude ignorován
         - Tento mechanismus je možné použít při **editaci/úpravě** dat nějakého existujícího TV seriálu, kdy v souboru může být třeba 20 TV seriálů a znak ***\[End\]*** se umístí mezi 1. a 2. TV seriál, takže dojde k přečtení pouze 1. TV seriálu, zbytek se bude ignorovat
 
@@ -1509,22 +1480,22 @@ FALL_OF_THE_JEDI 3
 
 - Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s TV seriály](#popis-struktury-souboru-4)
 
-### Výstupní textový soubor s TV seriály
+### Vstupní/výstupní textový soubor s TV seriály
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV seriálů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvShows.txt**
+- Název souboru musí být **inputOutput_tvShows.txt**
 - Kódování souboru musí být **UTF-8**
 
 #### Popis struktury dat souboru
 
-- Data **jednoho výstupního TV seriálu** vypadají takto:
+- Data **jednoho vstupního/výstupního TV seriálu** vypadají takto:
 
 ```java
-public class TVShowOutput
+public class TVShowInputOutput
 {
     private final int id;
     
@@ -1537,45 +1508,20 @@ public class TVShowOutput
 ```
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-6)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***id*** - Vyjadřuje identifikátor TV seriálu v rámci databáze
+- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s TV seriály](#popis-struktury-dat-souboru-4)
+- Ale jsou zde následující rozdíly:
+    - Data/atributy datového typu **String** **jsou změněna** na **char[]**, ale **pořád se jedná o text**
+    - **Nově** limity na maximální počet znaků u vybraných atributů již **neexistují**
+    - **Nově** je zde atribut ***id***
+        - Vyjadřuje identifikátor TV seriálu v rámci databáze
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***name*** - Vyjadřuje název TV seriálu
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-    - ***releaseDateInEpochSeconds*** - Vyjadřuje datum vydání/uvedení TV seriálu, vyjádřeného v epoch sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být menší než 0**
-                - TV seriál se identifikuje jako **oznámený** 
-            - Pokud **byl zadán**, hodnota **by měla být v rozsahu 0 a více**
-                - TV seriál se identifikuje jako **vydaný** 
-        - Pro převod datumu na epoch sekundy a opačně je možné použít tento konverter https://www.epochconverter.com/
-            - Při převodu je požadováno zvolit jako časovou zónu **GMT/UTC**
-    - ***eraCodeDesignation*** - Vyjadřuje kódové označení vybrané chronologické star wars éry pro daný TV seriál
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-        - Hodnota **by měla nabývat** jednoho z těchto kódových označení:
-            - DAWN_OF_THE_JEDI
-            - THE_OLD_REPUBLIC
-            - THE_HIGH_REPUBLIC
-            - FALL_OF_THE_JEDI
-            - REIGN_OF_THE_EMPIRE
-            - AGE_OF_REBELLION
-            - THE_NEW_REPUBLIC
-            - RISE_OF_THE_FIRST_ORDER
-            - NEW_JEDI_ORDER
-        - Chronologické éry jsou více popsaný přímo **ve formě uživatelské funkce v aplikaci** nebo na těchto webových stránkách https://www.screengeek.net/2023/04/07/star-wars-timeline-eras
-- Není možné, aby existovaly dva TV seriály, které mají **stejný název a zároveň stejné datum vydání**
-- Není možné, aby existovaly dva TV seriály, které mají **stejný identifikátor**
+    - **Nově** platí pravidlo, že není možné, aby existovaly dva TV seriály, které mají **stejný identifikátor**
 
 #### Popis struktury souboru
 
-- Soubor by měl vypadat nějak takto pro **jeden výstupní TV seriál**:
+- Soubor by měl vypadat nějak takto pro **jeden vstupní/výstupní TV seriál**:
 
 ```
 [Attributes]
@@ -1597,44 +1543,31 @@ FALL_OF_THE_JEDI 4
 [End]
 ```
 
-- V souboru může být **více než jeden výstupní TV seriál**
-    - **Za sekcí *\[Values\]* předcházejícího TV seriálu** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následujícího TV seriálu**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Identificator:*** - Vyjadřuje identifikátor TV seriálu v databázi
+- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s TV seriály](#popis-struktury-souboru-4)
+- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-6)
+- Ale jsou zde následující rozdíly:
+    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
+        - Ten vyjadřuje identifikátor TV seriálu v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují výstupní data TV seriálu
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-6)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** - Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** - Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** - Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-6)
-    - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení výstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-- TV seriály v souboru jsou **řazeny vzestupně na základě identifikátoru**
+    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějakého jednoho existujícího TV seriálu
+        - Vstupní textový soubor s TV seriály slouží právě k **editaci** 
+    - **Nově** jsou TV seriály v souboru **řazeny vzestupně na základě identifikátoru**
 
-### Výstupní binární soubor s TV seriály
+### Vstupní/výstupní binární soubor s TV seriály
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV seriálů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvShows.bin**
+- Název souboru musí být **inputOutput_tvShows.bin**
 
 #### Popis struktury dat souboru
 
-- Struktura je úplně totožná jako u [popisu struktury dat výstupního textového souboru s TV seriály](#popis-struktury-dat-souboru-6)
+- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s TV seriály](#popis-struktury-dat-souboru-6)
 - Aby bylo možné číst textové/řetězcové hodnoty atributů TV seriálu z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
-    -  ***name*** - 60 znaků
-    -  ***eraCodeDesignation*** - 60 znaků
+    - ***name*** – 60 znaků
+    - ***eraCodeDesignation*** – 60 znaků
 
 #### Popis struktury souboru
 
@@ -1675,7 +1608,7 @@ public class TVSeasonInput
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-8)
 - Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***orderInTVShow*** - Vyjadřuje pořadí TV sezóny v rámci příslušného TV seriálu
+    - ***orderInTVShow*** – Vyjadřuje pořadí TV sezóny v rámci příslušného TV seriálu
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **musí být v rozsahu 1 a více**
@@ -1702,23 +1635,23 @@ orderInTVShow 1
 - V souboru může být **více než jedna vstupní TV sezóna**
     - Stačí **za sekci *\[Values\]* předcházející TV sezóny** umístit **zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]* následující TV sezóny**
     - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
+- ***\[Attributes\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
     - **Musí být v souboru**
-    - ***Order:*** - Vyjadřuje pořadí TV sezóny z hlediska umístění v souboru
+    - ***Order:*** – Vyjadřuje pořadí TV sezóny z hlediska umístění v souboru
         - **Nemusí být v souboru**, pouze informační účel
     - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní data TV sezóny
         - **Nemusí být v souboru**, pouze informační účel
         - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-8)
         - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** - Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** - Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** - Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
+            - **Název data/atributu** – Řádek souboru začíná hodnotou konkrétního data/atributu
+            - **Mezera** – Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
+            - **Propojovací číslo** – Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
+- ***\[Values\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
     - **Musí být v souboru**
     - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
     - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-8)
     - Hodnotu s propojovacím číslem je možné zapsat na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
+- ***\[End\]*** – Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
     - Pokud bude nějaký text za ***\[End\]***, bude ignorován
         - Tento mechanismus je možné použít při **editaci/úpravě** dat nějaké existující TV sezóny, kdy v souboru může být třeba 20 TV sezón a znak ***\[End\]*** se umístí mezi 1. a 2. TV sezónu, takže dojde k přečtení pouze 1. TV sezóny, zbytek se bude ignorovat
 
@@ -1742,22 +1675,22 @@ orderInTVShow 1
 
 - Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s TV sezónami](#popis-struktury-souboru-8)
 
-### Výstupní textový soubor s TV sezónami
+### Vstupní/výstupní textový soubor s TV sezónami
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV sezón z různých TV seriálů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvSeasons.txt**
+- Název souboru musí být **inputOutput_tvSeasons.txt**
 - Kódování souboru musí být **UTF-8**
 
 #### Popis struktury dat souboru
 
-- Data **jedné výstupní TV sezóny** vypadají takto:
+- Data **jedné vstupní/výstupní TV sezóny** vypadají takto:
 
 ```java
-public class TVSeasonOutput 
+public class TVSeasonInputOutput
 {    
     private final int id;
     
@@ -1768,26 +1701,24 @@ public class TVSeasonOutput
 ```
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-10)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***id*** - Vyjadřuje identifikátor TV sezóny v rámci databáze
+- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s TV sezónami](#popis-struktury-dat-souboru-8)
+- Ale jsou zde následující rozdíly:
+    - **Nově** je zde atribut ***id***
+        - Vyjadřuje identifikátor TV sezóny v rámci databáze
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***orderInTVShow*** - Vyjadřuje pořadí TV sezóny v rámci příslušného TV seriálu
+    - **Nově** je zde atribut ***tvShowId***
+        - Vyjadřuje identifikátor příslušného TV seriálu pro danou TV sezónu
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***tvShowId*** - Vyjadřuje identifikátor příslušného TV seriálu pro danou TV sezónu
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-- Není možné, aby existovaly dvě TV sezóny v rámci stejného TV seriálu, které mají **stejné pořadí**
-- Není možné, aby existovaly dvě TV sezóny, které mají **stejný identifikátor**
-- Není možné, aby existovala TV sezóna, jejíž **identifikátor TV seriálu neodkazuje na žádný existující TV seriál**
+    - **Nově** platí pravidlo, že není možné, aby existovaly dvě TV sezóny, které mají **stejný identifikátor**
+    - **Nově** platí pravidlo, že mení možné, aby existovala TV sezóna, jejíž **identifikátor TV seriálu neodkazuje na žádný existující TV seriál**
 
 #### Popis struktury souboru
 
-- Soubor by měl vypadat nějak takto pro **jednu výstupní TV sezónu**:
+- Soubor by měl vypadat nějak takto pro **jednu vstupní/výstupní TV sezónu**:
 
 ```
 [Attributes]
@@ -1807,41 +1738,28 @@ tvShowId 3
 [End]
 ```
 
-- V souboru může být **více než jedna výstupní TV sezóna**
-    - **Za sekcí *\[Values\]* předcházející TV sezóny** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následující TV sezóny**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Identificator:*** - Vyjadřuje identifikátor TV sezóny v databázi
+- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s TV sezónami](#popis-struktury-souboru-8)
+- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-10)
+- Ale jsou zde následující rozdíly:
+    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
+        - Ten vyjadřuje identifikátor TV sezóny v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují výstupní data TV sezóny
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-10)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** - Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** - Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** - Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-10)
-    - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení výstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-- TV sezóny v souboru jsou **řazeny vzestupně na základě identifikátoru TV sezóny**
+    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějaké jedné existující TV sezóny
+        - Vstupní textový soubor s TV sezónami slouží právě k **editaci** 
+    - **Nově** jsou TV sezóny v souboru **řazeny vzestupně na základě identifikátoru TV sezóny**
 
-### Výstupní binární soubor s TV sezónami
+### Vstupní/výstupní binární soubor s TV sezónami
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV sezón z různých TV seriálů pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvSeasons.bin**
+- Název souboru musí být **inputOutput_tvSeasons.bin**
 
 #### Popis struktury dat souboru
 
-- Struktura je úplně totožná jako u [popisu struktury dat výstupního textového souboru s TV sezónami](#popis-struktury-dat-souboru-10)
+- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s TV sezónami](#popis-struktury-dat-souboru-10)
 
 #### Popis struktury souboru
 
@@ -1890,33 +1808,33 @@ public class TVEpisodeInput
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-12)
 - Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***runtimeInSeconds*** - Vyjadřuje délku/trvání TV epizody v sekundách
+    - ***runtimeInSeconds*** – Vyjadřuje délku/trvání TV epizody v sekundách
         - Jedná se o datový typ **long**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **musí být v rozsahu 1 a více**
-    - ***name*** - Vyjadřuje název TV epizody
+    - ***name*** – Vyjadřuje název TV epizody
         - Jedná se o datový typ **String**, tedy **text** 
         - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
         - Maximální počet znaků jména je **60**
-    - ***percentageRating*** - Vyjadřuje procentuální hodnocení TV epizody
+    - ***percentageRating*** – Vyjadřuje procentuální hodnocení TV epizody
         - Jedná se o datový typ **int**, tedy **celé číslo** 
         - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být menší než 0**
                 - Při nezadání se TV epizoda identifikuje jako **nezhlédnutá**
             - Pokud **je zadán**, hodnota **musí být v rozsahu 0 až 100**
                 - Při zadání se TV epizoda identifikuje jako **zhlédnutá** 
-    - ***hyperlinkForContentWatch*** - Vyjadřuje URL odkaz ke zhlédnutí TV epizody
+    - ***hyperlinkForContentWatch*** – Vyjadřuje URL odkaz ke zhlédnutí TV epizody
         - Jedná se o datový typ **String**, tedy **text** 
         - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
         - Maximální počet znaků URL odkazu je **180**
-    - ***shortContentSummary*** - Vyjadřuje krátké shrnutí obsahu TV epizody
+    - ***shortContentSummary*** – Vyjadřuje krátké shrnutí obsahu TV epizody
         - Jedná se o datový typ **String**, tedy **text** 
         - **Není povinný**
             - Pokud **není zadán**, hodnota **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
         - Maximální počet znaků shrnutí je **1000**
-    - ***orderInTVShowSeason*** - Vyjadřuje pořadí TV epizody v rámci příslušné TV sezóny
+    - ***orderInTVShowSeason*** – Vyjadřuje pořadí TV epizody v rámci příslušné TV sezóny
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **musí být v rozsahu 1 a více**
@@ -1955,24 +1873,24 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 - V souboru může být **více než jedna vstupní TV epizoda**
     - Stačí **za sekci *\[Values\]* předcházející TV epizody** umístit **zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]* následující TV epizody**
     - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
+- ***\[Attributes\]*** –⁠ Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
     - **Musí být v souboru**
-    - ***Order:*** - Vyjadřuje pořadí TV epizody z hlediska umístění v souboru
+    - ***Order:*** –⁠ Vyjadřuje pořadí TV epizody z hlediska umístění v souboru
         - **Nemusí být v souboru**, pouze informační účel
     - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní data TV epizody
         - **Nemusí být v souboru**, pouze informační účel
         - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-12)
         - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** - Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** - Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** - Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
+            - **Název data/atributu** –⁠ Řádek souboru začíná hodnotou konkrétního data/atributu
+            - **Mezera** –⁠ Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
+            - **Propojovací číslo** –⁠ Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
+- ***\[Values\]*** –⁠ Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
     - **Musí být v souboru**
     - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
     - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-12)
     - Hodnotu s propojovacím číslem je možné zapsat na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
         - Vyjímkou je hodnota atributu/data ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků**
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
+- ***\[End\]*** –⁠ Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
     - Pokud bude nějaký text za ***\[End\]***, bude ignorován
         - Tento mechanismus je možné použít při **editaci/úpravě** dat nějaké existující TV epizody, kdy v souboru může být třeba 20 TV epizod a znak ***\[End\]*** se umístí mezi 1. a 2. TV epizodu, takže dojde k přečtení pouze 1. TV epizody, zbytek se bude ignorovat
 
@@ -1996,22 +1914,22 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 
 - Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s TV epizodami](#popis-struktury-souboru-12)
 
-### Výstupní textový soubor s TV epizodami
+### Vstupní/výstupní textový soubor s TV epizodami
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV epizod z různých TV sezón pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvEpisodes.txt**
+- Název souboru musí být **inputOutput_tvEpisodes.txt**
 - Kódování souboru musí být **UTF-8**
 
 #### Popis struktury dat souboru
 
-- Data **jedné výstupní TV epizody** vypadají takto:
+- Data **jedné vstupní/výstupní TV epizody** vypadají takto:
 
 ```java
-public class TVEpisodeOutput
+public class TVEpisodeInputOutput
 { 
     private final int id;
     
@@ -2032,50 +1950,26 @@ public class TVEpisodeOutput
 ```
 
 - Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-14)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***id*** - Vyjadřuje identifikátor TV epizody v rámci databáze
+- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s TV epizodami](#popis-struktury-dat-souboru-12)
+- Ale jsou zde následující rozdíly:
+    - Data/atributy datového typu **String** **jsou změněna** na **char[]**, ale **pořád se jedná o text**
+    - **Nově** limity na maximální počet znaků u vybraných atributů již **neexistují**
+    - **Nově** je zde atribut ***id***
+        - Vyjadřuje identifikátor TV epizody v rámci databáze
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***runtimeInSeconds*** - Vyjadřuje délku/trvání TV epizody v sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-    - ***name*** - Vyjadřuje název TV epizody
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-    - ***percentageRating*** - Vyjadřuje procentuální hodnocení TV epizody
-        - Jedná se o datový typ **int**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být menší než 0**
-                - TV epizoda se identifikuje jako **nezhlédnutá**
-            - Pokud **byl zadán**, hodnota **by měla být v rozsahu 0 až 100**
-                - TV epizoda se identifikuje jako **zhlédnutá** 
-    - ***hyperlinkForContentWatch*** - Vyjadřuje URL odkaz ke zhlédnutí TV epizody
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-    - ***shortContentSummary*** - Vyjadřuje krátké shrnutí obsahu TV epizody
-        - Jedná se o datový typ **char[]**, tedy **text** 
-        - **Není povinný**
-            - Pokud **nebyl zadán**, hodnota **by měla být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-    - ***orderInTVShowSeason*** - Vyjadřuje pořadí TV epizody v rámci příslušné TV sezóny
+    - **Nově** je zde atribut ***tvSeasonId***
+        - Vyjadřuje identifikátor příslušné TV sezóny pro danou TV epizodu
         - Jedná se o datový typ **int**, tedy **celé číslo**
         - **Je povinný**
         - Hodnota **by měla být v rozsahu 1 a více**
-    - ***tvSeasonId*** - Vyjadřuje identifikátor příslušné TV sezóny pro danou TV epizodu
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-- Není možné, aby existovaly dvě TV epizody v rámci stejné TV sezóny, které mají **stejné pořadí**
-- Není možné, aby existovaly dvě TV epizody, které mají **stejný identifikátor**
-- Není možné, aby existovaly dvě TV epizody, které mají **stejný URL odkaz ke zhlédnutí nebo stejné shrnutí obsahu**
-- Není možné, aby existovala TV epizoda, jejíž **identifikátor TV sezóny neodkazuje na žádnou existující TV sezónu**
+    - **Nově** platí pravidlo, že není možné, aby existovaly dvě TV epizody, které mají **stejný identifikátor**
+    - **Nově** platí pravidlo, že není možné, aby existovala TV epizoda, jejíž **identifikátor TV sezóny neodkazuje na žádnou existující TV sezónu**
 
 #### Popis struktury souboru
 
-- Soubor by měl vypadat nějak takto pro **jednu výstupní TV epizodu**:
+- Soubor by měl vypadat nějak takto pro **jednu vstupní/výstupní TV epizodu**:
 
 ```
 [Attributes]
@@ -2106,46 +2000,32 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 [End]
 ```
 
-- V souboru může být **více než jedna výstupní TV epizoda**
-    - **Za sekcí *\[Values\]* předcházející TV epizody** může být umístěna **zase sekce *\[Attributes\]* a pak zase sekce *\[Values\]* následující TV epizody**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Identificator:*** - Vyjadřuje identifikátor TV epizody v databázi
+- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s TV epizodami](#popis-struktury-souboru-12)
+- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-14)
+- Ale jsou zde následující rozdíly:
+    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
+        - Ten vyjadřuje identifikátor TV epizody v databázi
         - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují výstupní data TV epizody
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-14)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** - Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** - Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** - Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** - Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-14)
-    - Hodnota s propojovacím číslem může být zapsána na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-        - Vyjímkou je hodnota atributu/data ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků** 
-- ***\[End\]*** - Vyjadřuje kontrolní znak pro detekci konce čtení výstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-- TV epizody v souboru jsou **řazeny vzestupně na základě identifikátoru TV epizody**
+    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějaké jedné existující TV epizody
+        - Vstupní textový soubor s TV epizodami slouží právě k **editaci**
+    - **Nově** jsou TV seriály v souboru **řazeny vzestupně na základě identifikátoru TV epizody**
 
-### Výstupní binární soubor s TV epizodami
+### Vstupní/výstupní binární soubor s TV epizodami
 
 - Soubor je vytvořen automaticky aplikací
 - Používá se jako uložiště již existujících/evidovaných TV epizod z různých TV sezón pro načtení do databáze při příštím spuštění aplikace
 
 #### Požadavky
 
-- Název souboru musí být **output_tvEpisodes.bin**
+- Název souboru musí být **inputOutput_tvEpisodes.bin**
 
 #### Popis struktury dat souboru
 
-- Struktura je úplně totožná jako u [popisu struktury dat výstupního textového souboru s TV epizodami](#popis-struktury-dat-souboru-14)
+- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s TV epizodami](#popis-struktury-dat-souboru-14)
 - Aby bylo možné číst textové/řetězcové hodnoty atributů TV epizody z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
-    -  ***name*** - 60 znaků
-    -  ***hyperlinkForContentWatch*** - 180 znaků
-    -  ***shortContentSummary*** - 1000 znaků
+    - ***name*** –⁠ 60 znaků
+    - ***hyperlinkForContentWatch*** –⁠ 180 znaků
+    - ***shortContentSummary*** –⁠ 1000 znaků
 
 #### Popis struktury souboru
 
@@ -2221,12 +2101,12 @@ note for TVShowInput "Součást package app.models.input"
         +toString() String
     }
 
-note for MovieOutput "Součást package app.models.output"
-note for TVEpisodeOutput "Součást package app.models.output"
-note for TVSeasonOutput "Součást package app.models.output"
-note for TVShowOutput "Součást package app.models.output"
+note for MovieInputOutput "Součást package app.models.inputoutput"
+note for TVEpisodeInputOutput "Součást package app.models.inputoutput"
+note for TVSeasonInputOutput "Součást package app.models.inputoutput"
+note for TVShowInputOutput "Součást package app.models.inputoutput"
 
-    class MovieOutput{
+    class MovieInputOutput{
         +int ATTRIBUTE_NAME_LENGTH$
         +int ATTRIBUTE_HYPERLINK_LENGTH$
         +int ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH$
@@ -2244,14 +2124,14 @@ note for TVShowOutput "Součást package app.models.output"
         -char[] shortContentSummary
         -long releaseDateInEpochSeconds
         -char[] eraCodeDesignation
-        +MovieOutput(int id, long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, long releaseDateInEpochSeconds, String eraCodeDesignation)
+        +MovieInputOutput(int id, long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, long releaseDateInEpochSeconds, String eraCodeDesignation)
         +getName() String
         +getHyperlinkForContentWatch() String
         +getShortContentSummary() String
         +getEraCodeDesignation() String
         +toString() String
     }
-    class TVEpisodeOutput{
+    class TVEpisodeInputOutput{
         +int ATTRIBUTE_NAME_LENGTH$
         +int ATTRIBUTE_HYPERLINK_LENGTH$
         +int ATTRIBUTE_SUMMARY_LENGTH$
@@ -2269,13 +2149,13 @@ note for TVShowOutput "Součást package app.models.output"
         -char[] shortContentSummary
         -int orderInTVShowSeason
         -int tvSeasonId
-        +TVEpisodeOutput(int id, long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, int orderInTVShowSeason, int tvSeasonId)
+        +TVEpisodeInputOutput(int id, long runtimeInSeconds, String name, int percentageRating, String hyperlinkForContentWatch, String shortContentSummary, int orderInTVShowSeason, int tvSeasonId)
         +getName() String
         +getHyperlinkForContentWatch() String
         +getShortContentSummary() String
         +toString() String
     }
-    class TVSeasonOutput{
+    class TVSeasonInputOutput{
         -int ATTRIBUTE_ID_BYTES$
         -int ATTRIBUTE_ORDERTVSHOW_BYTES$
         -int ATTRIBUTE_TVSHOWID_BYTES$
@@ -2283,10 +2163,10 @@ note for TVShowOutput "Součást package app.models.output"
         -int id
         -int orderInTVShow
         -int tvShowId
-        +TVSeasonOutput(int id, int orderInTVShow, int tvShowId)
+        +TVSeasonInputOutput(int id, int orderInTVShow, int tvShowId)
         +toString() String
     }
-    class TVShowOutput{
+    class TVShowInputOutput{
         +int ATTRIBUTE_NAME_LENGTH$
         +int ATTRIBUTE_ERA_CODE_DESIGNATION_LENGTH$
         -int ATTRIBUTE_ID_BYTES$
@@ -2296,7 +2176,7 @@ note for TVShowOutput "Součást package app.models.output"
         -char[] name
         -long releaseDateInEpochSeconds
         -char[] eraCodeDesignation
-        +TVShowOutput(int id, String name, long releaseDateInEpochSeconds, String eraCodeDesignation)
+        +TVShowInputOutput(int id, String name, long releaseDateInEpochSeconds, String eraCodeDesignation)
         +getName() String
         +getEraCodeDesignation() String
         +toString() String
@@ -2306,7 +2186,7 @@ note for PrimaryKey "Součást package app.models.data"
 note for DatabaseRecord "Součást package app.models.data"
 note for MediaContent "Součást package app.models.data"
 note for Movie "Součást package app.models.data"
-note for TVEpisode "SSoučást package app.models.data"
+note for TVEpisode "Součást package app.models.data"
 note for TVSeason "Součást package app.models.data"
 note for TVShow "Součást package app.models.data"
 note for Era "Součást package app.models.data"
@@ -2413,27 +2293,27 @@ note for TVShowDataConverter "Součást package utils.helpers"
 
     class MovieDataConverter{
         -MovieDataConverter()
-        +convertToOutputDataFrom(Movie data)$ MovieOutput
+        +convertToInputOutputDataFrom(Movie data)$ MovieOutput
         +convertToDataFrom(MovieInput inputData)$ Movie throws DataConversionException
-        +convertToDataFrom(MovieOutput outputData)$ Movie throws DataConversionException
+        +convertToDataFrom(MovieInputOutput inputOutputData)$ Movie throws DataConversionException
     }
     class TVEpisodeDataConverter{
         -TVEpisodeDataConverter()
-        +convertToOutputDataFrom(TVEpisode data)$ TVEpisodeOutput
-        +convertToDataFrom(TVEpisodeOutput outputData)$ TVEpisode
+        +convertToInputOutputDataFrom(TVEpisode data)$ TVEpisodeOutput
         +convertToDataFrom(TVEpisodeInput inputData, PrimaryKey tvSeasonForeignKey)$ TVEpisode
+        +convertToDataFrom(TVEpisodeInputOutput inputOutputData)$ TVEpisode
     }
     class TVSeasonDataConverter{
         -TVSeasonDataConverter()
-        +convertToOutputDataFrom(TVSeason data)$ TVSeasonOutput
+        +convertToInputOutputDataFrom(TVSeason data)$ TVSeasonOutput
         +convertToDataFrom(TVSeasonInput inputData, PrimaryKey tvShowForeignKey)$ TVSeason
-        +convertToDataFrom(TVSeasonOutput outputData)$ TVSeason
+        +convertToDataFrom(TVSeasonInputOutput inputOutputData)$ TVSeason
     }
     class TVShowDataConverter{
         -TVShowDataConverter()
-        +convertToOutputDataFrom(TVShow data)$ TVShowOutput
+        +convertToInputOutputDataFrom(TVShow data)$ TVShowOutput
         +convertToDataFrom(TVShowInput inputData)$ TVShow throws DataConversionException
-        +convertToDataFrom(TVShowOutput outputData)$ TVShow throws DataConversionException
+        +convertToDataFrom(TVShowInputOutput inputOutputData)$ TVShow throws DataConversionException
     }
 
 note for DataStore "Součást package app.logic.datastore (datová vrstva)"
@@ -2450,15 +2330,10 @@ TVEpisodesTable --|> IDataTable : Implements
 TVSeasonsTable --|> IDataTable : Implements
 TVShowsTable --|> IDataTable : Implements
 
-DataContextAccessor --* MoviesTable : Contains
-DataContextAccessor --* TVEpisodesTable : Contains
-DataContextAccessor --* TVSeasonsTable : Contains
-DataContextAccessor --* TVShowsTable : Contains
-
-MoviesTable --* DataContextAccessor : Is part of
-TVEpisodesTable --* DataContextAccessor : Is part of
-TVSeasonsTable --* DataContextAccessor : Is part of
-TVShowsTable --* DataContextAccessor : Is part of
+DataContextAccessor "Is part of" *--* "Contains" MoviesTable
+DataContextAccessor "Is part of" *--* "Contains" TVEpisodesTable
+DataContextAccessor "Is part of" *--* "Contains" TVSeasonsTable
+DataContextAccessor "Is part of" *--* "Contains" TVShowsTable
 
     class DataStore{
         <<Service>>
@@ -2474,14 +2349,14 @@ TVShowsTable --* DataContextAccessor : Is part of
         -String binaryInputTVShowsFilename$
         -String binaryInputTVSeasonsFilename$
         -String binaryInputTVEpisodesFilename$
-        -String textOutputMoviesFilename$
-        -String textOutputTVShowsFilename$
-        -String textOutputTVSeasonsFilename$
-        -String textOutputTVEpisodesFilename$
-        -String binaryOutputMoviesFilename$
-        -String binaryOutputTVShowsFilename$
-        -String binaryOutputTVSeasonsFilename$
-        -String binaryOutputTVEpisodesFilename$
+        -String textInputOutputMoviesFilename$
+        -String textInputOutputTVShowsFilename$
+        -String textInputOutputTVSeasonsFilename$
+        -String textInputOutputTVEpisodesFilename$
+        -String binaryInputOutputMoviesFilename$
+        -String binaryInputOutputTVShowsFilename$
+        -String binaryInputOutputTVSeasonsFilename$
+        -String binaryInputOutputTVEpisodesFilename$
         -Collator czechCollator$
         -Map~String_String~ erasDescriptions$
         +loadEraDescription(String era)$ String
@@ -2489,7 +2364,7 @@ TVShowsTable --* DataContextAccessor : Is part of
     class IDataTable~T extends DatabaseRecord~{
         <<Interface>>
         +addFrom(T inputData) throws DatabaseException
-        +loadFrom(T outputData) throws DatabaseException
+        +loadFrom(T inputOutputData) throws DatabaseException
         +deleteBy(PrimaryKey primaryKey) throws DatabaseException
         +editBy(PrimaryKey primaryKey, T editedExistingData) boolean throws DatabaseException
         +getBy(PrimaryKey primaryKey) T
@@ -2576,80 +2451,68 @@ FileManagerAccessor --* TVShowsFileManager : Contains
     }
     class IDataFileManager~T_S~{
         <<Interface>>
-        +getTextOutputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
-        +getBinaryOutputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
+        +getTextInputOutputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
+        +getBinaryInputOutputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
         +getTextInputFileContent() StringBuilder throws FileNotFoundException, IOException, FileEmptyException
         +getBinaryInputFileContent() StringBuilder throws throws FileNotFoundException, IOException, FileEmptyException
-        +loadOutputDataFrom(boolean fromBinary) List~S~ throws IOException, FileParsingException
-        +tryDeleteDataOutputFilesCopies()
-        +transferBetweenOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
-        +saveOutputDataIntoFiles(List~S~ newOutputData) throws IOException
+        +loadInputOutputDataFrom(boolean fromBinary) List~S~ throws IOException, FileParsingException
+        +tryDeleteInputOutputDataFilesCopies()
+        +transferBetweenInputOutputDataAndCopyFiles(boolean fromCopyFiles) throws IOException
+        +saveInputOutputDataIntoFiles(List~S~ newInputOutputData) throws IOException
         +loadInputDataFrom(boolean fromBinary) Map~Integer_T~ throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
     }
     class FileManagerAccessor{
         <<Service>>
+        -String fileSeparator$
+        -String textFileEndMarking$
+        -String textFileValuesSectionMarking$
+        -String textFileAttributesSectionMarking$
         -FileManagerAccessor fileManagerAccessor$
         -File dataDirectory$
-        -IDataFileManager~MovieInput_MovieOutput~ moviesFileManager
-        -IDataFileManager~TVShowInput_TVShowOutput~ tvShowsFileManager
-        -IDataFileManager~TVSeasonInput_TVSeasonOutput~ tvSeasonsFileManager
-        -IDataFileManager~TVEpisodeInput_TVEpisodeOutput~ tvEpisodesFileManager
-        -String filenameSeparator
-        -String inputFileEndMarking
-        -String inputFileValuesSectionMarking
-        -String inputFileAttributesSectionMarking
+        -IDataFileManager~MovieInput_MovieInputOutput~ moviesFileManager
+        -IDataFileManager~TVShowInput_TVShowInputOutput~ tvShowsFileManager
+        -IDataFileManager~TVSeasonInput_TVSeasonInputOutput~ tvSeasonsFileManager
+        -IDataFileManager~TVEpisodeInput_TVEpisodeInputOutput~ tvEpisodesFileManager
         -FileManagerAccessor()
         +getInstance()$ FileManagerAccessor
+        #getFileSeparator()$ String
+        #getTextFileEndMarking()$ String
+        #getTextFileValuesSectionMarking()$ String
+        #getTextFileAttributesSectionMarking()$ String
         +getDataDirectoryPath()$ String
         +setDataDirectory(String directoryFullPath)$
     }
     class MoviesFileManager{
-        -IDataFileManager~MovieInput_MovieOutput~ moviesFileManager$
-        -String filenameSeparator
-        -String inputFileEndMarking
-        -String inputFileValuesSectionMarking
-        -String inputFileAttributesSectionMarking
-        -MoviesFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
-        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~MovieInput_MovieOutput~
+        -IDataFileManager~MovieInput_MovieInputOutput~ moviesFileManager$
+        -MoviesFileManager()
+        #getInstance()$ IDataFileManager~MovieInput_MovieInputOutput~
         -parseInputData(Map~String_StringBuilder~ movieInputFieldsValues, Map~Integer_MovieInput~ parsedMovies, Field[] movieInputFields, int inputMovieOrder)
-        -parseOutputData(Map~String_StringBuilder~ movieOutputFieldsValues, List~MovieOutput~ parsedMovies, Field[] movieOutputFields)
-        -createOutputDataTextRepresentation(List~MovieOutput~ newOutputMovies) StringBuilder
+        -parseInputOutputDataFromTextFile(Map~String_StringBuilder~ movieInputOutputFieldsValues, List~MovieInputOutput~ parsedMovies, Field[] movieInputOutputFields)
+        -createInputOutputDataTextRepresentation(List~MovieInputOutput~ newInputOutputMovies) StringBuilder
     }
     class TVEpisodesFileManager{
-        -IDataFileManager~TVEpisodeInput_TVEpisodeOutput~ tvEpisodesFileManager$
-        -String filenameSeparator
-        -String inputFileEndMarking
-        -String inputFileValuesSectionMarking
-        -String inputFileAttributesSectionMarking
-        -TVEpisodesFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
-        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~TVEpisodeInput_TVEpisodeOutput~
+        -IDataFileManager~TVEpisodeInput_TVEpisodeInputOutput~ tvEpisodesFileManager$
+        -TVEpisodesFileManager()
+        #getInstance()$ IDataFileManager~TVEpisodeInput_TVEpisodeInputOutput~
         -parseInputData(Map~String_StringBuilder~ tvEpisodeInputFieldsValues, Map~Integer_TVEpisodeInput~ parsedTVEpisodes, Field[] tvEpisodeInputFields, int inputTVEpisodeOrder) 
-        -parseOutputData(Map~String_StringBuilder~ tvEpisodeOutputFieldsValues, List~TVEpisodeOutput~ parsedTVEpisodes, Field[] tvEpisodeOutputFields)
-        -createOutputDataTextRepresentation(List~TVEpisodeOutput~ newOutputTVEpisodes) StringBuilder
+        -parseInputOutputDataFromTextFile(Map~String_StringBuilder~ tvEpisodeInputOutputFieldsValues, List~TVEpisodeInputOutput~ parsedTVEpisodes, Field[] tvEpisodeInputOutputFields)
+        -createInputOutputDataTextRepresentation(List~TVEpisodeInputOutput~ newInputOutputTVEpisodes) StringBuilder
     }
     class TVSeasonsFileManager{
-        -IDataFileManager~TVSeasonInput_TVSeasonOutput~ tvSeasonsFileManager$
-        -String filenameSeparator
-        -String inputFileEndMarking
-        -String inputFileValuesSectionMarking
-        -String inputFileAttributesSectionMarking
-        -TVSeasonsFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
-        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~TVSeasonInput_TVSeasonOutput~
+        -IDataFileManager~TVSeasonInput_TVSeasonInputOutput~ tvSeasonsFileManager$
+        -TVSeasonsFileManager()
+        #getInstance()$ IDataFileManager~TVSeasonInput_TVSeasonInputOutput~
         -parseInputData(Map~String_StringBuilder~ tvSeasonInputFieldsValues, Map~Integer_TVSeasonInput~ parsedTVSeasons, Field[] tvSeasonInputFields, int inputTVSeasonOrder) 
-        -parseOutputData(Map~String_StringBuilder~ tvSeasonOutputFieldsValues, List~TVSeasonOutput~ parsedTVSeasons, Field[] tvSeasonOutputFields)
-        -createOutputDataTextRepresentation(List~TVSeasonOutput~ newOutputTVSeasons) StringBuilder
+        -parseInputOutputDataFromTextFile(Map~String_StringBuilder~ tvSeasonInputOutputFieldsValues, List~TVSeasonInputOutput~ parsedTVSeasons, Field[] tvSeasonInputOutputFields)
+        -createInputOutputDataTextRepresentation(List~TVSeasonInputOutput~ newInputOutputTVSeasons) StringBuilder
     }
     class TVShowsFileManager{
-        -IDataFileManager~TVShowInput_TVShowOutput~ tvShowsFileManager$
-        -String filenameSeparator
-        -String inputFileEndMarking
-        -String inputFileValuesSectionMarking
-        -String inputFileAttributesSectionMarking
-        -TVShowsFileManager(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)
-        #getInstance(String filenameSeparator, String inputFileEndMarking, String inputFileValuesSectionMarking, String inputFileAttributesSectionMarking)$ IDataFileManager~TVShowInput_TVShowOutput~
+        -IDataFileManager~TVShowInput_TVShowInputOutput~ tvShowsFileManager$
+        -TVShowsFileManager()
+        #getInstance()$ IDataFileManager~TVShowInput_TVShowInputOutput~
         -parseInputData(Map~String_StringBuilder~ tvShowInputFieldsValues, Map~Integer_TVShowInput~ parsedTVShows, Field[] tvShowInputFields, int inputTVShowOrder) 
-        -parseOutputData(Map~String_StringBuilder~ tvShowOutputFieldsValues, List~TVShowOutput~ parsedTVShows, Field[] tvShowOutputFields)
-        -createOutputDataTextRepresentation(List~TVShowOutput~ newOutputTVShows) StringBuilder
+        -parseInputOutputDataFromTextFile(Map~String_StringBuilder~ tvShowInputOutputFieldsValues, List~TVShowInputOutput~ parsedTVShows, Field[] tvShowInputOutputFields)
+        -createInputOutputDataTextRepresentation(List~TVShowInputOutput~ newInputOutputTVShows) StringBuilder
     }
 
 note for DataSorting "Součást package app.logic.controllers"
@@ -2709,14 +2572,14 @@ TVEpisodesController ..> FileManagerAccessor : Depends on
         +getReleasedNewestMovies() List~Movie~
         +rateMovie(Movie existingMovie, int percentageRating) boolean throws DatabaseException, IOException
         +searchForMovie(String name) List~Movie~
-        +getMoviesChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
-        +loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
+        +getChosenMoviesFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
         +addMoviesFrom(boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
         +deleteMovieBy(PrimaryKey moviePrimaryKey) throws IOException, DatabaseException
         +deleteMovies(List~Movie~ chosenMovies) throws IOException
         +editMovieBy(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DataConversionException, DatabaseException, FileParsingException
-        -updateMoviesOutputFilesWithExistingData() throws IOException
-        -updateMoviesOutputFilesWithNewChanges() throws IOException
+        -updateMoviesInputOutputFilesWithExistingData() throws IOException
+        -updateMoviesInputOutputFilesWithNewChanges() throws IOException
         +getCurrentDate()$ LocalDate
     }
     class TVEpisodesController{
@@ -2758,10 +2621,10 @@ TVEpisodesController ..> FileManagerAccessor : Depends on
         +getReleasedNewestTVShows() List~TVShow~
         +rateTVEpisode(TVEpisode existingEpisode, int percentageRating) boolean throws DatabaseException, IOException
         +searchForTVShow(String name) List~TVShow~
-        +getTVShowsChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
-        +getTVSeasonsChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
-        +getTVEpisodesChosenFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
-        +loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
+        +getChosenTVShowsFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +getChosenTVSeasonsFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +getChosenTVEpisodesFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
+        +loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
         +addTVShowsFrom(boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
         +addTVSeasonsFrom(PrimaryKey chosenTVShowPrimaryKey, boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
         +addTVEpisodesFrom(PrimaryKey chosenTVSeasonPrimaryKey, boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
@@ -2774,28 +2637,29 @@ TVEpisodesController ..> FileManagerAccessor : Depends on
         +editTVShowBy(PrimaryKey existingTVShowPrimaryKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DataConversionException, DatabaseException, FileParsingException
         +editTVSeasonBy(PrimaryKey existingTVSeasonPrimaryKey, PrimaryKey tvShowForeignKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DatabaseException, FileParsingException
         +editTVEpisodeBy(PrimaryKey existingTVEpisodePrimaryKey, PrimaryKey tvSeasonForeignKey, boolean fromBinary) boolean throws IOException, FileNotFoundException, FileEmptyException, DatabaseException, FileParsingException
-        -updateTVShowsOutputFilesWithExistingData() throws IOException
-        -updateTVShowsOutputFilesWithNewChanges() throws IOException
-        -updateTVSeasonsOutputFilesWithExistingData() throws IOException
-        -updateTVSeasonsOutputFilesWithNewChanges() throws IOException
-        -updateTVEpisodesOutputFilesWithExistingData() throws IOException
-        -updateTVEpisodesOutputFilesWithNewChanges() throws IOException
+        -updateTVShowsInputOutputFilesWithExistingData() throws IOException
+        -updateTVShowsInputOutputFilesWithNewChanges() throws IOException
+        -updateTVSeasonsInputOutputFilesWithExistingData() throws IOException
+        -updateTVSeasonsInputOutputFilesWithNewChanges() throws IOException
+        -updateTVEpisodesInputOutputFilesWithExistingData() throws IOException
+        -updateTVEpisodesInputOutputFilesWithNewChanges() throws IOException
         +getCurrentDate()$ LocalDate
     }
 
 note for ApplicationRunner "Součást package ui"
 note for ConsoleUI "Součást package ui (prezentační vrstva)"
-note for MoviesUI "Součást package ui (prezentační vrstva)"
-note for TVEpisodesUI "Součást package ui (prezentační vrstva)"
+note for MoviesSubUI "Součást package ui (prezentační vrstva)"
+note for TVShowsSubUI "Součást package ui (prezentační vrstva)"
+note for TVSeasonsSubUI "Součást package ui (prezentační vrstva)"
+note for TVEpisodesSubUI "Součást package ui (prezentační vrstva)"
 
 ConsoleUI ..> MoviesController : Depends on
 ConsoleUI ..> TVEpisodesController : Depends on
 
-ConsoleUI --* MoviesUI : Contains
-ConsoleUI --* TVEpisodesUI : Contains
-
-MoviesUI --* ConsoleUI : Is part of
-TVEpisodesUI --* ConsoleUI : Is part of
+ConsoleUI "Is part of" *--* "Contains" MoviesSubUI
+ConsoleUI "Is part of" *--* "Contains" TVShowsSubUI
+ConsoleUI "Is part of" *--* "Contains" TVSeasonsSubUI
+ConsoleUI "Is part of" *--* "Contains" TVEpisodesSubUI
 
     class ApplicationRunner{
         +main(String[] args)$
@@ -2804,20 +2668,24 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -boolean isDataDirectorySet$
         -boolean isDatabaseFromFilesLoaded$
         -Scanner scanner
-        -boolean wasInitialized
         -List~String~ breadcrumbItems
         -TVEpisodesController tvEpisodesController
         -MoviesController moviesController
-        -MoviesUI moviesUI
-        -TVEpisodesUI tvEpisodesUI
-        +ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController)
-        -initializeConsoleUI()
+        -MoviesSubUI moviesSubUI
+        -TVEpisodesSubUI tvEpisodesSubUI
+        -TVSeasonsSubUI tvSeasonsSubUI
+        -TVShowsSubUI tvShowsSubUI
+        -ConsoleUI(MoviesController moviesController, TVEpisodesController tvEpisodesController)
+        +getInstance(MoviesController moviesController, TVEpisodesController tvEpisodesController)$ ConsoleUI
         #getScanner() Scanner
         #getMoviesController() MoviesController
         #getTVEpisodesController() TVEpisodesController
+        #getTVSeasonsSubUI() TVSeasonsSubUI
+        #getTVEpisodesSubUI() TVEpisodesSubUI
+        -initializeConsoleUI()
         +start()
         -displayDataDirectoryPathMenu()
-        -displayLoadingOutputFilesMenu()
+        -displayLoadingInputOutputFilesMenu()
         -displayIntroduction()
         -displayMainMenu()
         #createDividingHorizontalLineOf(String heading) StringBuilder
@@ -2835,14 +2703,14 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -loadChoiceFromMenu() int
         -setDataDirectoryPath()
         -loadDataDirectoryPath() String
-        -loadAllOutputDataFrom(boolean fromBinary)
-        #displayDataChosenFileContent(String fileName, DataType dataType)
+        -loadAllInputOutputDataFrom(boolean fromBinary)
+        #displayChosenDataFileContent(String fileName, DataType dataType)
         -printInformationsAboutChronologicalEras()
     }
-    class MoviesUI{
+    class MoviesSubUI{
         -ConsoleUI consoleUI
-        #MoviesUI(ConsoleUI consoleUI)
-        #start()
+        #MoviesSubUI(ConsoleUI consoleUI)
+        #handleDisplayMoviesManagementSubmenu()
         -displayMoviesManagementSubmenu()
         -displayLoadMoviesFromInputFileSubmenu()
         -displayPrintFoundMoviesByNameSubmenu()
@@ -2855,7 +2723,7 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -displayPrintWatchedMoviesByEraSubmenu(Era chosenEra)
         -displayPrintReleasedFavoriteMoviesOfAllTimeSubmenu()
         -displayPrintReleasedNewestMoviesSubmenu()
-        -displayPrintMoviesOutputFilesContentsSubmenu()
+        -displayPrintMoviesInputOutputFilesContentsSubmenu()
         -displayDetailAboutMovieSubmenu(Movie chosenMovie)
         -displayEditChosenMovieSubmenu(Movie chosenMovie)
         -handleLoadMoviesFromInputFileSubmenu()
@@ -2882,7 +2750,7 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -printReleasedFavoriteMoviesOfAllTime(List~Movie~ favoriteMovies)
         -handlePrintReleasedNewestMoviesSubmenu()
         -printReleasedNewestMovies(List~Movie~ releasedNewestMovies)
-        -handlePrintMoviesOutputFilesContentsSubmenu()
+        -handlePrintMoviesInputOutputFilesContentsSubmenu()
         -handleDisplayDetailAboutMovieSubmenu(List~Movie~ chosenMovies)
         -loadChosenMovieFromUser() int
         -printMovieDetail(Movie chosenMovie, boolean isInEditMode)
@@ -2893,11 +2761,11 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -loadMoviePercentageRatingFromUser() int
         -deleteChosenMovies(List~Movie~ chosenMovies)
     }
-    class TVEpisodesUI{
+    class TVShowsSubUI{
         -ConsoleUI consoleUI
-        #TVEpisodesUI(ConsoleUI consoleUI)
-        #start()
-        -displayTVEpisodesManagementSubmenu()
+        #TVShowsSubUI(ConsoleUI consoleUI)
+        #handleDisplayTVShowsManagementSubmenu()
+        -displayTVShowsManagementSubmenu()
         -displayLoadTVShowsFromInputFileSubmenu()
         -displayPrintFoundTVShowsByNameSubmenu()
         -displayPrintErasWithAnnouncedTVShowsSubmenu()
@@ -2906,19 +2774,8 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -displayPrintReleasedTVShowsByEraSubmenu(Era chosenEra)
         -displayDetailAboutTVShowSubmenu(TVShow chosenTVShow)
         -displayEditChosenTVShowSubmenu(TVShow chosenTVShow)
-        -displayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow)
-        -displayLoadTVSeasonsFromInputFileSubmenu()
-        -displaySendTVEpisodesByEmailSubmenu()
-        -displayPrintTVShowSortedTVEpisodesSubmenu(TVShow chosenTVShow, DataSorting dataSorting)
-        -displayDetailAboutTVSeasonSubmenu(TVSeason chosenTVSeason)
-        -displayEditChosenTVSeasonSubmenu(TVSeason chosenTVSeason)
-        -displayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason)
-        -displayLoadTVEpisodesFromInputFileSubmenu()
-        -displayPrintTVSeasonSortedTVEpisodesSubmenu(TVSeason chosenTVSeason, DataSorting dataSorting)
-        -displayDetailAboutTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason)
-        -displayEditChosenTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason)
         -displayPrintReleasedNewestTVShowsSubmenu()
-        -displayPrintDataOutputFilesContentsSubmenu(DataType dataType)
+        -displayPrintDataInputOutputFilesContentsSubmenu(DataType dataType)
         -handleLoadTVShowsFromInputFileSubmenu()
         -loadTVShowsFromInputFile(boolean fromBinary)
         -handlePrintFoundTVShowsByNameSubmenu()
@@ -2938,7 +2795,21 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -deleteChosenTVShow(PrimaryKey tvShowPrimaryKey) boolean
         -handleDisplayEditChosenTVShowSubmenu(TVShow chosenTVShow) boolean
         -editTVShowFromInputFile(PrimaryKey existingTVShowPrimaryKey, boolean fromBinary) boolean
-        -handleDisplayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow)
+        -handleDisplayPrintReleasedNewestTVShowsSubmenu()
+        -printReleasedNewestTVShows(List~TVShow~ releasedNewestTVShows)
+        -handlePrintDataInputOutputFilesContentsSubmenu(DataType dataType)
+        -deleteChosenTVShows(List~TVShow~ chosenTVShows)
+    }
+    class TVSeasonsSubUI{
+        -ConsoleUI consoleUI
+        #TVSeasonsSubUI(ConsoleUI consoleUI)
+        #handleDisplayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow)
+        -displayPrintChosenTVShowSeasonsSubmenu(TVShow chosenTVShow)
+        -displayLoadTVSeasonsFromInputFileSubmenu()
+        -displaySendTVEpisodesByEmailSubmenu()
+        -displayPrintTVShowSortedTVEpisodesSubmenu(TVShow chosenTVShow, DataSorting dataSorting)
+        -displayDetailAboutTVSeasonSubmenu(TVSeason chosenTVSeason)
+        -displayEditChosenTVSeasonSubmenu(TVSeason chosenTVSeason)
         -printChosenTVShowSeasons(List~TVSeason~ chosenTVShowSeasons, TVShow chosenTVShow)
         -handleLoadTVSeasonsFromInputFileSubmenu(TVShow chosenTVShow)
         -loadTVSeasonsFromInputFile(PrimaryKey tvShowPrimaryKey, boolean fromBinary)
@@ -2953,17 +2824,23 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -deleteChosenTVSeason(PrimaryKey tvSeasonPrimaryKey) boolean
         -handleDisplayEditChosenTVSeasonSubmenu(TVSeason chosenTVSeason) boolean
         -editTVSeasonFromInputFile(PrimaryKey existingTVSeasonPrimaryKey, PrimaryKey existingTVShowPrimaryKey ,boolean fromBinary) boolean
-        -handleDisplayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason)
+    }
+    class TVEpisodesSubUI{
+        -ConsoleUI consoleUI
+        #TVEpisodesSubUI(ConsoleUI consoleUI)
+        #handleDisplayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason)
+        -displayPrintChosenTVSeasonEpisodesSubmenu(TVSeason chosenTVSeason)
+        -displayLoadTVEpisodesFromInputFileSubmenu()
+        -displayPrintTVSeasonSortedTVEpisodesSubmenu(TVSeason chosenTVSeason, DataSorting dataSorting)
+        -displayDetailAboutTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason)
+        -displayEditChosenTVEpisodeSubmenu(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason)
         -printChosenTVSeasonEpisodes(List~TVEpisode~ chosenTVSeasonEpisodes, TVSeason chosenTVSeason)
         -handleLoadTVEpisodesFromInputFileSubmenu(TVSeason chosenTVSeason)
         -loadTVEpisodesFromInputFile(PrimaryKey tvSeasonPrimaryKey, boolean fromBinary)
-        -deleteChosenTVEpisodes(List~TVEpisode~ chosenTVEpisodes)
+        #deleteChosenTVEpisodes(List~TVEpisode~ chosenTVEpisodes)
         -handleDisplayPrintTVSeasonSortedTVEpisodesSubmenu(TVSeason chosenTVSeason, DataSorting dataSorting)
         -printTVSeasonSortedTVEpisodes(List~TVEpisode~ tvSeasonSortedTVEpisodes, TVSeason chosenTVSeason, DataSorting dataSorting)
-        -handleDisplayPrintReleasedNewestTVShowsSubmenu()
-        -printReleasedNewestTVShows(List~TVShow~ releasedNewestTVShows)
-        -handlePrintDataOutputFilesContentsSubmenu(DataType dataType)
-        -handleDisplayDetailAboutTVEpisodeSubmenu(List~TVEpisode~ chosenTVEpisodes)
+        #handleDisplayDetailAboutTVEpisodeSubmenu(List~TVEpisode~ chosenTVEpisodes)
         -loadChosenTVEpisodeFromUser() int
         -printTVEpisodeDetail(TVEpisode chosenTVEpisode, TVSeason chosenTVEpisodeParentSeason, boolean isInEditMode)
         -deleteChosenTVEpisode(PrimaryKey tvEpisodePrimaryKey) boolean
@@ -2971,7 +2848,6 @@ TVEpisodesUI --* ConsoleUI : Is part of
         -editTVEpisodeFromInputFile(PrimaryKey existingTVEpisodePrimaryKey, PrimaryKey existingTVSeasonPrimaryKey, boolean fromBinary) boolean
         -rateTVEpisode(TVEpisode chosenTVEpisode) boolean
         -loadTVEpisodePercentageRatingFromUser() int
-        -deleteChosenTVShows(List~TVShow~ chosenTVShows)
     }
 
 ```
@@ -2991,7 +2867,7 @@ TVEpisodesUI --* ConsoleUI : Is part of
     - [EmailSenderTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/EmailSenderTest.java)
     - [FileManagerAccessorTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/FileManagerAccessorTest.java)
     - [MoviesControllerTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/MoviesControllerTest.java)
-    - [OutputModelsTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/OutputModelsTest.java)
+    - [InputOutputModelsTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/InputOutputModelsTest.java)
     - [TVEpisodesControllerTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/TVEpisodesControllerTest.java)
 
 ## Akceptační testy
@@ -3160,7 +3036,7 @@ Chybový stav epizody vybrané sezóny s pořadím 20 v souboru input_tvEpisodes
 - V aplikaci se knihovna používá pro odesílání dat z databáze pomocí *HTML* e-mailu a to ze tří důvodů:
     - Lepší formátovaný výpis
     - Možnost v e-mailovém klientovi různě filtrovat a řadit doručené e-maily, protože mají nastavený standardizovaný předmět zprávy
-    - Umožnit data s URL odkazem mít uložený přímo v e-mailu např. jako seznam nezhlédnutých filmů
+    - Umožnit data s URL odkazem mít uložená přímo v e-mailu např. jako seznam nezhlédnutých filmů
 - V aplikaci je knihovna implementovaná ve třídě [EmailSender](/star-wars-media-content-management/src/main/java/utils/emailsender/EmailSender.java)
 
 ## Detaily implementace knihovny ve třídě EmailSender
@@ -3180,9 +3056,9 @@ public class EmailSender
 }
 ```
 
-- ***smtpPort*** - Vyjadřuje číslo portu SMTP protokolu v rámci transportní vrstvy
+- ***smtpPort*** –⁠ Vyjadřuje číslo portu SMTP protokolu v rámci transportní vrstvy
     - Hodnota byla nastavena na ***465***, aby bylo umožněno později v implementaci použít šifrovací protokol ***SSL***
-- ***hostName*** - Vyjadřuje *SMTP* server, který bude zodpovědný za odesílání e-mailů
+- ***hostName*** –⁠ Vyjadřuje *SMTP* server, který bude zodpovědný za odesílání e-mailů
     - V závislosti na zvoleném *SMTP* serveru existuje možnost, že se bude potřeba autentifikovat
     - Konkrétní způsob přihlašování si specifikuje každý *SMTP* server individuálně
     - V případě zvoleného **Google SMTP serveru** byly použity autentifikační údaje zapsané v atributech *appId* a *randomGeneratedAppToken*
@@ -3215,19 +3091,19 @@ public void sendEmail(String recipientEmailAddress, String subject, StringBuilde
 }
 ```
 
-- ***HtmlEmail*** - Vyjadřuje instanci, která podporuje formátování e-mailu jako **HTML**
-- ***setHostName(hostName)*** - Nastaví odesílací SMTP server specifikovaný v **1. kroku implementace s konfiguračními údaji**
-- ***setCharset(org.apache.commons.mail.EmailConstants.UTF_8)*** - Nastaví kódování HTML obsahu zprávy jako UTF-8, aby **data s diaktritikou se správně vypisovala**
-- ***setSmtpPort(smtpPort)*** - Nastaví číslo portu specifikované v **1. kroku implementace s konfiguračními údaji**
+- ***HtmlEmail*** –⁠ Vyjadřuje instanci, která podporuje formátování e-mailu jako **HTML**
+- ***setHostName(hostName)*** –⁠ Nastaví odesílací SMTP server specifikovaný v **1. kroku implementace s konfiguračními údaji**
+- ***setCharset(org.apache.commons.mail.EmailConstants.UTF_8)*** –⁠ Nastaví kódování HTML obsahu zprávy jako UTF-8, aby **data s diaktritikou se správně vypisovala**
+- ***setSmtpPort(smtpPort)*** –⁠ Nastaví číslo portu specifikované v **1. kroku implementace s konfiguračními údaji**
     - Číslo určí i podporovaný šifrovací protokol
-- ***setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken))*** - Nastaví autentifikační údaje specifikované v **1. kroku implementace s konfiguračními údaji** pro daný SMTP server
-- ***setSSLOnConnect(true)*** - Nastaví šifrovací protokol **SSL**
+- ***setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken))*** –⁠ Nastaví autentifikační údaje specifikované v **1. kroku implementace s konfiguračními údaji** pro daný SMTP server
+- ***setSSLOnConnect(true)*** –⁠ Nastaví šifrovací protokol **SSL**
     - SSL je nastavováno, protože číslo portu bylo specifikováno jako **465**, takže bez šifrování by posílání e-mailů bylo nebezpečné
-- ***setFrom(DataStore.getAppCreator())*** - Nastaví odesílatele e-mailu jako tvůrce aplikace, což je **honzaswtor@gmail.com**
+- ***setFrom(DataStore.getAppCreator())*** –⁠ Nastaví odesílatele e-mailu jako tvůrce aplikace, což je **honzaswtor@gmail.com**
     - Pokud se odesílatel specifikuje jako **neplatný e-mail**, tak se pouzije **e-mail autentifikovaného účtu k SMTP serveru**
-- ***setSubject(subject)*** - Nastaví předmět zprávy
-- ***addTo(recipientEmailAddress)*** - Nastaví příjemce zprávy
+- ***setSubject(subject)*** –⁠ Nastaví předmět zprávy
+- ***addTo(recipientEmailAddress)*** –⁠ Nastaví příjemce zprávy
     - Pokud nastane chyba v síti při odesílání e-mailu nebo e-mail příjemce je neplatný, tak se vyhodí výjimka **EmailException**
     - Výjimka pochází z **externí knihovny**
-- ***setHtmlMsg(message.toString())*** - Nastaví obsah zprávy e-mailu a bude ho interpretovat jako **HTML**
-- ***send()*** - Odešle sestavenou zprávu
+- ***setHtmlMsg(message.toString())*** –⁠ Nastaví obsah zprávy e-mailu a bude ho interpretovat jako **HTML**
+- ***send()*** –⁠ Odešle sestavenou zprávu

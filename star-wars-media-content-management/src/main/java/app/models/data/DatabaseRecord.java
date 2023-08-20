@@ -1,6 +1,5 @@
 package app.models.data;
 
-
 /**
  * Represents an abstract class for classification of data as database records.
  * DatabaseRecord class is used in IDataTable interface to ensure the data has 

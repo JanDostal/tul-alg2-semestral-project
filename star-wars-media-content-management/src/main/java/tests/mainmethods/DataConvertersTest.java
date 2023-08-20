@@ -4,7 +4,7 @@ import app.models.data.Era;
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
 import app.models.input.MovieInput;
-import app.models.output.MovieOutput;
+import app.models.inputoutput.MovieInputOutput;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -29,7 +29,7 @@ public class DataConvertersTest
 //        System.out.println();
 //        
 //        //convertToOutputDataFrom
-//        System.out.println("convertToOutputDataFrom");
+//        System.out.println("convertToInputOutputDataFrom");
 //        System.out.println();
 //        
 //        LocalDate localDate = LocalDate.of(2012, 5, 12); 
@@ -37,29 +37,29 @@ public class DataConvertersTest
 //        long epochSeconds = localDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
 //        LocalDate date = Instant.ofEpochSecond(1336780800).atZone(ZoneOffset.UTC).toLocalDate();
 //        
-//        Movie movie = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "filmA", 
-//                50, true, "https://www.example01.com", "Velmi krásný film", 
+//        Movie movie = new Movie(new PrimaryKey(2), Duration.ofMinutes(45), "movieA", 
+//                50, true, "https://www.example01.com", "very pretty movie", 
 //                LocalDate.parse("2023-05-11", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
 //        
 //        System.out.println(movie);
 //        
-//        MovieOutput movieOutputNew = MovieDataConverter.convertToOutputDataFrom(movie);
+//        MovieInputOutput movieInputOutputNew = MovieDataConverter.convertToInputOutputDataFrom(movie);
 //        
-//        System.out.println(movieOutputNew);
+//        System.out.println(movieInputOutputNew);
 //        
 //        System.out.println();
-//        System.out.println("convertToDataFrom (outputData)");
+//        System.out.println("convertToDataFrom (inputOutputData)");
 //        System.out.println();
 //        
-//        MovieOutput movieOutput = new MovieOutput(1, 45, "filmA", 
-//                50, "https://www.example02.com", "Velmi krásný film", 11111111L, "FALL_OF_THE_JEDI");
+//        MovieInputOutput movieInputOutput = new MovieInputOutput(1, 45, "movieA", 
+//                50, "https://www.example02.com", "very pretty movie", 11111111L, "FALL_OF_THE_JEDI");
 //        
-//        System.out.println(movieOutput);
+//        System.out.println(movieInputOutput);
 //        
 //        Movie convertedMovie = null;
 //        try 
 //        {
-//            convertedMovie = MovieDataConverter.convertToDataFrom(movieOutput);
+//            convertedMovie = MovieDataConverter.convertToDataFrom(movieInputOutput);
 //            System.out.println(convertedMovie);
 //        }
 //        catch (DataConversionException e) 
@@ -71,13 +71,12 @@ public class DataConvertersTest
 //        System.out.println("convertToDataFrom (inputData)");
 //        System.out.println();
 //        
-//        MovieInput movieInput = new MovieInput(45, "filmA", 
-//                50, "https://www.example01.com", "Velmi krásný film", 
+//        MovieInput movieInput = new MovieInput(45, "movieA", 
+//                50, "https://www.example01.com", "very pretty movie", 
 //                1111111111L, "FALL_OF_THE_JEDI");
 //        
 //        System.out.println(movieInput);
 //        
-//
 //        try 
 //        {
 //            convertedMovie = MovieDataConverter.convertToDataFrom(movieInput);

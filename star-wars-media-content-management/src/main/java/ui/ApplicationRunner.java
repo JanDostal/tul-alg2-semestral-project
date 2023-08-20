@@ -21,7 +21,7 @@ public class ApplicationRunner
         TVEpisodesController tvEpisodesController = TVEpisodesController.getInstance(DataContextAccessor.getInstance(), 
                 EmailSender.getInstance(), FileManagerAccessor.getInstance());
         
-        ConsoleUI ui = new ConsoleUI(moviesController, tvEpisodesController);
-        ui.start();
+        ConsoleUI consoleTerminal = ConsoleUI.getInstance(moviesController, tvEpisodesController);
+        consoleTerminal.start();
     }
 }

@@ -18,19 +18,19 @@ public class ConsoleUITest
     {
 //        /* testing multi console terminals functionality, specifically
 //           only one-time request for entering data folder location and
-//           loading existing data from output files
+//           loading existing data from input/output files
 //        */        
 //        MoviesController moviesController = MoviesController.getInstance(DataContextAccessor.getInstance(), 
 //                EmailSender.getInstance(), FileManagerAccessor.getInstance());
 //        TVEpisodesController tvEpisodesController = TVEpisodesController.getInstance(DataContextAccessor.getInstance(), 
 //                EmailSender.getInstance(), FileManagerAccessor.getInstance());
 //        
-//        ConsoleUI ui = new ConsoleUI(moviesController, tvEpisodesController);
-//        ConsoleUI ui2 = new ConsoleUI(moviesController, tvEpisodesController);
-//        ConsoleUI ui3 = new ConsoleUI(moviesController, tvEpisodesController);
+//        ConsoleUI consoleTerminal = ConsoleUI.getInstance(moviesController, tvEpisodesController);
+//        ConsoleUI consoleTerminal2 = ConsoleUI.getInstance(moviesController, tvEpisodesController);
+//        ConsoleUI consoleTerminal3 = ConsoleUI.getInstance(moviesController, tvEpisodesController);
 //        
-//        ui.start();
-//        ui2.start();
-//        ui3.start();
+//        consoleTerminal.start();
+//        consoleTerminal2.start();
+//        consoleTerminal3.start();
     }
 }

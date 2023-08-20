@@ -6,10 +6,10 @@ import app.models.input.MovieInput;
 import app.models.input.TVEpisodeInput;
 import app.models.input.TVSeasonInput;
 import app.models.input.TVShowInput;
-import app.models.output.MovieOutput;
-import app.models.output.TVEpisodeOutput;
-import app.models.output.TVSeasonOutput;
-import app.models.output.TVShowOutput;
+import app.models.inputoutput.MovieInputOutput;
+import app.models.inputoutput.TVEpisodeInputOutput;
+import app.models.inputoutput.TVSeasonInputOutput;
+import app.models.inputoutput.TVShowInputOutput;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,14 +36,14 @@ public class FileManagerAccessorTest
 //            
 //            //getDataDirectoryPath method
 //            System.out.println();
-//            System.out.println("getDataDirectoryPath method (celá úplná cesta):");
+//            System.out.println("getDataDirectoryPath method (entire/full path to directory):");
 //            System.out.println();
 //                        
 //            System.out.println(path);
 //            
 //            //getBinaryFileContent method
 //            System.out.println();
-//            System.out.println("getBinaryFileContent method (obsah " + 
+//            System.out.println("getBinaryFileContent method (content " + 
 //                    DataStore.getBinaryInputMoviesFilename() + "):");
 //            System.out.println();
 //            
@@ -53,7 +53,7 @@ public class FileManagerAccessorTest
 //            
 //            //getTextFileContent method
 //            System.out.println();
-//            System.out.println("getTextFileContent method (obsah " + 
+//            System.out.println("getTextFileContent method (content " + 
 //                    DataStore.getTextInputMoviesFilename() + "):");
 //            System.out.println();
 //            
@@ -74,7 +74,7 @@ public class FileManagerAccessorTest
 //        
 //            for (Map.Entry<Integer, MovieInput> m : a.entrySet()) 
 //            {
-//                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+//                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
 //            }
 //                        
 //            //loadInputDataFrom method
@@ -85,81 +85,81 @@ public class FileManagerAccessorTest
 //        
 //            for (Map.Entry<Integer, MovieInput> m : b.entrySet()) 
 //            {
-//                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+//                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
 //            }
 //            
-//            //saveOutputDataIntoFiles method
+//            //saveInputOutputDataIntoFiles method
 //            System.out.println();
-//            System.out.println("saveOutputDataIntoFiles method:");
+//            System.out.println("saveInputOutputDataIntoFiles method:");
 //            System.out.println();
 //            
-//            MovieOutput movie1 = new MovieOutput(2, 222, "Jeníček", 40, 
-//                    "https://example2.com", "ahíj\náahoj", 2222, "DAWN_OF_THE_JEDI");
-//            MovieOutput movie2 = new MovieOutput(1, 222, "Mařenka", 100, 
-//                    "https://example.com", "ahoj\nahoj", 2222222, "DAWN_OF_THE_JEDI");
+//            MovieInputOutput movie1 = new MovieInputOutput(2, 222, "John", 40, 
+//                    "https://example2.com", "hellohellohello\nhellohello", 2222, "DAWN_OF_THE_JEDI");
+//            MovieInputOutput movie2 = new MovieInputOutput(1, 222, "Marry", 100, 
+//                    "https://example.com", "hello\nhello", 2222222, "DAWN_OF_THE_JEDI");
 //            
-//            List<MovieOutput> list = new ArrayList<>();
+//            List<MovieInputOutput> list = new ArrayList<>();
 //            list.add(movie2);
 //            list.add(movie1);
 //            
-//            fileManager.getMoviesFileManager().saveOutputDataIntoFiles(list);
+//            fileManager.getMoviesFileManager().saveInputOutputDataIntoFiles(list);
 //            
-//            StringBuilder binaryTest = fileManager.getMoviesFileManager().getBinaryOutputFileContent();
-//            StringBuilder textTest = fileManager.getMoviesFileManager().getTextOutputFileContent();
+//            StringBuilder binaryTest = fileManager.getMoviesFileManager().getBinaryInputOutputFileContent();
+//            StringBuilder textTest = fileManager.getMoviesFileManager().getTextInputOutputFileContent();
 //            
 //            System.out.println();
-//            System.out.println("Vypis " + DataStore.getTextOutputMoviesFilename());
+//            System.out.println("Printed content of " + DataStore.getTextInputOutputMoviesFilename());
 //            System.out.println();
 //            
 //            System.out.println(textTest);
 //            
 //            System.out.println();
-//            System.out.println("Vypis " + DataStore.getBinaryOutputMoviesFilename());
+//            System.out.println("Printed content of " + DataStore.getBinaryInputOutputMoviesFilename());
 //            System.out.println();
 //            
 //            System.out.println(binaryTest);
 //            
-//            //transferBetweenOutputDataAndCopyFiles method
+//            //transferBetweenInputOutputDataAndCopyFiles method
 //            System.out.println();
-//            System.out.println("transferBetweenOutputDataAndCopyFiles method (from outputFiles):");
+//            System.out.println("transferBetweenInputOutputDataAndCopyFiles method (from inputOutputFiles):");
 //            System.out.println();
 //            
-//            fileManager.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+//            fileManager.getMoviesFileManager().transferBetweenInputOutputDataAndCopyFiles(false);
 //                        
-//            //transferBetweenOutputDataAndCopyFiles method
+//            //transferBetweenInputOutputDataAndCopyFiles method
 //            System.out.println();
-//            System.out.println("transferBetweenOutputDataAndCopyFiles method (from copyFiles):");
-//            System.out.println();
-//            
-//            fileManager.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(true);
-//            
-//            //tryDeleteDataOutputFilesCopies method
-//            System.out.println();
-//            System.out.println("tryDeleteDataOutputFilesCopies method:");
+//            System.out.println("transferBetweenInputOutputDataAndCopyFiles method (from copyFiles):");
 //            System.out.println();
 //            
-//            fileManager.getMoviesFileManager().tryDeleteDataOutputFilesCopies();
+//            fileManager.getMoviesFileManager().transferBetweenInputOutputDataAndCopyFiles(true);
 //            
-//            //loadOutputDataFrom method
+//            //tryDeleteInputOutputDataFilesCopies method
 //            System.out.println();
-//            System.out.println("loadOutputDataFrom method from text:");
+//            System.out.println("tryDeleteInputOutputDataFilesCopies method:");
 //            System.out.println();
 //            
-//            List<MovieOutput> outputTextMovies = fileManager.getMoviesFileManager().loadOutputDataFrom(false);
+//            fileManager.getMoviesFileManager().tryDeleteInputOutputDataFilesCopies();
 //            
-//            for (MovieOutput m : outputTextMovies) 
+//            //loadInputOutputDataFrom method
+//            System.out.println();
+//            System.out.println("loadInputOutputDataFrom method from text:");
+//            System.out.println();
+//            
+//            List<MovieInputOutput> inputOutputTextMovies = fileManager.getMoviesFileManager().loadInputOutputDataFrom(false);
+//            
+//            for (MovieInputOutput m : inputOutputTextMovies) 
 //            {
 //                System.out.println(m);
 //            }
 //            
-//            //loadOutputDataFrom method
+//            //loadInputOutputDataFrom method
 //            System.out.println();
-//            System.out.println("loadOutputDataFrom method from binary:");
+//            System.out.println("loadInputOutputDataFrom method from binary:");
 //            System.out.println();
 //            
-//            List<MovieOutput> outputBinaryMovies = fileManager.getMoviesFileManager().loadOutputDataFrom(true);
+//            List<MovieInputOutput> inputOutputBinaryMovies = fileManager.getMoviesFileManager().loadInputOutputDataFrom(true);
 //            
-//            for (MovieOutput m : outputBinaryMovies) 
+//            for (MovieInputOutput m : inputOutputBinaryMovies) 
 //            {
 //                System.out.println(m);
 //            }
@@ -177,7 +177,7 @@ public class FileManagerAccessorTest
 //        
 //            for (Map.Entry<Integer, TVEpisodeInput> m : ooo.entrySet()) 
 //            {
-//                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+//                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
 //            }
 //                        
 //            //loadInputDataFrom method
@@ -188,81 +188,81 @@ public class FileManagerAccessorTest
 //        
 //            for (Map.Entry<Integer, TVEpisodeInput> m : ooo2.entrySet()) 
 //            {
-//                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+//                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
 //            }
 //            
-//            //saveOutputDataIntoFiles method
+//            //saveInputOutputDataIntoFiles method
 //            System.out.println();
-//            System.out.println("saveOutputDataIntoFiles method:");
+//            System.out.println("saveInputOutputDataIntoFiles method:");
 //            System.out.println();
 //            
-//            TVEpisodeOutput tvEpisode1 = new TVEpisodeOutput(2, 222, "Jeníček", 40, 
-//                    "https://example2.com", "ahíj\náahoj", 1, 1);
-//            TVEpisodeOutput tvEpisode2 = new TVEpisodeOutput(1, 222, "Mařenka", 100, 
-//                    "https://example.com", "ahoj\nahoj", 2, 1);
+//            TVEpisodeInputOutput tvEpisode1 = new TVEpisodeInputOutput(2, 222, "John", 40, 
+//                    "https://example2.com", "hellohellohello\nhellohello", 1, 1);
+//            TVEpisodeInputOutput tvEpisode2 = new TVEpisodeInputOutput(1, 222, "Marry", 100, 
+//                    "https://example.com", "hello\nhello", 2, 1);
 //            
-//            List<TVEpisodeOutput> listEpisodes = new ArrayList<>();
+//            List<TVEpisodeInputOutput> listEpisodes = new ArrayList<>();
 //            listEpisodes.add(tvEpisode1);
 //            listEpisodes.add(tvEpisode2);
 //            
-//            fileManager.getTVEpisodesFileManager().saveOutputDataIntoFiles(listEpisodes);
+//            fileManager.getTVEpisodesFileManager().saveInputOutputDataIntoFiles(listEpisodes);
 //            
-//            binaryTest = fileManager.getTVEpisodesFileManager().getBinaryOutputFileContent();
-//            textTest = fileManager.getTVEpisodesFileManager().getTextOutputFileContent();
+//            binaryTest = fileManager.getTVEpisodesFileManager().getBinaryInputOutputFileContent();
+//            textTest = fileManager.getTVEpisodesFileManager().getTextInputOutputFileContent();
 //            
 //            System.out.println();
-//            System.out.println("Vypis " + DataStore.getTextOutputTVEpisodesFilename());
+//            System.out.println("Printed content of " + DataStore.getTextInputOutputTVEpisodesFilename());
 //            System.out.println();
 //            
 //            System.out.println(textTest);
 //            
 //            System.out.println();
-//            System.out.println("Vypis " + DataStore.getBinaryOutputTVEpisodesFilename());
+//            System.out.println("Printed content of " + DataStore.getBinaryInputOutputTVEpisodesFilename());
 //            System.out.println();
 //            
 //            System.out.println(binaryTest);
 //            
-//            //transferBetweenOutputDataAndCopyFiles method
+//            //transferBetweenInputOutputDataAndCopyFiles method
 //            System.out.println();
-//            System.out.println("transferBetweenOutputDataAndCopyFiles method (from outputFiles):");
+//            System.out.println("transferBetweenInputOutputDataAndCopyFiles method (from inputOutputFiles):");
 //            System.out.println();
 //            
-//            fileManager.getTVEpisodesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+//            fileManager.getTVEpisodesFileManager().transferBetweenInputOutputDataAndCopyFiles(false);
 //                        
-//            //transferBetweenOutputDataAndCopyFiles method
+//            //transferBetweenInputOutputDataAndCopyFiles method
 //            System.out.println();
-//            System.out.println("transferBetweenOutputDataAndCopyFiles method (from copyFiles):");
-//            System.out.println();
-//            
-//            fileManager.getTVEpisodesFileManager().transferBetweenOutputDataAndCopyFiles(true);
-//            
-//            //tryDeleteDataOutputFilesCopies method
-//            System.out.println();
-//            System.out.println("tryDeleteDataOutputFilesCopies method:");
+//            System.out.println("transferBetweenInputOutputDataAndCopyFiles method (from copyFiles):");
 //            System.out.println();
 //            
-//            fileManager.getTVEpisodesFileManager().tryDeleteDataOutputFilesCopies();
+//            fileManager.getTVEpisodesFileManager().transferBetweenInputOutputDataAndCopyFiles(true);
+//            
+//            //tryDeleteInputOutputDataFilesCopies method
+//            System.out.println();
+//            System.out.println("tryDeleteInputOutputDataFilesCopies method:");
+//            System.out.println();
+//            
+//            fileManager.getTVEpisodesFileManager().tryDeleteInputOutputDataFilesCopies();
 //                        
-//            //loadOutputDataFrom method
+//            //loadInputOutputDataFrom method
 //            System.out.println();
-//            System.out.println("loadOutputDataFrom method from text:");
+//            System.out.println("loadInputOutputDataFrom method from text:");
 //            System.out.println();
 //            
-//            List<TVEpisodeOutput> outputTextTVEpisodes = fileManager.getTVEpisodesFileManager().loadOutputDataFrom(false);
+//            List<TVEpisodeInputOutput> inputOutputTextTVEpisodes = fileManager.getTVEpisodesFileManager().loadInputOutputDataFrom(false);
 //            
-//            for (TVEpisodeOutput m : outputTextTVEpisodes) 
+//            for (TVEpisodeInputOutput m : inputOutputTextTVEpisodes) 
 //            {
 //                System.out.println(m);
 //            }
 //            
-//            //loadOutputDataFrom method
+//            //loadInputOutputDataFrom method
 //            System.out.println();
-//            System.out.println("loadOutputDataFrom method from binary:");
+//            System.out.println("loadInputOutputDataFrom method from binary:");
 //            System.out.println();
 //            
-//            List<TVEpisodeOutput> outputBinaryTVEpisodes = fileManager.getTVEpisodesFileManager().loadOutputDataFrom(true);
+//            List<TVEpisodeInputOutput> inputOutputBinaryTVEpisodes = fileManager.getTVEpisodesFileManager().loadInputOutputDataFrom(true);
 //            
-//            for (TVEpisodeOutput m : outputBinaryTVEpisodes) 
+//            for (TVEpisodeInputOutput m : inputOutputBinaryTVEpisodes) 
 //            {
 //                System.out.println(m);
 //            }
@@ -280,7 +280,7 @@ public class FileManagerAccessorTest
 //        
 //            for (Map.Entry<Integer, TVSeasonInput> m : ooo3.entrySet()) 
 //            {
-//                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+//                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
 //            }
 //                        
 //            //loadInputDataFrom method
@@ -291,79 +291,79 @@ public class FileManagerAccessorTest
 //        
 //            for (Map.Entry<Integer, TVSeasonInput> m : ooo4.entrySet()) 
 //            {
-//                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+//                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
 //            }
 //            
-//            //saveOutputDataIntoFiles method
+//            //saveInputOutputDataIntoFiles method
 //            System.out.println();
-//            System.out.println("saveOutputDataIntoFiles method:");
+//            System.out.println("saveInputOutputDataIntoFiles method:");
 //            System.out.println();
 //            
-//            TVSeasonOutput tvSeason1 = new TVSeasonOutput(2, 1, 1);
-//            TVSeasonOutput tvSeason2 = new TVSeasonOutput(1, 3, 1);
+//            TVSeasonInputOutput tvSeason1 = new TVSeasonInputOutput(2, 1, 1);
+//            TVSeasonInputOutput tvSeason2 = new TVSeasonInputOutput(1, 3, 1);
 //            
-//            List<TVSeasonOutput> listSeasons = new ArrayList<>();
+//            List<TVSeasonInputOutput> listSeasons = new ArrayList<>();
 //            listSeasons.add(tvSeason1);
 //            listSeasons.add(tvSeason2);
 //            
-//            fileManager.getTVSeasonsFileManager().saveOutputDataIntoFiles(listSeasons);
+//            fileManager.getTVSeasonsFileManager().saveInputOutputDataIntoFiles(listSeasons);
 //            
-//            binaryTest = fileManager.getTVSeasonsFileManager().getBinaryOutputFileContent();
-//            textTest = fileManager.getTVSeasonsFileManager().getTextOutputFileContent();
+//            binaryTest = fileManager.getTVSeasonsFileManager().getBinaryInputOutputFileContent();
+//            textTest = fileManager.getTVSeasonsFileManager().getTextInputOutputFileContent();
 //            
 //            System.out.println();
-//            System.out.println("Vypis " + DataStore.getTextOutputTVSeasonsFilename());
+//            System.out.println("Printed content of " + DataStore.getTextInputOutputTVSeasonsFilename());
 //            System.out.println();
 //            
 //            System.out.println(textTest);
 //            
 //            System.out.println();
-//            System.out.println("Vypis " + DataStore.getBinaryOutputTVSeasonsFilename());
+//            System.out.println("Printed content of " + DataStore.getBinaryInputOutputTVSeasonsFilename());
 //            System.out.println();
 //            
 //            System.out.println(binaryTest);
 //            
-//            //transferBetweenOutputDataAndCopyFiles method
+//            //transferBetweenInputOutputDataAndCopyFiles method
 //            System.out.println();
-//            System.out.println("transferBetweenOutputDataAndCopyFiles method (from outputFiles):");
+//            System.out.println("transferBetweenInputOutputDataAndCopyFiles method (from inputOutputFiles):");
 //            System.out.println();
 //            
-//            fileManager.getTVSeasonsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+//            fileManager.getTVSeasonsFileManager().transferBetweenInputOutputDataAndCopyFiles(false);
 //                        
-//            //transferBetweenOutputDataAndCopyFiles method
+//            //transferBetweenInputOutputDataAndCopyFiles method
 //            System.out.println();
-//            System.out.println("transferBetweenOutputDataAndCopyFiles method (from copyFiles):");
-//            System.out.println();
-//            
-//            fileManager.getTVSeasonsFileManager().transferBetweenOutputDataAndCopyFiles(true);
-//            
-//            //tryDeleteDataOutputFilesCopies method
-//            System.out.println();
-//            System.out.println("tryDeleteDataOutputFilesCopies method:");
+//            System.out.println("transferBetweenInputOutputDataAndCopyFiles method (from copyFiles):");
 //            System.out.println();
 //            
-//            fileManager.getTVSeasonsFileManager().tryDeleteDataOutputFilesCopies();
+//            fileManager.getTVSeasonsFileManager().transferBetweenInputOutputDataAndCopyFiles(true);
 //            
-//            //loadOutputDataFrom method
+//            //tryDeleteInputOutputDataFilesCopies method
 //            System.out.println();
-//            System.out.println("loadOutputDataFrom method from text:");
+//            System.out.println("tryDeleteInputOutputDataFilesCopies method:");
 //            System.out.println();
 //            
-//            List<TVSeasonOutput> outputTextTVSeasons = fileManager.getTVSeasonsFileManager().loadOutputDataFrom(false);
+//            fileManager.getTVSeasonsFileManager().tryDeleteInputOutputDataFilesCopies();
 //            
-//            for (TVSeasonOutput m : outputTextTVSeasons) 
+//            //loadInputOutputDataFrom method
+//            System.out.println();
+//            System.out.println("loadInputOutputDataFrom method from text:");
+//            System.out.println();
+//            
+//            List<TVSeasonInputOutput> inputOutputTextTVSeasons = fileManager.getTVSeasonsFileManager().loadInputOutputDataFrom(false);
+//            
+//            for (TVSeasonInputOutput m : inputOutputTextTVSeasons) 
 //            {
 //                System.out.println(m);
 //            }
 //            
-//            //loadOutputDataFrom method
+//            //loadInputOutputDataFrom method
 //            System.out.println();
-//            System.out.println("loadOutputDataFrom method from binary:");
+//            System.out.println("loadInputOutputDataFrom method from binary:");
 //            System.out.println();
 //            
-//            List<TVSeasonOutput> outputBinaryTVSeasons = fileManager.getTVSeasonsFileManager().loadOutputDataFrom(true);
+//            List<TVSeasonInputOutput> inputOutputBinaryTVSeasons = fileManager.getTVSeasonsFileManager().loadInputOutputDataFrom(true);
 //            
-//            for (TVSeasonOutput m : outputBinaryTVSeasons) 
+//            for (TVSeasonInputOutput m : inputOutputBinaryTVSeasons) 
 //            {
 //                System.out.println(m);
 //            }
@@ -381,7 +381,7 @@ public class FileManagerAccessorTest
 //        
 //            for (Map.Entry<Integer, TVShowInput> m : ooo5.entrySet()) 
 //            {
-//                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+//                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
 //            }
 //                        
 //            //loadInputDataFrom method
@@ -392,79 +392,79 @@ public class FileManagerAccessorTest
 //        
 //            for (Map.Entry<Integer, TVShowInput> m : ooo6.entrySet()) 
 //            {
-//                System.out.println("Pořadí v souboru: " + m.getKey() + " " + m.getValue());
+//                System.out.println("Order in file: " + m.getKey() + " " + m.getValue());
 //            }
 //            
-//            //saveOutputDataIntoFiles method
+//            //saveInputOutputDataIntoFiles method
 //            System.out.println();
-//            System.out.println("saveOutputDataIntoFiles method:");
+//            System.out.println("saveInputOutputDataIntoFiles method:");
 //            System.out.println();
 //            
-//            TVShowOutput tvShow1 = new TVShowOutput(2, "Jeníček", 2, "FALL_OF_THE_JEDI");
-//            TVShowOutput tvShow2 = new TVShowOutput(1, "Mařenka", 5, "FALL_OF_THE_JEDI");
+//            TVShowInputOutput tvShow1 = new TVShowInputOutput(2, "John", 2, "FALL_OF_THE_JEDI");
+//            TVShowInputOutput tvShow2 = new TVShowInputOutput(1, "Marry", 5, "FALL_OF_THE_JEDI");
 //            
-//            List<TVShowOutput> listShows = new ArrayList<>();
+//            List<TVShowInputOutput> listShows = new ArrayList<>();
 //            listShows.add(tvShow1);
 //            listShows.add(tvShow2);
 //            
-//            fileManager.getTVShowsFileManager().saveOutputDataIntoFiles(listShows);
+//            fileManager.getTVShowsFileManager().saveInputOutputDataIntoFiles(listShows);
 //            
-//            binaryTest = fileManager.getTVShowsFileManager().getBinaryOutputFileContent();
-//            textTest = fileManager.getTVShowsFileManager().getTextOutputFileContent();
+//            binaryTest = fileManager.getTVShowsFileManager().getBinaryInputOutputFileContent();
+//            textTest = fileManager.getTVShowsFileManager().getTextInputOutputFileContent();
 //            
 //            System.out.println();
-//            System.out.println("Vypis " + DataStore.getTextOutputTVShowsFilename());
+//            System.out.println("Printed content of " + DataStore.getTextInputOutputTVShowsFilename());
 //            System.out.println();
 //            
 //            System.out.println(textTest);
 //            
 //            System.out.println();
-//            System.out.println("Vypis " + DataStore.getBinaryOutputTVShowsFilename());
+//            System.out.println("Printed content of " + DataStore.getBinaryInputOutputTVShowsFilename());
 //            System.out.println();
 //            
 //            System.out.println(binaryTest);
 //            
-//            //transferBetweenOutputDataAndCopyFiles method
+//            //transferBetweenInputOutputDataAndCopyFiles method
 //            System.out.println();
-//            System.out.println("transferBetweenOutputDataAndCopyFiles method (from outputFiles):");
+//            System.out.println("transferBetweenInputOutputDataAndCopyFiles method (from inputOutputFiles):");
 //            System.out.println();
 //            
-//            fileManager.getTVShowsFileManager().transferBetweenOutputDataAndCopyFiles(false);
+//            fileManager.getTVShowsFileManager().transferBetweenInputOutputDataAndCopyFiles(false);
 //                        
-//            //transferBetweenOutputDataAndCopyFiles method
+//            //transferBetweenInputOutputDataAndCopyFiles method
 //            System.out.println();
-//            System.out.println("transferBetweenOutputDataAndCopyFiles method (from copyFiles):");
-//            System.out.println();
-//            
-//            fileManager.getTVShowsFileManager().transferBetweenOutputDataAndCopyFiles(true);
-//            
-//            //tryDeleteDataOutputFilesCopies method
-//            System.out.println();
-//            System.out.println("tryDeleteDataOutputFilesCopies method:");
+//            System.out.println("transferBetweenInputOutputDataAndCopyFiles method (from copyFiles):");
 //            System.out.println();
 //            
-//            fileManager.getTVShowsFileManager().tryDeleteDataOutputFilesCopies();
+//            fileManager.getTVShowsFileManager().transferBetweenInputOutputDataAndCopyFiles(true);
 //            
-//            //loadOutputDataFrom method
+//            //tryDeleteInputOutputDataFilesCopies method
 //            System.out.println();
-//            System.out.println("loadOutputDataFrom method from text:");
+//            System.out.println("tryDeleteInputOutputDataFilesCopies method:");
 //            System.out.println();
 //            
-//            List<TVShowOutput> outputTextTVShows = fileManager.getTVShowsFileManager().loadOutputDataFrom(false);
+//            fileManager.getTVShowsFileManager().tryDeleteInputOutputDataFilesCopies();
 //            
-//            for (TVShowOutput m : outputTextTVShows) 
+//            //loadInputOutputDataFrom method
+//            System.out.println();
+//            System.out.println("loadInputOutputDataFrom method from text:");
+//            System.out.println();
+//            
+//            List<TVShowInputOutput> inputOutputTextTVShows = fileManager.getTVShowsFileManager().loadInputOutputDataFrom(false);
+//            
+//            for (TVShowInputOutput m : inputOutputTextTVShows) 
 //            {
 //                System.out.println(m);
 //            }
 //            
-//            //loadOutputDataFrom method
+//            //loadInputOutputDataFrom method
 //            System.out.println();
-//            System.out.println("loadOutputDataFrom method from binary:");
+//            System.out.println("loadInputOutputDataFrom method from binary:");
 //            System.out.println();
 //            
-//            List<TVShowOutput> outputBinaryTVShows = fileManager.getTVShowsFileManager().loadOutputDataFrom(true);
+//            List<TVShowInputOutput> inputOutputBinaryTVShows = fileManager.getTVShowsFileManager().loadInputOutputDataFrom(true);
 //            
-//            for (TVShowOutput m : outputBinaryTVShows) 
+//            for (TVShowInputOutput m : inputOutputBinaryTVShows) 
 //            {
 //                System.out.println(m);
 //            }

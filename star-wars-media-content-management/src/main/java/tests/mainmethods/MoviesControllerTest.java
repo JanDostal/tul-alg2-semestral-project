@@ -54,7 +54,7 @@ public class MoviesControllerTest
 //                60, true, "https://www.example01.com", "A", 
 //                LocalDate.parse("2023-05-16", DateTimeFormatter.ISO_LOCAL_DATE), Era.THE_NEW_REPUBLIC);
 //        
-//        Movie movieB = new Movie(new PrimaryKey(4), Duration.ofMinutes(200), "Hvězdička", 
+//        Movie movieB = new Movie(new PrimaryKey(4), Duration.ofMinutes(200), "Star", 
 //                40, true, "https://www.example02.com", "B", 
 //                LocalDate.parse("2023-05-15", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
 //        
@@ -66,7 +66,7 @@ public class MoviesControllerTest
 //                LocalDate.parse("2025-05-14", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
 //        
 //        
-//        Movie movieE = new Movie(new PrimaryKey(10), Duration.ofMinutes(500), "Bitva", 
+//        Movie movieE = new Movie(new PrimaryKey(10), Duration.ofMinutes(500), "Battle", 
 //                80, true, null, null, 
 //                LocalDate.parse("2023-05-20", DateTimeFormatter.ISO_LOCAL_DATE), Era.FALL_OF_THE_JEDI);
 //        
@@ -95,7 +95,7 @@ public class MoviesControllerTest
 //
 //        
 //        System.out.println();
-//        System.out.println("Kontrolni vypis:");
+//        System.out.println("Printed results for checking correctness:");
 //        System.out.println();
 //        
 //        List<Movie> movies = moviesTable.getAll();
@@ -174,7 +174,7 @@ public class MoviesControllerTest
 //        int getAnnouncedMoviesCountByEra_result = 
 //                controller.getAnnouncedMoviesCountByEra(Era.FALL_OF_THE_JEDI);
 //        
-//        System.out.println("počet: " + getAnnouncedMoviesCountByEra_result);
+//        System.out.println("count: " + getAnnouncedMoviesCountByEra_result);
 //        
 //        //getReleasedMoviesCountByEra method
 //        System.out.println();
@@ -183,7 +183,7 @@ public class MoviesControllerTest
 //        int getMoviesCountByEra_result = 
 //                controller.getReleasedMoviesCountByEra(Era.FALL_OF_THE_JEDI, true);
 //        
-//        System.out.println("počet: " + getMoviesCountByEra_result);
+//        System.out.println("count: " + getMoviesCountByEra_result);
 //        
 //        //getReleasedFavoriteMoviesOfAllTime method
 //        System.out.println();
@@ -222,13 +222,13 @@ public class MoviesControllerTest
 //        {
 //            boolean wasDataChanged = controller.rateMovie(movieEdit, 60);
 //             
-//            System.out.println("Po rateMovie pouziti:");
-//            System.out.println("zmena dat:" + wasDataChanged);
+//            System.out.println("State after rateMovie method usage:");
+//            System.out.println("data change occured:" + wasDataChanged);
 //            movieEdit = dbContext.getMoviesTable().getBy(movieEdit.getPrimaryKey());
 //            System.out.println(movieEdit);
 //            
 //            wasDataChanged = controller.rateMovie(movieEdit, 60);
-//            System.out.println("zmena dat po druhe se stejnym ohodnocenim: " + wasDataChanged);
+//            System.out.println("data change occured (same movie rating, second attempt): " + wasDataChanged);
 //        }
 //        catch (DatabaseException | IOException | IllegalArgumentException e) 
 //        {
@@ -270,8 +270,8 @@ public class MoviesControllerTest
 //        
 //        int watchedMoviesRuntimesCount_total = controller.getReleasedMoviesWithRuntimeSetCountByEra(Era.FALL_OF_THE_JEDI, true);
 //        
-//        System.out.println("Doba v minutach: " + getTotalRuntimeOfAllMoviesByEra_result.toMinutes());
-//        System.out.println("Pocet zhlednutych filmu se zadanou runtime: " + 
+//        System.out.println("Total runtime in minutes: " + getTotalRuntimeOfAllMoviesByEra_result.toMinutes());
+//        System.out.println("Count of watched movies with entered runtime: " + 
 //                watchedMoviesRuntimesCount_total);
 //        
 //        //getAverageRuntimeOfAllReleasedMoviesByEra method
@@ -283,8 +283,8 @@ public class MoviesControllerTest
 //        
 //        int watchedMoviesRuntimesCount_average = controller.getReleasedMoviesWithRuntimeSetCountByEra(Era.FALL_OF_THE_JEDI, true);
 //                       
-//        System.out.println("Doba v minutach: " + getAverageRuntimeOfAllMoviesByEra_result.toMinutes());
-//        System.out.println("Pocet zhlednutych filmu se zadanou runtime: " + 
+//        System.out.println("Average runtime in minutes: " + getAverageRuntimeOfAllMoviesByEra_result.toMinutes());
+//        System.out.println("Count of watched movies with entered runtime: " + 
 //                watchedMoviesRuntimesCount_average);
 //        
 //        //getAverageRatingOfAllReleasedMoviesByEra method
@@ -296,8 +296,8 @@ public class MoviesControllerTest
 //        
 //        int watchedMoviesCount_average = controller.getReleasedMoviesCountByEra(Era.FALL_OF_THE_JEDI, true);
 //        
-//        System.out.println("Prumerne hodnoceni v procentech: " + getAverageRatingOfAllMoviesByEra_result);
-//        System.out.println("Pocet zhlednutych filmu: " + 
+//        System.out.println("Average rating in percents: " + getAverageRatingOfAllMoviesByEra_result);
+//        System.out.println("Count of watched movies: " + 
 //                watchedMoviesCount_average);
 //        
 //        //addMoviesFrom
@@ -406,9 +406,9 @@ public class MoviesControllerTest
 //            System.out.println(e.getMessage());
 //        }
 //        
-//        //loadAllOutputDataFrom
+//        //loadAllInputOutputDataFrom
 //        System.out.println();
-//        System.out.println("loadAllOutputDataFrom method (obě metody z TVEpisodesControlleru a MoviesControlleru):");
+//        System.out.println("loadAllInputOutputDataFrom method (both methods from TVEpisodesController and MoviesController):");
 //        System.out.println();
 //        
 //        try 
@@ -418,8 +418,8 @@ public class MoviesControllerTest
 //            dbContext.getTVSeasonsTable().clearData();
 //            dbContext.getTVShowsTable().clearData();
 //
-//            controller.loadAllOutputDataFrom(false);
-//            controllerEpisodes.loadAllOutputDataFrom(false);
+//            controller.loadAllInputOutputDataFrom(false);
+//            controllerEpisodes.loadAllInputOutputDataFrom(false);
 //
 //            List<Movie> moviesAfterLoad = dbContext.getMoviesTable().getAll();
 //            List<TVEpisode> tvEpisodesAfterLoad = dbContext.getTVEpisodesTable().getAll();

@@ -3,13 +3,13 @@ package utils.helpers;
 import app.models.data.PrimaryKey;
 import app.models.data.TVSeason;
 import app.models.input.TVSeasonInput;
-import app.models.output.TVSeasonOutput;
+import app.models.inputoutput.TVSeasonInputOutput;
 
 /**
- * Represents a TV season data converter helper class for input, output and data model of TV season.
+ * Represents a TV season data converter helper class for input, input/output and data model of TV season.
  * TVSeasonDataConverter class is used when converting input file tv season data to database tv season data.
- * TVSeasonDataConverter class is used when converting database tv season data to output file tv season data.
- * TVSeasonDataConverter class is used when converting output file tv season data to database tv season data.
+ * TVSeasonDataConverter class is used when converting database tv season data to input/output file tv season data.
+ * TVSeasonDataConverter class is used when converting input/output file tv season data to database tv season data.
  * @author jan.dostal
  */
 public final class TVSeasonDataConverter 
@@ -19,12 +19,12 @@ public final class TVSeasonDataConverter
     }
     
     /**
-     * Method converts tv season database model data into tv season output model data 
-     * (from database to output files, writing into output files)
+     * Method converts tv season database model data into tv season input/output model data 
+     * (from database to input/output files, writing into input/output files)
      * @param data represents tv season database data model
-     * @return converted data as tv season output model data
+     * @return converted data as tv season input/output model data
      */
-    public static TVSeasonOutput convertToOutputDataFrom(TVSeason data) 
+    public static TVSeasonInputOutput convertToInputOutputDataFrom(TVSeason data) 
     {
         int id = data.getPrimaryKey().getId();
         
@@ -32,7 +32,7 @@ public final class TVSeasonDataConverter
         
         int tvShowId = data.getTVShowForeignKey().getId();
         
-        return new TVSeasonOutput(id, orderInTVShow, tvShowId);
+        return new TVSeasonInputOutput(id, orderInTVShow, tvShowId);
     }
     
     /**
@@ -52,18 +52,18 @@ public final class TVSeasonDataConverter
     }
     
     /**
-     * Method converts tv season output model data into tv season database model data 
-     * (from output file to database, parsing output file)
-     * @param outputData represents tv season output data model
+     * Method converts tv season input/output model data into tv season database model data 
+     * (from input/output file to database, parsing input/output file)
+     * @param inputOutputData represents tv season input/output data model
      * @return converted data as tv season database model data
      */
-    public static TVSeason convertToDataFrom(TVSeasonOutput outputData)
+    public static TVSeason convertToDataFrom(TVSeasonInputOutput inputOutputData)
     {
-        PrimaryKey primaryKey = new PrimaryKey(outputData.getId());       
+        PrimaryKey primaryKey = new PrimaryKey(inputOutputData.getId());       
         
-        int orderInTVShow = outputData.getOrderInTVShow();
+        int orderInTVShow = inputOutputData.getOrderInTVShow();
         
-        PrimaryKey tvShowForeignKey = new PrimaryKey(outputData.getTVShowId());
+        PrimaryKey tvShowForeignKey = new PrimaryKey(inputOutputData.getTVShowId());
         
         return new TVSeason(primaryKey, orderInTVShow, tvShowForeignKey);
     }

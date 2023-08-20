@@ -7,7 +7,7 @@ import app.models.data.Era;
 import app.models.data.Movie;
 import app.models.data.PrimaryKey;
 import app.models.input.MovieInput;
-import app.models.output.MovieOutput;
+import app.models.inputoutput.MovieInputOutput;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.Collator;
@@ -169,7 +169,6 @@ public class MoviesController
         return movieController;
     }
     
-    
     /**
      * Represents an email method for sending e-mail with HTML encoded unwatched movies with hyperlinks, sorted from oldest.
      * @param recipientEmailAddress entered recipient e-mail address from user
@@ -187,7 +186,7 @@ public class MoviesController
         
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
-        String subject = String.format("%s - Nezhlédnuté filmy - Seřazené podle data uvedení", DataStore.getAppName());
+        String subject = String.format("%s –⁠ Nezhlédnuté filmy –⁠ Seřazené podle data uvedení", DataStore.getAppName());
         
         StringBuilder message = new StringBuilder();
         String durationText;
@@ -252,7 +251,7 @@ public class MoviesController
         
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("cs-CZ"));
         
-        String subject = String.format("%s - Nezhlédnuté filmy - Seřazené podle chronologických období", 
+        String subject = String.format("%s –⁠ Nezhlédnuté filmy –⁠ Seřazené podle chronologických období", 
                 DataStore.getAppName());
         
         StringBuilder message = new StringBuilder();
@@ -594,12 +593,12 @@ public class MoviesController
      * @param percentageRating percentage rating in range 0 - 100 indicating likability of movie
      * @return logical value indicating if percentage rating changed or remained unchanged
      * @throws utils.exceptions.DatabaseException if percentage rating value is invalid
-     * @throws java.io.IOException if updating movies output data files with new data failes
+     * @throws java.io.IOException if updating movies input/output data files with new data failes
      * @throws IllegalArgumentException if percentageRating is negative number
      */
     public boolean rateMovie(Movie existingMovie, int percentageRating) throws DatabaseException, IOException
     {
-        updateMoviesOutputFilesWithExistingData();
+        updateMoviesInputOutputFilesWithExistingData();
         
         if (percentageRating < 0) 
         {
@@ -620,7 +619,7 @@ public class MoviesController
         
         if (wasDataChanged == true) 
         {
-            updateMoviesOutputFilesWithNewChanges();
+            updateMoviesInputOutputFilesWithNewChanges();
         }
                 
         return wasDataChanged;
@@ -661,14 +660,14 @@ public class MoviesController
     }
     
     /**
-     * Represents a method for getting movies chosen file (binary/text, input/output) content.
+     * Represents a method for getting chosen movies file (binary or text, input or input/output) content.
      * @param fileName name of the chosen file (not file path)
      * @return stringbuilder which contains file content as string
      * @throws java.io.IOException when reading from chosen file fails
      * @throws java.io.FileNotFoundException when chosen file does not exist
      * @throws utils.exceptions.FileEmptyException when chosen file content is empty
      */
-    public StringBuilder getMoviesChosenFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
+    public StringBuilder getChosenMoviesFileContent(String fileName) throws IOException, FileNotFoundException, FileEmptyException 
     {
         StringBuilder content = new StringBuilder();
         
@@ -676,44 +675,44 @@ public class MoviesController
         {
             content = fileManagerAccessor.getMoviesFileManager().getBinaryInputFileContent();
         }
-        else if (fileName.equals(DataStore.getBinaryOutputMoviesFilename())) 
+        else if (fileName.equals(DataStore.getBinaryInputOutputMoviesFilename())) 
         {
-            content = fileManagerAccessor.getMoviesFileManager().getBinaryOutputFileContent();
+            content = fileManagerAccessor.getMoviesFileManager().getBinaryInputOutputFileContent();
         }
         else if (fileName.equals(DataStore.getTextInputMoviesFilename())) 
         {
             content = fileManagerAccessor.getMoviesFileManager().getTextInputFileContent();
         }
-        else if (fileName.equals(DataStore.getTextOutputMoviesFilename())) 
+        else if (fileName.equals(DataStore.getTextInputOutputMoviesFilename())) 
         {
-            content = fileManagerAccessor.getMoviesFileManager().getTextOutputFileContent();
+            content = fileManagerAccessor.getMoviesFileManager().getTextInputOutputFileContent();
         }
         
         return content;
     }
     
     /**
-     * Represents a method for parsing movies output data from binary or text file
-     * @param fromBinary selects if output file will be binary or text
-     * @throws java.io.IOException when reading from output file fails
-     * @throws utils.exceptions.FileParsingException when parsing from output file fails because of corrupted data
-     * @throws utils.exceptions.DataConversionException when parsed output data cannot be converted to database model data
+     * Represents a method for parsing movies input/output data from binary or text file
+     * @param fromBinary selects if input/output file will be binary or text
+     * @throws java.io.IOException when reading from movies input/output file fails
+     * @throws utils.exceptions.FileParsingException when parsing from input/output file fails because of corrupted data
+     * @throws utils.exceptions.DataConversionException when parsed input/output data cannot be converted to database model data
      * @throws utils.exceptions.DatabaseException when database model data have invalid data, duplicity etc.
      */
-    public void loadAllOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, 
+    public void loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, 
             DataConversionException, DatabaseException, Exception 
     {
         try 
         {
-            List<MovieOutput> outputMovies = fileManagerAccessor.getMoviesFileManager().
-                    loadOutputDataFrom(fromBinary);
+            List<MovieInputOutput> inputOutputMovies = fileManagerAccessor.getMoviesFileManager().
+                    loadInputOutputDataFrom(fromBinary);
         
-            Movie convertedOutputMovie;
+            Movie convertedInputOutputMovie;
         
-            for (MovieOutput m : outputMovies) 
+            for (MovieInputOutput m : inputOutputMovies) 
             {
-                convertedOutputMovie = MovieDataConverter.convertToDataFrom(m);
-                dbContext.getMoviesTable().loadFrom(convertedOutputMovie);
+                convertedInputOutputMovie = MovieDataConverter.convertToDataFrom(m);
+                dbContext.getMoviesTable().loadFrom(convertedInputOutputMovie);
             }
         }
         catch (Exception ex) 
@@ -730,14 +729,14 @@ public class MoviesController
      * Represents a method for parsing movies input data from binary or text file
      * @param fromBinary selects if input file will be binary or text
      * @return stringbuilder which contains message log informing about occured errors and parsed movies
-     * @throws java.io.IOException when reading from input file fails
+     * @throws java.io.IOException when reading from movies input file fails or when updating movies input/output files with new data fails
      * @throws java.io.FileNotFoundException when input file does not exist
      * @throws utils.exceptions.FileEmptyException when input file is empty
      * @throws utils.exceptions.FileParsingException when nothing was parsed from not-empty input file
      */
     public StringBuilder addMoviesFrom(boolean fromBinary) throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
     {
-        updateMoviesOutputFilesWithExistingData();
+        updateMoviesInputOutputFilesWithExistingData();
         
         Map<Integer, MovieInput> inputMovies = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
         
@@ -769,7 +768,7 @@ public class MoviesController
                 successfullyUploadedMoviesCount, errorCounter)).append("\n");
         message.append(moviesErrorMessages);
 
-        updateMoviesOutputFilesWithNewChanges();
+        updateMoviesInputOutputFilesWithNewChanges();
 
         return message;
     }
@@ -777,26 +776,26 @@ public class MoviesController
     /**
      * Represents a method for deleting chosen data model movie by its primary key
      * @param moviePrimaryKey represents a movie identificator in database
-     * @throws java.io.IOException when updating movies output files with new data fails
+     * @throws java.io.IOException when updating movies input/output files with new data fails
      * @throws utils.exceptions.DatabaseException when chosen movie does not exist
      */
     public void deleteMovieBy(PrimaryKey moviePrimaryKey) throws IOException, DatabaseException
     {
-        updateMoviesOutputFilesWithExistingData();
+        updateMoviesInputOutputFilesWithExistingData();
 
         dbContext.getMoviesTable().deleteBy(moviePrimaryKey);
 
-        updateMoviesOutputFilesWithNewChanges();
+        updateMoviesInputOutputFilesWithNewChanges();
     }
     
     /**
      * Represents a method for deleting chosen list of movies
      * @param chosenMovies represents a list of movies originating from database
-     * @throws java.io.IOException when updating movies output files with new data fails
+     * @throws java.io.IOException when updating movies input/output files with new data fails
      */
     public void deleteMovies(List<Movie> chosenMovies) throws IOException
     {       
-        updateMoviesOutputFilesWithExistingData();
+        updateMoviesInputOutputFilesWithExistingData();
                 
         for (Movie m : chosenMovies) 
         {
@@ -809,7 +808,7 @@ public class MoviesController
             }
         }
 
-        updateMoviesOutputFilesWithNewChanges();
+        updateMoviesInputOutputFilesWithNewChanges();
     }
     
     /**
@@ -817,7 +816,7 @@ public class MoviesController
      * @param existingMoviePrimaryKey represents an existing movie identificator in database
      * @param fromBinary selects if parsing of new data for existing movie will be from text or binary input file
      * @return logical value indicating if existing movie data was changed or remained same
-     * @throws java.io.IOException if reading from movies input file fails
+     * @throws java.io.IOException if reading from movies input file fails or when updating movies input/output files with new data fails
      * @throws java.io.FileNotFoundException if input file is not found
      * @throws utils.exceptions.FileEmptyException if input file is empty
      * @throws utils.exceptions.DataConversionException if movie input data cannot be converted to movie database data model
@@ -827,7 +826,7 @@ public class MoviesController
     public boolean editMovieBy(PrimaryKey existingMoviePrimaryKey, boolean fromBinary) throws IOException, FileNotFoundException, 
             FileEmptyException, DataConversionException, DatabaseException, FileParsingException 
     {
-        updateMoviesOutputFilesWithExistingData();
+        updateMoviesInputOutputFilesWithExistingData();
         
         Map<Integer, MovieInput> editedMovie = fileManagerAccessor.getMoviesFileManager().loadInputDataFrom(fromBinary);
         
@@ -845,97 +844,97 @@ public class MoviesController
         
         if (wasDataChanged == true) 
         {
-            updateMoviesOutputFilesWithNewChanges();
+            updateMoviesInputOutputFilesWithNewChanges();
         }
         
         return wasDataChanged;
     }
     
     /**
-     * Represents a method for saving current movies table state into output files
-     * @throws java.io.IOException if saving movies table state into output files fails
+     * Represents a method for saving current movies table state into input/output files
+     * @throws java.io.IOException if saving movies table state into input/output files fails
      */
-    private void updateMoviesOutputFilesWithExistingData() throws IOException 
+    private void updateMoviesInputOutputFilesWithExistingData() throws IOException 
     {
         List<Movie> currentMovies = dbContext.getMoviesTable().getAll();
         dbContext.getMoviesTable().sortByPrimaryKey(currentMovies);
         
-        List<MovieOutput> outputMovies = new ArrayList<>();
-        MovieOutput outputMovie;
+        List<MovieInputOutput> inputOutputMovies = new ArrayList<>();
+        MovieInputOutput inputOutputMovie;
         
         for (Movie m : currentMovies) 
         {
-            outputMovie = MovieDataConverter.convertToOutputDataFrom(m);
-            outputMovies.add(outputMovie);
+            inputOutputMovie = MovieDataConverter.convertToInputOutputDataFrom(m);
+            inputOutputMovies.add(inputOutputMovie);
         }
         
-        fileManagerAccessor.getMoviesFileManager().saveOutputDataIntoFiles(outputMovies);
+        fileManagerAccessor.getMoviesFileManager().saveInputOutputDataIntoFiles(inputOutputMovies);
     }
     
     /**
-     * Represents a method for saving updated movies table state into output files.
+     * Represents a method for saving updated movies table state into input/output files.
      * <p>
      * The correct usage of this method is to 
-     * call {@link IDataFileManager#transferBetweenOutputDataAndCopyFiles(boolean) 
-     * transferBetweenOutputDataAndCopyFiles} method to
-     * backup output files. Then call {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
-     * saveOutputDataIntoFiles} method to try to save output data.
+     * call {@link IDataFileManager#transferBetweenInputOutputDataAndCopyFiles(boolean) 
+     * transferBetweenInputOutputDataAndCopyFiles} method to
+     * backup input/output files. Then call {@link IDataFileManager#saveInputOutputDataIntoFiles(java.util.List)
+     * saveInputOutputDataIntoFiles} method to try to save input/output data.
      * <p>
-     * If calling {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
-     * saveOutputDataIntoFiles} method fails, then transfer output data from copies back into
-     * output files by {@link IDataFileManager#transferBetweenOutputDataAndCopyFiles(boolean)
-     * transferBetweenOutputDataAndCopyFiles} and load them back into database.
+     * If calling {@link IDataFileManager#saveInputOutputDataIntoFiles(java.util.List)
+     * saveInputOutputDataIntoFiles} method fails, then transfer input/output data from copies back into
+     * input/output files by {@link IDataFileManager#transferBetweenInputOutputDataAndCopyFiles(boolean)
+     * transferBetweenInputOutputDataAndCopyFiles} and load them back into database.
      * <p>
-     * After all of it, call {@link IDataFileManager#tryDeleteDataOutputFilesCopies() 
-     * tryDeleteDataOutputFilesCopies} method regardless if calling 
-     * {@link IDataFileManager#saveOutputDataIntoFiles(java.util.List)
-     * saveOutputDataIntoFiles} method fails or not
-     * @throws java.io.IOException if saving movies table updated state into output files fails
+     * After all of it, call {@link IDataFileManager#tryDeleteInputOutputDataFilesCopies() 
+     * tryDeleteInputOutputDataFilesCopies} method regardless if calling 
+     * {@link IDataFileManager#saveInputOutputDataIntoFiles(java.util.List)
+     * saveInputOutputDataIntoFiles} method fails or not
+     * @throws java.io.IOException if saving movies table updated state into input/output files fails
      */
-    private void updateMoviesOutputFilesWithNewChanges() throws IOException
+    private void updateMoviesInputOutputFilesWithNewChanges() throws IOException
     {
         List<Movie> currentMovies = dbContext.getMoviesTable().getAll();
         dbContext.getMoviesTable().sortByPrimaryKey(currentMovies);
         
-        List<MovieOutput> outputMovies = new ArrayList<>();
-        MovieOutput outputMovie;
+        List<MovieInputOutput> inputOutputMovies = new ArrayList<>();
+        MovieInputOutput inputOutputMovie;
 
         for (Movie m : currentMovies) 
         {
-            outputMovie = MovieDataConverter.convertToOutputDataFrom(m);
-            outputMovies.add(outputMovie);
+            inputOutputMovie = MovieDataConverter.convertToInputOutputDataFrom(m);
+            inputOutputMovies.add(inputOutputMovie);
         }
         
-        fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(false);
+        fileManagerAccessor.getMoviesFileManager().transferBetweenInputOutputDataAndCopyFiles(false);
 
         try 
         {
-            fileManagerAccessor.getMoviesFileManager().saveOutputDataIntoFiles(outputMovies);
+            fileManagerAccessor.getMoviesFileManager().saveInputOutputDataIntoFiles(inputOutputMovies);
         } 
         catch (IOException e) 
         {
-            fileManagerAccessor.getMoviesFileManager().transferBetweenOutputDataAndCopyFiles(true);
+            fileManagerAccessor.getMoviesFileManager().transferBetweenInputOutputDataAndCopyFiles(true);
             
             try 
             {
-                outputMovies = fileManagerAccessor.getMoviesFileManager().loadOutputDataFrom(true);
+                inputOutputMovies = fileManagerAccessor.getMoviesFileManager().loadInputOutputDataFrom(true);
             }
             catch (IOException | FileParsingException f) 
             {
-                fileManagerAccessor.getMoviesFileManager().tryDeleteDataOutputFilesCopies();
+                fileManagerAccessor.getMoviesFileManager().tryDeleteInputOutputDataFilesCopies();
                 throw new IOException(f.getMessage());
             }
                        
-            Movie convertedOutputMovie;
+            Movie convertedInputOutputMovie;
             
             dbContext.getMoviesTable().clearData();
             
             try 
             {
-                for (MovieOutput m : outputMovies) 
+                for (MovieInputOutput m : inputOutputMovies) 
                 {
-                    convertedOutputMovie = MovieDataConverter.convertToDataFrom(m);
-                    dbContext.getMoviesTable().loadFrom(convertedOutputMovie);
+                    convertedInputOutputMovie = MovieDataConverter.convertToDataFrom(m);
+                    dbContext.getMoviesTable().loadFrom(convertedInputOutputMovie);
                 } 
             }
             catch (DataConversionException | DatabaseException g) 
@@ -949,12 +948,12 @@ public class MoviesController
                     catch (DatabaseException h) 
                     {
                     }
-                } 
+                }
             }
         } 
         finally 
         {
-            fileManagerAccessor.getMoviesFileManager().tryDeleteDataOutputFilesCopies();
+            fileManagerAccessor.getMoviesFileManager().tryDeleteInputOutputDataFilesCopies();
         }
     }
     

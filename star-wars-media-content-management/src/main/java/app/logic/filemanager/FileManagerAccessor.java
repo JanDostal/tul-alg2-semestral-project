@@ -5,10 +5,10 @@ import app.models.input.MovieInput;
 import app.models.input.TVEpisodeInput;
 import app.models.input.TVSeasonInput;
 import app.models.input.TVShowInput;
-import app.models.output.MovieOutput;
-import app.models.output.TVEpisodeOutput;
-import app.models.output.TVSeasonOutput;
-import app.models.output.TVShowOutput;
+import app.models.inputoutput.MovieInputOutput;
+import app.models.inputoutput.TVEpisodeInputOutput;
+import app.models.inputoutput.TVSeasonInputOutput;
+import app.models.inputoutput.TVShowInputOutput;
 import java.io.File;
 import utils.interfaces.IDataFileManager;
 
@@ -20,26 +20,25 @@ import utils.interfaces.IDataFileManager;
  */
 public class FileManagerAccessor 
 {
+    private static final String fileSeparator = System.getProperty("file.separator");;
+    
+    private static final String textFileEndMarking = "\\[End\\]";
+    
+    private static final String textFileValuesSectionMarking = "\\[Values\\]";
+    
+    private static final String textFileAttributesSectionMarking = "\\[Attributes\\]";
+    
     private static FileManagerAccessor fileManagerAccessor;
     
     private static File dataDirectory;
     
-    private final IDataFileManager<MovieInput, MovieOutput> moviesFileManager;
+    private final IDataFileManager<MovieInput, MovieInputOutput> moviesFileManager;
     
-    private final IDataFileManager<TVShowInput, TVShowOutput> tvShowsFileManager;
+    private final IDataFileManager<TVShowInput, TVShowInputOutput> tvShowsFileManager;
     
-    private final IDataFileManager<TVSeasonInput, TVSeasonOutput> tvSeasonsFileManager;
+    private final IDataFileManager<TVSeasonInput, TVSeasonInputOutput> tvSeasonsFileManager;
     
-    private final IDataFileManager<TVEpisodeInput, TVEpisodeOutput> tvEpisodesFileManager;
-    
-    private final String filenameSeparator = System.getProperty("file.separator");;
-    
-    private final String inputFileEndMarking = "\\[End\\]";
-    
-    private final String inputFileValuesSectionMarking = "\\[Values\\]";
-    
-    private final String inputFileAttributesSectionMarking = "\\[Attributes\\]";
-    
+    private final IDataFileManager<TVEpisodeInput, TVEpisodeInputOutput> tvEpisodesFileManager;
     
     /**
      * Creates singleton instance of FileManagerAccessor.
@@ -47,14 +46,10 @@ public class FileManagerAccessor
      */
     private FileManagerAccessor() 
     {
-        this.moviesFileManager = MoviesFileManager.getInstance(filenameSeparator,
-            inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
-        this.tvShowsFileManager = TVShowsFileManager.getInstance(filenameSeparator,
-            inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
-        this.tvSeasonsFileManager = TVSeasonsFileManager.getInstance(filenameSeparator,
-            inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking); 
-        this.tvEpisodesFileManager = TVEpisodesFileManager.getInstance(filenameSeparator,
-            inputFileEndMarking, inputFileValuesSectionMarking, inputFileAttributesSectionMarking);
+        this.moviesFileManager = MoviesFileManager.getInstance();
+        this.tvShowsFileManager = TVShowsFileManager.getInstance();
+        this.tvSeasonsFileManager = TVSeasonsFileManager.getInstance(); 
+        this.tvEpisodesFileManager = TVEpisodesFileManager.getInstance();
     }
     
     /**
@@ -74,7 +69,7 @@ public class FileManagerAccessor
     /**
      * @return tv seasons file manager instance as interface
      */
-    public IDataFileManager<TVSeasonInput, TVSeasonOutput> getTVSeasonsFileManager() 
+    public IDataFileManager<TVSeasonInput, TVSeasonInputOutput> getTVSeasonsFileManager() 
     {
         return tvSeasonsFileManager;
     }
@@ -82,7 +77,7 @@ public class FileManagerAccessor
     /**
      * @return tv shows file manager instance as interface
      */
-    public IDataFileManager<TVShowInput, TVShowOutput> getTVShowsFileManager() 
+    public IDataFileManager<TVShowInput, TVShowInputOutput> getTVShowsFileManager() 
     {
         return tvShowsFileManager;
     }
@@ -90,7 +85,7 @@ public class FileManagerAccessor
     /**
      * @return tv episodes file manager instance as interface
      */
-    public IDataFileManager<TVEpisodeInput, TVEpisodeOutput> getTVEpisodesFileManager() 
+    public IDataFileManager<TVEpisodeInput, TVEpisodeInputOutput> getTVEpisodesFileManager() 
     {
         return tvEpisodesFileManager;
     }
@@ -98,15 +93,47 @@ public class FileManagerAccessor
     /**
      * @return movies file manager instance as interface
      */
-    public IDataFileManager<MovieInput, MovieOutput> getMoviesFileManager() 
+    public IDataFileManager<MovieInput, MovieInputOutput> getMoviesFileManager() 
     {
         return moviesFileManager;
     }
     
     /**
+     * @return file path separator dependent on application running operating system (usage in data files managers)
+     */
+    protected static String getFileSeparator() 
+    {
+        return fileSeparator;
+    }
+    
+    /**
+     * @return control string for detecting file end (usage in data files managers)
+     */
+    protected static String getTextFileEndMarking() 
+    {
+        return textFileEndMarking;
+    }
+    
+    /**
+     * @return control string for detecting values section in file (usage in data files managers)
+     */
+    protected static String getTextFileValuesSectionMarking() 
+    {
+        return textFileValuesSectionMarking;
+    }
+    
+    /**
+     * @return control string for detecting attributes section in file (usage in data files managers)
+     */
+    protected static String getTextFileAttributesSectionMarking() 
+    {
+        return textFileAttributesSectionMarking;
+    }
+    
+    /**
      * Returns Data directory full path from File instance
      * @return data directory absolute path
-     * @throws IllegalStateException when File instance was not yet set
+     * @throws IllegalStateException when File instance was not yet set (data directory should be set before usage of data files managers methods)
      */
     public static String getDataDirectoryPath()
     {
@@ -119,8 +146,8 @@ public class FileManagerAccessor
     }
     
     /**
-     * Sets data directory through specified file path
-     * @param directoryFullPath file path to existing data directory with data input and output files
+     * Sets data directory through specified file path (data directory should be set before usage of data files managers methods)
+     * @param directoryFullPath file path to existing data directory with data input and input/output files
      * @throws IllegalStateException when File instance was already set
      * @throws IllegalArgumentException when directory on 
      * specified path does not exist, is not directory or is not named accordingly.
