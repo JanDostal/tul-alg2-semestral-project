@@ -15,7 +15,7 @@ Tedy shrnutím. Star Wars je můj special interest a přišlo mi jako dobrý ná
 
 ## Popis problému
 
-Aplikace *Star Wars Content Media Management* by měla sloužit jako **evidence mediálního obsahu (seriály, filmy) v rámci výhradně Star Wars univerza**.
+Aplikace *Star Wars Media Content Management* by měla sloužit jako **evidence mediálního obsahu (seriály, filmy) v rámci výhradně Star Wars univerza**.
 
 Aplikace je určena pro uživatele, kteří jsou **pokročilí fanoušci Star Wars (geekové)**, ale hodí se **i pro začínající fanoušky**. **Pro laika je** tato aplikace **bezpředmětná**.
 
