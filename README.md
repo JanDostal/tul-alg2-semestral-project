@@ -1,75 +1,80 @@
+# Instructions for starting app
 
-# Zadání práce
+1. First open this app as **Maven** project through IDE such as **Apache Netbeans** etc.
+2. Build the app so the dependencies and libraries specified in [pom.xml](/star-wars-media-content-management/pom.xml) **are downloaded**
+3. Run the file representing the class called [ApplicationRunner](/star-wars-media-content-management/src/main/java/ui/ApplicationRunner.java), **located in the package ui**
 
-## Motivace
+# Project assignment
 
-Už od 8 let jsem se začal velmi intenzivně zajímat o Star Wars ve všech ohledech.
+## Motivation
 
-Začalo to stavěním výhradně LEGO stavebnic pouze ze Star Wars, tyto stavebnice jsem si pak vystavoval po celém pokoji. V současnosti mám vystavených cca. 20 stavebnic, ale určitě jsem postavil víc než 20, jenom nebyl k dispozici prostor pro vystavení, takže jsem nějaké stavebnice po čase musel rozložit a dát do krabice s tříděným LEGEM, umístěným v mém pokoji.
+From the age of 8 I have become very interested in Star Wars in all aspects.
 
-Dále jsem se začal zajímat o seriály, filmy, knížky, hudbu a komiksy. Později, když jsem byl starší, tak jsem začal hrát PC hry, přičemž 95 % všech her tvořily Star Wars hry. Zároveň jsem začal sbírat světelné meče (Hasbro, nezávislí výrobci) různého typu (plastové, s LED zářivkou).
+It started with building only Star Wars LEGO sets, these sets were placed on display all over my bedroom. I currently have about 20 sets on display, but I'm sure I've built more than 20, there just wasn't the space available to display them, so after a while I had to disassemble some kits and put them in a box of sorted LEGOs located in my bedroom.
 
-V poslední řadě jsem se zúčastnil s rodinou předpremiér nových Star Wars filmů v letech 2015, 2016, 2017, 2018 a 2019. Atmosféra byla úžasná, jenom po nějaké době jsem si uvědomil, že scénáře filmů z roku 2015, 2017 a 2019 byly příšerné, naopak scénáře filmů z roků 2016 a 2018 byly docela OK.
+Next I became interested in TV shows, movies, books, music and comics. Later, as I got older, I started playing PC games, with 95% of all games being Star Wars games. At the same time I started collecting lightsabers (Hasbro, indie manufacturers) of various types (plastic, LED).
 
-Tedy shrnutím. Star Wars je můj special interest a přišlo mi jako dobrý nápad využít programování jako nástroj pro vytvoření jakéhosi „pomocníka“ na Star Wars seriály a filmy.
+Lastly, I attended the screenings of the new Star Wars movies with my family in 2015, 2016, 2017, 2018 and 2019. The atmosphere was amazing, only after a while I realized that the scripts of the 2015, 2017 and 2019 movies were terrible, while the scripts of the 2016 and 2018 movies were pretty OK.
 
-## Popis problému
+So, to sum up. Star Wars is a special interest of mine, and it seemed like a good idea to use programming as a tool to create a sort of "helper" for Star Wars shows and movies.
 
-Aplikace *Star Wars Media Content Management* by měla sloužit jako **evidence mediálního obsahu (seriály, filmy) v rámci výhradně Star Wars univerza**.
+## Problem description
 
-Aplikace je určena pro uživatele, kteří jsou **pokročilí fanoušci Star Wars (geekové)**, ale hodí se **i pro začínající fanoušky**. **Pro laika je** tato aplikace **bezpředmětná**.
+The *Star Wars Media Content Management* application should serve as **the inventory of media content (TV shows, movies) within the Star Wars universe only**.
 
-Cílem aplikace je fanouškovi umožnit:
-- Organizovat evidovaný mediální obsah do **chronologických období v rámci Star Wars univerza**
-- Organizovat evidovaný mediální obsah podle toho, jestli je **zhlédnutý**, **nezhlédnutý** nebo **oznámený**
-- Ukládat evidovaný mediální obsah do **vstupních/výstupních souborů**, které představují **databázi**, pro **načtení dat ze souborů při příštím spuštění aplikace**
-- Provádět manipulační operace s evidovaným mediálním obsahem jako:
-    - Hromadné i jednotlivé přidávání evidovaného mediálního obsahu přes **vstupní soubory**
-    - Hromadné i jednotlivé mazání evidovaného mediálního obsahu
-    - Editace **jednoho** vybraného evidovaného mediálního obsahu pomocí **vstupního souboru**
-    - Vypsání si detailu jednoho vybraného evidovaného mediálního obsahu
-    - Hodnocení evidovaného mediálního obsahu, **i opakovaně**
-- Provádět manipulační operace s datovými soubory jako:
-    - Vypsání si obsahů vstupních/výstupních souborů v aplikaci
-    - Vypsání si obsahů vstupních souborů v aplikaci
-    - Vybrání si režimu práce s textovými nebo s binárními soubory v aplikaci
-- Poskytovat souhrnné/statistické údaje na základě evidovaného mediálního obsahu **v jednotlivých chronologických obdobích** nebo **v jednotlivých TV seriálech** jako:
-    - Počet mediálního obsahu
-        - Dělení na celkový, zhlédnutý a nezhlédnutý počet 
-    - Délka trvání mediálního obsahu
-        - Dělení na celkovou, zhlédnutou a nezhlédnutou délku
-    - Průměrné hodnocení mediálního obsahu
-    - Průměrná délka trvání mediálního obsahu 
-        - Dělení na celková, zhlédnutá a nezhlédnutá průměrná délka
-- Zjednodušit a naplánovat si **filmový či seriálový maraton nezhlédnutého mediálního obsahu** dle různých kritérií:
-    - Opakovatelné poslání e-mailu **obsahujícího formátovaný výpis** nezhlédnutého mediálního obsahu **s hypertextovými odkazy určenými ke zhlédnutí konkrétního mediálního obsahu**
-        - Umožněno poslání e-mailu s filmy seřazenými **od nejstaršího datumu uvedení** nebo **podle chronologických období** 
-        - Předmět e-mailu je **standardizovaný**
-    - Umožnění nechat si vypsat **seřazeně** mediální obsah **ve vybrané chronologické éře** podle:
-        - Abecedně podle názvu
-        - Od nejnovějšího datumu uvedení
-        - Od nejdelší délky trvání
-    - Poskytnutí statistických údajů **ke každé chronologické éře** nebo **ke každému TV seriálu** pro **lepší vizualizaci postupu v maratonu**
-- Vyhledat evidovaný mediální obsah **podle názvu**
-- Vypsat mediální obsah podle **žebříčků** jako:
-    - Nejoblíbenější
-    - Nejdelší
-    - Nejnovější
+The app is designed for users who are **advanced Star Wars fans (geeks)**, but is also suitable for **beginner fans**. **For the normal user**, this app **is useless**.
 
-# Řešení
+The goal of the app is to allow the fan to:
+- Organize stored media content into **chronological periods within the Star Wars universe**
+- Organize stored media content by whether it is **watched**, **unwatched** or **announced**
+- Store media content in **input/output files**, which represent a **database**, for **reading data from the files the next time the application is run**
+- Perform manipulative operations with the stored media content such as:
+    - Multiple and individual addition of stored media content via **input files**
+    - Multiple and individual deletion of stored media content
+    - Modification of **one** selected stored media content using **input file**
+    - List the details of one selected stored media content
+    - Rate stored media content, **even repeatedly**
+- Perform manipulative operations with data files such as:
+    - List the contents of input/output files in the application
+    - List the contents of input files in the application
+    - Choice to work with text or binary files in the application
+- Provide aggregate/statistical data based on stored media content **in individual chronological periods** or **in individual TV shows** such as:
+    - Count of media content
+        - Divided into total, watched and unwatched count
+    - Duration of media content
+        - Divided into total, watched and unwatched duration
+    - Average rating of media content
+    - Average duration of media content
+        - Divided into total, watched and unwatched average duration
+- Simplify and plan **movies or TV shows marathon of unseen media content** based on different criteria:
+    - Repeatable sending of an email **containing a formatted listing** of unwatched media content **with hyperlinks intended for watching specific media content**
+        - Allowing sending an email with movies sorted **by oldest release date** or **by chronological periods**
+        - The email subject is **standardized**
+    - Allowing to list **sorted** media content **in a selected chronological era** by:
+        - Alphabetically by name
+        - As of the latest release date
+        - From the longest duration
+    - Providing statistical data **for each chronological era** or **for each TV show** to **better visualize marathon progress**
+- Search for stored media content **by name**
+- List media content according to **rankings** such as:
+    - Most popular
+    - Longest
+    - Latest
 
-## Funkční specifikace
+# Solution
 
-Aplikace je z hlediska uživatelských funkcí rozdělena na tyto tři části/menu:
+## Functional specifications
 
-### Menu nastavování adresáře data
+In terms of user functions, the application is divided into the following three parts/menus:
 
-- Zobrazuje se na začátku běhu aplikace, potom již ne
-- Slouží k nastavení/konfiguraci cesty k adresáři **data** umístěném na disku 
-    - Adresář obsahuje datové vstupní a vstupní/výstupní soubory specifikované [zde](#popis-struktury-vstupních-a-výstupních-souborů)
-- Je umožněno ukončit aplikaci pomocí **funkce s číslem 0**
+### Data directory setup menu
 
-Samotné uživatelské funkce vypadají následovně:
+- It is displayed at the beginning of the application, then no longer
+- Used to set/configure the path to the **data** directory located on the disk 
+    - The directory contains the data input and input/output files specified [here](#description-of-the-structure-of-input-and-output-files)
+- It is possible to exit the application using **function with number 0**
+
+The user functions themselves are as follows:
 
 ---
 
@@ -77,14 +82,14 @@ Samotné uživatelské funkce vypadají následovně:
 
 ---
 
-### Menu načítání vstupních/výstupních souborů
+### Input/output files loading menu
 
-- Zobrazuje se po [menu nastavování adresáře data](#menu-nastavování-adresáře-data), potom již ne
-- Slouží k načtení existujících/evidovaných dat do aplikace z vstupních/výstupních souborů
-- Účelem je to, že aplikace průběžně ukládá svá nová data do vstupních/výstupních souborů, aby se dala při příštím spuštění aplikace snadno obnovit a nevkládat je znova
-- Je umožněno ukončit aplikaci pomocí **funkce s číslem 0**
+- Appears after [data directory setup menu](#data-directory-setup-menu), then no more
+- Used to read existing/stored data into the application from input/output files
+- The purpose is that the application continuously stores its new data in input/output files, so that the data can be easily restored the next time the application is run without having to insert the data again
+- It is possible to exit the application using **function with number 0**
 
-Samotné uživatelské funkce vypadají následovně:
+The user functions themselves are as follows:
 
 ---
 
@@ -101,15 +106,15 @@ Samotné uživatelské funkce vypadají následovně:
 
 ---
 
-### Hlavní menu
+### Main menu
 
-- Zobrazuje se po [menu načítání vstupních/výstupních souborů](#menu-načítání-vstupníchvýstupních-souborů) a opakovaně během běhu aplikace
-- Hlavní Menu je víceúrovňové, takže funkce v seznamu jsou odsazeny podle hiearchické úrovně, ve které se nacházejí
-- Podúrovně/podmenu hlavního menu se též zobrazují opakovaně
-- V hlavním menu je umožněno ukončit aplikaci pomocí **funkce s číslem 0**
-- Každé podmenu má **funkci s číslem 0**, která umožňuje vrátit se z aktuálního podmenu/podúrovně do nadřazené úrovně/menu
+- Appears after [input/output files loading menu](#inputoutput-files-loading-menu) and repeatedly during application runtime
+- The main menu is multi-level, so the functions in the list are indented according to the hiearchical level in which they are located
+- Sublevels/submenus of the main menu are also displayed repeatedly
+- In the main menu it is possible to exit the application using **function with number 0**
+- Each submenu has a **function with number 0** that allows to return from the current submenu/sublevel to the parent level/menu
 
-Samotné uživatelské funkce vypadají následovně:
+The user functions themselves are as follows:
 
 
 ---
@@ -1053,23 +1058,23 @@ Samotné uživatelské funkce vypadají následovně:
 ---
 
 
-## Popis struktury vstupních a výstupních souborů
+## Description of the structure of input and output files
 
-Pro získávání jednotlivých vstupních dat je možné použít tuto databázi mediálního obsahu https://www.imdb.com/
+The following media content database can be used to retrieve individual input data https://www.imdb.com/
 
-### Vstupní textový soubor s filmy
+### Input text file with movies
 
-- Musí být vytvořen ručně nebo z nějakého jiného externího zdroje
-- Používá se na přidávání nových filmů do databáze nebo editaci/úpravu již existujícího filmu v databázi
+- Must be created manually or from some other external source
+- Used to add new movies to the database or modification of an existing movie in the database
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **input_movies.txt**
-- Kódování souboru musí být **UTF-8**
+- The file name must be **input_movies.txt**
+- File encoding must be **UTF-8**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Data **jednoho vstupního filmu** vypadají takto:
+- The data of **one input movie** looks like this:
 
 ```java
 public class MovieInput
@@ -1090,49 +1095,49 @@ public class MovieInput
 }
 ```
 
-- Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***runtimeInSeconds*** – Vyjadřuje délku/trvání filmu v sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo**
-        - **Není povinný**
-            - Pokud **není zadán**, hodnota **musí být rovno nebo menší než 0**
-            - Pokud **je zadán**, hodnota **musí být v rozsahu 1 a více**
-    - ***name*** – Vyjadřuje název filmu
-        - Jedná se o datový typ **String**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-        - Maximální počet znaků jména je **60**
-    - ***percentageRating*** – Vyjadřuje procentuální hodnocení filmu
-        - Jedná se o datový typ **int**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **není zadán**, hodnota **musí být menší než 0**
-                - Při nezadání se film identifikuje jako **nezhlédnutý**
-            - Pokud **je zadán**, hodnota **musí být v rozsahu 0 až 100**
-                - Při zadání se film identifikuje jako **zhlédnutý** 
-    - ***hyperlinkForContentWatch*** – Vyjadřuje URL odkaz ke zhlédnutí filmu
-        - Jedná se o datový typ **String**, tedy **text** 
-        - **Není povinný**
-            - Pokud **není zadán**, hodnota **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-        - Maximální počet znaků URL odkazu je **180**
-    - ***shortContentSummary*** – Vyjadřuje krátké shrnutí obsahu filmu
-        - Jedná se o datový typ **String**, tedy **text** 
-        - **Není povinný**
-            - Pokud **není zadán**, hodnota **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-        - Maximální počet znaků shrnutí je **1000**
-    - ***releaseDateInEpochSeconds*** – Vyjadřuje datum vydání/uvedení filmu, vyjádřeného v epoch sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **není zadán**, hodnota **musí být menší než 0**
-                - Při nezadání se film identifikuje jako **oznámený** 
-            - Pokud **je zadán**, hodnota **musí být v rozsahu 0 a více**
-                - Při zadání se film identifikuje jako **vydaný** 
-        - Pro převod datumu na epoch sekundy a opačně je možné použít tento konverter https://www.epochconverter.com/
-            - Při převodu je požadováno zvolit jako časovou zónu **GMT/UTC**
-    - ***eraCodeDesignation*** – Vyjadřuje kódové označení vybrané chronologické star wars éry pro daný film
-        - Jedná se o datový typ **String**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-        - Hodnota **musí nabývat** jednoho z těchto kódových označení:
+- The names of individual data/attributes are used in [file structure description](#file-structure-description)
+- The descriptions of each data/attributes names are as follows:
+    - ***runtimeInSeconds*** – Expresses the length/duration of the movie in seconds
+        - This is the **long** data type, which is an **integer**
+        - **Not mandatory**
+            - If **not specified**, the value **must be equal to or less than 0**
+            - If **is specified**, the value **must be in the range of 1 or more**
+    - ***name*** – Expresses the title of the movie
+        - This is the **String** data type, which is a **text**
+        - **Is mandatory**
+            - It is not acceptable to have the value **blank ("") or filled with blank spaces or missing in the file**
+        - The maximum count of characters in the name is **60**
+    - ***percentageRating*** – Expresses the percentage rating of the movie
+        - This is the **int** data type, which is an **integer**
+        - **Not mandatory**
+            - If **not specified**, value **must be less than 0**
+                - When not specified, the movie is identified as **unwatched**
+            - If **is specified**, the value **must be in the range 0 to 100**
+                - When is specified, the movie is identified as **watched**
+    - ***hyperlinkForContentWatch*** – Expresses the URL link to watch the movie
+        - This is the **String** data type, which is a **text**
+        - **Not mandatory**
+            - If **not specified**, the value **must be blank ("") or filled with blank spaces or missing in the file**
+        - The maximum count of characters of a URL link is **180**
+    - ***shortContentSummary*** – Expresses a brief summary of the movie's content
+        - This is the **String** data type, which is a **text**
+        - **Not mandatory**
+            - If **not specified**, the value **must be blank ("") or filled with blank spaces or missing in the file**
+        - The maximum count of characters in the summary is **1000**
+    - ***releaseDateInEpochSeconds*** – Expresses the release date of the movie, specified in epoch seconds
+        - This is the **long** data type, which is an **integer**
+        - **Not mandatory**
+            - If **not specified**, the value **must be less than 0**
+                - When not specified, the movie is identified as **announced**
+            - If **is specified**, the value **must be in the range of 0 or more**
+                - When is specified, the movie is identified as **released**
+        - To convert date to epoch seconds and vice versa, this converter can be used https://www.epochconverter.com/
+            - When converting, it is required to select **GMT/UTC** as the time zone
+    - ***eraCodeDesignation*** – Expresses the codename of the selected chronological Star Wars era for the movie
+        - This is the **String** data type, which is a **text**
+        - **Is mandatory**
+            - It is not acceptable to have the value **blank ("") or filled with blank spaces or missing in the file**
+        - The value **must** have one of the following code designations:
             - DAWN_OF_THE_JEDI
             - THE_OLD_REPUBLIC
             - THE_HIGH_REPUBLIC
@@ -1142,13 +1147,13 @@ public class MovieInput
             - THE_NEW_REPUBLIC
             - RISE_OF_THE_FIRST_ORDER
             - NEW_JEDI_ORDER
-        - Chronologické éry jsou více popsaný přímo **ve formě uživatelské funkce v aplikaci** nebo na těchto webových stránkách https://www.screengeek.net/2023/04/07/star-wars-timeline-eras
-- Není možné, aby existovaly dva filmy, které mají **stejný název a zároveň stejné datum vydání**
-- Není možné, aby existovaly dva filmy, které mají **stejný URL odkaz ke zhlédnutí nebo stejné shrnutí obsahu**
+        - The chronological eras are described more directly **in the form of a user function in the app** or on this website https://www.screengeek.net/2023/04/07/star-wars-timeline-eras
+- It is not possible for two movies to have **the same name and the same release date**
+- It is not possible for two movies to have **the same URL link for watching or the same summary of content**
 
-#### Popis struktury souboru
+#### File structure description
 
-- Soubor by měl vypadat nějak takto pro **jeden vstupní film**:
+- The file should look something like this for **one input movie**:
 
 ```
 [Attributes]
@@ -1181,63 +1186,63 @@ AGE_OF_REBELLION 7
 [End]
 ```
 
-- V souboru může být **více než jeden vstupní film**
-    - Stačí **za sekci *\[Values\]* předcházejícího filmu** umístit **zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]* následujícího filmu**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Order:*** – Vyjadřuje pořadí filmu z hlediska umístění v souboru
-        - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní data filmu
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** – Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** – Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** – Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru)
-    - Hodnotu s propojovacím číslem je možné zapsat na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-        - Vyjímkou je hodnota atributu/data ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků**
-- ***\[End\]*** – Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-        - Tento mechanismus je možné použít při **editaci/úpravě** dat nějakého existujícího filmu, kdy v souboru může být třeba 20 filmů a znak ***\[End\]*** se umístí mezi 1. a 2. film, takže dojde k přečtení pouze 1. filmu, zbytek se bude ignorovat
+- There can be **more than one input movie** in a file
+    - Just **after the *\[Values]* section of the previous movie** place **again the *\[Attributes]* section and then again the *\[Values]* section of the next movie**
+    - ***\[End\]*** remains unchanged, which means that in the file only once and at the end of the file
+- ***\[Attributes\]*** - Expresses a control character for detecting a section with individual data/attributes names and link numbers
+    - **Must be in the file**
+    - ***Order:*** – Expresses the order of the movie in terms of its position in the file
+        - **Doesn't have to be in the file**, information purpose only
+    - **Individual data/attributes names with linking numbers in the *\[Attributes\]*** section represent the input data of the movie
+        - **Doesn't have to be in the file**, information purpose only
+        - The individual data/attributes names are specified in the [file data structure description](#file-data-structure-description)
+        - The data/attributes names themselves with linking numbers in the *\[Attributes\]* section express the pattern/prescription **how to separate data/attributes values in the *\[Values\]*** section, which is:
+            - **Data/attribute name** – The file line starts with the value of a specific data/attribute
+            - **Space** – Expresses the separator between the data/attribute value and the link number
+            - **Link number** – Expresses the connection to which specific data/attribute the value should be assigned
+- ***\[Values\]*** – Expresses a control character for detecting a section with individual data/attributes values and link numbers
+    - **Must be in the file**
+    - The separation of data/attributes values with link numbers follows the pattern/prescription **in section *\[Attributes\]***
+    - The data types of data/attributes values are specified in the [file data structure description](#file-data-structure-description)
+    - It is possible to write a value with a linking number on **multiple lines**, but after reading the file such a value from **multiple lines will be concatenated into one line**
+        - The exception is the value of the attribute/data ***shortContentSummary***, when after reading the file the value **from multiple rows will be concatenated again into multiple rows**
+- ***\[End\]*** – Expresses a control character for detecting the end of reading input data
+    - If there is any text after ***\[End\]***, it will be ignored
+        - This mechanism can be used when **editing** the data of an existing movie, where there may be 20 movies in the file and the ***\[End\]*** character is placed between the 1st and 2nd movie, so that only the 1st movie is read, the rest is ignored
 
-### Vstupní binární soubor s filmy
+### Input binary file with movies
 
-- Musí být vytvořen ručně nebo z nějakého jiného externího zdroje
-- Používá se na přidávání nových filmů do databáze nebo editaci/úpravu již existujícího filmu v databázi
+- Must be created manually or from some other external source
+- Used to add new movies to the database or edit an existing movie in the database
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **input_movies.bin**
-- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem ze [vstupního textového souboru s filmy](#vstupní-textový-soubor-s-filmy)
-    - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
-    - Na převod je možné použít tento konverter https://www.rapidtables.com/convert/number/ascii-to-binary.html
+- The file name must be **input_movies.bin**
+- Since input files can be from external sources, it is required that this file is created by converting from [input text file with movies](#input-text-file-with-movies)
+    - When converting, it is required to select the encoding as **UTF-8**
+    - You can use this converter to convert https://www.rapidtables.com/convert/number/ascii-to-binary.html
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Struktura je úplně totožná jako u [popisu struktury dat vstupního textového souboru s filmy](#popis-struktury-dat-souboru)
+- The structure is exactly the same as in [data structure description of input text file with movies](#file-data-structure-description)
 
-#### Popis struktury souboru
+#### File structure description
 
-- Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s filmy](#popis-struktury-souboru)
+- The structure is exactly the same as in [structure description of input text file with movies](#file-structure-description)
 
-### Vstupní/výstupní textový soubor s filmy
+### Input/output text file with movies
 
-- Soubor je vytvořen automaticky aplikací
-- Používá se jako uložiště již existujících/evidovaných filmů pro načtení do databáze při příštím spuštění aplikace
+- The file is created automatically by the application
+- Used as a storage of already existing/stored movies for loading into the database the next time the application is run
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **inputOutput_movies.txt**
-- Kódování souboru musí být **UTF-8**
+- The file name must be **inputOutput_movies.txt**
+- File encoding must be **UTF-8**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Data **jednoho vstupního/výstupního filmu** vypadají takto:
+- The data of **one input/output movie** looks like this:
 
 ```java
 public class MovieInputOutput
@@ -1260,21 +1265,21 @@ public class MovieInputOutput
 }
 ```
 
-- Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-2)
-- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s filmy](#popis-struktury-dat-souboru)
-- Ale jsou zde následující rozdíly:
-    - Data/atributy datového typu **String** **jsou změněna** na **char[]**, ale **pořád se jedná o text**
-    - **Nově** limity na maximální počet znaků u vybraných atributů již **neexistují**
-    - **Nově** je zde atribut ***id***
-        - Vyjadřuje identifikátor filmu v rámci databáze
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-    - **Nově** platí pravidlo, že není možné, aby existovaly dva filmy, které mají **stejný identifikátor**
+- The names of the individual data/attributes are used in the [file structure description](#file-structure-description-2)
+- The descriptions of the individual data/attributes names are identical to [data structure description of the input text file with movies](#file-data-structure-description)
+- But there are the following differences:
+    - Data/attributes of data type **String** **are changed** to **char[]**, but **it is still text**
+    - **Newly** limits on the maximum count of characters for selected attributes no longer **exist**
+    - **Newly** there is an attribute ***id***
+        - Expresses the identifier of the movie within the database
+        - This is the **int** data type, which is an **integer**
+        - **Is mandatory**
+        - The value **should be in the range of 1 or more**
+    - There is **newly** the rule that there cannot be two movies that have **the same identifier**
 
-#### Popis struktury souboru
+#### File structure description
 
-- Soubor by měl vypadat nějak takto pro **jeden vstupní/výstupní film**:
+- The file should look something like this for **one input/output movie**:
 
 ```
 [Attributes]
@@ -1309,37 +1314,37 @@ AGE_OF_REBELLION 8
 [End]
 ```
 
-- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s filmy](#popis-struktury-souboru)
-- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-2)
-- Ale jsou zde následující rozdíly:
-    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
-        - Ten vyjadřuje identifikátor filmu v databázi
-        - **Nemusí být v souboru**, pouze informační účel
-    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějakého jednoho existujícího filmu
-        - Vstupní textový soubor s filmy slouží právě k **editaci** 
-    - **Nově** jsou filmy v souboru **řazeny vzestupně na základě identifikátoru**
+- The description of the file structure is the same as in [structure description of input text file with movies](#file-structure-description)
+- Values data types and data/attributes names are specified in [file data structure description](#file-data-structure-description-2)
+- But there are the following differences:
+    - In the *\[Attributes\]* section, ***Order*** **changes** to ***Identificator***
+        - This represents the identifier of the movie in the database
+        - **Doesn't have to be in the file**, information purpose only
+    - **Newly** **it is not possible** to use the control character ***\[End\]*** to **edit** the data of one existing movie
+        - The input text file with movies can be used for **editing** 
+    - **Newly** movies in the file are **sorted in ascending order based on the movie identifier**
 
-### Vstupní/výstupní binární soubor s filmy
+### Input/output binary file with movies
 
-- Soubor je vytvořen automaticky aplikací
-- Používá se jako uložiště již existujících/evidovaných filmů pro načtení do databáze při příštím spuštění aplikace
+- The file is created automatically by the application
+- Used as a storage of already existing/stored movies for loading into the database the next time the application is run
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **inputOutput_movies.bin**
+- The file name must be **inputOutput_movies.bin**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s filmy](#popis-struktury-dat-souboru-2)
-- Aby bylo možné číst textové/řetězcové hodnoty atributů filmu z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
-    - ***name*** – 60 znaků
-    - ***hyperlinkForContentWatch*** – 180 znaků
-    - ***shortContentSummary*** – 1000 znaků
-    - ***eraCodeDesignation*** – 60 znaků
+- The structure is exactly the same as in [data structure description of input/output text file with movies](#file-data-structure-description-2)
+- To read text/string values of movie attributes from a binary file, all such values are set to a fixed length before writing to the file:
+    - ***name*** – 60 characters
+    - ***hyperlinkForContentWatch*** – 180 characters
+    - ***shortContentSummary*** – 1000 characters
+    - ***eraCodeDesignation*** – 60 characters
 
-#### Popis struktury souboru
+#### File structure description
 
-- Jednotlivá data pro každý film jsou zapsána a čtena v následujícím pořadí:
+- The individual data for each movie are written and read in the following order:
 
 ---
 
@@ -1354,22 +1359,22 @@ AGE_OF_REBELLION 8
 
 ---
 
-- Textové/řetězcové hodnoty atributů filmu jsou zapsány po jednotlivých znacích
-- Toto pořadí se v případě vícero filmů bude opakovat
+- The text/string values of the movie attributes are written on a character-by-character basis
+- This order will be repeated for multiple movies
 
-### Vstupní textový soubor s TV seriály
+### Input text file with TV shows
 
-- Musí být vytvořen ručně nebo z nějakého jiného externího zdroje
-- Používá se na přidávání nových TV seriálů do databáze nebo editaci/úpravu již existujícího TV seriálu v databázi
+- Must be created manually or from some other external source
+- Used to add new TV shows to the database or edit an existing TV show in the database
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **input_tvShows.txt**
-- Kódování souboru musí být **UTF-8**
+- The file name must be **input_tvShows.txt**
+- File encoding must be **UTF-8**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Data **jednoho vstupního TV seriálu** vypadají takto:
+- The data of **one input TV show** looks like this:
 
 ```java
 public class TVShowInput 
@@ -1382,27 +1387,27 @@ public class TVShowInput
 }
 ```
 
-- Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-4)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***name*** – Vyjadřuje název TV seriálu
-        - Jedná se o datový typ **String**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-        - Maximální počet znaků jména je **60**
-    - ***releaseDateInEpochSeconds*** – Vyjadřuje datum vydání/uvedení TV seriálu, vyjádřeného v epoch sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **není zadán**, hodnota **musí být menší než 0**
-                - Při nezadání se TV seriál identifikuje jako **oznámený** 
-            - Pokud **je zadán**, hodnota **musí být v rozsahu 0 a více**
-                - Při zadání se TV seriál identifikuje jako **vydaný** 
-        - Pro převod datumu na epoch sekundy a opačně je možné použít tento konverter https://www.epochconverter.com/
-            - Při převodu je požadováno zvolit jako časovou zónu **GMT/UTC**
-    - ***eraCodeDesignation*** – Vyjadřuje kódové označení vybrané chronologické star wars éry pro daný TV seriál
-        - Jedná se o datový typ **String**, tedy **text** 
-        - **Je povinný**
-            - Není akceptovatelné mít hodnotu **prázdnou ("") nebo vyplněnou prázdnými mezerami nebo chybějící v souboru**
-        - Hodnota **musí nabývat** jednoho z těchto kódových označení:
+- The names of individual data/attributes are used in [file structure description](#file-structure-description-4)
+- The descriptions of each data/attributes names are as follows:
+    - ***name*** – Expresses the title of the TV show
+        - This is the **String** data type, which is a **text**
+        - **Is mandatory**
+            - It is not acceptable to have the value **blank ("") or filled with blank spaces or missing in the file**
+        - The maximum count of characters in the name is **60**
+    - ***releaseDateInEpochSeconds*** – Expresses the release date of the TV show, specified in epoch seconds
+        - This is the **long** data type, which is an **integer**
+        - **Not mandatory**
+            - If **not specified**, the value **must be less than 0**
+                - When not specified, the TV show is identified as **announced**
+            - If **is specified**, the value **must be in the range of 0 or more**
+                - When is specified, the TV show is identified as **released**
+        - To convert date to epoch seconds and vice versa, this converter can be used https://www.epochconverter.com/
+            - When converting, it is required to select **GMT/UTC** as the time zone
+    - ***eraCodeDesignation*** – Expresses the codename of the selected chronological Star Wars era for a given TV show
+        - This is **String** data type, which is **text**
+        - **Is mandatory**
+            - It is not acceptable to have the value **blank ("") or filled with blank spaces or missing in the file**
+        - The value **must** have one of the following code designations:
             - DAWN_OF_THE_JEDI
             - THE_OLD_REPUBLIC
             - THE_HIGH_REPUBLIC
@@ -1412,12 +1417,12 @@ public class TVShowInput
             - THE_NEW_REPUBLIC
             - RISE_OF_THE_FIRST_ORDER
             - NEW_JEDI_ORDER
-        - Chronologické éry jsou více popsaný přímo **ve formě uživatelské funkce v aplikaci** nebo na těchto webových stránkách https://www.screengeek.net/2023/04/07/star-wars-timeline-eras
-- Není možné, aby existovaly dva TV seriály, které mají **stejný název a zároveň stejné datum vydání**
+        - The chronological eras are described more directly **in the form of a user function in the app** or on this website https://www.screengeek.net/2023/04/07/star-wars-timeline-eras
+- It's not possible for there to be two TV shows that have **the same name and the same release date**
 
-#### Popis struktury souboru
+#### File structure description
 
-- Soubor by měl vypadat nějak takto pro **jeden vstupní TV seriál**:
+- The file should look something like this for **one input TV show**:
 
 ```
 [Attributes]
@@ -1437,62 +1442,62 @@ FALL_OF_THE_JEDI 3
 [End]
 ```
 
-- V souboru může být **více než jeden vstupní TV seriál**
-    - Stačí **za sekci *\[Values\]* předcházejícího TV seriálu** umístit **zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]* následujícího TV seriálu**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Order:*** – Vyjadřuje pořadí TV seriálu z hlediska umístění v souboru
-        - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní data TV seriálu
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-4)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** – Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** – Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** – Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-4)
-    - Hodnotu s propojovacím číslem je možné zapsat na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-- ***\[End\]*** – Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-        - Tento mechanismus je možné použít při **editaci/úpravě** dat nějakého existujícího TV seriálu, kdy v souboru může být třeba 20 TV seriálů a znak ***\[End\]*** se umístí mezi 1. a 2. TV seriál, takže dojde k přečtení pouze 1. TV seriálu, zbytek se bude ignorovat
+- There can be **more than one input TV show** in the file
+    - Just **after the *\[Values\]* section of the previous TV show** place **again the *\[Attributes\]* section and then again the *\[Values\]* section of the following TV show**
+    - ***\[End\]*** remains unchanged, which means that in the file only once and at the end of the file
+- ***\[Attributes\]*** - Expresses a control character for detecting a section with individual data/attributes names and link numbers
+    - **Must be in the file**
+    - ***Order:*** – Expresses the order of the TV show in terms of its position in the file
+        - **Doesn't have to be in the file**, information purpose only
+    - **Individual data/attributes names with linking numbers in the *\[Attributes\]*** section represent the input data of the TV show
+        - **Doesn't have to be in the file**, information purpose only
+        - The individual data/attributes names are specified in [file data structure description](#file-data-structure-description-4)
+        - The data/attributes names themselves with linking numbers in the *\[Attributes\]* section express the pattern/prescription **how to separate data/attributes values in the *\[Values\]*** section, which is:
+            - **Data/attribute name** – The file line starts with the value of a specific data/attribute
+            - **Space** – Expresses the separator between the data/attribute value and the link number
+            - **Link number** – Expresses the connection to which specific data/attribute the value should be assigned
+- ***\[Values\]*** - Expresses a control character for detecting a section with individual data/attributes values and link numbers
+    - **Must be in the file**
+    - The separation of data/attributes values with link numbers follows the pattern/prescription **in section *\[Attributes\]***
+    - The data types of data/attributes values are specified in the [file data structure description](#file-data-structure-description-4)
+    - It is possible to write a value with a linking number on **multiple lines**, but after reading the file such a value from **multiple lines will be concatenated into one line**
+- ***\[End\]*** – Expresses a control character for detecting the end of reading input data
+    - If there is any text after ***\[End\]***, it will be ignored
+        - This mechanism can be used when **editing** the data of an existing TV show, where there may be 20 TV shows in the file and the ***\[End\]*** character is placed between the 1st and 2nd TV show, so that only the 1st TV show is read, the rest is ignored
 
-### Vstupní binární soubor s TV seriály
+### Input binary file with TV shows
 
-- Musí být vytvořen ručně nebo z nějakého jiného externího zdroje
-- Používá se na přidávání nových TV seriálů do databáze nebo editaci/úpravu již existujícího TV seriálu v databázi
+- Must be created manually or from some other external source
+- Used to add new TV shows to the database or edit an existing TV show in the database
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **input_tvShows.bin**
-- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem ze [vstupního textového souboru s TV seriály](#vstupní-textový-soubor-s-tv-seriály)
-    - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
-    - Na převod je možné použít tento konverter https://www.rapidtables.com/convert/number/ascii-to-binary.html
+- The file name must be **input_tvShows.bin**
+- Since input files can be from external sources, it is required that this file is created by converting from [input text file with TV shows](#input-text-file-with-tv-shows)
+    - When converting, it is required to select the encoding as **UTF-8**
+    - You can use this converter to convert https://www.rapidtables.com/convert/number/ascii-to-binary.html
  
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Struktura je úplně totožná jako u [popisu struktury dat vstupního textového souboru s TV seriály](#popis-struktury-dat-souboru-4)
+- The structure is exactly the same as in [data structure description of input text file with TV shows](#file-data-structure-description-4)
 
-#### Popis struktury souboru
+#### File structure description
 
-- Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s TV seriály](#popis-struktury-souboru-4)
+- The structure is exactly the same as in [structure description of input text file with TV shows](#file-structure-description-4)
 
-### Vstupní/výstupní textový soubor s TV seriály
+### Input/output text file with TV shows
 
-- Soubor je vytvořen automaticky aplikací
-- Používá se jako uložiště již existujících/evidovaných TV seriálů pro načtení do databáze při příštím spuštění aplikace
+- The file is created automatically by the application
+- Used as a storage of already existing/stored TV shows for loading into the database the next time the application is run
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **inputOutput_tvShows.txt**
-- Kódování souboru musí být **UTF-8**
+- The file name must be **inputOutput_tvShows.txt**
+- File encoding must be **UTF-8**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Data **jednoho vstupního/výstupního TV seriálu** vypadají takto:
+- The data of **one input/output TV show** looks like this:
 
 ```java
 public class TVShowInputOutput
@@ -1507,21 +1512,21 @@ public class TVShowInputOutput
 }
 ```
 
-- Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-6)
-- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s TV seriály](#popis-struktury-dat-souboru-4)
-- Ale jsou zde následující rozdíly:
-    - Data/atributy datového typu **String** **jsou změněna** na **char[]**, ale **pořád se jedná o text**
-    - **Nově** limity na maximální počet znaků u vybraných atributů již **neexistují**
-    - **Nově** je zde atribut ***id***
-        - Vyjadřuje identifikátor TV seriálu v rámci databáze
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-    - **Nově** platí pravidlo, že není možné, aby existovaly dva TV seriály, které mají **stejný identifikátor**
+- The names of the individual data/attributes are used in the [file structure description](#file-structure-description-6)
+- The descriptions of the individual data/attributes names are identical to [data structure description of the input text file with TV shows](#file-data-structure-description-4)
+- But there are the following differences:
+    - Data/attributes of data type **String** **are changed** to **char[]**, but **it is still text**
+    - **Newly** limits on the maximum count of characters for selected attributes no longer **exist**
+    - **Newly** there is an attribute ***id***
+        - Expresses the identifier of the TV show within the database
+        - This is the **int** data type, which is an **integer**
+        - **Is mandatory**
+        - The value **should be in the range of 1 or more**
+    - There is **newly** the rule that there cannot be two TV shows that have **the same identifier**
 
-#### Popis struktury souboru
+#### File structure description
 
-- Soubor by měl vypadat nějak takto pro **jeden vstupní/výstupní TV seriál**:
+- The file should look something like this for **one input/output TV show**:
 
 ```
 [Attributes]
@@ -1543,35 +1548,35 @@ FALL_OF_THE_JEDI 4
 [End]
 ```
 
-- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s TV seriály](#popis-struktury-souboru-4)
-- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-6)
-- Ale jsou zde následující rozdíly:
-    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
-        - Ten vyjadřuje identifikátor TV seriálu v databázi
-        - **Nemusí být v souboru**, pouze informační účel
-    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějakého jednoho existujícího TV seriálu
-        - Vstupní textový soubor s TV seriály slouží právě k **editaci** 
-    - **Nově** jsou TV seriály v souboru **řazeny vzestupně na základě identifikátoru**
+- The description of the file structure is the same as in [structure description of input text file with TV shows](#file-structure-description-4)
+- Values data types and data/attributes names are specified in [file data structure description](#file-data-structure-description-6)
+- But there are the following differences:
+    - In the *\[Attributes\]* section, ***Order*** **changes** to ***Identificator***
+        - This represents the identifier of the TV show in the database
+        - **Doesn't have to be in the file**, information purpose only
+    - **Newly** **it is not possible** to use the control character ***\[End\]*** to **edit** the data of one existing TV show
+        - The input text file with TV shows can be used for **editing**
+    - **Newly** TV shows in the file are **sorted in ascending order based on the TV show identifier**
 
-### Vstupní/výstupní binární soubor s TV seriály
+### Input/output binary file with TV shows
 
-- Soubor je vytvořen automaticky aplikací
-- Používá se jako uložiště již existujících/evidovaných TV seriálů pro načtení do databáze při příštím spuštění aplikace
+- The file is created automatically by the application
+- Used as a storage of already existing/stored TV shows for loading into the database the next time the application is run
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **inputOutput_tvShows.bin**
+- The file name must be **inputOutput_tvShows.bin**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s TV seriály](#popis-struktury-dat-souboru-6)
-- Aby bylo možné číst textové/řetězcové hodnoty atributů TV seriálu z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
-    - ***name*** – 60 znaků
-    - ***eraCodeDesignation*** – 60 znaků
+- The structure is exactly the same as in [data structure description of input/output text file with TV shows](#file-data-structure-description-6)
+- To read text/string values of TV show attributes from a binary file, all such values are set to a fixed length before writing to the file:
+    - ***name*** – 60 characters
+    - ***eraCodeDesignation*** – 60 characters
 
-#### Popis struktury souboru
+#### File structure description
 
-- Jednotlivá data pro každý TV seriál jsou zapsána a čtena v následujícím pořadí:
+- The individual data for each TV show are written and read in the following order:
 
 ---
 
@@ -1582,22 +1587,22 @@ FALL_OF_THE_JEDI 4
 
 ---
 
-- Textové/řetězcové hodnoty atributů TV seriálu jsou zapsány po jednotlivých znacích
-- Toto pořadí se v případě vícero TV seriálů bude opakovat
+- The text/string values of the TV show attributes are written on a character-by-character basis
+- This order will be repeated for multiple TV shows
 
-### Vstupní textový soubor s TV sezónami
+### Input text file with TV seasons
 
-- Musí být vytvořen ručně nebo z nějakého jiného externího zdroje
-- Používá se na přidávání nových TV sezón pro vybraný TV seriál do databáze nebo editaci/úpravu již existující TV sezóny v databázi
+- Must be created manually or from some other external source
+- Used to add new TV seasons for a selected TV show to the database or edit an existing TV season in the database
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **input_tvSeasons.txt**
-- Kódování souboru musí být **UTF-8**
+- File name must be **input_tvSeasons.txt**
+- File encoding must be **UTF-8**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Data **jedné vstupní TV sezóny** vypadají takto:
+- The data of **one input TV season** looks like this:
 
 ```java
 public class TVSeasonInput 
@@ -1606,17 +1611,17 @@ public class TVSeasonInput
 }
 ```
 
-- Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-8)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***orderInTVShow*** – Vyjadřuje pořadí TV sezóny v rámci příslušného TV seriálu
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **musí být v rozsahu 1 a více**
-- Není možné, aby existovaly dvě TV sezóny v rámci stejného TV seriálu, které mají **stejné pořadí**
+- The names of individual data/attributes are used in [file structure description](#file-structure-description-8)
+- The descriptions of each data/attributes names are as follows:
+    - ***orderInTVShow*** – Expresses the order of the TV season within the respective TV show
+        - This is the **int** data type, which is an **integer**
+        - **Is mandatory**
+        - Value **must be in the range of 1 or more**
+- It's not possible for there to be two TV seasons within the same TV show that have **the same order**
 
-#### Popis struktury souboru
+#### File structure description
 
-- Soubor by měl vypadat nějak takto pro **jednu vstupní TV sezónu**:
+- The file should look something like this for **one input TV season**:
 
 ```
 [Attributes]
@@ -1632,62 +1637,62 @@ orderInTVShow 1
 [End]
 ```
 
-- V souboru může být **více než jedna vstupní TV sezóna**
-    - Stačí **za sekci *\[Values\]* předcházející TV sezóny** umístit **zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]* následující TV sezóny**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Order:*** – Vyjadřuje pořadí TV sezóny z hlediska umístění v souboru
-        - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní data TV sezóny
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-8)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** – Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** – Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** – Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** – Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-8)
-    - Hodnotu s propojovacím číslem je možné zapsat na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-- ***\[End\]*** – Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-        - Tento mechanismus je možné použít při **editaci/úpravě** dat nějaké existující TV sezóny, kdy v souboru může být třeba 20 TV sezón a znak ***\[End\]*** se umístí mezi 1. a 2. TV sezónu, takže dojde k přečtení pouze 1. TV sezóny, zbytek se bude ignorovat
+- There can be **more than one input TV season** in a file
+    - Just **after the *\[Values]* section of the previous TV season** place **again the *\[Attributes]* section and then again the *\[Values]* section of the following TV season**
+    - ***\[End\]*** remains unchanged, which means that in the file only once and at the end of the file
+- ***\[Attributes\]*** – Expresses a control character for detecting a section with individual data/attributes names and link numbers
+    - **Must be in the file**
+    - ***Order:*** – Expresses the order of the TV season in terms of its position in the file
+        - **Doesn't have to be in the file**, information purpose only
+    - **The individual data/attributes names with linking numbers in the *\[Attributes\]*** section represent the input data of the TV season
+        - **Doesn't have to be in the file**, information purpose only
+        - The individual data/attributes names are specified in [file data structure description](#file-data-structure-description-8)
+        - The data/attributes names themselves with linking numbers in the *\[Attributes\]* section express the pattern/prescription **how to separate data/attributes values in the *\[Values\]*** section, which is:
+            - **Data/attribute name** – The file line starts with the value of a specific data/attribute
+            - **Space** – Expresses the separator between the data/attribute value and the link number
+            - **Link number** – Expresses the connection to which specific data/attribute the value should be assigned
+- ***\[Values\]*** – Expresses a control character for detecting a section with individual data/attributes values and link numbers
+    - **Must be in the file**
+    - The separation of data/attributes values with link numbers follows the pattern/prescription **in section *\[Attributes\]***
+    - The data types of data/attributes values are specified in [file data structure description](#file-data-structure-description-8)
+    - It is possible to write a value with a linking number on **multiple lines**, but after reading the file such a value from **multiple lines will be concatenated into one line**
+- ***\[End\]*** – Expresses a control character for detecting the end of reading input data
+    - If there is any text after ***\[End\]***, it will be ignored
+        - This mechanism can be used when **editing** the data of an existing TV season, where there may be 20 TV seasons in the file and the ***\[End\]*** character is placed between the 1st and 2nd TV season, so that only the 1st TV season is read, the rest is ignored
 
-### Vstupní binární soubor s TV sezónami
+### Input binary file with TV seasons
 
-- Musí být vytvořen ručně nebo z nějakého jiného externího zdroje
-- Používá se na přidávání nových TV sezón pro vybraný TV seriál do databáze nebo editaci/úpravu již existující TV sezóny v databázi
+- Must be created manually or from some other external source
+- Used to add new TV seasons for a selected TV show to the database or edit an existing TV season in the database
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **input_tvSeasons.bin**
-- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem ze [vstupního textového souboru s TV sezónami](#vstupní-textový-soubor-s-tv-sezónami)
-    - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
-    - Na převod je možné použít tento konverter https://www.rapidtables.com/convert/number/ascii-to-binary.html
+- The file name must be **input_tvSeasons.bin**
+- Since input files can be from external sources, it is required that this file is created by converting from [input text file with TV seasons](#input-text-file-with-tv-seasons)
+    - When converting, it is required to select the encoding as **UTF-8**
+    - You can use this converter to convert https://www.rapidtables.com/convert/number/ascii-to-binary.html
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Struktura je úplně totožná jako u [popisu struktury dat vstupního textového souboru s TV sezónami](#popis-struktury-dat-souboru-8)
+- The structure is exactly the same as in [data structure description of input text file with TV seasons](#file-data-structure-description-8)
 
-#### Popis struktury souboru
+#### File structure description
 
-- Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s TV sezónami](#popis-struktury-souboru-8)
+- The structure is exactly the same as in [structure description of input text file with TV seasons](#file-structure-description-8)
 
-### Vstupní/výstupní textový soubor s TV sezónami
+### Input/output text file with TV seasons
 
-- Soubor je vytvořen automaticky aplikací
-- Používá se jako uložiště již existujících/evidovaných TV sezón z různých TV seriálů pro načtení do databáze při příštím spuštění aplikace
+- The file is created automatically by the application
+- Used as a storage of already existing/stored TV seasons from different TV shows to be loaded into the database the next time the application is run
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **inputOutput_tvSeasons.txt**
-- Kódování souboru musí být **UTF-8**
+- The file name must be **inputOutput_tvSeasons.txt**
+- File encoding must be **UTF-8**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Data **jedné vstupní/výstupní TV sezóny** vypadají takto:
+- The data of **one input/output TV season** looks like this:
 
 ```java
 public class TVSeasonInputOutput
@@ -1700,25 +1705,25 @@ public class TVSeasonInputOutput
 }
 ```
 
-- Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-10)
-- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s TV sezónami](#popis-struktury-dat-souboru-8)
-- Ale jsou zde následující rozdíly:
-    - **Nově** je zde atribut ***id***
-        - Vyjadřuje identifikátor TV sezóny v rámci databáze
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-    - **Nově** je zde atribut ***tvShowId***
-        - Vyjadřuje identifikátor příslušného TV seriálu pro danou TV sezónu
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-    - **Nově** platí pravidlo, že není možné, aby existovaly dvě TV sezóny, které mají **stejný identifikátor**
-    - **Nově** platí pravidlo, že mení možné, aby existovala TV sezóna, jejíž **identifikátor TV seriálu neodkazuje na žádný existující TV seriál**
+- The names of the individual data/attributes are used in the [file structure description](#file-structure-description-10)
+- The descriptions of the individual data/attributes names are identical to [data structure description of input text file with TV seasons](#file-data-structure-description-8)
+- But there are the following differences:
+    - **Newly** there is an attribute ***id***
+        - Expresses the identifier of the TV season within the database
+        - This is the **int** data type, which is an **integer**
+        - **Is mandatory**
+        - The value **should be in the range of 1 or more**
+    - **Newly** there is an attribute ***tvShowId***
+        - Expresses the identifier of the respective TV show for the given TV season
+        - This is the **int** data type, which is an **integer**
+        - **Is mandatory**
+        - The value **should be in the range of 1 or more**
+    - There is **newly** the rule that there cannot be two TV seasons that have **the same identifier**
+    - There is **newly** the rule that there cannot be the TV season whose **TV show identifier does not refer to any existing TV show**
 
-#### Popis struktury souboru
+#### File structure description
 
-- Soubor by měl vypadat nějak takto pro **jednu vstupní/výstupní TV sezónu**:
+- The file should look something like this for **one input/output TV season**:
 
 ```
 [Attributes]
@@ -1738,32 +1743,32 @@ tvShowId 3
 [End]
 ```
 
-- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s TV sezónami](#popis-struktury-souboru-8)
-- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-10)
-- Ale jsou zde následující rozdíly:
-    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
-        - Ten vyjadřuje identifikátor TV sezóny v databázi
-        - **Nemusí být v souboru**, pouze informační účel
-    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějaké jedné existující TV sezóny
-        - Vstupní textový soubor s TV sezónami slouží právě k **editaci** 
-    - **Nově** jsou TV sezóny v souboru **řazeny vzestupně na základě identifikátoru TV sezóny**
+- The description of the file structure is the same as in [structure description of input text file with TV seasons](#file-structure-description-8)
+- Values data types and data/attributes names are specified in [file data structure description](#file-data-structure-description-10)
+- But there are the following differences:
+    - In the *\[Attributes\]* section, ***Order*** **changes** to ***Identificator***
+        - This represents the identifier of the TV season in the database
+        - **Doesn't have to be in the file**, information purpose only
+    - **Newly** **it is not possible** to use the control character ***\[End\]*** to **edit** the data of one existing TV season
+        - The input text file with TV seasons can be used for **editing**
+    - **Newly** TV seasons in the file are **sorted in ascending order based on the TV season identifier**
 
-### Vstupní/výstupní binární soubor s TV sezónami
+### Input/output binary file with TV seasons
 
-- Soubor je vytvořen automaticky aplikací
-- Používá se jako uložiště již existujících/evidovaných TV sezón z různých TV seriálů pro načtení do databáze při příštím spuštění aplikace
+- The file is created automatically by the application
+- Used as a storage of already existing/stored TV seasons from different TV shows to be loaded into the database the next time the application is run
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **inputOutput_tvSeasons.bin**
+- The file name must be **inputOutput_tvSeasons.bin**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s TV sezónami](#popis-struktury-dat-souboru-10)
+- The structure is exactly the same as in [data structure description of input/output text file with TV seasons](#file-data-structure-description-10)
 
-#### Popis struktury souboru
+#### File structure description
 
-- Jednotlivá data pro každou TV sezónu jsou zapsána a čtena v následujícím pořadí:
+- The individual data for each TV season are written and read in the following order:
 
 ---
 
@@ -1773,21 +1778,21 @@ tvShowId 3
 
 ---
 
-- Toto pořadí se v případě vícero TV sezón bude opakovat
+- This order will be repeated for multiple TV seasons
 
-### Vstupní textový soubor s TV epizodami
+### Input text file with TV episodes
 
-- Musí být vytvořen ručně nebo z nějakého jiného externího zdroje
-- Používá se na přidávání nových TV epizod pro vybranou TV sezónu do databáze nebo editaci/úpravu již existující TV epizody v databázi
+- Must be created manually or from some other external source
+- Used to add new TV episodes for a selected TV season to the database or edit an existing TV episode in the database
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **input_tvEpisodes.txt**
-- Kódování souboru musí být **UTF-8**
+- The file name must be **input_tvEpisodes.txt**
+- File encoding must be **UTF-8**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Data **jedné vstupní TV epizody** vypadají takto:
+- The data of **one input TV episode** looks like this:
 
 ```java
 public class TVEpisodeInput
@@ -1806,44 +1811,44 @@ public class TVEpisodeInput
 }
 ```
 
-- Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-12)
-- Popisy jednotlivých názvů dat/atributů jsou následující:
-    - ***runtimeInSeconds*** – Vyjadřuje délku/trvání TV epizody v sekundách
-        - Jedná se o datový typ **long**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **musí být v rozsahu 1 a více**
-    - ***name*** – Vyjadřuje název TV epizody
-        - Jedná se o datový typ **String**, tedy **text** 
-        - **Není povinný**
-            - Pokud **není zadán**, hodnota **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-        - Maximální počet znaků jména je **60**
-    - ***percentageRating*** – Vyjadřuje procentuální hodnocení TV epizody
-        - Jedná se o datový typ **int**, tedy **celé číslo** 
-        - **Není povinný**
-            - Pokud **není zadán**, hodnota **musí být menší než 0**
-                - Při nezadání se TV epizoda identifikuje jako **nezhlédnutá**
-            - Pokud **je zadán**, hodnota **musí být v rozsahu 0 až 100**
-                - Při zadání se TV epizoda identifikuje jako **zhlédnutá** 
-    - ***hyperlinkForContentWatch*** – Vyjadřuje URL odkaz ke zhlédnutí TV epizody
-        - Jedná se o datový typ **String**, tedy **text** 
-        - **Není povinný**
-            - Pokud **není zadán**, hodnota **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-        - Maximální počet znaků URL odkazu je **180**
-    - ***shortContentSummary*** – Vyjadřuje krátké shrnutí obsahu TV epizody
-        - Jedná se o datový typ **String**, tedy **text** 
-        - **Není povinný**
-            - Pokud **není zadán**, hodnota **musí být prázdná ("") nebo vyplněná prázdnými mezerami nebo chybějící v souboru**
-        - Maximální počet znaků shrnutí je **1000**
-    - ***orderInTVShowSeason*** – Vyjadřuje pořadí TV epizody v rámci příslušné TV sezóny
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **musí být v rozsahu 1 a více**
-- Není možné, aby existovaly dvě TV epizody v rámci stejné TV sezóny, které mají **stejné pořadí**
-- Není možné, aby existovaly dvě TV epizody, které mají **stejný URL odkaz ke zhlédnutí nebo stejné shrnutí obsahu**
+- The names of individual data/attributes are used in [file structure description](#file-structure-description-12)
+- The descriptions of each data/attributes names are as follows:
+    - ***runtimeInSeconds*** – Expresses the length/duration of the TV episode in seconds
+        - This is the **long** data type, which is an **integer**
+        - **Is mandatory**
+        - The value **must be in the range of 1 or more**
+    - ***name*** – Expresses the title of the TV episode
+        - This is the **String** data type, which is a **text**
+        - **Not mandatory**
+            - If **not specified**, the value **must be blank ("") or filled with blank spaces or missing in the file**
+        - The maximum count of characters in the name is **60**
+    - ***percentageRating*** – Expresses the percentage rating of the TV episode
+        - This is the **int** data type, which is an **integer**
+        - **Not mandatory**
+            - If **not specified**, value **must be less than 0**
+                - When not specified, the TV episode is identified as **unwatched**
+            - If **is specified**, the value **must be in the range 0 to 100**
+                - When is specified, the TV episode is identified as **watched**
+    - ***hyperlinkForContentWatch*** –  Expresses the URL link to watch the TV episode
+        - This is the **String** data type, which is a **text**
+        - **Not mandatory**
+            - If **not specified**, the value **must be blank ("") or filled with blank spaces or missing in the file**
+        - The maximum count of characters of a URL link is **180**
+    - ***shortContentSummary*** – Expresses a brief summary of the TV episode's content
+        - This is the **String** data type, which is a **text**
+        - **Not mandatory**
+            - If **not specified**, the value **must be blank ("") or filled with blank spaces or missing in the file**
+        - The maximum count of characters in the summary is **1000**
+    - ***orderInTVShowSeason*** – Expresses the order of the TV episode within the respective TV season
+        - This is the **int** data type, which is an **integer**
+        - **Is mandatory**
+        - The value **must be in the range of 1 or more**
+- It is not possible for two TV episodes within the same TV season to have **the same order**
+- It is not possible for two TV episodes to have **the same URL link for watching or the same summary of content**
 
-#### Popis struktury souboru
+#### File structure description
 
-- Soubor by měl vypadat nějak takto pro **jednu vstupní TV epizodu**:
+- The file should look something like this for **one input TV episode**:
 
 ```
 [Attributes]
@@ -1870,63 +1875,63 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 [End]
 ```
 
-- V souboru může být **více než jedna vstupní TV epizoda**
-    - Stačí **za sekci *\[Values\]* předcházející TV epizody** umístit **zase sekci *\[Attributes\]* a pak zase sekci *\[Values\]* následující TV epizody**
-    - ***\[End\]*** zůstane beze změny, tedy v souboru pouze jednou a na konci
-- ***\[Attributes\]*** –⁠ Vyjadřuje kontrolní znak pro detekci sekce s jednotlivými názvy dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - ***Order:*** –⁠ Vyjadřuje pořadí TV epizody z hlediska umístění v souboru
-        - **Nemusí být v souboru**, pouze informační účel
-    - **Jednotlivé názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]*** vyjadřují vstupní data TV epizody
-        - **Nemusí být v souboru**, pouze informační účel
-        - Jednotlivé názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-12)
-        - Samotné názvy dat/atributů s propojovacími čísly v sekci *\[Attributes\]* vyjadřují vzor/předpis, **jak se oddělují hodnoty dat/atributů v sekci *\[Values\]***, tedy:
-            - **Název data/atributu** –⁠ Řádek souboru začíná hodnotou konkrétního data/atributu
-            - **Mezera** –⁠ Vyjadřuje oddělovač mezi hodnotou data/atributu a propojovacím číslem
-            - **Propojovací číslo** –⁠ Vyjadřuje spojení, k jakému konkrétnímu datu/atributu má být přiražena daná hodnota
-- ***\[Values\]*** –⁠ Vyjadřuje kontrolní znak pro detekci sekce s jednotlivý hodnotami dat/atributů a propojovacími čísly
-    - **Musí být v souboru**
-    - Oddělení hodnot dat/atributů s propojovacími čísly se řídí vzorem/předpisem **v sekci *\[Attributes\]***
-    - Datové typy hodnot dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-12)
-    - Hodnotu s propojovacím číslem je možné zapsat na **více řádků**, ale po přečtení souboru bude taková hodnota z **více řádků spojena do jednoho řádku**
-        - Vyjímkou je hodnota atributu/data ***shortContentSummary***, kdy po přečtení souboru bude hodnota **z více řádků spojena opět do více řádků**
-- ***\[End\]*** –⁠ Vyjadřuje kontrolní znak pro detekci konce čtení vstupních dat
-    - Pokud bude nějaký text za ***\[End\]***, bude ignorován
-        - Tento mechanismus je možné použít při **editaci/úpravě** dat nějaké existující TV epizody, kdy v souboru může být třeba 20 TV epizod a znak ***\[End\]*** se umístí mezi 1. a 2. TV epizodu, takže dojde k přečtení pouze 1. TV epizody, zbytek se bude ignorovat
+- There can be **more than one input TV episode** in a file
+    - Just **after the *\[Values]* section of the previous TV episode** place **again the *\[Attributes]* section and then again the *\[Values]* section of the next TV episode**
+    - ***\[End\]*** remains unchanged, which means that in the file only once and at the end of the file
+- ***\[Attributes\]*** –⁠ Expresses a control character for detecting a section with individual data/attributes names and link numbers
+    - **Must be in the file**
+    - ***Order:*** –⁠ Expresses the order of the TV episode in terms of its position in the file
+        - **Doesn't have to be in the file**, information purpose only
+    - **Individual data/attributes names with linking numbers in the *\[Attributes\]*** section represent the input data of the TV episode
+        - **Doesn't have to be in the file**, information purpose only
+        - The individual data/attributes names are specified in the [file data structure description](#file-data-structure-description-12)
+        - The data/attributes names themselves with linking numbers in the *\[Attributes\]* section express the pattern/prescription **how to separate data/attributes values in the *\[Values\]*** section, which is:
+            - **Data/attribute name** – The file line starts with the value of a specific data/attribute
+            - **Space** – Expresses the separator between the data/attribute value and the link number
+            - **Link number** – Expresses the connection to which specific data/attribute the value should be assigned
+- ***\[Values\]*** –⁠ Expresses a control character for detecting a section with individual data/attributes values and link numbers
+    - **Must be in the file**
+    - The separation of data/attributes values with link numbers follows the pattern/prescription **in section *\[Attributes\]***
+    - The data types of data/attributes values are specified in the [file data structure description](#file-data-structure-description-12)
+    - It is possible to write a value with a linking number on **multiple lines**, but after reading the file such a value from **multiple lines will be concatenated into one line**
+        - The exception is the value of the attribute/data ***shortContentSummary***, when after reading the file the value **from multiple rows will be concatenated again into multiple rows**
+- ***\[End\]*** –⁠ Expresses a control character for detecting the end of reading input data
+    - If there is any text after ***\[End\]***, it will be ignored
+        - This mechanism can be used when **editing** the data of an existing TV episode, where there may be 20 TV episodes in the file and the ***\[End\]*** character is placed between the 1st and 2nd TV episode, so that only the 1st TV episode is read, the rest is ignored
 
-### Vstupní binární soubor s TV epizodami
+### Input binary file with TV episodes
 
-- Musí být vytvořen ručně nebo z nějakého jiného externího zdroje
-- Používá se na přidávání nových TV epizod pro vybranou TV sezónu do databáze nebo editaci/úpravu již existující TV epizody v databázi
+- Must be created manually or from some other external source
+- Used to add new TV episodes for a selected TV season to the database or edit an existing TV episode in the database
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **input_tvEpisodes.bin**
-- Protože vstupní soubory můžou být z externích zdrojů, je vyžadováno, aby tento soubor vznikl převodem ze [vstupního textového souboru s TV epizodami](#vstupní-textový-soubor-s-tv-epizodami)
-    - Při převodu je vyžadováno zvolit kódování jako **UTF-8**
-    - Na převod je možné použít tento konverter https://www.rapidtables.com/convert/number/ascii-to-binary.html
+- The file name must be **input_tvEpisodes.bin**
+- Since input files can be from external sources, it is required that this file is created by converting from [input text file with TV episodes](#input-text-file-with-tv-episodes)
+    - When converting, it is required to select the encoding as **UTF-8**
+    - You can use this converter to convert https://www.rapidtables.com/convert/number/ascii-to-binary.html
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Struktura je úplně totožná jako u [popisu struktury dat vstupního textového souboru s TV epizodami](#popis-struktury-dat-souboru-12)
+- The structure is exactly the same as in [data structure description of input text file with TV episodes](#file-data-structure-description-12)
 
-#### Popis struktury souboru
+#### File structure description
 
-- Struktura je úplně totožná jako u [popisu struktury vstupního textového souboru s TV epizodami](#popis-struktury-souboru-12)
+- The structure is exactly the same as in [structure description of input text file with TV episodes](#file-structure-description-12)
 
-### Vstupní/výstupní textový soubor s TV epizodami
+### Input/output text file with TV episodes
 
-- Soubor je vytvořen automaticky aplikací
-- Používá se jako uložiště již existujících/evidovaných TV epizod z různých TV sezón pro načtení do databáze při příštím spuštění aplikace
+- The file is created automatically by the application
+- Used as a storage of already existing/stored TV episodes from different TV seasons to be loaded into the database the next time the application is run
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **inputOutput_tvEpisodes.txt**
-- Kódování souboru musí být **UTF-8**
+- The file name must be **inputOutput_tvEpisodes.txt**
+- File encoding must be **UTF-8**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Data **jedné vstupní/výstupní TV epizody** vypadají takto:
+- The data of **one input/output TV episode** looks like this:
 
 ```java
 public class TVEpisodeInputOutput
@@ -1949,27 +1954,27 @@ public class TVEpisodeInputOutput
 }
 ```
 
-- Názvy jednotlivých dat/atributů se používají v [popisu struktury souboru](#popis-struktury-souboru-14)
-- Popisy jednotlivých názvů dat/atributů jsou totožné jako u [popisu struktury dat vstupního textového souboru s TV epizodami](#popis-struktury-dat-souboru-12)
-- Ale jsou zde následující rozdíly:
-    - Data/atributy datového typu **String** **jsou změněna** na **char[]**, ale **pořád se jedná o text**
-    - **Nově** limity na maximální počet znaků u vybraných atributů již **neexistují**
-    - **Nově** je zde atribut ***id***
-        - Vyjadřuje identifikátor TV epizody v rámci databáze
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-    - **Nově** je zde atribut ***tvSeasonId***
-        - Vyjadřuje identifikátor příslušné TV sezóny pro danou TV epizodu
-        - Jedná se o datový typ **int**, tedy **celé číslo**
-        - **Je povinný**
-        - Hodnota **by měla být v rozsahu 1 a více**
-    - **Nově** platí pravidlo, že není možné, aby existovaly dvě TV epizody, které mají **stejný identifikátor**
-    - **Nově** platí pravidlo, že není možné, aby existovala TV epizoda, jejíž **identifikátor TV sezóny neodkazuje na žádnou existující TV sezónu**
+- The names of the individual data/attributes are used in the [file structure description](#file-structure-description-14)
+- The descriptions of the individual data/attributes names are identical to [data structure description of input text file with TV episodes](#file-data-structure-description-12)
+- But there are the following differences:
+    - Data/attributes of data type **String** **are changed** to **char[]**, but **it is still text**
+    - **Newly** limits on the maximum count of characters for selected attributes no longer **exist**
+    - **Newly** there is an attribute ***id***
+        - Expresses the identifier of the TV episode within the database
+        - This is the **int** data type, which is an **integer**
+        - **Is mandatory**
+        - The value **should be in the range of 1 or more**
+    - **Newly** there is an attribute ***tvSeasonId***
+        - Expresses the identifier of the respective TV season for the given TV episode
+        - This is the **int** data type, which is an **integer**
+        - **Is mandatory**
+        - The value **should be in the range of 1 or more**
+    - There is **newly** the rule that there cannot be two TV episodes that have **the same identifier**
+    - There is **newly** the rule that there cannot be the TV episode whose **TV season identifier does not refer to any existing TV season**
 
-#### Popis struktury souboru
+#### File structure description
 
-- Soubor by měl vypadat nějak takto pro **jednu vstupní/výstupní TV epizodu**:
+- The file should look something like this for **one input/output TV episode**:
 
 ```
 [Attributes]
@@ -2000,36 +2005,36 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 [End]
 ```
 
-- Popis struktury souboru je totožný jako u [popisu struktury vstupního textového souboru s TV epizodami](#popis-struktury-souboru-12)
-- Datové typy hodnot a názvy dat/atributů jsou specifikovány v [popisu struktury dat souboru](#popis-struktury-dat-souboru-14)
-- Ale jsou zde následující rozdíly:
-    - V sekci *\[Attributes\]* se ***Order*** **změní** na ***Identificator***
-        - Ten vyjadřuje identifikátor TV epizody v databázi
-        - **Nemusí být v souboru**, pouze informační účel
-    - **Nově** **není možné** použít kontrolní znak ***\[End\]*** na **editaci/úpravu** dat nějaké jedné existující TV epizody
-        - Vstupní textový soubor s TV epizodami slouží právě k **editaci**
-    - **Nově** jsou TV seriály v souboru **řazeny vzestupně na základě identifikátoru TV epizody**
+- The description of the file structure is the same as in [structure description of input text file with TV episodes](#file-structure-description-12)
+- Values data types and data/attributes names are specified in [file data structure description](#file-data-structure-description-14)
+- But there are the following differences:
+    - In the *\[Attributes\]* section, ***Order*** **changes** to ***Identificator***
+        - This represents the identifier of the TV episode in the database
+        - **Doesn't have to be in the file**, information purpose only
+    - **Newly** **it is not possible** to use the control character ***\[End\]*** to **edit** the data of one existing TV episode
+        - The input text file with TV episodes can be used for **editing**
+    - **Newly** TV episodes in the file are **sorted in ascending order based on the TV episode identifier**
 
-### Vstupní/výstupní binární soubor s TV epizodami
+### Input/output binary file with TV episodes
 
-- Soubor je vytvořen automaticky aplikací
-- Používá se jako uložiště již existujících/evidovaných TV epizod z různých TV sezón pro načtení do databáze při příštím spuštění aplikace
+- The file is created automatically by the application
+- Used as a storage of already existing/stored TV episodes from different TV seasons to be loaded into the database the next time the application is run
 
-#### Požadavky
+#### Requirements
 
-- Název souboru musí být **inputOutput_tvEpisodes.bin**
+- The file name must be **inputOutput_tvEpisodes.bin**
 
-#### Popis struktury dat souboru
+#### File data structure description
 
-- Struktura je úplně totožná jako u [popisu struktury dat vstupního/výstupního textového souboru s TV epizodami](#popis-struktury-dat-souboru-14)
-- Aby bylo možné číst textové/řetězcové hodnoty atributů TV epizody z binárního souboru, tak se všem takovým hodnotám nastaví před zapisováním do souboru pevná délka:
-    - ***name*** –⁠ 60 znaků
-    - ***hyperlinkForContentWatch*** –⁠ 180 znaků
-    - ***shortContentSummary*** –⁠ 1000 znaků
+- The structure is exactly the same as in [data structure description of input/output text file with TV episodes](#file-data-structure-description-14)
+- To read text/string values of TV episode attributes from a binary file, all such values are set to a fixed length before writing to the file:
+    - ***name*** –⁠ 60 characters
+    - ***hyperlinkForContentWatch*** –⁠ 180 characters
+    - ***shortContentSummary*** –⁠ 1000 characters
 
-#### Popis struktury souboru
+#### File structure description
 
-- Jednotlivá data pro každou TV epizodu jsou zapsána a čtena v následujícím pořadí:
+- The individual data for each TV episode are written and read in the following order:
 
 ---
 
@@ -2044,28 +2049,28 @@ Count Dooku deploys his apprentice Asajj Ventress to make sure Gunray is either 
 
 ---
 
-- Textové/řetězcové hodnoty atributů TV epizody jsou zapsány po jednotlivých znacích
-- Toto pořadí se v případě vícero TV epizod bude opakovat
+- The text/string values of the TV episode attributes are written on a character-by-character basis
+- This order will be repeated for multiple TV episodes
 
 ## Class diagram
 
-- Zde je objektový návrh pro tuto aplikaci
-- Objektový návrh byl vytvořen pomocí nástroje *Mermaid*, dostupného na webové stránce https://mermaid.js.org/
+- This is the object oriented design for this application
+- The object oriented design was created using the *Mermaid* tool, available at https://mermaid.js.org/
 
 ```mermaid
 
 ---
-title: Class diagram aplikace Star Wars Media Content Management
+title: Class diagram of Star Wars Media Content Management application
 ---
 
 classDiagram
 
 direction RL
 
-note for MovieInput "Součást package app.models.input"
-note for TVEpisodeInput "Součást package app.models.input"
-note for TVSeasonInput "Součást package app.models.input"
-note for TVShowInput "Součást package app.models.input"
+note for MovieInput "Included in the package app.models.input"
+note for TVEpisodeInput "Included in the package app.models.input"
+note for TVSeasonInput "Included in the package app.models.input"
+note for TVShowInput "Included in the package app.models.input"
 
     class MovieInput{
         -long runtimeInSeconds
@@ -2101,10 +2106,10 @@ note for TVShowInput "Součást package app.models.input"
         +toString() String
     }
 
-note for MovieInputOutput "Součást package app.models.inputoutput"
-note for TVEpisodeInputOutput "Součást package app.models.inputoutput"
-note for TVSeasonInputOutput "Součást package app.models.inputoutput"
-note for TVShowInputOutput "Součást package app.models.inputoutput"
+note for MovieInputOutput "Included in the package app.models.inputoutput"
+note for TVEpisodeInputOutput "Included in the package app.models.inputoutput"
+note for TVSeasonInputOutput "Included in the package app.models.inputoutput"
+note for TVShowInputOutput "Included in the package app.models.inputoutput"
 
     class MovieInputOutput{
         +int ATTRIBUTE_NAME_LENGTH$
@@ -2182,14 +2187,14 @@ note for TVShowInputOutput "Součást package app.models.inputoutput"
         +toString() String
     }
 
-note for PrimaryKey "Součást package app.models.data"
-note for DatabaseRecord "Součást package app.models.data"
-note for MediaContent "Součást package app.models.data"
-note for Movie "Součást package app.models.data"
-note for TVEpisode "Součást package app.models.data"
-note for TVSeason "Součást package app.models.data"
-note for TVShow "Součást package app.models.data"
-note for Era "Součást package app.models.data"
+note for PrimaryKey "Included in the package app.models.data"
+note for DatabaseRecord "Included in the package app.models.data"
+note for MediaContent "Included in the package app.models.data"
+note for Movie "Included in the package app.models.data"
+note for TVEpisode "Included in the package app.models.data"
+note for TVSeason "Included in the package app.models.data"
+note for TVShow "Included in the package app.models.data"
+note for Era "Included in the package app.models.data"
 
 DatabaseRecord "1" --> "1" PrimaryKey : Has
 MediaContent --|> DatabaseRecord : Extends
@@ -2264,10 +2269,10 @@ TVSeason "1..1" o-- "0..n" TVEpisode
         NEW_JEDI_ORDER
     }
 
-note for DataConversionException "Součást package utils.exceptions (kontrolované výjimky)"
-note for DatabaseException "Součást package utils.exceptions (kontrolované výjimky)"
-note for FileEmptyException "Součást package utils.exceptions (kontrolované výjimky)"
-note for FileParsingException "Součást package utils.exceptions (kontrolované výjimky)"
+note for DataConversionException "Included in the package utils.exceptions (checked exceptions)"
+note for DatabaseException "Included in the package utils.exceptions (checked exceptions)"
+note for FileEmptyException "Included in the package utils.exceptions (checked exceptions)"
+note for FileParsingException "Included in the package utils.exceptions (checked exceptions)"
 
     class DataConversionException{
         +DataConversionException(String message)
@@ -2286,10 +2291,10 @@ note for FileParsingException "Součást package utils.exceptions (kontrolované
         +FileParsingException()
     }
 
-note for MovieDataConverter "Součást package utils.helpers"
-note for TVEpisodeDataConverter "Součást package utils.helpers"
-note for TVSeasonDataConverter "Součást package utils.helpers"
-note for TVShowDataConverter "Součást package utils.helpers"
+note for MovieDataConverter "Included in the package utils.helpers"
+note for TVEpisodeDataConverter "Included in the package utils.helpers"
+note for TVSeasonDataConverter "Included in the package utils.helpers"
+note for TVShowDataConverter "Included in the package utils.helpers"
 
     class MovieDataConverter{
         -MovieDataConverter()
@@ -2316,14 +2321,14 @@ note for TVShowDataConverter "Součást package utils.helpers"
         +convertToDataFrom(TVShowInputOutput inputOutputData)$ TVShow throws DataConversionException
     }
 
-note for DataStore "Součást package app.logic.datastore (datová vrstva)"
+note for DataStore "Included in the package app.logic.datastore (data layer)"
 
-note for IDataTable "Součást package utils.interfaces"
-note for DataContextAccessor "Součást package app.logic.datacontext (datová vrstva)"
-note for MoviesTable "Součást package app.logic.datacontext (datová vrstva)"
-note for TVEpisodesTable "Součást package app.logic.datacontext (datová vrstva)"
-note for TVSeasonsTable "Součást package app.logic.datacontext (datová vrstva)"
-note for TVShowsTable "Součást package app.logic.datacontext (datová vrstva)"
+note for IDataTable "Included in the package utils.interfaces"
+note for DataContextAccessor "Included in the package app.logic.datacontext (data layer)"
+note for MoviesTable "Included in the package app.logic.datacontext (data layer)"
+note for TVEpisodesTable "Included in the package app.logic.datacontext (data layer)"
+note for TVSeasonsTable "Included in the package app.logic.datacontext (data layer)"
+note for TVShowsTable "Included in the package app.logic.datacontext (data layer)"
 
 MoviesTable --|> IDataTable : Implements
 TVEpisodesTable --|> IDataTable : Implements
@@ -2419,14 +2424,14 @@ DataContextAccessor "Is part of" *--* "Contains" TVShowsTable
         #getInstance(DataContextAccessor dbContext)$ IDataTable~TVShow~
     }
 
-note for EmailSender "Součást package utils.emailsender (externí knihovna)"
+note for EmailSender "Included in the package utils.emailsender (external library)"
 
-note for IDataFileManager "Součást package utils.interfaces"
-note for FileManagerAccessor "Součást package app.logic.filemanager"
-note for MoviesFileManager "Součást package app.logic.filemanager"
-note for TVEpisodesFileManager "Součást package app.logic.filemanager"
-note for TVSeasonsFileManager "Součást package app.logic.filemanager"
-note for TVShowsFileManager "Součást package app.logic.filemanager"
+note for IDataFileManager "Included in the package utils.interfaces"
+note for FileManagerAccessor "Included in the package app.logic.filemanager"
+note for MoviesFileManager "Included in the package app.logic.filemanager"
+note for TVEpisodesFileManager "Included in the package app.logic.filemanager"
+note for TVSeasonsFileManager "Included in the package app.logic.filemanager"
+note for TVShowsFileManager "Included in the package app.logic.filemanager"
 
 MoviesFileManager --|> IDataFileManager : Implements
 TVEpisodesFileManager --|> IDataFileManager : Implements
@@ -2515,10 +2520,10 @@ FileManagerAccessor --* TVShowsFileManager : Contains
         -createInputOutputDataTextRepresentation(List~TVShowInputOutput~ newInputOutputTVShows) StringBuilder
     }
 
-note for DataSorting "Součást package app.logic.controllers"
-note for DataType "Součást package app.logic.controllers"
-note for MoviesController "Součást package app.logic.controllers (business logika)"
-note for TVEpisodesController "Součást package app.logic.controllers (business logika)"
+note for DataSorting "Included in the package app.logic.controllers"
+note for DataType "Included in the package app.logic.controllers"
+note for MoviesController "Included in the package app.logic.controllers (business logic)"
+note for TVEpisodesController "Included in the package app.logic.controllers (business logic)"
 
 MoviesController ..> DataContextAccessor : Depends on
 MoviesController ..> EmailSender : Depends on
@@ -2646,12 +2651,12 @@ TVEpisodesController ..> FileManagerAccessor : Depends on
         +getCurrentDate()$ LocalDate
     }
 
-note for ApplicationRunner "Součást package ui"
-note for ConsoleUI "Součást package ui (prezentační vrstva)"
-note for MoviesSubUI "Součást package ui (prezentační vrstva)"
-note for TVShowsSubUI "Součást package ui (prezentační vrstva)"
-note for TVSeasonsSubUI "Součást package ui (prezentační vrstva)"
-note for TVEpisodesSubUI "Součást package ui (prezentační vrstva)"
+note for ApplicationRunner "Included in the package ui"
+note for ConsoleUI "Included in the package ui (presentation layer)"
+note for MoviesSubUI "Included in the package ui (presentation layer)"
+note for TVShowsSubUI "Included in the package ui (presentation layer)"
+note for TVSeasonsSubUI "Included in the package ui (presentation layer)"
+note for TVEpisodesSubUI "Included in the package ui (presentation layer)"
 
 ConsoleUI ..> MoviesController : Depends on
 ConsoleUI ..> TVEpisodesController : Depends on
@@ -2852,14 +2857,14 @@ ConsoleUI "Is part of" *--* "Contains" TVEpisodesSubUI
 
 ```
 
-# Testování
+# Testing
 
-- Testování je rozděleno na dvě části, **unit testy** a **akceptační testy**
+- Testing is divided into two parts, **unit tests** and **acceptance tests**
 
-## Unit testy
+## Unit tests
 
-- V průběhu vývoje aplikace se průběžně prováděly testy jednotlivých částí/modulů  aplikace
-- Samotné testy se nacházejí v následujících třídách v aplikaci:
+- During the development of the application, tests of individual parts/modules of the application were continuously carried out
+- The tests themselves can be found in the following classes of the application:
     - [ConsoleUITest](/star-wars-media-content-management/src/main/java/tests/mainmethods/ConsoleUITest.java)
     - [DataContextAccessorTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/DataContextAccessorTest.java)
     - [DataConvertersTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/DataConvertersTest.java)
@@ -2870,41 +2875,41 @@ ConsoleUI "Is part of" *--* "Contains" TVEpisodesSubUI
     - [InputOutputModelsTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/InputOutputModelsTest.java)
     - [TVEpisodesControllerTest](/star-wars-media-content-management/src/main/java/tests/mainmethods/TVEpisodesControllerTest.java)
 
-## Akceptační testy
+## Acceptance tests
 
-- V repozitáři jsou předpřipravené vstupní soubory s testovacími daty v [adresáři data](/star-wars-media-content-management/data/)
-- Jsou k dispozici výsledky akceptačních testů ve formě **tabulek** a ve formě **konzolových výstupů uživatelských funkcí pro přidávání nových dat v aplikaci**
+- In this repository there are predefined input files with test data in [data directory](/star-wars-media-content-management/data/)
+- Acceptance tests results are available in the form of **tables** and in the form of **console outputs of application user functions for adding new data into the application**
 
-### Vstupní soubor s filmy
+### Input file with movies
 
-- Představuje textový soubor [input_movies.txt](/star-wars-media-content-management/data/input_movies.txt)
-- Binární soubor [input_movies.bin](/star-wars-media-content-management/data/input_movies.bin) má úplně totožný obsah jako textový soubor
-- Zde je uvedena tabulka pro filmy:
+- Represents the text file [input_movies.txt](/star-wars-media-content-management/data/input_movies.txt)
+- The binary file [input_movies.bin](/star-wars-media-content-management/data/input_movies.bin) has exactly the same content as the text file
+- Here is the table of movies:
 
-| **Pořadí filmu v souboru** | **Typ testu** | **Očekávaný výsledek** | **Skutečný výsledek** | **Prošel (ano/ne)** |
+| **Order of the movie in the file** | **Test type** | **Expected result** | **Real result** | **Passed (yes/no)** |
 |:---:|:---:|:---:|:---:|:---:|
-| 1 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 2 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 3 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 4 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 5 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 6 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 7 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 8 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 9 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 10 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 11 | Limitní stav | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 12 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu filmu | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu filmu | ano |
-| 13 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli příliš  velkému počtu epoch sekund u datumu vydání filmu | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli příliš  velkému počtu epoch sekund u datumu vydání filmu | ano |
-| 14 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | ano |
-| 15 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli délce filmu v sekundách,  která není zadána jako celé číslo | Neúspěšné nahrání ze souboru  kvůli délce filmu v sekundách,  která není zadána jako celé číslo | ano |
-| 16 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli procentuálnímu hodnocení,  která není zadáné jako celé číslo | Neúspěšné nahrání ze souboru  kvůli procentuálnímu hodnocení,  která není zadáné jako celé číslo | ano |
-| 17 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  překročení limit počtu znaků  pro URL odkaz ke zhlédnutí filmu  | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  překročení limit počtu znaků  pro URL odkaz ke zhlédnutí filmu  | ano |
-| 18 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 19 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 20 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 1 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 2 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 3 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 4 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 5 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 6 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 7 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 8 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 9 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 10 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 11 | Limit state | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 12 | Limit state | Successful upload from file but failed to add to database due to missing movie name | Successful upload from file but failed to add to database due to missing movie name | yes |
+| 13 | Limit state | Successful upload from file but failed add to database due to too many epoch seconds for movie release date | Successful upload from file but failed add to database due to too many epoch seconds for movie release date | yes |
+| 14 | Invalid input | Successful upload from file but failed add to database due to unselected/invalid chronological era | Successful upload from file but failed add to database due to unselected/invalid chronological era | yes |
+| 15 | Invalid input | Failed to upload from file due to movie length in seconds not specified as an integer | Failed to upload from file due to movie length in seconds not specified as an integer | yes |
+| 16 | Invalid input | Failure to upload from file due to a percentage rating that is not specified as an integer | Failure to upload from file due to a percentage rating that is not specified as an integer | yes |
+| 17 | Limit state | Successful upload from file but unsuccessful addition to database due to exceeding character limit for URL link to watch movie | Successful upload from file but unsuccessful addition to database due to exceeding character limit for URL link to watch movie | yes |
+| 18 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 19 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 20 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
 
-- Zde je konzolový výstup uživatelské funkce pro přidávání nových filmů:
+- Here is the console output of the user function for adding new movies:
 
 ```
 Informační zpráva: Celkově se podařilo nahrát 14 filmů do databáze a naopak se nepodařilo nahrát 4 filmů
@@ -2914,36 +2919,36 @@ Chybový stav filmu s pořadím 14 v souboru input_movies.txt: Chronologické ob
 Chybový stav filmu s pořadím 17 v souboru input_movies.txt: Odkaz ke zhlédnutí přidaného filmu nesmí mít délku větší než 180 znaků
 ```
 
-### Vstupní soubor s TV seriály
+### Input file with TV shows
 
-- Představuje textový soubor [input_tvShows.txt](/star-wars-media-content-management/data/input_tvShows.txt)
-- Binární soubor [input_tvShows.bin](/star-wars-media-content-management/data/input_tvShows.bin) má úplně totožný obsah jako textový soubor
-- Zde je uvedena tabulka pro TV seriály:
+- Represents the text file [input_tvShows.txt](/star-wars-media-content-management/data/input_tvShows.txt)
+- The binary file [input_tvShows.bin](/star-wars-media-content-management/data/input_tvShows.bin) has exactly the same content as the text file
+- Here is the table of TV shows:
 
-| **Pořadí TV seriálu v souboru** | **Typ testu** | **Očekávaný výsledek** | **Skutečný výsledek** | **Prošel (ano/ne)** |
+| **Order of the TV show in the file** | **Test type** | **Expected result** | **Real result** | **Passed (yes/no)** |
 |:---:|:---:|:---:|:---:|:---:|
-| 1 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 2 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 3 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 4 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 5 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 6 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 7 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 8 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 9 | Limitní stav | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 10 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejný název a stejné  datum vydání jako u TV  seriálu s pořadím 8) | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejný název a stejné  datum vydání jako u TV  seriálu s pořadím 8) | ano |
-| 11 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu TV seriálu | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu TV seriálu | ano |
-| 12 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli příliš  velkému počtu epoch sekund u datumu vydání TV seriálu | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli příliš  velkému počtu epoch sekund u datumu vydání TV seriálu | ano |
-| 13 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | ano |
-| 14 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli datumu vydání  v epoch sekundách,  které není zadáno jako celé číslo | Neúspěšné nahrání ze souboru  kvůli datumu vydání  v epoch sekundách,  které není zadáno jako celé číslo | ano |
-| 15 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli datumu vydání  v epoch sekundách,  které není zadáno jako celé číslo, protože chybí | Neúspěšné nahrání ze souboru  kvůli datumu vydání  v epoch sekundách,  které není zadáno jako celé číslo, protože chybí | ano |
-| 16 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu TV seriálu | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli chybějícímu názvu TV seriálu | ano |
-| 17 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  nevybrané/neplatné  chronologické éře | ano |
-| 18 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 19 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 20 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
+| 1 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 2 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 3 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 4 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 5 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 6 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 7 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 8 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 9 | Limit state | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 10 | Limit state | Successful upload from file but failed to add to database due to data duplication (same title and same release date as TV show with order 8) | Successful upload from file but failed to add to database due to data duplication (same title and same release date as TV show with order 8) | yes |
+| 11 | Limit state | Successful upload from file but failed to add to database due to missing TV show name | Successful upload from file but failed to add to database due to missing TV show name | yes |
+| 12 | Limit state | Successful upload from file but unsuccessful addition to database due to too many epoch seconds for TV show release date | Successful upload from file but unsuccessful addition to database due to too many epoch seconds for TV show release date | yes |
+| 13 | Invalid input | Successful upload from file but failed to add to database due to unselected/invalid chronological era | Successful upload from file but failed to add to database due to unselected/invalid chronological era | yes |
+| 14 | Invalid input | Failure to upload from file due to a release date in epoch seconds that is not specified as an integer | Failure to upload from file due to a release date in epoch seconds that is not specified as an integer | yes |
+| 15 | Invalid input | Failed to upload from file due to the release date in epoch seconds not being specified as an integer because it is missing | Failed to upload from file due to the release date in epoch seconds not being specified as an integer because it is missing | yes |
+| 16 | Invalid input | Successful upload from file but failed to add to database due to missing TV show name | Successful upload from file but failed to add to database due to missing TV show name | yes |
+| 17 | Invalid input | Successful upload from file but failed add to database due to unselected/invalid chronological era | Successful upload from file but failed add to database due to unselected/invalid chronological era | yes |
+| 18 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 19 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 20 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
 
-- Zde je konzolový výstup uživatelské funkce pro přidávání nových TV seriálů:
+- Here is the console output of the user function for adding new TV shows:
 
 ```
 Informační zpráva: Celkově se podařilo nahrát 12 seriálů do databáze a naopak se nepodařilo nahrát 6 seriálů
@@ -2955,23 +2960,23 @@ Chybový stav seriálu s pořadím 16 v souboru input_tvShows.txt: Přidaný ser
 Chybový stav seriálu s pořadím 17 v souboru input_tvShows.txt: Chronologické období přidaného seriálu musí být vybráno
 ```
 
-### Vstupní soubor s TV sezónami
+### Input file with TV seasons
 
-- Představuje textový soubor [input_tvSeasons.txt](/star-wars-media-content-management/data/input_tvSeasons.txt)
-- Binární soubor [input_tvSeasons.bin](/star-wars-media-content-management/data/input_tvSeasons.bin) má úplně totožný obsah jako textový soubor
-- Zde je uvedena tabulka pro TV sezóny:
+- Represents the text file [input_tvSeasons.txt](/star-wars-media-content-management/data/input_tvSeasons.txt)
+- The binary file [input_tvSeasons.bin](/star-wars-media-content-management/data/input_tvSeasons.bin) has exactly the same content as the text file
+- Here is the table of TV seasons:
 
-| **Pořadí TV sezóny v souboru** | **Typ testu** | **Očekávaný výsledek** | **Skutečný výsledek** | **Prošel (ano/ne)** |
+| **Order of the TV season in the file** | **Test type** | **Expected result** | **Real result** | **Passed (yes/no)** |
 |:---:|:---:|:---:|:---:|:---:|
-| 1 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 2 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 3 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 4 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 5 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejné pořadí TV sezóny v rámci  TV seriálu  jako TV sezóny s pořadím 4 v souboru) | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejné pořadí TV sezóny v rámci  TV seriálu  jako TV sezóny s pořadím 4 v souboru) | ano |
-| 6 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli neplatnému zápornému nebo nulovému pořadí | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli neplatnému zápornému nebo nulovému pořadí | ano |
-| 7 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli pořadí TV sezóny v rámci TV seriálu,  které není zadáno jako celé číslo | Neúspěšné nahrání ze souboru  kvůli pořadí TV sezóny v rámci TV seriálu,  které není zadáno jako celé číslo | ano |
+| 1 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 2 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 3 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 4 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 5 | Limit state | Successful upload from file but failed to add to database due to data duplication (same order of this TV season within TV show as TV season with order 4 in file) | Successful upload from file but failed to add to database due to data duplication (same order of this TV season within TV show as TV season with order 4 in file) | yes |
+| 6 | Invalid input | Successful upload from file but failed to add to database due to invalid negative or zero order of TV season | Successful upload from file but failed to add to database due to invalid negative or zero order of TV season | yes |
+| 7 | Invalid input | Failure to upload from file due to TV season order within TV show not being specified as an integer | Failure to upload from file due to TV season order within TV show not being specified as an integer | yes |
 
-- Zde je konzolový výstup uživatelské funkce pro přidávání nových TV sezón pro vybraný TV seriál:
+- Here is the console output of the user function for adding new TV seasons for the selected TV show:
 
 ```
 Informační zpráva: Celkově se podařilo nahrát 4 sezón vybraného seriálu do databáze a naopak se nepodařilo nahrát 2 sezón vybraného seriálu
@@ -2979,36 +2984,36 @@ Chybový stav sezóny vybraného seriálu s pořadím 5 v souboru input_tvSeason
 Chybový stav sezóny vybraného seriálu s pořadím 6 v souboru input_tvSeasons.txt: Pořadí přidané sezóny seriálu musí být větší než nula
 ```
 
-### Vstupní soubor s TV epizodami
+### Input file with TV episodes
 
-- Představuje textový soubor [input_tvEpisodes.txt](/star-wars-media-content-management/data/input_tvEpisodes.txt)
-- Binární [input_tvEpisodes.bin](/star-wars-media-content-management/data/input_tvEpisodes.bin) má úplně totožný obsah jako textový soubor
-- Zde je uvedena tabulka pro TV epizody:
+- Represents the text file [input_tvEpisodes.txt](/star-wars-media-content-management/data/input_tvEpisodes.txt)
+- The binary file [input_tvEpisodes.bin](/star-wars-media-content-management/data/input_tvEpisodes.bin) has exactly the same content as the text file
+- Here is the table of TV episodes:
 
-| **Pořadí TV sezóny v souboru** | **Typ testu** | **Očekávaný výsledek** | **Skutečný výsledek** | **Prošel (ano/ne)** |
+| **Order of the TV episode in the file** | **Test type** | **Expected result** | **Real result** | **Passed (yes/no)** |
 |:---:|:---:|:---:|:---:|:---:|
-| 1 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 2 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 3 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 4 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 5 | Nevalidní vstup | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  procentuálnímu hodnocení TV epizody, které překračuje hranici 100 | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli  procentuálnímu hodnocení TV epizody, které překračuje hranici 100 | ano |
-| 6 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 7 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 8 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 9 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejné pořadí TV epizody v rámci TV sezóny jako u TV  epizody s pořadím 8 v souboru) | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (stejný název a stejné  datum vydání jako u TV  seriálu s pořadím 8) | ano |
-| 10 | Limitní stav | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 11 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli délce TV epizody v sekundách,  která je záporná, přičemž  zadání délky je povinné | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli délce TV epizody v sekundách,  která je záporná, přičemž  zadání délky je povinné | ano |
-| 12 | Limitní stav | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 13 | Limitní stav | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 14 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli délce TV epizody v sekundách,  které není zadána jako celé číslo | Neúspěšné nahrání ze souboru  kvůli délce TV epizody v sekundách,  které není zadána jako celé číslo | ano |
-| 15 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli procentuálnímu hodnocení TV epizody,  které není zadáno jako celé číslo | Neúspěšné nahrání ze souboru  kvůli procentuálnímu hodnocení TV epizody,  které není zadáno jako celé číslo | ano |
-| 16 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli pořadí TV epizody v rámci TV sezóny,  které není zadáno jako celé číslo | Neúspěšné nahrání ze souboru  kvůli pořadí TV epizody v rámci TV sezóny,  které není zadáno jako celé číslo | ano |
-| 17 | Nevalidní vstup | Neúspěšné nahrání ze souboru  kvůli pořadí TV epizody v rámci TV sezóny,  které není zadáno | Neúspěšné nahrání ze souboru  kvůli pořadí TV epizody v rámci TV sezóny,  které není zadáno | ano |
-| 18 | Běžná hodnota | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | Úspěšné nahrání ze souboru a  následné úspěšné přidání do databáze | ano |
-| 19 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (tato TV epizoda má duplicitní URL odkaz ke zhlédnutí jako  TV epizoda s pořadím 18 v souboru) | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (tato TV epizoda má duplicitní URL odkaz ke zhlédnutí jako  TV epizoda s pořadím 18 v souboru) | ano |
-| 20 | Limitní stav | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (tato TV epizoda má duplicitní krátké shrnutí obsahu jako  TV epizoda s pořadím 18 v souboru) | Úspěšné nahrání ze souboru ale neúspěšné nahrání  do databáze kvůli duplicitě dat  (tato TV epizoda má duplicitní krátké shrnutí obsahu jako  TV epizoda s pořadím 18 v souboru) | ano |
+| 1 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 2 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 3 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 4 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 5 | Invalid input | Successful upload from file but unsuccessful addition to database due to TV episode percentage rating exceeding 100 | Successful upload from file but unsuccessful addition to database due to TV episode percentage rating exceeding 100 | yes |
+| 6 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 7 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 8 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 9 | Limit state | Successful upload from file but failed to add to database due to data duplication (same order of this TV episode within TV season as TV episode with order 8 in file) | Successful upload from file but failed to add to database due to data duplication (same order of this TV episode within TV season as TV episode with order 8 in file) | yes |
+| 10 | Limit state | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 11 | Limit state | Successful upload from file but failed to add to database due to TV episode length in seconds being negative, while specifying the length is mandatory | Successful upload from file but failed to add to database due to TV episode length in seconds being negative, while specifying the length is mandatory | yes |
+| 12 | Limit state | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 13 | Limit state | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 14 | Invalid input | Failed to upload from file due to TV episode length in seconds not specified as an integer | Failed to upload from file due to TV episode length in seconds not specified as an integer | yes |
+| 15 | Invalid input | Failed to upload from file due to TV episode percentage rating not being specified as an integer | Failed to upload from file due to TV episode percentage rating not being specified as an integer | yes |
+| 16 | Invalid input | Failed upload from file due to TV episode order within a TV season not being specified as an integer | Failed upload from file due to TV episode order within a TV season not being specified as an integer | yes |
+| 17 | Invalid input | Failure to upload from file due to TV episode order within TV season not specified | Failure to upload from file due to TV episode order within TV season not specified | yes |
+| 18 | Ordinary value | Successful upload from file and then successful addition to database | Successful upload from file and then successful addition to database | yes |
+| 19 | Limit state | Successful upload from file but failed to add to database due to duplicate data (this TV episode has a duplicate URL link to watching as TV episode with order 18 in the file) | Successful upload from file but failed to add to database due to duplicate data (this TV episode has a duplicate URL link to watching as TV episode with order 18 in the file) | yes |
+| 20 | Limit state | Successful upload from file but failed to add to database due to data duplication (this TV episode has duplicate short content summary as TV episode with order 18 in file) | Successful upload from file but failed to add to database due to data duplication (this TV episode has duplicate short content summary as TV episode with order 18 in file) | yes |
 
-- Zde je konzolový výstup uživatelské funkce pro přidávání nových TV epizod pro vybranou TV sezónu:
+- Here is the console output of the user function for adding new TV episodes for the selected TV season:
 
 ```
 Informační zpráva: Celkově se podařilo nahrát 11 epizod vybrané sezóny do databáze a naopak se nepodařilo nahrát 5 epizod vybrané sezóny
@@ -3019,29 +3024,29 @@ Chybový stav epizody vybrané sezóny s pořadím 19 v souboru input_tvEpisodes
 Chybový stav epizody vybrané sezóny s pořadím 20 v souboru input_tvEpisodes.txt: Data přidané epizody sezóny jsou duplicitní
 ```
 
-# Popis fungování externí knihovny
+# Description of the external library functioning
 
-- Jedná se o knihovnu *Apache Commons Email*
-- Umožňuje následující věci:
-    - Zjednodušuje existující *Java Mail API*
-    - Autentifikovat se k *SMTP* serveru, pokud je to potřeba
-    - Pro komunikaci přes *SMTP* protokol umožňuje vybrat mezi *SSL* a *STARTTLS* šifrovacími protokoly na základě čísla portu
-    - Nastavení kódování obsahu e-mailu
-    - Nastavení příjemce, předmětu a obsahu e-mailu
-    - Nastavení e-mailu, na který se budou posílat nedoručitelné e-maily
-    - Posílání jednoduchých textových e-mailů
-    - Posílání e-mailů formátovaných v *HTML*
-    - Posílání e-mailů s přílohami
-    - Posílání *HTML* e-mailů s inline obrázky (data obrázku z externího *URL* odkazu se stáhnou a vloží přímo do e-mailu)
-- V aplikaci se knihovna používá pro odesílání dat z databáze pomocí *HTML* e-mailu a to ze tří důvodů:
-    - Lepší formátovaný výpis
-    - Možnost v e-mailovém klientovi různě filtrovat a řadit doručené e-maily, protože mají nastavený standardizovaný předmět zprávy
-    - Umožnit data s URL odkazem mít uložená přímo v e-mailu např. jako seznam nezhlédnutých filmů
-- V aplikaci je knihovna implementovaná ve třídě [EmailSender](/star-wars-media-content-management/src/main/java/utils/emailsender/EmailSender.java)
+- This is the *Apache Commons Email* library
+- It allows the following things:
+    - Simplifies the existing *Java Mail API*
+    - Authenticate to the *SMTP* server if needed
+    - For communication over the *SMTP* protocol, allows to choose between *SSL* and *STARTTLS* encryption protocols based on port number
+    - Setting the encoding of email content
+    - Setting the recipient, subject and content of the email
+    - Setting the email to which undeliverable emails will be sent
+    - Sending simple text emails
+    - Sending emails formatted in *HTML*
+    - Sending emails with attachments
+    - Sending *HTML* emails with inline images (image data from an external *URL* link is downloaded and inserted directly into the email)
+- In the application, the library is used to send data from the database using *HTML* email for three reasons:
+    - Better formatted output
+    - Ability to filter and sort incoming emails differently in the email client because they have a standardized email subject
+    - Allow data with a URL link to be stored directly in an email, e.g. as a list of unwatched movies
+- In the application, the library is implemented in the class [EmailSender](/star-wars-media-content-management/src/main/java/utils/emailsender/EmailSender.java)
 
-## Detaily implementace knihovny ve třídě EmailSender
+## Library implementation details in EmailSender class
 
-1. Nejdříve je potřeba nastavit konfigurační údaje:
+1. First it is needed to set the configuration data:
 
 ```java
 public class EmailSender 
@@ -3056,16 +3061,16 @@ public class EmailSender
 }
 ```
 
-- ***smtpPort*** –⁠ Vyjadřuje číslo portu SMTP protokolu v rámci transportní vrstvy
-    - Hodnota byla nastavena na ***465***, aby bylo umožněno později v implementaci použít šifrovací protokol ***SSL***
-- ***hostName*** –⁠ Vyjadřuje *SMTP* server, který bude zodpovědný za odesílání e-mailů
-    - V závislosti na zvoleném *SMTP* serveru existuje možnost, že se bude potřeba autentifikovat
-    - Konkrétní způsob přihlašování si specifikuje každý *SMTP* server individuálně
-    - V případě zvoleného **Google SMTP serveru** byly použity autentifikační údaje zapsané v atributech *appId* a *randomGeneratedAppToken*
-        - K autentifikaci se používá **G-mail účet** 
-        - Vysvětlení způsobu přihlašování k Google SMTP serveru a popis autentifikačních údajů není z bezpečnostního důvodu uveden
+- ***smtpPort*** –⁠ Expresses the SMTP protocol port number within the transport layer
+    - The value was set to ***465*** to allow the ***SSL*** encryption protocol to be used later in the implementation
+- ***hostName*** –⁠ Expresses the *SMTP* server that will be responsible for sending emails
+    - Depending on the *SMTP* server that is chosen, it may be needed to authenticate
+    - The specific authentication method is specified by each *SMTP* server individually
+    - In the case of the selected **Google SMTP server**, the authentication data written in the *appId* and *randomGeneratedAppToken* attributes were used
+        - **G-mail account** is used for authentication
+        - For security reasons, an explanation of how to log in to the Google SMTP server and a description of the authentication data is not provided
 
-2. Poté je potřeba sestavit e-mail:
+2. Then it is needed to compose an email:
 
 ```java
 public void sendEmail(String recipientEmailAddress, String subject, StringBuilder message) throws EmailException
@@ -3091,19 +3096,19 @@ public void sendEmail(String recipientEmailAddress, String subject, StringBuilde
 }
 ```
 
-- ***HtmlEmail*** –⁠ Vyjadřuje instanci, která podporuje formátování e-mailu jako **HTML**
-- ***setHostName(hostName)*** –⁠ Nastaví odesílací SMTP server specifikovaný v **1. kroku implementace s konfiguračními údaji**
-- ***setCharset(org.apache.commons.mail.EmailConstants.UTF_8)*** –⁠ Nastaví kódování HTML obsahu zprávy jako UTF-8, aby **data s diaktritikou se správně vypisovala**
-- ***setSmtpPort(smtpPort)*** –⁠ Nastaví číslo portu specifikované v **1. kroku implementace s konfiguračními údaji**
-    - Číslo určí i podporovaný šifrovací protokol
-- ***setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken))*** –⁠ Nastaví autentifikační údaje specifikované v **1. kroku implementace s konfiguračními údaji** pro daný SMTP server
-- ***setSSLOnConnect(true)*** –⁠ Nastaví šifrovací protokol **SSL**
-    - SSL je nastavováno, protože číslo portu bylo specifikováno jako **465**, takže bez šifrování by posílání e-mailů bylo nebezpečné
-- ***setFrom(DataStore.getAppCreator())*** –⁠ Nastaví odesílatele e-mailu jako tvůrce aplikace, což je **honzaswtor@gmail.com**
-    - Pokud se odesílatel specifikuje jako **neplatný e-mail**, tak se pouzije **e-mail autentifikovaného účtu k SMTP serveru**
-- ***setSubject(subject)*** –⁠ Nastaví předmět zprávy
-- ***addTo(recipientEmailAddress)*** –⁠ Nastaví příjemce zprávy
-    - Pokud nastane chyba v síti při odesílání e-mailu nebo e-mail příjemce je neplatný, tak se vyhodí výjimka **EmailException**
-    - Výjimka pochází z **externí knihovny**
-- ***setHtmlMsg(message.toString())*** –⁠ Nastaví obsah zprávy e-mailu a bude ho interpretovat jako **HTML**
-- ***send()*** –⁠ Odešle sestavenou zprávu
+- ***HtmlEmail*** –⁠ Expresses an instance that supports formatting email as **HTML**
+- ***setHostName(hostName)*** –⁠ Sets the outgoing SMTP server specified in **Step 1 of the implementation with configuration data**
+- ***setCharset(org.apache.commons.mail.EmailConstants.UTF_8)*** –⁠ Sets the HTML encoding of the email content as UTF-8 so that **data with diacritics is correctly displayed**
+- ***setSmtpPort(smtpPort)*** –⁠ Sets the port number specified in **Step 1 of the implementation with configuration data**
+    - The number will also determine the supported encryption protocol
+- ***setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken))*** –⁠ Sets the authentication data specified in **Step 1 of the implementation with configuration data** for the  chosen SMTP server
+- ***setSSLOnConnect(true)*** –⁠ Sets the encryption protocol **SSL**
+    - SSL is set because the port number was specified as **465**, so without encryption sending emails would be unsafe
+- ***setFrom(DataStore.getAppCreator())*** –⁠ Sets the sender of the email as the creator of the application, which is **honzaswtor@gmail.com**
+    - If the sender is specified as **non-valid email**, the **email of the authenticated account to the SMTP server** is used
+- ***setSubject(subject)*** –⁠ Sets the subject of the email
+- ***addTo(recipientEmailAddress)*** –⁠ Sets the recipient of the email
+    - If a network error occurs when sending an email or the recipient's email is invalid, an **EmailException** is thrown
+    - Exception originates from **external library**
+- ***setHtmlMsg(message.toString())*** –⁠ Sets the content of the email and interprets it as **HTML**
+- ***send()*** –⁠ Sends a built email
