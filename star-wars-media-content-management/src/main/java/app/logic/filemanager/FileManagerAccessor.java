@@ -20,7 +20,7 @@ import utils.interfaces.IDataFileManager;
  */
 public class FileManagerAccessor 
 {
-    private static final String fileSeparator = System.getProperty("file.separator");;
+    private static final String fileSeparator = System.getProperty("file.separator");
     
     private static final String textFileEndMarking = "\\[End\\]";
     
