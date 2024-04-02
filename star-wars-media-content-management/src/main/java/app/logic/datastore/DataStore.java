@@ -70,7 +70,7 @@ public final class DataStore
                 """
                 Nejstarší období, odehrává se před obdobím Staré republiky.
     
-                Pro upřesnění se toto období odehrává dávno před údalostmi 
+                Pro upřesnění se toto období odehrává dávno před událostmi 
                 počítačové hry Star Wars: Knights of the Old Republic a 
                 popisuje počátky Síly, Jediů a Sithů.
                 """        
@@ -93,7 +93,7 @@ public final class DataStore
                 """
                 Období odehrávající se po období Staré republiky a před obdobím Pádu Jediů.
     
-                Pro upřesnění se toto období odehrává přímo před údálosti filmu
+                Pro upřesnění se toto období odehrává přímo před událostmi filmu
                 Skrytá hrozba, tedy před Prequelovou 
                 trilogií (filmy Skrytá hrozba, Klony útočí, Pomsta Sithů) a popisuje
                 události, kdy Jediové a republika byli na vrcholu své moci. Tyto
@@ -120,7 +120,7 @@ public final class DataStore
                 po prequelové trilogii (filmy Skrytá hrozba, Klony útočí, Pomsta Sithů) a
                 končí událostmi filmu Rogue One: Star Wars Story, tedy před Originální
                 trilogií (filmy Nová naděje, Impérium vrací úder, Návrat Jediů). 
-                Období popisuje lovení Jediů impériém a formování povstání.
+                Období popisuje lovení Jediů impériem a formování povstání.
                 """  
         );
         
@@ -130,7 +130,7 @@ public final class DataStore
     
                 Pro upřesnění toto období popisuje události během Originální 
                 trilogie (filmy Nová naděje, Impérium vrací úder, Návrat Jediů). 
-                Období začíná ihned po údalostech filmu Rogue One: Star Wars Story a 
+                Období začíná ihned po událostech filmu Rogue One: Star Wars Story a 
                 popisuje boj povstání proti impériu.
                 """
         );
@@ -140,11 +140,11 @@ public final class DataStore
                 Období odehrávající se po období Věku povstání a před 
                 obdobím Vzestupu Prvního řádu.
     
-                Pro upřesnění se toto období odehrává po údalostech Originální 
+                Pro upřesnění se toto období odehrává po událostech Originální 
                 trilogie (filmy Nová naděje, Impérium vrací úder, Návrat Jediů) a
-                zároveň před údalostmi Sequelové trilogie (filmy Síla se probouzí, 
+                zároveň před událostmi Sequelové trilogie (filmy Síla se probouzí, 
                 Poslední z Jediů, Vzestup Skywalkera).
-                Období začíná ihned po údalostech filmu Návrat Jediů a popisuje 
+                Období začíná ihned po událostech filmu Návrat Jediů a popisuje 
                 stav galaxie a jejích obyvatel po pádu impéria a taky okolnosti, které
                 umožní vzestup Prvního řádu. Období je více popsáno např. seriálem
                 Mandalorian.
@@ -168,7 +168,7 @@ public final class DataStore
                 Nejnovější období odehrávající se po období Vzestupu Prvního řádu.
     
                 Pro upřesnění toto období popisuje události po Sequelové 
-                trilogie (filmy Síla se probouzí, Poslední z Jediů, Vzestup Skywalkera). 
+                trilogii (filmy Síla se probouzí, Poslední z Jediů, Vzestup Skywalkera). 
                 Období bude popisovat, jak se Rey po konci filmu Vzestup Skywalkera snaží
                 obnovit Jedijský řád.
                 """
