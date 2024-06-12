@@ -2578,7 +2578,7 @@ TVEpisodesController ..> FileManagerAccessor : Depends on
         +rateMovie(Movie existingMovie, int percentageRating) boolean throws DatabaseException, IOException
         +searchForMovie(String name) List~Movie~
         +getChosenMoviesFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
-        +loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
+        +loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException
         +addMoviesFrom(boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
         +deleteMovieBy(PrimaryKey moviePrimaryKey) throws IOException, DatabaseException
         +deleteMovies(List~Movie~ chosenMovies) throws IOException
