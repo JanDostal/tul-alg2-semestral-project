@@ -721,7 +721,7 @@ public class MoviesController
             dbContext.getTVShowsTable().clearData();
             dbContext.getTVSeasonsTable().clearData();
             dbContext.getTVEpisodesTable().clearData();
-            throw new Exception(ex.getMessage());
+            throw ex;
         }
     }
     
