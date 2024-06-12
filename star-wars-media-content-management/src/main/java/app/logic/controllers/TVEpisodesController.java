@@ -1008,7 +1008,7 @@ public class TVEpisodesController
             dbContext.getTVShowsTable().clearData();
             dbContext.getTVSeasonsTable().clearData();
             dbContext.getTVEpisodesTable().clearData();
-            throw new Exception(ex.getMessage());
+            throw ex;
         }
     }
     
