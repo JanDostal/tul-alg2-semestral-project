@@ -969,7 +969,7 @@ public class TVEpisodesController
      * @throws utils.exceptions.DatabaseException when database model data have invalid data, duplicity etc.
      */
     public void loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, 
-            DataConversionException, DatabaseException, Exception 
+            DataConversionException, DatabaseException 
     {
         try 
         {
