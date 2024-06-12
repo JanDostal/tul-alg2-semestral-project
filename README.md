@@ -2578,7 +2578,7 @@ TVEpisodesController ..> FileManagerAccessor : Depends on
         +rateMovie(Movie existingMovie, int percentageRating) boolean throws DatabaseException, IOException
         +searchForMovie(String name) List~Movie~
         +getChosenMoviesFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
-        +loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
+        +loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException
         +addMoviesFrom(boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
         +deleteMovieBy(PrimaryKey moviePrimaryKey) throws IOException, DatabaseException
         +deleteMovies(List~Movie~ chosenMovies) throws IOException
@@ -2629,7 +2629,7 @@ TVEpisodesController ..> FileManagerAccessor : Depends on
         +getChosenTVShowsFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
         +getChosenTVSeasonsFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
         +getChosenTVEpisodesFileContent(String fileName) StringBuilder throws IOException, FileNotFoundException, FileEmptyException
-        +loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException, Exception
+        +loadAllInputOutputDataFrom(boolean fromBinary) throws IOException, FileParsingException, DataConversionException, DatabaseException
         +addTVShowsFrom(boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
         +addTVSeasonsFrom(PrimaryKey chosenTVShowPrimaryKey, boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
         +addTVEpisodesFrom(PrimaryKey chosenTVSeasonPrimaryKey, boolean fromBinary) StringBuilder throws IOException, FileNotFoundException, FileEmptyException, FileParsingException
