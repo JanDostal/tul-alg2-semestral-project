@@ -18,11 +18,11 @@ public class EmailSender
     
     private final int smtpPort = 465;
     
-    private final String hostName = "smtp.googlemail.com";
+    private final String hostName = "smtp.gmail.com";
     
-    private final String randomGeneratedAppToken = "qnaadtxcznjyvzln";
+    private final String randomGeneratedAppToken = "vbogvcpraybvimny";
     
-    private final String appId = "honzaswtor";
+    private final String appId = "datadispatcher.honzaswtor";
     
     /**
      * Creates singleton instance of EmailSender.

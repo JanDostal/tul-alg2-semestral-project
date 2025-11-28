@@ -30,33 +30,33 @@ public class EmailSenderTest
     //testing main
     public static void main(String[] args) throws EmailException 
     {   
-        String randomGeneratedAppToken = "vbogvcpraybvimny";
-        String appId = "datadispatcher.honzaswtor";
-        String recipientEmailAddress = "honzaswtor@gmail.com";
-        
-        try 
-        {
-            HtmlEmail email = new HtmlEmail();
-            email.setHostName("smtp.gmail.com");
-            email.setCharset(org.apache.commons.mail.EmailConstants.UTF_8);
-            email.setSmtpPort(465);
-            email.setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken));
-            email.setSSLOnConnect(true);
-            email.setFrom(DataStore.getAppCreator());
-            email.setSubject(String.format("%s –⁠ Test Email", DataStore.getAppName()));
-            email.addTo(recipientEmailAddress);
-            email.setHtmlMsg("sad");
-            email.send();  
-       }
-       catch (EmailException ex) 
-       {
-            System.out.println("Network error or clearly invalidly entered email address of recipient or empty email body");
-       }
-       catch (NullPointerException ex) 
-       {
-            System.out.println("Entered email address of recipient has value null");
-       }
-        
+//        String randomGeneratedAppToken = "vbogvcpraybvimny";
+//        String appId = "datadispatcher.honzaswtor";
+//        String recipientEmailAddress = "honzaswtor@gmail.com";
+//        
+//        try 
+//        {
+//            HtmlEmail email = new HtmlEmail();
+//            email.setHostName("smtp.gmail.com");
+//            email.setCharset(org.apache.commons.mail.EmailConstants.UTF_8);
+//            email.setSmtpPort(465);
+//            email.setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken));
+//            email.setSSLOnConnect(true);
+//            email.setFrom(DataStore.getAppCreator());
+//            email.setSubject(String.format("%s –⁠ Test Email", DataStore.getAppName()));
+//            email.addTo(recipientEmailAddress);
+//            email.setHtmlMsg("sad");
+//            email.send();  
+//       }
+//       catch (EmailException ex) 
+//       {
+//            System.out.println("Network error or clearly invalidly entered email address of recipient or empty email body");
+//       }
+//       catch (NullPointerException ex) 
+//       {
+//            System.out.println("Entered email address of recipient has value null");
+//       }
+//        
 //       try 
 //       {
 //           DataContextAccessor dbContext = DataContextAccessor.getInstance();
