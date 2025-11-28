@@ -3053,11 +3053,11 @@ public class EmailSender
 {   
     private final int smtpPort = 465;
     
-    private final String hostName = "smtp.googlemail.com";
+    private final String hostName = "smtp.gmail.com";
     
-    private final String randomGeneratedAppToken = "qnaadtxcznjyvzln";
+    private final String randomGeneratedAppToken = "vbogvcpraybvimny";
     
-    private final String appId = "honzaswtor";
+    private final String appId = "datadispatcher.honzaswtor";
 }
 ```
 
@@ -3104,7 +3104,7 @@ public void sendEmail(String recipientEmailAddress, String subject, StringBuilde
 - ***setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken))*** –⁠ Sets the authentication data specified in **Step 1 of the implementation with configuration data** for the  chosen SMTP server
 - ***setSSLOnConnect(true)*** –⁠ Sets the encryption protocol **SSL**
     - SSL is set because the port number was specified as **465**, so without encryption sending emails would be unsafe
-- ***setFrom(DataStore.getAppCreator())*** –⁠ Sets the sender of the email as the creator of the application, which is **honzaswtor@gmail.com**
+- ***setFrom(DataStore.getAppCreator())*** –⁠ Sets the sender of the email as the creator of the application, which is **datadispatcher.honzaswtor@gmail.com**
     - If the sender is specified as **non-valid email**, the **email of the authenticated account to the SMTP server** is used
 - ***setSubject(subject)*** –⁠ Sets the subject of the email
 - ***addTo(recipientEmailAddress)*** –⁠ Sets the recipient of the email
