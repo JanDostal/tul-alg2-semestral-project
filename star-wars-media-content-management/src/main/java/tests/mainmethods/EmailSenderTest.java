@@ -30,14 +30,14 @@ public class EmailSenderTest
     //testing main
     public static void main(String[] args) throws EmailException 
     {   
-        String randomGeneratedAppToken = "qnaadtxcznjyvzln";
-        String appId = "honzaswtor";
+        String randomGeneratedAppToken = "vbogvcpraybvimny";
+        String appId = "datadispatcher.honzaswtor";
         String recipientEmailAddress = "honzaswtor@gmail.com";
         
         try 
         {
             HtmlEmail email = new HtmlEmail();
-            email.setHostName("smtp.googlemail.com");
+            email.setHostName("smtp.gmail.com");
             email.setCharset(org.apache.commons.mail.EmailConstants.UTF_8);
             email.setSmtpPort(465);
             email.setAuthenticator(new DefaultAuthenticator(appId, randomGeneratedAppToken));
