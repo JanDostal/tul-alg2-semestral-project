@@ -19,7 +19,7 @@ public final class DataStore
     
     private static final String appName = "Star Wars Media Content Management";
     
-    private static final String appCreator = "honzaswtor@gmail.com";
+    private static final String appCreator = "datadispatcher.honzaswtor@gmail.com";
     
     private static final String dataDirectoryName = "data";
     
